@@ -1,0 +1,168 @@
+<Type Name="FirstChanceExceptionEventArgs" FullName="System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="5b82b33fd434c2b4d5434a6080b2c61d46168149" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="es-ES" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class FirstChanceExceptionEventArgs : EventArgs" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit FirstChanceExceptionEventArgs extends System.EventArgs" />
+  <TypeSignature Language="DocId" Value="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs" />
+  <TypeSignature Language="VB.NET" Value="Public Class FirstChanceExceptionEventArgs&#xA;Inherits EventArgs" />
+  <TypeSignature Language="C++ CLI" Value="public ref class FirstChanceExceptionEventArgs : EventArgs" />
+  <AssemblyInfo>
+    <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Runtime</AssemblyName>
+    <AssemblyVersion>4.2.0.0</AssemblyVersion>
+    <AssemblyVersion>4.2.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.EventArgs</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="3fbca-101">Proporciona datos sobre el evento de notificación que se genera la primera vez que se produce una excepción administrada, antes de que Common Language Runtime comience a buscar controladores de eventos.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="3fbca-101">Provides data for the notification event that is raised when a managed exception first occurs, before the common language runtime begins searching for event handlers.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3fbca-102">Esta clase proporciona el controlador de excepciones para el <xref:System.AppDomain.FirstChanceException?displayProperty=nameWithType> eventos con acceso a la excepción.</span><span class="sxs-lookup"><span data-stu-id="3fbca-102">This class provides the exception handler for the <xref:System.AppDomain.FirstChanceException?displayProperty=nameWithType> event with access to the exception.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="3fbca-103">En el ejemplo siguiente se crea una serie de dominios de aplicación denominado `Child_0` a través de `Child_3`, con un `Worker` objeto en cada dominio de aplicación.</span><span class="sxs-lookup"><span data-stu-id="3fbca-103">The following example creates a series of application domains named `Child_0` through `Child_3`, with a `Worker` object in each application domain.</span></span> <span data-ttu-id="3fbca-104">Cada `Worker` objeto tiene una referencia a la `Worker` objeto en el siguiente dominio de aplicación, excepto el `Worker` en el último dominio de aplicación.</span><span class="sxs-lookup"><span data-stu-id="3fbca-104">Each `Worker` object has a reference to the `Worker` object in the next application domain, except for the `Worker` in the last application domain.</span></span> <span data-ttu-id="3fbca-105">El <xref:System.AppDomain.FirstChanceException> evento está controlado en todos los dominios de aplicación excepto `Child_1`.</span><span class="sxs-lookup"><span data-stu-id="3fbca-105">The <xref:System.AppDomain.FirstChanceException> event is handled in all application domains except `Child_1`.</span></span>  
+  
+ <span data-ttu-id="3fbca-106">Cuando se hayan creado los dominios de aplicación, el dominio de aplicación predeterminado llama el `TestException` método para el primer dominio de aplicación secundario.</span><span class="sxs-lookup"><span data-stu-id="3fbca-106">When the application domains have been created, the default application domain calls the `TestException` method for the first child application domain.</span></span> <span data-ttu-id="3fbca-107">Cada `Worker` objeto llama el `TestException` método durante los próximos, hasta el último `Worker` produce una excepción que es controlada o no.</span><span class="sxs-lookup"><span data-stu-id="3fbca-107">Each `Worker` object calls the `TestException` method for the next, until the last `Worker` throws an exception that is either handled or unhandled.</span></span> <span data-ttu-id="3fbca-108">Por lo tanto, el subproceso actual se pasa a través de todos los dominios de aplicación, y `TestException` se agrega a la pila en cada dominio de aplicación.</span><span class="sxs-lookup"><span data-stu-id="3fbca-108">Thus, the current thread passes through all the application domains, and `TestException` is added to the stack in each application domain.</span></span>  
+  
+ <span data-ttu-id="3fbca-109">Cuando el último `Worker` objeto controla la excepción, el <xref:System.AppDomain.FirstChanceException> evento se produce solo en el último dominio de aplicación.</span><span class="sxs-lookup"><span data-stu-id="3fbca-109">When the last `Worker` object handles the exception, the <xref:System.AppDomain.FirstChanceException> event is raised only in the last application domain.</span></span> <span data-ttu-id="3fbca-110">Los demás dominios de aplicación nunca tienen la oportunidad para controlar la excepción, por lo que no se genera el evento.</span><span class="sxs-lookup"><span data-stu-id="3fbca-110">The other application domains never get a chance to handle the exception, so the event is not raised.</span></span>  
+  
+ <span data-ttu-id="3fbca-111">Cuando el último `Worker` objeto no controla la excepción, el <xref:System.AppDomain.FirstChanceException> evento se produce en cada dominio de aplicación que tiene un controlador de eventos.</span><span class="sxs-lookup"><span data-stu-id="3fbca-111">When the last `Worker` object does not handle the exception, the <xref:System.AppDomain.FirstChanceException> event is raised in each application domain that has an event handler.</span></span> <span data-ttu-id="3fbca-112">Una vez finalizada cada controlador de eventos, la pila continúa desenredar hasta que se detecta la excepción por dominio de aplicación predeterminado.</span><span class="sxs-lookup"><span data-stu-id="3fbca-112">After each event handler has finished, the stack continues to unwind until the exception is caught by the default application domain.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="3fbca-113">Para ver cómo la presentación de la pila crece tal y como se genera el evento más cercano y cuanto más se acerque al dominio de aplicación predeterminado, cambie `e.Exception.Message` a `e.Exception` en el `FirstChanceHandler` controladores de eventos.</span><span class="sxs-lookup"><span data-stu-id="3fbca-113">To see how the stack display grows as the event is raised closer and closer to the default application domain, change `e.Exception.Message` to `e.Exception` in the `FirstChanceHandler` event handlers.</span></span> <span data-ttu-id="3fbca-114">Tenga en cuenta que, cuando `TestException` se llama a través de los límites del dominio de aplicación, este aparece dos veces: una vez para el proxy y otra para el código auxiliar.</span><span class="sxs-lookup"><span data-stu-id="3fbca-114">Notice that when `TestException` is called across application domain boundaries, it appears twice: once for the proxy and once for the stub.</span></span>  
+  
+ [!code-csharp[System.AppDomain.FirstChanceException#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.appdomain.firstchanceexception/cs/example.cs#1)]
+ [!code-vb[System.AppDomain.FirstChanceException#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.appdomain.firstchanceexception/vb/example.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="E:System.AppDomain.FirstChanceException" />
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public FirstChanceExceptionEventArgs (Exception exception);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Exception exception) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs.#ctor(System.Exception)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; FirstChanceExceptionEventArgs(Exception ^ exception);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="exception" Type="System.Exception" />
+      </Parameters>
+      <Docs>
+        <param name="exception">
+          <span data-ttu-id="3fbca-115">Excepción recién iniciada por código administrado y que el evento <see cref="E:System.AppDomain.UnhandledException" /> examinará.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3fbca-115">The exception that was just thrown by managed code, and that will be examined by the <see cref="E:System.AppDomain.UnhandledException" /> event.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3fbca-116">Inicializa una nueva instancia de la clase <see cref="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs" /> con una excepción especificada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3fbca-116">Initializes a new instance of the <see cref="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs" /> class with a specified exception.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3fbca-117">Common language runtime llama a este constructor no por código de aplicación.</span><span class="sxs-lookup"><span data-stu-id="3fbca-117">This constructor is called by the common language runtime, not by application code.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Exception">
+      <MemberSignature Language="C#" Value="public Exception Exception { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Exception Exception" />
+      <MemberSignature Language="DocId" Value="P:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs.Exception" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Exception As Exception" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property Exception ^ Exception { Exception ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Exception</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="3fbca-118">Objeto de excepción administrada que se corresponde con la excepción iniciada en código administrado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3fbca-118">The managed exception object that corresponds to the exception thrown in managed code.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="3fbca-119">Excepción recién iniciada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3fbca-119">The newly thrown exception.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3fbca-120">El método que controla el <xref:System.AppDomain.UnhandledException?displayProperty=nameWithType> pueden examinar la excepción y realizar el registro adecuado u otros servicios de notificación de eventos.</span><span class="sxs-lookup"><span data-stu-id="3fbca-120">The method that handles the <xref:System.AppDomain.UnhandledException?displayProperty=nameWithType> event can examine the exception and perform appropriate logging or other notification services.</span></span>  
+  
+ <span data-ttu-id="3fbca-121">Para obtener código de ejemplo, vea <xref:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs>.</span><span class="sxs-lookup"><span data-stu-id="3fbca-121">For example code, see <xref:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

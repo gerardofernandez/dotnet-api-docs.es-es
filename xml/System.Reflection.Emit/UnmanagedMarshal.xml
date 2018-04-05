@@ -1,0 +1,546 @@
+<Type Name="UnmanagedMarshal" FullName="System.Reflection.Emit.UnmanagedMarshal">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="46fc4e13279b8ca823d2162a58c8f9ff13114e65" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="es-ES" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public sealed class UnmanagedMarshal" />
+  <TypeSignature Language="ILAsm" Value=".class public sequential ansi serializable sealed beforefieldinit UnmanagedMarshal extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:System.Reflection.Emit.UnmanagedMarshal" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class UnmanagedMarshal" />
+  <TypeSignature Language="C++ CLI" Value="public ref class UnmanagedMarshal sealed" />
+  <AssemblyInfo>
+    <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Obsolete("An alternate API is available: Emit the MarshalAs custom attribute instead.")</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="461c5-101">Representa a la clase que describe cómo calcular las referencias de un campo de código administrado a código no administrado.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="461c5-101">Represents the class that describes how to marshal a field from managed to unmanaged code.</span>
+      </span>
+      <span data-ttu-id="461c5-102">Esta clase no puede heredarse.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="461c5-102">This class cannot be inherited.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="461c5-103">El ejemplo de código muestra la solución alternativa para este tipo obsoleto.</span><span class="sxs-lookup"><span data-stu-id="461c5-103">The code example shows the workaround for this obsolete type.</span></span>  
+  
+ <span data-ttu-id="461c5-104">La serialización es el proceso de empaquetado y desempaquetado de parámetros, por lo que pueden producir llamadas a procedimiento remoto.</span><span class="sxs-lookup"><span data-stu-id="461c5-104">Marshaling is the process of packaging and unpackaging parameters so remote procedure calls can occur.</span></span> <span data-ttu-id="461c5-105">Durante la serialización, un campo podría someterse a una conversión de formato cuando el formato del tipo administrado es distinto del formato del tipo no administrado correspondiente.</span><span class="sxs-lookup"><span data-stu-id="461c5-105">During marshaling, a field might undergo a format conversion when the format of the managed type is different from the format of the corresponding unmanaged type.</span></span> <span data-ttu-id="461c5-106">Por ejemplo, puede calcular las referencias de un `String` tipo como un tipo BSTR no administrado.</span><span class="sxs-lookup"><span data-stu-id="461c5-106">For example, you might want to marshal a `String` type as an unmanaged BSTR.</span></span> <span data-ttu-id="461c5-107">Algunas conversiones de formato se administran automáticamente por el tiempo de ejecución.</span><span class="sxs-lookup"><span data-stu-id="461c5-107">Some format conversions are handled automatically by the runtime.</span></span> <span data-ttu-id="461c5-108">Para invalidar el comportamiento predeterminado, debe utilizar el `UnmanagedMarshal` clase para definir la conversión de formato.</span><span class="sxs-lookup"><span data-stu-id="461c5-108">To override the default behavior, you must use the `UnmanagedMarshal` class to define the format conversion.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="461c5-109">En el ejemplo de código siguiente se muestra código de reemplazo para el atributo obsolete <xref:System.Reflection.Emit.UnmanagedMarshal> tipo.</span><span class="sxs-lookup"><span data-stu-id="461c5-109">The following code example shows replacement code for the obsolete <xref:System.Reflection.Emit.UnmanagedMarshal> type.</span></span> <span data-ttu-id="461c5-110">En el ejemplo se emite un ensamblado de módulo único denominado `EmitMarshalAs.dll`, que contiene un tipo denominado `Sample`.</span><span class="sxs-lookup"><span data-stu-id="461c5-110">The example emits a single-module assembly named `EmitMarshalAs.dll`, containing a type named `Sample`.</span></span> <span data-ttu-id="461c5-111">El tipo tiene un método denominado `Test`, con un parámetro de tipo <xref:System.String>.</span><span class="sxs-lookup"><span data-stu-id="461c5-111">The type has a method named `Test`, with one parameter of type <xref:System.String>.</span></span> <span data-ttu-id="461c5-112">El ejemplo de código se aplica el <xref:System.Runtime.InteropServices.MarshalAsAttribute> con <xref:System.Runtime.InteropServices.UnmanagedType.BStr?displayProperty=nameWithType> al parámetro.</span><span class="sxs-lookup"><span data-stu-id="461c5-112">The code example applies the <xref:System.Runtime.InteropServices.MarshalAsAttribute> with <xref:System.Runtime.InteropServices.UnmanagedType.BStr?displayProperty=nameWithType> to the parameter.</span></span>  
+  
+ <span data-ttu-id="461c5-113">Puede usar el [Ildasm.exe (Desensamblador de IL)](~/docs/framework/tools/ildasm-exe-il-disassembler.md) para examinar el ensamblado emitido y observar que se ha marcado el parámetro `marshal(bstr)`.</span><span class="sxs-lookup"><span data-stu-id="461c5-113">You can use the [Ildasm.exe (IL Disassembler)](~/docs/framework/tools/ildasm-exe-il-disassembler.md) to examine the emitted assembly and observe that the parameter is marked `marshal(bstr)`.</span></span>  
+  
+ [!code-cpp[UnmanagedMarshalObsolete#1](~/samples/snippets/cpp/VS_Snippets_CLR/UnmanagedMarshalObsolete/cpp/source.cpp#1)]
+ [!code-csharp[UnmanagedMarshalObsolete#1](~/samples/snippets/csharp/VS_Snippets_CLR/UnmanagedMarshalObsolete/cs/source.cs#1)]
+ [!code-vb[UnmanagedMarshalObsolete#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/UnmanagedMarshalObsolete/vb/source.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Type" />
+    <altmember cref="T:System.Runtime.InteropServices.UnmanagedType" />
+    <altmember cref="T:System.Guid" />
+  </Docs>
+  <Members>
+    <Member MemberName="BaseType">
+      <MemberSignature Language="C#" Value="public System.Runtime.InteropServices.UnmanagedType BaseType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Runtime.InteropServices.UnmanagedType BaseType" />
+      <MemberSignature Language="DocId" Value="P:System.Reflection.Emit.UnmanagedMarshal.BaseType" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property BaseType As UnmanagedType" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Runtime::InteropServices::UnmanagedType BaseType { System::Runtime::InteropServices::UnmanagedType get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Runtime.InteropServices.UnmanagedType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="461c5-114">Obtiene un tipo base no administrado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-114">Gets an unmanaged base type.</span>
+          </span>
+          <span data-ttu-id="461c5-115">Esta propiedad es de sólo lectura.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-115">This property is read-only.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="461c5-116">Un objeto <see langword="UnmanagedType" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-116">An <see langword="UnmanagedType" /> object.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="461c5-117">El tipo no administrado no es <see langword="LPArray" /> ni <see langword="SafeArray" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-117">The unmanaged type is not an <see langword="LPArray" /> or a <see langword="SafeArray" />.</span>
+          </span>
+        </exception>
+        <altmember cref="T:System.Runtime.InteropServices.UnmanagedType" />
+      </Docs>
+    </Member>
+    <Member MemberName="DefineByValArray">
+      <MemberSignature Language="C#" Value="public static System.Reflection.Emit.UnmanagedMarshal DefineByValArray (int elemCount);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Reflection.Emit.UnmanagedMarshal DefineByValArray(int32 elemCount) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.UnmanagedMarshal.DefineByValArray(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function DefineByValArray (elemCount As Integer) As UnmanagedMarshal" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Reflection::Emit::UnmanagedMarshal ^ DefineByValArray(int elemCount);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Reflection.Emit.UnmanagedMarshal</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="elemCount" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="elemCount">
+          <span data-ttu-id="461c5-118">Número de elementos en la matriz de longitud fija.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-118">The number of elements in the fixed-length array.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="461c5-119">Especifica una matriz de longitud fija (ByValArray) para calcular las referencias al código no administrado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-119">Specifies a fixed-length array (ByValArray) to marshal to unmanaged code.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="461c5-120">Un objeto <see cref="T:System.Reflection.Emit.UnmanagedMarshal" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-120">An <see cref="T:System.Reflection.Emit.UnmanagedMarshal" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="461c5-121">El `DefineByValArray` método no es un convertidor nativo simple.</span><span class="sxs-lookup"><span data-stu-id="461c5-121">The `DefineByValArray` method is not a simple native marshal.</span></span>  
+  
+ <span data-ttu-id="461c5-122">Construcciones de conversión no administradas solo pueden realizarse con estos constructores estáticos.</span><span class="sxs-lookup"><span data-stu-id="461c5-122">Only unmanaged marshal constructs can be made using these static constructors.</span></span>  
+  
+ <span data-ttu-id="461c5-123">Serialización de una matriz es un proceso mucho más complejo que el cálculo de referencias de un parámetro de número entero.</span><span class="sxs-lookup"><span data-stu-id="461c5-123">Marshaling an array is a more complex process than marshaling an integer parameter.</span></span> <span data-ttu-id="461c5-124">Miembros de la matriz se copian en un orden específico para que el otro lado puede reconstruir la matriz exactamente.</span><span class="sxs-lookup"><span data-stu-id="461c5-124">Array members are copied in a specific order so that the other side can reconstruct the array exactly.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="461c5-125">El argumento no es un tipo nativo simple.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-125">The argument is not a simple native type.</span>
+          </span>
+        </exception>
+        <altmember cref="T:System.Runtime.InteropServices.UnmanagedType" />
+      </Docs>
+    </Member>
+    <Member MemberName="DefineByValTStr">
+      <MemberSignature Language="C#" Value="public static System.Reflection.Emit.UnmanagedMarshal DefineByValTStr (int elemCount);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Reflection.Emit.UnmanagedMarshal DefineByValTStr(int32 elemCount) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.UnmanagedMarshal.DefineByValTStr(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function DefineByValTStr (elemCount As Integer) As UnmanagedMarshal" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Reflection::Emit::UnmanagedMarshal ^ DefineByValTStr(int elemCount);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Reflection.Emit.UnmanagedMarshal</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="elemCount" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="elemCount">
+          <span data-ttu-id="461c5-126">Número de elementos en el búfer de matriz fija.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-126">The number of elements in the fixed array buffer.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="461c5-127">Especifica una cadena de un búfer de matriz fija (ByValTStr) para calcular las referencias al código no administrado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-127">Specifies a string in a fixed array buffer (ByValTStr) to marshal to unmanaged code.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="461c5-128">Un objeto <see cref="T:System.Reflection.Emit.UnmanagedMarshal" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-128">An <see cref="T:System.Reflection.Emit.UnmanagedMarshal" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="461c5-129">El `DefineByValStr` método no es un convertidor nativo simple.</span><span class="sxs-lookup"><span data-stu-id="461c5-129">The `DefineByValStr` method is not a simple native marshal.</span></span>  
+  
+ <span data-ttu-id="461c5-130">Construcciones de conversión no administradas solo pueden realizarse con estos constructores estáticos.</span><span class="sxs-lookup"><span data-stu-id="461c5-130">Only unmanaged marshal constructs can be made using these static constructors.</span></span>  
+  
+ <span data-ttu-id="461c5-131">Serialización de una matriz es un proceso mucho más complejo que el cálculo de referencias de un parámetro de número entero.</span><span class="sxs-lookup"><span data-stu-id="461c5-131">Marshaling an array is a more complex process than marshaling an integer parameter.</span></span> <span data-ttu-id="461c5-132">Miembros de la matriz se copian en un orden específico para que el otro lado puede reconstruir la matriz exactamente.</span><span class="sxs-lookup"><span data-stu-id="461c5-132">Array members are copied in a specific order so that the other side can reconstruct the array exactly.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="461c5-133">El argumento no es un tipo nativo simple.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-133">The argument is not a simple native type.</span>
+          </span>
+        </exception>
+        <altmember cref="T:System.Int32" />
+        <altmember cref="T:System.Array" />
+        <altmember cref="T:System.String" />
+        <altmember cref="T:System.Runtime.InteropServices.UnmanagedType" />
+      </Docs>
+    </Member>
+    <Member MemberName="DefineLPArray">
+      <MemberSignature Language="C#" Value="public static System.Reflection.Emit.UnmanagedMarshal DefineLPArray (System.Runtime.InteropServices.UnmanagedType elemType);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Reflection.Emit.UnmanagedMarshal DefineLPArray(valuetype System.Runtime.InteropServices.UnmanagedType elemType) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.UnmanagedMarshal.DefineLPArray(System.Runtime.InteropServices.UnmanagedType)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function DefineLPArray (elemType As UnmanagedType) As UnmanagedMarshal" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Reflection::Emit::UnmanagedMarshal ^ DefineLPArray(System::Runtime::InteropServices::UnmanagedType elemType);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Reflection.Emit.UnmanagedMarshal</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="elemType" Type="System.Runtime.InteropServices.UnmanagedType" />
+      </Parameters>
+      <Docs>
+        <param name="elemType">
+          <span data-ttu-id="461c5-134">Tipo no administrado para el que se van a calcular las referencias de la matriz.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-134">The unmanaged type to which to marshal the array.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="461c5-135">Especifica una matriz <see langword="LPArray" /> para calcular las referencias al código no administrado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-135">Specifies an <see langword="LPArray" /> to marshal to unmanaged code.</span>
+          </span>
+          <span data-ttu-id="461c5-136">La longitud de <see langword="LPArray" /> se determina en tiempo de ejecución según el tamaño de la matriz real para la que se han calculado las referencias.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-136">The length of an <see langword="LPArray" /> is determined at runtime by the size of the actual marshaled array.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="461c5-137">Un objeto <see cref="T:System.Reflection.Emit.UnmanagedMarshal" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-137">An <see cref="T:System.Reflection.Emit.UnmanagedMarshal" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="461c5-138">El `DefineLPArray` método no es un convertidor nativo simple.</span><span class="sxs-lookup"><span data-stu-id="461c5-138">The `DefineLPArray` method is not a simple native marshal.</span></span>  
+  
+ <span data-ttu-id="461c5-139">Construcciones de conversión no administradas solo pueden realizarse con estos constructores estáticos.</span><span class="sxs-lookup"><span data-stu-id="461c5-139">Only unmanaged marshal constructs can be made using these static constructors.</span></span>  
+  
+ <span data-ttu-id="461c5-140">Serialización de una matriz es un proceso mucho más complejo que el cálculo de referencias de un parámetro de número entero.</span><span class="sxs-lookup"><span data-stu-id="461c5-140">Marshaling an array is a more complex process than marshaling an integer parameter.</span></span> <span data-ttu-id="461c5-141">Miembros de la matriz se copian en un orden específico para que el otro lado puede reconstruir la matriz exactamente.</span><span class="sxs-lookup"><span data-stu-id="461c5-141">Array members are copied in a specific order so that the other side can reconstruct the array exactly.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="461c5-142">El argumento no es un tipo nativo simple.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-142">The argument is not a simple native type.</span>
+          </span>
+        </exception>
+        <altmember cref="T:System.Runtime.InteropServices.UnmanagedType" />
+      </Docs>
+    </Member>
+    <Member MemberName="DefineSafeArray">
+      <MemberSignature Language="C#" Value="public static System.Reflection.Emit.UnmanagedMarshal DefineSafeArray (System.Runtime.InteropServices.UnmanagedType elemType);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Reflection.Emit.UnmanagedMarshal DefineSafeArray(valuetype System.Runtime.InteropServices.UnmanagedType elemType) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.UnmanagedMarshal.DefineSafeArray(System.Runtime.InteropServices.UnmanagedType)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function DefineSafeArray (elemType As UnmanagedType) As UnmanagedMarshal" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Reflection::Emit::UnmanagedMarshal ^ DefineSafeArray(System::Runtime::InteropServices::UnmanagedType elemType);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Reflection.Emit.UnmanagedMarshal</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="elemType" Type="System.Runtime.InteropServices.UnmanagedType" />
+      </Parameters>
+      <Docs>
+        <param name="elemType">
+          <span data-ttu-id="461c5-143">Tipo base o <see langword="UnmanagedType" /> de cada elemento de la matriz.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-143">The base type or the <see langword="UnmanagedType" /> of each element of the array.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="461c5-144">Especifica una matriz <see langword="SafeArray" /> para calcular las referencias al código no administrado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-144">Specifies a <see langword="SafeArray" /> to marshal to unmanaged code.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="461c5-145">Un objeto <see cref="T:System.Reflection.Emit.UnmanagedMarshal" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-145">An <see cref="T:System.Reflection.Emit.UnmanagedMarshal" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="461c5-146">El `DefineSafeArray` método no es un convertidor nativo simple.</span><span class="sxs-lookup"><span data-stu-id="461c5-146">The `DefineSafeArray` method is not a simple native marshal.</span></span>  
+  
+ <span data-ttu-id="461c5-147">Construcciones de conversión no administradas solo pueden realizarse con estos constructores estáticos.</span><span class="sxs-lookup"><span data-stu-id="461c5-147">Only unmanaged marshal constructs can be made using these static constructors.</span></span>  
+  
+ <span data-ttu-id="461c5-148">Serialización de una matriz es un proceso mucho más complejo que el cálculo de referencias de un parámetro de número entero.</span><span class="sxs-lookup"><span data-stu-id="461c5-148">Marshaling an array is a more complex process than marshaling an integer parameter.</span></span> <span data-ttu-id="461c5-149">Miembros de la matriz se copian en un orden específico para que el otro lado puede reconstruir la matriz exactamente.</span><span class="sxs-lookup"><span data-stu-id="461c5-149">Array members are copied in a specific order so that the other side can reconstruct the array exactly.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="461c5-150">El argumento no es un tipo nativo simple.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-150">The argument is not a simple native type.</span>
+          </span>
+        </exception>
+        <altmember cref="T:System.Runtime.InteropServices.UnmanagedType" />
+      </Docs>
+    </Member>
+    <Member MemberName="DefineUnmanagedMarshal">
+      <MemberSignature Language="C#" Value="public static System.Reflection.Emit.UnmanagedMarshal DefineUnmanagedMarshal (System.Runtime.InteropServices.UnmanagedType unmanagedType);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Reflection.Emit.UnmanagedMarshal DefineUnmanagedMarshal(valuetype System.Runtime.InteropServices.UnmanagedType unmanagedType) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.UnmanagedMarshal.DefineUnmanagedMarshal(System.Runtime.InteropServices.UnmanagedType)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Reflection::Emit::UnmanagedMarshal ^ DefineUnmanagedMarshal(System::Runtime::InteropServices::UnmanagedType unmanagedType);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Reflection.Emit.UnmanagedMarshal</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="unmanagedType" Type="System.Runtime.InteropServices.UnmanagedType" />
+      </Parameters>
+      <Docs>
+        <param name="unmanagedType">
+          <span data-ttu-id="461c5-151">Tipo no administrado para el que se van a calcular las referencias del tipo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-151">The unmanaged type to which the type is to be marshaled.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="461c5-152">Especifica un tipo determinado para el que se van a calcular las referencias al código no administrado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-152">Specifies a given type that is to be marshaled to unmanaged code.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="461c5-153">Un objeto <see cref="T:System.Reflection.Emit.UnmanagedMarshal" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-153">An <see cref="T:System.Reflection.Emit.UnmanagedMarshal" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="461c5-154">El <xref:System.Runtime.InteropServices.UnmanagedType> pasado a este método debe ser un tipo nativo simple.</span><span class="sxs-lookup"><span data-stu-id="461c5-154">The <xref:System.Runtime.InteropServices.UnmanagedType> passed to this method must be a simple native type.</span></span> <span data-ttu-id="461c5-155">Ninguno de los siguientes valores pueden utilizarse: <xref:System.Runtime.InteropServices.UnmanagedType.ByValTStr?displayProperty=nameWithType>, <xref:System.Runtime.InteropServices.UnmanagedType.SafeArray?displayProperty=nameWithType>, <xref:System.Runtime.InteropServices.UnmanagedType.ByValArray?displayProperty=nameWithType>, <xref:System.Runtime.InteropServices.UnmanagedType.LPArray?displayProperty=nameWithType>, o <xref:System.Runtime.InteropServices.UnmanagedType.CustomMarshaler?displayProperty=nameWithType>.</span><span class="sxs-lookup"><span data-stu-id="461c5-155">None of the following values may be used: <xref:System.Runtime.InteropServices.UnmanagedType.ByValTStr?displayProperty=nameWithType>, <xref:System.Runtime.InteropServices.UnmanagedType.SafeArray?displayProperty=nameWithType>, <xref:System.Runtime.InteropServices.UnmanagedType.ByValArray?displayProperty=nameWithType>, <xref:System.Runtime.InteropServices.UnmanagedType.LPArray?displayProperty=nameWithType>, or <xref:System.Runtime.InteropServices.UnmanagedType.CustomMarshaler?displayProperty=nameWithType>.</span></span>  
+  
+ <span data-ttu-id="461c5-156">Construcciones de conversión no administradas solo pueden realizarse con este método.</span><span class="sxs-lookup"><span data-stu-id="461c5-156">Only unmanaged marshal constructs can be made using this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="461c5-157">El argumento no es un tipo nativo simple.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-157">The argument is not a simple native type.</span>
+          </span>
+        </exception>
+        <altmember cref="T:System.Runtime.InteropServices.UnmanagedType" />
+      </Docs>
+    </Member>
+    <Member MemberName="ElementCount">
+      <MemberSignature Language="C#" Value="public int ElementCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 ElementCount" />
+      <MemberSignature Language="DocId" Value="P:System.Reflection.Emit.UnmanagedMarshal.ElementCount" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ElementCount As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int ElementCount { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="461c5-158">Obtiene un elemento numérico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-158">Gets a number element.</span>
+          </span>
+          <span data-ttu-id="461c5-159">Esta propiedad es de sólo lectura.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-159">This property is read-only.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="461c5-160">Entero que indica el número de elementos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-160">An integer indicating the element count.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="461c5-161">Hay un `ElementCount` sólo si hay un `NativeTypeFixedArray`.</span><span class="sxs-lookup"><span data-stu-id="461c5-161">There is an `ElementCount` only if there is a `NativeTypeFixedArray`.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="461c5-162">El argumento no se corresponde con un número de elementos no administrado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-162">The argument is not an unmanaged element count.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetUnmanagedType">
+      <MemberSignature Language="C#" Value="public System.Runtime.InteropServices.UnmanagedType GetUnmanagedType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Runtime.InteropServices.UnmanagedType GetUnmanagedType" />
+      <MemberSignature Language="DocId" Value="P:System.Reflection.Emit.UnmanagedMarshal.GetUnmanagedType" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property GetUnmanagedType As UnmanagedType" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Runtime::InteropServices::UnmanagedType GetUnmanagedType { System::Runtime::InteropServices::UnmanagedType get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Runtime.InteropServices.UnmanagedType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="461c5-163">Indica un tipo no administrado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-163">Indicates an unmanaged type.</span>
+          </span>
+          <span data-ttu-id="461c5-164">Esta propiedad es de sólo lectura.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-164">This property is read-only.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="461c5-165">Un objeto <see cref="T:System.Runtime.InteropServices.UnmanagedType" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-165">An <see cref="T:System.Runtime.InteropServices.UnmanagedType" /> object.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="461c5-166">El `GetUnmanagedType` propiedad es una función de descriptor de acceso para el tipo nativo.</span><span class="sxs-lookup"><span data-stu-id="461c5-166">The `GetUnmanagedType` property is an accessor function for the native type.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Runtime.InteropServices.UnmanagedType" />
+      </Docs>
+    </Member>
+    <Member MemberName="IIDGuid">
+      <MemberSignature Language="C#" Value="public Guid IIDGuid { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Guid IIDGuid" />
+      <MemberSignature Language="DocId" Value="P:System.Reflection.Emit.UnmanagedMarshal.IIDGuid" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IIDGuid As Guid" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property Guid IIDGuid { Guid get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Guid</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="461c5-167">Obtiene un GUID.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-167">Gets a GUID.</span>
+          </span>
+          <span data-ttu-id="461c5-168">Esta propiedad es de sólo lectura.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-168">This property is read-only.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="461c5-169">Un objeto <see cref="T:System.Guid" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-169">A <see cref="T:System.Guid" /> object.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="461c5-170">Esta propiedad devuelve siempre Guid.Empty.</span><span class="sxs-lookup"><span data-stu-id="461c5-170">This property always returns Guid.Empty.</span></span> <span data-ttu-id="461c5-171">Esta propiedad podría desaparecer en una versión futura.</span><span class="sxs-lookup"><span data-stu-id="461c5-171">This property might be removed in a future release.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="461c5-172">El argumento no es un convertidor personalizado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="461c5-172">The argument is not a custom marshaler.</span>
+          </span>
+        </exception>
+        <altmember cref="T:System.Int32" />
+        <altmember cref="T:System.Guid" />
+      </Docs>
+    </Member>
+  </Members>
+</Type>

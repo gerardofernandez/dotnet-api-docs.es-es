@@ -1,0 +1,721 @@
+<Type Name="InPlaceHostingManager" FullName="System.Deployment.Application.InPlaceHostingManager">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="17389592a95ec3844c00269c90df5c314741c615" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="es-ES" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class InPlaceHostingManager : IDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit InPlaceHostingManager extends System.Object implements class System.IDisposable" />
+  <TypeSignature Language="DocId" Value="T:System.Deployment.Application.InPlaceHostingManager" />
+  <TypeSignature Language="VB.NET" Value="Public Class InPlaceHostingManager&#xA;Implements IDisposable" />
+  <TypeSignature Language="C++ CLI" Value="public ref class InPlaceHostingManager : IDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>System.Deployment</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+      <span data-ttu-id="70db6-101">Instala o actualiza una implementación de ClickOnce en un equipo.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="70db6-101">Install or update a ClickOnce deployment on a computer.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="70db6-102">Puede usar <xref:System.Deployment.Application.InPlaceHostingManager> escribir programas de instalación [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] aplicaciones mediante programación.</span><span class="sxs-lookup"><span data-stu-id="70db6-102">You can use <xref:System.Deployment.Application.InPlaceHostingManager> to write programs that install [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] applications programmatically.</span></span> <span data-ttu-id="70db6-103">Por ejemplo, puede utilizar esta clase en un entorno de software (SMS) de administración de sistema controlado o en situaciones en las que necesite una instalación compleja que realiza una serie de operaciones previas o posteriores a la instalación en el equipo local.</span><span class="sxs-lookup"><span data-stu-id="70db6-103">For example, you can use this class in a controlled system management software (SMS) environment or in situations where you need a complex installation that performs a number of pre-installation or post-installation operations on the local computer.</span></span> <span data-ttu-id="70db6-104">Por lo general, deseará utilizar a los miembros de esta clase en un orden específico:</span><span class="sxs-lookup"><span data-stu-id="70db6-104">Generally, you will want to use the members of this class in a specific order:</span></span>  
+  
+1.  <span data-ttu-id="70db6-105">Cree una nueva instancia de <xref:System.Deployment.Application.InPlaceHostingManager>.</span><span class="sxs-lookup"><span data-stu-id="70db6-105">Create a new instance of <xref:System.Deployment.Application.InPlaceHostingManager>.</span></span>  
+  
+2.  <span data-ttu-id="70db6-106">Descargar el manifiesto de implementación mediante <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestAsync%2A>.</span><span class="sxs-lookup"><span data-stu-id="70db6-106">Download the deployment manifest by using <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestAsync%2A>.</span></span>  
+  
+3.  <span data-ttu-id="70db6-107">Compruebe que la aplicación se puede ejecutar con los permisos adecuados mediante <xref:System.Deployment.Application.InPlaceHostingManager.AssertApplicationRequirements%2A>.</span><span class="sxs-lookup"><span data-stu-id="70db6-107">Check that the application can be run with the appropriate permissions by using <xref:System.Deployment.Application.InPlaceHostingManager.AssertApplicationRequirements%2A>.</span></span>  
+  
+4.  <span data-ttu-id="70db6-108">Descargar e instalar la aplicación mediante el uso de <xref:System.Deployment.Application.InPlaceHostingManager.DownloadApplicationAsync%2A>.</span><span class="sxs-lookup"><span data-stu-id="70db6-108">Download and install the application by using <xref:System.Deployment.Application.InPlaceHostingManager.DownloadApplicationAsync%2A>.</span></span>  
+  
+-   <span data-ttu-id="70db6-109">Si llama a cualquiera de estos parámetros en el orden correcto, producirá una excepción.</span><span class="sxs-lookup"><span data-stu-id="70db6-109">If you call any of these parameters out of order, they will throw an exception.</span></span>  
+  
+ <span data-ttu-id="70db6-110"><xref:System.Deployment.Application.InPlaceHostingManager> puede instalar un [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] aplicación, pero no puede ejecutarla.</span><span class="sxs-lookup"><span data-stu-id="70db6-110"><xref:System.Deployment.Application.InPlaceHostingManager> can install a [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] application, but cannot execute it.</span></span> <span data-ttu-id="70db6-111">Algunos métodos de esta clase, como <xref:System.Deployment.Application.InPlaceHostingManager.Execute%2A>, se reservan para uso al descargar una aplicación basada en Windows Presentation Foundation que se ejecuta en un explorador Web.</span><span class="sxs-lookup"><span data-stu-id="70db6-111">Some methods in this class, such as <xref:System.Deployment.Application.InPlaceHostingManager.Execute%2A>, are reserved for use when downloading a Windows Presentation Foundation-based application that runs inside a Web browser.</span></span>  
+  
+ <span data-ttu-id="70db6-112">Usar <xref:System.Deployment.Application.InPlaceHostingManager> para descargar e instalar aplicaciones, debe asegurarse de que el certificado para firmar el [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] aplicaciones que se van a instalar ya está instalado en los equipos cliente como un editor de confianza.</span><span class="sxs-lookup"><span data-stu-id="70db6-112">To use <xref:System.Deployment.Application.InPlaceHostingManager> to download and install applications, you must make sure that the certificate for signing the [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] applications you plan to install is already installed on client computers as a trusted publisher.</span></span> <span data-ttu-id="70db6-113">Para obtener más información sobre los editores de confianza, consulte [Trusted Application Deployment Overview](http://msdn.microsoft.com/library/b24a1702-8fbe-45b1-87a0-9618a0708f1d).</span><span class="sxs-lookup"><span data-stu-id="70db6-113">For more information on trusted publishers, see [Trusted Application Deployment Overview](http://msdn.microsoft.com/library/b24a1702-8fbe-45b1-87a0-9618a0708f1d).</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="70db6-114">Actualmente hay una limitación de producto que impide <xref:System.Deployment.Application.InPlaceHostingManager> funcionaran correctamente cuando se depura el código utilizando [!INCLUDE[vsprvs](~/includes/vsprvs-md.md)].</span><span class="sxs-lookup"><span data-stu-id="70db6-114">There is currently a product limitation that prevents <xref:System.Deployment.Application.InPlaceHostingManager> from working correctly when you debug your code using [!INCLUDE[vsprvs](~/includes/vsprvs-md.md)].</span></span> <span data-ttu-id="70db6-115">Si se depura la aplicación en [!INCLUDE[vsprvs](~/includes/vsprvs-md.md)] mediante el uso de la tecla F5, el ejemplo producirá excepciones extrañas al llamar a <xref:System.Deployment.Application.InPlaceHostingManager.DownloadApplicationAsync%2A>.</span><span class="sxs-lookup"><span data-stu-id="70db6-115">If you debug your application in [!INCLUDE[vsprvs](~/includes/vsprvs-md.md)] by using the F5 key, the sample will throw mysterious exceptions when you call <xref:System.Deployment.Application.InPlaceHostingManager.DownloadApplicationAsync%2A>.</span></span> <span data-ttu-id="70db6-116">Para depurar con [!INCLUDE[vsprvs](~/includes/vsprvs-md.md)], iniciar la aplicación sin depurar y, a continuación, adjunte el depurador.</span><span class="sxs-lookup"><span data-stu-id="70db6-116">To debug using [!INCLUDE[vsprvs](~/includes/vsprvs-md.md)], start the application without debugging, and then attach the debugger.</span></span> <span data-ttu-id="70db6-117">Como alternativa, puede utilizar a otro depurador, como WinDbg.</span><span class="sxs-lookup"><span data-stu-id="70db6-117">Alternatively, you can use another debugger, such as WinDbg.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="70db6-118">En el ejemplo de código siguiente se muestra cómo utilizar <xref:System.Deployment.Application.InPlaceHostingManager> para instalar un [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] aplicación mediante programación en un equipo cliente.</span><span class="sxs-lookup"><span data-stu-id="70db6-118">The following code example shows how to use <xref:System.Deployment.Application.InPlaceHostingManager> to install a [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] application programmatically on a client computer.</span></span>  
+  
+ [!code-csharp[System.Deployment.Application.InPlaceHostingManager#1](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Deployment.Application.InPlaceHostingManager/CS/Form1.cs#1)]
+ [!code-vb[System.Deployment.Application.InPlaceHostingManager#1](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Deployment.Application.InPlaceHostingManager/VB/Form1.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System.Deployment</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="70db6-119">Crea una nueva instancia de <see cref="T:System.Deployment.Application.InPlaceHostingManager" /> para descargar e instalar la aplicación especificada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-119">Creates a new instance of <see cref="T:System.Deployment.Application.InPlaceHostingManager" /> to download and install the specified application.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public InPlaceHostingManager (Uri deploymentManifest);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Uri deploymentManifest) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Deployment.Application.InPlaceHostingManager.#ctor(System.Uri)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (deploymentManifest As Uri)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; InPlaceHostingManager(Uri ^ deploymentManifest);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Deployment</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="deploymentManifest" Type="System.Uri" />
+      </Parameters>
+      <Docs>
+        <param name="deploymentManifest">
+          <span data-ttu-id="70db6-120">Identificador uniforme de recursos (<see cref="T:System.Uri" />) en el manifiesto de implementación de una aplicación [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)].</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-120">A Uniform Resource Identifier (<see cref="T:System.Uri" />) to a [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] application's deployment manifest.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="70db6-121">Crea una nueva instancia de <see cref="T:System.Deployment.Application.InPlaceHostingManager" /> para descargar e instalar la aplicación especificada hospedada en un explorador.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-121">Creates a new instance of <see cref="T:System.Deployment.Application.InPlaceHostingManager" /> to download and install the specified browser-hosted application.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="70db6-122">Se utiliza este constructor cuando desee descargar una aplicación basada en Windows Presentation Foundation que se hospeda en un explorador Web.</span><span class="sxs-lookup"><span data-stu-id="70db6-122">This constructor is used when you want to download a Windows Presentation Foundation-based application that is hosted in a Web browser.</span></span> <span data-ttu-id="70db6-123">Para descargar aplicaciones basadas en formularios Windows Forms que se implementan mediante [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)], use la <xref:System.Deployment.Application.InPlaceHostingManager.%23ctor%2A> constructor con la `launchInHostProcess` parámetro establecido en `false`.</span><span class="sxs-lookup"><span data-stu-id="70db6-123">To download Windows Forms-based applications that are deployed using [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)], use the <xref:System.Deployment.Application.InPlaceHostingManager.%23ctor%2A> constructor with the `launchInHostProcess` parameter set to `false`.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.PlatformNotSupportedException">
+          <span data-ttu-id="70db6-124">
+            <see cref="T:System.Deployment.Application.InPlaceHostingManager" /> sólo se puede utilizar en Windows XP o en versiones posteriores del sistema operativo Windows.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-124">
+              <see cref="T:System.Deployment.Application.InPlaceHostingManager" /> can be used only in Windows XP or in later versions of the Windows operating system.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="70db6-125">No puede pasar <see langword="null" /> para el argumento <paramref name="deploymentManifest" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-125">Cannot pass <see langword="null" /> for the <paramref name="deploymentManifest" /> argument.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="70db6-126">
+            <paramref name="deploymentManifest" /> utiliza un esquema del URI que no admite [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)].</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-126">
+              <paramref name="deploymentManifest" /> uses a URI scheme that is not supported by [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)].</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public InPlaceHostingManager (Uri deploymentManifest, bool launchInHostProcess);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Uri deploymentManifest, bool launchInHostProcess) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Deployment.Application.InPlaceHostingManager.#ctor(System.Uri,System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (deploymentManifest As Uri, launchInHostProcess As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; InPlaceHostingManager(Uri ^ deploymentManifest, bool launchInHostProcess);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Deployment</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="deploymentManifest" Type="System.Uri" />
+        <Parameter Name="launchInHostProcess" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="deploymentManifest">
+          <span data-ttu-id="70db6-127">Identificador uniforme de recursos (URI) en el manifiesto de implementación de la aplicación que se instalará.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-127">The Uniform Resource Identifier (URI) to the deployment manifest of the application that will be installed.</span>
+          </span>
+        </param>
+        <param name="launchInHostProcess">
+          <span data-ttu-id="70db6-128">Indica si esta aplicación se ejecutará en un host, como un explorador web.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-128">Whether this application will be run in a host, such as a Web browser.</span>
+          </span>
+          <span data-ttu-id="70db6-129">Para una aplicación independiente, establezca este valor en <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-129">For a stand-alone application, set this value to <see langword="false" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="70db6-130">Crea una nueva instancia de <see cref="T:System.Deployment.Application.InPlaceHostingManager" /> para descargar e instalar la aplicación especificada, que puede ser una aplicación independiente basada en formularios Windows Forms o en una aplicación hospedada en un explorador web.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-130">Creates a new instance of <see cref="T:System.Deployment.Application.InPlaceHostingManager" /> to download and install the specified application, which can be either a stand-alone Windows Forms-based application or an application hosted in a Web browser.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="70db6-131">En el ejemplo de código siguiente se muestra cómo crear una instancia de <xref:System.Deployment.Application.InPlaceHostingManager> que le permite descargar aplicaciones basadas en formularios Windows Forms implementadas mediante [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)].</span><span class="sxs-lookup"><span data-stu-id="70db6-131">The following code example demonstrates how to create an instance of <xref:System.Deployment.Application.InPlaceHostingManager> that allows you to download Windows Forms-based applications deployed using [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)].</span></span>  
+  
+ [!code-csharp[System.Deployment.Application.InPlaceHostingManager#2](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Deployment.Application.InPlaceHostingManager/CS/Form1.cs#2)]
+ [!code-vb[System.Deployment.Application.InPlaceHostingManager#2](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Deployment.Application.InPlaceHostingManager/VB/Form1.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.PlatformNotSupportedException">
+          <span data-ttu-id="70db6-132">
+            <see cref="T:System.Deployment.Application.InPlaceHostingManager" /> sólo se puede utilizar en Windows XP o en versiones posteriores del sistema operativo Windows.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-132">
+              <see cref="T:System.Deployment.Application.InPlaceHostingManager" /> can be used only in Windows XP or in later versions of the Windows operating system.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="70db6-133">No puede pasar <see langword="null" /> para el argumento <paramref name="deploymentManifest" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-133">Cannot pass <see langword="null" /> for the <paramref name="deploymentManifest" /> argument.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="70db6-134">
+            <paramref name="deploymentManifest" /> utiliza un esquema del URI que no admite [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)].</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-134">
+              <paramref name="deploymentManifest" /> uses a URI scheme that is not supported by [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)].</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="AssertApplicationRequirements">
+      <AssemblyInfo>
+        <AssemblyName>System.Deployment</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="70db6-135">Determina si la aplicación ClickOnce tiene los permisos adecuados y las dependencias de plataforma para que se pueda ejecutar en el equipo local.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-135">Determines whether the ClickOnce application has the appropriate permissions and platform dependencies to run on the local computer.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="AssertApplicationRequirements">
+      <MemberSignature Language="C#" Value="public void AssertApplicationRequirements ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AssertApplicationRequirements() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Deployment.Application.InPlaceHostingManager.AssertApplicationRequirements" />
+      <MemberSignature Language="VB.NET" Value="Public Sub AssertApplicationRequirements ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void AssertApplicationRequirements();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Deployment</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="70db6-136">Determina si la aplicación [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] tiene los permisos adecuados y las dependencias de plataforma para que se pueda ejecutar en el equipo local.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-136">Determines whether the [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] application has the appropriate permissions and platform dependencies to run on the local computer.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="70db6-137">Debe llamar a <xref:System.Deployment.Application.InPlaceHostingManager.AssertApplicationRequirements%2A> después <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestAsync%2A> devuelve correctamente.</span><span class="sxs-lookup"><span data-stu-id="70db6-137">You must call <xref:System.Deployment.Application.InPlaceHostingManager.AssertApplicationRequirements%2A> after <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestAsync%2A> returns successfully.</span></span> <span data-ttu-id="70db6-138">No se debe llamar a <xref:System.Deployment.Application.InPlaceHostingManager.DownloadApplicationAsync%2A> a menos que se llama a <xref:System.Deployment.Application.InPlaceHostingManager.AssertApplicationRequirements%2A>, y devuelve sin errores.</span><span class="sxs-lookup"><span data-stu-id="70db6-138">You must not call <xref:System.Deployment.Application.InPlaceHostingManager.DownloadApplicationAsync%2A> unless you call <xref:System.Deployment.Application.InPlaceHostingManager.AssertApplicationRequirements%2A>, and it returns without error.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="70db6-139">En el ejemplo de código siguiente se muestra el uso de <xref:System.Deployment.Application.InPlaceHostingManager.AssertApplicationRequirements%2A>, que llama en el cuerpo de una correcta <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestCompleted> controlador de eventos.</span><span class="sxs-lookup"><span data-stu-id="70db6-139">The following code example demonstrates the use of <xref:System.Deployment.Application.InPlaceHostingManager.AssertApplicationRequirements%2A>, which it calls in the body of a successful <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestCompleted> event handler.</span></span>  
+  
+ [!code-csharp[System.Deployment.Application.InPlaceHostingManager#3](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Deployment.Application.InPlaceHostingManager/CS/Form1.cs#3)]
+ [!code-vb[System.Deployment.Application.InPlaceHostingManager#3](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Deployment.Application.InPlaceHostingManager/VB/Form1.vb#3)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="70db6-140">Producida si se llama a este método antes que al método <see cref="M:System.Deployment.Application.InPlaceHostingManager.GetManifestAsync" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-140">Raised if this method is called before the <see cref="M:System.Deployment.Application.InPlaceHostingManager.GetManifestAsync" /> method.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="AssertApplicationRequirements">
+      <MemberSignature Language="C#" Value="public void AssertApplicationRequirements (bool grantApplicationTrust);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AssertApplicationRequirements(bool grantApplicationTrust) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Deployment.Application.InPlaceHostingManager.AssertApplicationRequirements(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub AssertApplicationRequirements (grantApplicationTrust As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void AssertApplicationRequirements(bool grantApplicationTrust);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Deployment</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="grantApplicationTrust" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="grantApplicationTrust">
+          <span data-ttu-id="70db6-141">Si es <see langword="true" />, la aplicación intentará elevar sus permisos al nivel necesario.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-141">If <see langword="true" />, the application will attempt to elevate its permissions to the required level.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="70db6-142">Determina si la aplicación [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] tiene los permisos adecuados y las dependencias de plataforma para que se pueda ejecutar en el equipo local.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-142">Determines whether the [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] application has the appropriate permissions and platform dependencies to run on the local computer.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="70db6-143">Si `grantApplicationTrust` es `true`, <xref:System.Deployment.Application.InPlaceHostingManager> concederá a la aplicación de permisos elevados, si lo requiere.</span><span class="sxs-lookup"><span data-stu-id="70db6-143">If `grantApplicationTrust` is `true`, <xref:System.Deployment.Application.InPlaceHostingManager> will grant the application elevated permissions if it requires them.</span></span> <span data-ttu-id="70db6-144">Esto sólo es posible si <xref:System.Deployment.Application.InPlaceHostingManager> puede conceder dichos permisos.</span><span class="sxs-lookup"><span data-stu-id="70db6-144">This is only possible if <xref:System.Deployment.Application.InPlaceHostingManager> is able to grant those permissions.</span></span> <span data-ttu-id="70db6-145">Por ejemplo, si un [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] aplicación se instala como parte de un paquete más grande y el programa de instalación se ha concedido plena confianza, <xref:System.Deployment.Application.InPlaceHostingManager> podrá conceder el [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] aplicación plena confianza.</span><span class="sxs-lookup"><span data-stu-id="70db6-145">For example, if a [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] application is being installed as part of a larger package and the installer has been granted full trust, <xref:System.Deployment.Application.InPlaceHostingManager> will be able to grant the [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] application full trust.</span></span> <span data-ttu-id="70db6-146">Si `grantApplicationTrust` es `false`, la aplicación no se le concedan los permisos.</span><span class="sxs-lookup"><span data-stu-id="70db6-146">If `grantApplicationTrust` is `false`, the application will not be granted any permissions.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CancelAsync">
+      <MemberSignature Language="C#" Value="public void CancelAsync ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void CancelAsync() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Deployment.Application.InPlaceHostingManager.CancelAsync" />
+      <MemberSignature Language="VB.NET" Value="Public Sub CancelAsync ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void CancelAsync();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Deployment</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="70db6-147">Cancela una operación de descarga asincrónica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-147">Cancels an asynchronous download operation.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Deployment.Application.InPlaceHostingManager.Dispose" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Deployment</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="70db6-148">Libera todos los recursos utilizados por <see cref="T:System.Deployment.Application.InPlaceHostingManager" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-148">Releases all resources used by the <see cref="T:System.Deployment.Application.InPlaceHostingManager" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="70db6-149">Llame a <xref:System.Deployment.Application.InPlaceHostingManager.Dispose%2A> cuando haya terminado de usar <xref:System.Deployment.Application.InPlaceHostingManager>.</span><span class="sxs-lookup"><span data-stu-id="70db6-149">Call <xref:System.Deployment.Application.InPlaceHostingManager.Dispose%2A> when you are finished using the <xref:System.Deployment.Application.InPlaceHostingManager>.</span></span> <span data-ttu-id="70db6-150">El método <xref:System.Deployment.Application.InPlaceHostingManager.Dispose%2A> deja el <xref:System.Deployment.Application.InPlaceHostingManager> en un estado no utilizable.</span><span class="sxs-lookup"><span data-stu-id="70db6-150">The <xref:System.Deployment.Application.InPlaceHostingManager.Dispose%2A> method leaves the <xref:System.Deployment.Application.InPlaceHostingManager> in an unusable state.</span></span> <span data-ttu-id="70db6-151">Después de llamar a <xref:System.Deployment.Application.InPlaceHostingManager.Dispose%2A>, debe liberar todas las referencias a la <xref:System.Deployment.Application.InPlaceHostingManager> para que el recolector de elementos no utilizados pueda reclamar la memoria que el <xref:System.Deployment.Application.InPlaceHostingManager> estaba ocupando.</span><span class="sxs-lookup"><span data-stu-id="70db6-151">After calling <xref:System.Deployment.Application.InPlaceHostingManager.Dispose%2A>, you must release all references to the <xref:System.Deployment.Application.InPlaceHostingManager> so the garbage collector can reclaim the memory that the <xref:System.Deployment.Application.InPlaceHostingManager> was occupying.</span></span> <span data-ttu-id="70db6-152">Para obtener más información, consulte [limpiar recursos no administrados](~/docs/standard/garbage-collection/unmanaged.md) y [implementa un método Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).</span><span class="sxs-lookup"><span data-stu-id="70db6-152">For more information, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md) and [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md).</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="70db6-153">Realice siempre una llamada a <xref:System.Deployment.Application.InPlaceHostingManager.Dispose%2A> antes de liberar la última referencia al objeto <xref:System.Deployment.Application.InPlaceHostingManager>.</span><span class="sxs-lookup"><span data-stu-id="70db6-153">Always call <xref:System.Deployment.Application.InPlaceHostingManager.Dispose%2A> before you release your last reference to the <xref:System.Deployment.Application.InPlaceHostingManager>.</span></span> <span data-ttu-id="70db6-154">En caso contrario, los recursos que está usando no se liberarán hasta que el recolector de elementos no utilizados llame al método <xref:System.Deployment.Application.InPlaceHostingManager> del objeto `Finalize`.</span><span class="sxs-lookup"><span data-stu-id="70db6-154">Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.Deployment.Application.InPlaceHostingManager> object's `Finalize` method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DownloadApplicationAsync">
+      <MemberSignature Language="C#" Value="public void DownloadApplicationAsync ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void DownloadApplicationAsync() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Deployment.Application.InPlaceHostingManager.DownloadApplicationAsync" />
+      <MemberSignature Language="VB.NET" Value="Public Sub DownloadApplicationAsync ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void DownloadApplicationAsync();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Deployment</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="70db6-155">Descarga una actualización de la aplicación en segundo plano.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-155">Downloads an application update in the background.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="70db6-156">Debe llamar a este método después de llamar a <xref:System.Deployment.Application.InPlaceHostingManager.AssertApplicationRequirements%2A>.</span><span class="sxs-lookup"><span data-stu-id="70db6-156">You must call this method after calling <xref:System.Deployment.Application.InPlaceHostingManager.AssertApplicationRequirements%2A>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="70db6-157">En el ejemplo de código siguiente se muestra el uso de <xref:System.Deployment.Application.InPlaceHostingManager.DownloadApplicationAsync%2A>, que llama al final de una correcta <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestCompleted> controlador de eventos.</span><span class="sxs-lookup"><span data-stu-id="70db6-157">The following code example demonstrates the use of <xref:System.Deployment.Application.InPlaceHostingManager.DownloadApplicationAsync%2A>, which it calls at the end of a successful <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestCompleted> event handler.</span></span>  
+  
+ <span data-ttu-id="70db6-158">Los ejemplos de código siguientes se supone que ya ha definido y ha creado una instancia de <xref:System.Deployment.Application.InPlaceHostingManager> denominado `iphm`.</span><span class="sxs-lookup"><span data-stu-id="70db6-158">The following code examples assume that you have already defined and created an instance of <xref:System.Deployment.Application.InPlaceHostingManager> named `iphm`.</span></span>  
+  
+ [!code-csharp[System.Deployment.Application.InPlaceHostingManager#3](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Deployment.Application.InPlaceHostingManager/CS/Form1.cs#3)]
+ [!code-vb[System.Deployment.Application.InPlaceHostingManager#3](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Deployment.Application.InPlaceHostingManager/VB/Form1.vb#3)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="70db6-159">Producida si se llama a este método antes que a los métodos <see cref="M:System.Deployment.Application.InPlaceHostingManager.GetManifestAsync" /> y <see cref="M:System.Deployment.Application.InPlaceHostingManager.AssertApplicationRequirements" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-159">Raised if this method is called before the <see cref="M:System.Deployment.Application.InPlaceHostingManager.GetManifestAsync" /> and <see cref="M:System.Deployment.Application.InPlaceHostingManager.AssertApplicationRequirements" /> methods.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="DownloadApplicationCompleted">
+      <MemberSignature Language="C#" Value="public event EventHandler&lt;System.Deployment.Application.DownloadApplicationCompletedEventArgs&gt; DownloadApplicationCompleted;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler`1&lt;class System.Deployment.Application.DownloadApplicationCompletedEventArgs&gt; DownloadApplicationCompleted" />
+      <MemberSignature Language="DocId" Value="E:System.Deployment.Application.InPlaceHostingManager.DownloadApplicationCompleted" />
+      <MemberSignature Language="VB.NET" Value="Public Event DownloadApplicationCompleted As EventHandler(Of DownloadApplicationCompletedEventArgs) " />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; event EventHandler&lt;System::Deployment::Application::DownloadApplicationCompletedEventArgs ^&gt; ^ DownloadApplicationCompleted;" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Deployment</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.EventHandler&lt;System.Deployment.Application.DownloadApplicationCompletedEventArgs&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="70db6-160">Se produce cuando la aplicación ha finalizado la descarga al equipo local.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-160">Occurs when the application has finished downloading to the local computer.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="70db6-161">Si va a instalar una aplicación basada en formularios Windows Forms, debe indicar a los usuarios para iniciar la aplicación ellos mismos; no se puede iniciar aplicaciones basadas en formularios Windows Forms mediante programación utilizando la <xref:System.Deployment.Application.InPlaceHostingManager.Execute%2A> método.</span><span class="sxs-lookup"><span data-stu-id="70db6-161">If you are installing a Windows Forms-based application, you will need to instruct users to launch the application themselves; you cannot start Windows Forms-based applications programmatically by using the <xref:System.Deployment.Application.InPlaceHostingManager.Execute%2A> method.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="70db6-162">En el ejemplo de código siguiente se muestra un controlador para el <xref:System.Deployment.Application.InPlaceHostingManager.DownloadApplicationCompleted> eventos.</span><span class="sxs-lookup"><span data-stu-id="70db6-162">The following code example demonstrates a handler for the <xref:System.Deployment.Application.InPlaceHostingManager.DownloadApplicationCompleted> event.</span></span>  
+  
+ [!code-csharp[System.Deployment.Application.InPlaceHostingManager#7](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Deployment.Application.InPlaceHostingManager/CS/Form1.cs#7)]
+ [!code-vb[System.Deployment.Application.InPlaceHostingManager#7](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Deployment.Application.InPlaceHostingManager/VB/Form1.vb#7)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DownloadProgressChanged">
+      <MemberSignature Language="C#" Value="public event EventHandler&lt;System.Deployment.Application.DownloadProgressChangedEventArgs&gt; DownloadProgressChanged;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler`1&lt;class System.Deployment.Application.DownloadProgressChangedEventArgs&gt; DownloadProgressChanged" />
+      <MemberSignature Language="DocId" Value="E:System.Deployment.Application.InPlaceHostingManager.DownloadProgressChanged" />
+      <MemberSignature Language="VB.NET" Value="Public Event DownloadProgressChanged As EventHandler(Of DownloadProgressChangedEventArgs) " />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; event EventHandler&lt;System::Deployment::Application::DownloadProgressChangedEventArgs ^&gt; ^ DownloadProgressChanged;" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Deployment</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.EventHandler&lt;System.Deployment.Application.DownloadProgressChangedEventArgs&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="70db6-163">Se produce cuando hay un cambio en el estado de la descarga de una aplicación o un manifiesto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-163">Occurs when there is a change in the status of an application or manifest download.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="70db6-164">En una aplicación de consola, los eventos se asignan a los subprocesos de un grupo de subprocesos.</span><span class="sxs-lookup"><span data-stu-id="70db6-164">In a console application, events are assigned to threads from a thread pool.</span></span> <span data-ttu-id="70db6-165">Por lo tanto, podría recibir eventos de actualización de progreso desordenados, con un evento subsiguiente que muestra una disminución en comparación con un evento anterior.</span><span class="sxs-lookup"><span data-stu-id="70db6-165">Therefore, you might receive progress update events out of order, with a subsequent event showing a decrease compared with a previous event.</span></span> <span data-ttu-id="70db6-166">No verá este comportamiento en una aplicación basada en formularios Windows Forms, porque los eventos en formularios Windows Forms se procesan secuencialmente fuera de la cola de mensajes del subproceso de interfaz de usuario.</span><span class="sxs-lookup"><span data-stu-id="70db6-166">You will not see such behavior in a Windows Forms-based application, because events in Windows Forms are processed sequentially out of the user interface (UI) thread's message queue.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="70db6-167">En el ejemplo de código siguiente se muestra cómo actualizar una <xref:System.Windows.Forms.ToolStripProgressBar> que está dentro de un <xref:System.Windows.Forms.StatusStrip>.</span><span class="sxs-lookup"><span data-stu-id="70db6-167">The following code example demonstrates how to update a <xref:System.Windows.Forms.ToolStripProgressBar> that is contained within a <xref:System.Windows.Forms.StatusStrip>.</span></span>  
+  
+ [!code-csharp[System.Deployment.Application.InPlaceHostingManager#6](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Deployment.Application.InPlaceHostingManager/CS/Form1.cs#6)]
+ [!code-vb[System.Deployment.Application.InPlaceHostingManager#6](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Deployment.Application.InPlaceHostingManager/VB/Form1.vb#6)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Execute">
+      <MemberSignature Language="C#" Value="public System.Runtime.Remoting.ObjectHandle Execute ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Runtime.Remoting.ObjectHandle Execute() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Deployment.Application.InPlaceHostingManager.Execute" />
+      <MemberSignature Language="VB.NET" Value="Public Function Execute () As ObjectHandle" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Runtime::Remoting::ObjectHandle ^ Execute();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Deployment</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Runtime.Remoting.ObjectHandle</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="70db6-168">Inicia la aplicación [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)], si y sólo si es una aplicación basada en Windows Presentation Foundation que se ejecute en un explorador web.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-168">Launches the [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] application, if and only if it is a Windows Presentation Foundation-based application running in a Web browser.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="70db6-169">Un <see cref="T:System.Runtime.Remoting.ObjectHandle" /> que corresponde a la aplicación iniciada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-169">An <see cref="T:System.Runtime.Remoting.ObjectHandle" /> corresponding to the launched application.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="70db6-170">Este método es válida únicamente para aplicaciones basadas en Windows Presentation Foundation que se pueden hospedar en un explorador Web (es decir, definen sus manifiestos de implementación el `hostInBrowser` elemento XML).</span><span class="sxs-lookup"><span data-stu-id="70db6-170">This method is valid only for Windows Presentation Foundation-based applications that can be hosted in a Web browser (that is, their deployment manifests define the `hostInBrowser` XML element).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetManifestAsync">
+      <MemberSignature Language="C#" Value="public void GetManifestAsync ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void GetManifestAsync() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Deployment.Application.InPlaceHostingManager.GetManifestAsync" />
+      <MemberSignature Language="VB.NET" Value="Public Sub GetManifestAsync ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void GetManifestAsync();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Deployment</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="70db6-171">Descarga el manifiesto de implementación de la aplicación [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] en segundo plano y genera un evento cuando la operación ha concluido o detecta un error.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-171">Downloads the deployment manifest of the [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] application in the background, and raises an event when the operation has either completed or encountered an error.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="70db6-172">Para recibir una notificación de cuando se completa este evento, cree un controlador de eventos para el <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestCompleted> eventos.</span><span class="sxs-lookup"><span data-stu-id="70db6-172">To receive notification of when this event completes, create an event handler for the <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestCompleted> event.</span></span> <span data-ttu-id="70db6-173">Si se llama a este evento y no se indica ningún error por <xref:System.Deployment.Application.GetManifestCompletedEventArgs>, debe llamar después a <xref:System.Deployment.Application.InPlaceHostingManager.AssertApplicationRequirements%2A> para comprobar que la aplicación tendrá permiso para ejecutar en el equipo local.</span><span class="sxs-lookup"><span data-stu-id="70db6-173">If this event is called, and no error is indicated by <xref:System.Deployment.Application.GetManifestCompletedEventArgs>, you should next call <xref:System.Deployment.Application.InPlaceHostingManager.AssertApplicationRequirements%2A> to verify that the application will have permission to run on the local computer.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="70db6-174">Los ejemplos de código siguientes muestran cómo llamar a la <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestAsync%2A> método.</span><span class="sxs-lookup"><span data-stu-id="70db6-174">The following code examples demonstrate how to call the <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestAsync%2A> method.</span></span> <span data-ttu-id="70db6-175">El controlador para el <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestCompleted> comprobaciones de devolución de llamada de evento para ver si la descarga del manifiesto se completa correctamente y si es así, se pide al usuario con información adicional acerca de la aplicación.</span><span class="sxs-lookup"><span data-stu-id="70db6-175">The handler for the <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestCompleted> event callback checks to see if the manifest download completed successfully, and if so, prompts the user with additional information about the application.</span></span> <span data-ttu-id="70db6-176">Si el usuario acepta continuar la instalación, el controlador llama <xref:System.Deployment.Application.InPlaceHostingManager.DownloadApplicationAsync%2A>.</span><span class="sxs-lookup"><span data-stu-id="70db6-176">If the user agrees to continue the installation, the handler calls <xref:System.Deployment.Application.InPlaceHostingManager.DownloadApplicationAsync%2A>.</span></span>  
+  
+ <span data-ttu-id="70db6-177">Los ejemplos de código siguientes se supone que ya ha definido y ha creado una instancia de <xref:System.Deployment.Application.InPlaceHostingManager> denominado `iphm`.</span><span class="sxs-lookup"><span data-stu-id="70db6-177">The following code examples assume that you have already defined and created an instance of <xref:System.Deployment.Application.InPlaceHostingManager> named `iphm`.</span></span>  
+  
+ [!code-csharp[System.Deployment.Application.InPlaceHostingManager#3](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Deployment.Application.InPlaceHostingManager/CS/Form1.cs#3)]
+ [!code-vb[System.Deployment.Application.InPlaceHostingManager#3](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Deployment.Application.InPlaceHostingManager/VB/Form1.vb#3)]  
+  
+ [!code-csharp[System.Deployment.Application.InPlaceHostingManager#4](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Deployment.Application.InPlaceHostingManager/CS/Form1.cs#4)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetManifestCompleted">
+      <MemberSignature Language="C#" Value="public event EventHandler&lt;System.Deployment.Application.GetManifestCompletedEventArgs&gt; GetManifestCompleted;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler`1&lt;class System.Deployment.Application.GetManifestCompletedEventArgs&gt; GetManifestCompleted" />
+      <MemberSignature Language="DocId" Value="E:System.Deployment.Application.InPlaceHostingManager.GetManifestCompleted" />
+      <MemberSignature Language="VB.NET" Value="Public Event GetManifestCompleted As EventHandler(Of GetManifestCompletedEventArgs) " />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; event EventHandler&lt;System::Deployment::Application::GetManifestCompletedEventArgs ^&gt; ^ GetManifestCompleted;" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Deployment</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.EventHandler&lt;System.Deployment.Application.GetManifestCompletedEventArgs&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="70db6-178">Se produce cuando el manifiesto de implementación se ha descargado al equipo local.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-178">Occurs when the deployment manifest has been downloaded to the local computer.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="70db6-179">Use la <xref:System.ComponentModel.AsyncCompletedEventArgs.Error%2A> propiedad de <xref:System.Deployment.Application.GetManifestCompletedEventArgs> para comprobar si <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestAsync%2A> se completó correctamente o devolvió un error.</span><span class="sxs-lookup"><span data-stu-id="70db6-179">Use the <xref:System.ComponentModel.AsyncCompletedEventArgs.Error%2A> property of <xref:System.Deployment.Application.GetManifestCompletedEventArgs> to check whether <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestAsync%2A> completed successfully or returned an error.</span></span> <span data-ttu-id="70db6-180">Si <xref:System.ComponentModel.AsyncCompletedEventArgs.Error%2A> es null, <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestAsync%2A> finalizó correctamente y puede llamar a <xref:System.Deployment.Application.InPlaceHostingManager.AssertApplicationRequirements%2A>.</span><span class="sxs-lookup"><span data-stu-id="70db6-180">If <xref:System.ComponentModel.AsyncCompletedEventArgs.Error%2A> is null, <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestAsync%2A> completed successfully, and you can call <xref:System.Deployment.Application.InPlaceHostingManager.AssertApplicationRequirements%2A>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="70db6-181">Los ejemplos de código siguientes muestran cómo llamar a la <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestAsync%2A> método.</span><span class="sxs-lookup"><span data-stu-id="70db6-181">The following code examples demonstrate how to call the <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestAsync%2A> method.</span></span> <span data-ttu-id="70db6-182">El controlador para el <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestCompleted> comprobaciones de devolución de llamada de evento para ver si la descarga del manifiesto se completa correctamente y si es así, se pide al usuario con información adicional acerca de la aplicación.</span><span class="sxs-lookup"><span data-stu-id="70db6-182">The handler for the <xref:System.Deployment.Application.InPlaceHostingManager.GetManifestCompleted> event callback checks to see if the manifest download completed successfully, and if so, prompts the user with additional information about the application.</span></span> <span data-ttu-id="70db6-183">Si el usuario acepta continuar la instalación, el controlador llama <xref:System.Deployment.Application.InPlaceHostingManager.DownloadApplicationAsync%2A>.</span><span class="sxs-lookup"><span data-stu-id="70db6-183">If the user agrees to continue the installation, the handler calls <xref:System.Deployment.Application.InPlaceHostingManager.DownloadApplicationAsync%2A>.</span></span>  
+  
+ <span data-ttu-id="70db6-184">Los ejemplos de código siguientes se supone que ya ha definido y ha creado una instancia de <xref:System.Deployment.Application.InPlaceHostingManager> denominado `iphm`.</span><span class="sxs-lookup"><span data-stu-id="70db6-184">The following code examples assume that you have already defined and created an instance of <xref:System.Deployment.Application.InPlaceHostingManager> named `iphm`.</span></span>  
+  
+ [!code-csharp[System.Deployment.Application.InPlaceHostingManager#2](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Deployment.Application.InPlaceHostingManager/CS/Form1.cs#2)]
+ [!code-vb[System.Deployment.Application.InPlaceHostingManager#2](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Deployment.Application.InPlaceHostingManager/VB/Form1.vb#2)]  
+  
+ [!code-csharp[System.Deployment.Application.InPlaceHostingManager#3](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Deployment.Application.InPlaceHostingManager/CS/Form1.cs#3)]
+ [!code-vb[System.Deployment.Application.InPlaceHostingManager#3](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Deployment.Application.InPlaceHostingManager/VB/Form1.vb#3)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UninstallCustomAddIn">
+      <MemberSignature Language="C#" Value="public static void UninstallCustomAddIn (string subscriptionId);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void UninstallCustomAddIn(string subscriptionId) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Deployment.Application.InPlaceHostingManager.UninstallCustomAddIn(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub UninstallCustomAddIn (subscriptionId As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void UninstallCustomAddIn(System::String ^ subscriptionId);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Deployment</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="subscriptionId" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="subscriptionId">
+          <span data-ttu-id="70db6-185">Una cadena que contiene un identificador de suscripción, que indica el complemento que se va a quitar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-185">A string that contains a subscription identifier, which indicates the add-in to remove.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="70db6-186">Quita de una aplicación un componente definido por el usuario y anteriormente instalado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-186">Removes a previously installed user-defined component of an application.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="70db6-187">
+            <paramref name="subscriptionId" /> no es una identidad de suscripción válida o no incluye un nombre, un token de clave pública, la arquitectura del procesador ni el número de versión.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-187">
+              <paramref name="subscriptionId" /> is not a valid subscription identity, or does not include a name, public key token, processor architecture, and version number.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="70db6-188">
+            <paramref name="subscriptionId" /> es <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-188">
+              <paramref name="subscriptionId" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="UninstallCustomUXApplication">
+      <MemberSignature Language="C#" Value="public static void UninstallCustomUXApplication (string subscriptionId);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void UninstallCustomUXApplication(string subscriptionId) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Deployment.Application.InPlaceHostingManager.UninstallCustomUXApplication(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub UninstallCustomUXApplication (subscriptionId As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void UninstallCustomUXApplication(System::String ^ subscriptionId);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Deployment</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="subscriptionId" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="subscriptionId">
+          <span data-ttu-id="70db6-189">Una cadena que contiene un identificador de suscripción, que indica la aplicación [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] que se va a quitar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-189">A string that contains a subscription identifier, which indicates the [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] application to remove.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="70db6-190">Quita una aplicación [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] que incluye el elemento &lt;customUX&gt;.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="70db6-190">Removes a [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] application that includes the &lt;customUX&gt; element.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="70db6-191">Este método desinstala instalado previamente [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] aplicación que utiliza el `<customUX>` elemento en el [ &lt;entryPoint&gt; elemento](http://msdn.microsoft.com/library/10ad3083-10c1-4189-a870-9bba2eab244f).</span><span class="sxs-lookup"><span data-stu-id="70db6-191">This method uninstalls a previously installed [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] application that uses the `<customUX>` element in the [&lt;entryPoint&gt; Element](http://msdn.microsoft.com/library/10ad3083-10c1-4189-a870-9bba2eab244f).</span></span>  
+  
+ <span data-ttu-id="70db6-192">Instaladores personalizados que no crean una entrada de agregar o quitar programas para la [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] aplicación debe almacenar el identificador de suscripción encontrado en la <xref:System.Deployment.Application.GetManifestCompletedEventArgs.SubscriptionIdentity%2A> propiedad durante la instalación.</span><span class="sxs-lookup"><span data-stu-id="70db6-192">Custom installers that do not create an Add or Remove Programs entry for the [!INCLUDE[ndptecclick](~/includes/ndptecclick-md.md)] application must store the subscription identifier found in the <xref:System.Deployment.Application.GetManifestCompletedEventArgs.SubscriptionIdentity%2A> property during installation.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

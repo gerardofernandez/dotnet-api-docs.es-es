@@ -1,0 +1,1706 @@
+<Type Name="SocketAsyncEventArgs" FullName="System.Net.Sockets.SocketAsyncEventArgs">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="86c2d378408e4fecc830c9cfc8926c4c96e55097" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="es-ES" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class SocketAsyncEventArgs : EventArgs, IDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit SocketAsyncEventArgs extends System.EventArgs implements class System.IDisposable" />
+  <TypeSignature Language="DocId" Value="T:System.Net.Sockets.SocketAsyncEventArgs" />
+  <TypeSignature Language="VB.NET" Value="Public Class SocketAsyncEventArgs&#xA;Inherits EventArgs&#xA;Implements IDisposable" />
+  <TypeSignature Language="C++ CLI" Value="public ref class SocketAsyncEventArgs : EventArgs, IDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>System.Net.Sockets</AssemblyName>
+    <AssemblyVersion>4.1.0.0</AssemblyVersion>
+    <AssemblyVersion>4.2.0.0</AssemblyVersion>
+    <AssemblyVersion>4.2.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.EventArgs</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+      <span data-ttu-id="7a59c-101">Representa una operación de socket asincrónico.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="7a59c-101">Represents an asynchronous socket operation.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-102">El <xref:System.Net.Sockets.SocketAsyncEventArgs> clase forma parte de un conjunto de mejoras en la <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> clase que proporcionan un patrón asincrónico alternativo que se puede usar las aplicaciones de socket de alto rendimiento especializadas.</span><span class="sxs-lookup"><span data-stu-id="7a59c-102">The <xref:System.Net.Sockets.SocketAsyncEventArgs> class is part of a set of enhancements to the <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> class that provide an alternative asynchronous pattern that can be used by specialized high-performance socket applications.</span></span> <span data-ttu-id="7a59c-103">Esta clase se diseñó específicamente para las aplicaciones de servidor de red que necesitan alto rendimiento.</span><span class="sxs-lookup"><span data-stu-id="7a59c-103">This class was specifically designed for network server applications that require high performance.</span></span> <span data-ttu-id="7a59c-104">Una aplicación puede utilizar el modelo asincrónico mejorado exclusivamente o sólo en áreas activas (por ejemplo, cuando se reciben grandes cantidades de datos) concretas.</span><span class="sxs-lookup"><span data-stu-id="7a59c-104">An application can use the enhanced asynchronous pattern exclusively or only in targeted hot areas (for example, when receiving large amounts of data).</span></span>  
+  
+ <span data-ttu-id="7a59c-105">La característica principal de estas mejoras es la elusión de la asignación y la sincronización repetidas de objetos durante la E/S de socket asincrónico de gran volumen.</span><span class="sxs-lookup"><span data-stu-id="7a59c-105">The main feature of these enhancements is the avoidance of the repeated allocation and synchronization of objects during high-volume asynchronous socket I/O.</span></span> <span data-ttu-id="7a59c-106">El modelo de diseño Begin/End actualmente implementado por el <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> clase requiere un <xref:System.IAsyncResult?displayProperty=nameWithType> objeto va a asignar para cada operación de socket asincrónico.</span><span class="sxs-lookup"><span data-stu-id="7a59c-106">The Begin/End design pattern currently implemented by the <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> class requires a <xref:System.IAsyncResult?displayProperty=nameWithType> object be allocated for each asynchronous socket operation.</span></span>  
+  
+ <span data-ttu-id="7a59c-107">En el nuevo <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> clase mejoras, las operaciones se describen mediante reutilizable de socket asincrónico <xref:System.Net.Sockets.SocketAsyncEventArgs> objetos asignados y mantenidos por la aplicación.</span><span class="sxs-lookup"><span data-stu-id="7a59c-107">In the new <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> class enhancements, asynchronous socket operations are described by reusable <xref:System.Net.Sockets.SocketAsyncEventArgs> objects allocated and maintained by the application.</span></span> <span data-ttu-id="7a59c-108">Las aplicaciones de socket de alto rendimiento saben mejor la cantidad de operaciones de socket superpuestas que se deben mantener.</span><span class="sxs-lookup"><span data-stu-id="7a59c-108">High-performance socket applications know best the amount of overlapped socket operations that must be sustained.</span></span> <span data-ttu-id="7a59c-109">La aplicación puede crear tantos objetos <xref:System.Net.Sockets.SocketAsyncEventArgs> como necesite.</span><span class="sxs-lookup"><span data-stu-id="7a59c-109">The application can create as many of the <xref:System.Net.Sockets.SocketAsyncEventArgs> objects that it needs.</span></span> <span data-ttu-id="7a59c-110">Por ejemplo, si una aplicación de servidor necesita tener 15 socket acepte operaciones pendientes en todo momento para admitir velocidades de conexión de cliente entrantes, puede asignar 15 reutilizables <xref:System.Net.Sockets.SocketAsyncEventArgs> objetos para ese fin.</span><span class="sxs-lookup"><span data-stu-id="7a59c-110">For example, if a server application needs to have 15 socket accept operations outstanding at all times to support incoming client connection rates, it can allocate 15 reusable <xref:System.Net.Sockets.SocketAsyncEventArgs> objects for that purpose.</span></span>  
+  
+ <span data-ttu-id="7a59c-111">El patrón para realizar una operación de socket asincrónico con esta clase consta de los pasos siguientes:</span><span class="sxs-lookup"><span data-stu-id="7a59c-111">The pattern for performing an asynchronous socket operation with this class consists of the following steps:</span></span>  
+  
+1.  <span data-ttu-id="7a59c-112">Asigne un nuevo objeto de contexto <xref:System.Net.Sockets.SocketAsyncEventArgs> u obtenga uno libre de un grupo de aplicaciones.</span><span class="sxs-lookup"><span data-stu-id="7a59c-112">Allocate a new <xref:System.Net.Sockets.SocketAsyncEventArgs> context object, or get a free one from an application pool.</span></span>  
+  
+2.  <span data-ttu-id="7a59c-113">Establecer propiedades en el contexto de objeto a la operación de sobre que realiza (el método de devolución de llamada de finalización, el búfer de datos, el desplazamiento en el búfer y la cantidad máxima de datos que se va a transferir, por ejemplo).</span><span class="sxs-lookup"><span data-stu-id="7a59c-113">Set properties on the context object to the operation about to be performed (the completion callback method, the data buffer, the offset into the buffer, and the maximum amount of data to transfer, for example).</span></span>  
+  
+3.  <span data-ttu-id="7a59c-114">Llame al método de socket adecuado (xxxAsync) para iniciar la operación asincrónica.</span><span class="sxs-lookup"><span data-stu-id="7a59c-114">Call the appropriate socket method (xxxAsync) to initiate the asynchronous operation.</span></span>  
+  
+4.  <span data-ttu-id="7a59c-115">Si el método de socket asincrónico (xxxAsync) devuelve true, en la devolución de llamada, consultar las propiedades de contexto para el estado de finalización.</span><span class="sxs-lookup"><span data-stu-id="7a59c-115">If the asynchronous socket method (xxxAsync) returns true, in the callback, query the context properties for completion status.</span></span>  
+  
+5.  <span data-ttu-id="7a59c-116">Si el método de socket asincrónico (xxxAsync) devuelve false, la operación se completó sincrónicamente.</span><span class="sxs-lookup"><span data-stu-id="7a59c-116">If the asynchronous socket method (xxxAsync) returns false, the operation completed synchronously.</span></span> <span data-ttu-id="7a59c-117">Para ver el resultado de la operación se pueden consultar las propiedades de contexto.</span><span class="sxs-lookup"><span data-stu-id="7a59c-117">The context properties may be queried for the operation result.</span></span>  
+  
+6.  <span data-ttu-id="7a59c-118">Vuelva a usar el contexto para otra operación, vuelva a colocarlo en el grupo o descártelo.</span><span class="sxs-lookup"><span data-stu-id="7a59c-118">Reuse the context for another operation, put it back in the pool, or discard it.</span></span>  
+  
+ <span data-ttu-id="7a59c-119">Referencias determina la duración del nuevo objeto de contexto de operación de socket asincrónico mediante el código de la aplicación y las referencias de E/S asincrónicas.</span><span class="sxs-lookup"><span data-stu-id="7a59c-119">The lifetime of the new asynchronous socket operation context object is determined by references by the application code and asynchronous I/O references.</span></span> <span data-ttu-id="7a59c-120">No es necesario que la aplicación conserve una referencia a un objeto de contexto de operación de socket asincrónico una vez que se ha enviado como parámetro a uno de los métodos de operación de socket asincrónico.</span><span class="sxs-lookup"><span data-stu-id="7a59c-120">It is not necessary for the application to retain a reference to an asynchronous socket operation context object after it is submitted as a parameter to one of the asynchronous socket operation methods.</span></span> <span data-ttu-id="7a59c-121">La referencia se conserva hasta que se devuelve la devolución de llamada de finalización.</span><span class="sxs-lookup"><span data-stu-id="7a59c-121">It will remain referenced until the completion callback returns.</span></span> <span data-ttu-id="7a59c-122">Sin embargo, esto supone una mejora de la aplicación conservar la referencia al contexto para que se pueda reutilizar para una operación de socket asincrónico posterior.</span><span class="sxs-lookup"><span data-stu-id="7a59c-122">However it is advantageous for the application to retain the reference to the context so that it can be reused for a future asynchronous socket operation.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="7a59c-123">En el ejemplo de código siguiente se implementa la lógica de conexión para el servidor de socket que usa el <xref:System.Net.Sockets.SocketAsyncEventArgs> clase.</span><span class="sxs-lookup"><span data-stu-id="7a59c-123">The following code example implements the connection logic for the socket server that uses the <xref:System.Net.Sockets.SocketAsyncEventArgs> class.</span></span> <span data-ttu-id="7a59c-124">Después de aceptar una conexión, todos los datos leídos desde el cliente se envía al cliente.</span><span class="sxs-lookup"><span data-stu-id="7a59c-124">After accepting a connection, all data read from the client is sent back to the client.</span></span> <span data-ttu-id="7a59c-125">La operación de lectura y eco hacia el patrón del cliente continúa hasta que el cliente se desconecta.</span><span class="sxs-lookup"><span data-stu-id="7a59c-125">The read and echo back to the client pattern is continued until the client disconnects.</span></span> <span data-ttu-id="7a59c-126">La clase BufferManager que se utiliza en este ejemplo se muestra en el ejemplo de código para el <xref:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer%28System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32%29> método.</span><span class="sxs-lookup"><span data-stu-id="7a59c-126">The BufferManager class that is used by this example is displayed in the code example for the <xref:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer%28System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32%29> method.</span></span> <span data-ttu-id="7a59c-127">La clase SocketAsyncEventArgsPool que se usa en este ejemplo se muestra en el ejemplo de código para el <xref:System.Net.Sockets.SocketAsyncEventArgs.%23ctor%2A> constructor.</span><span class="sxs-lookup"><span data-stu-id="7a59c-127">The SocketAsyncEventArgsPool class that is used in this example is displayed in the code example for the <xref:System.Net.Sockets.SocketAsyncEventArgs.%23ctor%2A> constructor.</span></span>  
+  
+ [!code-csharp[NCLAsyncSocketServer#3](~/samples/snippets/csharp/VS_Snippets_Remoting/NCLAsyncSocketServer/CS/AsyncSocketServer.cs#3)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.IAsyncResult" />
+    <altmember cref="T:System.Net.Sockets.Socket" />
+    <altmember cref="M:System.Net.Sockets.Socket.AcceptAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+    <altmember cref="M:System.Net.Sockets.Socket.ConnectAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+    <altmember cref="M:System.Net.Sockets.Socket.DisconnectAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+    <altmember cref="M:System.Net.Sockets.Socket.ReceiveAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+    <altmember cref="M:System.Net.Sockets.Socket.ReceiveFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+    <altmember cref="M:System.Net.Sockets.Socket.ReceiveMessageFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+    <altmember cref="M:System.Net.Sockets.Socket.SendAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+    <altmember cref="M:System.Net.Sockets.Socket.SendPacketsAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+    <altmember cref="M:System.Net.Sockets.Socket.SendToAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public SocketAsyncEventArgs ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Net.Sockets.SocketAsyncEventArgs.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; SocketAsyncEventArgs();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-128">Crea una instancia de <see cref="T:System.Net.Sockets.SocketAsyncEventArgs" /> vacía.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-128">Creates an empty <see cref="T:System.Net.Sockets.SocketAsyncEventArgs" /> instance.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-129">Después de llamar a este constructor, todas las propiedades tendrán sus valores predeterminados:</span><span class="sxs-lookup"><span data-stu-id="7a59c-129">After calling this constructor all properties will have their default values:</span></span>  
+  
+-   <span data-ttu-id="7a59c-130">Las referencias de objeto será nulos</span><span class="sxs-lookup"><span data-stu-id="7a59c-130">Object references will be null</span></span>  
+  
+-   <span data-ttu-id="7a59c-131">Las propiedades que devuelven un entero devolverán cero.</span><span class="sxs-lookup"><span data-stu-id="7a59c-131">Properties that return an integer will return zero.</span></span>  
+  
+-   <span data-ttu-id="7a59c-132">El <xref:System.Net.Sockets.SocketAsyncEventArgs.LastOperation%2A> propiedad será igual a <xref:System.Net.Sockets.SocketAsyncOperation.None>.</span><span class="sxs-lookup"><span data-stu-id="7a59c-132">The <xref:System.Net.Sockets.SocketAsyncEventArgs.LastOperation%2A> property will be equal to <xref:System.Net.Sockets.SocketAsyncOperation.None>.</span></span>  
+  
+-   <span data-ttu-id="7a59c-133">El <xref:System.Net.Sockets.SocketAsyncEventArgs.SendPacketsFlags%2A> propiedad será igual a <xref:System.Net.Sockets.TransmitFileOptions.UseDefaultWorkerThread?displayProperty=nameWithType>, que no especifica ningún indicador se usará.</span><span class="sxs-lookup"><span data-stu-id="7a59c-133">The <xref:System.Net.Sockets.SocketAsyncEventArgs.SendPacketsFlags%2A> property will be equal to <xref:System.Net.Sockets.TransmitFileOptions.UseDefaultWorkerThread?displayProperty=nameWithType>, which specifies no flags will be used.</span></span>  
+  
+-   <span data-ttu-id="7a59c-134">El <xref:System.Net.Sockets.SocketAsyncEventArgs.SocketFlags%2A> propiedad será igual a <xref:System.Net.Sockets.SocketAsyncOperation.None>.</span><span class="sxs-lookup"><span data-stu-id="7a59c-134">The <xref:System.Net.Sockets.SocketAsyncEventArgs.SocketFlags%2A> property will be equal to <xref:System.Net.Sockets.SocketAsyncOperation.None>.</span></span>  
+  
+ <span data-ttu-id="7a59c-135">El llamador debe establecer las propiedades adecuadas antes de pasar el objeto al método de socket asincrónico adecuado (xxxAsync).</span><span class="sxs-lookup"><span data-stu-id="7a59c-135">The caller must set the appropriate properties prior to passing the object to the appropriate asynchronous socket (xxxAsync) method.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="7a59c-136">En el ejemplo de código siguiente se representa una colección de reutilizable <xref:System.Net.Sockets.SocketAsyncEventArgs> objetos.</span><span class="sxs-lookup"><span data-stu-id="7a59c-136">The following code example represents a collection of reusable <xref:System.Net.Sockets.SocketAsyncEventArgs> objects.</span></span>  
+  
+ [!code-csharp[NCLAsyncSocketServer#2](~/samples/snippets/csharp/VS_Snippets_Remoting/NCLAsyncSocketServer/CS/AsyncSocketServer.cs#2)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NotSupportedException">
+          <span data-ttu-id="7a59c-137">No se admite la plataforma.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-137">The platform is not supported.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="AcceptSocket">
+      <MemberSignature Language="C#" Value="public System.Net.Sockets.Socket AcceptSocket { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Net.Sockets.Socket AcceptSocket" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.AcceptSocket" />
+      <MemberSignature Language="VB.NET" Value="Public Property AcceptSocket As Socket" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Net::Sockets::Socket ^ AcceptSocket { System::Net::Sockets::Socket ^ get(); void set(System::Net::Sockets::Socket ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Net.Sockets.Socket</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-138">Obtiene o establece el socket que se va a usar o el socket creado para aceptar una conexión con un método de socket asincrónico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-138">Gets or sets the socket to use or the socket created for accepting a connection with an asynchronous socket method.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="7a59c-139">
+            <see cref="T:System.Net.Sockets.Socket" /> que se va a usar o socket creado para aceptar una conexión con un método de socket asincrónico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-139">The <see cref="T:System.Net.Sockets.Socket" /> to use or the socket created for accepting a connection with an asynchronous socket method.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-140">Esta propiedad puede utilizarse para proporcionar una ya se ha creado <xref:System.Net.Sockets.Socket> que se usará para un socket asincrónico operación de aceptación.</span><span class="sxs-lookup"><span data-stu-id="7a59c-140">This property can be used to provide an already created <xref:System.Net.Sockets.Socket> that will be used for an asynchronous socket accept operation.</span></span> <span data-ttu-id="7a59c-141">Cuando se complete la operación de aceptación, es el socket que representa la conexión aceptada.</span><span class="sxs-lookup"><span data-stu-id="7a59c-141">Upon completion of the accept operation, it is the socket representing the accepted connection.</span></span> <span data-ttu-id="7a59c-142">Si no se proporciona (establecida en null) antes de llamar a la <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType> método, un nuevo socket se crearán automáticamente y ser accesible en la devolución de llamada de finalización con esta propiedad.</span><span class="sxs-lookup"><span data-stu-id="7a59c-142">If not supplied (set to null) before calling the <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType> method, a new socket will be created automatically and be accessible in the completion callback with this property.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Net.Sockets.Socket.AcceptAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Buffer">
+      <MemberSignature Language="C#" Value="public byte[] Buffer { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance unsigned int8[] Buffer" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Buffer As Byte()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property cli::array &lt;System::Byte&gt; ^ Buffer { cli::array &lt;System::Byte&gt; ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Byte[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-143">Obtiene el búfer de datos que se va a usar con un método de socket asincrónico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-143">Gets the data buffer to use with an asynchronous socket method.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="7a59c-144">Matriz <see cref="T:System.Byte" /> que representa el búfer de datos que se va a usar con un método de socket asincrónico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-144">A <see cref="T:System.Byte" /> array that represents the data buffer to use with an asynchronous socket method.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-145">Esta propiedad obtiene el búfer de datos asociado actualmente a la <xref:System.Net.Sockets.SocketAsyncEventArgs> instancia.</span><span class="sxs-lookup"><span data-stu-id="7a59c-145">This property gets the data buffer currently associated with the <xref:System.Net.Sockets.SocketAsyncEventArgs> instance.</span></span> <span data-ttu-id="7a59c-146">Para establecer el búfer, el <xref:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer%2A> se debe usar el método.</span><span class="sxs-lookup"><span data-stu-id="7a59c-146">To set the buffer, the <xref:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer%2A> method must be used.</span></span>  
+  
+ <span data-ttu-id="7a59c-147">Esta propiedad se utiliza con la <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType>, y <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> métodos.</span><span class="sxs-lookup"><span data-stu-id="7a59c-147">This property is used with the <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType>, and <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> methods.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Net.Sockets.Socket.AcceptAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ConnectAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveMessageFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendToAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="Overload:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer" />
+      </Docs>
+    </Member>
+    <Member MemberName="BufferList">
+      <MemberSignature Language="C#" Value="public System.Collections.Generic.IList&lt;ArraySegment&lt;byte&gt;&gt; BufferList { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.Generic.IList`1&lt;valuetype System.ArraySegment`1&lt;unsigned int8&gt;&gt; BufferList" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.BufferList" />
+      <MemberSignature Language="VB.NET" Value="Public Property BufferList As IList(Of ArraySegment(Of Byte))" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Collections::Generic::IList&lt;ArraySegment&lt;System::Byte&gt;&gt; ^ BufferList { System::Collections::Generic::IList&lt;ArraySegment&lt;System::Byte&gt;&gt; ^ get(); void set(System::Collections::Generic::IList&lt;ArraySegment&lt;System::Byte&gt;&gt; ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.Generic.IList&lt;System.ArraySegment&lt;System.Byte&gt;&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-148">Obtiene o establece una matriz de búferes de datos que se va a usar con un método de socket asincrónico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-148">Gets or sets an array of data buffers to use with an asynchronous socket method.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="7a59c-149">
+            <see cref="T:System.Collections.IList" /> que representa una matriz de búferes de datos que se va a usar con un método de socket asincrónico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-149">An <see cref="T:System.Collections.IList" /> that represents an array of data buffers to use with an asynchronous socket method.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-150">Esta propiedad se utiliza con la <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType> y <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType> métodos.</span><span class="sxs-lookup"><span data-stu-id="7a59c-150">This property is used with the <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType> and <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType> methods.</span></span>  
+  
+ <span data-ttu-id="7a59c-151">Esta propiedad se utiliza para proporcionar varios búferes de datos para enviar o para proporcionar varios búferes en los que se va a almacenar los datos recibidos para una operación de socket asincrónico que pueden enviar o recibir datos.</span><span class="sxs-lookup"><span data-stu-id="7a59c-151">This property is used to provide multiple buffers of data to be sent or to provide multiple buffers in which to store received data for an asynchronous socket operation that can send or receive data.</span></span> <span data-ttu-id="7a59c-152">Varios búferes con la <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> propiedad son compatibles con el <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType> y <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType> métodos.</span><span class="sxs-lookup"><span data-stu-id="7a59c-152">Multiple buffers using the <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> property are supported by the <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType> and <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType> methods.</span></span>  
+  
+ <span data-ttu-id="7a59c-153">Si el <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> propiedad está establecida en un valor distinto de null, el <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> propiedad debe ser null y pasa por alto el <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType> y <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType> métodos.</span><span class="sxs-lookup"><span data-stu-id="7a59c-153">If the <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> property is set to a non-null value, the <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> property must be null and is ignored by the <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType> and <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType> methods.</span></span>  
+  
+ <span data-ttu-id="7a59c-154">Si el <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> se establece en un valor distinto de null y se realiza un intento para establecer el <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> propiedad en un valor distinto de null, se produce una excepción.</span><span class="sxs-lookup"><span data-stu-id="7a59c-154">If the <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> was set to a non-null value and an attempt is made to set the <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> property to a non-null value, an exception is thrown.</span></span>  
+  
+ <span data-ttu-id="7a59c-155">Si el <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> propiedad está establecida en un valor distinto de null, el <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType> y <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType> métodos producirán una <xref:System.ArgumentException>.</span><span class="sxs-lookup"><span data-stu-id="7a59c-155">If the <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> property is set to a non-null value, the <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType> and <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType> methods will throw an <xref:System.ArgumentException>.</span></span>  
+  
+ <span data-ttu-id="7a59c-156">El <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> parámetro se ignora por la <xref:System.Net.Sockets.Socket.DisconnectAsync%2A?displayProperty=nameWithType> y <xref:System.Net.Sockets.Socket.SendPacketsAsync%2A?displayProperty=nameWithType> métodos.</span><span class="sxs-lookup"><span data-stu-id="7a59c-156">The <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> parameter is ignored by the <xref:System.Net.Sockets.Socket.DisconnectAsync%2A?displayProperty=nameWithType> and <xref:System.Net.Sockets.Socket.SendPacketsAsync%2A?displayProperty=nameWithType> methods.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="7a59c-157">Se han especificado búferes ambiguos en una operación de establecimiento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-157">There are ambiguous buffers specified on a set operation.</span>
+          </span>
+          <span data-ttu-id="7a59c-158">Esta excepción se produce si la propiedad <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" /> se ha establecido en un valor no nulo y se intenta establecer la propiedad <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.BufferList" /> en un valor no nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-158">This exception occurs if the <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" /> property has been set to a non-null value and an attempt was made to set the <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.BufferList" /> property to a non-null value.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" />
+      </Docs>
+    </Member>
+    <Member MemberName="BytesTransferred">
+      <MemberSignature Language="C#" Value="public int BytesTransferred { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 BytesTransferred" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.BytesTransferred" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property BytesTransferred As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int BytesTransferred { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-159">Obtiene el número de bytes transferidos en la operación de socket.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-159">Gets the number of bytes transferred in the socket operation.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="7a59c-160">
+            <see cref="T:System.Int32" /> que contiene el número de bytes transferidos en la operación de socket.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-160">An <see cref="T:System.Int32" /> that contains the number of bytes transferred in the socket operation.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-161">Esta propiedad proporciona el número de bytes transferidos en una operación de socket asincrónico que puede recibir o enviar datos.</span><span class="sxs-lookup"><span data-stu-id="7a59c-161">This property provides the number of bytes transferred in an asynchronous socket operation that can receive or send data.</span></span> <span data-ttu-id="7a59c-162">Si se devuelve cero de una operación de lectura, el extremo remoto ha cerrado la conexión.</span><span class="sxs-lookup"><span data-stu-id="7a59c-162">If zero is returned from a read operation, the remote end has closed the connection.</span></span>  
+  
+ <span data-ttu-id="7a59c-163">Esta propiedad se establece por todas las operaciones de socket asincrónico excepto la <xref:System.Net.Sockets.Socket.DisconnectAsync%2A?displayProperty=nameWithType> método.</span><span class="sxs-lookup"><span data-stu-id="7a59c-163">This property is set by all asynchronous socket operations except the <xref:System.Net.Sockets.Socket.DisconnectAsync%2A?displayProperty=nameWithType> method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Net.Sockets.Socket.AcceptAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ConnectAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveMessageFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendPacketsAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendToAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Completed">
+      <MemberSignature Language="C#" Value="public event EventHandler&lt;System.Net.Sockets.SocketAsyncEventArgs&gt; Completed;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler`1&lt;class System.Net.Sockets.SocketAsyncEventArgs&gt; Completed" />
+      <MemberSignature Language="DocId" Value="E:System.Net.Sockets.SocketAsyncEventArgs.Completed" />
+      <MemberSignature Language="VB.NET" Value="Public Custom Event Completed As EventHandler(Of SocketAsyncEventArgs) " />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; event EventHandler&lt;System::Net::Sockets::SocketAsyncEventArgs ^&gt; ^ Completed;" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.EventHandler&lt;System.Net.Sockets.SocketAsyncEventArgs&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-164">Evento utilizado para completar una operación asincrónica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-164">The event used to complete an asynchronous operation.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-165">El <xref:System.Net.Sockets.SocketAsyncEventArgs.Completed> eventos proporciona una manera para que las aplicaciones de cliente completar una operación de socket asincrónico.</span><span class="sxs-lookup"><span data-stu-id="7a59c-165">The <xref:System.Net.Sockets.SocketAsyncEventArgs.Completed> event provides a way for client applications to complete an asynchronous socket operation.</span></span> <span data-ttu-id="7a59c-166">Un controlador de eventos debe asociarse al evento dentro de un <xref:System.Net.Sockets.SocketAsyncEventArgs> instancia cuando se inicia una operación de socket asincrónico, en caso contrario, la aplicación no será capaz de determinar cuándo se completa la operación.</span><span class="sxs-lookup"><span data-stu-id="7a59c-166">An event handler should be attached to the event within a <xref:System.Net.Sockets.SocketAsyncEventArgs> instance when an asynchronous socket operation is initiated, otherwise the application will not be able to determine when the operation completes.</span></span>  
+  
+ <span data-ttu-id="7a59c-167">Los delegados de devolución de llamada de finalización al que hace referencia el <xref:System.Net.Sockets.SocketAsyncEventArgs.Completed> evento contiene la lógica del programa para finalizar el procesamiento de la operación de socket asincrónico para el cliente.</span><span class="sxs-lookup"><span data-stu-id="7a59c-167">The completion callback delegates referenced by the <xref:System.Net.Sockets.SocketAsyncEventArgs.Completed> event contains program logic to finish processing the asynchronous socket operation for the client.</span></span>  
+  
+ <span data-ttu-id="7a59c-168">Cuando se señala el evento, la aplicación utiliza el <xref:System.Net.Sockets.SocketAsyncEventArgs> parámetro para obtener el estado de la operación de socket asincrónico completada del objeto.</span><span class="sxs-lookup"><span data-stu-id="7a59c-168">When the event is signaled, the application uses the <xref:System.Net.Sockets.SocketAsyncEventArgs> object parameter to obtain the status of the completed asynchronous socket operation.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ConnectByNameError">
+      <MemberSignature Language="C#" Value="public Exception ConnectByNameError { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Exception ConnectByNameError" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.ConnectByNameError" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ConnectByNameError As Exception" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property Exception ^ ConnectByNameError { Exception ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Exception</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-169">Obtiene la excepción en el caso de un error de conexión cuando se usó <see cref="T:System.Net.DnsEndPoint" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-169">Gets the exception in the case of a connection failure when a <see cref="T:System.Net.DnsEndPoint" /> was used.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="7a59c-170">Objeto <see cref="T:System.Exception" /> que indica la causa del error de conexión que se produce cuando se especifica un objeto <see cref="T:System.Net.DnsEndPoint" /> para la propiedad <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.RemoteEndPoint" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-170">An <see cref="T:System.Exception" /> that indicates the cause of the connection error when a <see cref="T:System.Net.DnsEndPoint" /> was specified for the <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.RemoteEndPoint" /> property.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-171">En el caso de un error de conexión cuando un <xref:System.Net.DnsEndPoint> no se especificó para el <xref:System.Net.Sockets.SocketAsyncEventArgs.RemoteEndPoint%2A> propiedad, el <xref:System.Net.Sockets.SocketAsyncEventArgs.ConnectByNameError%2A> propiedad contendrá la excepción que indica la causa detallada del error de socket.</span><span class="sxs-lookup"><span data-stu-id="7a59c-171">In the case of a connection failure when a <xref:System.Net.DnsEndPoint> was specified for the <xref:System.Net.Sockets.SocketAsyncEventArgs.RemoteEndPoint%2A> property, the <xref:System.Net.Sockets.SocketAsyncEventArgs.ConnectByNameError%2A> property will contain the exception that indicates the detailed cause of the socket error.</span></span>  
+  
+ <span data-ttu-id="7a59c-172">Cuando un <xref:System.Net.IPEndPoint> no se especificó para el <xref:System.Net.Sockets.SocketAsyncEventArgs.RemoteEndPoint%2A> se produce un error de conexión y de propiedad, el <xref:System.Net.Sockets.SocketAsyncEventArgs.ConnectByNameError%2A> propiedad será un `null` referencia.</span><span class="sxs-lookup"><span data-stu-id="7a59c-172">When an <xref:System.Net.IPEndPoint> was specified for the <xref:System.Net.Sockets.SocketAsyncEventArgs.RemoteEndPoint%2A> property and a connection failure occurs, the <xref:System.Net.Sockets.SocketAsyncEventArgs.ConnectByNameError%2A> property will be a `null` reference.</span></span>  
+  
+ <span data-ttu-id="7a59c-173">El <xref:System.Net.Sockets.SocketAsyncEventArgs.SocketError%2A> propiedad siempre está establecida en el caso de un error de conexión.</span><span class="sxs-lookup"><span data-stu-id="7a59c-173">The <xref:System.Net.Sockets.SocketAsyncEventArgs.SocketError%2A> property is always set in the case of a connection failure.</span></span> <span data-ttu-id="7a59c-174">El <xref:System.Net.Sockets.SocketAsyncEventArgs.ConnectByNameError%2A> propiedad contiene más información sobre el error si fue un error al conectar con un <xref:System.Net.DnsEndPoint>.</span><span class="sxs-lookup"><span data-stu-id="7a59c-174">The <xref:System.Net.Sockets.SocketAsyncEventArgs.ConnectByNameError%2A> property contains more information about the failure if it was a failure connecting to a <xref:System.Net.DnsEndPoint>.</span></span> <span data-ttu-id="7a59c-175">Si una aplicación sólo esté interesada en si la operación de conexión se realizó correctamente o no, la aplicación solo necesita comprobar la <xref:System.Net.Sockets.SocketAsyncEventArgs.SocketError%2A> propiedad.</span><span class="sxs-lookup"><span data-stu-id="7a59c-175">If an application is only interested in whether the connect operation succeeded or failed, then the application only needs to check the <xref:System.Net.Sockets.SocketAsyncEventArgs.SocketError%2A> property.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="Overload:System.Net.Sockets.Socket.ConnectAsync" />
+      </Docs>
+    </Member>
+    <Member MemberName="ConnectSocket">
+      <MemberSignature Language="C#" Value="public System.Net.Sockets.Socket ConnectSocket { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Net.Sockets.Socket ConnectSocket" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.ConnectSocket" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ConnectSocket As Socket" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Net::Sockets::Socket ^ ConnectSocket { System::Net::Sockets::Socket ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Net.Sockets.Socket</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-176">Objeto <see cref="T:System.Net.Sockets.Socket" /> que se ha creado y conectado después de finalizar correctamente el método <see cref="Overload:System.Net.Sockets.Socket.ConnectAsync" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-176">The created and connected <see cref="T:System.Net.Sockets.Socket" /> object after successful completion of the <see cref="Overload:System.Net.Sockets.Socket.ConnectAsync" /> method.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="7a59c-177">Objeto <see cref="T:System.Net.Sockets.Socket" /> conectado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-177">The connected <see cref="T:System.Net.Sockets.Socket" /> object.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-178">Tras finalizar correctamente el <xref:System.Net.Sockets.Socket.ConnectAsync%2A> método, esta propiedad contiene el recién creado y conectado <xref:System.Net.Sockets.Socket> objeto.</span><span class="sxs-lookup"><span data-stu-id="7a59c-178">After successful completion of the <xref:System.Net.Sockets.Socket.ConnectAsync%2A> method, this property contains the newly created and connected <xref:System.Net.Sockets.Socket> object.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="Overload:System.Net.Sockets.Socket.ConnectAsync" />
+      </Docs>
+    </Member>
+    <Member MemberName="Count">
+      <MemberSignature Language="C#" Value="public int Count { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 Count" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.Count" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Count As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int Count { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-179">Obtiene la cantidad máxima de datos, en bytes, que se van a enviar o recibir en una operación asincrónica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-179">Gets the maximum amount of data, in bytes, to send or receive in an asynchronous operation.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="7a59c-180">
+            <see cref="T:System.Int32" /> que contiene la cantidad máxima de datos, en bytes, que se van a enviar o recibir.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-180">An <see cref="T:System.Int32" /> that contains the maximum amount of data, in bytes, to send or receive.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-181">Esta propiedad se establece mediante una llamada a la <xref:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer%2A> método.</span><span class="sxs-lookup"><span data-stu-id="7a59c-181">This property is set by calling the <xref:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer%2A> method.</span></span>  
+  
+ <span data-ttu-id="7a59c-182">Esta propiedad se utiliza con la <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType>, y <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> métodos.</span><span class="sxs-lookup"><span data-stu-id="7a59c-182">This property is used with the <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType>, and <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> methods.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Net.Sockets.Socket.AcceptAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ConnectAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveMessageFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendPacketsAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendToAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="Overload:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer" />
+      </Docs>
+    </Member>
+    <Member MemberName="DisconnectReuseSocket">
+      <MemberSignature Language="C#" Value="public bool DisconnectReuseSocket { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool DisconnectReuseSocket" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.DisconnectReuseSocket" />
+      <MemberSignature Language="VB.NET" Value="Public Property DisconnectReuseSocket As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool DisconnectReuseSocket { bool get(); void set(bool value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-183">Obtiene o establece un valor que especifica si el socket se puede reutilizar después una operación de desconexión.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-183">Gets or sets a value that specifies if socket can be reused after a disconnect operation.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="7a59c-184">
+            <see cref="T:System.Boolean" /> que especifica si el socket se puede reutilizar después de una operación de desconexión.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-184">A <see cref="T:System.Boolean" /> that specifies if socket can be reused after a disconnect operation.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-185">Esta propiedad se utiliza para modificar el comportamiento de <xref:System.Net.Sockets.Socket.DisconnectAsync%2A?displayProperty=nameWithType> método.</span><span class="sxs-lookup"><span data-stu-id="7a59c-185">This property is used to alter the behavior of <xref:System.Net.Sockets.Socket.DisconnectAsync%2A?displayProperty=nameWithType> method.</span></span> <span data-ttu-id="7a59c-186">Si es true, un socket desconectado por el <xref:System.Net.Sockets.Socket.DisconnectAsync%2A?displayProperty=nameWithType> método se puede reutilizar una vez completada la desconexión en socket subsiguientes acepte o conectarse a las operaciones.</span><span class="sxs-lookup"><span data-stu-id="7a59c-186">If true, a socket disconnected by the <xref:System.Net.Sockets.Socket.DisconnectAsync%2A?displayProperty=nameWithType> method can be reused after disconnect completion in subsequent socket accept or connect operations.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Net.Sockets.Socket.DisconnectAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Net.Sockets.SocketAsyncEventArgs.Dispose" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-187">Libera los recursos no administrados utilizados por la instancia de <see cref="T:System.Net.Sockets.SocketAsyncEventArgs" /> y, de forma opcional, elimina los recursos administrados.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-187">Releases the unmanaged resources used by the <see cref="T:System.Net.Sockets.SocketAsyncEventArgs" /> instance and optionally disposes of the managed resources.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-188">Se llama a este método público `Dispose()` método y <xref:System.Object.Finalize%2A> método.</span><span class="sxs-lookup"><span data-stu-id="7a59c-188">This method is called by the public `Dispose()` method and the <xref:System.Object.Finalize%2A> method.</span></span> <span data-ttu-id="7a59c-189">`Dispose()` se invoca el protegido `Dispose(Boolean)` método con el `disposing` parámetro establecido en `true`.</span><span class="sxs-lookup"><span data-stu-id="7a59c-189">`Dispose()` invokes the protected `Dispose(Boolean)` method with the `disposing` parameter set to `true`.</span></span> <span data-ttu-id="7a59c-190"><xref:System.Object.Finalize%2A> invoca `Dispose` con `disposing` establecido en `false`.</span><span class="sxs-lookup"><span data-stu-id="7a59c-190"><xref:System.Object.Finalize%2A> invokes `Dispose` with `disposing` set to `false`.</span></span>  
+  
+ <span data-ttu-id="7a59c-191">Cuando el parámetro `disposing` es `true`, este método libera todos los recursos retenidos por los objetos administrados a los que el control <xref:System.Net.Sockets.SocketAsyncEventArgs> hace referencia.</span><span class="sxs-lookup"><span data-stu-id="7a59c-191">When the `disposing` parameter is `true`, this method releases all resources held by any managed objects that this <xref:System.Net.Sockets.SocketAsyncEventArgs> references.</span></span> <span data-ttu-id="7a59c-192">Este método invoca al método `Dispose()` de cada uno de los objetos a los que se hace referencia.</span><span class="sxs-lookup"><span data-stu-id="7a59c-192">This method invokes the `Dispose()` method of each referenced object.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="7a59c-193">Este miembro genera información de seguimiento cuando se habilita el seguimiento de red en la aplicación.</span><span class="sxs-lookup"><span data-stu-id="7a59c-193">This member outputs trace information when you enable network tracing in your application.</span></span> <span data-ttu-id="7a59c-194">Para obtener más información, consulte [seguimiento de red en .NET Framework](~/docs/framework/network-programming/network-tracing.md).</span><span class="sxs-lookup"><span data-stu-id="7a59c-194">For more information, see [Network Tracing in the .NET Framework](~/docs/framework/network-programming/network-tracing.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="7a59c-195">
+              <see langword="Dispose" /> puede recibir varias llamadas de otros objetos.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="7a59c-195">
+                <see langword="Dispose" /> can be called multiple times by other objects.</span>
+            </span>
+            <span data-ttu-id="7a59c-196">Al invalidar <see langword="Dispose(Boolean)" />, tenga cuidado de no hacer referencia a objetos que se hayan eliminado en una llamada anterior a <see langword="Dispose" />.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="7a59c-196">When overriding <see langword="Dispose(Boolean)" />, be careful not to reference objects that have been previously disposed of in an earlier call to <see langword="Dispose" />.</span>
+            </span>
+            <span data-ttu-id="7a59c-197">Para obtener más información sobre cómo implementar <see langword="Dispose(Boolean)" />, consulte [implementa un método Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="7a59c-197">For more information about how to implement <see langword="Dispose(Boolean)" />, see [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md).</span>
+            </span>
+            <span data-ttu-id="7a59c-198">Para obtener más información acerca de <see langword="Dispose" /> y <see cref="M:System.Object.Finalize" />, consulte [limpiar recursos no administrados](~/docs/standard/garbage-collection/unmanaged.md) y [reemplazar el método Finalize](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="7a59c-198">For more information about <see langword="Dispose" /> and <see cref="M:System.Object.Finalize" />, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md) and [Overriding the Finalize Method](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span>
+            </span>
+          </para>
+        </block>
+        <altmember cref="M:System.Object.Finalize" />
+      </Docs>
+    </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~SocketAsyncEventArgs ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Net.Sockets.SocketAsyncEventArgs.Finalize" />
+      <MemberSignature Language="VB.NET" Value="Finalize ()" />
+      <MemberSignature Language="C++ CLI" Value="!SocketAsyncEventArgs ()" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-199">Libera los recursos utilizados por la clase <see cref="T:System.Net.Sockets.SocketAsyncEventArgs" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-199">Frees resources used by the <see cref="T:System.Net.Sockets.SocketAsyncEventArgs" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-200">El <xref:System.Net.Sockets.SocketAsyncEventArgs> clase finalizador cierra el <xref:System.Net.Sockets.SocketAsyncEventArgs> y liberar los recursos asociados con la <xref:System.Net.Sockets.SocketAsyncEventArgs>.</span><span class="sxs-lookup"><span data-stu-id="7a59c-200">The <xref:System.Net.Sockets.SocketAsyncEventArgs> class finalizer closes the <xref:System.Net.Sockets.SocketAsyncEventArgs> and free resources associated with the <xref:System.Net.Sockets.SocketAsyncEventArgs>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LastOperation">
+      <MemberSignature Language="C#" Value="public System.Net.Sockets.SocketAsyncOperation LastOperation { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Net.Sockets.SocketAsyncOperation LastOperation" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.LastOperation" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property LastOperation As SocketAsyncOperation" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Net::Sockets::SocketAsyncOperation LastOperation { System::Net::Sockets::SocketAsyncOperation get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Net.Sockets.SocketAsyncOperation</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-201">Obtiene el tipo de operación de socket más reciente realizada con este objeto de contexto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-201">Gets the type of socket operation most recently performed with this context object.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="7a59c-202">Instancia de <see cref="T:System.Net.Sockets.SocketAsyncOperation" /> que indica el tipo de operación de socket más reciente realizada con este objeto de contexto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-202">A <see cref="T:System.Net.Sockets.SocketAsyncOperation" /> instance that indicates the type of socket operation most recently performed with this context object.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-203">Esta propiedad describe la operación de socket asincrónico que más recientemente se completó mediante este <xref:System.Net.Sockets.SocketAsyncEventArgs> objeto.</span><span class="sxs-lookup"><span data-stu-id="7a59c-203">This property describes the asynchronous socket operation that was most recently completed using this <xref:System.Net.Sockets.SocketAsyncEventArgs> object.</span></span> <span data-ttu-id="7a59c-204">El valor de esta propiedad será <xref:System.Net.Sockets.SocketAsyncOperation.None?displayProperty=nameWithType> hasta que el <xref:System.Net.Sockets.SocketAsyncEventArgs> instancia se utiliza para iniciar una operación de socket asincrónico.</span><span class="sxs-lookup"><span data-stu-id="7a59c-204">The value of this property will be <xref:System.Net.Sockets.SocketAsyncOperation.None?displayProperty=nameWithType> until the <xref:System.Net.Sockets.SocketAsyncEventArgs> instance is used to begin an asynchronous socket operation.</span></span> <span data-ttu-id="7a59c-205">A continuación, se establecerá la propiedad para el tipo de operación que se realiza en los métodos que toman el <xref:System.Net.Sockets.SocketAsyncEventArgs> como un parámetro.</span><span class="sxs-lookup"><span data-stu-id="7a59c-205">The property will then be set to the type of operation being performed in the methods that take the <xref:System.Net.Sockets.SocketAsyncEventArgs> as a parameter.</span></span> <span data-ttu-id="7a59c-206">Esta propiedad facilita más fácilmente mediante un delegado de devolución de llamada de finalización única para varios tipos de operaciones de socket asincrónico.</span><span class="sxs-lookup"><span data-stu-id="7a59c-206">This property more easily facilitates using a single completion callback delegate for multiple kinds of asynchronous socket operations.</span></span>  
+  
+ <span data-ttu-id="7a59c-207">Esta propiedad sigue siendo válida en una <xref:System.Net.Sockets.SocketAsyncEventArgs> instancia hasta que la <xref:System.Net.Sockets.SocketAsyncEventArgs> instancia se utiliza para otra operación de socket asincrónico (xxxAsync).</span><span class="sxs-lookup"><span data-stu-id="7a59c-207">This property remains valid in a <xref:System.Net.Sockets.SocketAsyncEventArgs> instance until the <xref:System.Net.Sockets.SocketAsyncEventArgs> instance is used for another asynchronous socket (xxxAsync) operation.</span></span>  
+  
+ <span data-ttu-id="7a59c-208">Esta propiedad se establece por todos los métodos de socket asincrónico (xxxAsync).</span><span class="sxs-lookup"><span data-stu-id="7a59c-208">This property is set by all asynchronous socket (xxxAsync) methods.</span></span>  
+  
+ <span data-ttu-id="7a59c-209">Llamar a un método de socket asincrónico (xxxAsync) en la <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> clase establece este valor de propiedad.</span><span class="sxs-lookup"><span data-stu-id="7a59c-209">Calling an asynchronous socket method (xxxAsync) on the <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> class sets this property value.</span></span> <span data-ttu-id="7a59c-210">Esta propiedad está diseñada para su uso con la rutina de finalización de SocketAsyncCallback implementada por la aplicación.</span><span class="sxs-lookup"><span data-stu-id="7a59c-210">This property is intended for use with the SocketAsyncCallback completion routine implemented by the application.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Net.Sockets.Socket.AcceptAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ConnectAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.DisconnectAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveMessageFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendPacketsAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendToAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="T:System.Net.Sockets.SocketAsyncOperation" />
+      </Docs>
+    </Member>
+    <Member MemberName="MemoryBuffer">
+      <MemberSignature Language="C#" Value="public Memory&lt;byte&gt; MemoryBuffer { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Memory`1&lt;unsigned int8&gt; MemoryBuffer" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.MemoryBuffer" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property MemoryBuffer As Memory(Of Byte)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property Memory&lt;System::Byte&gt; MemoryBuffer { Memory&lt;System::Byte&gt; get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Memory&lt;System.Byte&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Offset">
+      <MemberSignature Language="C#" Value="public int Offset { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 Offset" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.Offset" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Offset As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int Offset { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-211">Obtiene el desplazamiento, en bytes, en el búfer de datos al que hace referencia la propiedad <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-211">Gets the offset, in bytes, into the data buffer referenced by the <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" /> property.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="7a59c-212">
+            <see cref="T:System.Int32" /> que contiene el desplazamiento, en bytes, en el búfer de datos al que hace referencia la propiedad <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-212">An <see cref="T:System.Int32" /> that contains the offset, in bytes, into the data buffer referenced by the <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" /> property.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-213">Esta propiedad describe el desplazamiento de byte inicial de datos en el <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> propiedad.</span><span class="sxs-lookup"><span data-stu-id="7a59c-213">This property describes the starting byte offset of data in the <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> property.</span></span> <span data-ttu-id="7a59c-214">Este valor se establece mediante una llamada a la <xref:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer%2A> método.</span><span class="sxs-lookup"><span data-stu-id="7a59c-214">This value is set by calling the <xref:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer%2A> method.</span></span>  
+  
+ <span data-ttu-id="7a59c-215">Esta propiedad no se aplica a la <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> propiedad.</span><span class="sxs-lookup"><span data-stu-id="7a59c-215">This property does not apply to the <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> property.</span></span>  
+  
+ <span data-ttu-id="7a59c-216">Esta propiedad se utiliza con la <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType>, y <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> métodos.</span><span class="sxs-lookup"><span data-stu-id="7a59c-216">This property is used with the <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType>, and <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> methods.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Net.Sockets.Socket.AcceptAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ConnectAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveMessageFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendToAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" />
+      </Docs>
+    </Member>
+    <Member MemberName="OnCompleted">
+      <MemberSignature Language="C#" Value="protected virtual void OnCompleted (System.Net.Sockets.SocketAsyncEventArgs e);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnCompleted(class System.Net.Sockets.SocketAsyncEventArgs e) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Net.Sockets.SocketAsyncEventArgs.OnCompleted(System.Net.Sockets.SocketAsyncEventArgs)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub OnCompleted (e As SocketAsyncEventArgs)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnCompleted(System::Net::Sockets::SocketAsyncEventArgs ^ e);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="e" Type="System.Net.Sockets.SocketAsyncEventArgs" />
+      </Parameters>
+      <Docs>
+        <param name="e">
+          <span data-ttu-id="7a59c-217">Evento que se señala.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-217">The event that is signaled.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="7a59c-218">Representa un método al que se llama cuando se completa una operación asincrónica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-218">Represents a method that is called when an asynchronous operation completes.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-219">Este método no es invocable por código de usuario.</span><span class="sxs-lookup"><span data-stu-id="7a59c-219">This method is not callable by user code.</span></span> <span data-ttu-id="7a59c-220">Llama a este método obtiene el funcionamiento interno de la <xref:System.Net.Sockets.SocketAsyncEventArgs> objeto una vez completada la operación actual.</span><span class="sxs-lookup"><span data-stu-id="7a59c-220">This method gets called by the internals of the <xref:System.Net.Sockets.SocketAsyncEventArgs> object when the current operation is complete.</span></span> <span data-ttu-id="7a59c-221">Este método se utiliza con todos los métodos de socket asincrónico (xxxAsync).</span><span class="sxs-lookup"><span data-stu-id="7a59c-221">This method is used with all asynchronous socket (xxxAsync) methods.</span></span>  
+  
+ <span data-ttu-id="7a59c-222">Una aplicación que crea una clase que hereda de <xref:System.Net.Sockets.SocketAsyncEventArgs> puede invalidar este método para conectarse a esta notificación de finalización y limpiar los recursos que asignan para la operación.</span><span class="sxs-lookup"><span data-stu-id="7a59c-222">An application that creates a class inheriting from <xref:System.Net.Sockets.SocketAsyncEventArgs> can override this method to hook into this completion notification and clean up any resources that it allocated for the operation.</span></span> <span data-ttu-id="7a59c-223">La implementación predeterminada solo genera el <xref:System.Net.Sockets.SocketAsyncEventArgs.Completed> eventos.</span><span class="sxs-lookup"><span data-stu-id="7a59c-223">The default implementation just raises the <xref:System.Net.Sockets.SocketAsyncEventArgs.Completed> event.</span></span>  
+  
+ <span data-ttu-id="7a59c-224">Este método se usa para enlazar un controlador de eventos que se usará como la devolución de llamada de finalización para una operación de socket asincrónico subsiguiente.</span><span class="sxs-lookup"><span data-stu-id="7a59c-224">This method is used to hook up an event handler to be used as the completion callback for a subsequent asynchronous socket operation.</span></span> <span data-ttu-id="7a59c-225">El llamador debe implementar al menos un delegado de devolución de llamada heredado de este método antes de iniciar una operación de socket asincrónico mediante uno de los métodos asincrónicos (xxxAsync) en la <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> clase.</span><span class="sxs-lookup"><span data-stu-id="7a59c-225">The caller must implement at least one callback delegate inherited from this method prior to starting an asynchronous socket operation using one of the asynchronous (xxxAsync) methods on the <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> class.</span></span>  
+  
+ <span data-ttu-id="7a59c-226">El llamador <xref:System.Net.Sockets.SocketAsyncEventArgs.OnCompleted%2A> método proporciona una manera para que las aplicaciones de cliente completar una operación de socket asincrónico.</span><span class="sxs-lookup"><span data-stu-id="7a59c-226">The caller's <xref:System.Net.Sockets.SocketAsyncEventArgs.OnCompleted%2A> method provides a way for client applications to complete an asynchronous socket operation.</span></span> <span data-ttu-id="7a59c-227">Cuando se inicia una operación de socket asincrónico, se debe implementar un delegado de devolución de llamada.</span><span class="sxs-lookup"><span data-stu-id="7a59c-227">A callback delegate must be implemented when an asynchronous socket operation is initiated.</span></span> <span data-ttu-id="7a59c-228">Los delegados de devolución de llamada de finalización se heredaron de la <xref:System.Net.Sockets.SocketAsyncEventArgs.OnCompleted%2A> el método debe contener la lógica del programa para finalizar el procesamiento de la operación de socket asincrónico para el cliente.</span><span class="sxs-lookup"><span data-stu-id="7a59c-228">The completion callback delegate(s) inherited from the <xref:System.Net.Sockets.SocketAsyncEventArgs.OnCompleted%2A> method must contain program logic to finish processing the asynchronous socket operation for the client.</span></span>  
+  
+ <span data-ttu-id="7a59c-229">Cuando se señala a una operación asincrónica, la aplicación utiliza el <xref:System.Net.Sockets.SocketAsyncEventArgs> parámetro para obtener el estado de la operación de socket asincrónico completada del objeto.</span><span class="sxs-lookup"><span data-stu-id="7a59c-229">When an asynchronous operation is signaled, the application uses the <xref:System.Net.Sockets.SocketAsyncEventArgs> object parameter to obtain status of the completed asynchronous socket operation.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Net.Sockets.Socket.AcceptAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ConnectAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.DisconnectAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveMessageFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendPacketsAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendToAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+      </Docs>
+    </Member>
+    <Member MemberName="ReceiveMessageFromPacketInfo">
+      <MemberSignature Language="C#" Value="public System.Net.Sockets.IPPacketInformation ReceiveMessageFromPacketInfo { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Net.Sockets.IPPacketInformation ReceiveMessageFromPacketInfo" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.ReceiveMessageFromPacketInfo" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ReceiveMessageFromPacketInfo As IPPacketInformation" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Net::Sockets::IPPacketInformation ReceiveMessageFromPacketInfo { System::Net::Sockets::IPPacketInformation get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Net.Sockets.IPPacketInformation</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-230">Obtiene la dirección IP e interfaz de un paquete recibido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-230">Gets the IP address and interface of a received packet.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="7a59c-231">Instancia de <see cref="T:System.Net.Sockets.IPPacketInformation" /> que contiene la dirección IP de destino y la interfaz de un paquete recibido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-231">An <see cref="T:System.Net.Sockets.IPPacketInformation" /> instance that contains the destination IP address and interface of a received packet.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-232">Esta propiedad proporciona información sobre un paquete recibida mediante la <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType> método.</span><span class="sxs-lookup"><span data-stu-id="7a59c-232">This property provides information about a packet received using the <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType> method.</span></span>  
+  
+ <span data-ttu-id="7a59c-233">Esta propiedad se utiliza con la <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType> método.</span><span class="sxs-lookup"><span data-stu-id="7a59c-233">This property is used with the <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType> method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Net.IPAddress" />
+        <altmember cref="T:System.Net.Sockets.IPPacketInformation" />
+        <altmember cref="P:System.Net.Sockets.IPPacketInformation.Address" />
+        <altmember cref="P:System.Net.Sockets.IPPacketInformation.Interface" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemoteEndPoint">
+      <MemberSignature Language="C#" Value="public System.Net.EndPoint RemoteEndPoint { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Net.EndPoint RemoteEndPoint" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.RemoteEndPoint" />
+      <MemberSignature Language="VB.NET" Value="Public Property RemoteEndPoint As EndPoint" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Net::EndPoint ^ RemoteEndPoint { System::Net::EndPoint ^ get(); void set(System::Net::EndPoint ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Net.EndPoint</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-234">Obtiene o establece el extremo IP remoto de una operación asincrónica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-234">Gets or sets the remote IP endpoint for an asynchronous operation.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="7a59c-235">
+            <see cref="T:System.Net.EndPoint" /> que representa el extremo IP remoto para una operación asincrónica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-235">An <see cref="T:System.Net.EndPoint" /> that represents the remote IP endpoint for an asynchronous operation.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-236">Esta propiedad especifica el extremo remoto.</span><span class="sxs-lookup"><span data-stu-id="7a59c-236">This property specifies the remote endpoint.</span></span> <span data-ttu-id="7a59c-237">Esta propiedad puede especificar el extremo remoto al que se conecta mediante el <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType> método.</span><span class="sxs-lookup"><span data-stu-id="7a59c-237">This property can specify the remote endpoint to which to connect using the <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType> method.</span></span> <span data-ttu-id="7a59c-238">Esta propiedad puede especificar el extremo remoto al que se va a enviar datos mediante <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> método.</span><span class="sxs-lookup"><span data-stu-id="7a59c-238">This property can specify the remote endpoint to which to send data using <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> method.</span></span> <span data-ttu-id="7a59c-239">Esta propiedad puede especificar el extremo remoto desde el que se recibieron datos mediante el <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType> o <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType> métodos.</span><span class="sxs-lookup"><span data-stu-id="7a59c-239">This property can specify the remote endpoint from which data was received using the <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType> or <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType> methods.</span></span>  
+  
+ <span data-ttu-id="7a59c-240">Este punto de conexión remoto especificado por esta propiedad puede incluir una dirección IPv4 o IPv6.</span><span class="sxs-lookup"><span data-stu-id="7a59c-240">This remote endpoint specified by this property can include an IPv4 or IPv6 address.</span></span>  
+  
+ <span data-ttu-id="7a59c-241">Esta propiedad se utiliza con la <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType>, o <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> métodos.</span><span class="sxs-lookup"><span data-stu-id="7a59c-241">This property is used with the <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType>, or <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> methods.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Net.EndPoint" />
+        <altmember cref="M:System.Net.Sockets.Socket.ConnectAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveMessageFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendToAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+      </Docs>
+    </Member>
+    <Member MemberName="SendPacketsElements">
+      <MemberSignature Language="C#" Value="public System.Net.Sockets.SendPacketsElement[] SendPacketsElements { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Net.Sockets.SendPacketsElement[] SendPacketsElements" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.SendPacketsElements" />
+      <MemberSignature Language="VB.NET" Value="Public Property SendPacketsElements As SendPacketsElement()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property cli::array &lt;System::Net::Sockets::SendPacketsElement ^&gt; ^ SendPacketsElements { cli::array &lt;System::Net::Sockets::SendPacketsElement ^&gt; ^ get(); void set(cli::array &lt;System::Net::Sockets::SendPacketsElement ^&gt; ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Net.Sockets.SendPacketsElement[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-242">Obtiene o establece una matriz de búferes que se va a enviar para una operación asincrónica utilizada por el método <see cref="M:System.Net.Sockets.Socket.SendPacketsAsync(System.Net.Sockets.SocketAsyncEventArgs)" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-242">Gets or sets an array of buffers to be sent for an asynchronous operation used by the <see cref="M:System.Net.Sockets.Socket.SendPacketsAsync(System.Net.Sockets.SocketAsyncEventArgs)" /> method.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="7a59c-243">Matriz de objetos <see cref="T:System.Net.Sockets.SendPacketsElement" /> que representan una matriz de búferes que se va a enviar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-243">An array of <see cref="T:System.Net.Sockets.SendPacketsElement" /> objects that represent an array of buffers to be sent.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-244">La matriz de búferes puede representar un archivo o archivos en la memoria o un conjunto de búferes de datos de memoria.</span><span class="sxs-lookup"><span data-stu-id="7a59c-244">The array of buffers can represent a file or files in memory or a set of memory data buffers.</span></span> <span data-ttu-id="7a59c-245">Esta propiedad se utiliza con la <xref:System.Net.Sockets.Socket.SendPacketsAsync%2A?displayProperty=nameWithType> método.</span><span class="sxs-lookup"><span data-stu-id="7a59c-245">This property is used with the <xref:System.Net.Sockets.Socket.SendPacketsAsync%2A?displayProperty=nameWithType> method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Net.Sockets.SendPacketsElement" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendPacketsAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+      </Docs>
+    </Member>
+    <Member MemberName="SendPacketsFlags">
+      <MemberSignature Language="C#" Value="public System.Net.Sockets.TransmitFileOptions SendPacketsFlags { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Net.Sockets.TransmitFileOptions SendPacketsFlags" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.SendPacketsFlags" />
+      <MemberSignature Language="VB.NET" Value="Public Property SendPacketsFlags As TransmitFileOptions" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Net::Sockets::TransmitFileOptions SendPacketsFlags { System::Net::Sockets::TransmitFileOptions get(); void set(System::Net::Sockets::TransmitFileOptions value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Net.Sockets.TransmitFileOptions</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-246">Obtiene o establece una combinación bit a bit de valores <see cref="T:System.Net.Sockets.TransmitFileOptions" /> para una operación asincrónica utilizada por el método <see cref="M:System.Net.Sockets.Socket.SendPacketsAsync(System.Net.Sockets.SocketAsyncEventArgs)" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-246">Gets or sets a bitwise combination of <see cref="T:System.Net.Sockets.TransmitFileOptions" /> values for an asynchronous operation used by the <see cref="M:System.Net.Sockets.Socket.SendPacketsAsync(System.Net.Sockets.SocketAsyncEventArgs)" /> method.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="7a59c-247">
+            <see cref="T:System.Net.Sockets.TransmitFileOptions" /> que contiene una combinación bit a bit de valores que se usan con una operación asincrónica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-247">A <see cref="T:System.Net.Sockets.TransmitFileOptions" /> that contains a bitwise combination of values that are used with an asynchronous operation.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-248">Esta propiedad especifica el <xref:System.Net.Sockets.TransmitFileOptions> que se usan para la <xref:System.Net.Sockets.Socket.SendPacketsAsync%2A?displayProperty=nameWithType> método.</span><span class="sxs-lookup"><span data-stu-id="7a59c-248">This property specifies the <xref:System.Net.Sockets.TransmitFileOptions> that are used by the <xref:System.Net.Sockets.Socket.SendPacketsAsync%2A?displayProperty=nameWithType> method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Net.Sockets.Socket.SendPacketsAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="T:System.Net.Sockets.TransmitFileOptions" />
+      </Docs>
+    </Member>
+    <Member MemberName="SendPacketsSendSize">
+      <MemberSignature Language="C#" Value="public int SendPacketsSendSize { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 SendPacketsSendSize" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.SendPacketsSendSize" />
+      <MemberSignature Language="VB.NET" Value="Public Property SendPacketsSendSize As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int SendPacketsSendSize { int get(); void set(int value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.MonoTODO("unused property")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-249">Obtiene o establece el tamaño, en bytes, del bloque de datos utilizado en la operación de envío.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-249">Gets or sets the size, in bytes, of the data block used in the send operation.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="7a59c-250">
+            <see cref="T:System.Int32" /> que contiene el tamaño, en bytes, del bloque de datos utilizado en la operación de envío.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-250">An <see cref="T:System.Int32" /> that contains the size, in bytes, of the data block used in the send operation.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-251">Establezca esta propiedad en cero para permitir que la capa de sockets seleccione un tamaño de envío predeterminado.</span><span class="sxs-lookup"><span data-stu-id="7a59c-251">Set this property to zero to let the sockets layer select a default send size.</span></span> <span data-ttu-id="7a59c-252">Al establecer esta propiedad en 0xFFFFFFFF permite al llamador controlar el tamaño y el contenido de cada solicitud de envío, se consigue mediante la <xref:System.Net.Sockets.SendPacketsElement.EndOfPacket%2A?displayProperty=nameWithType> propiedad.</span><span class="sxs-lookup"><span data-stu-id="7a59c-252">Setting this property to 0xFFFFFFFF enables the caller to control the size and content of each send request, achieved by using the <xref:System.Net.Sockets.SendPacketsElement.EndOfPacket%2A?displayProperty=nameWithType> property.</span></span> <span data-ttu-id="7a59c-253">Esta capacidad es útil para los protocolos de mensajes que imponen limitaciones en el tamaño de las solicitudes de envío individual.</span><span class="sxs-lookup"><span data-stu-id="7a59c-253">This capability is useful for message protocols that place limitations on the size of individual send requests.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Net.Sockets.SendPacketsElement.EndOfPacket" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendPacketsAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="SetBuffer">
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-254">Inicializa el búfer de datos que se va a usar con un método de socket asincrónico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-254">Initializes the data buffer to use with an asynchronous socket method.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-255">Este método establece la <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> propiedad en null y el <xref:System.Net.Sockets.SocketAsyncEventArgs.Count%2A> y <xref:System.Net.Sockets.SocketAsyncEventArgs.Offset%2A> propiedades a cero.</span><span class="sxs-lookup"><span data-stu-id="7a59c-255">This method sets the <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> property to null and the <xref:System.Net.Sockets.SocketAsyncEventArgs.Count%2A> and <xref:System.Net.Sockets.SocketAsyncEventArgs.Offset%2A> properties to zero.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" />
+        <altmember cref="P:System.Net.Sockets.SocketAsyncEventArgs.Count" />
+        <altmember cref="P:System.Net.Sockets.SocketAsyncEventArgs.Offset" />
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="SetBuffer">
+      <MemberSignature Language="C#" Value="public void SetBuffer (Memory&lt;byte&gt; buffer);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetBuffer(valuetype System.Memory`1&lt;unsigned int8&gt; buffer) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer(System.Memory{System.Byte})" />
+      <MemberSignature Language="VB.NET" Value="Public Sub SetBuffer (buffer As Memory(Of Byte))" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetBuffer(Memory&lt;System::Byte&gt; buffer);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="buffer" Type="System.Memory&lt;System.Byte&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="buffer">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetBuffer">
+      <MemberSignature Language="C#" Value="public void SetBuffer (int offset, int count);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetBuffer(int32 offset, int32 count) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer(System.Int32,System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub SetBuffer (offset As Integer, count As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetBuffer(int offset, int count);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="offset" Type="System.Int32" />
+        <Parameter Name="count" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="offset">
+          <span data-ttu-id="7a59c-256">Desplazamiento, en bytes, en el búfer de datos donde se inicia la operación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-256">The offset, in bytes, in the data buffer where the operation starts.</span>
+          </span>
+        </param>
+        <param name="count">
+          <span data-ttu-id="7a59c-257">Cantidad máxima de datos, en bytes, que se van a enviar o recibir en el búfer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-257">The maximum amount of data, in bytes, to send or receive in the buffer.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="7a59c-258">Establece el búfer de datos que se va a usar con un método de socket asincrónico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-258">Sets the data buffer to use with an asynchronous socket method.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-259">El `offset` y `count` parámetros no pueden ser números negativos.</span><span class="sxs-lookup"><span data-stu-id="7a59c-259">The `offset` and `count` parameters can't be negative numbers.</span></span> <span data-ttu-id="7a59c-260">La combinación de la `offset` y `count` parámetros deben estar en los límites de la matriz de búferes en la <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> propiedad.</span><span class="sxs-lookup"><span data-stu-id="7a59c-260">The combination of the `offset` and `count` parameters must be in bounds of the buffer array in the <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> property.</span></span>  
+  
+ <span data-ttu-id="7a59c-261">Este método establece la <xref:System.Net.Sockets.SocketAsyncEventArgs.Count%2A> propiedad a la `count` parámetro y el <xref:System.Net.Sockets.SocketAsyncEventArgs.Offset%2A> propiedad a la `offset` parámetro.</span><span class="sxs-lookup"><span data-stu-id="7a59c-261">This method sets the <xref:System.Net.Sockets.SocketAsyncEventArgs.Count%2A> property to the `count` parameter and the <xref:System.Net.Sockets.SocketAsyncEventArgs.Offset%2A> property to the `offset` parameter.</span></span> <span data-ttu-id="7a59c-262">Si el <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> propiedad es null, este método omite la `offset` y `count` parámetros y conjuntos de la <xref:System.Net.Sockets.SocketAsyncEventArgs.Offset%2A> y <xref:System.Net.Sockets.SocketAsyncEventArgs.Count%2A> propiedades en 0.</span><span class="sxs-lookup"><span data-stu-id="7a59c-262">If the <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> property is null, this method ignores the `offset` and `count` parameters and sets the <xref:System.Net.Sockets.SocketAsyncEventArgs.Offset%2A> and <xref:System.Net.Sockets.SocketAsyncEventArgs.Count%2A> properties to 0.</span></span>  
+  
+ <span data-ttu-id="7a59c-263">Este método no cambia el <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> propiedad.</span><span class="sxs-lookup"><span data-stu-id="7a59c-263">This method does not change the <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> property.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="7a59c-264">Un argumento estaba fuera de intervalo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-264">An argument was out of range.</span>
+          </span>
+          <span data-ttu-id="7a59c-265">Esta excepción se produce si el parámetro <paramref name="offset" /> es menor que cero o mayor que la longitud de la matriz en la propiedad <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-265">This exception occurs if the <paramref name="offset" /> parameter is less than zero or greater than the length of the array in the <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" /> property.</span>
+          </span>
+          <span data-ttu-id="7a59c-266">Esta excepción también se produce si el parámetro <paramref name="count" /> es menor que cero o mayor que la longitud de la matriz en la propiedad <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" /> menos el parámetro <paramref name="offset" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-266">This exception also occurs if the <paramref name="count" /> parameter is less than zero or greater than the length of the array in the <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" /> property minus the <paramref name="offset" /> parameter.</span>
+          </span>
+        </exception>
+        <altmember cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" />
+        <altmember cref="P:System.Net.Sockets.SocketAsyncEventArgs.Count" />
+        <altmember cref="P:System.Net.Sockets.SocketAsyncEventArgs.Offset" />
+      </Docs>
+    </Member>
+    <Member MemberName="SetBuffer">
+      <MemberSignature Language="C#" Value="public void SetBuffer (byte[] buffer, int offset, int count);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetBuffer(unsigned int8[] buffer, int32 offset, int32 count) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer(System.Byte[],System.Int32,System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub SetBuffer (buffer As Byte(), offset As Integer, count As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetBuffer(cli::array &lt;System::Byte&gt; ^ buffer, int offset, int count);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="buffer" Type="System.Byte[]" />
+        <Parameter Name="offset" Type="System.Int32" />
+        <Parameter Name="count" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="buffer">
+          <span data-ttu-id="7a59c-267">Búfer de datos que se va a usar con un método de socket asincrónico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-267">The data buffer to use with an asynchronous socket method.</span>
+          </span>
+        </param>
+        <param name="offset">
+          <span data-ttu-id="7a59c-268">Desplazamiento, en bytes, en el búfer de datos donde se inicia la operación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-268">The offset, in bytes, in the data buffer where the operation starts.</span>
+          </span>
+        </param>
+        <param name="count">
+          <span data-ttu-id="7a59c-269">Cantidad máxima de datos, en bytes, que se van a enviar o recibir en el búfer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-269">The maximum amount of data, in bytes, to send or receive in the buffer.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="7a59c-270">Establece el búfer de datos que se va a usar con un método de socket asincrónico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-270">Sets the data buffer to use with an asynchronous socket method.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-271">El `offset` y `count` parámetros no pueden ser números negativos.</span><span class="sxs-lookup"><span data-stu-id="7a59c-271">The `offset` and `count` parameters can't be negative numbers.</span></span> <span data-ttu-id="7a59c-272">La combinación de la `offset` y `count` parámetros deben estar en los límites de la matriz de datos en el `buffer` parámetro.</span><span class="sxs-lookup"><span data-stu-id="7a59c-272">The combination of the `offset` and `count` parameters must be in bounds of the data array in the `buffer` parameter.</span></span>  
+  
+ <span data-ttu-id="7a59c-273">Este método establece el [SetBuffer (método) (Byte\<xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A > propiedad a la `buffer` parámetro, el [SetBuffer (método) (Byte\<ref: System.Net.Sockets.SocketAsyncEventArgs.Count%2A > propiedad a la `count` parámetro y la [SetBuffer (método) (Byte\<xref:System.Net.Sockets.SocketAsyncEventArgs.Offset%2A > propiedad a la `offset` parámetro.</span><span class="sxs-lookup"><span data-stu-id="7a59c-273">This method sets the [SetBuffer Method (Byte\<xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> property to the `buffer` parameter, the [SetBuffer Method (Byte\<xref:System.Net.Sockets.SocketAsyncEventArgs.Count%2A> property to the `count` parameter, and the [SetBuffer Method (Byte\<xref:System.Net.Sockets.SocketAsyncEventArgs.Offset%2A> property to the `offset` parameter.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="7a59c-274">En el ejemplo de código siguiente se crea un búfer grande único que puede dividirse y asignarse a [SetBuffer (método) (Byte\<xref:System.Net.Sockets.SocketAsyncEventArgs > objetos para su uso con cada operación de E/S de socket.</span><span class="sxs-lookup"><span data-stu-id="7a59c-274">The following code example creates a single large buffer which can be divided up and assigned to [SetBuffer Method (Byte\<xref:System.Net.Sockets.SocketAsyncEventArgs> objects for use with each socket I/O operation.</span></span> <span data-ttu-id="7a59c-275">Esto permite reutilizar fácilmente los búferes y evita la fragmentación de memoria en montón.</span><span class="sxs-lookup"><span data-stu-id="7a59c-275">This enables buffers to be easily reused and guards against fragmenting heap memory.</span></span>  
+  
+ [!code-csharp[NCLAsyncSocketServer#1](~/samples/snippets/csharp/VS_Snippets_Remoting/NCLAsyncSocketServer/CS/AsyncSocketServer.cs#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="7a59c-276">Se especificaron búferes ambiguos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-276">There are ambiguous buffers specified.</span>
+          </span>
+          <span data-ttu-id="7a59c-277">Esta excepción se produce si las propiedades <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" /> y <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.BufferList" /> tampoco son null.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-277">This exception occurs if the <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" /> property is also not null and the <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.BufferList" /> property is also not null.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="7a59c-278">Un argumento estaba fuera de intervalo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-278">An argument was out of range.</span>
+          </span>
+          <span data-ttu-id="7a59c-279">Esta excepción se produce si el parámetro <paramref name="offset" /> es menor que cero o mayor que la longitud de la matriz en la propiedad <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-279">This exception occurs if the <paramref name="offset" /> parameter is less than zero or greater than the length of the array in the <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" /> property.</span>
+          </span>
+          <span data-ttu-id="7a59c-280">Esta excepción también se produce si el parámetro <paramref name="count" /> es menor que cero o mayor que la longitud de la matriz en la propiedad <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" /> menos el parámetro <paramref name="offset" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-280">This exception also occurs if the <paramref name="count" /> parameter is less than zero or greater than the length of the array in the <see cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" /> property minus the <paramref name="offset" /> parameter.</span>
+          </span>
+        </exception>
+        <altmember cref="P:System.Net.Sockets.SocketAsyncEventArgs.Buffer" />
+        <altmember cref="P:System.Net.Sockets.SocketAsyncEventArgs.Count" />
+        <altmember cref="P:System.Net.Sockets.SocketAsyncEventArgs.Offset" />
+      </Docs>
+    </Member>
+    <Member MemberName="SocketClientAccessPolicyProtocol">
+      <MemberSignature Language="C#" Value="public System.Net.Sockets.SocketClientAccessPolicyProtocol SocketClientAccessPolicyProtocol { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Net.Sockets.SocketClientAccessPolicyProtocol SocketClientAccessPolicyProtocol" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.SocketClientAccessPolicyProtocol" />
+      <MemberSignature Language="VB.NET" Value="Public Property SocketClientAccessPolicyProtocol As SocketClientAccessPolicyProtocol" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Net::Sockets::SocketClientAccessPolicyProtocol SocketClientAccessPolicyProtocol { System::Net::Sockets::SocketClientAccessPolicyProtocol get(); void set(System::Net::Sockets::SocketClientAccessPolicyProtocol value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Obsolete("This API supports the .NET Framework infrastructure and is not intended to be used directly from your code.", true)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Net.Sockets.SocketClientAccessPolicyProtocol</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-281">Obtiene o establece el protocolo que se utiliza para descargar el archivo de directivas de acceso de cliente de socket.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-281">Gets or sets the protocol to use to download the socket client access policy file.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="7a59c-282">Devuelva <see cref="T:System.Net.Sockets.SocketClientAccessPolicyProtocol" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-282">Returns <see cref="T:System.Net.Sockets.SocketClientAccessPolicyProtocol" />.</span>
+          </span>
+          <span data-ttu-id="7a59c-283">El protocolo que se utiliza para descargar el archivo de directivas de acceso de cliente de socket.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-283">The protocol to use to download the socket client access policy file.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-284">El <xref:System.Net.Sockets.SocketClientAccessPolicyProtocol> especifica el método para descargar un archivo de directiva de acceso de cliente.</span><span class="sxs-lookup"><span data-stu-id="7a59c-284">The <xref:System.Net.Sockets.SocketClientAccessPolicyProtocol> specifies the method to download a client access policy file.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SocketError">
+      <MemberSignature Language="C#" Value="public System.Net.Sockets.SocketError SocketError { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Net.Sockets.SocketError SocketError" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.SocketError" />
+      <MemberSignature Language="VB.NET" Value="Public Property SocketError As SocketError" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Net::Sockets::SocketError SocketError { System::Net::Sockets::SocketError get(); void set(System::Net::Sockets::SocketError value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Net.Sockets.SocketError</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-285">Obtiene o establece el resultado de la operación de socket asincrónico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-285">Gets or sets the result of the asynchronous socket operation.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="7a59c-286">
+            <see cref="T:System.Net.Sockets.SocketError" /> que representa el resultado de la operación de socket asincrónico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-286">A <see cref="T:System.Net.Sockets.SocketError" /> that represents the result of the asynchronous socket operation.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-287">Esta propiedad proporciona el estado de finalización de una operación de socket asincrónico.</span><span class="sxs-lookup"><span data-stu-id="7a59c-287">This property provides the completion status of an asynchronous socket operation.</span></span> <span data-ttu-id="7a59c-288">Un valor de <xref:System.Net.Sockets.SocketError.Success?displayProperty=nameWithType> indica la finalización correcta de una operación.</span><span class="sxs-lookup"><span data-stu-id="7a59c-288">A value of <xref:System.Net.Sockets.SocketError.Success?displayProperty=nameWithType> indicates successful completion of an operation.</span></span> <span data-ttu-id="7a59c-289">Esta propiedad se utiliza principalmente en la rutina del controlador de eventos de la aplicación.</span><span class="sxs-lookup"><span data-stu-id="7a59c-289">This property is primarily used in an application’s event handler routine.</span></span>  
+  
+ <span data-ttu-id="7a59c-290">Esta propiedad se utiliza con todos los métodos de socket asincrónico (xxxAsync).</span><span class="sxs-lookup"><span data-stu-id="7a59c-290">This property is used with all of the asynchronous socket (xxxAsync) methods.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Net.Sockets.Socket.AcceptAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ConnectAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.DisconnectAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveMessageFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendPacketsAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendToAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="T:System.Net.Sockets.SocketError" />
+      </Docs>
+    </Member>
+    <Member MemberName="SocketFlags">
+      <MemberSignature Language="C#" Value="public System.Net.Sockets.SocketFlags SocketFlags { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Net.Sockets.SocketFlags SocketFlags" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.SocketFlags" />
+      <MemberSignature Language="VB.NET" Value="Public Property SocketFlags As SocketFlags" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Net::Sockets::SocketFlags SocketFlags { System::Net::Sockets::SocketFlags get(); void set(System::Net::Sockets::SocketFlags value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Net.Sockets.SocketFlags</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-291">Obtiene los resultados de una operación de socket asincrónico o establece el comportamiento de una operación asincrónica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-291">Gets the results of an asynchronous socket operation or sets the behavior of an asynchronous operation.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="7a59c-292">
+            <see cref="T:System.Net.Sockets.SocketFlags" /> que representa los resultados de una operación de socket asincrónico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-292">A <see cref="T:System.Net.Sockets.SocketFlags" /> that represents the results of an asynchronous socket operation.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-293">La propiedad especifica la combinación bit a bit de los <xref:System.Net.Sockets.SocketFlags?displayProperty=nameWithType> que se usará para una operación de socket asincrónico.</span><span class="sxs-lookup"><span data-stu-id="7a59c-293">The property specifies the bitwise combination of the <xref:System.Net.Sockets.SocketFlags?displayProperty=nameWithType> to be used for an asynchronous socket operation.</span></span>  
+  
+ <span data-ttu-id="7a59c-294">Esta propiedad se utiliza con la <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType>, y <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> métodos.</span><span class="sxs-lookup"><span data-stu-id="7a59c-294">This property is used with the <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType>, and <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> methods.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendToAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="T:System.Net.Sockets.SocketFlags" />
+      </Docs>
+    </Member>
+    <Member MemberName="UserToken">
+      <MemberSignature Language="C#" Value="public object UserToken { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance object UserToken" />
+      <MemberSignature Language="DocId" Value="P:System.Net.Sockets.SocketAsyncEventArgs.UserToken" />
+      <MemberSignature Language="VB.NET" Value="Public Property UserToken As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Object ^ UserToken { System::Object ^ get(); void set(System::Object ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Net.Sockets</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="7a59c-295">Obtiene o establece a un objeto de usuario o de aplicación asociado a esta operación de socket asincrónico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-295">Gets or sets a user or application object associated with this asynchronous socket operation.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="7a59c-296">Objeto que representa al objeto de usuario o de aplicación asociado a esta operación de socket asincrónico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7a59c-296">An object that represents the user or application object associated with this asynchronous socket operation.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7a59c-297">Esta propiedad se puede utilizar una aplicación para asociar un objeto de estado de aplicación con el <xref:System.Net.Sockets.SocketAsyncEventArgs> objeto.</span><span class="sxs-lookup"><span data-stu-id="7a59c-297">This property can be used by an application to associate an application state object with the <xref:System.Net.Sockets.SocketAsyncEventArgs> object.</span></span> <span data-ttu-id="7a59c-298">Principalmente, esta propiedad es una forma de una aplicación para pasar información de estado al controlador de eventos de la aplicación (por ejemplo, el método de finalización de la operación asincrónica).</span><span class="sxs-lookup"><span data-stu-id="7a59c-298">Primarily, this property is a way for an application to pass state to the application’s event handler (for example, the asynchronous operation completion method).</span></span>  
+  
+ <span data-ttu-id="7a59c-299">Esta propiedad se utiliza con todos los métodos de socket asincrónico (xxxAsync).</span><span class="sxs-lookup"><span data-stu-id="7a59c-299">This property is used with all of the asynchronous socket (xxxAsync) methods.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Net.Sockets.Socket.AcceptAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ConnectAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.DisconnectAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.ReceiveMessageFromAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendPacketsAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+        <altmember cref="M:System.Net.Sockets.Socket.SendToAsync(System.Net.Sockets.SocketAsyncEventArgs)" />
+      </Docs>
+    </Member>
+  </Members>
+</Type>
