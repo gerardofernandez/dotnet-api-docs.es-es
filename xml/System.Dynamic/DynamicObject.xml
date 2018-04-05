@@ -1,0 +1,1605 @@
+<Type Name="DynamicObject" FullName="System.Dynamic.DynamicObject">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="048b7221c8f650af7e40e1fc748386ee05216b4b" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="es-ES" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class DynamicObject : System.Dynamic.IDynamicMetaObjectProvider" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit DynamicObject extends System.Object implements class System.Dynamic.IDynamicMetaObjectProvider" />
+  <TypeSignature Language="DocId" Value="T:System.Dynamic.DynamicObject" />
+  <TypeSignature Language="VB.NET" Value="Public Class DynamicObject&#xA;Implements IDynamicMetaObjectProvider" />
+  <TypeSignature Language="C++ CLI" Value="public ref class DynamicObject : System::Dynamic::IDynamicMetaObjectProvider" />
+  <AssemblyInfo>
+    <AssemblyName>System.Dynamic.Runtime</AssemblyName>
+    <AssemblyVersion>4.0.10.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Core</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Linq.Expressions</AssemblyName>
+    <AssemblyVersion>4.2.0.0</AssemblyVersion>
+    <AssemblyVersion>4.2.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.Dynamic.IDynamicMetaObjectProvider</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+      <span data-ttu-id="1c3c8-101">Proporciona una clase base para especificar el comportamiento dinámico en tiempo de ejecución.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="1c3c8-101">Provides a base class for specifying dynamic behavior at run time.</span>
+      </span>
+      <span data-ttu-id="1c3c8-102">Esta clase se debe heredar; no se puede crear una instancia de la clase directamente.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="1c3c8-102">This class must be inherited from; you cannot instantiate it directly.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1c3c8-103">La `DynamicObject` clase le permite definir qué operaciones se pueden realizar en objetos dinámicos y cómo realizar esas operaciones.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-103">The `DynamicObject` class enables you to define which operations can be performed on dynamic objects and how to perform those operations.</span></span> <span data-ttu-id="1c3c8-104">Por ejemplo, puede definir lo que ocurre al intentar obtener o establecer una propiedad de objeto, llama a un método o realizar operaciones matemáticas estándar, como suma y multiplicación.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-104">For example, you can define what happens when you try to get or set an object property, call a method, or perform standard mathematical operations such as addition and multiplication.</span></span>  
+  
+ <span data-ttu-id="1c3c8-105">Esta clase puede ser útil si desea crear un protocolo más conveniente para una biblioteca.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-105">This class can be useful if you want to create a more convenient protocol for a library.</span></span> <span data-ttu-id="1c3c8-106">Por ejemplo, si los usuarios de la biblioteca tienen que utilizar una sintaxis como `Scriptobj.SetProperty("Count", 1)`, puede proporcionar la capacidad de usar la sintaxis de mucho más sencilla, como `scriptobj.Count = 1`.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-106">For example, if users of your library have to use syntax like `Scriptobj.SetProperty("Count", 1)`, you can provide the ability to use much simpler syntax, like `scriptobj.Count = 1`.</span></span>  
+  
+ <span data-ttu-id="1c3c8-107">No se puede crear directamente una instancia de la `DynamicObject` clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-107">You cannot directly create an instance of the `DynamicObject` class.</span></span> <span data-ttu-id="1c3c8-108">Para implementar el comportamiento dinámico, puede que desee heredar de la `DynamicObject` clase e invalidar los métodos necesarios.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-108">To implement the dynamic behavior, you may want to inherit from the `DynamicObject` class and override necessary methods.</span></span> <span data-ttu-id="1c3c8-109">Por ejemplo, si necesita que solo las operaciones para establecer y obtener propiedades, simplemente puede invalidar la <xref:System.Dynamic.DynamicObject.TrySetMember%2A> y <xref:System.Dynamic.DynamicObject.TryGetMember%2A> métodos.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-109">For example, if you need only operations for setting and getting properties, you can override just the <xref:System.Dynamic.DynamicObject.TrySetMember%2A> and <xref:System.Dynamic.DynamicObject.TryGetMember%2A> methods.</span></span>  
+  
+ <span data-ttu-id="1c3c8-110">En C#, para habilitar el comportamiento dinámico para las instancias de clases derivadas de la `DynamicObject` (clase), debe utilizar el `dynamic` palabra clave.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-110">In C#, to enable dynamic behavior for instances of classes derived from the `DynamicObject` class, you must use the `dynamic` keyword.</span></span> <span data-ttu-id="1c3c8-111">Para obtener más información, vea [Uso del tipo dynamic](~/docs/csharp/programming-guide/types/using-type-dynamic.md).</span><span class="sxs-lookup"><span data-stu-id="1c3c8-111">For more information, see [Using Type dynamic](~/docs/csharp/programming-guide/types/using-type-dynamic.md).</span></span>  
+  
+ <span data-ttu-id="1c3c8-112">En Visual Basic, se admiten las operaciones dinámicas mediante el enlace de tiempo de ejecución.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-112">In Visual Basic, dynamic operations are supported by late binding.</span></span> <span data-ttu-id="1c3c8-113">Para obtener más información, consulte [Early and Late Binding](http://msdn.microsoft.com/library/d6ff7f1e-b94f-4205-ab8d-5cfa91758724).</span><span class="sxs-lookup"><span data-stu-id="1c3c8-113">For more information, see [Early and Late Binding](http://msdn.microsoft.com/library/d6ff7f1e-b94f-4205-ab8d-5cfa91758724).</span></span>  
+  
+ <span data-ttu-id="1c3c8-114">En el ejemplo de código siguiente se muestra cómo crear una instancia de una clase que se deriva de la `DynamicObject` clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-114">The following code example demonstrates how to create an instance of a class that is derived from the `DynamicObject` class.</span></span>  
+  
+```csharp  
+public class SampleDynamicObject : DynamicObject {}  
+//...  
+dynamic sampleObject = new SampleDynamicObject ();  
+```  
+  
+```vb  
+Public Class SampleDynamicObject   
+    Inherits DynamicObject  
+'...  
+Dim sampleObject As Object = New SampleDynamicObject()  
+```  
+  
+ <span data-ttu-id="1c3c8-115">También puede agregar sus propios miembros a clases derivadas de la `DynamicObject` clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-115">You can also add your own members to classes derived from the `DynamicObject` class.</span></span> <span data-ttu-id="1c3c8-116">Si su clase define propiedades y también invalida la <xref:System.Dynamic.DynamicObject.TrySetMember%2A> método, dynamic language runtime (DLR) usa primero el enlazador del lenguaje para buscar una definición estática de una propiedad en la clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-116">If your class defines properties and also overrides the <xref:System.Dynamic.DynamicObject.TrySetMember%2A> method, the dynamic language runtime (DLR) first uses the language binder to look for a static definition of a property in the class.</span></span> <span data-ttu-id="1c3c8-117">Si no hay ninguna propiedad de este tipo, DLR llama el <xref:System.Dynamic.DynamicObject.TrySetMember%2A> método.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-117">If there is no such property, the DLR calls the <xref:System.Dynamic.DynamicObject.TrySetMember%2A> method.</span></span>  
+  
+ <span data-ttu-id="1c3c8-118">El `DynamicObject` clase implementa la interfaz DLR <xref:System.Dynamic.IDynamicMetaObjectProvider>, lo que permite compartir instancias de la `DynamicObject` clase entre los lenguajes que admiten el modelo de interoperabilidad DLR.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-118">The `DynamicObject` class implements the DLR interface <xref:System.Dynamic.IDynamicMetaObjectProvider>, which enables you to share instances of the `DynamicObject` class between languages that support the DLR interoperability model.</span></span> <span data-ttu-id="1c3c8-119">Por ejemplo, puede crear una instancia de la `DynamicObject` de clases en C# y, a continuación, se pasa a una función de IronPython.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-119">For example, you can create an instance of the `DynamicObject` class in C# and then pass it to an IronPython function.</span></span> <span data-ttu-id="1c3c8-120">Para obtener más información, consulte [Dynamic Language Runtime Overview](~/docs/framework/reflection-and-codedom/dynamic-language-runtime-overview.md).</span><span class="sxs-lookup"><span data-stu-id="1c3c8-120">For more information, see [Dynamic Language Runtime Overview](~/docs/framework/reflection-and-codedom/dynamic-language-runtime-overview.md).</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="1c3c8-121">Si tiene un escenario simple en el que se necesita un objeto que solo puede agregar y quitar miembros en tiempo de ejecución, pero que no es necesario definir las operaciones concretas y no tiene miembros estáticos, utilice la <xref:System.Dynamic.ExpandoObject> clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-121">If you have a simple scenario in which you need an object that can only add and remove members at run time but that does not need to define specific operations and does not have static members, use the <xref:System.Dynamic.ExpandoObject> class.</span></span>  
+>   
+>  <span data-ttu-id="1c3c8-122">Si tiene un escenario más avanzado en el que debe definir cómo los objetos dinámicos participan en el protocolo de interoperabilidad, o debe administrar el almacenamiento en caché de la distribución dinámica rápida DLR, cree su propia implementación de la <xref:System.Dynamic.IDynamicMetaObjectProvider> interfaz.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-122">If you have a more advanced scenario in which you need to define how dynamic objects participate in the interoperability protocol, or you need to manage DLR fast dynamic dispatch caching, create your own implementation of the <xref:System.Dynamic.IDynamicMetaObjectProvider> interface.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="1c3c8-123">Suponga que desea proporcionar una sintaxis alternativa para tener acceso a valores de dictionary, así que, en lugar de escribir `sampleDictionary["Text"] = "Sample text"` (`sampleDictionary("Text") = "Sample text"` en Visual Basic), puede escribir `sampleDictionary.Text = "Sample text"`.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-123">Assume that you want to provide alternative syntax for accessing values in a dictionary, so that instead of writing `sampleDictionary["Text"] = "Sample text"` (`sampleDictionary("Text") = "Sample text"` in Visual Basic), you can write `sampleDictionary.Text = "Sample text"`.</span></span> <span data-ttu-id="1c3c8-124">Además, le interesará esta sintaxis para distinguir mayúsculas de minúsculas, por lo que `sampleDictionary.Text` es equivalente a `sampleDictionary.text`.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-124">Also, you want this syntax to be case-insensitive, so that `sampleDictionary.Text` is equivalent to `sampleDictionary.text`.</span></span>  
+  
+ <span data-ttu-id="1c3c8-125">En el ejemplo de código siguiente se muestra la `DynamicDictionary` (clase), que se deriva de la `DynamicObject` clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-125">The following code example demonstrates the `DynamicDictionary` class, which is derived from the `DynamicObject` class.</span></span> <span data-ttu-id="1c3c8-126">El `DynamicDictionary` clase contiene un objeto de la `Dictionary<string, object>` tipo (`Dictionary(Of String, Object)` en Visual Basic) para almacenar los pares clave-valor e invalida el <xref:System.Dynamic.DynamicObject.TrySetMember%2A> y <xref:System.Dynamic.DynamicObject.TryGetMember%2A> métodos para admitir la nueva sintaxis.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-126">The `DynamicDictionary` class contains an object of the `Dictionary<string, object>` type (`Dictionary(Of String, Object)` in Visual Basic) to store the key-value pairs, and overrides the <xref:System.Dynamic.DynamicObject.TrySetMember%2A> and <xref:System.Dynamic.DynamicObject.TryGetMember%2A> methods to support the new syntax.</span></span> <span data-ttu-id="1c3c8-127">También proporciona un `Count` contiene la propiedad, que muestra el número de propiedades dinámicas en el diccionario.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-127">It also provides a `Count` property, which shows how many dynamic properties the dictionary contains.</span></span>  
+  
+ [!code-csharp[System.Dynamic.DynamicObject#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#1)]
+ [!code-vb[System.Dynamic.DynamicObject#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.dynamic.dynamicobject/vb/module1.vb#1)]  
+  
+ <span data-ttu-id="1c3c8-128">Para obtener más ejemplos, vea [crear contenedores con DynamicObject](http://go.microsoft.com/fwlink/?LinkId=169008) en el blog de C# preguntas más frecuentes.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-128">For more examples, see [Creating Wrappers with DynamicObject](http://go.microsoft.com/fwlink/?LinkId=169008) on the C# Frequently Asked Questions blog.</span></span>  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected DynamicObject ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Dynamic.DynamicObject.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; DynamicObject();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Dynamic.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Linq.Expressions</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="1c3c8-129">Permite a los tipos derivados inicializar una nueva instancia del tipo <see cref="T:System.Dynamic.DynamicObject" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-129">Enables derived types to initialize a new instance of the <see cref="T:System.Dynamic.DynamicObject" /> type.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1c3c8-130">No se puede crear directamente una instancia de la <xref:System.Dynamic.DynamicObject> clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-130">You cannot directly create an instance of the <xref:System.Dynamic.DynamicObject> class.</span></span> <span data-ttu-id="1c3c8-131">Para implementar el comportamiento dinámico, tiene que heredan de la <xref:System.Dynamic.DynamicObject> clase e invalidar los métodos necesarios.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-131">To implement dynamic behavior, you have to inherit from the <xref:System.Dynamic.DynamicObject> class and override necessary methods.</span></span>  
+  
+ <span data-ttu-id="1c3c8-132">En C#, para habilitar el comportamiento dinámico para las instancias de las clases derivadas de la <xref:System.Dynamic.DynamicObject> (clase), debe utilizar el `dynamic` palabra clave.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-132">In C#, to enable dynamic behavior for instances of the classes derived from the <xref:System.Dynamic.DynamicObject> class, you must use the `dynamic` keyword.</span></span> <span data-ttu-id="1c3c8-133">Para obtener más información, vea [Uso del tipo dynamic](~/docs/csharp/programming-guide/types/using-type-dynamic.md).</span><span class="sxs-lookup"><span data-stu-id="1c3c8-133">For more information, see [Using Type dynamic](~/docs/csharp/programming-guide/types/using-type-dynamic.md).</span></span>  
+  
+ <span data-ttu-id="1c3c8-134">En Visual Basic, se admiten las operaciones dinámicas mediante el enlace de tiempo de ejecución.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-134">In Visual Basic, dynamic operations are supported by late binding.</span></span> <span data-ttu-id="1c3c8-135">Para obtener más información, consulte [Early and Late Binding](http://msdn.microsoft.com/library/d6ff7f1e-b94f-4205-ab8d-5cfa91758724).</span><span class="sxs-lookup"><span data-stu-id="1c3c8-135">For more information, see [Early and Late Binding](http://msdn.microsoft.com/library/d6ff7f1e-b94f-4205-ab8d-5cfa91758724).</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="1c3c8-136">En el ejemplo de código siguiente se muestra cómo crear una instancia de las clases que se derivan de la <xref:System.Dynamic.DynamicObject> clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-136">The following code example demonstrates how to create an instance of classes that are derived from the <xref:System.Dynamic.DynamicObject> class.</span></span>  
+  
+```csharp  
+public class SampleDynamicObject : DynamicObject {}  
+//...  
+dynamic sampleObject = new SampleDynamicObject ();  
+```  
+  
+```vb  
+Public Class SampleDynamicObject   
+    Inherits DynamicObject  
+'...  
+Dim sampleObject As Object = New SampleDynamicObject()  
+```  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetDynamicMemberNames">
+      <MemberSignature Language="C#" Value="public virtual System.Collections.Generic.IEnumerable&lt;string&gt; GetDynamicMemberNames ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Collections.Generic.IEnumerable`1&lt;string&gt; GetDynamicMemberNames() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Dynamic.DynamicObject.GetDynamicMemberNames" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function GetDynamicMemberNames () As IEnumerable(Of String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Collections::Generic::IEnumerable&lt;System::String ^&gt; ^ GetDynamicMemberNames();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Dynamic.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Linq.Expressions</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.Generic.IEnumerable&lt;System.String&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="1c3c8-137">Devuelve la enumeración de todos los nombres de miembro dinámicos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-137">Returns the enumeration of all dynamic member names.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1c3c8-138">Secuencia que contiene nombres de miembros dinámicos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-138">A sequence that contains dynamic member names.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1c3c8-139">Este método no existe para fines de depuración solamente.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-139">This method exists for debugging purposes only.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetMetaObject">
+      <MemberSignature Language="C#" Value="public virtual System.Dynamic.DynamicMetaObject GetMetaObject (System.Linq.Expressions.Expression parameter);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Dynamic.DynamicMetaObject GetMetaObject(class System.Linq.Expressions.Expression parameter) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Dynamic.DynamicObject.GetMetaObject(System.Linq.Expressions.Expression)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function GetMetaObject (parameter As Expression) As DynamicMetaObject" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Dynamic::DynamicMetaObject ^ GetMetaObject(System::Linq::Expressions::Expression ^ parameter);" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Dynamic.IDynamicMetaObjectProvider.GetMetaObject(System.Linq.Expressions.Expression)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Dynamic.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Linq.Expressions</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Dynamic.DynamicMetaObject</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="parameter" Type="System.Linq.Expressions.Expression" />
+      </Parameters>
+      <Docs>
+        <param name="parameter">
+          <span data-ttu-id="1c3c8-140">Expresión que representa el objeto <see cref="T:System.Dynamic.DynamicMetaObject" /> que se va a enviar a los métodos virtuales dinámicos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-140">The expression that represents <see cref="T:System.Dynamic.DynamicMetaObject" /> to dispatch to the dynamic virtual methods.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1c3c8-141">Proporciona un objeto <see cref="T:System.Dynamic.DynamicMetaObject" /> que envía a los métodos virtuales dinámicos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-141">Provides a <see cref="T:System.Dynamic.DynamicMetaObject" /> that dispatches to the dynamic virtual methods.</span>
+          </span>
+          <span data-ttu-id="1c3c8-142">El objeto se puede encapsular dentro de otro objeto <see cref="T:System.Dynamic.DynamicMetaObject" /> para proporcionar un comportamiento personalizado para acciones individuales.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-142">The object can be encapsulated inside another <see cref="T:System.Dynamic.DynamicMetaObject" /> to provide custom behavior for individual actions.</span>
+          </span>
+          <span data-ttu-id="1c3c8-143">Este método admite la infraestructura de Dynamic Language Runtime para los implementadores de lenguaje y no está pensado para que se use directamente en el código.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-143">This method supports the Dynamic Language Runtime infrastructure for language implementers and it is not intended to be used directly from your code.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1c3c8-144">Objeto de tipo <see cref="T:System.Dynamic.DynamicMetaObject" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-144">An object of the <see cref="T:System.Dynamic.DynamicMetaObject" /> type.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TryBinaryOperation">
+      <MemberSignature Language="C#" Value="public virtual bool TryBinaryOperation (System.Dynamic.BinaryOperationBinder binder, object arg, out object result);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool TryBinaryOperation(class System.Dynamic.BinaryOperationBinder binder, object arg, [out] object&amp; result) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Dynamic.DynamicObject.TryBinaryOperation(System.Dynamic.BinaryOperationBinder,System.Object,System.Object@)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function TryBinaryOperation (binder As BinaryOperationBinder, arg As Object, ByRef result As Object) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool TryBinaryOperation(System::Dynamic::BinaryOperationBinder ^ binder, System::Object ^ arg, [Runtime::InteropServices::Out] System::Object ^ % result);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Dynamic.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Linq.Expressions</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="binder" Type="System.Dynamic.BinaryOperationBinder" />
+        <Parameter Name="arg" Type="System.Object" />
+        <Parameter Name="result" Type="System.Object&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="binder">
+          <span data-ttu-id="1c3c8-145">Proporciona información sobre la operación binaria.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-145">Provides information about the binary operation.</span>
+          </span>
+          <span data-ttu-id="1c3c8-146">La propiedad <c>binder.Operation</c> devuelve un objeto <see cref="T:System.Linq.Expressions.ExpressionType" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-146">The <c>binder.Operation</c> property returns an <see cref="T:System.Linq.Expressions.ExpressionType" /> object.</span>
+          </span>
+          <span data-ttu-id="1c3c8-147">Por ejemplo, para la instrucción <c>sum = first + second</c>, donde <c>first</c> y <c>second</c> se derivan de la clase <see langword="DynamicObject" />, <c>binder.Operation</c> devuelve <c>ExpressionType.Add</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-147">For example, for the <c>sum = first + second</c> statement, where <c>first</c> and <c>second</c> are derived from the <see langword="DynamicObject" /> class, <c>binder.Operation</c> returns <c>ExpressionType.Add</c>.</span>
+          </span>
+        </param>
+        <param name="arg">
+          <span data-ttu-id="1c3c8-148">Operando derecho de la operación binaria.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-148">The right operand for the binary operation.</span>
+          </span>
+          <span data-ttu-id="1c3c8-149">Por ejemplo, para la instrucción <c>sum = first + second</c>, donde <c>first</c> y <c>second</c> se derivan de la clase <see langword="DynamicObject" />, <c>arg</c> es igual que <c>second</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-149">For example, for the <c>sum = first + second</c> statement, where <c>first</c> and <c>second</c> are derived from the <see langword="DynamicObject" /> class, <c>arg</c> is equal to <c>second</c>.</span>
+          </span>
+        </param>
+        <param name="result">
+          <span data-ttu-id="1c3c8-150">Resultado de la operación binaria.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-150">The result of the binary operation.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1c3c8-151">Proporciona la implementación de operaciones binarias.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-151">Provides implementation for binary operations.</span>
+          </span>
+          <span data-ttu-id="1c3c8-152">Las clases derivadas de la clase <see cref="T:System.Dynamic.DynamicObject" /> pueden invalidar este método para especificar un comportamiento dinámico para operaciones como la suma o la multiplicación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-152">Classes derived from the <see cref="T:System.Dynamic.DynamicObject" /> class can override this method to specify dynamic behavior for operations such as addition and multiplication.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1c3c8-153">
+            <see langword="true" /> si la operación es correcta; de lo contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-153">
+              <see langword="true" /> if the operation is successful; otherwise, <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="1c3c8-154">Si este método devuelve <see langword="false" />, el enlazador del lenguaje en tiempo de ejecución determina el comportamiento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-154">If this method returns <see langword="false" />, the run-time binder of the language determines the behavior.</span>
+          </span>
+          <span data-ttu-id="1c3c8-155">(En la mayoría de los casos, se inicia una excepción específica del lenguaje en tiempo de ejecución).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-155">(In most cases, a language-specific run-time exception is thrown.)</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1c3c8-156">Las clases derivadas de la <xref:System.Dynamic.DynamicObject> clase puede invalidar este método para especificar cómo se deben realizar las operaciones binarias para un objeto dinámico.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-156">Classes derived from the <xref:System.Dynamic.DynamicObject> class can override this method to specify how binary operations should be performed for a dynamic object.</span></span> <span data-ttu-id="1c3c8-157">Cuando no se reemplaza el método, el enlazador en tiempo de ejecución del lenguaje determina el comportamiento.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-157">When the method is not overridden, the run-time binder of the language determines the behavior.</span></span> <span data-ttu-id="1c3c8-158">(En la mayoría de los casos, se inicia una excepción específica del lenguaje en tiempo de ejecución).</span><span class="sxs-lookup"><span data-stu-id="1c3c8-158">(In most cases, a language-specific run-time exception is thrown.)</span></span>  
+  
+ <span data-ttu-id="1c3c8-159">Se llama a este método si tiene operaciones binarias como la suma o la multiplicación.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-159">This method is called when you have binary operations such as addition or multiplication.</span></span> <span data-ttu-id="1c3c8-160">Por ejemplo, si la <xref:System.Dynamic.DynamicObject.TryBinaryOperation%2A> se invalida el método, se invoca automáticamente para instrucciones como `sum = first + second` o `multiply = first*second`, donde `first` se deriva de la `DynamicObject` clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-160">For example, if the <xref:System.Dynamic.DynamicObject.TryBinaryOperation%2A> method is overridden, it is automatically invoked for statements like `sum = first + second` or `multiply = first*second`, where `first` is derived from the `DynamicObject` class.</span></span>  
+  
+ <span data-ttu-id="1c3c8-161">Puede obtener información sobre el tipo de la operación binaria mediante el `Operation` propiedad de la `binder` parámetro.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-161">You can get information about the type of the binary operation by using the `Operation` property of the `binder` parameter.</span></span>  
+  
+ <span data-ttu-id="1c3c8-162">Si el objeto dinámico solo se usa en C# y Visual Basic, la `binder.Operation` propiedad puede tener uno de los siguientes valores de la <xref:System.Linq.Expressions.ExpressionType> enumeración.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-162">If your dynamic object is used only in C# and Visual Basic, the `binder.Operation` property can have one of the following values from the <xref:System.Linq.Expressions.ExpressionType> enumeration.</span></span> <span data-ttu-id="1c3c8-163">Sin embargo, en otros lenguajes como IronPython o IronRuby, puede tener otros valores.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-163">However, in other languages such as IronPython or IronRuby, you can have other values.</span></span>
+  
+|<span data-ttu-id="1c3c8-164">Valor</span><span class="sxs-lookup"><span data-stu-id="1c3c8-164">Value</span></span>|<span data-ttu-id="1c3c8-165">Descripción</span><span class="sxs-lookup"><span data-stu-id="1c3c8-165">Description</span></span>|<span data-ttu-id="1c3c8-166">C#</span><span class="sxs-lookup"><span data-stu-id="1c3c8-166">C#</span></span>|<span data-ttu-id="1c3c8-167">Visual Basic</span><span class="sxs-lookup"><span data-stu-id="1c3c8-167">Visual Basic</span></span>|  
+|-----------|-----------------|---------|------------------|  
+|`Add`|<span data-ttu-id="1c3c8-168">Una operación de suma sin comprobación de desbordamiento, para operandos numéricos.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-168">An addition operation without overflow checking, for numeric operands.</span></span>|`a + b`|`a + b`|  
+|`AddAssign`|<span data-ttu-id="1c3c8-169">Una operación de asignación compuesta de suma sin comprobación de desbordamiento, para operandos numéricos.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-169">An addition compound assignment operation without overflow checking, for numeric operands.</span></span>|`a += b`|<span data-ttu-id="1c3c8-170">No se admite.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-170">Not supported.</span></span>|  
+|`And`|<span data-ttu-id="1c3c8-171">Un bit a bit `AND` operación.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-171">A bitwise `AND` operation.</span></span>|`a & b`|`a And b`|  
+|`AndAssign`|<span data-ttu-id="1c3c8-172">Un bit a bit `AND` operación de asignación compuesta.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-172">A bitwise `AND` compound assignment operation.</span></span>|`a &= b`|<span data-ttu-id="1c3c8-173">No se admite.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-173">Not supported.</span></span>|  
+|`Divide`|<span data-ttu-id="1c3c8-174">Una operación de división aritmética.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-174">An arithmetic division operation.</span></span>|`a / b`|`a / b`|  
+|`DivideAssign`|<span data-ttu-id="1c3c8-175">Una operación de asignación compuesta de división aritmética.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-175">An arithmetic division compound assignment operation.</span></span>|`a /= b`|<span data-ttu-id="1c3c8-176">No se admite.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-176">Not supported.</span></span>|  
+|`ExclusiveOr`|<span data-ttu-id="1c3c8-177">Un bit a bit `XOR` operación.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-177">A bitwise `XOR` operation.</span></span>|`a ^ b`|`a Xor b`|  
+|`ExclusiveOrAssign`|<span data-ttu-id="1c3c8-178">Un bit a bit `XOR` operación de asignación compuesta.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-178">A bitwise `XOR` compound assignment operation.</span></span>|`a ^= b`|<span data-ttu-id="1c3c8-179">No se admite.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-179">Not supported.</span></span>|  
+|`GreaterThan`|<span data-ttu-id="1c3c8-180">Una comparación "mayor que".</span><span class="sxs-lookup"><span data-stu-id="1c3c8-180">A "greater than" comparison.</span></span>|`a > b`|`a > b`|  
+|`GreaterThanOrEqual`|<span data-ttu-id="1c3c8-181">Una comparación "mayor o igual que".</span><span class="sxs-lookup"><span data-stu-id="1c3c8-181">A "greater than or equal to" comparison.</span></span>|`a >= b`|<span data-ttu-id="1c3c8-182">No se admite.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-182">Not supported.</span></span>|  
+|`LeftShift`|<span data-ttu-id="1c3c8-183">Una operación de desplazamiento a la izquierda bit a bit.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-183">A bitwise left-shift operation.</span></span>|`a << b`|`a << b`|  
+|`LeftShiftAssign`|<span data-ttu-id="1c3c8-184">Una operación de asignación compuesta de desplazamiento a la izquierda bit a bit.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-184">A bitwise left-shift compound assignment operation.</span></span>|`a <<= b`|<span data-ttu-id="1c3c8-185">No se admite.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-185">Not supported.</span></span>|  
+|`LessThan`|<span data-ttu-id="1c3c8-186">Una comparación "menor que".</span><span class="sxs-lookup"><span data-stu-id="1c3c8-186">A "less than" comparison.</span></span>|`a < b`|`a < b`|  
+|`LessThanOrEqual`|<span data-ttu-id="1c3c8-187">Una comparación "menor o igual que".</span><span class="sxs-lookup"><span data-stu-id="1c3c8-187">A "less than or equal to" comparison.</span></span>|`a <= b`|<span data-ttu-id="1c3c8-188">No se admite.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-188">Not supported.</span></span>|  
+|`Modulo`|<span data-ttu-id="1c3c8-189">Una operación de resto aritmética.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-189">An arithmetic remainder operation.</span></span>|`a % b`|`a Mod b`|  
+|`ModuloAssign`|<span data-ttu-id="1c3c8-190">Una operación de asignación compuesta de resto aritmética.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-190">An arithmetic remainder compound assignment operation.</span></span>|`a %= b`|<span data-ttu-id="1c3c8-191">No se admite.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-191">Not supported.</span></span>|  
+|`Multiply`|<span data-ttu-id="1c3c8-192">Una operación de multiplicación sin comprobación de desbordamiento, para operandos numéricos.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-192">A multiplication operation without overflow checking, for numeric operands.</span></span>|`a * b`|`a * b`|  
+|`MultiplyAssign`|<span data-ttu-id="1c3c8-193">Una operación de asignación compuesta de multiplicación sin comprobación de desbordamiento, para operandos numéricos.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-193">A multiplication compound assignment operation without overflow checking, for numeric operands.</span></span>|`a *= b`|<span data-ttu-id="1c3c8-194">No se admite.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-194">Not supported.</span></span>|  
+|`NotEqual`|<span data-ttu-id="1c3c8-195">Una comparación de desigualdad.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-195">An inequality comparison.</span></span>|`a != b`|`a <> b`|  
+|`Or`|<span data-ttu-id="1c3c8-196">Un bit a bit o lógica `OR` operación.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-196">A bitwise or logical `OR` operation.</span></span>|`a &#124; b`|`a Or b`|  
+|`OrAssign`|<span data-ttu-id="1c3c8-197">Un bit a bit o lógica `OR` asignación compuesta.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-197">A bitwise or logical `OR` compound assignment.</span></span>|`a &#124;= b`|<span data-ttu-id="1c3c8-198">No se admite.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-198">Not supported.</span></span>|  
+|`Power`|<span data-ttu-id="1c3c8-199">Una operación matemática de elevar un número a una potencia.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-199">A mathematical operation of raising a number to a power.</span></span>|<span data-ttu-id="1c3c8-200">No se admite.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-200">Not supported.</span></span>|`a ^ b`|  
+|`RightShift`|<span data-ttu-id="1c3c8-201">Una operación de desplazamiento a la derecha bit a bit.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-201">A bitwise right-shift operation.</span></span>|`a >> b`|`a >> b`|  
+|`RightShiftAssign`|<span data-ttu-id="1c3c8-202">Una operación de asignación compuesta de desplazamiento a la derecha bit a bit.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-202">A bitwise right-shift compound assignment operation.</span></span>|`a >>= b`|<span data-ttu-id="1c3c8-203">No se admite.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-203">Not supported.</span></span>|  
+|`Subtract`|<span data-ttu-id="1c3c8-204">Una operación de resta sin comprobación de desbordamiento, para operandos numéricos.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-204">A subtraction operation without overflow checking, for numeric operands.</span></span>|`a - b`|`a - b`|  
+|`SubtractAssign`|<span data-ttu-id="1c3c8-205">Una operación de asignación compuesta de resta sin comprobación de desbordamiento, para operandos numéricos.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-205">A subtraction compound assignment operation without overflow checking, for numeric operands.</span></span>|`a -= b`|<span data-ttu-id="1c3c8-206">No se admite.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-206">Not supported.</span></span>|  
+  
+> [!NOTE]
+>  <span data-ttu-id="1c3c8-207">Para implementar `OrElse` (`a || b`) y `AndAlso` (`a && b`) operaciones de objetos dinámicos en C#, puede que desee implementar tanto el <xref:System.Dynamic.DynamicObject.TryUnaryOperation%2A> (método) y el <xref:System.Dynamic.DynamicObject.TryBinaryOperation%2A> método.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-207">To implement `OrElse` (`a || b`) and `AndAlso` (`a && b`) operations for dynamic objects in C#, you may want to implement both the <xref:System.Dynamic.DynamicObject.TryUnaryOperation%2A> method and the <xref:System.Dynamic.DynamicObject.TryBinaryOperation%2A> method.</span></span>  
+>   
+>  <span data-ttu-id="1c3c8-208">El `OrElse` operación está formada por el operador unario `IsTrue` operación y el archivo binario `Or` operación.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-208">The `OrElse` operation consists of the unary `IsTrue` operation and the binary `Or` operation.</span></span> <span data-ttu-id="1c3c8-209">El `Or` operación se realiza solo si el resultado de la `IsTrue` operación es `false`.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-209">The `Or` operation is performed only if the result of the `IsTrue` operation is `false`.</span></span>  
+>   
+>  <span data-ttu-id="1c3c8-210">El `AndAlso` operación está formada por el operador unario `IsFalse` operación y el archivo binario `And` operación.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-210">The `AndAlso` operation consists of the unary `IsFalse` operation and the binary `And` operation.</span></span> <span data-ttu-id="1c3c8-211">El `And` operación se realiza solo si el resultado de la `IsFalse` operación es `false`.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-211">The `And` operation is performed only if the result of the `IsFalse` operation is `false`.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="1c3c8-212">Suponga que necesita una estructura de datos para almacenar representaciones numéricas y textuales de números, y desea definir operaciones matemáticas básicas como suma y resta para tales datos.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-212">Assume that you need a data structure to store textual and numeric representations of numbers, and you want to define basic mathematical operations such as addition and subtraction for such data.</span></span>  
+  
+ <span data-ttu-id="1c3c8-213">En el ejemplo de código siguiente se muestra la `DynamicNumber` (clase), que se deriva de la <xref:System.Dynamic.DynamicObject> clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-213">The following code example demonstrates the `DynamicNumber` class, which is derived from the <xref:System.Dynamic.DynamicObject> class.</span></span> <span data-ttu-id="1c3c8-214">`DynamicNumber` invalida el <xref:System.Dynamic.DynamicObject.TryBinaryOperation%2A> método para habilitar las operaciones matemáticas.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-214">`DynamicNumber` overrides the <xref:System.Dynamic.DynamicObject.TryBinaryOperation%2A> method to enable mathematical operations.</span></span> <span data-ttu-id="1c3c8-215">También invalida la <xref:System.Dynamic.DynamicObject.TrySetMember%2A> y <xref:System.Dynamic.DynamicObject.TryGetMember%2A> métodos para habilitar el acceso a los elementos.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-215">It also overrides the <xref:System.Dynamic.DynamicObject.TrySetMember%2A> and <xref:System.Dynamic.DynamicObject.TryGetMember%2A> methods to enable access to the elements.</span></span>  
+  
+ <span data-ttu-id="1c3c8-216">En este ejemplo, se admiten solo las operaciones de suma y resta.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-216">In this example, only addition and subtraction operations are supported.</span></span> <span data-ttu-id="1c3c8-217">Si se intenta escribir una instrucción como `resultNumber = firstNumber*secondNumber`, se produce una excepción de tiempo de ejecución.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-217">If you try to write a statement like `resultNumber = firstNumber*secondNumber`, a run-time exception is thrown.</span></span>  
+  
+ [!code-csharp[System.Dynamic.DynamicObject#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#2)]
+ [!code-vb[System.Dynamic.DynamicObject#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.dynamic.dynamicobject/vb/module1.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TryConvert">
+      <MemberSignature Language="C#" Value="public virtual bool TryConvert (System.Dynamic.ConvertBinder binder, out object result);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool TryConvert(class System.Dynamic.ConvertBinder binder, [out] object&amp; result) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Dynamic.DynamicObject.TryConvert(System.Dynamic.ConvertBinder,System.Object@)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function TryConvert (binder As ConvertBinder, ByRef result As Object) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool TryConvert(System::Dynamic::ConvertBinder ^ binder, [Runtime::InteropServices::Out] System::Object ^ % result);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Dynamic.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Linq.Expressions</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="binder" Type="System.Dynamic.ConvertBinder" />
+        <Parameter Name="result" Type="System.Object&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="binder">
+          <span data-ttu-id="1c3c8-218">Proporciona información sobre la operación de conversión.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-218">Provides information about the conversion operation.</span>
+          </span>
+          <span data-ttu-id="1c3c8-219">La propiedad <c>binder.Type</c> proporciona el tipo en el que se debe convertir el objeto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-219">The <c>binder.Type</c> property provides the type to which the object must be converted.</span>
+          </span>
+          <span data-ttu-id="1c3c8-220">Por ejemplo, para la instrucción <c>(String)sampleObject</c> en C# (<c>CType(sampleObject, Type)</c> en Visual Basic), donde <c>sampleObject</c> es una instancia de la clase derivada de la clase <see cref="T:System.Dynamic.DynamicObject" />, <c>binder.Type</c> devuelve el tipo <see cref="T:System.String" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-220">For example, for the statement <c>(String)sampleObject</c> in C# (<c>CType(sampleObject, Type)</c> in Visual Basic), where <c>sampleObject</c> is an instance of the class derived from the <see cref="T:System.Dynamic.DynamicObject" /> class, <c>binder.Type</c> returns the <see cref="T:System.String" /> type.</span>
+          </span>
+          <span data-ttu-id="1c3c8-221">La propiedad <c>binder.Explicit</c> proporciona información sobre el tipo de conversión que se produce.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-221">The <c>binder.Explicit</c> property provides information about the kind of conversion that occurs.</span>
+          </span>
+          <span data-ttu-id="1c3c8-222">Devuelve <see langword="true" /> para la conversión explícita y <see langword="false" /> para la conversión implícita.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-222">It returns <see langword="true" /> for explicit conversion and <see langword="false" /> for implicit conversion.</span>
+          </span>
+        </param>
+        <param name="result">
+          <span data-ttu-id="1c3c8-223">Resultado de la operación de conversión de tipos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-223">The result of the type conversion operation.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1c3c8-224">Proporciona la implementación de las operaciones de conversión de tipos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-224">Provides implementation for type conversion operations.</span>
+          </span>
+          <span data-ttu-id="1c3c8-225">Las clases derivadas de la clase <see cref="T:System.Dynamic.DynamicObject" /> pueden invalidar este método para especificar el comportamiento dinámico de las operaciones que convierten un objeto de un tipo a otro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-225">Classes derived from the <see cref="T:System.Dynamic.DynamicObject" /> class can override this method to specify dynamic behavior for operations that convert an object from one type to another.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1c3c8-226">
+            <see langword="true" /> si la operación es correcta; de lo contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-226">
+              <see langword="true" /> if the operation is successful; otherwise, <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="1c3c8-227">Si este método devuelve <see langword="false" />, el enlazador del lenguaje en tiempo de ejecución determina el comportamiento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-227">If this method returns <see langword="false" />, the run-time binder of the language determines the behavior.</span>
+          </span>
+          <span data-ttu-id="1c3c8-228">(En la mayoría de los casos, se inicia una excepción específica del lenguaje en tiempo de ejecución).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-228">(In most cases, a language-specific run-time exception is thrown.)</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1c3c8-229">Las clases derivadas de la <xref:System.Dynamic.DynamicObject> clase puede invalidar este método para especificar cómo se debe realizar una conversión de tipos para un objeto dinámico.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-229">Classes derived from the <xref:System.Dynamic.DynamicObject> class can override this method to specify how a type conversion should be performed for a dynamic object.</span></span> <span data-ttu-id="1c3c8-230">Cuando no se reemplaza el método, el enlazador en tiempo de ejecución del lenguaje determina el comportamiento.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-230">When the method is not overridden, the run-time binder of the language determines the behavior.</span></span> <span data-ttu-id="1c3c8-231">(En la mayoría de los casos, se inicia una excepción específica del lenguaje en tiempo de ejecución).</span><span class="sxs-lookup"><span data-stu-id="1c3c8-231">(In most cases, a language-specific run-time exception is thrown.)</span></span>  
+  
+ <span data-ttu-id="1c3c8-232">En C#, si se invalida este método, se invoca automáticamente cuando haya una conversión explícita o implícita, como se muestra en el ejemplo de código siguiente.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-232">In C#, if this method is overridden, it is automatically invoked when you have an explicit or implicit conversion, as shown in the code example below.</span></span>  
+  
+ <span data-ttu-id="1c3c8-233">En Visual Basic, se admite solamente a la conversión explícita.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-233">In Visual Basic, only explicit conversion is supported.</span></span> <span data-ttu-id="1c3c8-234">Si invalida este método, se llama mediante el uso de la <xref:Microsoft.VisualBasic.Conversion.CTypeDynamic%2A> o <xref:Microsoft.VisualBasic.Conversion.CTypeDynamic%2A> funciones.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-234">If you override this method, you call it by using the <xref:Microsoft.VisualBasic.Conversion.CTypeDynamic%2A> or <xref:Microsoft.VisualBasic.Conversion.CTypeDynamic%2A> functions.</span></span>  
+  
+```csharp  
+// Explicit conversion.  
+String sampleExplicit = (String)sampleObject;  
+// Implicit conversion.  
+String sampleImplicit = sampleObject;  
+```  
+  
+```vb  
+// Explicit conversion - first variant.  
+Dim testExplicit1 = CTypeDynamic(Of String)(sampleObject)  
+// Explicit conversion - second variant.  
+Dim testExplicit2 = CTypeDynamic(sampleObject, GetType(String))  
+```  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="1c3c8-235">Suponga que necesita una estructura de datos para almacenar representaciones numéricas y textuales de números, y desea definir conversiones de esta estructura de datos para las cadenas y enteros.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-235">Assume that you need a data structure to store textual and numeric representations of numbers, and you want to define conversions of this data structure to strings and integers.</span></span>  
+  
+ <span data-ttu-id="1c3c8-236">En el ejemplo de código siguiente se muestra la `DynamicNumber` (clase), que se deriva de la <xref:System.Dynamic.DynamicObject> clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-236">The following code example demonstrates the `DynamicNumber` class, which is derived from the <xref:System.Dynamic.DynamicObject> class.</span></span> <span data-ttu-id="1c3c8-237">`DynamicNumber` invalida el <xref:System.Dynamic.DynamicObject.TryConvert%2A> método para habilitar la conversión de tipo.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-237">`DynamicNumber` overrides the <xref:System.Dynamic.DynamicObject.TryConvert%2A> method to enable type conversion.</span></span> <span data-ttu-id="1c3c8-238">También invalida la <xref:System.Dynamic.DynamicObject.TrySetMember%2A> y <xref:System.Dynamic.DynamicObject.TryGetMember%2A> métodos para habilitar el acceso a los elementos de datos.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-238">It also overrides the <xref:System.Dynamic.DynamicObject.TrySetMember%2A> and <xref:System.Dynamic.DynamicObject.TryGetMember%2A> methods to enable access to the data elements.</span></span>  
+  
+ <span data-ttu-id="1c3c8-239">En este ejemplo, se admite solamente a la conversión a cadenas y enteros.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-239">In this example, only conversion to strings and integers is supported.</span></span> <span data-ttu-id="1c3c8-240">Si intenta convertir un objeto en cualquier otro tipo, se produce una excepción en tiempo de ejecución.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-240">If you try to convert an object to any other type, a run-time exception is thrown.</span></span>  
+  
+ [!code-csharp[System.Dynamic.DynamicObject#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#3)]
+ [!code-vb[System.Dynamic.DynamicObject#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.dynamic.dynamicobject/vb/module1.vb#3)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TryCreateInstance">
+      <MemberSignature Language="C#" Value="public virtual bool TryCreateInstance (System.Dynamic.CreateInstanceBinder binder, object[] args, out object result);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool TryCreateInstance(class System.Dynamic.CreateInstanceBinder binder, object[] args, [out] object&amp; result) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Dynamic.DynamicObject.TryCreateInstance(System.Dynamic.CreateInstanceBinder,System.Object[],System.Object@)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function TryCreateInstance (binder As CreateInstanceBinder, args As Object(), ByRef result As Object) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool TryCreateInstance(System::Dynamic::CreateInstanceBinder ^ binder, cli::array &lt;System::Object ^&gt; ^ args, [Runtime::InteropServices::Out] System::Object ^ % result);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Dynamic.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Linq.Expressions</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="binder" Type="System.Dynamic.CreateInstanceBinder" />
+        <Parameter Name="args" Type="System.Object[]" />
+        <Parameter Name="result" Type="System.Object&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="binder">
+          <span data-ttu-id="1c3c8-241">Proporciona información sobre la operación de inicialización.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-241">Provides information about the initialization operation.</span>
+          </span>
+        </param>
+        <param name="args">
+          <span data-ttu-id="1c3c8-242">Argumentos que se pasan al objeto durante la inicialización.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-242">The arguments that are passed to the object during initialization.</span>
+          </span>
+          <span data-ttu-id="1c3c8-243">Por ejemplo, para la operación <c>new SampleType(100)</c>, donde <c>SampleType</c> es el tipo derivado de la clase <see cref="T:System.Dynamic.DynamicObject" />, <c>args[0]</c> es igual que 100.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-243">For example, for the <c>new SampleType(100)</c> operation, where <c>SampleType</c> is the type derived from the <see cref="T:System.Dynamic.DynamicObject" /> class, <c>args[0]</c> is equal to 100.</span>
+          </span>
+        </param>
+        <param name="result">
+          <span data-ttu-id="1c3c8-244">Resultado de la inicialización.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-244">The result of the initialization.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1c3c8-245">Proporciona la implementación de las operaciones que inicializan una nueva instancia de un objeto dinámico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-245">Provides the implementation for operations that initialize a new instance of a dynamic object.</span>
+          </span>
+          <span data-ttu-id="1c3c8-246">Este método no está pensado para su uso en C# o Visual Basic.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-246">This method is not intended for use in C# or Visual Basic.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1c3c8-247">
+            <see langword="true" /> si la operación es correcta; de lo contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-247">
+              <see langword="true" /> if the operation is successful; otherwise, <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="1c3c8-248">Si este método devuelve <see langword="false" />, el enlazador del lenguaje en tiempo de ejecución determina el comportamiento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-248">If this method returns <see langword="false" />, the run-time binder of the language determines the behavior.</span>
+          </span>
+          <span data-ttu-id="1c3c8-249">(En la mayoría de los casos, se inicia una excepción específica del lenguaje en tiempo de ejecución).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-249">(In most cases, a language-specific run-time exception is thrown.)</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1c3c8-250">Las clases derivadas de la <xref:System.Dynamic.DynamicObject> clase puede invalidar este método para especificar cómo se debe inicializar una nueva instancia del objeto dinámico.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-250">Classes derived from the <xref:System.Dynamic.DynamicObject> class can override this method to specify how a new instance of the dynamic object should be initialized.</span></span> <span data-ttu-id="1c3c8-251">Cuando no se reemplaza el método, el enlazador en tiempo de ejecución del lenguaje determina el comportamiento.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-251">When the method is not overridden, the run-time binder of the language determines the behavior.</span></span> <span data-ttu-id="1c3c8-252">(En la mayoría de los casos, se inicia una excepción específica del lenguaje en tiempo de ejecución).</span><span class="sxs-lookup"><span data-stu-id="1c3c8-252">(In most cases, a language-specific run-time exception is thrown.)</span></span>  
+  
+ <span data-ttu-id="1c3c8-253">Compiladores C# y Visual Basic nunca emiten código para utilizar este método porque no admiten tipos de primera clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-253">C# and Visual Basic compilers never emit code to use this method because they do not support first-class types.</span></span> <span data-ttu-id="1c3c8-254">Este método está pensado para los lenguajes que admiten la inicialización de objetos dinámicos utilizando sintaxis como `dynamic new`.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-254">This method is intended for languages that support the initialization of dynamic objects by using syntax like `dynamic new`.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TryDeleteIndex">
+      <MemberSignature Language="C#" Value="public virtual bool TryDeleteIndex (System.Dynamic.DeleteIndexBinder binder, object[] indexes);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool TryDeleteIndex(class System.Dynamic.DeleteIndexBinder binder, object[] indexes) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Dynamic.DynamicObject.TryDeleteIndex(System.Dynamic.DeleteIndexBinder,System.Object[])" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function TryDeleteIndex (binder As DeleteIndexBinder, indexes As Object()) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool TryDeleteIndex(System::Dynamic::DeleteIndexBinder ^ binder, cli::array &lt;System::Object ^&gt; ^ indexes);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Dynamic.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Linq.Expressions</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="binder" Type="System.Dynamic.DeleteIndexBinder" />
+        <Parameter Name="indexes" Type="System.Object[]" />
+      </Parameters>
+      <Docs>
+        <param name="binder">
+          <span data-ttu-id="1c3c8-255">Proporciona información sobre la eliminación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-255">Provides information about the deletion.</span>
+          </span>
+        </param>
+        <param name="indexes">
+          <span data-ttu-id="1c3c8-256">Índices que se van a eliminar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-256">The indexes to be deleted.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1c3c8-257">Proporciona la implementación de las operaciones que eliminan un objeto por índice.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-257">Provides the implementation for operations that delete an object by index.</span>
+          </span>
+          <span data-ttu-id="1c3c8-258">Este método no está pensado para su uso en C# o Visual Basic.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-258">This method is not intended for use in C# or Visual Basic.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1c3c8-259">
+            <see langword="true" /> si la operación es correcta; de lo contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-259">
+              <see langword="true" /> if the operation is successful; otherwise, <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="1c3c8-260">Si este método devuelve <see langword="false" />, el enlazador del lenguaje en tiempo de ejecución determina el comportamiento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-260">If this method returns <see langword="false" />, the run-time binder of the language determines the behavior.</span>
+          </span>
+          <span data-ttu-id="1c3c8-261">(En la mayoría de los casos, se inicia una excepción específica del lenguaje en tiempo de ejecución).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-261">(In most cases, a language-specific run-time exception is thrown.)</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1c3c8-262">Las clases derivadas de la <xref:System.Dynamic.DynamicObject> clase puede invalidar este método para especificar cómo se debería eliminar un valor que tiene un índice especificado.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-262">Classes derived from the <xref:System.Dynamic.DynamicObject> class can override this method to specify how a value that has a specified index should be deleted.</span></span> <span data-ttu-id="1c3c8-263">Cuando no se reemplaza el método, el enlazador en tiempo de ejecución del lenguaje determina el comportamiento.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-263">When the method is not overridden, the run-time binder of the language determines the behavior.</span></span> <span data-ttu-id="1c3c8-264">(En la mayoría de los casos, se inicia una excepción específica del lenguaje en tiempo de ejecución).</span><span class="sxs-lookup"><span data-stu-id="1c3c8-264">(In most cases, a language-specific run-time exception is thrown.)</span></span>  
+  
+ <span data-ttu-id="1c3c8-265">Compiladores C# y Visual Basic nunca emiten código para utilizar este método porque no admiten este tipo de operación.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-265">C# and Visual Basic compilers never emit code to use this method because they do not support this kind of operation.</span></span> <span data-ttu-id="1c3c8-266">Este método está pensado para lenguajes compatibles con sintaxis para eliminar objetos por índice, como `del sampleObject[1,2]` en Python.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-266">This method is intended for languages that support syntax for deleting objects by index, such as `del sampleObject[1,2]` in Python.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TryDeleteMember">
+      <MemberSignature Language="C#" Value="public virtual bool TryDeleteMember (System.Dynamic.DeleteMemberBinder binder);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool TryDeleteMember(class System.Dynamic.DeleteMemberBinder binder) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Dynamic.DynamicObject.TryDeleteMember(System.Dynamic.DeleteMemberBinder)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function TryDeleteMember (binder As DeleteMemberBinder) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool TryDeleteMember(System::Dynamic::DeleteMemberBinder ^ binder);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Dynamic.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Linq.Expressions</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="binder" Type="System.Dynamic.DeleteMemberBinder" />
+      </Parameters>
+      <Docs>
+        <param name="binder">
+          <span data-ttu-id="1c3c8-267">Proporciona información sobre la eliminación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-267">Provides information about the deletion.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1c3c8-268">Proporciona la implementación de las operaciones que eliminan un miembro de objeto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-268">Provides the implementation for operations that delete an object member.</span>
+          </span>
+          <span data-ttu-id="1c3c8-269">Este método no está pensado para su uso en C# o Visual Basic.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-269">This method is not intended for use in C# or Visual Basic.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1c3c8-270">
+            <see langword="true" /> si la operación es correcta; de lo contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-270">
+              <see langword="true" /> if the operation is successful; otherwise, <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="1c3c8-271">Si este método devuelve <see langword="false" />, el enlazador del lenguaje en tiempo de ejecución determina el comportamiento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-271">If this method returns <see langword="false" />, the run-time binder of the language determines the behavior.</span>
+          </span>
+          <span data-ttu-id="1c3c8-272">(En la mayoría de los casos, se inicia una excepción específica del lenguaje en tiempo de ejecución).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-272">(In most cases, a language-specific run-time exception is thrown.)</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1c3c8-273">Las clases derivadas de la <xref:System.Dynamic.DynamicObject> clase puede invalidar este método para especificar cómo se debería eliminar un miembro de objeto.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-273">Classes derived from the <xref:System.Dynamic.DynamicObject> class can override this method to specify how an object member should be deleted.</span></span> <span data-ttu-id="1c3c8-274">Cuando no se invalida este método, el enlazador en tiempo de ejecución del lenguaje determina el comportamiento.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-274">When this method is not overridden, the run-time binder of the language determines the behavior.</span></span> <span data-ttu-id="1c3c8-275">(En la mayoría de los casos, se inicia una excepción específica del lenguaje en tiempo de ejecución).</span><span class="sxs-lookup"><span data-stu-id="1c3c8-275">(In most cases, a language-specific run-time exception is thrown.)</span></span>  
+  
+ <span data-ttu-id="1c3c8-276">Compiladores C# y Visual Basic nunca emiten código para utilizar este método porque no admiten este tipo de operación.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-276">C# and Visual Basic compilers never emit code to use this method because they do not support this kind of operation.</span></span> <span data-ttu-id="1c3c8-277">Este método está pensado para lenguajes compatibles con sintaxis para eliminar miembros, como `del sampleObject.SampleMember` en Python.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-277">This method is intended for languages that support syntax for deleting members, such as `del sampleObject.SampleMember` in Python.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TryGetIndex">
+      <MemberSignature Language="C#" Value="public virtual bool TryGetIndex (System.Dynamic.GetIndexBinder binder, object[] indexes, out object result);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool TryGetIndex(class System.Dynamic.GetIndexBinder binder, object[] indexes, [out] object&amp; result) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Dynamic.DynamicObject.TryGetIndex(System.Dynamic.GetIndexBinder,System.Object[],System.Object@)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function TryGetIndex (binder As GetIndexBinder, indexes As Object(), ByRef result As Object) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool TryGetIndex(System::Dynamic::GetIndexBinder ^ binder, cli::array &lt;System::Object ^&gt; ^ indexes, [Runtime::InteropServices::Out] System::Object ^ % result);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Dynamic.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Linq.Expressions</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="binder" Type="System.Dynamic.GetIndexBinder" />
+        <Parameter Name="indexes" Type="System.Object[]" />
+        <Parameter Name="result" Type="System.Object&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="binder">
+          <span data-ttu-id="1c3c8-278">Proporciona información sobre la operación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-278">Provides information about the operation.</span>
+          </span>
+        </param>
+        <param name="indexes">
+          <span data-ttu-id="1c3c8-279">Índices que se usan en la operación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-279">The indexes that are used in the operation.</span>
+          </span>
+          <span data-ttu-id="1c3c8-280">Por ejemplo, para la operación <c>sampleObject[3]</c> en C# (<c>sampleObject(3)</c> en Visual Basic), donde <c>sampleObject</c> se deriva de la clase <see langword="DynamicObject" />, <c>indexes[0]</c> es igual que 3.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-280">For example, for the <c>sampleObject[3]</c> operation in C# (<c>sampleObject(3)</c> in Visual Basic), where <c>sampleObject</c> is derived from the <see langword="DynamicObject" /> class, <c>indexes[0]</c> is equal to 3.</span>
+          </span>
+        </param>
+        <param name="result">
+          <span data-ttu-id="1c3c8-281">Resultado de la operación de índice.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-281">The result of the index operation.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1c3c8-282">Proporciona la implementación de las operaciones que obtienen un valor por índice.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-282">Provides the implementation for operations that get a value by index.</span>
+          </span>
+          <span data-ttu-id="1c3c8-283">Las clases derivadas de la clase <see cref="T:System.Dynamic.DynamicObject" /> pueden invalidar este método para especificar un comportamiento dinámico para las operaciones de indización.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-283">Classes derived from the <see cref="T:System.Dynamic.DynamicObject" /> class can override this method to specify dynamic behavior for indexing operations.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1c3c8-284">
+            <see langword="true" /> si la operación es correcta; de lo contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-284">
+              <see langword="true" /> if the operation is successful; otherwise, <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="1c3c8-285">Si este método devuelve <see langword="false" />, el enlazador del lenguaje en tiempo de ejecución determina el comportamiento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-285">If this method returns <see langword="false" />, the run-time binder of the language determines the behavior.</span>
+          </span>
+          <span data-ttu-id="1c3c8-286">(En la mayoría de los casos, se inicia una excepción en tiempo de ejecución).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-286">(In most cases, a run-time exception is thrown.)</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1c3c8-287">Las clases derivadas de la <xref:System.Dynamic.DynamicObject> clase puede invalidar este método para especificar cómo obtener un valor por su índice se debe realizar para un objeto dinámico.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-287">Classes derived from the <xref:System.Dynamic.DynamicObject> class can override this method to specify how getting a value by index should be performed for a dynamic object.</span></span> <span data-ttu-id="1c3c8-288">Cuando no se reemplaza el método, el enlazador en tiempo de ejecución del lenguaje determina el comportamiento.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-288">When the method is not overridden, the run-time binder of the language determines the behavior.</span></span> <span data-ttu-id="1c3c8-289">(En la mayoría de los casos, se inicia una excepción en tiempo de ejecución).</span><span class="sxs-lookup"><span data-stu-id="1c3c8-289">(In most cases, a run-time exception is thrown.)</span></span>  
+  
+ <span data-ttu-id="1c3c8-290">Si se invalida este método, se invoca automáticamente cuando haya una operación como `sampleObject[3]` en C# o `sampleObject(3)` en Visual Basic, donde `sampleObject` se deriva de la <xref:System.Dynamic.DynamicObject> clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-290">If this method is overridden, it is automatically invoked when you have an operation like `sampleObject[3]` in C# or `sampleObject(3)` in Visual Basic, where `sampleObject` is derived from the <xref:System.Dynamic.DynamicObject> class.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="1c3c8-291">Suponga que desea crear un objeto en el que las propiedades pueden ser acceso mediante nombres como `Property0`, `Property1`, y así sucesivamente, o por índice, por lo que, por ejemplo, `sampleObject.Property0` es equivalente a `sampleObject[0]` en C# o `sampleObject(0)` en Visual Basic.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-291">Assume that you want to create an object in which properties can be accessed either by names such as `Property0`, `Property1`, and so on, or by index, so that, for example, `sampleObject.Property0` is equivalent to `sampleObject[0]` in C# or `sampleObject(0)` in Visual Basic.</span></span>  
+  
+ <span data-ttu-id="1c3c8-292">En el ejemplo de código siguiente se muestra la `SampleDynamicObject` (clase), que se deriva de la <xref:System.Dynamic.DynamicObject> clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-292">The following code example demonstrates the `SampleDynamicObject` class, which is derived from the <xref:System.Dynamic.DynamicObject> class.</span></span> <span data-ttu-id="1c3c8-293">El `SampleDynamicObject` clase contiene un objeto de la `Dictionary<string, object>` tipo (`Dictionary(Of String, Object)` en Visual Basic) para almacenar los pares clave-valor.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-293">The `SampleDynamicObject` class contains an object of the `Dictionary<string, object>` type (`Dictionary(Of String, Object)` in Visual Basic) to store the key-value pairs.</span></span> <span data-ttu-id="1c3c8-294">`SampleDynamicObject` invalida el <xref:System.Dynamic.DynamicObject.TrySetIndex%2A> y <xref:System.Dynamic.DynamicObject.TryGetIndex%2A> métodos para habilitar el acceso por índice.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-294">`SampleDynamicObject` overrides the <xref:System.Dynamic.DynamicObject.TrySetIndex%2A> and <xref:System.Dynamic.DynamicObject.TryGetIndex%2A> methods to enable access by index.</span></span> <span data-ttu-id="1c3c8-295">Reemplaza el <xref:System.Dynamic.DynamicObject.TrySetMember%2A> y <xref:System.Dynamic.DynamicObject.TryGetMember%2A> métodos para habilitar el acceso por nombre de propiedad.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-295">It overrides the <xref:System.Dynamic.DynamicObject.TrySetMember%2A> and <xref:System.Dynamic.DynamicObject.TryGetMember%2A> methods to enable access by property name.</span></span>  
+  
+ [!code-csharp[System.Dynamic.DynamicObject#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#4)]
+ [!code-vb[System.Dynamic.DynamicObject#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.dynamic.dynamicobject/vb/module1.vb#4)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TryGetMember">
+      <MemberSignature Language="C#" Value="public virtual bool TryGetMember (System.Dynamic.GetMemberBinder binder, out object result);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool TryGetMember(class System.Dynamic.GetMemberBinder binder, [out] object&amp; result) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Dynamic.DynamicObject.TryGetMember(System.Dynamic.GetMemberBinder,System.Object@)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function TryGetMember (binder As GetMemberBinder, ByRef result As Object) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool TryGetMember(System::Dynamic::GetMemberBinder ^ binder, [Runtime::InteropServices::Out] System::Object ^ % result);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Dynamic.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Linq.Expressions</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="binder" Type="System.Dynamic.GetMemberBinder" />
+        <Parameter Name="result" Type="System.Object&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="binder">
+          <span data-ttu-id="1c3c8-296">Proporciona información sobre el objeto que llamó a la operación dinámica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-296">Provides information about the object that called the dynamic operation.</span>
+          </span>
+          <span data-ttu-id="1c3c8-297">La propiedad <c>binder.Name</c> proporciona el nombre del miembro en el que se realiza la operación dinámica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-297">The <c>binder.Name</c> property provides the name of the member on which the dynamic operation is performed.</span>
+          </span>
+          <span data-ttu-id="1c3c8-298">Por ejemplo, para la instrucción <c>Console.WriteLine(sampleObject.SampleProperty)</c>, donde <c>sampleObject</c> es una instancia de la clase derivada de la clase <see cref="T:System.Dynamic.DynamicObject" />, <c>binder.Name</c> devuelve "SampleProperty".</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-298">For example, for the <c>Console.WriteLine(sampleObject.SampleProperty)</c> statement, where <c>sampleObject</c> is an instance of the class derived from the <see cref="T:System.Dynamic.DynamicObject" /> class, <c>binder.Name</c> returns "SampleProperty".</span>
+          </span>
+          <span data-ttu-id="1c3c8-299">La propiedad <c>binder.IgnoreCase</c> especifica si el nombre de miembro distingue mayúsculas de minúsculas.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-299">The <c>binder.IgnoreCase</c> property specifies whether the member name is case-sensitive.</span>
+          </span>
+        </param>
+        <param name="result">
+          <span data-ttu-id="1c3c8-300">Resultado de la operación Get.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-300">The result of the get operation.</span>
+          </span>
+          <span data-ttu-id="1c3c8-301">Por ejemplo, si se llama al método para una propiedad, se puede asignar el valor de la propiedad a <c>result</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-301">For example, if the method is called for a property, you can assign the property value to <c>result</c>.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1c3c8-302">Proporciona la implementación de las operaciones que obtienen valores de miembro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-302">Provides the implementation for operations that get member values.</span>
+          </span>
+          <span data-ttu-id="1c3c8-303">Las clases derivadas de la clase <see cref="T:System.Dynamic.DynamicObject" /> pueden invalidar este método para especificar un comportamiento dinámico para operaciones como obtener el valor de una propiedad.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-303">Classes derived from the <see cref="T:System.Dynamic.DynamicObject" /> class can override this method to specify dynamic behavior for operations such as getting a value for a property.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1c3c8-304">
+            <see langword="true" /> si la operación es correcta; de lo contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-304">
+              <see langword="true" /> if the operation is successful; otherwise, <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="1c3c8-305">Si este método devuelve <see langword="false" />, el enlazador del lenguaje en tiempo de ejecución determina el comportamiento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-305">If this method returns <see langword="false" />, the run-time binder of the language determines the behavior.</span>
+          </span>
+          <span data-ttu-id="1c3c8-306">(En la mayoría de los casos, se inicia una excepción en tiempo de ejecución).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-306">(In most cases, a run-time exception is thrown.)</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1c3c8-307">Las clases derivadas de la <xref:System.Dynamic.DynamicObject> clase puede invalidar este método para especificar cómo se deben realizar las operaciones que obtienen valores de miembro para un objeto dinámico.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-307">Classes derived from the <xref:System.Dynamic.DynamicObject> class can override this method to specify how operations that get member values should be performed for a dynamic object.</span></span> <span data-ttu-id="1c3c8-308">Cuando no se reemplaza el método, el enlazador en tiempo de ejecución del lenguaje determina el comportamiento.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-308">When the method is not overridden, the run-time binder of the language determines the behavior.</span></span> <span data-ttu-id="1c3c8-309">(En la mayoría de los casos, se inicia una excepción en tiempo de ejecución).</span><span class="sxs-lookup"><span data-stu-id="1c3c8-309">(In most cases, a run-time exception is thrown.)</span></span>  
+  
+ <span data-ttu-id="1c3c8-310">Se llama a este método si tiene instrucciones como `Console.WriteLine(sampleObject.SampleProperty)`, donde `sampleObject` es una instancia de la clase derivada de la <xref:System.Dynamic.DynamicObject> clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-310">This method is called when you have statements like `Console.WriteLine(sampleObject.SampleProperty)`, where `sampleObject` is an instance of the class derived from the <xref:System.Dynamic.DynamicObject> class.</span></span>  
+  
+ <span data-ttu-id="1c3c8-311">También puede agregar sus propios miembros a clases derivadas de la `DynamicObject` clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-311">You can also add your own members to classes derived from the `DynamicObject` class.</span></span> <span data-ttu-id="1c3c8-312">Si su clase define propiedades y también invalida la <xref:System.Dynamic.DynamicObject.TrySetMember%2A> método, dynamic language runtime (DLR) usa primero el enlazador del lenguaje para buscar una definición estática de una propiedad en la clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-312">If your class defines properties and also overrides the <xref:System.Dynamic.DynamicObject.TrySetMember%2A> method, the dynamic language runtime (DLR) first uses the language binder to look for a static definition of a property in the class.</span></span> <span data-ttu-id="1c3c8-313">Si no hay ninguna propiedad de este tipo, DLR llama el <xref:System.Dynamic.DynamicObject.TrySetMember%2A> método.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-313">If there is no such property, the DLR calls the <xref:System.Dynamic.DynamicObject.TrySetMember%2A> method.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="1c3c8-314">Suponga que desea proporcionar una sintaxis alternativa para tener acceso a valores de dictionary, así que, en lugar de escribir `sampleDictionary["Text"] = "Sample text"` (`sampleDictionary("Text") = "Sample text"` en Visual Basic), puede escribir `sampleDictionary.Text = "Sample text"`.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-314">Assume that you want to provide alternative syntax for accessing values in a dictionary, so that instead of writing `sampleDictionary["Text"] = "Sample text"` (`sampleDictionary("Text") = "Sample text"` in Visual Basic), you can write `sampleDictionary.Text = "Sample text"`.</span></span> <span data-ttu-id="1c3c8-315">Además, esta sintaxis debe distinguir mayúsculas de minúsculas, por lo que `sampleDictionary.Text` es equivalente a `sampleDictionary.text`.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-315">Also, this syntax must be case-insensitive, so that `sampleDictionary.Text` is equivalent to `sampleDictionary.text`.</span></span>  
+  
+ <span data-ttu-id="1c3c8-316">En el ejemplo de código siguiente se muestra la `DynamicDictionary` (clase), que se deriva de la <xref:System.Dynamic.DynamicObject> clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-316">The following code example demonstrates the `DynamicDictionary` class, which is derived from the <xref:System.Dynamic.DynamicObject> class.</span></span> <span data-ttu-id="1c3c8-317">El `DynamicDictionary` clase contiene un objeto de la `Dictionary<string, object>` tipo (`Dictionary(Of String, Object)` en Visual Basic) para almacenar los pares clave-valor e invalida el <xref:System.Dynamic.DynamicObject.TrySetMember%2A> y <xref:System.Dynamic.DynamicObject.TryGetMember%2A> métodos para admitir la nueva sintaxis.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-317">The `DynamicDictionary` class contains an object of the `Dictionary<string, object>` type (`Dictionary(Of String, Object)` in Visual Basic) to store the key-value pairs, and overrides the <xref:System.Dynamic.DynamicObject.TrySetMember%2A> and <xref:System.Dynamic.DynamicObject.TryGetMember%2A> methods to support the new syntax.</span></span> <span data-ttu-id="1c3c8-318">También proporciona un `Count` contiene la propiedad, que muestra el número de propiedades dinámicas en el diccionario.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-318">It also provides a `Count` property, which shows how many dynamic properties the dictionary contains.</span></span>  
+  
+ [!code-csharp[System.Dynamic.DynamicObject#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#1)]
+ [!code-vb[System.Dynamic.DynamicObject#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.dynamic.dynamicobject/vb/module1.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TryInvoke">
+      <MemberSignature Language="C#" Value="public virtual bool TryInvoke (System.Dynamic.InvokeBinder binder, object[] args, out object result);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool TryInvoke(class System.Dynamic.InvokeBinder binder, object[] args, [out] object&amp; result) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Dynamic.DynamicObject.TryInvoke(System.Dynamic.InvokeBinder,System.Object[],System.Object@)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function TryInvoke (binder As InvokeBinder, args As Object(), ByRef result As Object) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool TryInvoke(System::Dynamic::InvokeBinder ^ binder, cli::array &lt;System::Object ^&gt; ^ args, [Runtime::InteropServices::Out] System::Object ^ % result);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Dynamic.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Linq.Expressions</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="binder" Type="System.Dynamic.InvokeBinder" />
+        <Parameter Name="args" Type="System.Object[]" />
+        <Parameter Name="result" Type="System.Object&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="binder">
+          <span data-ttu-id="1c3c8-319">Proporciona información sobre la operación de invocación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-319">Provides information about the invoke operation.</span>
+          </span>
+        </param>
+        <param name="args">
+          <span data-ttu-id="1c3c8-320">Argumentos que se pasan al objeto durante la operación de invocación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-320">The arguments that are passed to the object during the invoke operation.</span>
+          </span>
+          <span data-ttu-id="1c3c8-321">Por ejemplo, para la operación <c>sampleObject(100)</c>, donde <c>sampleObject</c> se deriva de la clase <see cref="T:System.Dynamic.DynamicObject" />, <c>args[0]</c> es igual que 100.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-321">For example, for the <c>sampleObject(100)</c> operation, where <c>sampleObject</c> is derived from the <see cref="T:System.Dynamic.DynamicObject" /> class, <c>args[0]</c> is equal to 100.</span>
+          </span>
+        </param>
+        <param name="result">
+          <span data-ttu-id="1c3c8-322">Resultado de la invocación de objeto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-322">The result of the object invocation.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1c3c8-323">Proporciona la implementación para las operaciones que invocan un objeto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-323">Provides the implementation for operations that invoke an object.</span>
+          </span>
+          <span data-ttu-id="1c3c8-324">Las clases derivadas de la clase <see cref="T:System.Dynamic.DynamicObject" /> pueden invalidar este método para especificar un comportamiento dinámico para operaciones como invocar un objeto o un delegado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-324">Classes derived from the <see cref="T:System.Dynamic.DynamicObject" /> class can override this method to specify dynamic behavior for operations such as invoking an object or a delegate.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1c3c8-325">
+            <see langword="true" /> si la operación es correcta; de lo contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-325">
+              <see langword="true" /> if the operation is successful; otherwise, <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="1c3c8-326">Si este método devuelve <see langword="false" />, el enlazador del lenguaje en tiempo de ejecución determina el comportamiento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-326">If this method returns <see langword="false" />, the run-time binder of the language determines the behavior.</span>
+          </span>
+          <span data-ttu-id="1c3c8-327">(En la mayoría de los casos, se inicia una excepción específica del lenguaje en tiempo de ejecución).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-327">(In most cases, a language-specific run-time exception is thrown.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1c3c8-328">Las clases derivadas de la <xref:System.Dynamic.DynamicObject> clase puede invalidar este método para especificar cómo se deben realizar las operaciones que invocan un objeto para un objeto dinámico.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-328">Classes derived from the <xref:System.Dynamic.DynamicObject> class can override this method to specify how operations that invoke an object should be performed for a dynamic object.</span></span> <span data-ttu-id="1c3c8-329">Cuando no se reemplaza el método, el enlazador en tiempo de ejecución del lenguaje determina el comportamiento.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-329">When the method is not overridden, the run-time binder of the language determines the behavior.</span></span> <span data-ttu-id="1c3c8-330">(En la mayoría de los casos, se inicia una excepción en tiempo de ejecución).</span><span class="sxs-lookup"><span data-stu-id="1c3c8-330">(In most cases, a run-time exception is thrown.)</span></span>  
+  
+ <span data-ttu-id="1c3c8-331">Si se invalida este método, se invoca automáticamente cuando haya una operación como `sampleObject(100)`, donde `sampleObject` se deriva de la <xref:System.Dynamic.DynamicObject> clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-331">If this method is overridden, it is automatically invoked when you have an operation like `sampleObject(100)`, where `sampleObject` is derived from the <xref:System.Dynamic.DynamicObject> class.</span></span>  
+  
+ <span data-ttu-id="1c3c8-332">La operación para invocar un objeto se admite en C#, pero no en Visual Basic.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-332">The operation for invoking an object is supported in C# but not in Visual Basic.</span></span> <span data-ttu-id="1c3c8-333">El compilador de Visual Basic nunca emite código para usar este método y el lenguaje Visual Basic no admite una sintaxis como `sampleObject(100)`.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-333">The Visual Basic compiler never emits code to use this method, and the Visual Basic language does not support syntax like `sampleObject(100)`.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="1c3c8-334">Suponga que necesita una estructura de datos para almacenar representaciones numéricas y textuales de números.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-334">Assume that you need a data structure to store textual and numeric representations of numbers.</span></span> <span data-ttu-id="1c3c8-335">Desea poder especificar el valor para cada propiedad individualmente y poder inicializar todas las propiedades de una única instrucción.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-335">You want to be able to specify the value for each property individually and also to be able to initialize all properties in a single statement.</span></span>  
+  
+ <span data-ttu-id="1c3c8-336">En el ejemplo de código siguiente se muestra la `DynamicNumber` (clase), que se deriva de la <xref:System.Dynamic.DynamicObject> clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-336">The following code example demonstrates the `DynamicNumber` class, which is derived from the <xref:System.Dynamic.DynamicObject> class.</span></span> <span data-ttu-id="1c3c8-337">`DynamicNumber` invalida el <xref:System.Dynamic.DynamicObject.TryInvoke%2A> método para habilitar la inicialización de todas las propiedades al mismo tiempo.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-337">`DynamicNumber` overrides the <xref:System.Dynamic.DynamicObject.TryInvoke%2A> method to enable initialization of all properties at one time.</span></span> <span data-ttu-id="1c3c8-338">También invalida la <xref:System.Dynamic.DynamicObject.TrySetMember%2A> y <xref:System.Dynamic.DynamicObject.TryGetMember%2A> métodos para habilitar el acceso a las propiedades de objeto individuales.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-338">It also overrides the <xref:System.Dynamic.DynamicObject.TrySetMember%2A> and <xref:System.Dynamic.DynamicObject.TryGetMember%2A> methods to enable access to individual object properties.</span></span>  
+  
+ [!code-csharp[System.Dynamic.DynamicObject#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#5)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TryInvokeMember">
+      <MemberSignature Language="C#" Value="public virtual bool TryInvokeMember (System.Dynamic.InvokeMemberBinder binder, object[] args, out object result);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool TryInvokeMember(class System.Dynamic.InvokeMemberBinder binder, object[] args, [out] object&amp; result) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Dynamic.DynamicObject.TryInvokeMember(System.Dynamic.InvokeMemberBinder,System.Object[],System.Object@)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function TryInvokeMember (binder As InvokeMemberBinder, args As Object(), ByRef result As Object) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool TryInvokeMember(System::Dynamic::InvokeMemberBinder ^ binder, cli::array &lt;System::Object ^&gt; ^ args, [Runtime::InteropServices::Out] System::Object ^ % result);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Dynamic.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Linq.Expressions</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="binder" Type="System.Dynamic.InvokeMemberBinder" />
+        <Parameter Name="args" Type="System.Object[]" />
+        <Parameter Name="result" Type="System.Object&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="binder">
+          <span data-ttu-id="1c3c8-339">Proporciona información sobre la operación dinámica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-339">Provides information about the dynamic operation.</span>
+          </span>
+          <span data-ttu-id="1c3c8-340">La propiedad <c>binder.Name</c> proporciona el nombre del miembro en el que se realiza la operación dinámica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-340">The <c>binder.Name</c> property provides the name of the member on which the dynamic operation is performed.</span>
+          </span>
+          <span data-ttu-id="1c3c8-341">Por ejemplo, para la instrucción <c>sampleObject.SampleMethod(100)</c>, donde <c>sampleObject</c> es una instancia de la clase derivada de la clase <see cref="T:System.Dynamic.DynamicObject" />, <c>binder.Name</c> devuelve "SampleMethod".</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-341">For example, for the statement <c>sampleObject.SampleMethod(100)</c>, where <c>sampleObject</c> is an instance of the class derived from the <see cref="T:System.Dynamic.DynamicObject" /> class, <c>binder.Name</c> returns "SampleMethod".</span>
+          </span>
+          <span data-ttu-id="1c3c8-342">La propiedad <c>binder.IgnoreCase</c> especifica si el nombre de miembro distingue mayúsculas de minúsculas.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-342">The <c>binder.IgnoreCase</c> property specifies whether the member name is case-sensitive.</span>
+          </span>
+        </param>
+        <param name="args">
+          <span data-ttu-id="1c3c8-343">Argumentos que se pasan al miembro de objeto durante la operación de invocación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-343">The arguments that are passed to the object member during the invoke operation.</span>
+          </span>
+          <span data-ttu-id="1c3c8-344">Por ejemplo, para la instrucción <c>sampleObject.SampleMethod(100)</c>, donde <c>sampleObject</c> se deriva de la clase <see cref="T:System.Dynamic.DynamicObject" />, <c>args[0]</c> es igual que 100.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-344">For example, for the statement <c>sampleObject.SampleMethod(100)</c>, where <c>sampleObject</c> is derived from the <see cref="T:System.Dynamic.DynamicObject" /> class, <c>args[0]</c> is equal to 100.</span>
+          </span>
+        </param>
+        <param name="result">
+          <span data-ttu-id="1c3c8-345">Resultado de la invocación del miembro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-345">The result of the member invocation.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1c3c8-346">Proporciona la implementación de las operaciones que invocan un miembro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-346">Provides the implementation for operations that invoke a member.</span>
+          </span>
+          <span data-ttu-id="1c3c8-347">Las clases derivadas de la clase <see cref="T:System.Dynamic.DynamicObject" /> pueden invalidar este método para especificar un comportamiento dinámico para operaciones como llamar a un método.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-347">Classes derived from the <see cref="T:System.Dynamic.DynamicObject" /> class can override this method to specify dynamic behavior for operations such as calling a method.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1c3c8-348">
+            <see langword="true" /> si la operación es correcta; de lo contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-348">
+              <see langword="true" /> if the operation is successful; otherwise, <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="1c3c8-349">Si este método devuelve <see langword="false" />, el enlazador del lenguaje en tiempo de ejecución determina el comportamiento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-349">If this method returns <see langword="false" />, the run-time binder of the language determines the behavior.</span>
+          </span>
+          <span data-ttu-id="1c3c8-350">(En la mayoría de los casos, se inicia una excepción específica del lenguaje en tiempo de ejecución).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-350">(In most cases, a language-specific run-time exception is thrown.)</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1c3c8-351">Las clases derivadas de la <xref:System.Dynamic.DynamicObject> clase puede invalidar este método para especificar cómo se deben realizar las operaciones que invocan un miembro de objeto para un objeto dinámico.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-351">Classes derived from the <xref:System.Dynamic.DynamicObject> class can override this method to specify how operations that invoke an object member should be performed for a dynamic object.</span></span> <span data-ttu-id="1c3c8-352">Cuando no se reemplaza el método, el enlazador en tiempo de ejecución del lenguaje determina el comportamiento.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-352">When the method is not overridden, the run-time binder of the language determines the behavior.</span></span> <span data-ttu-id="1c3c8-353">(En la mayoría de los casos, se inicia una excepción específica del lenguaje en tiempo de ejecución).</span><span class="sxs-lookup"><span data-stu-id="1c3c8-353">(In most cases, a language-specific run-time exception is thrown.)</span></span>  
+  
+ <span data-ttu-id="1c3c8-354">Si se invalida este método, se invoca automáticamente cuando se realiza una operación como `sampleObject.SampleMethod(100)`, donde `sampleObject` se deriva de la `DynamicObject` clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-354">If this method is overridden, it is automatically invoked when you perform an operation like `sampleObject.SampleMethod(100)`, where `sampleObject` is derived from the `DynamicObject` class.</span></span>  
+  
+ <span data-ttu-id="1c3c8-355">También puede agregar sus propios métodos para las clases que se derivan de la <xref:System.Dynamic.DynamicObject> clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-355">You can also add your own methods to classes that are derived from the <xref:System.Dynamic.DynamicObject> class.</span></span> <span data-ttu-id="1c3c8-356">Por ejemplo, si invalida el <xref:System.Dynamic.DynamicObject.TryInvokeMember%2A> método, el sistema de distribución dinámica intenta determinar primero si el método especificado existe en la clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-356">For example, if you override the <xref:System.Dynamic.DynamicObject.TryInvokeMember%2A> method, the dynamic dispatch system first attempts to determine whether the specified method exists in the class.</span></span> <span data-ttu-id="1c3c8-357">Si no se encuentra el método, utiliza el <xref:System.Dynamic.DynamicObject.TryInvokeMember%2A> implementación.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-357">If it does not find the method, it uses the <xref:System.Dynamic.DynamicObject.TryInvokeMember%2A> implementation.</span></span>  
+  
+ <span data-ttu-id="1c3c8-358">Este método no es compatible con `ref` y `out` parámetros.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-358">This method does not support `ref` and `out` parameters.</span></span> <span data-ttu-id="1c3c8-359">Todos los parámetros de la `args` matriz se pasan por valor.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-359">All parameters in the `args` array are passed by value.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="1c3c8-360">Suponga que desea proporcionar una sintaxis alternativa para tener acceso a valores de dictionary, así que, en lugar de escribir `sampleDictionary["Text"] = "Sample text"` (`sampleDictionary("Text") = "Sample text"` en Visual Basic), puede escribir `sampleDictionary.Text = "Sample text"`.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-360">Assume that you want to provide alternative syntax for accessing values in a dictionary, so that instead of writing `sampleDictionary["Text"] = "Sample text"` (`sampleDictionary("Text") = "Sample text"` in Visual Basic), you can write `sampleDictionary.Text = "Sample text"`.</span></span> <span data-ttu-id="1c3c8-361">Además, desea poder llamar a todos los métodos de diccionario estándar en este diccionario.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-361">Also, you want to be able to call all the standard dictionary methods on this dictionary.</span></span>  
+  
+ <span data-ttu-id="1c3c8-362">En el ejemplo de código siguiente se muestra la `DynamicDictionary` (clase), que se deriva de la <xref:System.Dynamic.DynamicObject> clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-362">The following code example demonstrates the `DynamicDictionary` class, which is derived from the <xref:System.Dynamic.DynamicObject> class.</span></span> <span data-ttu-id="1c3c8-363">El `DynamicDictionary` clase contiene un objeto de la `Dictionary<string, object>` tipo (`Dictionary(Of String, Object)` en Visual Basic) para almacenar los pares clave-valor.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-363">The `DynamicDictionary` class contains an object of the `Dictionary<string, object>` type (`Dictionary(Of String, Object)` in Visual Basic) to store the key-value pairs.</span></span> <span data-ttu-id="1c3c8-364">Reemplaza el <xref:System.Dynamic.DynamicObject.TryInvokeMember%2A> método para admitir los métodos de la <xref:System.Collections.Generic.Dictionary%602> clase e invalida el <xref:System.Dynamic.DynamicObject.TrySetMember%2A> y <xref:System.Dynamic.DynamicObject.TryGetMember%2A> métodos para admitir la nueva sintaxis.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-364">It overrides the <xref:System.Dynamic.DynamicObject.TryInvokeMember%2A> method to support methods of the <xref:System.Collections.Generic.Dictionary%602> class and overrides the <xref:System.Dynamic.DynamicObject.TrySetMember%2A> and <xref:System.Dynamic.DynamicObject.TryGetMember%2A> methods to support the new syntax.</span></span> <span data-ttu-id="1c3c8-365">También proporciona un `Print` método, que imprime todos los valores y claves del diccionario.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-365">It also provides a `Print` method, which prints out all dictionary keys and values.</span></span>  
+  
+ [!code-csharp[System.Dynamic.DynamicObject#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#6)]
+ [!code-vb[System.Dynamic.DynamicObject#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.dynamic.dynamicobject/vb/module1.vb#6)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TrySetIndex">
+      <MemberSignature Language="C#" Value="public virtual bool TrySetIndex (System.Dynamic.SetIndexBinder binder, object[] indexes, object value);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool TrySetIndex(class System.Dynamic.SetIndexBinder binder, object[] indexes, object value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Dynamic.DynamicObject.TrySetIndex(System.Dynamic.SetIndexBinder,System.Object[],System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function TrySetIndex (binder As SetIndexBinder, indexes As Object(), value As Object) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool TrySetIndex(System::Dynamic::SetIndexBinder ^ binder, cli::array &lt;System::Object ^&gt; ^ indexes, System::Object ^ value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Dynamic.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Linq.Expressions</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="binder" Type="System.Dynamic.SetIndexBinder" />
+        <Parameter Name="indexes" Type="System.Object[]" />
+        <Parameter Name="value" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="binder">
+          <span data-ttu-id="1c3c8-366">Proporciona información sobre la operación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-366">Provides information about the operation.</span>
+          </span>
+        </param>
+        <param name="indexes">
+          <span data-ttu-id="1c3c8-367">Índices que se usan en la operación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-367">The indexes that are used in the operation.</span>
+          </span>
+          <span data-ttu-id="1c3c8-368">Por ejemplo, para la operación <c>sampleObject[3] = 10</c> en C# (<c>sampleObject(3) = 10</c> en Visual Basic), donde <c>sampleObject</c> se deriva de la clase <see cref="T:System.Dynamic.DynamicObject" />, <c>indexes[0]</c> es igual que 3.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-368">For example, for the <c>sampleObject[3] = 10</c> operation in C# (<c>sampleObject(3) = 10</c> in Visual Basic), where <c>sampleObject</c> is derived from the <see cref="T:System.Dynamic.DynamicObject" /> class, <c>indexes[0]</c> is equal to 3.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="1c3c8-369">Valor que se establece en el objeto que tiene el índice especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-369">The value to set to the object that has the specified index.</span>
+          </span>
+          <span data-ttu-id="1c3c8-370">Por ejemplo, para la operación <c>sampleObject[3] = 10</c> en C# (<c>sampleObject(3) = 10</c> en Visual Basic), donde <c>sampleObject</c> se deriva de la clase <see cref="T:System.Dynamic.DynamicObject" />, <c>value</c> es igual que 10.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-370">For example, for the <c>sampleObject[3] = 10</c> operation in C# (<c>sampleObject(3) = 10</c> in Visual Basic), where <c>sampleObject</c> is derived from the <see cref="T:System.Dynamic.DynamicObject" /> class, <c>value</c> is equal to 10.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1c3c8-371">Proporciona la implementación de las operaciones que establecen un valor por índice.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-371">Provides the implementation for operations that set a value by index.</span>
+          </span>
+          <span data-ttu-id="1c3c8-372">Las clases derivadas de la clase <see cref="T:System.Dynamic.DynamicObject" /> pueden invalidar este método para especificar el comportamiento dinámico de las operaciones que tienen acceso a los objetos por un índice especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-372">Classes derived from the <see cref="T:System.Dynamic.DynamicObject" /> class can override this method to specify dynamic behavior for operations that access objects by a specified index.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1c3c8-373">
+            <see langword="true" /> si la operación es correcta; de lo contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-373">
+              <see langword="true" /> if the operation is successful; otherwise, <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="1c3c8-374">Si este método devuelve <see langword="false" />, el enlazador del lenguaje en tiempo de ejecución determina el comportamiento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-374">If this method returns <see langword="false" />, the run-time binder of the language determines the behavior.</span>
+          </span>
+          <span data-ttu-id="1c3c8-375">(En la mayoría de los casos, se inicia una excepción específica del lenguaje en tiempo de ejecución).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-375">(In most cases, a language-specific run-time exception is thrown.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1c3c8-376">Las clases derivadas de la <xref:System.Dynamic.DynamicObject> clase puede invalidar este método para especificar cómo se deben realizar las operaciones que tienen acceso a un objeto por índice para un objeto dinámico.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-376">Classes derived from the <xref:System.Dynamic.DynamicObject> class can override this method to specify how operations that access an object by index should be performed for a dynamic object.</span></span> <span data-ttu-id="1c3c8-377">Cuando no se reemplaza el método, el enlazador en tiempo de ejecución del lenguaje determina el comportamiento.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-377">When the method is not overridden, the run-time binder of the language determines the behavior.</span></span> <span data-ttu-id="1c3c8-378">(En la mayoría de los casos, se inicia una excepción específica del lenguaje en tiempo de ejecución).</span><span class="sxs-lookup"><span data-stu-id="1c3c8-378">(In most cases, a language-specific run-time exception is thrown.)</span></span>  
+  
+ <span data-ttu-id="1c3c8-379">Si se invalida este método, se invoca automáticamente cuando haya una operación como `sampleObject[3] = 10` en C# o `sampleObject(3) = 10` en Visual Basic, donde `sampleObject` se deriva de la <xref:System.Dynamic.DynamicObject> clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-379">If this method is overridden, it is automatically invoked when you have an operation like `sampleObject[3] = 10` in C# or `sampleObject(3) = 10` in Visual Basic, where `sampleObject` is derived from the <xref:System.Dynamic.DynamicObject> class.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="1c3c8-380">Suponga que desea crear un objeto en el que las propiedades pueden ser acceso mediante nombres como `Property0`, `Property1`, y así sucesivamente, o por índice, por lo que, por ejemplo, `sampleObject.Property0` es equivalente a `sampleObject[0]` en C# o `sampleObject(0)` en Visual Basic.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-380">Assume that you want to create an object in which properties can be accessed either by names such as `Property0`, `Property1`, and so on, or by index, so that, for example, `sampleObject.Property0` is equivalent to `sampleObject[0]` in C# or `sampleObject(0)` in Visual Basic.</span></span>  
+  
+ <span data-ttu-id="1c3c8-381">En el ejemplo de código siguiente se muestra la `SampleDynamicObject` (clase), que se deriva de la <xref:System.Dynamic.DynamicObject> clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-381">The following code example demonstrates the `SampleDynamicObject` class, which is derived from the <xref:System.Dynamic.DynamicObject> class.</span></span> <span data-ttu-id="1c3c8-382">El `SampleDynamicObject` clase contiene un objeto de la `Dictionary<string, object>` tipo (`Dictionary(Of String, Object)` en Visual Basic) para almacenar los pares clave-valor.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-382">The `SampleDynamicObject` class contains an object of the `Dictionary<string, object>` type (`Dictionary(Of String, Object)` in Visual Basic) to store the key-value pairs.</span></span> <span data-ttu-id="1c3c8-383">`SampleDynamicObject` invalida el <xref:System.Dynamic.DynamicObject.TrySetIndex%2A> y <xref:System.Dynamic.DynamicObject.TryGetIndex%2A> métodos para habilitar el acceso por índice.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-383">`SampleDynamicObject` overrides the <xref:System.Dynamic.DynamicObject.TrySetIndex%2A> and <xref:System.Dynamic.DynamicObject.TryGetIndex%2A> methods to enable access by index.</span></span> <span data-ttu-id="1c3c8-384">Reemplaza el <xref:System.Dynamic.DynamicObject.TrySetMember%2A> y <xref:System.Dynamic.DynamicObject.TryGetMember%2A> métodos para habilitar el acceso por nombre de propiedad.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-384">It overrides the <xref:System.Dynamic.DynamicObject.TrySetMember%2A> and <xref:System.Dynamic.DynamicObject.TryGetMember%2A> methods to enable access by property name.</span></span>  
+  
+ [!code-csharp[System.Dynamic.DynamicObject#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#4)]
+ [!code-vb[System.Dynamic.DynamicObject#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.dynamic.dynamicobject/vb/module1.vb#4)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TrySetMember">
+      <MemberSignature Language="C#" Value="public virtual bool TrySetMember (System.Dynamic.SetMemberBinder binder, object value);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool TrySetMember(class System.Dynamic.SetMemberBinder binder, object value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Dynamic.DynamicObject.TrySetMember(System.Dynamic.SetMemberBinder,System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function TrySetMember (binder As SetMemberBinder, value As Object) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool TrySetMember(System::Dynamic::SetMemberBinder ^ binder, System::Object ^ value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Dynamic.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Linq.Expressions</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="binder" Type="System.Dynamic.SetMemberBinder" />
+        <Parameter Name="value" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="binder">
+          <span data-ttu-id="1c3c8-385">Proporciona información sobre el objeto que llamó a la operación dinámica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-385">Provides information about the object that called the dynamic operation.</span>
+          </span>
+          <span data-ttu-id="1c3c8-386">La propiedad <c>binder.Name</c> proporciona el nombre del miembro al que se asigna el valor.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-386">The <c>binder.Name</c> property provides the name of the member to which the value is being assigned.</span>
+          </span>
+          <span data-ttu-id="1c3c8-387">Por ejemplo, para la instrucción <c>sampleObject.SampleProperty = "Test"</c>, donde <c>sampleObject</c> es una instancia de la clase derivada de la clase <see cref="T:System.Dynamic.DynamicObject" />, <c>binder.Name</c> devuelve "SampleProperty".</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-387">For example, for the statement <c>sampleObject.SampleProperty = "Test"</c>, where <c>sampleObject</c> is an instance of the class derived from the <see cref="T:System.Dynamic.DynamicObject" /> class, <c>binder.Name</c> returns "SampleProperty".</span>
+          </span>
+          <span data-ttu-id="1c3c8-388">La propiedad <c>binder.IgnoreCase</c> especifica si el nombre de miembro distingue mayúsculas de minúsculas.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-388">The <c>binder.IgnoreCase</c> property specifies whether the member name is case-sensitive.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="1c3c8-389">Valor que se va a establecer para el miembro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-389">The value to set to the member.</span>
+          </span>
+          <span data-ttu-id="1c3c8-390">Por ejemplo, para <c>sampleObject.SampleProperty = "Test"</c>, donde <c>sampleObject</c> es una instancia de la clase derivada de la clase <see cref="T:System.Dynamic.DynamicObject" />, <c>value</c> es "Test".</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-390">For example, for <c>sampleObject.SampleProperty = "Test"</c>, where <c>sampleObject</c> is an instance of the class derived from the <see cref="T:System.Dynamic.DynamicObject" /> class, the <c>value</c> is "Test".</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1c3c8-391">Proporciona la implementación de las operaciones que establecen valores de miembro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-391">Provides the implementation for operations that set member values.</span>
+          </span>
+          <span data-ttu-id="1c3c8-392">Las clases derivadas de la clase <see cref="T:System.Dynamic.DynamicObject" /> pueden invalidar este método para especificar un comportamiento dinámico para operaciones como establecer el valor de una propiedad.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-392">Classes derived from the <see cref="T:System.Dynamic.DynamicObject" /> class can override this method to specify dynamic behavior for operations such as setting a value for a property.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1c3c8-393">
+            <see langword="true" /> si la operación es correcta; de lo contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-393">
+              <see langword="true" /> if the operation is successful; otherwise, <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="1c3c8-394">Si este método devuelve <see langword="false" />, el enlazador del lenguaje en tiempo de ejecución determina el comportamiento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-394">If this method returns <see langword="false" />, the run-time binder of the language determines the behavior.</span>
+          </span>
+          <span data-ttu-id="1c3c8-395">(En la mayoría de los casos, se inicia una excepción específica del lenguaje en tiempo de ejecución).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-395">(In most cases, a language-specific run-time exception is thrown.)</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1c3c8-396">Las clases derivadas de la <xref:System.Dynamic.DynamicObject> clase puede invalidar este método para especificar cómo se deben realizar las operaciones que establecen un valor a un miembro para un objeto dinámico.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-396">Classes derived from the <xref:System.Dynamic.DynamicObject> class can override this method to specify how operations that set a value to a member should be performed for a dynamic object.</span></span> <span data-ttu-id="1c3c8-397">Cuando no se reemplaza el método, el enlazador en tiempo de ejecución del lenguaje determina el comportamiento.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-397">When the method is not overridden, the run-time binder of the language determines the behavior.</span></span> <span data-ttu-id="1c3c8-398">(En la mayoría de los casos, se inicia una excepción específica del lenguaje en tiempo de ejecución).</span><span class="sxs-lookup"><span data-stu-id="1c3c8-398">(In most cases, a language-specific run-time exception is thrown.)</span></span>  
+  
+ <span data-ttu-id="1c3c8-399">Se llama a este método si tiene instrucciones como `sampleObject.SampleProperty = "Test"`, donde `sampleObject` es una instancia de la clase que se deriva de la <xref:System.Dynamic.DynamicObject> clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-399">This method is called when you have statements like `sampleObject.SampleProperty = "Test"`, where `sampleObject` is an instance of the class that is derived from the <xref:System.Dynamic.DynamicObject> class.</span></span>  
+  
+ <span data-ttu-id="1c3c8-400">También puede agregar sus propios miembros a clases derivadas de la `DynamicObject` clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-400">You can also add your own members to classes derived from the `DynamicObject` class.</span></span> <span data-ttu-id="1c3c8-401">Si su clase define propiedades y también invalida la <xref:System.Dynamic.DynamicObject.TrySetMember%2A> método, dynamic language runtime (DLR) usa primero el enlazador del lenguaje para buscar una definición estática de una propiedad en la clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-401">If your class defines properties and also overrides the <xref:System.Dynamic.DynamicObject.TrySetMember%2A> method, the dynamic language runtime (DLR) first uses the language binder to look for a static definition of a property in the class.</span></span> <span data-ttu-id="1c3c8-402">Si no hay ninguna propiedad de este tipo, DLR llama el <xref:System.Dynamic.DynamicObject.TrySetMember%2A> método.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-402">If there is no such property, the DLR calls the <xref:System.Dynamic.DynamicObject.TrySetMember%2A> method.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="1c3c8-403">Suponga que desea proporcionar una sintaxis alternativa para tener acceso a valores de dictionary, así que, en lugar de escribir `sampleDictionary["Text"] = "Sample text"` (`sampleDictionary("Text") = "Sample text"` en Visual Basic), puede escribir `sampleDictionary.Text = "Sample text"`.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-403">Assume that you want to provide alternative syntax for accessing values in a dictionary, so that instead of writing `sampleDictionary["Text"] = "Sample text"` (`sampleDictionary("Text") = "Sample text"` in Visual Basic), you can write `sampleDictionary.Text = "Sample text"`.</span></span> <span data-ttu-id="1c3c8-404">Además, esta sintaxis debe distinguir mayúsculas de minúsculas, por lo que `sampleDictionary.Text` es equivalente a `sampleDictionary.text`.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-404">Also, this syntax must be case-insensitive, so that `sampleDictionary.Text` is equivalent to `sampleDictionary.text`.</span></span>  
+  
+ <span data-ttu-id="1c3c8-405">En el ejemplo de código siguiente se muestra la `DynamicDictionary` (clase), que se deriva de la <xref:System.Dynamic.DynamicObject> clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-405">The following code example demonstrates the `DynamicDictionary` class, which is derived from the <xref:System.Dynamic.DynamicObject> class.</span></span> <span data-ttu-id="1c3c8-406">El `DynamicDictionary` clase contiene un objeto de la `Dictionary<string, object>` tipo (`Dictionary(Of String, Object)` en Visual Basic) para almacenar los pares clave-valor e invalida el <xref:System.Dynamic.DynamicObject.TrySetMember%2A> y <xref:System.Dynamic.DynamicObject.TryGetMember%2A> métodos para admitir la nueva sintaxis.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-406">The `DynamicDictionary` class contains an object of the `Dictionary<string, object>` type (`Dictionary(Of String, Object)` in Visual Basic) to store the key-value pairs, and overrides the <xref:System.Dynamic.DynamicObject.TrySetMember%2A> and <xref:System.Dynamic.DynamicObject.TryGetMember%2A> methods to support the new syntax.</span></span> <span data-ttu-id="1c3c8-407">También proporciona un `Count` contiene la propiedad, que muestra el número de propiedades dinámicas en el diccionario.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-407">It also provides a `Count` property, which shows how many dynamic properties the dictionary contains.</span></span>  
+  
+ [!code-csharp[System.Dynamic.DynamicObject#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#1)]
+ [!code-vb[System.Dynamic.DynamicObject#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.dynamic.dynamicobject/vb/module1.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TryUnaryOperation">
+      <MemberSignature Language="C#" Value="public virtual bool TryUnaryOperation (System.Dynamic.UnaryOperationBinder binder, out object result);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool TryUnaryOperation(class System.Dynamic.UnaryOperationBinder binder, [out] object&amp; result) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Dynamic.DynamicObject.TryUnaryOperation(System.Dynamic.UnaryOperationBinder,System.Object@)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function TryUnaryOperation (binder As UnaryOperationBinder, ByRef result As Object) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool TryUnaryOperation(System::Dynamic::UnaryOperationBinder ^ binder, [Runtime::InteropServices::Out] System::Object ^ % result);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Dynamic.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Linq.Expressions</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="binder" Type="System.Dynamic.UnaryOperationBinder" />
+        <Parameter Name="result" Type="System.Object&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="binder">
+          <span data-ttu-id="1c3c8-408">Proporciona información sobre la operación unaria.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-408">Provides information about the unary operation.</span>
+          </span>
+          <span data-ttu-id="1c3c8-409">La propiedad <c>binder.Operation</c> devuelve un objeto <see cref="T:System.Linq.Expressions.ExpressionType" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-409">The <c>binder.Operation</c> property returns an <see cref="T:System.Linq.Expressions.ExpressionType" /> object.</span>
+          </span>
+          <span data-ttu-id="1c3c8-410">Por ejemplo, para la instrucción <c>negativeNumber = -number</c>, donde <c>number</c> se deriva de la clase <see langword="DynamicObject" />, <c>binder.Operation</c> devuelve "Negate".</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-410">For example, for the <c>negativeNumber = -number</c> statement, where <c>number</c> is derived from the <see langword="DynamicObject" /> class, <c>binder.Operation</c> returns "Negate".</span>
+          </span>
+        </param>
+        <param name="result">
+          <span data-ttu-id="1c3c8-411">Resultado de la operación unaria.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-411">The result of the unary operation.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="1c3c8-412">Proporciona la implementación de operaciones unarias.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-412">Provides implementation for unary operations.</span>
+          </span>
+          <span data-ttu-id="1c3c8-413">Las clases derivadas de la clase <see cref="T:System.Dynamic.DynamicObject" /> pueden invalidar este método para especificar el comportamiento dinámico de operaciones como negación, incremento o decremento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-413">Classes derived from the <see cref="T:System.Dynamic.DynamicObject" /> class can override this method to specify dynamic behavior for operations such as negation, increment, or decrement.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="1c3c8-414">
+            <see langword="true" /> si la operación es correcta; de lo contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-414">
+              <see langword="true" /> if the operation is successful; otherwise, <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="1c3c8-415">Si este método devuelve <see langword="false" />, el enlazador del lenguaje en tiempo de ejecución determina el comportamiento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-415">If this method returns <see langword="false" />, the run-time binder of the language determines the behavior.</span>
+          </span>
+          <span data-ttu-id="1c3c8-416">(En la mayoría de los casos, se inicia una excepción específica del lenguaje en tiempo de ejecución).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="1c3c8-416">(In most cases, a language-specific run-time exception is thrown.)</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="1c3c8-417">Las clases derivadas de la <xref:System.Dynamic.DynamicObject> clase puede invalidar este método para especificar cómo se deben realizar operaciones unarias para un objeto dinámico.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-417">Classes derived from the <xref:System.Dynamic.DynamicObject> class can override this method to specify how unary operations should be performed for a dynamic object.</span></span> <span data-ttu-id="1c3c8-418">Cuando no se reemplaza el método, el enlazador en tiempo de ejecución del lenguaje determina el comportamiento.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-418">When the method is not overridden, the run-time binder of the language determines the behavior.</span></span> <span data-ttu-id="1c3c8-419">(En la mayoría de los casos, se inicia una excepción específica del lenguaje en tiempo de ejecución).</span><span class="sxs-lookup"><span data-stu-id="1c3c8-419">(In most cases, a language-specific run-time exception is thrown.)</span></span>  
+  
+ <span data-ttu-id="1c3c8-420">Se llama a este método cuando tiene operaciones unarias como la negación, incremento o decremento.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-420">This method is called when you have unary operations such as negation, increment, or decrement.</span></span> <span data-ttu-id="1c3c8-421">Por ejemplo, si la <xref:System.Dynamic.DynamicObject.TryUnaryOperation%2A> método se invalida, este método se invoca automáticamente para instrucciones como `negativeNumber = -number`, donde `number` se deriva de la <xref:System.Dynamic.DynamicObject> clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-421">For example, if the <xref:System.Dynamic.DynamicObject.TryUnaryOperation%2A> method is overridden, this method is automatically invoked for statements like `negativeNumber = -number`, where `number` is derived from the <xref:System.Dynamic.DynamicObject> class.</span></span>  
+  
+ <span data-ttu-id="1c3c8-422">Puede obtener información sobre el tipo de la operación unaria mediante la `Operation` propiedad de la `binder` parámetro.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-422">You can get information about the type of the unary operation by using the `Operation` property of the `binder` parameter.</span></span>  
+  
+ <span data-ttu-id="1c3c8-423">Si el objeto dinámico solo se usa en C# y Visual Basic, la `binder.Operation` propiedad puede tener uno de los siguientes valores de la <xref:System.Linq.Expressions.ExpressionType> enumeración.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-423">If your dynamic object is used only in C# and Visual Basic, the `binder.Operation` property can have one of the following values from the <xref:System.Linq.Expressions.ExpressionType> enumeration.</span></span> <span data-ttu-id="1c3c8-424">Sin embargo, en otros lenguajes como IronPython o IronRuby, puede tener otros valores.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-424">However, in other languages such as IronPython or IronRuby, you can have other values.</span></span>
+  
+|<span data-ttu-id="1c3c8-425">Valor</span><span class="sxs-lookup"><span data-stu-id="1c3c8-425">Value</span></span>|<span data-ttu-id="1c3c8-426">Descripción</span><span class="sxs-lookup"><span data-stu-id="1c3c8-426">Description</span></span>|<span data-ttu-id="1c3c8-427">C#</span><span class="sxs-lookup"><span data-stu-id="1c3c8-427">C#</span></span>|<span data-ttu-id="1c3c8-428">Visual Basic</span><span class="sxs-lookup"><span data-stu-id="1c3c8-428">Visual Basic</span></span>|  
+|-----------|-----------------|---------|------------------|  
+|`Decrement`|<span data-ttu-id="1c3c8-429">Una operación de decremento unario.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-429">A unary decrement operation.</span></span>|`a--`|<span data-ttu-id="1c3c8-430">No se admite.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-430">Not supported.</span></span>|  
+|`Increment`|<span data-ttu-id="1c3c8-431">Una operación de incremento unario.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-431">A unary increment operation.</span></span>|`a++`|<span data-ttu-id="1c3c8-432">No se admite.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-432">Not supported.</span></span>|  
+|`Negate`|<span data-ttu-id="1c3c8-433">Una negación aritmética.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-433">An arithmetic negation.</span></span>|`-a`|`-a`|  
+|`Not`|<span data-ttu-id="1c3c8-434">Una negación lógica.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-434">A logical negation.</span></span>|`!a`|`Not a`|  
+|`OnesComplement`|<span data-ttu-id="1c3c8-435">Una los complemento.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-435">A ones complement.</span></span>|`~a`|<span data-ttu-id="1c3c8-436">No se admite.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-436">Not supported.</span></span>|  
+|`IsFalse`|<span data-ttu-id="1c3c8-437">Un valor de condición falsa.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-437">A false condition value.</span></span>|`a && b`|<span data-ttu-id="1c3c8-438">No se admite.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-438">Not supported.</span></span>|  
+|`IsTrue`|<span data-ttu-id="1c3c8-439">Un valor de la condición es true.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-439">A true condition value.</span></span>|`a &#124;&#124; b`|<span data-ttu-id="1c3c8-440">No se admite.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-440">Not supported.</span></span>|  
+|`UnaryPlus`|<span data-ttu-id="1c3c8-441">Una suma unaria.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-441">A unary plus.</span></span>|`+a`|`+a`|  
+  
+> [!NOTE]
+>  <span data-ttu-id="1c3c8-442">Para implementar `OrElse` (`a || b`) y `AndAlso` (`a && b`) operaciones de objetos dinámicos en C#, puede que desee implementar tanto el <xref:System.Dynamic.DynamicObject.TryUnaryOperation%2A> (método) y el <xref:System.Dynamic.DynamicObject.TryBinaryOperation%2A> método.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-442">To implement `OrElse` (`a || b`) and `AndAlso` (`a && b`) operations for dynamic objects in C#, you may want to implement both the <xref:System.Dynamic.DynamicObject.TryUnaryOperation%2A> method and the <xref:System.Dynamic.DynamicObject.TryBinaryOperation%2A> method.</span></span>  
+>   
+>  <span data-ttu-id="1c3c8-443">El `OrElse` operación está formada por el operador unario `IsTrue` operación y el archivo binario `Or` operación.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-443">The `OrElse` operation consists of the unary `IsTrue` operation and the binary `Or` operation.</span></span> <span data-ttu-id="1c3c8-444">El `Or` operación se realiza solo si el resultado de la `IsTrue` operación es `false`.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-444">The `Or` operation is performed only if the result of the `IsTrue` operation is `false`.</span></span>  
+>   
+>  <span data-ttu-id="1c3c8-445">El `AndAlso` operación está formada por el operador unario `IsFalse` operación y el archivo binario `And` operación.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-445">The `AndAlso` operation consists of the unary `IsFalse` operation and the binary `And` operation.</span></span> <span data-ttu-id="1c3c8-446">El `And` operación se realiza solo si el resultado de la `IsFalse` operación es `false`.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-446">The `And` operation is performed only if the result of the `IsFalse` operation is `false`.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="1c3c8-447">Suponga que necesita una estructura de datos para almacenar representaciones numéricas y textuales de números, y desea definir una operación de negación matemática para tales datos.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-447">Assume that you need a data structure to store textual and numeric representations of numbers, and you want to define a mathematical negation operation for such data.</span></span>  
+  
+ <span data-ttu-id="1c3c8-448">En el ejemplo de código siguiente se muestra la `DynamicNumber` (clase), que se deriva de la <xref:System.Dynamic.DynamicObject> clase.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-448">The following code example demonstrates the `DynamicNumber` class, which is derived from the <xref:System.Dynamic.DynamicObject> class.</span></span> <span data-ttu-id="1c3c8-449">`DynamicNumber` invalida el <xref:System.Dynamic.DynamicObject.TryUnaryOperation%2A> método para habilitar la operación de negación matemática.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-449">`DynamicNumber` overrides the <xref:System.Dynamic.DynamicObject.TryUnaryOperation%2A> method to enable the mathematical negation operation.</span></span> <span data-ttu-id="1c3c8-450">También es invalidaciones el <xref:System.Dynamic.DynamicObject.TrySetMember%2A> y <xref:System.Dynamic.DynamicObject.TryGetMember%2A> métodos para habilitar el acceso a los elementos.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-450">Is also overrides the <xref:System.Dynamic.DynamicObject.TrySetMember%2A> and <xref:System.Dynamic.DynamicObject.TryGetMember%2A> methods to enable access to the elements.</span></span>  
+  
+ <span data-ttu-id="1c3c8-451">En este ejemplo, se admite la operación de negación matemática.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-451">In this example, only the mathematical negation operation is supported.</span></span> <span data-ttu-id="1c3c8-452">Si se intenta escribir una instrucción como `negativeNumber = +number`, se produce una excepción de tiempo de ejecución.</span><span class="sxs-lookup"><span data-stu-id="1c3c8-452">If you try to write a statement like `negativeNumber = +number`, a run-time exception occurs.</span></span>  
+  
+ [!code-csharp[System.Dynamic.DynamicObject#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#7)]
+ [!code-vb[System.Dynamic.DynamicObject#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.dynamic.dynamicobject/vb/module1.vb#7)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
