@@ -1,0 +1,469 @@
+<Type Name="ServiceSecurityContext" FullName="System.ServiceModel.ServiceSecurityContext">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="0434977da5951217267adf4f20450c612e0e88f5" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="es-ES" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class ServiceSecurityContext" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ServiceSecurityContext extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:System.ServiceModel.ServiceSecurityContext" />
+  <TypeSignature Language="VB.NET" Value="Public Class ServiceSecurityContext" />
+  <TypeSignature Language="C++ CLI" Value="public ref class ServiceSecurityContext" />
+  <AssemblyInfo>
+    <AssemblyName>System.ServiceModel</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="0e793-101">Representa el contexto de seguridad de una parte remota.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="0e793-101">Represents the security context of a remote party.</span>
+      </span>
+      <span data-ttu-id="0e793-102">En el lado del cliente, representa la identidad del servicio y, en el del servicio, la identidad del cliente.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="0e793-102">On the client, represents the service identity and, on the service, represents the client identity.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="0e793-103">Los datos forman parte de <xref:System.ServiceModel.Security.SecurityMessageProperty> para un mensaje.</span><span class="sxs-lookup"><span data-stu-id="0e793-103">The data is part of the <xref:System.ServiceModel.Security.SecurityMessageProperty> for a message.</span></span>  
+  
+ <span data-ttu-id="0e793-104">Utilice esta clase para obtener información acerca de un control remoto *contexto de seguridad* en tiempo de ejecución.</span><span class="sxs-lookup"><span data-stu-id="0e793-104">Use this class to obtain information about a remote *security context* at runtime.</span></span> <span data-ttu-id="0e793-105">Se crea un contexto de seguridad cuando se autentica y autoriza un cliente correctamente para tener acceso a un método.</span><span class="sxs-lookup"><span data-stu-id="0e793-105">A security context is created when a client is successfully authenticated and authorized to access a method.</span></span> <span data-ttu-id="0e793-106">Cuando un mensaje se autentica y autoriza correctamente, la información de seguridad del cliente y para la instancia del servicio actual se puede obtener de una instancia de esta clase.</span><span class="sxs-lookup"><span data-stu-id="0e793-106">When a message is successfully authenticated and authorized, the security information from the client and for the current service instance can be obtained from an instance of this class.</span></span>  
+  
+ <span data-ttu-id="0e793-107">Puede recuperar una instancia de <xref:System.ServiceModel.ServiceSecurityContext> de la propiedad <xref:System.ServiceModel.OperationContext.Current%2A> de la clase <xref:System.ServiceModel.OperationContext> o utilizarla desde un método de operación de servicio, como se muestra en el siguiente ejemplo.</span><span class="sxs-lookup"><span data-stu-id="0e793-107">You can retrieve an instance of the <xref:System.ServiceModel.ServiceSecurityContext> from the <xref:System.ServiceModel.OperationContext.Current%2A> property of the <xref:System.ServiceModel.OperationContext> class, or use it from within a service operation method, as shown in the following example.</span></span>  
+  
+## <a name="parsing-a-claimset"></a><span data-ttu-id="0e793-108">Análisis de un ClaimSet</span><span class="sxs-lookup"><span data-stu-id="0e793-108">Parsing a ClaimSet</span></span>  
+ <span data-ttu-id="0e793-109">Un uso común de la clase consiste en recuperar el conjunto actual de notificaciones con el propósito de identificar o autorizar a un cliente cuando acceda a un método.</span><span class="sxs-lookup"><span data-stu-id="0e793-109">A common use of the class is to retrieve the current set of claims for the purpose of identifying or authorizing a client when accessing a method.</span></span> <span data-ttu-id="0e793-110">La clase <xref:System.IdentityModel.Claims.ClaimSet> contiene una colección de objetos <xref:System.IdentityModel.Claims.Claim> y cada uno se puede analizar para determinar si está presente una notificación concreta.</span><span class="sxs-lookup"><span data-stu-id="0e793-110">The <xref:System.IdentityModel.Claims.ClaimSet> class contains a collection of <xref:System.IdentityModel.Claims.Claim> objects, and each can be parsed to determine whether a specific claim is present.</span></span> <span data-ttu-id="0e793-111">Si se proporciona la notificación especificada, se puede otorgar la autorización.</span><span class="sxs-lookup"><span data-stu-id="0e793-111">If the specified claim is provided, authorization can be granted.</span></span> <span data-ttu-id="0e793-112">Esta funcionalidad se ofrece mediante la sustitución del método <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccessCore%2A> de la clase <xref:System.ServiceModel.ServiceAuthorizationManager>.</span><span class="sxs-lookup"><span data-stu-id="0e793-112">This functionality is provided by overriding the <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccessCore%2A> method of the <xref:System.ServiceModel.ServiceAuthorizationManager> class.</span></span>  <span data-ttu-id="0e793-113">Para obtener un ejemplo completo, vea el [directiva de autorización](~/docs/framework/wcf/samples/authorization-policy.md).</span><span class="sxs-lookup"><span data-stu-id="0e793-113">For a complete example, see the [Authorization Policy](~/docs/framework/wcf/samples/authorization-policy.md).</span></span>  
+  
+## <a name="cookie-mode-and-isauthenticated"></a><span data-ttu-id="0e793-114">Modo de cookie e IsAuthenticated</span><span class="sxs-lookup"><span data-stu-id="0e793-114">Cookie Mode and IsAuthenticated</span></span>  
+ <span data-ttu-id="0e793-115">Observe que en algunas circunstancias, la propiedad <xref:System.Security.Principal.IIdentity.IsAuthenticated%2A> de la interfaz <xref:System.Security.Principal.IIdentity> devuelve `true` aun cuando el cliente remoto se autentique como un usuario anónimo.</span><span class="sxs-lookup"><span data-stu-id="0e793-115">Note that under some circumstances, the <xref:System.Security.Principal.IIdentity.IsAuthenticated%2A> property of the <xref:System.Security.Principal.IIdentity> interface returns `true` even if the remote client is authenticated as an anonymous user.</span></span> <span data-ttu-id="0e793-116">(La propiedad <xref:System.ServiceModel.ServiceSecurityContext.PrimaryIdentity%2A> devuelve una implementación de la interfaz <xref:System.Security.Principal.IIdentity>.) Las siguientes circunstancias deben ser verdaderas para que esto se produzca:</span><span class="sxs-lookup"><span data-stu-id="0e793-116">(The <xref:System.ServiceModel.ServiceSecurityContext.PrimaryIdentity%2A> property returns an implementation of the <xref:System.Security.Principal.IIdentity> interface.) The following circumstances must be true for this to occur:</span></span>  
+  
+-   <span data-ttu-id="0e793-117">El servicio utiliza la autenticación de Windows.</span><span class="sxs-lookup"><span data-stu-id="0e793-117">The service uses Windows authentication.</span></span>  
+  
+-   <span data-ttu-id="0e793-118">El servicio permite inicios de sesión anónimos.</span><span class="sxs-lookup"><span data-stu-id="0e793-118">The service allows anonymous logons.</span></span>  
+  
+-   <span data-ttu-id="0e793-119">El enlace es un [ &lt;customBinding&gt;](~/docs/framework/configure-apps/file-schema/wcf/custombinding.md).</span><span class="sxs-lookup"><span data-stu-id="0e793-119">The binding is a [&lt;customBinding&gt;](~/docs/framework/configure-apps/file-schema/wcf/custombinding.md).</span></span>  
+  
+-   <span data-ttu-id="0e793-120">El enlace personalizado incluye un elemento `<security>`.</span><span class="sxs-lookup"><span data-stu-id="0e793-120">The custom binding includes a `<security>` element.</span></span>  
+  
+-   <span data-ttu-id="0e793-121">El `<security>` elemento incluye un [ &lt;secureConversationBootstrap&gt; ](~/docs/framework/configure-apps/file-schema/wcf/secureconversationbootstrap.md) con el `requireSecurityContextCancellation` atributo establecido en `false`.</span><span class="sxs-lookup"><span data-stu-id="0e793-121">The `<security>` element includes a [&lt;secureConversationBootstrap&gt;](~/docs/framework/configure-apps/file-schema/wcf/secureconversationbootstrap.md) with the `requireSecurityContextCancellation` attribute set to `false`.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="0e793-122">El ejemplo siguiente utiliza la clase <xref:System.ServiceModel.ServiceSecurityContext> para proporcionar información sobre el contexto de seguridad actual.</span><span class="sxs-lookup"><span data-stu-id="0e793-122">The following example uses the <xref:System.ServiceModel.ServiceSecurityContext> class to provide information about the current security context.</span></span> <span data-ttu-id="0e793-123">El código crea una instancia de la clase <xref:System.IO.StreamWriter> para escribir la información en un archivo.</span><span class="sxs-lookup"><span data-stu-id="0e793-123">The code creates an instance of the <xref:System.IO.StreamWriter> class to write the information to a file.</span></span>  
+  
+ [!code-csharp[ServiceSecurityContext#1](~/samples/snippets/csharp/VS_Snippets_CFX/servicesecuritycontext/cs/source.cs#1)]
+ [!code-vb[ServiceSecurityContext#1](~/samples/snippets/visualbasic/VS_Snippets_CFX/servicesecuritycontext/vb/source.vb#1)]  
+  
+ <span data-ttu-id="0e793-124">El ejemplo siguiente muestra una implementación del método <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccessCore%2A> que utiliza <xref:System.ServiceModel.ServiceSecurityContext> para analizar un conjunto de notificaciones.</span><span class="sxs-lookup"><span data-stu-id="0e793-124">The following example shows an implementation of the <xref:System.ServiceModel.ServiceAuthorizationManager.CheckAccessCore%2A> method that uses the <xref:System.ServiceModel.ServiceSecurityContext> to parse a set of claims.</span></span>  
+  
+ [!code-csharp[ServiceSecurityContext#2](~/samples/snippets/csharp/VS_Snippets_CFX/servicesecuritycontext/cs/source.cs#2)]
+ [!code-vb[ServiceSecurityContext#2](~/samples/snippets/visualbasic/VS_Snippets_CFX/servicesecuritycontext/vb/source.vb#2)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="P:System.ServiceModel.OperationContext.Current" />
+    <altmember cref="T:System.ServiceModel.OperationContext" />
+    <altmember cref="T:System.IdentityModel.Claims.Claim" />
+    <altmember cref="T:System.IdentityModel.Claims.ClaimSet" />
+    <altmember cref="T:System.ServiceModel.ServiceAuthorizationManager" />
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="0e793-125">Inicializa una nueva instancia de la clase <see cref="T:System.ServiceModel.ServiceSecurityContext" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-125">Initializes a new instance of the <see cref="T:System.ServiceModel.ServiceSecurityContext" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ServiceSecurityContext (System.Collections.ObjectModel.ReadOnlyCollection&lt;System.IdentityModel.Policy.IAuthorizationPolicy&gt; authorizationPolicies);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Collections.ObjectModel.ReadOnlyCollection`1&lt;class System.IdentityModel.Policy.IAuthorizationPolicy&gt; authorizationPolicies) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ServiceSecurityContext.#ctor(System.Collections.ObjectModel.ReadOnlyCollection{System.IdentityModel.Policy.IAuthorizationPolicy})" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (authorizationPolicies As ReadOnlyCollection(Of IAuthorizationPolicy))" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ServiceSecurityContext(System::Collections::ObjectModel::ReadOnlyCollection&lt;System::IdentityModel::Policy::IAuthorizationPolicy ^&gt; ^ authorizationPolicies);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="authorizationPolicies" Type="System.Collections.ObjectModel.ReadOnlyCollection&lt;System.IdentityModel.Policy.IAuthorizationPolicy&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="authorizationPolicies">
+          <span data-ttu-id="0e793-126">
+            <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> de tipo <see cref="T:System.IdentityModel.Policy.IAuthorizationPolicy" /> que contiene las directivas de autorización.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-126">A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> of type <see cref="T:System.IdentityModel.Policy.IAuthorizationPolicy" /> that contains the authorization policies.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="0e793-127">Inicializa una nueva instancia de la clase <see cref="T:System.ServiceModel.ServiceSecurityContext" /> con la colección de objetos de directivas.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-127">Initializes a new instance of the <see cref="T:System.ServiceModel.ServiceSecurityContext" /> class with the collection of policies object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="0e793-128">Este constructor utiliza el motor predeterminado de encadenamiento de directiva.</span><span class="sxs-lookup"><span data-stu-id="0e793-128">This constructor uses the default policy-chaining engine.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ServiceSecurityContext (System.IdentityModel.Policy.AuthorizationContext authorizationContext);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.IdentityModel.Policy.AuthorizationContext authorizationContext) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ServiceSecurityContext.#ctor(System.IdentityModel.Policy.AuthorizationContext)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ServiceSecurityContext(System::IdentityModel::Policy::AuthorizationContext ^ authorizationContext);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="authorizationContext" Type="System.IdentityModel.Policy.AuthorizationContext" />
+      </Parameters>
+      <Docs>
+        <param name="authorizationContext">
+          <span data-ttu-id="0e793-129">
+            <see cref="T:System.IdentityModel.Policy.AuthorizationContext" /> que contiene información de autorización.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-129">An <see cref="T:System.IdentityModel.Policy.AuthorizationContext" /> that contains authorization information.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="0e793-130">Inicializa una nueva instancia de la clase <see cref="T:System.ServiceModel.ServiceSecurityContext" /> con los parámetros de autorización especificados.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-130">Initializes a new instance of the <see cref="T:System.ServiceModel.ServiceSecurityContext" /> class with the specified authorization parameters.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="0e793-131">Este constructor se utiliza normalmente en escenarios donde una aplicación ejecuta su propio motor de encadenamiento de directiva, lo que resulta en <xref:System.IdentityModel.Policy.AuthorizationContext>.</span><span class="sxs-lookup"><span data-stu-id="0e793-131">This constructor is typically used in scenarios where an application runs its own policy-chaining engine, which results in an <xref:System.IdentityModel.Policy.AuthorizationContext>.</span></span> <span data-ttu-id="0e793-132">En el caso del motor de directiva predeterminado, utilice los constructores que toman una colección de <xref:System.IdentityModel.Policy.IAuthorizationPolicy> como parámetro.</span><span class="sxs-lookup"><span data-stu-id="0e793-132">For the default policy engine, use the constructors that take a collection of <xref:System.IdentityModel.Policy.IAuthorizationPolicy> as parameter.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ServiceSecurityContext (System.IdentityModel.Policy.AuthorizationContext authorizationContext, System.Collections.ObjectModel.ReadOnlyCollection&lt;System.IdentityModel.Policy.IAuthorizationPolicy&gt; authorizationPolicies);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.IdentityModel.Policy.AuthorizationContext authorizationContext, class System.Collections.ObjectModel.ReadOnlyCollection`1&lt;class System.IdentityModel.Policy.IAuthorizationPolicy&gt; authorizationPolicies) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ServiceSecurityContext.#ctor(System.IdentityModel.Policy.AuthorizationContext,System.Collections.ObjectModel.ReadOnlyCollection{System.IdentityModel.Policy.IAuthorizationPolicy})" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ServiceSecurityContext(System::IdentityModel::Policy::AuthorizationContext ^ authorizationContext, System::Collections::ObjectModel::ReadOnlyCollection&lt;System::IdentityModel::Policy::IAuthorizationPolicy ^&gt; ^ authorizationPolicies);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="authorizationContext" Type="System.IdentityModel.Policy.AuthorizationContext" />
+        <Parameter Name="authorizationPolicies" Type="System.Collections.ObjectModel.ReadOnlyCollection&lt;System.IdentityModel.Policy.IAuthorizationPolicy&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="authorizationContext">
+          <span data-ttu-id="0e793-133">
+            <see cref="T:System.IdentityModel.Policy.AuthorizationContext" /> que contiene configuración de autorización.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-133">An <see cref="T:System.IdentityModel.Policy.AuthorizationContext" /> that contains authorization settings.</span>
+          </span>
+        </param>
+        <param name="authorizationPolicies">
+          <span data-ttu-id="0e793-134">
+            <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> de tipo <see cref="T:System.IdentityModel.Policy.IAuthorizationPolicy" /> que contiene las directivas de autorización.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-134">A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> of type <see cref="T:System.IdentityModel.Policy.IAuthorizationPolicy" /> that contains the authorization policies.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="0e793-135">Inicializa una nueva instancia de la clase <see cref="T:System.ServiceModel.ServiceSecurityContext" /> con los parámetros de autorización y la colección de directivas especificados.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-135">Initializes a new instance of the <see cref="T:System.ServiceModel.ServiceSecurityContext" /> class with the specified authorization parameters and collection of policies.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Anonymous">
+      <MemberSignature Language="C#" Value="public static System.ServiceModel.ServiceSecurityContext Anonymous { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class System.ServiceModel.ServiceSecurityContext Anonymous" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.ServiceSecurityContext.Anonymous" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly Property Anonymous As ServiceSecurityContext" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static property System::ServiceModel::ServiceSecurityContext ^ Anonymous { System::ServiceModel::ServiceSecurityContext ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ServiceModel.ServiceSecurityContext</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="0e793-136">Devuelve una instancia de la clase <see cref="T:System.ServiceModel.ServiceSecurityContext" /> que contiene una colección vacía de notificaciones, identidades y otros datos de contexto que normalmente se utiliza para representar una parte anónima.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-136">Returns an instance of the <see cref="T:System.ServiceModel.ServiceSecurityContext" /> class that contains an empty collection of claims, identities, and other context data that is usually used to represent an anonymous party.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="0e793-137">Una instancia vacía de <see cref="T:System.ServiceModel.ServiceSecurityContext" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-137">An empty instance of the <see cref="T:System.ServiceModel.ServiceSecurityContext" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AuthorizationContext">
+      <MemberSignature Language="C#" Value="public System.IdentityModel.Policy.AuthorizationContext AuthorizationContext { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.IdentityModel.Policy.AuthorizationContext AuthorizationContext" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.ServiceSecurityContext.AuthorizationContext" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property AuthorizationContext As AuthorizationContext" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::IdentityModel::Policy::AuthorizationContext ^ AuthorizationContext { System::IdentityModel::Policy::AuthorizationContext ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IdentityModel.Policy.AuthorizationContext</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="0e793-138">Obtiene la información de autorización para una instancia de esta clase.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-138">Gets the authorization information for an instance of this class.</span>
+          </span>
+          <span data-ttu-id="0e793-139">
+            <see cref="T:System.IdentityModel.Policy.AuthorizationContext" /> contiene una colección de <see cref="T:System.IdentityModel.Claims.ClaimSet" /> que la aplicación puede interrogar y recuperar la información de la parte.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-139">The <see cref="T:System.IdentityModel.Policy.AuthorizationContext" /> contains a collection of <see cref="T:System.IdentityModel.Claims.ClaimSet" /> that the application can interrogate and retrieve the information of the party.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="0e793-140">
+            <see cref="T:System.IdentityModel.Policy.AuthorizationContext" /> que contiene la configuración de autorización.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-140">An <see cref="T:System.IdentityModel.Policy.AuthorizationContext" /> that contains the authorization settings.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AuthorizationPolicies">
+      <MemberSignature Language="C#" Value="public System.Collections.ObjectModel.ReadOnlyCollection&lt;System.IdentityModel.Policy.IAuthorizationPolicy&gt; AuthorizationPolicies { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.ObjectModel.ReadOnlyCollection`1&lt;class System.IdentityModel.Policy.IAuthorizationPolicy&gt; AuthorizationPolicies" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.ServiceSecurityContext.AuthorizationPolicies" />
+      <MemberSignature Language="VB.NET" Value="Public Property AuthorizationPolicies As ReadOnlyCollection(Of IAuthorizationPolicy)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Collections::ObjectModel::ReadOnlyCollection&lt;System::IdentityModel::Policy::IAuthorizationPolicy ^&gt; ^ AuthorizationPolicies { System::Collections::ObjectModel::ReadOnlyCollection&lt;System::IdentityModel::Policy::IAuthorizationPolicy ^&gt; ^ get(); void set(System::Collections::ObjectModel::ReadOnlyCollection&lt;System::IdentityModel::Policy::IAuthorizationPolicy ^&gt; ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.ObjectModel.ReadOnlyCollection&lt;System.IdentityModel.Policy.IAuthorizationPolicy&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="0e793-141">Obtiene la colección de directivas asociada a una instancia de esta clase.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-141">Gets the collection of policies associated with an instance of this class.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="0e793-142">
+            <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> de tipo <see cref="T:System.IdentityModel.Policy.IAuthorizationPolicy" /> que contiene las directivas.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-142">A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> of type <see cref="T:System.IdentityModel.Policy.IAuthorizationPolicy" /> that contains the policies.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ [<span data-ttu-id="0e793-143">Administración de notificaciones y autorización con el modelo de identidad</span><span class="sxs-lookup"><span data-stu-id="0e793-143">Managing Claims and Authorization with the Identity Model</span></span>](~/docs/framework/wcf/feature-details/managing-claims-and-authorization-with-the-identity-model.md)  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Current">
+      <MemberSignature Language="C#" Value="public static System.ServiceModel.ServiceSecurityContext Current { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class System.ServiceModel.ServiceSecurityContext Current" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.ServiceSecurityContext.Current" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly Property Current As ServiceSecurityContext" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static property System::ServiceModel::ServiceSecurityContext ^ Current { System::ServiceModel::ServiceSecurityContext ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ServiceModel.ServiceSecurityContext</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="0e793-144">Obtiene la estructura <see cref="T:System.ServiceModel.ServiceSecurityContext" /> actual.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-144">Gets the current <see cref="T:System.ServiceModel.ServiceSecurityContext" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="0e793-145">Objeto <see cref="T:System.ServiceModel.ServiceSecurityContext" /> actual.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-145">The current <see cref="T:System.ServiceModel.ServiceSecurityContext" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsAnonymous">
+      <MemberSignature Language="C#" Value="public bool IsAnonymous { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsAnonymous" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.ServiceSecurityContext.IsAnonymous" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsAnonymous As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsAnonymous { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="0e793-146">Obtiene un valor que indica si el cliente actual ha proporcionado las credenciales al servicio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-146">Gets a value that indicates whether the current client has provided credentials to the service.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="0e793-147">
+            <see langword="true" /> si el cliente ha proporcionado las credenciales; de lo contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-147">
+              <see langword="true" /> if the client has provided credentials; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PrimaryIdentity">
+      <MemberSignature Language="C#" Value="public System.Security.Principal.IIdentity PrimaryIdentity { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Security.Principal.IIdentity PrimaryIdentity" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.ServiceSecurityContext.PrimaryIdentity" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property PrimaryIdentity As IIdentity" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Security::Principal::IIdentity ^ PrimaryIdentity { System::Security::Principal::IIdentity ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Security.Principal.IIdentity</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="0e793-148">Obtiene la identidad primaria asociada con el valor actual.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-148">Gets the primary identity associated with the current setting.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="0e793-149">
+            <see cref="T:System.Security.Principal.IIdentity" /> asociado con el valor actual.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-149">An <see cref="T:System.Security.Principal.IIdentity" /> associated with the current setting.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="0e793-150">La identidad primaria se obtiene de las credenciales utilizadas para autenticar al usuario actual.</span><span class="sxs-lookup"><span data-stu-id="0e793-150">The primary identity is obtained from the credentials used to authenticate the current user.</span></span> <span data-ttu-id="0e793-151">Si la credencial es un certificado X.509, la identidad es una concatenación del nombre del sujeto y la huella digital (en ese orden).</span><span class="sxs-lookup"><span data-stu-id="0e793-151">If the credential is an X.509 certificate, the identity is a concatenation of the subject name and the thumbprint (in that order).</span></span> <span data-ttu-id="0e793-152">El nombre del sujeto se separa de la huella digital con un punto y coma y un espacio.</span><span class="sxs-lookup"><span data-stu-id="0e793-152">The subject name is separated from the thumbprint with a semicolon and a space.</span></span> <span data-ttu-id="0e793-153">Si el campo del sujeto del certificado es `null`, la identidad primaria incluye simplemente un punto y coma, un espacio y la huella digital.</span><span class="sxs-lookup"><span data-stu-id="0e793-153">If the subject field of the certificate is `null`, the primary identity includes just a semicolon, a space, and the thumbprint.</span></span>  
+  
+ <span data-ttu-id="0e793-154">Cuando un modelo de intercambio de mensajes dúplex se utiliza con la autenticación directa de Kerberos, esta propiedad pasa a estar vacía en la devolución de llamada y claimset también está vacío.</span><span class="sxs-lookup"><span data-stu-id="0e793-154">When a duplex message exchange pattern is used with Kerberos direct authentication, this property becomes empty on the callback and the claimset is also empty.</span></span> <span data-ttu-id="0e793-155">Esto no sucede cuando *SspiNegotiated* se utiliza en lugar de Kerberos.</span><span class="sxs-lookup"><span data-stu-id="0e793-155">This does not happen when *SspiNegotiated* is used instead of Kerberos.</span></span>  
+  
+ <span data-ttu-id="0e793-156">El token de solicitante de Kerberos sólo se utiliza en el cliente para representar el servicio.</span><span class="sxs-lookup"><span data-stu-id="0e793-156">The Kerberos Requester Token is used only on the client to represent the service.</span></span> <span data-ttu-id="0e793-157">La directiva de autorización que genera contiene una notificación, un SPN; por lo tanto, no hay ninguna identidad en la notificación.</span><span class="sxs-lookup"><span data-stu-id="0e793-157">The authorization policy that it generates contains one claim, an SPN; hence, no identity in the claim.</span></span> <span data-ttu-id="0e793-158">En la mayoría de los casos no hay ningún problema, porque <xref:System.ServiceModel.ServiceSecurityContext> no se utiliza en el cliente.</span><span class="sxs-lookup"><span data-stu-id="0e793-158">In most cases there is no problem, because <xref:System.ServiceModel.ServiceSecurityContext> is not used on the client.</span></span> <span data-ttu-id="0e793-159">En un escenario dúplex durante la devolución de llamada, si la devolución de llamada inspecciona esta propiedad, obtiene una identidad anónima.</span><span class="sxs-lookup"><span data-stu-id="0e793-159">In a duplex scenario during callback, if the callback inspects this property, it gets an anonymous identity.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="0e793-160">Para obtener un ejemplo del uso de la `PrimaryIdentity` propiedad para autorizar a un cliente mediante un certificado, consulte [Cómo: examinar el contexto de seguridad](~/docs/framework/wcf/how-to-examine-the-security-context.md).</span><span class="sxs-lookup"><span data-stu-id="0e793-160">For an example of using the `PrimaryIdentity` property to authorize a client using a certificate, see [How to: Examine the Security Context](~/docs/framework/wcf/how-to-examine-the-security-context.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Security.Permissions.PrincipalPermissionAttribute" />
+        <altmember cref="T:System.Security.Principal.IPrincipal" />
+      </Docs>
+    </Member>
+    <Member MemberName="WindowsIdentity">
+      <MemberSignature Language="C#" Value="public System.Security.Principal.WindowsIdentity WindowsIdentity { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Security.Principal.WindowsIdentity WindowsIdentity" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.ServiceSecurityContext.WindowsIdentity" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property WindowsIdentity As WindowsIdentity" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Security::Principal::WindowsIdentity ^ WindowsIdentity { System::Security::Principal::WindowsIdentity ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Security.Principal.WindowsIdentity</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="0e793-161">Obtiene la identidad de Windows del valor actual.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-161">Gets the Windows identity of the current setting.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="0e793-162">
+            <see cref="T:System.Security.Principal.WindowsIdentity" /> que representa el usuario de dominio de Windows.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="0e793-162">A <see cref="T:System.Security.Principal.WindowsIdentity" /> that represents the Windows domain user.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="0e793-163">Si la parte remota no puede estar asociada a una cuenta de Windows, la propiedad <xref:System.Security.Principal.WindowsIdentity.IsAnonymous%2A> estará establecida en `true`.</span><span class="sxs-lookup"><span data-stu-id="0e793-163">If the remote party cannot be associated with a Windows account, the <xref:System.Security.Principal.WindowsIdentity.IsAnonymous%2A> property is set to `true`.</span></span>  
+  
+   
+  
+## Examples  
+ <xref:System.Security.Permissions.PrincipalPermissionAttribute>  
+  
+ <xref:System.Security.Principal.IPrincipal>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
