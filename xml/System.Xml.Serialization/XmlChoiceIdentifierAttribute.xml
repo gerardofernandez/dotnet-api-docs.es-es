@@ -1,0 +1,316 @@
+<Type Name="XmlChoiceIdentifierAttribute" FullName="System.Xml.Serialization.XmlChoiceIdentifierAttribute">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="cf8e0936efaad93549d3d919319b64917f382988" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="es-ES" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class XmlChoiceIdentifierAttribute : Attribute" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit XmlChoiceIdentifierAttribute extends System.Attribute" />
+  <TypeSignature Language="DocId" Value="T:System.Xml.Serialization.XmlChoiceIdentifierAttribute" />
+  <TypeSignature Language="VB.NET" Value="Public Class XmlChoiceIdentifierAttribute&#xA;Inherits Attribute" />
+  <TypeSignature Language="C++ CLI" Value="public ref class XmlChoiceIdentifierAttribute : Attribute" />
+  <AssemblyInfo>
+    <AssemblyName>System.Xml.XmlSerializer</AssemblyName>
+    <AssemblyVersion>4.0.10.0</AssemblyVersion>
+    <AssemblyVersion>4.1.0.0</AssemblyVersion>
+    <AssemblyVersion>4.1.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Xml</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Attribute</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.AttributeUsage(System.AttributeTargets.Field | System.AttributeTargets.Parameter | System.AttributeTargets.Property | System.AttributeTargets.ReturnValue, AllowMultiple=false)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="45512-101">Especifica que el miembro se puede detectar mejor con una enumeración.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="45512-101">Specifies that the member can be further detected by using an enumeration.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="45512-102">La definición de elemento de esquema XML denominada `xsi:choice` se utiliza para definir un elemento complejo que puede contener un único elemento secundario en una instancia (maxoccurs = 1).</span><span class="sxs-lookup"><span data-stu-id="45512-102">The XML schema element definition named `xsi:choice` is used to define a complex element that can contain only one child in an instance (maxoccurs = 1).</span></span> <span data-ttu-id="45512-103">Ese elemento secundario puede ser uno de varios tipos y puede tener uno de los diversos nombres.</span><span class="sxs-lookup"><span data-stu-id="45512-103">That child can be one of several types, and it can have one of several names.</span></span> <span data-ttu-id="45512-104">Cada nombre está asociado con un tipo específico; Sin embargo, varios nombres pueden asociarse con el mismo tipo.</span><span class="sxs-lookup"><span data-stu-id="45512-104">Each name is associated with a specific type; however, several names can be associated with the same type.</span></span> <span data-ttu-id="45512-105">Por este motivo, una instancia de este tipo de elementos es imprecisa.</span><span class="sxs-lookup"><span data-stu-id="45512-105">Because of this, an instance of such an element is indistinct.</span></span> <span data-ttu-id="45512-106">Por ejemplo, considere el siguiente fragmento de esquema que define un elemento impreciso denominado `MyChoice`.</span><span class="sxs-lookup"><span data-stu-id="45512-106">For example, consider the following schema fragment that defines such an indistinct element named `MyChoice`.</span></span>  
+  
+```  
+<xsd:complexType name="MyChoice">  
+ <xsd:sequence>  
+ <xsd:choice minOccurs="0" maxOccurs="1">  
+ <xsd:element minOccurs="1" maxOccurs="1" name="ChoiceOne" type="xsd:string" />  
+ <xsd:element minOccurs="1" maxOccurs="1" name="ChoiceTwo" type="xsd:string" />  
+ </xsd:choice>  
+ </xsd:sequence>  
+</xsd:complexType>  
+```  
+  
+ <span data-ttu-id="45512-107">El <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> permite asignar un valor de enumeración especial a cada instancia del miembro.</span><span class="sxs-lookup"><span data-stu-id="45512-107">The <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> allows you to assign a special enumeration value to each instance of the member.</span></span> <span data-ttu-id="45512-108">Usted puede crear la enumeración o ésta puede ser generada por el [herramienta de definición de esquemas XML (Xsd.exe)](~/docs/standard/serialization/xml-schema-definition-tool-xsd-exe.md).</span><span class="sxs-lookup"><span data-stu-id="45512-108">You must either create the enumeration yourself or it can be generated by the [XML Schema Definition Tool (Xsd.exe)](~/docs/standard/serialization/xml-schema-definition-tool-xsd-exe.md).</span></span> <span data-ttu-id="45512-109">La siguiente muestra de código de C# cómo <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> se aplica a un `Item` campo; el <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> propiedad identifica el campo que contiene la enumeración que se utiliza para detectar la elección.</span><span class="sxs-lookup"><span data-stu-id="45512-109">The following C# code shows how the <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> is applied to an `Item` field; the <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> property identifies the field that contains the enumeration that is further used to detect the choice.</span></span>  
+  
+```  
+public class Choices{  
+ [XmlChoiceIdentifier("ItemType")]  
+ [XmlChoiceIdentifier("ChoiceOne")]  
+ [XmlChoiceIdentifier("ChoiceTwo")]  
+ public string MyChoice;  
+  
+ // Do not serialize this next field:  
+ [XmlIgnore]  
+ public ItemChoiceType ItemType;  
+}  
+// Do not include this enumeration in the XML schema.  
+[XmlType(IncludeInSchema = false)]  
+public enum ItemChoiceType{  
+ ChoiceOne,  
+ ChoiceTwo,  
+}  
+```  
+  
+ <span data-ttu-id="45512-110">Cuando este código está en su lugar, se puede serializar y deserializar esta clase estableciendo el `ItemType` campo en una enumeración apropiada.</span><span class="sxs-lookup"><span data-stu-id="45512-110">When this code is in place, you can serialize and deserialize this class by setting the `ItemType` field to an appropriate enumeration.</span></span> <span data-ttu-id="45512-111">Por ejemplo, para serializar el `Choice` (clase), el código de C# es similar al siguiente.</span><span class="sxs-lookup"><span data-stu-id="45512-111">For example, to serialize the `Choice` class, the C# code resembles the following.</span></span>  
+  
+```  
+Choices mc = new Choices();  
+mc.MyChoice = "Item Choice One";  
+mc.ItemType = ItemChoiceType.ChoiceOne;  
+```  
+  
+ <span data-ttu-id="45512-112">Al deserializar, el código de C# es similar al siguiente:</span><span class="sxs-lookup"><span data-stu-id="45512-112">When deserializing, the C# code resembles the following:</span></span>  
+  
+```  
+MyChoice mc = (MyChoice) myXmlSerializer.Deserialize(myReader);  
+if(mc.ItemType == ItemChoiceType.ChoiceOne)  
+ {  
+     // Handle choice one.  
+ }  
+if(mc.ItemType == ItemChoiceType.ChoiceTwo)  
+ {  
+     // Handle choice two.  
+ }  
+if(mc.ItemType != null)  
+ {  
+     throw CreateUnknownTypeException(mc.Item);  
+ }  
+```  
+  
+ <span data-ttu-id="45512-113">Hay un segundo escenario cuando el <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> se utiliza.</span><span class="sxs-lookup"><span data-stu-id="45512-113">There is a second scenario when the <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> is used.</span></span> <span data-ttu-id="45512-114">En el esquema siguiente, el miembro es un campo que devuelve una matriz de elementos (maxOccurs = "unbounded").</span><span class="sxs-lookup"><span data-stu-id="45512-114">In the following schema, the member is a field that returns an array of items (maxOccurs="unbounded").</span></span> <span data-ttu-id="45512-115">La matriz puede contener objetos de la primera opción ("D-a-t-a") y de la segunda opción ("MoreData").</span><span class="sxs-lookup"><span data-stu-id="45512-115">The array can contain objects of the first choice ("D-a-t-a"), and of the second choice ("MoreData").</span></span>  
+  
+```  
+<xsd:complexType name="MyChoice">  
+ <xsd:sequence>  
+ <xsd:choice minOccurs="0" maxOccurs="unbounded">  
+ <xsd:element minOccurs="1" maxOccurs="1" name="D-a-t-a" type="xsd:string" />  
+ <xsd:element minOccurs="1" maxOccurs="1" name="MoreData" type="xsd:string" />  
+ </xsd:choice>  
+ </xsd:sequence>  
+</xsd:complexType>  
+```  
+  
+ <span data-ttu-id="45512-116">La clase resultante, a continuación, usa un campo para devolver una matriz de elementos.</span><span class="sxs-lookup"><span data-stu-id="45512-116">The resulting class then uses a field to return an array of items.</span></span> <span data-ttu-id="45512-117">Para cada elemento de la matriz, su correspondiente `ItemChoiceType` enumeración debe hallarse también.</span><span class="sxs-lookup"><span data-stu-id="45512-117">For each item in the array, a corresponding `ItemChoiceType` enumeration must also be found.</span></span> <span data-ttu-id="45512-118">Las enumeraciones que coinciden se encuentran en la matriz devuelta por la `ItemsElementName` campo.</span><span class="sxs-lookup"><span data-stu-id="45512-118">The matching enumerations are contained in the array returned by the `ItemsElementName` field.</span></span>  
+  
+```  
+public class MyChoice {  
+ [System.Xml.Serialization.XmlElementAttribute("D-a-t-a", typeof(string), IsNullable=false)]  
+ [System.Xml.Serialization.XmlElementAttribute("MoreData", typeof(string), IsNullable=false)]  
+ [System.Xml.Serialization.XmlChoiceIdentifierAttribute("ItemsElementName")]  
+ public string[] Items;  
+ [System.Xml.Serialization.XmlElementAttribute(IsNullable=false)]  
+ [System.Xml.Serialization.XmlIgnoreAttribute()]  
+ public ItemsChoiceType[] ItemsElementName;  
+}  
+[System.Xml.Serialization.XmlTypeAttribute(IncludeInSchema=false)]  
+public enum ItemsChoiceType {  
+ [System.Xml.Serialization.XmlEnumAttribute("D-a-t-a")]  
+ Data,  
+ MoreData,  
+}  
+```  
+  
+ <span data-ttu-id="45512-119">Al deserializar un objeto que incluye una amplia variedad de opciones, utilice una estructura de control (como if... then... else estructura) para determinar cómo deserializar un valor determinado.</span><span class="sxs-lookup"><span data-stu-id="45512-119">When deserializing an object that includes a range of choices, use a control structure (such as an if...then...else structure) to determine how to deserialize a particular value.</span></span> <span data-ttu-id="45512-120">En la estructura de control, compruebe el valor de enumeración y deserializar el valor en consecuencia.</span><span class="sxs-lookup"><span data-stu-id="45512-120">In the control structure, check the enumeration value and deserialize the value accordingly.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="45512-121">En el ejemplo siguiente se serializa una clase denominada `Choices` que incluye dos campos, `MyChoice` y `ManyChoices`.</span><span class="sxs-lookup"><span data-stu-id="45512-121">The following example serializes a class named `Choices` that includes two fields, `MyChoice` and `ManyChoices`.</span></span> <span data-ttu-id="45512-122">El <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> se aplica a cada campo que especifica (a través de la <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> propiedad) otro miembro de clase que obtiene o establece una enumeración que detecta el valor del miembro.</span><span class="sxs-lookup"><span data-stu-id="45512-122">The <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> is applied to each field that specifies (through the <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> property) another class member that gets or sets an enumeration that detects the member value.</span></span> <span data-ttu-id="45512-123">El `MyChoice` campo puede establecerse en un valor único, con un miembro de enumeración correspondiente que se encuentra en la `EnumType` campo.</span><span class="sxs-lookup"><span data-stu-id="45512-123">The `MyChoice` field can be set to a single value, with a corresponding enumeration member found in the `EnumType` field.</span></span> <span data-ttu-id="45512-124">El `ManyChoices` campo devuelve una matriz de objetos.</span><span class="sxs-lookup"><span data-stu-id="45512-124">The `ManyChoices` field returns an array of objects.</span></span> <span data-ttu-id="45512-125">El `ChoiceArray` campo devuelve una matriz de valores de enumeración.</span><span class="sxs-lookup"><span data-stu-id="45512-125">The `ChoiceArray` field returns an array of enumeration values.</span></span> <span data-ttu-id="45512-126">Para cada miembro de la matriz en la `ManyChoices` campo, un miembro correspondiente se encuentra en la matriz devuelta por la `ChoiceArray` campo.</span><span class="sxs-lookup"><span data-stu-id="45512-126">For each array member in the `ManyChoices` field, a corresponding member is found in the array returned by the `ChoiceArray` field.</span></span>  
+  
+ [!code-cpp[XmlChoiceIdentifierAttribute Example#1](~/samples/snippets/cpp/VS_Snippets_Remoting/XmlChoiceIdentifierAttribute Example/CPP/choice.cpp#1)]
+ [!code-csharp[XmlChoiceIdentifierAttribute Example#1](~/samples/snippets/csharp/VS_Snippets_Remoting/XmlChoiceIdentifierAttribute Example/CS/choice.cs#1)]
+ [!code-vb[XmlChoiceIdentifierAttribute Example#1](~/samples/snippets/visualbasic/VS_Snippets_Remoting/XmlChoiceIdentifierAttribute Example/VB/choice.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Xml.Serialization.XmlAttributes" />
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System.Xml.XmlSerializer</AssemblyName>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="45512-127">Inicializa una nueva instancia de la clase <see cref="T:System.Xml.Serialization.XmlChoiceIdentifierAttribute" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="45512-127">Initializes a new instance of the <see cref="T:System.Xml.Serialization.XmlChoiceIdentifierAttribute" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public XmlChoiceIdentifierAttribute ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Xml.Serialization.XmlChoiceIdentifierAttribute.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; XmlChoiceIdentifierAttribute();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml.XmlSerializer</AssemblyName>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="45512-128">Inicializa una nueva instancia de la clase <see cref="T:System.Xml.Serialization.XmlChoiceIdentifierAttribute" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="45512-128">Initializes a new instance of the <see cref="T:System.Xml.Serialization.XmlChoiceIdentifierAttribute" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="45512-129">En el ejemplo siguiente se serializa una clase denominada `Choices` que incluye dos campos, `MyChoice` y `ManyChoices`.</span><span class="sxs-lookup"><span data-stu-id="45512-129">The following example serializes a class named `Choices` that includes two fields, `MyChoice` and `ManyChoices`.</span></span> <span data-ttu-id="45512-130">El <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> se aplica a cada campo que especifica (a través de la <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> propiedad) otro miembro de clase que obtiene o establece una enumeración que detecta el valor del miembro.</span><span class="sxs-lookup"><span data-stu-id="45512-130">The <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> is applied to each field that specifies (through the <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> property) another class member that gets or sets an enumeration that detects the member value.</span></span> <span data-ttu-id="45512-131">El `MyChoice` campo puede establecerse en un valor único, con un miembro de enumeración correspondiente que se encuentra en la `EnumType` campo.</span><span class="sxs-lookup"><span data-stu-id="45512-131">The `MyChoice` field can be set to a single value, with a corresponding enumeration member found in the `EnumType` field.</span></span> <span data-ttu-id="45512-132">El `ManyChoices` campo devuelve una matriz de objetos.</span><span class="sxs-lookup"><span data-stu-id="45512-132">The `ManyChoices` field returns an array of objects.</span></span> <span data-ttu-id="45512-133">El `ChoiceArray` campo devuelve una matriz de valores de enumeración.</span><span class="sxs-lookup"><span data-stu-id="45512-133">The `ChoiceArray` field returns an array of enumeration values.</span></span> <span data-ttu-id="45512-134">Para cada miembro de la matriz en la `ManyChoices` campo, un miembro correspondiente se encuentra en la matriz devuelta por la `ChoiceArray` campo.</span><span class="sxs-lookup"><span data-stu-id="45512-134">For each array member in the `ManyChoices` field, a corresponding member is found in the array returned by the `ChoiceArray` field.</span></span>  
+  
+ [!code-cpp[XmlChoiceIdentifierAttribute Example#1](~/samples/snippets/cpp/VS_Snippets_Remoting/XmlChoiceIdentifierAttribute Example/CPP/choice.cpp#1)]
+ [!code-csharp[XmlChoiceIdentifierAttribute Example#1](~/samples/snippets/csharp/VS_Snippets_Remoting/XmlChoiceIdentifierAttribute Example/CS/choice.cs#1)]
+ [!code-vb[XmlChoiceIdentifierAttribute Example#1](~/samples/snippets/visualbasic/VS_Snippets_Remoting/XmlChoiceIdentifierAttribute Example/VB/choice.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public XmlChoiceIdentifierAttribute (string name);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string name) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Xml.Serialization.XmlChoiceIdentifierAttribute.#ctor(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (name As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; XmlChoiceIdentifierAttribute(System::String ^ name);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml.XmlSerializer</AssemblyName>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="name">
+          <span data-ttu-id="45512-135">El nombre de miembro que devuelve la enumeración se utiliza para detectar una elección.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="45512-135">The member name that returns the enumeration used to detect a choice.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="45512-136">Inicializa una nueva instancia de la clase <see cref="T:System.Xml.Serialization.XmlChoiceIdentifierAttribute" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="45512-136">Initializes a new instance of the <see cref="T:System.Xml.Serialization.XmlChoiceIdentifierAttribute" /> class.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MemberName">
+      <MemberSignature Language="C#" Value="public string MemberName { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string MemberName" />
+      <MemberSignature Language="DocId" Value="P:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName" />
+      <MemberSignature Language="VB.NET" Value="Public Property MemberName As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ MemberName { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml.XmlSerializer</AssemblyName>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="45512-137">Obtiene o establece el nombre del campo que devuelve la enumeración que se va a utilizar para detectar tipos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="45512-137">Gets or sets the name of the field that returns the enumeration to use when detecting types.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="45512-138">Nombre de un campo que devuelve una enumeración.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="45512-138">The name of a field that returns an enumeration.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="45512-139">Al menos un miembro debe estar presente en la enumeración que devuelve el campo denominado en el <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> valor.</span><span class="sxs-lookup"><span data-stu-id="45512-139">At least one member must be present in the enumeration returned by the field named in the <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> value.</span></span> <span data-ttu-id="45512-140">De forma predeterminada, dicho nombre de enumeración toma el nombre del campo que la <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> se aplica a.</span><span class="sxs-lookup"><span data-stu-id="45512-140">By default, that enumeration name takes the name of the field that the <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> is applied to.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="45512-141">En el ejemplo siguiente se serializa una clase denominada `Choices` que incluye dos campos, `MyChoice` y `ManyChoices`.</span><span class="sxs-lookup"><span data-stu-id="45512-141">The following example serializes a class named `Choices` that includes two fields, `MyChoice` and `ManyChoices`.</span></span> <span data-ttu-id="45512-142">El <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> se aplica a cada campo que especifica (a través de la <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> propiedad) otro miembro de clase que obtiene o establece una enumeración que detecta el valor del miembro.</span><span class="sxs-lookup"><span data-stu-id="45512-142">The <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> is applied to each field that specifies (through the <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> property) another class member that gets or sets an enumeration that detects the member value.</span></span> <span data-ttu-id="45512-143">El `MyChoice` campo puede establecerse en un valor único, con un miembro de enumeración correspondiente que se encuentra en la `EnumType` campo.</span><span class="sxs-lookup"><span data-stu-id="45512-143">The `MyChoice` field can be set to a single value, with a corresponding enumeration member found in the `EnumType` field.</span></span> <span data-ttu-id="45512-144">El `ManyChoices` campo devuelve una matriz de objetos.</span><span class="sxs-lookup"><span data-stu-id="45512-144">The `ManyChoices` field returns an array of objects.</span></span> <span data-ttu-id="45512-145">El `ChoiceArray` campo devuelve una matriz de valores de enumeración.</span><span class="sxs-lookup"><span data-stu-id="45512-145">The `ChoiceArray` field returns an array of enumeration values.</span></span> <span data-ttu-id="45512-146">Para cada miembro de la matriz en la `ManyChoices` campo, un miembro correspondiente se encuentra en la matriz devuelta por la `ChoiceArray` campo.</span><span class="sxs-lookup"><span data-stu-id="45512-146">For each array member in the `ManyChoices` field, a corresponding member is found in the array returned by the `ChoiceArray` field.</span></span>  
+  
+ [!code-cpp[XmlChoiceIdentifierAttribute Example#1](~/samples/snippets/cpp/VS_Snippets_Remoting/XmlChoiceIdentifierAttribute Example/CPP/choice.cpp#1)]
+ [!code-csharp[XmlChoiceIdentifierAttribute Example#1](~/samples/snippets/csharp/VS_Snippets_Remoting/XmlChoiceIdentifierAttribute Example/CS/choice.cs#1)]
+ [!code-vb[XmlChoiceIdentifierAttribute Example#1](~/samples/snippets/visualbasic/VS_Snippets_Remoting/XmlChoiceIdentifierAttribute Example/VB/choice.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
