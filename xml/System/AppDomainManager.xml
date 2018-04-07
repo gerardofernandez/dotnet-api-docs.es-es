@@ -1,0 +1,611 @@
+<Type Name="AppDomainManager" FullName="System.AppDomainManager">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="afa9de797efa5c60841b32251ad2c07429684aaf" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="es-ES" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class AppDomainManager : MarshalByRefObject" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit AppDomainManager extends System.MarshalByRefObject" />
+  <TypeSignature Language="DocId" Value="T:System.AppDomainManager" />
+  <TypeSignature Language="VB.NET" Value="Public Class AppDomainManager&#xA;Inherits MarshalByRefObject" />
+  <TypeSignature Language="C++ CLI" Value="public ref class AppDomainManager : MarshalByRefObject" />
+  <AssemblyInfo>
+    <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.MarshalByRefObject</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="215b5-101">Proporciona un equivalente administrado de un host no administrado.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="215b5-101">Provides a managed equivalent of an unmanaged host.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="215b5-102">No use <xref:System.AppDomainManager> para configurar un dominio de aplicación de ASP.NET.</span><span class="sxs-lookup"><span data-stu-id="215b5-102">Do not use <xref:System.AppDomainManager> to configure an application domain in ASP.NET.</span></span> <span data-ttu-id="215b5-103">En ASP.NET, configuración serán administrada por el host.</span><span class="sxs-lookup"><span data-stu-id="215b5-103">In ASP.NET, configuration must be handled by the host.</span></span>  
+  
+ <span data-ttu-id="215b5-104">Implementar la <xref:System.AppDomainManager> clase permite que una aplicación de hospedaje puede participar en la creación de nuevos dominios de aplicación.</span><span class="sxs-lookup"><span data-stu-id="215b5-104">Implementing the <xref:System.AppDomainManager> class enables a hosting application to participate in the creation of new application domains.</span></span> <span data-ttu-id="215b5-105">Para reemplazar el valor predeterminado <xref:System.AppDomainManager>, identifique el ensamblado y el tipo del reemplazo de <xref:System.AppDomainManager> en las variables de entorno APPDOMAIN_MANAGER_ASM y APPDOMAIN_MANAGER_TYPE, o utilice el [ \<appDomainManagerAssembly >](~/docs/framework/configure-apps/file-schema/runtime/appdomainmanagerassembly-element.md) y [ \<appDomainManagerType >](~/docs/framework/configure-apps/file-schema/runtime/appdomainmanagertype-element.md) elementos en el archivo de configuración.</span><span class="sxs-lookup"><span data-stu-id="215b5-105">To replace the default <xref:System.AppDomainManager>, identify the assembly and type of the replacement <xref:System.AppDomainManager> in the APPDOMAIN_MANAGER_ASM and APPDOMAIN_MANAGER_TYPE environment variables, or use the [\<appDomainManagerAssembly>](~/docs/framework/configure-apps/file-schema/runtime/appdomainmanagerassembly-element.md) and [\<appDomainManagerType>](~/docs/framework/configure-apps/file-schema/runtime/appdomainmanagertype-element.md) elements in your configuration file.</span></span> <span data-ttu-id="215b5-106">El ensamblado debe ser de plena confianza y estar incluido en la caché global de ensamblados o el directorio de la aplicación de arranque.</span><span class="sxs-lookup"><span data-stu-id="215b5-106">The assembly must be fully trusted and be contained in the global assembly cache or the directory of the starting application.</span></span> <span data-ttu-id="215b5-107">Los nombres de ensamblado y el tipo deben ser completo en las variables de entorno.</span><span class="sxs-lookup"><span data-stu-id="215b5-107">The type and assembly names must be fully qualified in the environment variables.</span></span> <span data-ttu-id="215b5-108">Por ejemplo:</span><span class="sxs-lookup"><span data-stu-id="215b5-108">For example:</span></span>  
+  
+ `set APPDOMAIN_MANAGER_TYPE=MyNamespace.TestAppDomainManager`  
+  
+ `set APPDOMAIN_MANAGER_ASM=customappDomainmanager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f1368f7b12a08d72`  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="215b5-109">Si el ensamblado que contiene su subclase de <xref:System.AppDomainManager> depende de ensamblados que se marcan con el atributo conditional <xref:System.Security.AllowPartiallyTrustedCallersAttribute> atributo (APTCA), debe incluir esos ensamblados en la lista que se pasa a la <xref:System.AppDomainSetup.PartialTrustVisibleAssemblies%2A> propiedad de la <xref:System.AppDomainSetup> se usa para crear dominios de aplicación.</span><span class="sxs-lookup"><span data-stu-id="215b5-109">If the assembly that contains your subclass of <xref:System.AppDomainManager> depends on assemblies that are marked with the conditional <xref:System.Security.AllowPartiallyTrustedCallersAttribute> (APTCA) attribute, you must include those assemblies in the list that you pass to the <xref:System.AppDomainSetup.PartialTrustVisibleAssemblies%2A> property of the <xref:System.AppDomainSetup> you use to create application domains.</span></span> <span data-ttu-id="215b5-110">En caso contrario, se deshabilitarán los ensamblados que se marcan con el atributo APTCA condicional.</span><span class="sxs-lookup"><span data-stu-id="215b5-110">Otherwise, the assemblies that are marked with the conditional APTCA attribute will be disabled.</span></span>  
+  
+ <span data-ttu-id="215b5-111">El <xref:System.AppDomainManager> es el equivalente administrado del host no administrado.</span><span class="sxs-lookup"><span data-stu-id="215b5-111">The <xref:System.AppDomainManager> is the managed equivalent of the unmanaged host.</span></span> <span data-ttu-id="215b5-112">Un <xref:System.AppDomainManager> objeto participa en la creación de nuevos dominios de aplicación en un proceso y puede personalizar el nuevo <xref:System.AppDomain> antes de que se ejecute otro código administrado.</span><span class="sxs-lookup"><span data-stu-id="215b5-112">An <xref:System.AppDomainManager> object participates in the creation of new application domains in a process and can customize the new <xref:System.AppDomain> before other managed code runs.</span></span> <span data-ttu-id="215b5-113">El <xref:System.AppDomainManager> también puede proporcionar administradores de host que participan en otros aspectos de ejecución de common language runtime.</span><span class="sxs-lookup"><span data-stu-id="215b5-113">The <xref:System.AppDomainManager> can also supply host managers that participate in other aspects of common language runtime execution.</span></span> <span data-ttu-id="215b5-114">Por ejemplo, un <xref:System.AppDomainManager> puede identificar una <xref:System.Security.HostSecurityManager> objeto que participa en las decisiones de seguridad del dominio de aplicación.</span><span class="sxs-lookup"><span data-stu-id="215b5-114">For example, an <xref:System.AppDomainManager> can identify a <xref:System.Security.HostSecurityManager> object that participates in the security decisions of the application domain.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="215b5-115">Solo los ensamblados que se conceden `FullTrust`, como ensamblados en la caché global de ensamblados o identificado como `fullTrustAssemblies` en el <xref:System.AppDomain.CreateDomain%28System.String%2CSystem.Security.Policy.Evidence%2CSystem.AppDomainSetup%2CSystem.Security.PermissionSet%2CSystem.Security.Policy.StrongName%5B%5D%29?displayProperty=nameWithType> método se pueden cargar en el <xref:System.AppDomainManager.%23ctor%2A> constructor y el <xref:System.AppDomainManager.InitializeNewDomain%2A> método.</span><span class="sxs-lookup"><span data-stu-id="215b5-115">Only assemblies granted `FullTrust`, such as assemblies in the global assembly cache or identified as `fullTrustAssemblies` in the <xref:System.AppDomain.CreateDomain%28System.String%2CSystem.Security.Policy.Evidence%2CSystem.AppDomainSetup%2CSystem.Security.PermissionSet%2CSystem.Security.Policy.StrongName%5B%5D%29?displayProperty=nameWithType> method can be loaded in the  <xref:System.AppDomainManager.%23ctor%2A> constructor and the <xref:System.AppDomainManager.InitializeNewDomain%2A> method.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="215b5-116">Esta clase contiene una petición de vínculo y una petición de herencia en el nivel de clase.</span><span class="sxs-lookup"><span data-stu-id="215b5-116">This class contains a link demand and an inheritance demand at the class level.</span></span> <span data-ttu-id="215b5-117">Un <xref:System.Security.SecurityException> se produce cuando el llamador inmediato o la clase derivada no tiene permiso de infraestructura.</span><span class="sxs-lookup"><span data-stu-id="215b5-117">A <xref:System.Security.SecurityException> is thrown when either the immediate caller or the derived class does not have infrastructure permission.</span></span> <span data-ttu-id="215b5-118">Para obtener más información acerca de las peticiones de seguridad, consulte [peticiones de vínculo](~/docs/framework/misc/link-demands.md) y [peticiones de herencia](http://msdn.microsoft.com/library/28b9adbb-8f08-4f10-b856-dbf59eb932d9).</span><span class="sxs-lookup"><span data-stu-id="215b5-118">For details about security demands, see [Link Demands](~/docs/framework/misc/link-demands.md) and [Inheritance Demands](http://msdn.microsoft.com/library/28b9adbb-8f08-4f10-b856-dbf59eb932d9).</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="215b5-119">En el ejemplo siguiente se muestra una implementación muy sencilla de <xref:System.AppDomainManager>.</span><span class="sxs-lookup"><span data-stu-id="215b5-119">The following example shows a very simple implementation of <xref:System.AppDomainManager>.</span></span>  
+  
+ [!code-csharp[System.AppDomainManager#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.AppDomainManager/CS/customAppDomainManager.cs#1)]
+ [!code-vb[System.AppDomainManager#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.AppDomainManager/VB/customAppDomainManager.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <exception cref="T:System.Security.SecurityException">
+      <span data-ttu-id="215b5-120">El autor de llamada no dispone de los permisos requeridos.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="215b5-120">The caller does not have the correct permissions.</span>
+      </span>
+      <span data-ttu-id="215b5-121">Consulte la sección de requisitos.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="215b5-121">See the Requirements section.</span>
+      </span>
+    </exception>
+    <permission cref="T:System.Security.SecurityCriticalAttribute">
+      <span data-ttu-id="215b5-122">requiere plena confianza para el llamador inmediato.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="215b5-122">Requires full trust for the immediate caller.</span>
+      </span>
+      <span data-ttu-id="215b5-123">Este miembro no puede usarse por código de confianza parcial o transparente.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="215b5-123">This member cannot be used by partially trusted or transparent code.</span>
+      </span>
+    </permission>
+    <permission cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand">
+      <span data-ttu-id="215b5-124">para las clases derivadas para introducir código ejecutable en la infraestructura de hospedaje de common language runtime.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="215b5-124">for derived classes to plug executable code into the common language runtime hosting infrastructure.</span>
+      </span>
+      <span data-ttu-id="215b5-125">Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" />.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="215b5-125">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.Infrastructure" />.</span>
+      </span>
+    </permission>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public AppDomainManager ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.AppDomainManager.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; AppDomainManager();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="215b5-126">Inicializa una nueva instancia de la clase <see cref="T:System.AppDomainManager" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-126">Initializes a new instance of the <see cref="T:System.AppDomainManager" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!NOTE]
+>  <span data-ttu-id="215b5-127">Solo los ensamblados que se conceden `FullTrust`, como ensamblados en la caché global de ensamblados o identificado como `fullTrustAssemblies` en el <xref:System.AppDomain.CreateDomain%28System.String%2CSystem.Security.Policy.Evidence%2CSystem.AppDomainSetup%2CSystem.Security.PermissionSet%2CSystem.Security.Policy.StrongName%5B%5D%29?displayProperty=nameWithType> método se pueden cargar en el <xref:System.AppDomainManager.%23ctor%2A> constructor y el <xref:System.AppDomainManager.InitializeNewDomain%2A> método.</span><span class="sxs-lookup"><span data-stu-id="215b5-127">Only assemblies granted `FullTrust`, such as assemblies in the global assembly cache or identified as `fullTrustAssemblies` in the <xref:System.AppDomain.CreateDomain%28System.String%2CSystem.Security.Policy.Evidence%2CSystem.AppDomainSetup%2CSystem.Security.PermissionSet%2CSystem.Security.Policy.StrongName%5B%5D%29?displayProperty=nameWithType> method can be loaded in the  <xref:System.AppDomainManager.%23ctor%2A> constructor and the <xref:System.AppDomainManager.InitializeNewDomain%2A> method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">
+          <span data-ttu-id="215b5-128">requiere plena confianza para el llamador inmediato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-128">Requires full trust for the immediate caller.</span>
+          </span>
+          <span data-ttu-id="215b5-129">Este miembro no puede usarse por código de confianza parcial o transparente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-129">This member cannot be used by partially trusted or transparent code.</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="ApplicationActivator">
+      <MemberSignature Language="C#" Value="public virtual System.Runtime.Hosting.ApplicationActivator ApplicationActivator { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Runtime.Hosting.ApplicationActivator ApplicationActivator" />
+      <MemberSignature Language="DocId" Value="P:System.AppDomainManager.ApplicationActivator" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property ApplicationActivator As ApplicationActivator" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Runtime::Hosting::ApplicationActivator ^ ApplicationActivator { System::Runtime::Hosting::ApplicationActivator ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Runtime.Hosting.ApplicationActivator</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="215b5-130">Obtiene el activador de aplicación que controla la activación de los complementos y las aplicaciones basadas en manifiesto del dominio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-130">Gets the application activator that handles the activation of add-ins and manifest-based applications for the domain.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="215b5-131">Activador de la aplicación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-131">The application activator.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="215b5-132">Hay una sola instancia designada de la <xref:System.Runtime.Hosting.ApplicationActivator> clase en cada <xref:System.AppDomain> en que todas las aplicaciones y el complemento basado en el manifiesto se enrutan llamadas de activación.</span><span class="sxs-lookup"><span data-stu-id="215b5-132">There is a single designated instance of the <xref:System.Runtime.Hosting.ApplicationActivator> class in each <xref:System.AppDomain> to which all add-in and manifest-based application activation calls are routed.</span></span> <span data-ttu-id="215b5-133">El <xref:System.AppDomainManager> actuales <xref:System.AppDomain> puede proporcionar su propio personalizado <xref:System.Runtime.Hosting.ApplicationActivator>, o una instancia de manera predeterminada <xref:System.Runtime.Hosting.ApplicationActivator> se crea.</span><span class="sxs-lookup"><span data-stu-id="215b5-133">The <xref:System.AppDomainManager> for the current <xref:System.AppDomain> can provide its own custom <xref:System.Runtime.Hosting.ApplicationActivator>, or an instance of the default <xref:System.Runtime.Hosting.ApplicationActivator> is created.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CheckSecuritySettings">
+      <MemberSignature Language="C#" Value="public virtual bool CheckSecuritySettings (System.Security.SecurityState state);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool CheckSecuritySettings(class System.Security.SecurityState state) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.AppDomainManager.CheckSecuritySettings(System.Security.SecurityState)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function CheckSecuritySettings (state As SecurityState) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool CheckSecuritySettings(System::Security::SecurityState ^ state);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="state" Type="System.Security.SecurityState" />
+      </Parameters>
+      <Docs>
+        <param name="state">
+          <span data-ttu-id="215b5-134">Subclase de <see cref="T:System.Security.SecurityState" /> que identifica la operación cuyo estado de seguridad se solicita.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-134">A subclass of <see cref="T:System.Security.SecurityState" /> that identifies the operation whose security status is requested.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="215b5-135">Indica si la operación especificada se permite en el dominio de aplicación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-135">Indicates whether the specified operation is allowed in the application domain.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="215b5-136">
+            <see langword="true" /> si el host permite que la operación especificada por <paramref name="state" /> se realice en el dominio de aplicación; de lo contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-136">
+              <see langword="true" /> if the host allows the operation specified by <paramref name="state" /> to be performed in the application domain; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="215b5-137">La implementación predeterminada de este método devuelve `false`.</span><span class="sxs-lookup"><span data-stu-id="215b5-137">The default implementation of this method returns `false`.</span></span>  
+  
+ <span data-ttu-id="215b5-138">Este método se llama cuando el <xref:System.IO.IsolatedStorage.IsolatedStorageFile.IncreaseQuotaTo%2A?displayProperty=nameWithType> ha llamado al método para aumentar la cuota de almacenamiento aislado.</span><span class="sxs-lookup"><span data-stu-id="215b5-138">This method is called when the <xref:System.IO.IsolatedStorage.IsolatedStorageFile.IncreaseQuotaTo%2A?displayProperty=nameWithType> method has been called to increase the isolated storage quota.</span></span> <span data-ttu-id="215b5-139">Una aplicación que hospeda common language runtime (CLR) puede invalidar el <xref:System.AppDomainManager.CheckSecuritySettings%2A> método para realizar decisiones de directiva basada en una <xref:System.IO.IsolatedStorage.IsolatedStorageSecurityState> objeto (que hereda <xref:System.Security.SecurityState>) y, a continuación, puede permitir o impedir que el aumento.</span><span class="sxs-lookup"><span data-stu-id="215b5-139">An application that hosts the common language runtime (CLR) can override the <xref:System.AppDomainManager.CheckSecuritySettings%2A> method to perform policy decisions based on an <xref:System.IO.IsolatedStorage.IsolatedStorageSecurityState> object (which inherits <xref:System.Security.SecurityState>), and can then allow or prevent the increase.</span></span> <span data-ttu-id="215b5-140">Por ejemplo, un host podría pedir al usuario final para aprobar o denegar la solicitud para aumentar la cuota.</span><span class="sxs-lookup"><span data-stu-id="215b5-140">For example, a host could prompt the end user to approve or deny the request to increase the quota.</span></span> <span data-ttu-id="215b5-141">La implementación del host de <xref:System.AppDomainManager.CheckSecuritySettings%2A> debe tener en cuenta la posibilidad de ataques por denegación de servicio.</span><span class="sxs-lookup"><span data-stu-id="215b5-141">The host's implementation of <xref:System.AppDomainManager.CheckSecuritySettings%2A> should take into account the possibility of denial-of-service attacks.</span></span> <span data-ttu-id="215b5-142">Por ejemplo, que debe solicita al usuario solo si se llama al método desde un evento iniciado por el usuario como un clic del botón.</span><span class="sxs-lookup"><span data-stu-id="215b5-142">For example, it should prompt the user only if the method is called from a user-initiated event such as a button click.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateDomain">
+      <MemberSignature Language="C#" Value="public virtual AppDomain CreateDomain (string friendlyName, System.Security.Policy.Evidence securityInfo, AppDomainSetup appDomainInfo);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.AppDomain CreateDomain(string friendlyName, class System.Security.Policy.Evidence securityInfo, class System.AppDomainSetup appDomainInfo) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.AppDomainManager.CreateDomain(System.String,System.Security.Policy.Evidence,System.AppDomainSetup)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function CreateDomain (friendlyName As String, securityInfo As Evidence, appDomainInfo As AppDomainSetup) As AppDomain" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual AppDomain ^ CreateDomain(System::String ^ friendlyName, System::Security::Policy::Evidence ^ securityInfo, AppDomainSetup ^ appDomainInfo);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.AppDomain</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="friendlyName" Type="System.String" />
+        <Parameter Name="securityInfo" Type="System.Security.Policy.Evidence" />
+        <Parameter Name="appDomainInfo" Type="System.AppDomainSetup" />
+      </Parameters>
+      <Docs>
+        <param name="friendlyName">
+          <span data-ttu-id="215b5-143">Nombre descriptivo del dominio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-143">The friendly name of the domain.</span>
+          </span>
+        </param>
+        <param name="securityInfo">
+          <span data-ttu-id="215b5-144">Un objeto que contiene la evidencia asignada mediante la directiva de seguridad para establecer un conjunto de permisos en la parte superior de la pila.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-144">An object that contains evidence mapped through the security policy to establish a top-of-stack permission set.</span>
+          </span>
+        </param>
+        <param name="appDomainInfo">
+          <span data-ttu-id="215b5-145">Objeto que contiene la información de inicialización del dominio de aplicación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-145">An object that contains application domain initialization information.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="215b5-146">Devuelve un dominio de aplicación nuevo o existente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-146">Returns a new or existing application domain.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="215b5-147">Un dominio de aplicación nuevo o existente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-147">A new or existing application domain.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="215b5-148">El nombre descriptivo, especificado por el `friendlyName` parámetro, puede mostrarse en las interfaces de usuario para identificar el dominio.</span><span class="sxs-lookup"><span data-stu-id="215b5-148">The friendly name, specified by the `friendlyName` parameter, can be displayed in user interfaces to identify the domain.</span></span> <span data-ttu-id="215b5-149">Para obtener más información, vea la propiedad <xref:System.AppDomain.FriendlyName%2A>.</span><span class="sxs-lookup"><span data-stu-id="215b5-149">For more information, see the <xref:System.AppDomain.FriendlyName%2A> property.</span></span>  
+  
+ <span data-ttu-id="215b5-150">El valor predeterminado <xref:System.AppDomainManager.CreateDomain%2A> método llama al método protegido <xref:System.AppDomainManager.CreateDomainHelper%2A> método para crear la <xref:System.AppDomain>.</span><span class="sxs-lookup"><span data-stu-id="215b5-150">The default <xref:System.AppDomainManager.CreateDomain%2A> method calls the protected <xref:System.AppDomainManager.CreateDomainHelper%2A> method to create the <xref:System.AppDomain>.</span></span> <span data-ttu-id="215b5-151">Las invalidaciones de este método no es necesario llamar a la <xref:System.AppDomainManager.CreateDomainHelper%2A> método pero puede devolver un dominio existente.</span><span class="sxs-lookup"><span data-stu-id="215b5-151">Overrides of this method do not need to call the <xref:System.AppDomainManager.CreateDomainHelper%2A> method but can return an existing domain.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="215b5-152">Al heredar de la <see cref="T:System.AppDomainManager" /> clase e invalidar el <see cref="M:System.AppDomainManager.CreateDomain(System.String,System.Security.Policy.Evidence,System.AppDomainSetup)" /> método, puede realizar las actividades de inicialización del dominio de aplicación personalizada antes de llamar a la <see cref="M:System.AppDomainManager.CreateDomainHelper(System.String,System.Security.Policy.Evidence,System.AppDomainSetup)" /> método o no llame al método auxiliar en absoluto.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="215b5-152">When you inherit from the <see cref="T:System.AppDomainManager" /> class and override the <see cref="M:System.AppDomainManager.CreateDomain(System.String,System.Security.Policy.Evidence,System.AppDomainSetup)" /> method, you can perform custom application domain initialization activities before calling the <see cref="M:System.AppDomainManager.CreateDomainHelper(System.String,System.Security.Policy.Evidence,System.AppDomainSetup)" /> method, or not call the helper method at all.</span>
+            </span>
+            <span data-ttu-id="215b5-153">Por ejemplo, puede modificar la evidencia pasada como <paramref name="securityInfo" />, actualice los campos del asociado <see cref="T:System.AppDomainSetup" />, o reutilizar un dominio existente.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="215b5-153">For example, you could modify the evidence passed in as <paramref name="securityInfo" />, update the fields of the associated <see cref="T:System.AppDomainSetup" />, or reuse an exiting domain.</span>
+            </span>
+          </para>
+        </block>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateDomainHelper">
+      <MemberSignature Language="C#" Value="protected static AppDomain CreateDomainHelper (string friendlyName, System.Security.Policy.Evidence securityInfo, AppDomainSetup appDomainInfo);" />
+      <MemberSignature Language="ILAsm" Value=".method familystatic hidebysig class System.AppDomain CreateDomainHelper(string friendlyName, class System.Security.Policy.Evidence securityInfo, class System.AppDomainSetup appDomainInfo) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.AppDomainManager.CreateDomainHelper(System.String,System.Security.Policy.Evidence,System.AppDomainSetup)" />
+      <MemberSignature Language="VB.NET" Value="Protected Shared Function CreateDomainHelper (friendlyName As String, securityInfo As Evidence, appDomainInfo As AppDomainSetup) As AppDomain" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; static AppDomain ^ CreateDomainHelper(System::String ^ friendlyName, System::Security::Policy::Evidence ^ securityInfo, AppDomainSetup ^ appDomainInfo);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.AppDomain</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="friendlyName" Type="System.String" />
+        <Parameter Name="securityInfo" Type="System.Security.Policy.Evidence" />
+        <Parameter Name="appDomainInfo" Type="System.AppDomainSetup" />
+      </Parameters>
+      <Docs>
+        <param name="friendlyName">
+          <span data-ttu-id="215b5-154">Nombre descriptivo del dominio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-154">The friendly name of the domain.</span>
+          </span>
+        </param>
+        <param name="securityInfo">
+          <span data-ttu-id="215b5-155">Un objeto que contiene la evidencia asignada mediante la directiva de seguridad para establecer un conjunto de permisos en la parte superior de la pila.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-155">An object that contains evidence mapped through the security policy to establish a top-of-stack permission set.</span>
+          </span>
+        </param>
+        <param name="appDomainInfo">
+          <span data-ttu-id="215b5-156">Objeto que contiene la información de inicialización del dominio de aplicación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-156">An object that contains application domain initialization information.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="215b5-157">Proporciona un método auxiliar para crear un dominio de aplicación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-157">Provides a helper method to create an application domain.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="215b5-158">Un dominio de aplicación recién creado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-158">A newly created application domain.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="215b5-159">Este método auxiliar protegido controla la creación de un nuevo dominio de aplicación.</span><span class="sxs-lookup"><span data-stu-id="215b5-159">This protected helper method handles the creation of a new application domain.</span></span>  
+  
+ <span data-ttu-id="215b5-160">Este nombre descriptivo, especificado por el `friendlyName` parámetro, puede mostrarse en las interfaces de usuario para identificar el dominio.</span><span class="sxs-lookup"><span data-stu-id="215b5-160">This friendly name, specified by the `friendlyName` parameter, can be displayed in user interfaces to identify the domain.</span></span> <span data-ttu-id="215b5-161">Para obtener más información, vea la propiedad <xref:System.AppDomain.FriendlyName%2A>.</span><span class="sxs-lookup"><span data-stu-id="215b5-161">For more information, see the <xref:System.AppDomain.FriendlyName%2A> property.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="215b5-162">
+            <paramref name="friendlyName" /> es <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-162">
+              <paramref name="friendlyName" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="215b5-163">para controlar la evidencia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-163">for controlling evidence.</span>
+          </span>
+          <span data-ttu-id="215b5-164">Acción de seguridad: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-164">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          </span>
+          <span data-ttu-id="215b5-165">Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlEvidence" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-165">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlEvidence" /></span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="EntryAssembly">
+      <MemberSignature Language="C#" Value="public virtual System.Reflection.Assembly EntryAssembly { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Reflection.Assembly EntryAssembly" />
+      <MemberSignature Language="DocId" Value="P:System.AppDomainManager.EntryAssembly" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property EntryAssembly As Assembly" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Reflection::Assembly ^ EntryAssembly { System::Reflection::Assembly ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Reflection.Assembly</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="215b5-166">Obtiene el ensamblado de entrada de una aplicación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-166">Gets the entry assembly for an application.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="215b5-167">Ensamblado de entrada para la aplicación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-167">The entry assembly for the application.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="215b5-168">Si la aplicación es una aplicación activada por manifiesto, el ensamblado de entrada se determina a partir del manifiesto de aplicación.</span><span class="sxs-lookup"><span data-stu-id="215b5-168">If the application is a manifest-activated application, the entry assembly is determined from the application manifest.</span></span> <span data-ttu-id="215b5-169">Si la aplicación no es manifiesto activado, el ensamblado de entrada es el ejecutable del proceso en el dominio de aplicación predeterminado.</span><span class="sxs-lookup"><span data-stu-id="215b5-169">If the application is not manifest activated, the entry assembly is the process executable in the default application domain.</span></span> <span data-ttu-id="215b5-170">En otros dominios de aplicación, el ensamblado de entrada es el primer ejecutable que se haya ejecutado por el <xref:System.AppDomain.ExecuteAssembly%2A?displayProperty=nameWithType> método.</span><span class="sxs-lookup"><span data-stu-id="215b5-170">In other application domains, the entry assembly is the first executable that was executed by the <xref:System.AppDomain.ExecuteAssembly%2A?displayProperty=nameWithType> method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="HostExecutionContextManager">
+      <MemberSignature Language="C#" Value="public virtual System.Threading.HostExecutionContextManager HostExecutionContextManager { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Threading.HostExecutionContextManager HostExecutionContextManager" />
+      <MemberSignature Language="DocId" Value="P:System.AppDomainManager.HostExecutionContextManager" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property HostExecutionContextManager As HostExecutionContextManager" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Threading::HostExecutionContextManager ^ HostExecutionContextManager { System::Threading::HostExecutionContextManager ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Threading.HostExecutionContextManager</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="215b5-171">Obtiene el administrador de contexto de ejecución de host que administra el flujo del contexto de ejecución.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-171">Gets the host execution context manager that manages the flow of the execution context.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="215b5-172">Administrador del contexto de ejecución del host.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-172">The host execution context manager.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="215b5-173">Esta propiedad permite a un host proporcionar un <xref:System.Threading.HostExecutionContextManager> que pueden participar en el flujo del contexto de ejecución a través de llamadas asincrónicas.</span><span class="sxs-lookup"><span data-stu-id="215b5-173">This property allows a host to provide a <xref:System.Threading.HostExecutionContextManager> that can participate in the flow of the execution context across asynchronous calls.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="HostSecurityManager">
+      <MemberSignature Language="C#" Value="public virtual System.Security.HostSecurityManager HostSecurityManager { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Security.HostSecurityManager HostSecurityManager" />
+      <MemberSignature Language="DocId" Value="P:System.AppDomainManager.HostSecurityManager" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property HostSecurityManager As HostSecurityManager" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Security::HostSecurityManager ^ HostSecurityManager { System::Security::HostSecurityManager ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Security.HostSecurityManager</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="215b5-174">Obtiene al administrador de seguridad de host que participa en las decisiones de seguridad del dominio de aplicación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-174">Gets the host security manager that participates in security decisions for the application domain.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="215b5-175">Administrador de seguridad del host.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-175">The host security manager.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="215b5-176">Esta propiedad permite a un host proporcionar un <xref:System.Security.HostSecurityManager> para participar en las decisiones de seguridad para el dominio de aplicación.</span><span class="sxs-lookup"><span data-stu-id="215b5-176">This property allows a host to provide a <xref:System.Security.HostSecurityManager> to participate in the security decisions for the application domain.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="215b5-177">En el ejemplo siguiente se muestra una invalidación de la <xref:System.AppDomainManager.HostSecurityManager%2A> propiedad para un administrador de dominio de aplicación personalizada.</span><span class="sxs-lookup"><span data-stu-id="215b5-177">The following example shows an override of the <xref:System.AppDomainManager.HostSecurityManager%2A> property for a custom application domain manager.</span></span> <span data-ttu-id="215b5-178">Este ejemplo de código forma parte de un ejemplo mayor proporcionado para el <xref:System.AppDomainManager> clase.</span><span class="sxs-lookup"><span data-stu-id="215b5-178">This code example is part of a larger example provided for the <xref:System.AppDomainManager> class.</span></span>  
+  
+ [!code-csharp[System.AppDomainManager#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.AppDomainManager/CS/customAppDomainManager.cs#3)]
+ [!code-vb[System.AppDomainManager#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.AppDomainManager/VB/customAppDomainManager.vb#3)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InitializationFlags">
+      <MemberSignature Language="C#" Value="public AppDomainManagerInitializationOptions InitializationFlags { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.AppDomainManagerInitializationOptions InitializationFlags" />
+      <MemberSignature Language="DocId" Value="P:System.AppDomainManager.InitializationFlags" />
+      <MemberSignature Language="VB.NET" Value="Public Property InitializationFlags As AppDomainManagerInitializationOptions" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property AppDomainManagerInitializationOptions InitializationFlags { AppDomainManagerInitializationOptions get(); void set(AppDomainManagerInitializationOptions value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.AppDomainManagerInitializationOptions</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="215b5-179">Obtiene los marcadores de inicialización de los administradores de dominio de aplicación personalizados.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-179">Gets the initialization flags for custom application domain managers.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="215b5-180">Una combinación bit a bit de los valores de enumeración que describen la acción de inicialización que se va a realizar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-180">A bitwise combination of the enumeration values that describe the initialization action to perform.</span>
+          </span>
+          <span data-ttu-id="215b5-181">El valor predeterminado es <see cref="F:System.AppDomainManagerInitializationOptions.None" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-181">The default is <see cref="F:System.AppDomainManagerInitializationOptions.None" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InitializeNewDomain">
+      <MemberSignature Language="C#" Value="public virtual void InitializeNewDomain (AppDomainSetup appDomainInfo);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void InitializeNewDomain(class System.AppDomainSetup appDomainInfo) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.AppDomainManager.InitializeNewDomain(System.AppDomainSetup)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Sub InitializeNewDomain (appDomainInfo As AppDomainSetup)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void InitializeNewDomain(AppDomainSetup ^ appDomainInfo);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="appDomainInfo" Type="System.AppDomainSetup" />
+      </Parameters>
+      <Docs>
+        <param name="appDomainInfo">
+          <span data-ttu-id="215b5-182">Objeto que contiene la información de inicialización del dominio de aplicación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-182">An object that contains application domain initialization information.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="215b5-183">Inicializa el nuevo dominio de aplicación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="215b5-183">Initializes the new application domain.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="215b5-184">No utilice este método para inicializar un dominio de aplicación de ASP.NET.</span><span class="sxs-lookup"><span data-stu-id="215b5-184">Do not use this method to initialize an application domain in ASP.NET.</span></span> <span data-ttu-id="215b5-185">En ASP.NET, configuración serán administrada por el host.</span><span class="sxs-lookup"><span data-stu-id="215b5-185">In ASP.NET, configuration must be handled by the host.</span></span> <span data-ttu-id="215b5-186">Si utiliza este método para inicializar el dominio de aplicación, el host genera <xref:System.InvalidOperationException> cuando intenta inicializar el dominio de aplicación.</span><span class="sxs-lookup"><span data-stu-id="215b5-186">If you use this method to initialize the application domain, the host throws <xref:System.InvalidOperationException> when it attempts to initialize the application domain.</span></span> <span data-ttu-id="215b5-187">El mensaje de excepción indica que la inicialización ya se ha producido.</span><span class="sxs-lookup"><span data-stu-id="215b5-187">The exception message indicates that initialization has already occurred.</span></span>  
+  
+ <span data-ttu-id="215b5-188">Este método se llama inmediatamente después del constructor.</span><span class="sxs-lookup"><span data-stu-id="215b5-188">This method is called immediately after the constructor.</span></span> <span data-ttu-id="215b5-189">El valor predeterminado <xref:System.AppDomainManager.InitializeNewDomain%2A> implementación no hace nada.</span><span class="sxs-lookup"><span data-stu-id="215b5-189">The default <xref:System.AppDomainManager.InitializeNewDomain%2A> implementation does nothing.</span></span>  <span data-ttu-id="215b5-190">Una implementación personalizada puede configurar las clases internas y delegados, configurar una interfaz con la interfaz de host no administrado o configurar controladores de eventos para el nuevo <xref:System.AppDomain>.</span><span class="sxs-lookup"><span data-stu-id="215b5-190">A custom implementation can set up internal classes and delegates, set up an interface with the unmanaged host interface, or set up event handlers for the new <xref:System.AppDomain>.</span></span>  
+  
+ <span data-ttu-id="215b5-191">Además, para las activaciones de complementos, una implementación personalizada podría identificar actual <xref:System.AppDomain> como el dominio de aplicación de destino.</span><span class="sxs-lookup"><span data-stu-id="215b5-191">Also, for add-in activations, a custom implementation could identify the current <xref:System.AppDomain> as the target application domain.</span></span>  
+  
+ <span data-ttu-id="215b5-192">A partir del [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], puede usar este método para el espacio aislado del dominio de aplicación predeterminado al iniciar la aplicación, o para modificar el espacio aislado de un nuevo dominio de aplicación.</span><span class="sxs-lookup"><span data-stu-id="215b5-192">Beginning with the [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], you can use this method to sandbox the default application domain at application startup, or to modify the sandbox of a new application domain.</span></span> <span data-ttu-id="215b5-193">Para ello, ajuste el <xref:System.Security.Policy.ApplicationTrust.DefaultGrantSet%2A> y <xref:System.Security.Policy.ApplicationTrust.FullTrustAssemblies%2A> propiedades en el <xref:System.Security.Policy.ApplicationTrust> objeto que se asigna a la <xref:System.AppDomainSetup.ApplicationTrust%2A?displayProperty=nameWithType> propiedad de `appDomainInfo`, antes de inicializar el dominio de aplicación.</span><span class="sxs-lookup"><span data-stu-id="215b5-193">To do this, adjust the <xref:System.Security.Policy.ApplicationTrust.DefaultGrantSet%2A> and <xref:System.Security.Policy.ApplicationTrust.FullTrustAssemblies%2A> properties on the <xref:System.Security.Policy.ApplicationTrust> object that is assigned to the <xref:System.AppDomainSetup.ApplicationTrust%2A?displayProperty=nameWithType> property of `appDomainInfo`, before you initialize the application domain.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="215b5-194">Solo los ensamblados que se conceden `FullTrust`, como ensamblados en la caché global de ensamblados o identificado como `fullTrustAssemblies` en el <xref:System.AppDomain.CreateDomain%28System.String%2CSystem.Security.Policy.Evidence%2CSystem.AppDomainSetup%2CSystem.Security.PermissionSet%2CSystem.Security.Policy.StrongName%5B%5D%29?displayProperty=nameWithType> método se pueden cargar en el <xref:System.AppDomainManager.%23ctor%2A> constructor y el <xref:System.AppDomainManager.InitializeNewDomain%2A> método.</span><span class="sxs-lookup"><span data-stu-id="215b5-194">Only assemblies granted `FullTrust`, such as assemblies in the global assembly cache or identified as `fullTrustAssemblies` in the <xref:System.AppDomain.CreateDomain%28System.String%2CSystem.Security.Policy.Evidence%2CSystem.AppDomainSetup%2CSystem.Security.PermissionSet%2CSystem.Security.Policy.StrongName%5B%5D%29?displayProperty=nameWithType> method can be loaded in the  <xref:System.AppDomainManager.%23ctor%2A> constructor and the <xref:System.AppDomainManager.InitializeNewDomain%2A> method.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="215b5-195">En el ejemplo siguiente se muestra una invalidación de la <xref:System.AppDomainManager.InitializeNewDomain%2A> método para un administrador de dominio de aplicación personalizada.</span><span class="sxs-lookup"><span data-stu-id="215b5-195">The following example shows an override of the <xref:System.AppDomainManager.InitializeNewDomain%2A> method for a custom application domain manager.</span></span> <span data-ttu-id="215b5-196">Este ejemplo de código forma parte de un ejemplo mayor proporcionado para el <xref:System.AppDomainManager> clase.</span><span class="sxs-lookup"><span data-stu-id="215b5-196">This code example is part of a larger example provided for the <xref:System.AppDomainManager> class.</span></span>  
+  
+ [!code-csharp[System.AppDomainManager#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.AppDomainManager/CS/customAppDomainManager.cs#2)]
+ [!code-vb[System.AppDomainManager#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.AppDomainManager/VB/customAppDomainManager.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -1,0 +1,1980 @@
+<Type Name="DragDrop" FullName="System.Windows.DragDrop">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="0f071c5fd0981f924d35bd8c3974763dda7b688e" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="es-ES" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public static class DragDrop" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit DragDrop extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:System.Windows.DragDrop" />
+  <TypeSignature Language="VB.NET" Value="Public Class DragDrop" />
+  <TypeSignature Language="C++ CLI" Value="public ref class DragDrop abstract sealed" />
+  <AssemblyInfo>
+    <AssemblyName>PresentationCore</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="24367-101">Proporciona campos y métodos auxiliares para iniciar operaciones de arrastrar y colocar, incluidos un método para comenzar una operación de arrastrar y colocar y medios para agregar y quitar los controladores de eventos relacionados con las operaciones de arrastrar y colocar.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="24367-101">Provides helper methods and fields for initiating drag-and-drop operations, including a method to begin a drag-and-drop operation, and facilities for adding and removing drag-and-drop related event handlers.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-102">Arrastrar y colocar se refiere normalmente a un método de transferencia de datos que implica el uso de un mouse (o cualquier otro dispositivo señalador) para seleccionar uno o más objetos, arrastrar estos objetos sobre un destino deseado en la [!INCLUDE[TLA#tla_ui](~/includes/tlasharptla-ui-md.md)] y soltarlos.</span><span class="sxs-lookup"><span data-stu-id="24367-102">Drag-and-drop commonly refers to a method of data transfer that involves using a mouse (or some other pointing device) to select one or more objects, dragging these objects over some desired drop target in the [!INCLUDE[TLA#tla_ui](~/includes/tlasharptla-ui-md.md)], and dropping them.</span></span> <span data-ttu-id="24367-103">Una operación de arrastrar y colocar es análoga a una copia (o corte) - y - pegar la operación que se usa para transferir datos de un objeto o la aplicación a otro.</span><span class="sxs-lookup"><span data-stu-id="24367-103">A drag-and-drop operation is analogous to a copy (or cut)-and-paste operation that is used to transfer data from one object or application to another.</span></span> <span data-ttu-id="24367-104">Operaciones de arrastrar y colocar suelen implican dos partes: un origen de arrastre que se originan los datos arrastrados y un destino de colocación que recibe los datos perdidos.</span><span class="sxs-lookup"><span data-stu-id="24367-104">Drag-and-drop operations typically involve two parties: a drag source from which the dragged data originates and a drop target which receives the dropped data.</span></span> <span data-ttu-id="24367-105">Los eventos y los métodos necesarios para las operaciones de arrastrar y colocar están definidos en la clase <xref:System.Windows.DragDrop>.</span><span class="sxs-lookup"><span data-stu-id="24367-105">The events and methods required for drag-and-drop operations are defined in the <xref:System.Windows.DragDrop> class.</span></span> <span data-ttu-id="24367-106">Los eventos de arrastrar y colocar son eventos asociados que se pueden adjuntar a cualquier <xref:System.Windows.UIElement> o <xref:System.Windows.ContentElement>.</span><span class="sxs-lookup"><span data-stu-id="24367-106">The drag-and-drop events are attached events that can be attached to any <xref:System.Windows.UIElement> or <xref:System.Windows.ContentElement>.</span></span> <span data-ttu-id="24367-107">El destino de origen y destino del arrastre puede ser elementos de interfaz de usuario en la misma aplicación o en distintas aplicaciones.</span><span class="sxs-lookup"><span data-stu-id="24367-107">The drag source and drop target may be UI elements in the same application or in different applications.</span></span> <span data-ttu-id="24367-108">Sin embargo, el destino de colocación debe saber cómo procesar los datos que se pasa por el origen de arrastre.</span><span class="sxs-lookup"><span data-stu-id="24367-108">However, the drop target must know how to process the data being passed by the drag source.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="24367-109">El <xref:System.Windows.UIElement> y <xref:System.Windows.ContentElement> clases contienen alias para los eventos de arrastrar y colocar para que los eventos aparecen en la lista de miembros de clase cuando estas clases se heredan como una clase base.</span><span class="sxs-lookup"><span data-stu-id="24367-109">The <xref:System.Windows.UIElement> and <xref:System.Windows.ContentElement> classes contain aliases for the drag-and-drop events so that the events appear in the class members list when these classes are inherited as a base class.</span></span> <span data-ttu-id="24367-110">Cuando asocia un controlador de eventos a un evento de arrastrar y colocar en una de estas clases, se asocia el controlador al subyacente <xref:System.Windows.DragDrop> evento y reciben la misma instancia de datos del evento.</span><span class="sxs-lookup"><span data-stu-id="24367-110">When you attach an event handler to a drag-and-drop event on one of these classes, the handler is attached to the underlying <xref:System.Windows.DragDrop> event and they receive the same instance of event data.</span></span> <span data-ttu-id="24367-111">Por ejemplo, vea <xref:System.Windows.UIElement.Drop?displayProperty=nameWithType>.</span><span class="sxs-lookup"><span data-stu-id="24367-111">For example, see <xref:System.Windows.UIElement.Drop?displayProperty=nameWithType>.</span></span>  
+  
+ <span data-ttu-id="24367-112">El origen de arrastre inicia una operación de arrastrar y colocar llamando al método estático <xref:System.Windows.DragDrop.DoDragDrop%2A> y transfiriéndole los datos transferidos.</span><span class="sxs-lookup"><span data-stu-id="24367-112">The drag source initiates a drag-and-drop operation by calling the static <xref:System.Windows.DragDrop.DoDragDrop%2A> method and passing the transferred data to it.</span></span> <span data-ttu-id="24367-113">Un elemento normalmente controla los eventos siguientes cuando es un origen de arrastre:</span><span class="sxs-lookup"><span data-stu-id="24367-113">An element typically handles the following events when it is a drag source:</span></span>  
+  
+-   <xref:System.Windows.DragDrop.GiveFeedback>  
+  
+-   <xref:System.Windows.DragDrop.QueryContinueDrag>  
+  
+ <span data-ttu-id="24367-114">Un elemento normalmente controla los eventos siguientes cuando es un destino de colocación:</span><span class="sxs-lookup"><span data-stu-id="24367-114">An element typically handles the following events when it is a drop target:</span></span>  
+  
+-   <xref:System.Windows.DragDrop.DragEnter>  
+  
+-   <xref:System.Windows.DragDrop.DragLeave>  
+  
+-   <xref:System.Windows.DragDrop.DragOver>  
+  
+-   <xref:System.Windows.DragDrop.Drop>  
+  
+ <span data-ttu-id="24367-115">Para obtener más información y ejemplos, vea [de arrastrar y colocar, información general sobre](~/docs/framework/wpf/advanced/drag-and-drop-overview.md).</span><span class="sxs-lookup"><span data-stu-id="24367-115">For more information and examples, see [Drag and Drop Overview](~/docs/framework/wpf/advanced/drag-and-drop-overview.md).</span></span>  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Windows.DataObject" />
+  </Docs>
+  <Members>
+    <Member MemberName="AddDragEnterHandler">
+      <MemberSignature Language="C#" Value="public static void AddDragEnterHandler (System.Windows.DependencyObject element, System.Windows.DragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void AddDragEnterHandler(class System.Windows.DependencyObject element, class System.Windows.DragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.AddDragEnterHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub AddDragEnterHandler (element As DependencyObject, handler As DragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void AddDragEnterHandler(System::Windows::DependencyObject ^ element, System::Windows::DragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.DragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-116">Objeto de dependencia (<see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) al que se va a agregar el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-116">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) to which to add the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-117">Delegado que hace referencia al método de controlador que se va a agregar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-117">A delegate that references the handler method to be added.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-118">Agrega un controlador de eventos <see cref="E:System.Windows.DragDrop.DragEnter" /> a un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-118">Adds a <see cref="E:System.Windows.DragDrop.DragEnter" /> event handler to a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-119">El <xref:System.Windows.DragDrop.DragEnter> evento tiene lugar cuando se arrastra un objeto dentro de los límites del elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-119">The <xref:System.Windows.DragDrop.DragEnter> event occurs when an object is dragged into the element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-120">Este método agrega un controlador para la versión de propagación de la <xref:System.Windows.DragDrop.DragEnter> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-120">This method adds a handler for the bubbling version of the <xref:System.Windows.DragDrop.DragEnter> event.</span></span> <span data-ttu-id="24367-121">Para agregar un controlador para la versión de túnel de este evento, vea <xref:System.Windows.DragDrop.AddPreviewDragEnterHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-121">To add a handler for the tunneling version of this event, see <xref:System.Windows.DragDrop.AddPreviewDragEnterHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.DragEnterEvent" />
+        <altmember cref="M:System.Windows.DragDrop.RemoveDragEnterHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="AddDragLeaveHandler">
+      <MemberSignature Language="C#" Value="public static void AddDragLeaveHandler (System.Windows.DependencyObject element, System.Windows.DragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void AddDragLeaveHandler(class System.Windows.DependencyObject element, class System.Windows.DragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.AddDragLeaveHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub AddDragLeaveHandler (element As DependencyObject, handler As DragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void AddDragLeaveHandler(System::Windows::DependencyObject ^ element, System::Windows::DragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.DragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-122">Objeto de dependencia (<see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) al que se va a agregar el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-122">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) to which to add the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-123">Delegado que hace referencia al método de controlador que se va a agregar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-123">A delegate that references the handler method to be added.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-124">Agrega un controlador de eventos <see cref="E:System.Windows.DragDrop.DragLeave" /> a un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-124">Adds a <see cref="E:System.Windows.DragDrop.DragLeave" /> event handler to a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-125">El <xref:System.Windows.DragDrop.DragLeave> evento tiene lugar cuando se arrastra un objeto fuera de los límites del elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-125">The <xref:System.Windows.DragDrop.DragLeave> event occurs when an object is dragged out of the element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-126">Este método agrega un controlador para la versión de propagación de la <xref:System.Windows.DragDrop.DragLeave> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-126">This method adds a handler for the bubbling version of the <xref:System.Windows.DragDrop.DragLeave> event.</span></span> <span data-ttu-id="24367-127">Para agregar un controlador para la versión de túnel de este evento, vea <xref:System.Windows.DragDrop.AddPreviewDragLeaveHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-127">To add a handler for the tunneling version of this event, see <xref:System.Windows.DragDrop.AddPreviewDragLeaveHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.DragLeaveEvent" />
+        <altmember cref="M:System.Windows.DragDrop.RemoveDragLeaveHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="AddDragOverHandler">
+      <MemberSignature Language="C#" Value="public static void AddDragOverHandler (System.Windows.DependencyObject element, System.Windows.DragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void AddDragOverHandler(class System.Windows.DependencyObject element, class System.Windows.DragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.AddDragOverHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub AddDragOverHandler (element As DependencyObject, handler As DragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void AddDragOverHandler(System::Windows::DependencyObject ^ element, System::Windows::DragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.DragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-128">Objeto de dependencia (<see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) al que se va a agregar el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-128">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) to which to add the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-129">Delegado que hace referencia al método de controlador que se va a agregar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-129">A delegate that references the handler method to be added.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-130">Agrega un controlador de eventos <see cref="E:System.Windows.DragDrop.DragOver" /> a un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-130">Adds a <see cref="E:System.Windows.DragDrop.DragOver" /> event handler to a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-131">El <xref:System.Windows.DragDrop.DragOver> evento tiene lugar cuando se arrastra un objeto sobre los límites del elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-131">The <xref:System.Windows.DragDrop.DragOver> event occurs when an object is dragged over the element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-132">Este método agrega un controlador para la versión de propagación de la <xref:System.Windows.DragDrop.DragOver> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-132">This method adds a handler for the bubbling version of the <xref:System.Windows.DragDrop.DragOver> event.</span></span> <span data-ttu-id="24367-133">Para agregar un controlador para la versión de túnel de este evento, vea <xref:System.Windows.DragDrop.AddPreviewDragOverHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-133">To add a handler for the tunneling version of this event, see <xref:System.Windows.DragDrop.AddPreviewDragOverHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.DragOverEvent" />
+        <altmember cref="M:System.Windows.DragDrop.RemoveDragOverHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="AddDropHandler">
+      <MemberSignature Language="C#" Value="public static void AddDropHandler (System.Windows.DependencyObject element, System.Windows.DragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void AddDropHandler(class System.Windows.DependencyObject element, class System.Windows.DragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.AddDropHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub AddDropHandler (element As DependencyObject, handler As DragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void AddDropHandler(System::Windows::DependencyObject ^ element, System::Windows::DragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.DragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-134">Objeto de dependencia (<see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) al que se va a agregar el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-134">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) to which to add the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-135">Delegado que hace referencia al método de controlador que se va a agregar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-135">A delegate that references the handler method to be added.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-136">Agrega un controlador de eventos <see cref="E:System.Windows.DragDrop.Drop" /> a un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-136">Adds a <see cref="E:System.Windows.DragDrop.Drop" /> event handler to a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-137">El <xref:System.Windows.DragDrop.Drop> evento tiene lugar cuando se quita un objeto dentro de los límites de un elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-137">The <xref:System.Windows.DragDrop.Drop> event occurs when an object is dropped within an element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-138">Este método agrega un controlador para la versión de propagación de la <xref:System.Windows.DragDrop.Drop> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-138">This method adds a handler for the bubbling version of the <xref:System.Windows.DragDrop.Drop> event.</span></span> <span data-ttu-id="24367-139">Para agregar un controlador para la versión de túnel de este evento, vea <xref:System.Windows.DragDrop.AddPreviewDropHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-139">To add a handler for the tunneling version of this event, see <xref:System.Windows.DragDrop.AddPreviewDropHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.DropEvent" />
+        <altmember cref="M:System.Windows.DragDrop.RemoveDropHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="AddGiveFeedbackHandler">
+      <MemberSignature Language="C#" Value="public static void AddGiveFeedbackHandler (System.Windows.DependencyObject element, System.Windows.GiveFeedbackEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void AddGiveFeedbackHandler(class System.Windows.DependencyObject element, class System.Windows.GiveFeedbackEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.AddGiveFeedbackHandler(System.Windows.DependencyObject,System.Windows.GiveFeedbackEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub AddGiveFeedbackHandler (element As DependencyObject, handler As GiveFeedbackEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void AddGiveFeedbackHandler(System::Windows::DependencyObject ^ element, System::Windows::GiveFeedbackEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.GiveFeedbackEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-140">Objeto de dependencia (<see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) al que se va a agregar el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-140">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) to which to add the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-141">Delegado que hace referencia al método de controlador que se va a agregar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-141">A delegate that references the handler method to be added.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-142">Agrega un controlador de eventos <see cref="E:System.Windows.DragDrop.GiveFeedback" /> a un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-142">Adds a <see cref="E:System.Windows.DragDrop.GiveFeedback" /> event handler to a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-143">El <xref:System.Windows.DragDrop.GiveFeedback> evento se produce durante una operación de arrastre.</span><span class="sxs-lookup"><span data-stu-id="24367-143">The <xref:System.Windows.DragDrop.GiveFeedback> event occurs during a drag operation.</span></span>  
+  
+ <span data-ttu-id="24367-144">Este método agrega un controlador para la versión de propagación de la <xref:System.Windows.DragDrop.GiveFeedback> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-144">This method adds a handler for the bubbling version of the <xref:System.Windows.DragDrop.GiveFeedback> event.</span></span> <span data-ttu-id="24367-145">Para agregar un controlador para la versión de túnel de este evento, vea <xref:System.Windows.DragDrop.AddPreviewGiveFeedbackHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-145">To add a handler for the tunneling version of this event, see <xref:System.Windows.DragDrop.AddPreviewGiveFeedbackHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.GiveFeedbackEvent" />
+        <altmember cref="M:System.Windows.DragDrop.RemoveGiveFeedbackHandler(System.Windows.DependencyObject,System.Windows.GiveFeedbackEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="AddPreviewDragEnterHandler">
+      <MemberSignature Language="C#" Value="public static void AddPreviewDragEnterHandler (System.Windows.DependencyObject element, System.Windows.DragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void AddPreviewDragEnterHandler(class System.Windows.DependencyObject element, class System.Windows.DragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.AddPreviewDragEnterHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub AddPreviewDragEnterHandler (element As DependencyObject, handler As DragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void AddPreviewDragEnterHandler(System::Windows::DependencyObject ^ element, System::Windows::DragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.DragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-146">Objeto de dependencia (<see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) al que se va a agregar el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-146">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) to which to add the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-147">Delegado que hace referencia al método de controlador que se va a agregar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-147">A delegate that references the handler method to be added.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-148">Agrega un controlador de eventos <see cref="E:System.Windows.DragDrop.PreviewDragEnter" /> a un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-148">Adds a <see cref="E:System.Windows.DragDrop.PreviewDragEnter" /> event handler to a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-149">El <xref:System.Windows.DragDrop.PreviewDragEnter> evento tiene lugar cuando se arrastra un objeto dentro de los límites del elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-149">The <xref:System.Windows.DragDrop.PreviewDragEnter> event occurs when an object is dragged into the element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-150">Este método agrega un controlador para la versión de túnel de la <xref:System.Windows.DragDrop.PreviewDragEnter> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-150">This method adds a handler for the tunneling version of the <xref:System.Windows.DragDrop.PreviewDragEnter> event.</span></span> <span data-ttu-id="24367-151">Para agregar un controlador para la versión de propagación de este evento, vea <xref:System.Windows.DragDrop.AddDragEnterHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-151">To add a handler for the bubbling version of this event, see <xref:System.Windows.DragDrop.AddDragEnterHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.PreviewDragEnterEvent" />
+        <altmember cref="M:System.Windows.DragDrop.RemovePreviewDragEnterHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="AddPreviewDragLeaveHandler">
+      <MemberSignature Language="C#" Value="public static void AddPreviewDragLeaveHandler (System.Windows.DependencyObject element, System.Windows.DragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void AddPreviewDragLeaveHandler(class System.Windows.DependencyObject element, class System.Windows.DragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.AddPreviewDragLeaveHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub AddPreviewDragLeaveHandler (element As DependencyObject, handler As DragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void AddPreviewDragLeaveHandler(System::Windows::DependencyObject ^ element, System::Windows::DragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.DragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-152">Objeto de dependencia (<see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) al que se va a agregar el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-152">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) to which to add the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-153">Delegado que hace referencia al método de controlador que se va a agregar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-153">A delegate that references the handler method to be added.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-154">Agrega un controlador de eventos <see cref="E:System.Windows.DragDrop.PreviewDragLeave" /> a un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-154">Adds a <see cref="E:System.Windows.DragDrop.PreviewDragLeave" /> event handler to a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-155">El <xref:System.Windows.DragDrop.PreviewDragLeave> evento tiene lugar cuando se arrastra un objeto fuera de los límites del elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-155">The <xref:System.Windows.DragDrop.PreviewDragLeave> event occurs when an object is dragged out of the element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-156">Este método agrega un controlador para la versión de túnel de la <xref:System.Windows.DragDrop.PreviewDragLeave> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-156">This method adds a handler for the tunneling version of the <xref:System.Windows.DragDrop.PreviewDragLeave> event.</span></span> <span data-ttu-id="24367-157">Para agregar un controlador para la versión de propagación de este evento, vea <xref:System.Windows.DragDrop.AddDragLeaveHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-157">To add a handler for the bubbling version of this event, see <xref:System.Windows.DragDrop.AddDragLeaveHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.PreviewDragLeaveEvent" />
+        <altmember cref="M:System.Windows.DragDrop.RemovePreviewDragLeaveHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="AddPreviewDragOverHandler">
+      <MemberSignature Language="C#" Value="public static void AddPreviewDragOverHandler (System.Windows.DependencyObject element, System.Windows.DragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void AddPreviewDragOverHandler(class System.Windows.DependencyObject element, class System.Windows.DragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.AddPreviewDragOverHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub AddPreviewDragOverHandler (element As DependencyObject, handler As DragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void AddPreviewDragOverHandler(System::Windows::DependencyObject ^ element, System::Windows::DragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.DragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-158">Objeto de dependencia (<see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) al que se va a agregar el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-158">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) to which to add the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-159">Delegado que hace referencia al método de controlador que se va a agregar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-159">A delegate that references the handler method to be added.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-160">Agrega un controlador de eventos <see cref="E:System.Windows.DragDrop.PreviewDragOver" /> a un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-160">Adds a <see cref="E:System.Windows.DragDrop.PreviewDragOver" /> event handler to a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-161">El <xref:System.Windows.DragDrop.PreviewDragOver> evento tiene lugar cuando se arrastra n objeto sobre los límites del elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-161">The <xref:System.Windows.DragDrop.PreviewDragOver> event occurs when n object is dragged over the element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-162">Este método agrega un controlador para la versión de túnel de la <xref:System.Windows.DragDrop.PreviewDragOver> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-162">This method adds a handler for the tunneling version of the <xref:System.Windows.DragDrop.PreviewDragOver> event.</span></span> <span data-ttu-id="24367-163">Para agregar un controlador para la versión de propagación de este evento, vea <xref:System.Windows.DragDrop.AddDragOverHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-163">To add a handler for the bubbling version of this event, see <xref:System.Windows.DragDrop.AddDragOverHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.PreviewDragOverEvent" />
+        <altmember cref="M:System.Windows.DragDrop.RemovePreviewDragOverHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="AddPreviewDropHandler">
+      <MemberSignature Language="C#" Value="public static void AddPreviewDropHandler (System.Windows.DependencyObject element, System.Windows.DragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void AddPreviewDropHandler(class System.Windows.DependencyObject element, class System.Windows.DragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.AddPreviewDropHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub AddPreviewDropHandler (element As DependencyObject, handler As DragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void AddPreviewDropHandler(System::Windows::DependencyObject ^ element, System::Windows::DragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.DragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-164">Objeto de dependencia (<see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) al que se va a agregar el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-164">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) to which to add the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-165">Delegado que hace referencia al método de controlador que se va a agregar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-165">A delegate that references the handler method to be added.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-166">Agrega un controlador de eventos <see cref="E:System.Windows.DragDrop.PreviewDrop" /> a un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-166">Adds a <see cref="E:System.Windows.DragDrop.PreviewDrop" /> event handler to a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-167">El <xref:System.Windows.DragDrop.PreviewDrop> evento tiene lugar cuando se quita un objeto dentro de los límites de un elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-167">The <xref:System.Windows.DragDrop.PreviewDrop> event occurs when an object is dropped within an element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-168">Este método agrega un controlador para la versión de túnel de la <xref:System.Windows.DragDrop.PreviewDrop> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-168">This method adds a handler for the tunneling version of the <xref:System.Windows.DragDrop.PreviewDrop> event.</span></span> <span data-ttu-id="24367-169">Para agregar un controlador para la versión de propagación de este evento, vea <xref:System.Windows.DragDrop.AddDropHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-169">To add a handler for the bubbling version of this event, see <xref:System.Windows.DragDrop.AddDropHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.PreviewDropEvent" />
+        <altmember cref="M:System.Windows.DragDrop.RemovePreviewDropHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="AddPreviewGiveFeedbackHandler">
+      <MemberSignature Language="C#" Value="public static void AddPreviewGiveFeedbackHandler (System.Windows.DependencyObject element, System.Windows.GiveFeedbackEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void AddPreviewGiveFeedbackHandler(class System.Windows.DependencyObject element, class System.Windows.GiveFeedbackEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.AddPreviewGiveFeedbackHandler(System.Windows.DependencyObject,System.Windows.GiveFeedbackEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub AddPreviewGiveFeedbackHandler (element As DependencyObject, handler As GiveFeedbackEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void AddPreviewGiveFeedbackHandler(System::Windows::DependencyObject ^ element, System::Windows::GiveFeedbackEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.GiveFeedbackEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-170">Objeto de dependencia (<see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) al que se va a agregar el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-170">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) to which to add the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-171">Delegado que hace referencia al método de controlador que se va a agregar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-171">A delegate that references the handler method to be added.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-172">Agrega un controlador de eventos <see cref="E:System.Windows.DragDrop.PreviewGiveFeedback" /> a un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-172">Adds a <see cref="E:System.Windows.DragDrop.PreviewGiveFeedback" /> event handler to a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-173">El <xref:System.Windows.DragDrop.PreviewGiveFeedback> evento se produce durante una operación de arrastre.</span><span class="sxs-lookup"><span data-stu-id="24367-173">The <xref:System.Windows.DragDrop.PreviewGiveFeedback> event occurs during a drag operation.</span></span>  
+  
+ <span data-ttu-id="24367-174">Este método agrega un controlador para la versión de túnel de la <xref:System.Windows.DragDrop.PreviewGiveFeedback> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-174">This method adds a handler for the tunneling version of the <xref:System.Windows.DragDrop.PreviewGiveFeedback> event.</span></span> <span data-ttu-id="24367-175">Para agregar un controlador para la versión de propagación de este evento, vea <xref:System.Windows.DragDrop.AddGiveFeedbackHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-175">To add a handler for the bubbling version of this event, see <xref:System.Windows.DragDrop.AddGiveFeedbackHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.PreviewGiveFeedbackEvent" />
+        <altmember cref="M:System.Windows.DragDrop.RemovePreviewGiveFeedbackHandler(System.Windows.DependencyObject,System.Windows.GiveFeedbackEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="AddPreviewQueryContinueDragHandler">
+      <MemberSignature Language="C#" Value="public static void AddPreviewQueryContinueDragHandler (System.Windows.DependencyObject element, System.Windows.QueryContinueDragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void AddPreviewQueryContinueDragHandler(class System.Windows.DependencyObject element, class System.Windows.QueryContinueDragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.AddPreviewQueryContinueDragHandler(System.Windows.DependencyObject,System.Windows.QueryContinueDragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub AddPreviewQueryContinueDragHandler (element As DependencyObject, handler As QueryContinueDragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void AddPreviewQueryContinueDragHandler(System::Windows::DependencyObject ^ element, System::Windows::QueryContinueDragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.QueryContinueDragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-176">Objeto de dependencia (<see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) al que se va a agregar el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-176">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) to which to add the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-177">Delegado que hace referencia al método de controlador que se va a agregar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-177">A delegate that references the handler method to be added.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-178">Agrega un controlador de eventos <see cref="E:System.Windows.DragDrop.PreviewQueryContinueDrag" /> a un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-178">Adds a <see cref="E:System.Windows.DragDrop.PreviewQueryContinueDrag" /> event handler to a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-179">El <xref:System.Windows.DragDrop.PreviewQueryContinueDrag> evento se produce durante una operación de arrastrar y colocar y permite al origen de arrastre determinar si la operación de arrastrar y colocar tiene que cancelarse.</span><span class="sxs-lookup"><span data-stu-id="24367-179">The <xref:System.Windows.DragDrop.PreviewQueryContinueDrag> event occurs during a drag-and-drop operation, and enables the drag source to determine whether the drag-and-drop operation should be canceled.</span></span>  
+  
+ <span data-ttu-id="24367-180">Este método agrega un controlador para la versión de túnel de la <xref:System.Windows.DragDrop.PreviewQueryContinueDrag> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-180">This method adds a handler for the tunneling version of the <xref:System.Windows.DragDrop.PreviewQueryContinueDrag> event.</span></span> <span data-ttu-id="24367-181">Para agregar un controlador para la versión de propagación de este evento, vea <xref:System.Windows.DragDrop.AddQueryContinueDragHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-181">To add a handler for the bubbling version of this event, see <xref:System.Windows.DragDrop.AddQueryContinueDragHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.PreviewQueryContinueDragEvent" />
+        <altmember cref="M:System.Windows.DragDrop.RemovePreviewQueryContinueDragHandler(System.Windows.DependencyObject,System.Windows.QueryContinueDragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="AddQueryContinueDragHandler">
+      <MemberSignature Language="C#" Value="public static void AddQueryContinueDragHandler (System.Windows.DependencyObject element, System.Windows.QueryContinueDragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void AddQueryContinueDragHandler(class System.Windows.DependencyObject element, class System.Windows.QueryContinueDragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.AddQueryContinueDragHandler(System.Windows.DependencyObject,System.Windows.QueryContinueDragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub AddQueryContinueDragHandler (element As DependencyObject, handler As QueryContinueDragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void AddQueryContinueDragHandler(System::Windows::DependencyObject ^ element, System::Windows::QueryContinueDragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.QueryContinueDragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-182">Objeto de dependencia (<see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) al que se va a agregar el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-182">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) to which to add the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-183">Delegado que hace referencia al método de controlador que se va a agregar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-183">A delegate that references the handler method to be added.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-184">Agrega un controlador de eventos <see cref="E:System.Windows.DragDrop.QueryContinueDrag" /> a un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-184">Adds a <see cref="E:System.Windows.DragDrop.QueryContinueDrag" /> event handler to a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-185">El <xref:System.Windows.DragDrop.QueryContinueDrag> evento se produce durante una operación de arrastrar y colocar y permite al origen de arrastre determinar si la operación de arrastrar y colocar tiene que cancelarse.</span><span class="sxs-lookup"><span data-stu-id="24367-185">The <xref:System.Windows.DragDrop.QueryContinueDrag> event occurs during a drag-and-drop operation, and enables the drag source to determine whether the drag-and-drop operation should be canceled.</span></span>  
+  
+ <span data-ttu-id="24367-186">Este método agrega un controlador para la versión de propagación de la <xref:System.Windows.DragDrop.QueryContinueDrag> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-186">This method adds a handler for the bubbling version of the <xref:System.Windows.DragDrop.QueryContinueDrag> event.</span></span> <span data-ttu-id="24367-187">Para agregar un controlador para la versión de túnel de este evento, vea <xref:System.Windows.DragDrop.AddPreviewQueryContinueDragHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-187">To add a handler for the tunneling version of this event, see <xref:System.Windows.DragDrop.AddPreviewQueryContinueDragHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.QueryContinueDragEvent" />
+        <altmember cref="M:System.Windows.DragDrop.RemoveQueryContinueDragHandler(System.Windows.DependencyObject,System.Windows.QueryContinueDragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="DoDragDrop">
+      <MemberSignature Language="C#" Value="public static System.Windows.DragDropEffects DoDragDrop (System.Windows.DependencyObject dragSource, object data, System.Windows.DragDropEffects allowedEffects);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Windows.DragDropEffects DoDragDrop(class System.Windows.DependencyObject dragSource, object data, valuetype System.Windows.DragDropEffects allowedEffects) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.DoDragDrop(System.Windows.DependencyObject,System.Object,System.Windows.DragDropEffects)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function DoDragDrop (dragSource As DependencyObject, data As Object, allowedEffects As DragDropEffects) As DragDropEffects" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Windows::DragDropEffects DoDragDrop(System::Windows::DependencyObject ^ dragSource, System::Object ^ data, System::Windows::DragDropEffects allowedEffects);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Windows.DragDropEffects</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dragSource" Type="System.Windows.DependencyObject" />
+        <Parameter Name="data" Type="System.Object" />
+        <Parameter Name="allowedEffects" Type="System.Windows.DragDropEffects" />
+      </Parameters>
+      <Docs>
+        <param name="dragSource">
+          <span data-ttu-id="24367-188">Referencia al objeto de dependencia que es el origen de los datos que se arrastran.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-188">A reference to the dependency object that is the source of the data being dragged.</span>
+          </span>
+        </param>
+        <param name="data">
+          <span data-ttu-id="24367-189">Objeto de datos que contiene los datos que se arrastran.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-189">A data object that contains the data being dragged.</span>
+          </span>
+        </param>
+        <param name="allowedEffects">
+          <span data-ttu-id="24367-190">Uno de los valores de <see cref="T:System.Windows.DragDropEffects" /> que especifica los efectos permitidos de la operación de arrastrar y colocar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-190">One of the <see cref="T:System.Windows.DragDropEffects" /> values that specifies permitted effects of the drag-and-drop operation.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-191">Inicia una operación de arrastrar y colocar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-191">Initiates a drag-and-drop operation.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="24367-192">Uno de los valores de <see cref="T:System.Windows.DragDropEffects" /> que especifica el efecto final obtenido durante la operación de arrastrar y colocar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-192">One of the <see cref="T:System.Windows.DragDropEffects" /> values that specifies the final effect that was performed during the drag-and-drop operation.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-193">Es responsabilidad de la aplicación para determinar cuándo se produce un arrastre y, a continuación, inicie la operación de arrastrar y colocar.</span><span class="sxs-lookup"><span data-stu-id="24367-193">It is the responsibility of your application to determine when a drag occurs, and then initiate the drag-and-drop operation.</span></span> <span data-ttu-id="24367-194">Normalmente, esto es cuando un <xref:System.Windows.UIElement.MouseDown> y <xref:System.Windows.UIElement.MouseMove> secuencia de eventos se produce en el elemento que se va a arrastrar.</span><span class="sxs-lookup"><span data-stu-id="24367-194">Typically, this is when a <xref:System.Windows.UIElement.MouseDown> and <xref:System.Windows.UIElement.MouseMove> sequence of events occurs over the element to be dragged.</span></span> <span data-ttu-id="24367-195">Inicie la operación de arrastrar y colocar llamando el método estático <xref:System.Windows.DragDrop.DoDragDrop%2A> método y pasar los datos transferidos a él.</span><span class="sxs-lookup"><span data-stu-id="24367-195">You initiate the drag-and-drop operation by calling the static <xref:System.Windows.DragDrop.DoDragDrop%2A> method and passing the transferred data to it.</span></span> <span data-ttu-id="24367-196">El método <xref:System.Windows.DragDrop.DoDragDrop%2A> ajustará automáticamente los datos en un <xref:System.Windows.DataObject>, si es necesario.</span><span class="sxs-lookup"><span data-stu-id="24367-196">The <xref:System.Windows.DragDrop.DoDragDrop%2A> method will automatically wrap the data in a <xref:System.Windows.DataObject> if necessary.</span></span> <span data-ttu-id="24367-197">Para un mayor control del formato de datos, puede ajustar los datos en un <xref:System.Windows.DataObject> antes de pasarlos al método <xref:System.Windows.DragDrop.DoDragDrop%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-197">For greater control over the data format, you can wrap the data in a <xref:System.Windows.DataObject> before passing it to the <xref:System.Windows.DragDrop.DoDragDrop%2A> method.</span></span>  
+  
+ <span data-ttu-id="24367-198">El valor devuelto de la <xref:System.Windows.DragDrop.DoDragDrop%2A> método es el valor de la <xref:System.Windows.DragEventArgs.Effects%2A?displayProperty=nameWithType> propiedad establecida en el destino de colocación <xref:System.Windows.DragDrop.Drop> controlador de eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-198">The value returned from the <xref:System.Windows.DragDrop.DoDragDrop%2A> method is the value of the <xref:System.Windows.DragEventArgs.Effects%2A?displayProperty=nameWithType> property set in the drop target’s <xref:System.Windows.DragDrop.Drop> event handler.</span></span> <span data-ttu-id="24367-199">Si el valor devuelto no coincide con uno de los `allowedEffects` especificado en la llamada a <xref:System.Windows.DragDrop.DoDragDrop%2A>, no se realiza la operación de arrastrar y colocar.</span><span class="sxs-lookup"><span data-stu-id="24367-199">If the return value does not match one of the `allowedEffects` specified in the call to <xref:System.Windows.DragDrop.DoDragDrop%2A>, the drag-and-drop operation is not performed.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="24367-200">En el ejemplo siguiente se muestra cómo iniciar una operación de arrastrar y colocar desde el controlador de eventos <xref:System.Windows.UIElement.MouseMove> de un elemento <xref:System.Windows.Shapes.Ellipse> para convertirlo en un origen de arrastre.</span><span class="sxs-lookup"><span data-stu-id="24367-200">The following example shows how to initiate a drag-and-drop operation from the <xref:System.Windows.UIElement.MouseMove> event handler of an <xref:System.Windows.Shapes.Ellipse> element to make it a drag source.</span></span> <span data-ttu-id="24367-201">Los datos transferidos son la representación de cadena de la propiedad <xref:System.Windows.Shapes.Shape.Fill%2A> de la elipse.</span><span class="sxs-lookup"><span data-stu-id="24367-201">The transferred data is the string representation of the ellipse’s <xref:System.Windows.Shapes.Shape.Fill%2A> property.</span></span> <span data-ttu-id="24367-202">Los datos se pasan a la <xref:System.Windows.DragDrop.DoDragDrop%2A> método como una cadena y se ajusta automáticamente en un <xref:System.Windows.DataObject>.</span><span class="sxs-lookup"><span data-stu-id="24367-202">The data is passed to the <xref:System.Windows.DragDrop.DoDragDrop%2A> method as a string and is automatically wrapped in a <xref:System.Windows.DataObject>.</span></span>  
+  
+ [!code-csharp[DragDropSnippets#DoDragDrop](~/samples/snippets/csharp/VS_Snippets_Wpf/dragdropsnippets/cs/mainwindow.xaml.cs#dodragdrop)]
+ [!code-vb[DragDropSnippets#DoDragDrop](~/samples/snippets/visualbasic/VS_Snippets_Wpf/dragdropsnippets/vb/mainwindow.xaml.vb#dodragdrop)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="24367-203">El valor de <paramref name="dragSource" /> o <paramref name="data" /> es <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-203">
+              <paramref name="dragSource" /> or <paramref name="data" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="DragEnter">
+      <MemberSignature Language="C#" Value="see AddDragEnterHandler, and RemoveDragEnterHandler" />
+      <MemberSignature Language="ILAsm" Value="see AddDragEnterHandler, and RemoveDragEnterHandler" />
+      <MemberSignature Language="DocId" Value="E:System.Windows.DragDrop.DragEnter" />
+      <MemberSignature Language="VB.NET" Value="see AddDragEnterHandler, and RemoveDragEnterHandler" />
+      <MemberType>AttachedEvent</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DragEnterEvent">
+      <MemberSignature Language="C#" Value="public static readonly System.Windows.RoutedEvent DragEnterEvent;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.RoutedEvent DragEnterEvent" />
+      <MemberSignature Language="DocId" Value="F:System.Windows.DragDrop.DragEnterEvent" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly DragEnterEvent As RoutedEvent " />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::RoutedEvent ^ DragEnterEvent;" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.RoutedEvent</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="24367-204">Identifica el evento adjunto <see cref="E:System.Windows.DragDrop.DragEnter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-204">Identifies the <see cref="E:System.Windows.DragDrop.DragEnter" /> attached event.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-205">El <xref:System.Windows.DragDrop.DragEnter> evento tiene lugar cuando se arrastra un objeto dentro de los límites del elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-205">The <xref:System.Windows.DragDrop.DragEnter> event occurs when an object is dragged into the element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-206">Este campo identifica la versión de propagación de la <xref:System.Windows.DragDrop.DragEnter> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-206">This field identifies the bubbling version of the <xref:System.Windows.DragDrop.DragEnter> event.</span></span> <span data-ttu-id="24367-207">Para obtener un identificador de la versión de túnel de este evento, vea <xref:System.Windows.DragDrop.PreviewDragEnterEvent>.</span><span class="sxs-lookup"><span data-stu-id="24367-207">For an identifier for the tunneling version of this event, see <xref:System.Windows.DragDrop.PreviewDragEnterEvent>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="E:System.Windows.DragDrop.DragEnter" />
+        <altmember cref="M:System.Windows.DragDrop.AddDragEnterHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+        <altmember cref="M:System.Windows.DragDrop.RemoveDragEnterHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="DragLeave">
+      <MemberSignature Language="C#" Value="see AddDragLeaveHandler, and RemoveDragLeaveHandler" />
+      <MemberSignature Language="ILAsm" Value="see AddDragLeaveHandler, and RemoveDragLeaveHandler" />
+      <MemberSignature Language="DocId" Value="E:System.Windows.DragDrop.DragLeave" />
+      <MemberSignature Language="VB.NET" Value="see AddDragLeaveHandler, and RemoveDragLeaveHandler" />
+      <MemberType>AttachedEvent</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DragLeaveEvent">
+      <MemberSignature Language="C#" Value="public static readonly System.Windows.RoutedEvent DragLeaveEvent;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.RoutedEvent DragLeaveEvent" />
+      <MemberSignature Language="DocId" Value="F:System.Windows.DragDrop.DragLeaveEvent" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly DragLeaveEvent As RoutedEvent " />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::RoutedEvent ^ DragLeaveEvent;" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.RoutedEvent</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="24367-208">Identifica el evento adjunto de <see cref="E:System.Windows.DragDrop.DragLeave" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-208">Identifies the <see cref="E:System.Windows.DragDrop.DragLeave" /> attached event</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-209">El <xref:System.Windows.DragDrop.DragLeave> evento tiene lugar cuando se arrastra un objeto fuera de los límites del elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-209">The <xref:System.Windows.DragDrop.DragLeave> event occurs when an object is dragged out of the element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-210">Este campo identifica la versión de propagación de la <xref:System.Windows.DragDrop.DragLeave> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-210">This field identifies the bubbling version of the <xref:System.Windows.DragDrop.DragLeave> event.</span></span> <span data-ttu-id="24367-211">Para obtener un identificador de la versión de túnel de este evento, vea <xref:System.Windows.DragDrop.PreviewDragLeaveEvent>.</span><span class="sxs-lookup"><span data-stu-id="24367-211">For an identifier for the tunneling version of this event, see <xref:System.Windows.DragDrop.PreviewDragLeaveEvent>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="E:System.Windows.DragDrop.DragLeave" />
+        <altmember cref="M:System.Windows.DragDrop.AddDragLeaveHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+        <altmember cref="M:System.Windows.DragDrop.RemoveDragLeaveHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="DragOver">
+      <MemberSignature Language="C#" Value="see AddDragOverHandler, and RemoveDragOverHandler" />
+      <MemberSignature Language="ILAsm" Value="see AddDragOverHandler, and RemoveDragOverHandler" />
+      <MemberSignature Language="DocId" Value="E:System.Windows.DragDrop.DragOver" />
+      <MemberSignature Language="VB.NET" Value="see AddDragOverHandler, and RemoveDragOverHandler" />
+      <MemberType>AttachedEvent</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DragOverEvent">
+      <MemberSignature Language="C#" Value="public static readonly System.Windows.RoutedEvent DragOverEvent;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.RoutedEvent DragOverEvent" />
+      <MemberSignature Language="DocId" Value="F:System.Windows.DragDrop.DragOverEvent" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly DragOverEvent As RoutedEvent " />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::RoutedEvent ^ DragOverEvent;" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.RoutedEvent</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="24367-212">Identifica el evento adjunto de <see cref="E:System.Windows.DragDrop.DragOver" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-212">Identifies the <see cref="E:System.Windows.DragDrop.DragOver" /> attached event</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-213">El <xref:System.Windows.DragDrop.DragOver> evento tiene lugar cuando se arrastra un objeto sobre los límites del elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-213">The <xref:System.Windows.DragDrop.DragOver> event occurs when an object is dragged over the element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-214">Este campo identifica la versión de propagación de la <xref:System.Windows.DragDrop.DragOver> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-214">This field identifies the bubbling version of the <xref:System.Windows.DragDrop.DragOver> event.</span></span> <span data-ttu-id="24367-215">Para obtener un identificador de la versión de túnel de este evento, vea <xref:System.Windows.DragDrop.PreviewDragOverEvent>.</span><span class="sxs-lookup"><span data-stu-id="24367-215">For an identifier for the tunneling version of this event, see <xref:System.Windows.DragDrop.PreviewDragOverEvent>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="E:System.Windows.DragDrop.DragOver" />
+        <altmember cref="M:System.Windows.DragDrop.AddDragOverHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+        <altmember cref="M:System.Windows.DragDrop.RemoveDragOverHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Drop">
+      <MemberSignature Language="C#" Value="see AddDropHandler, and RemoveDropHandler" />
+      <MemberSignature Language="ILAsm" Value="see AddDropHandler, and RemoveDropHandler" />
+      <MemberSignature Language="DocId" Value="E:System.Windows.DragDrop.Drop" />
+      <MemberSignature Language="VB.NET" Value="see AddDropHandler, and RemoveDropHandler" />
+      <MemberType>AttachedEvent</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DropEvent">
+      <MemberSignature Language="C#" Value="public static readonly System.Windows.RoutedEvent DropEvent;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.RoutedEvent DropEvent" />
+      <MemberSignature Language="DocId" Value="F:System.Windows.DragDrop.DropEvent" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly DropEvent As RoutedEvent " />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::RoutedEvent ^ DropEvent;" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.RoutedEvent</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="24367-216">Identifica el evento adjunto de <see cref="E:System.Windows.DragDrop.Drop" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-216">Identifies the <see cref="E:System.Windows.DragDrop.Drop" /> attached event</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-217">El <xref:System.Windows.DragDrop.Drop> evento tiene lugar cuando se quita un objeto dentro de los límites de un elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-217">The <xref:System.Windows.DragDrop.Drop> event occurs when an object is dropped within an element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-218">Este campo identifica la versión de propagación de la <xref:System.Windows.DragDrop.Drop> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-218">This field identifies the bubbling version of the <xref:System.Windows.DragDrop.Drop> event.</span></span> <span data-ttu-id="24367-219">Para obtener un identificador de la versión de túnel de este evento, vea <xref:System.Windows.DragDrop.PreviewDropEvent>.</span><span class="sxs-lookup"><span data-stu-id="24367-219">For an identifier for the tunneling version of this event, see <xref:System.Windows.DragDrop.PreviewDropEvent>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="E:System.Windows.DragDrop.Drop" />
+        <altmember cref="M:System.Windows.DragDrop.AddDropHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+        <altmember cref="M:System.Windows.DragDrop.RemoveDropHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="GiveFeedback">
+      <MemberSignature Language="C#" Value="see AddGiveFeedbackHandler, and RemoveGiveFeedbackHandler" />
+      <MemberSignature Language="ILAsm" Value="see AddGiveFeedbackHandler, and RemoveGiveFeedbackHandler" />
+      <MemberSignature Language="DocId" Value="E:System.Windows.DragDrop.GiveFeedback" />
+      <MemberSignature Language="VB.NET" Value="see AddGiveFeedbackHandler, and RemoveGiveFeedbackHandler" />
+      <MemberType>AttachedEvent</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GiveFeedbackEvent">
+      <MemberSignature Language="C#" Value="public static readonly System.Windows.RoutedEvent GiveFeedbackEvent;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.RoutedEvent GiveFeedbackEvent" />
+      <MemberSignature Language="DocId" Value="F:System.Windows.DragDrop.GiveFeedbackEvent" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly GiveFeedbackEvent As RoutedEvent " />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::RoutedEvent ^ GiveFeedbackEvent;" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.RoutedEvent</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="24367-220">Identifica el evento adjunto de <see cref="E:System.Windows.DragDrop.GiveFeedback" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-220">Identifies the <see cref="E:System.Windows.DragDrop.GiveFeedback" /> attached event</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-221">El <xref:System.Windows.DragDrop.GiveFeedback> evento se produce durante una operación de arrastre.</span><span class="sxs-lookup"><span data-stu-id="24367-221">The <xref:System.Windows.DragDrop.GiveFeedback> event occurs during a drag operation.</span></span>  
+  
+ <span data-ttu-id="24367-222">Este campo identifica la versión de propagación de la <xref:System.Windows.DragDrop.GiveFeedback> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-222">This field identifies the bubbling version of the <xref:System.Windows.DragDrop.GiveFeedback> event.</span></span> <span data-ttu-id="24367-223">Para obtener un identificador de la versión de túnel de este evento, vea <xref:System.Windows.DragDrop.PreviewGiveFeedbackEvent>.</span><span class="sxs-lookup"><span data-stu-id="24367-223">For an identifier for the tunneling version of this event, see <xref:System.Windows.DragDrop.PreviewGiveFeedbackEvent>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="E:System.Windows.DragDrop.GiveFeedback" />
+        <altmember cref="M:System.Windows.DragDrop.AddGiveFeedbackHandler(System.Windows.DependencyObject,System.Windows.GiveFeedbackEventHandler)" />
+        <altmember cref="M:System.Windows.DragDrop.RemoveGiveFeedbackHandler(System.Windows.DependencyObject,System.Windows.GiveFeedbackEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="PreviewDragEnter">
+      <MemberSignature Language="C#" Value="see AddPreviewDragEnterHandler, and RemovePreviewDragEnterHandler" />
+      <MemberSignature Language="ILAsm" Value="see AddPreviewDragEnterHandler, and RemovePreviewDragEnterHandler" />
+      <MemberSignature Language="DocId" Value="E:System.Windows.DragDrop.PreviewDragEnter" />
+      <MemberSignature Language="VB.NET" Value="see AddPreviewDragEnterHandler, and RemovePreviewDragEnterHandler" />
+      <MemberType>AttachedEvent</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PreviewDragEnterEvent">
+      <MemberSignature Language="C#" Value="public static readonly System.Windows.RoutedEvent PreviewDragEnterEvent;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.RoutedEvent PreviewDragEnterEvent" />
+      <MemberSignature Language="DocId" Value="F:System.Windows.DragDrop.PreviewDragEnterEvent" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly PreviewDragEnterEvent As RoutedEvent " />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::RoutedEvent ^ PreviewDragEnterEvent;" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.RoutedEvent</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="24367-224">Identifica el evento adjunto de <see cref="E:System.Windows.DragDrop.PreviewDragEnter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-224">Identifies the <see cref="E:System.Windows.DragDrop.PreviewDragEnter" /> attached event</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-225">El <xref:System.Windows.DragDrop.PreviewDragEnter> evento tiene lugar cuando se arrastra un objeto dentro de los límites del elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-225">The <xref:System.Windows.DragDrop.PreviewDragEnter> event occurs when an object is dragged into the element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-226">Este campo identifica la versión de túnel de la <xref:System.Windows.DragDrop.PreviewDragEnter> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-226">This field identifies the tunneling version of the <xref:System.Windows.DragDrop.PreviewDragEnter> event.</span></span> <span data-ttu-id="24367-227">Para obtener un identificador de la versión de propagación de este evento, vea <xref:System.Windows.DragDrop.DragEnterEvent>.</span><span class="sxs-lookup"><span data-stu-id="24367-227">For an identifier for the bubbling version of this event, see <xref:System.Windows.DragDrop.DragEnterEvent>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="E:System.Windows.DragDrop.PreviewDragEnter" />
+        <altmember cref="M:System.Windows.DragDrop.AddPreviewDragEnterHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+        <altmember cref="M:System.Windows.DragDrop.RemovePreviewDragEnterHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="PreviewDragLeave">
+      <MemberSignature Language="C#" Value="see AddPreviewDragLeaveHandler, and RemovePreviewDragLeaveHandler" />
+      <MemberSignature Language="ILAsm" Value="see AddPreviewDragLeaveHandler, and RemovePreviewDragLeaveHandler" />
+      <MemberSignature Language="DocId" Value="E:System.Windows.DragDrop.PreviewDragLeave" />
+      <MemberSignature Language="VB.NET" Value="see AddPreviewDragLeaveHandler, and RemovePreviewDragLeaveHandler" />
+      <MemberType>AttachedEvent</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PreviewDragLeaveEvent">
+      <MemberSignature Language="C#" Value="public static readonly System.Windows.RoutedEvent PreviewDragLeaveEvent;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.RoutedEvent PreviewDragLeaveEvent" />
+      <MemberSignature Language="DocId" Value="F:System.Windows.DragDrop.PreviewDragLeaveEvent" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly PreviewDragLeaveEvent As RoutedEvent " />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::RoutedEvent ^ PreviewDragLeaveEvent;" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.RoutedEvent</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="24367-228">Identifica el evento adjunto de <see cref="E:System.Windows.DragDrop.PreviewDragLeave" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-228">Identifies the <see cref="E:System.Windows.DragDrop.PreviewDragLeave" /> attached event</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-229">El <xref:System.Windows.DragDrop.PreviewDragLeave> evento tiene lugar cuando se arrastra un objeto fuera de los límites del elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-229">The <xref:System.Windows.DragDrop.PreviewDragLeave> event occurs when an object is dragged out of the element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-230">Este campo identifica la versión de túnel de la <xref:System.Windows.DragDrop.PreviewDragLeave> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-230">This field identifies the tunneling version of the <xref:System.Windows.DragDrop.PreviewDragLeave> event.</span></span> <span data-ttu-id="24367-231">Para obtener un identificador de la versión de propagación de este evento, vea <xref:System.Windows.DragDrop.DragLeaveEvent>.</span><span class="sxs-lookup"><span data-stu-id="24367-231">For an identifier for the bubbling version of this event, see <xref:System.Windows.DragDrop.DragLeaveEvent>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="E:System.Windows.DragDrop.PreviewDragLeave" />
+        <altmember cref="M:System.Windows.DragDrop.AddPreviewDragLeaveHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+        <altmember cref="M:System.Windows.DragDrop.RemovePreviewDragLeaveHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="PreviewDragOver">
+      <MemberSignature Language="C#" Value="see AddPreviewDragOverHandler, and RemovePreviewDragOverHandler" />
+      <MemberSignature Language="ILAsm" Value="see AddPreviewDragOverHandler, and RemovePreviewDragOverHandler" />
+      <MemberSignature Language="DocId" Value="E:System.Windows.DragDrop.PreviewDragOver" />
+      <MemberSignature Language="VB.NET" Value="see AddPreviewDragOverHandler, and RemovePreviewDragOverHandler" />
+      <MemberType>AttachedEvent</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PreviewDragOverEvent">
+      <MemberSignature Language="C#" Value="public static readonly System.Windows.RoutedEvent PreviewDragOverEvent;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.RoutedEvent PreviewDragOverEvent" />
+      <MemberSignature Language="DocId" Value="F:System.Windows.DragDrop.PreviewDragOverEvent" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly PreviewDragOverEvent As RoutedEvent " />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::RoutedEvent ^ PreviewDragOverEvent;" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.RoutedEvent</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="24367-232">Identifica el evento adjunto de <see cref="E:System.Windows.DragDrop.PreviewDragOver" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-232">Identifies the <see cref="E:System.Windows.DragDrop.PreviewDragOver" /> attached event</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-233">El <xref:System.Windows.DragDrop.PreviewDragOver> evento tiene lugar cuando se arrastra n objeto sobre los límites del elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-233">The <xref:System.Windows.DragDrop.PreviewDragOver> event occurs when n object is dragged over the element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-234">Este campo identifica la versión de túnel de la <xref:System.Windows.DragDrop.PreviewDragOver> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-234">This field identifies the tunneling version of the <xref:System.Windows.DragDrop.PreviewDragOver> event.</span></span> <span data-ttu-id="24367-235">Para obtener un identificador de la versión de propagación de este evento, vea <xref:System.Windows.DragDrop.DragOverEvent>.</span><span class="sxs-lookup"><span data-stu-id="24367-235">For an identifier for the bubbling version of this event, see <xref:System.Windows.DragDrop.DragOverEvent>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="E:System.Windows.DragDrop.PreviewDragOver" />
+        <altmember cref="M:System.Windows.DragDrop.AddPreviewDragOverHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+        <altmember cref="M:System.Windows.DragDrop.RemovePreviewDragOverHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="PreviewDrop">
+      <MemberSignature Language="C#" Value="see AddPreviewDropHandler, and RemovePreviewDropHandler" />
+      <MemberSignature Language="ILAsm" Value="see AddPreviewDropHandler, and RemovePreviewDropHandler" />
+      <MemberSignature Language="DocId" Value="E:System.Windows.DragDrop.PreviewDrop" />
+      <MemberSignature Language="VB.NET" Value="see AddPreviewDropHandler, and RemovePreviewDropHandler" />
+      <MemberType>AttachedEvent</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PreviewDropEvent">
+      <MemberSignature Language="C#" Value="public static readonly System.Windows.RoutedEvent PreviewDropEvent;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.RoutedEvent PreviewDropEvent" />
+      <MemberSignature Language="DocId" Value="F:System.Windows.DragDrop.PreviewDropEvent" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly PreviewDropEvent As RoutedEvent " />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::RoutedEvent ^ PreviewDropEvent;" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.RoutedEvent</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="24367-236">Identifica el evento adjunto de <see cref="E:System.Windows.DragDrop.PreviewDrop" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-236">Identifies the <see cref="E:System.Windows.DragDrop.PreviewDrop" /> attached event</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-237">El <xref:System.Windows.DragDrop.PreviewDrop> evento tiene lugar cuando se quita un objeto dentro de los límites de un elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-237">The <xref:System.Windows.DragDrop.PreviewDrop> event occurs when an object is dropped within an element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-238">Este campo identifica la versión de túnel de la <xref:System.Windows.DragDrop.PreviewDrop> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-238">This field identifies the tunneling version of the <xref:System.Windows.DragDrop.PreviewDrop> event.</span></span> <span data-ttu-id="24367-239">Para obtener un identificador de la versión de propagación de este evento, vea <xref:System.Windows.DragDrop.DropEvent>.</span><span class="sxs-lookup"><span data-stu-id="24367-239">For an identifier for the bubbling version of this event, see <xref:System.Windows.DragDrop.DropEvent>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="E:System.Windows.DragDrop.PreviewDrop" />
+        <altmember cref="M:System.Windows.DragDrop.AddPreviewDropHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+        <altmember cref="M:System.Windows.DragDrop.RemovePreviewDropHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="PreviewGiveFeedback">
+      <MemberSignature Language="C#" Value="see AddPreviewGiveFeedbackHandler, and RemovePreviewGiveFeedbackHandler" />
+      <MemberSignature Language="ILAsm" Value="see AddPreviewGiveFeedbackHandler, and RemovePreviewGiveFeedbackHandler" />
+      <MemberSignature Language="DocId" Value="E:System.Windows.DragDrop.PreviewGiveFeedback" />
+      <MemberSignature Language="VB.NET" Value="see AddPreviewGiveFeedbackHandler, and RemovePreviewGiveFeedbackHandler" />
+      <MemberType>AttachedEvent</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PreviewGiveFeedbackEvent">
+      <MemberSignature Language="C#" Value="public static readonly System.Windows.RoutedEvent PreviewGiveFeedbackEvent;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.RoutedEvent PreviewGiveFeedbackEvent" />
+      <MemberSignature Language="DocId" Value="F:System.Windows.DragDrop.PreviewGiveFeedbackEvent" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly PreviewGiveFeedbackEvent As RoutedEvent " />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::RoutedEvent ^ PreviewGiveFeedbackEvent;" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.RoutedEvent</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="24367-240">Identifica el evento adjunto de <see cref="E:System.Windows.DragDrop.PreviewGiveFeedback" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-240">Identifies the <see cref="E:System.Windows.DragDrop.PreviewGiveFeedback" /> attached event</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-241">El <xref:System.Windows.DragDrop.PreviewGiveFeedback> evento se produce durante una operación de arrastre.</span><span class="sxs-lookup"><span data-stu-id="24367-241">The <xref:System.Windows.DragDrop.PreviewGiveFeedback> event occurs during a drag operation.</span></span>  
+  
+ <span data-ttu-id="24367-242">Este campo identifica la versión de túnel de la <xref:System.Windows.DragDrop.PreviewGiveFeedback> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-242">This field identifies the tunneling version of the <xref:System.Windows.DragDrop.PreviewGiveFeedback> event.</span></span> <span data-ttu-id="24367-243">Para obtener un identificador de la versión de propagación de este evento, vea <xref:System.Windows.DragDrop.GiveFeedbackEvent>.</span><span class="sxs-lookup"><span data-stu-id="24367-243">For an identifier for the bubbling version of this event, see <xref:System.Windows.DragDrop.GiveFeedbackEvent>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="E:System.Windows.DragDrop.PreviewGiveFeedback" />
+        <altmember cref="M:System.Windows.DragDrop.AddPreviewGiveFeedbackHandler(System.Windows.DependencyObject,System.Windows.GiveFeedbackEventHandler)" />
+        <altmember cref="M:System.Windows.DragDrop.RemovePreviewGiveFeedbackHandler(System.Windows.DependencyObject,System.Windows.GiveFeedbackEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="PreviewQueryContinueDrag">
+      <MemberSignature Language="C#" Value="see AddPreviewQueryContinueDragHandler, and RemovePreviewQueryContinueDragHandler" />
+      <MemberSignature Language="ILAsm" Value="see AddPreviewQueryContinueDragHandler, and RemovePreviewQueryContinueDragHandler" />
+      <MemberSignature Language="DocId" Value="E:System.Windows.DragDrop.PreviewQueryContinueDrag" />
+      <MemberSignature Language="VB.NET" Value="see AddPreviewQueryContinueDragHandler, and RemovePreviewQueryContinueDragHandler" />
+      <MemberType>AttachedEvent</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PreviewQueryContinueDragEvent">
+      <MemberSignature Language="C#" Value="public static readonly System.Windows.RoutedEvent PreviewQueryContinueDragEvent;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.RoutedEvent PreviewQueryContinueDragEvent" />
+      <MemberSignature Language="DocId" Value="F:System.Windows.DragDrop.PreviewQueryContinueDragEvent" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly PreviewQueryContinueDragEvent As RoutedEvent " />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::RoutedEvent ^ PreviewQueryContinueDragEvent;" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.RoutedEvent</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="24367-244">Identifica el evento adjunto de <see cref="E:System.Windows.DragDrop.PreviewQueryContinueDrag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-244">Identifies the <see cref="E:System.Windows.DragDrop.PreviewQueryContinueDrag" /> attached event</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-245">El <xref:System.Windows.DragDrop.PreviewQueryContinueDrag> evento se produce durante una operación de arrastrar y colocar y permite al origen de arrastre determinar si la operación de arrastrar y colocar tiene que cancelarse.</span><span class="sxs-lookup"><span data-stu-id="24367-245">The <xref:System.Windows.DragDrop.PreviewQueryContinueDrag> event occurs during a drag-and-drop operation, and enables the drag source to determine whether the drag-and-drop operation should be canceled.</span></span>  
+  
+ <span data-ttu-id="24367-246">Este campo identifica la versión de túnel de la <xref:System.Windows.DragDrop.PreviewQueryContinueDrag> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-246">This field identifies the tunneling version of the <xref:System.Windows.DragDrop.PreviewQueryContinueDrag> event.</span></span> <span data-ttu-id="24367-247">Para obtener un identificador de la versión de propagación de este evento, vea <xref:System.Windows.DragDrop.QueryContinueDragEvent>.</span><span class="sxs-lookup"><span data-stu-id="24367-247">For an identifier for the bubbling version of this event, see <xref:System.Windows.DragDrop.QueryContinueDragEvent>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="E:System.Windows.DragDrop.PreviewQueryContinueDrag" />
+        <altmember cref="M:System.Windows.DragDrop.AddPreviewQueryContinueDragHandler(System.Windows.DependencyObject,System.Windows.QueryContinueDragEventHandler)" />
+        <altmember cref="M:System.Windows.DragDrop.RemovePreviewQueryContinueDragHandler(System.Windows.DependencyObject,System.Windows.QueryContinueDragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="QueryContinueDrag">
+      <MemberSignature Language="C#" Value="see AddQueryContinueDragHandler, and RemoveQueryContinueDragHandler" />
+      <MemberSignature Language="ILAsm" Value="see AddQueryContinueDragHandler, and RemoveQueryContinueDragHandler" />
+      <MemberSignature Language="DocId" Value="E:System.Windows.DragDrop.QueryContinueDrag" />
+      <MemberSignature Language="VB.NET" Value="see AddQueryContinueDragHandler, and RemoveQueryContinueDragHandler" />
+      <MemberType>AttachedEvent</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="QueryContinueDragEvent">
+      <MemberSignature Language="C#" Value="public static readonly System.Windows.RoutedEvent QueryContinueDragEvent;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.RoutedEvent QueryContinueDragEvent" />
+      <MemberSignature Language="DocId" Value="F:System.Windows.DragDrop.QueryContinueDragEvent" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly QueryContinueDragEvent As RoutedEvent " />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::RoutedEvent ^ QueryContinueDragEvent;" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.RoutedEvent</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="24367-248">Identifica el evento adjunto de <see cref="E:System.Windows.DragDrop.QueryContinueDrag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-248">Identifies the <see cref="E:System.Windows.DragDrop.QueryContinueDrag" /> attached event</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-249">El <xref:System.Windows.DragDrop.QueryContinueDrag> evento se produce durante una operación de arrastrar y colocar y permite al origen de arrastre determinar si la operación de arrastrar y colocar tiene que cancelarse.</span><span class="sxs-lookup"><span data-stu-id="24367-249">The <xref:System.Windows.DragDrop.QueryContinueDrag> event occurs during a drag-and-drop operation, and enables the drag source to determine whether the drag-and-drop operation should be canceled.</span></span>  
+  
+ <span data-ttu-id="24367-250">Este campo identifica la versión de propagación de la <xref:System.Windows.DragDrop.QueryContinueDrag> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-250">This field identifies the bubbling version of the <xref:System.Windows.DragDrop.QueryContinueDrag> event.</span></span> <span data-ttu-id="24367-251">Para obtener un identificador de la versión de túnel de este evento, vea <xref:System.Windows.DragDrop.PreviewQueryContinueDragEvent>.</span><span class="sxs-lookup"><span data-stu-id="24367-251">For an identifier for the tunneling version of this event, see <xref:System.Windows.DragDrop.PreviewQueryContinueDragEvent>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="E:System.Windows.DragDrop.QueryContinueDrag" />
+        <altmember cref="M:System.Windows.DragDrop.AddQueryContinueDragHandler(System.Windows.DependencyObject,System.Windows.QueryContinueDragEventHandler)" />
+        <altmember cref="M:System.Windows.DragDrop.RemoveQueryContinueDragHandler(System.Windows.DependencyObject,System.Windows.QueryContinueDragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveDragEnterHandler">
+      <MemberSignature Language="C#" Value="public static void RemoveDragEnterHandler (System.Windows.DependencyObject element, System.Windows.DragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void RemoveDragEnterHandler(class System.Windows.DependencyObject element, class System.Windows.DragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.RemoveDragEnterHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub RemoveDragEnterHandler (element As DependencyObject, handler As DragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void RemoveDragEnterHandler(System::Windows::DependencyObject ^ element, System::Windows::DragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.DragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-252">Objeto de dependencia ( <see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) del que se quita el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-252">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) from which to remove the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-253">Delegado que hace referencia al método de controlador que se va a quitar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-253">A delegate that references the handler method to be removed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-254">Quita un controlador de eventos <see cref="E:System.Windows.DragDrop.DragEnter" /> de un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-254">Removes a <see cref="E:System.Windows.DragDrop.DragEnter" /> event handler from a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-255">El <xref:System.Windows.DragDrop.DragEnter> evento tiene lugar cuando se arrastra un objeto dentro de los límites del elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-255">The <xref:System.Windows.DragDrop.DragEnter> event occurs when an object is dragged into the element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-256">Este método quita un controlador para la versión de propagación de la <xref:System.Windows.DragDrop.DragEnter> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-256">This method removes a handler for the bubbling version of the <xref:System.Windows.DragDrop.DragEnter> event.</span></span> <span data-ttu-id="24367-257">Para quitar un controlador para la versión de túnel de este evento, vea <xref:System.Windows.DragDrop.RemovePreviewDragEnterHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-257">To remove a handler for the tunneling version of this event, see <xref:System.Windows.DragDrop.RemovePreviewDragEnterHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.DragEnterEvent" />
+        <altmember cref="M:System.Windows.DragDrop.AddDragEnterHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveDragLeaveHandler">
+      <MemberSignature Language="C#" Value="public static void RemoveDragLeaveHandler (System.Windows.DependencyObject element, System.Windows.DragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void RemoveDragLeaveHandler(class System.Windows.DependencyObject element, class System.Windows.DragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.RemoveDragLeaveHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub RemoveDragLeaveHandler (element As DependencyObject, handler As DragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void RemoveDragLeaveHandler(System::Windows::DependencyObject ^ element, System::Windows::DragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.DragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-258">Objeto de dependencia ( <see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) del que se quita el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-258">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) from which to remove the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-259">Delegado que hace referencia al método de controlador que se va a quitar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-259">A delegate that references the handler method to be removed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-260">Quita un controlador de eventos <see cref="E:System.Windows.DragDrop.DragLeave" /> de un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-260">Removes a <see cref="E:System.Windows.DragDrop.DragLeave" /> event handler from a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-261">El <xref:System.Windows.DragDrop.DragLeave> evento tiene lugar cuando se arrastra un objeto fuera de los límites del elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-261">The <xref:System.Windows.DragDrop.DragLeave> event occurs when an object is dragged out of the element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-262">Este método quita un controlador para la versión de propagación de la <xref:System.Windows.DragDrop.DragLeave> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-262">This method removes a handler for the bubbling version of the <xref:System.Windows.DragDrop.DragLeave> event.</span></span> <span data-ttu-id="24367-263">Para quitar un controlador para la versión de túnel de este evento, vea <xref:System.Windows.DragDrop.RemovePreviewDragLeaveHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-263">To remove a handler for the tunneling version of this event, see <xref:System.Windows.DragDrop.RemovePreviewDragLeaveHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.DragLeaveEvent" />
+        <altmember cref="M:System.Windows.DragDrop.AddDragLeaveHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveDragOverHandler">
+      <MemberSignature Language="C#" Value="public static void RemoveDragOverHandler (System.Windows.DependencyObject element, System.Windows.DragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void RemoveDragOverHandler(class System.Windows.DependencyObject element, class System.Windows.DragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.RemoveDragOverHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub RemoveDragOverHandler (element As DependencyObject, handler As DragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void RemoveDragOverHandler(System::Windows::DependencyObject ^ element, System::Windows::DragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.DragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-264">Objeto de dependencia ( <see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) del que se quita el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-264">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) from which to remove the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-265">Delegado que hace referencia al método de controlador que se va a quitar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-265">A delegate that references the handler method to be removed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-266">Quita un controlador de eventos <see cref="E:System.Windows.DragDrop.DragOver" /> de un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-266">Removes a <see cref="E:System.Windows.DragDrop.DragOver" /> event handler from a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-267">El <xref:System.Windows.DragDrop.DragOver> evento tiene lugar cuando se arrastra un objeto sobre los límites del elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-267">The <xref:System.Windows.DragDrop.DragOver> event occurs when an object is dragged over the element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-268">Este método quita un controlador para la versión de propagación de la <xref:System.Windows.DragDrop.DragOver> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-268">This method removes a handler for the bubbling version of the <xref:System.Windows.DragDrop.DragOver> event.</span></span> <span data-ttu-id="24367-269">Para quitar un controlador para la versión de túnel de este evento, vea <xref:System.Windows.DragDrop.RemovePreviewDragOverHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-269">To remove a handler for the tunneling version of this event, see <xref:System.Windows.DragDrop.RemovePreviewDragOverHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.DragOverEvent" />
+        <altmember cref="M:System.Windows.DragDrop.AddDragOverHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveDropHandler">
+      <MemberSignature Language="C#" Value="public static void RemoveDropHandler (System.Windows.DependencyObject element, System.Windows.DragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void RemoveDropHandler(class System.Windows.DependencyObject element, class System.Windows.DragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.RemoveDropHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub RemoveDropHandler (element As DependencyObject, handler As DragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void RemoveDropHandler(System::Windows::DependencyObject ^ element, System::Windows::DragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.DragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-270">Objeto de dependencia ( <see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) del que se quita el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-270">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) from which to remove the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-271">Delegado que hace referencia al método de controlador que se va a quitar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-271">A delegate that references the handler method to be removed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-272">Quita un controlador de eventos <see cref="E:System.Windows.DragDrop.Drop" /> de un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-272">Removes a <see cref="E:System.Windows.DragDrop.Drop" /> event handler from a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-273">El <xref:System.Windows.DragDrop.Drop> evento tiene lugar cuando se quita un objeto dentro de los límites de un elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-273">The <xref:System.Windows.DragDrop.Drop> event occurs when an object is dropped within an element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-274">Este método quita un controlador para la versión de propagación de la <xref:System.Windows.DragDrop.Drop> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-274">This method removes a handler for the bubbling version of the <xref:System.Windows.DragDrop.Drop> event.</span></span> <span data-ttu-id="24367-275">Para quitar un controlador para la versión de túnel de este evento, vea <xref:System.Windows.DragDrop.RemovePreviewDropHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-275">To remove a handler for the tunneling version of this event, see <xref:System.Windows.DragDrop.RemovePreviewDropHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.DropEvent" />
+        <altmember cref="M:System.Windows.DragDrop.AddDropHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveGiveFeedbackHandler">
+      <MemberSignature Language="C#" Value="public static void RemoveGiveFeedbackHandler (System.Windows.DependencyObject element, System.Windows.GiveFeedbackEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void RemoveGiveFeedbackHandler(class System.Windows.DependencyObject element, class System.Windows.GiveFeedbackEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.RemoveGiveFeedbackHandler(System.Windows.DependencyObject,System.Windows.GiveFeedbackEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub RemoveGiveFeedbackHandler (element As DependencyObject, handler As GiveFeedbackEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void RemoveGiveFeedbackHandler(System::Windows::DependencyObject ^ element, System::Windows::GiveFeedbackEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.GiveFeedbackEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-276">Objeto de dependencia ( <see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) del que se quita el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-276">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) from which to remove the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-277">Delegado que hace referencia al método de controlador que se va a quitar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-277">A delegate that references the handler method to be removed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-278">Quita un controlador de eventos <see cref="E:System.Windows.DragDrop.GiveFeedback" /> de un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-278">Removes a <see cref="E:System.Windows.DragDrop.GiveFeedback" /> event handler from a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-279">El <xref:System.Windows.DragDrop.GiveFeedback> evento se produce durante una operación de arrastre.</span><span class="sxs-lookup"><span data-stu-id="24367-279">The <xref:System.Windows.DragDrop.GiveFeedback> event occurs during a drag operation.</span></span>  
+  
+ <span data-ttu-id="24367-280">Este método quita un controlador para la versión de propagación de la <xref:System.Windows.DragDrop.GiveFeedback> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-280">This method removes a handler for the bubbling version of the <xref:System.Windows.DragDrop.GiveFeedback> event.</span></span> <span data-ttu-id="24367-281">Para quitar un controlador para la versión de túnel de este evento, vea <xref:System.Windows.DragDrop.RemovePreviewGiveFeedbackHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-281">To remove a handler for the tunneling version of this event, see <xref:System.Windows.DragDrop.RemovePreviewGiveFeedbackHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.GiveFeedbackEvent" />
+        <altmember cref="M:System.Windows.DragDrop.AddGiveFeedbackHandler(System.Windows.DependencyObject,System.Windows.GiveFeedbackEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemovePreviewDragEnterHandler">
+      <MemberSignature Language="C#" Value="public static void RemovePreviewDragEnterHandler (System.Windows.DependencyObject element, System.Windows.DragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void RemovePreviewDragEnterHandler(class System.Windows.DependencyObject element, class System.Windows.DragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.RemovePreviewDragEnterHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub RemovePreviewDragEnterHandler (element As DependencyObject, handler As DragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void RemovePreviewDragEnterHandler(System::Windows::DependencyObject ^ element, System::Windows::DragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.DragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-282">Objeto de dependencia ( <see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) del que se quita el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-282">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) from which to remove the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-283">Delegado que hace referencia al método de controlador que se va a quitar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-283">A delegate that references the handler method to be removed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-284">Quita un controlador de eventos <see cref="E:System.Windows.DragDrop.PreviewDragEnter" /> de un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-284">Removes a <see cref="E:System.Windows.DragDrop.PreviewDragEnter" /> event handler from a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-285">El <xref:System.Windows.DragDrop.PreviewDragEnter> evento tiene lugar cuando se arrastra un objeto dentro de los límites del elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-285">The <xref:System.Windows.DragDrop.PreviewDragEnter> event occurs when an object is dragged into the element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-286">Este método quita un controlador para la versión de túnel de la <xref:System.Windows.DragDrop.PreviewDragEnter> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-286">This method removes a handler for the tunneling version of the <xref:System.Windows.DragDrop.PreviewDragEnter> event.</span></span> <span data-ttu-id="24367-287">Para quitar un controlador para la versión de propagación de este evento, vea <xref:System.Windows.DragDrop.RemoveDragEnterHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-287">To remove a handler for the bubbling version of this event, see <xref:System.Windows.DragDrop.RemoveDragEnterHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.PreviewDragEnterEvent" />
+        <altmember cref="M:System.Windows.DragDrop.AddPreviewDragEnterHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemovePreviewDragLeaveHandler">
+      <MemberSignature Language="C#" Value="public static void RemovePreviewDragLeaveHandler (System.Windows.DependencyObject element, System.Windows.DragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void RemovePreviewDragLeaveHandler(class System.Windows.DependencyObject element, class System.Windows.DragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.RemovePreviewDragLeaveHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub RemovePreviewDragLeaveHandler (element As DependencyObject, handler As DragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void RemovePreviewDragLeaveHandler(System::Windows::DependencyObject ^ element, System::Windows::DragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.DragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-288">Objeto de dependencia ( <see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) del que se quita el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-288">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) from which to remove the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-289">Delegado que hace referencia al método de controlador que se va a quitar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-289">A delegate that references the handler method to be removed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-290">Quita un controlador de eventos <see cref="E:System.Windows.DragDrop.PreviewDragLeave" /> de un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-290">Removes a <see cref="E:System.Windows.DragDrop.PreviewDragLeave" /> event handler from a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-291">El <xref:System.Windows.DragDrop.PreviewDragLeave> evento tiene lugar cuando se arrastra un objeto fuera de los límites del elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-291">The <xref:System.Windows.DragDrop.PreviewDragLeave> event occurs when an object is dragged out of the element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-292">Este método quita un controlador para la versión de túnel de la <xref:System.Windows.DragDrop.PreviewDragLeave> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-292">This method removes a handler for the tunneling version of the <xref:System.Windows.DragDrop.PreviewDragLeave> event.</span></span> <span data-ttu-id="24367-293">Para quitar un controlador para la versión de propagación de este evento, vea <xref:System.Windows.DragDrop.RemoveDragLeaveHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-293">To remove a handler for the bubbling version of this event, see <xref:System.Windows.DragDrop.RemoveDragLeaveHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.PreviewDragLeaveEvent" />
+        <altmember cref="M:System.Windows.DragDrop.AddPreviewDragLeaveHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemovePreviewDragOverHandler">
+      <MemberSignature Language="C#" Value="public static void RemovePreviewDragOverHandler (System.Windows.DependencyObject element, System.Windows.DragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void RemovePreviewDragOverHandler(class System.Windows.DependencyObject element, class System.Windows.DragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.RemovePreviewDragOverHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub RemovePreviewDragOverHandler (element As DependencyObject, handler As DragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void RemovePreviewDragOverHandler(System::Windows::DependencyObject ^ element, System::Windows::DragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.DragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-294">Objeto de dependencia ( <see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) del que se quita el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-294">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) from which to remove the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-295">Delegado que hace referencia al método de controlador que se va a quitar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-295">A delegate that references the handler method to be removed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-296">Quita un controlador de eventos <see cref="E:System.Windows.DragDrop.PreviewDragOver" /> de un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-296">Removes a <see cref="E:System.Windows.DragDrop.PreviewDragOver" /> event handler from a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-297">El <xref:System.Windows.DragDrop.PreviewDragOver> evento tiene lugar cuando se arrastra n objeto sobre los límites del elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-297">The <xref:System.Windows.DragDrop.PreviewDragOver> event occurs when n object is dragged over the element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-298">Este método quita un controlador para la versión de túnel de la <xref:System.Windows.DragDrop.PreviewDragOver> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-298">This method removes a handler for the tunneling version of the <xref:System.Windows.DragDrop.PreviewDragOver> event.</span></span> <span data-ttu-id="24367-299">Para quitar un controlador para la versión de propagación de este evento, vea <xref:System.Windows.DragDrop.RemoveDragOverHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-299">To remove a handler for the bubbling version of this event, see <xref:System.Windows.DragDrop.RemoveDragOverHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.PreviewDragOverEvent" />
+        <altmember cref="M:System.Windows.DragDrop.AddPreviewDragOverHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemovePreviewDropHandler">
+      <MemberSignature Language="C#" Value="public static void RemovePreviewDropHandler (System.Windows.DependencyObject element, System.Windows.DragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void RemovePreviewDropHandler(class System.Windows.DependencyObject element, class System.Windows.DragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.RemovePreviewDropHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub RemovePreviewDropHandler (element As DependencyObject, handler As DragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void RemovePreviewDropHandler(System::Windows::DependencyObject ^ element, System::Windows::DragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.DragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-300">Objeto de dependencia ( <see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) del que se quita el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-300">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) from which to remove the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-301">Delegado que hace referencia al método de controlador que se va a quitar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-301">A delegate that references the handler method to be removed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-302">Quita un controlador de eventos <see cref="E:System.Windows.DragDrop.PreviewDrop" /> de un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-302">Removes a <see cref="E:System.Windows.DragDrop.PreviewDrop" /> event handler from a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-303">El <xref:System.Windows.DragDrop.PreviewDrop> evento tiene lugar cuando se quita un objeto dentro de los límites de un elemento.</span><span class="sxs-lookup"><span data-stu-id="24367-303">The <xref:System.Windows.DragDrop.PreviewDrop> event occurs when an object is dropped within an element's bounds.</span></span>  
+  
+ <span data-ttu-id="24367-304">Este método quita un controlador para la versión de túnel de la <xref:System.Windows.DragDrop.PreviewDrop> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-304">This method removes a handler for the tunneling version of the <xref:System.Windows.DragDrop.PreviewDrop> event.</span></span> <span data-ttu-id="24367-305">Para quitar un controlador para la versión de propagación de este evento, vea <xref:System.Windows.DragDrop.RemoveDropHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-305">To remove a handler for the bubbling version of this event, see <xref:System.Windows.DragDrop.RemoveDropHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.PreviewDropEvent" />
+        <altmember cref="M:System.Windows.DragDrop.AddPreviewDropHandler(System.Windows.DependencyObject,System.Windows.DragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemovePreviewGiveFeedbackHandler">
+      <MemberSignature Language="C#" Value="public static void RemovePreviewGiveFeedbackHandler (System.Windows.DependencyObject element, System.Windows.GiveFeedbackEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void RemovePreviewGiveFeedbackHandler(class System.Windows.DependencyObject element, class System.Windows.GiveFeedbackEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.RemovePreviewGiveFeedbackHandler(System.Windows.DependencyObject,System.Windows.GiveFeedbackEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub RemovePreviewGiveFeedbackHandler (element As DependencyObject, handler As GiveFeedbackEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void RemovePreviewGiveFeedbackHandler(System::Windows::DependencyObject ^ element, System::Windows::GiveFeedbackEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.GiveFeedbackEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-306">Objeto de dependencia ( <see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) del que se quita el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-306">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) from which to remove the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-307">Delegado que hace referencia al método de controlador que se va a quitar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-307">A delegate that references the handler method to be removed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-308">Quita un controlador de eventos <see cref="E:System.Windows.DragDrop.PreviewGiveFeedback" /> de un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-308">Removes a <see cref="E:System.Windows.DragDrop.PreviewGiveFeedback" /> event handler from a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-309">El <xref:System.Windows.DragDrop.PreviewGiveFeedback> evento se produce durante una operación de arrastre.</span><span class="sxs-lookup"><span data-stu-id="24367-309">The <xref:System.Windows.DragDrop.PreviewGiveFeedback> event occurs during a drag operation.</span></span>  
+  
+ <span data-ttu-id="24367-310">Este método quita un controlador para la versión de túnel de la <xref:System.Windows.DragDrop.PreviewGiveFeedback> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-310">This method removes a handler for the tunneling version of the <xref:System.Windows.DragDrop.PreviewGiveFeedback> event.</span></span> <span data-ttu-id="24367-311">Para quitar un controlador para la versión de propagación de este evento, vea <xref:System.Windows.DragDrop.RemoveGiveFeedbackHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-311">To remove a handler for the bubbling version of this event, see <xref:System.Windows.DragDrop.RemoveGiveFeedbackHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.PreviewGiveFeedbackEvent" />
+        <altmember cref="M:System.Windows.DragDrop.AddPreviewGiveFeedbackHandler(System.Windows.DependencyObject,System.Windows.GiveFeedbackEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemovePreviewQueryContinueDragHandler">
+      <MemberSignature Language="C#" Value="public static void RemovePreviewQueryContinueDragHandler (System.Windows.DependencyObject element, System.Windows.QueryContinueDragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void RemovePreviewQueryContinueDragHandler(class System.Windows.DependencyObject element, class System.Windows.QueryContinueDragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.RemovePreviewQueryContinueDragHandler(System.Windows.DependencyObject,System.Windows.QueryContinueDragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub RemovePreviewQueryContinueDragHandler (element As DependencyObject, handler As QueryContinueDragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void RemovePreviewQueryContinueDragHandler(System::Windows::DependencyObject ^ element, System::Windows::QueryContinueDragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.QueryContinueDragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-312">Objeto de dependencia ( <see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) del que se quita el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-312">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) from which to remove the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-313">Delegado que hace referencia al método de controlador que se va a quitar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-313">A delegate that references the handler method to be removed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-314">Quita un controlador de eventos <see cref="E:System.Windows.DragDrop.PreviewQueryContinueDrag" /> de un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-314">Removes a <see cref="E:System.Windows.DragDrop.PreviewQueryContinueDrag" /> event handler from a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-315">El <xref:System.Windows.DragDrop.PreviewQueryContinueDrag> evento se produce durante una operación de arrastrar y colocar y permite al origen de arrastre determinar si la operación de arrastrar y colocar tiene que cancelarse.</span><span class="sxs-lookup"><span data-stu-id="24367-315">The <xref:System.Windows.DragDrop.PreviewQueryContinueDrag> event occurs during a drag-and-drop operation, and enables the drag source to determine whether the drag-and-drop operation should be canceled.</span></span>  
+  
+ <span data-ttu-id="24367-316">Este método quita un controlador para la versión de túnel de la <xref:System.Windows.DragDrop.PreviewQueryContinueDrag> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-316">This method removes a handler for the tunneling version of the <xref:System.Windows.DragDrop.PreviewQueryContinueDrag> event.</span></span> <span data-ttu-id="24367-317">Para quitar un controlador para la versión de propagación de este evento, vea <xref:System.Windows.DragDrop.RemoveQueryContinueDragHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-317">To remove a handler for the bubbling version of this event, see <xref:System.Windows.DragDrop.RemoveQueryContinueDragHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.PreviewQueryContinueDragEvent" />
+        <altmember cref="M:System.Windows.DragDrop.AddPreviewQueryContinueDragHandler(System.Windows.DependencyObject,System.Windows.QueryContinueDragEventHandler)" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveQueryContinueDragHandler">
+      <MemberSignature Language="C#" Value="public static void RemoveQueryContinueDragHandler (System.Windows.DependencyObject element, System.Windows.QueryContinueDragEventHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void RemoveQueryContinueDragHandler(class System.Windows.DependencyObject element, class System.Windows.QueryContinueDragEventHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.DragDrop.RemoveQueryContinueDragHandler(System.Windows.DependencyObject,System.Windows.QueryContinueDragEventHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub RemoveQueryContinueDragHandler (element As DependencyObject, handler As QueryContinueDragEventHandler)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void RemoveQueryContinueDragHandler(System::Windows::DependencyObject ^ element, System::Windows::QueryContinueDragEventHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.DependencyObject" />
+        <Parameter Name="handler" Type="System.Windows.QueryContinueDragEventHandler" />
+      </Parameters>
+      <Docs>
+        <param name="element">
+          <span data-ttu-id="24367-318">Objeto de dependencia ( <see cref="T:System.Windows.UIElement" /> o <see cref="T:System.Windows.ContentElement" />) del que se quita el controlador de eventos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-318">The dependency object (a <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" />) from which to remove the event handler.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="24367-319">Delegado que hace referencia al método de controlador que se va a quitar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-319">A delegate that references the handler method to be removed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="24367-320">Quita un controlador de eventos <see cref="E:System.Windows.DragDrop.QueryContinueDrag" /> de un objeto de dependencia especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="24367-320">Removes a <see cref="E:System.Windows.DragDrop.QueryContinueDrag" /> event handler from a specified dependency object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="24367-321">El <xref:System.Windows.DragDrop.QueryContinueDrag> evento se produce durante una operación de arrastrar y colocar y permite al origen de arrastre determinar si la operación de arrastrar y colocar tiene que cancelarse.</span><span class="sxs-lookup"><span data-stu-id="24367-321">The <xref:System.Windows.DragDrop.QueryContinueDrag> event occurs during a drag-and-drop operation, and enables the drag source to determine whether the drag-and-drop operation should be canceled.</span></span>  
+  
+ <span data-ttu-id="24367-322">Este método quita un controlador para la versión de propagación de la <xref:System.Windows.DragDrop.QueryContinueDrag> eventos.</span><span class="sxs-lookup"><span data-stu-id="24367-322">This method removes a handler for the bubbling version of the <xref:System.Windows.DragDrop.QueryContinueDrag> event.</span></span> <span data-ttu-id="24367-323">Para quitar un controlador para la versión de túnel de este evento, vea <xref:System.Windows.DragDrop.RemovePreviewQueryContinueDragHandler%2A>.</span><span class="sxs-lookup"><span data-stu-id="24367-323">To remove a handler for the tunneling version of this event, see <xref:System.Windows.DragDrop.RemovePreviewQueryContinueDragHandler%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="F:System.Windows.DragDrop.QueryContinueDragEvent" />
+        <altmember cref="M:System.Windows.DragDrop.AddQueryContinueDragHandler(System.Windows.DependencyObject,System.Windows.QueryContinueDragEventHandler)" />
+      </Docs>
+    </Member>
+  </Members>
+</Type>
