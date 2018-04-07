@@ -1,0 +1,342 @@
+<Type Name="WebRequestInformation" FullName="System.Web.Management.WebRequestInformation">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="1d5f3bb9ca980f1ddc3ed2902e3d18e058ee921c" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="es-ES" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public sealed class WebRequestInformation" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit WebRequestInformation extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:System.Web.Management.WebRequestInformation" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class WebRequestInformation" />
+  <TypeSignature Language="C++ CLI" Value="public ref class WebRequestInformation sealed" />
+  <AssemblyInfo>
+    <AssemblyName>System.Web</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="ff785-101">Proporciona información sobre la solicitud Web actual.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="ff785-101">Provides information about the current Web request.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ff785-102">Supervisión de estado ASP.NET permite personal de producción y las operaciones administrar las aplicaciones Web implementadas.</span><span class="sxs-lookup"><span data-stu-id="ff785-102">ASP.NET health monitoring allows production and operations staff to manage deployed Web applications.</span></span> <span data-ttu-id="ff785-103">El <xref:System.Web.Management> espacio de nombres contiene los tipos de evento de estado responsables de empaquetar los datos de estado de mantenimiento de la aplicación y los tipos de proveedor responsables de procesar estos datos.</span><span class="sxs-lookup"><span data-stu-id="ff785-103">The <xref:System.Web.Management> namespace contains the health-event types responsible for packaging application health-status data and the provider types responsible for processing this data.</span></span> <span data-ttu-id="ff785-104">También contiene los tipos compatibles que ayudan a administrar los eventos de estado.</span><span class="sxs-lookup"><span data-stu-id="ff785-104">It also contains supporting types that help during the management of health events.</span></span>  
+  
+ <span data-ttu-id="ff785-105">Instancias de la <xref:System.Web.Management.WebRequestInformation> clase contienen información que se obtiene mediante la <xref:System.Web.Management.WebRequestEvent>, <xref:System.Web.Management.WebAuditEvent>, <xref:System.Web.Management.WebErrorEvent>, o <xref:System.Web.Management.WebRequestErrorEvent> tipos.</span><span class="sxs-lookup"><span data-stu-id="ff785-105">Instances of the <xref:System.Web.Management.WebRequestInformation> class contain information that is obtained using the <xref:System.Web.Management.WebRequestEvent>, <xref:System.Web.Management.WebAuditEvent>, <xref:System.Web.Management.WebErrorEvent>, or <xref:System.Web.Management.WebRequestErrorEvent> types.</span></span>  
+  
+ <span data-ttu-id="ff785-106">La aplicación necesita los permisos adecuados para tener acceso a información protegida proporcionada por este tipo.</span><span class="sxs-lookup"><span data-stu-id="ff785-106">Your application needs the appropriate permissions to access protected information provided by this type.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="ff785-107">En la mayoría de los casos podrá utilizar los tipos de supervisión de estado ASP.NET tal como se implementa y se controlará el sistema de supervisión de estado especificando valores en la `healthMonitoring` sección de configuración.</span><span class="sxs-lookup"><span data-stu-id="ff785-107">In most cases you will be able to use the ASP.NET health-monitoring types as implemented, and you will control the health-monitoring system by specifying values in the `healthMonitoring` configuration section.</span></span> <span data-ttu-id="ff785-108">También puede derivar de los tipos de supervisión de estado para crear sus propios eventos personalizados y los proveedores.</span><span class="sxs-lookup"><span data-stu-id="ff785-108">You can also derive from the health-monitoring types to create your own custom events and providers.</span></span> <span data-ttu-id="ff785-109">Para obtener un ejemplo de creación de una clase de eventos personalizados, vea el ejemplo proporcionado en este tema.</span><span class="sxs-lookup"><span data-stu-id="ff785-109">For an example of creating a custom event class, see the example provided in this topic.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="ff785-110">En el ejemplo de código siguiente se muestra cómo implementar un evento personalizado que utiliza el <xref:System.Web.Management.WebRequestInformation> tipo.</span><span class="sxs-lookup"><span data-stu-id="ff785-110">The following code example shows how to implement a custom event that uses the <xref:System.Web.Management.WebRequestInformation> type.</span></span>  
+  
+ <span data-ttu-id="ff785-111">También se muestra es un extracto del archivo de configuración que permite a ASP.NET usar este evento personalizado.</span><span class="sxs-lookup"><span data-stu-id="ff785-111">Also shown is an excerpt of the configuration file that enables ASP.NET to use this custom event.</span></span>  
+  
+ <span data-ttu-id="ff785-112">Asegúrese de que el evento personalizado se produce en el momento adecuado, es decir, cuando se provocaría el evento de estado del sistema equivalente que reemplaza.</span><span class="sxs-lookup"><span data-stu-id="ff785-112">Ensure that your custom event is raised at the proper time, that is, when the equivalent system health event it replaces would be raised.</span></span>  
+  
+```  
+<healthMonitoring  
+  heartBeatInterval="0" enabled="true">  
+  
+  <profiles>  
+    <add name="Custom"   
+      minInstances="1"   
+      maxLimit="Infinite"   
+      minInterval="00:00:00" />  
+  </profiles>  
+  
+  <eventMappings>  
+  
+    <add   
+      name="SampleWebRequestInformation"   
+      type="SamplesAspNet.SampleWebRequestInformation,webrequestinformation,Version=1.0.1782.28745, Culture=neutral, PublicKeyToken=79955d9b8521c250,processorArchitecture=MSIL" />  
+  
+  </eventMappings>  
+  
+  <rules>  
+  
+    <add name="Custom Web Request Info Event"   
+      eventName="SampleWebRequestInformation"   
+      provider="EventLogProvider"  
+      profile="Custom" />  
+  
+  </rules>  
+  
+</healthMonitoring>  
+```  
+  
+ [!code-csharp[System.Web.Management.WebRequestInformation#1](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebRequestInformation/CS/webrequestinformation.cs#1)]
+ [!code-vb[System.Web.Management.WebRequestInformation#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebRequestInformation/VB/webrequestinformation.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Web.Management.WebRequestEvent" />
+  </Docs>
+  <Members>
+    <Member MemberName="FormatToString">
+      <MemberSignature Language="C#" Value="public void FormatToString (System.Web.Management.WebEventFormatter formatter);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void FormatToString(class System.Web.Management.WebEventFormatter formatter) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Management.WebRequestInformation.FormatToString(System.Web.Management.WebEventFormatter)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub FormatToString (formatter As WebEventFormatter)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void FormatToString(System::Web::Management::WebEventFormatter ^ formatter);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="formatter" Type="System.Web.Management.WebEventFormatter" />
+      </Parameters>
+      <Docs>
+        <param name="formatter">
+          <span data-ttu-id="ff785-113">
+            <see cref="T:System.Web.Management.WebEventFormatter" /> que contiene la ficha y el valor de sangría empleados para dar formato a la información del evento de estado Web.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ff785-113">The <see cref="T:System.Web.Management.WebEventFormatter" /> that contains the tab and indentation settings used to format the Web health event information.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="ff785-114">Da formato a la información de solicitud Web.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ff785-114">Formats the Web-request information.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ff785-115">El <xref:System.Web.Management.WebRequestInformation.FormatToString%2A> método proporciona un formato uniforme para obtener información de eventos, lo que resulta útil si los datos del evento deben registrarse y presentarse posteriormente al usuario.</span><span class="sxs-lookup"><span data-stu-id="ff785-115">The <xref:System.Web.Management.WebRequestInformation.FormatToString%2A> method provides a uniform format for event information, which is useful if the event data must be logged and later presented to the user.</span></span> <span data-ttu-id="ff785-116">Se llama internamente cuando el proveedor llama a uno de los <xref:System.Web.Management.WebBaseEvent.ToString%2A> métodos.</span><span class="sxs-lookup"><span data-stu-id="ff785-116">It is called internally when the provider invokes one of the <xref:System.Web.Management.WebBaseEvent.ToString%2A> methods.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="ff785-117">En el ejemplo de código siguiente se muestra cómo dar formato a información personalizada.</span><span class="sxs-lookup"><span data-stu-id="ff785-117">The following code example shows how to format custom information.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebRequestInformation#9](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebRequestInformation/CS/webrequestinformation.cs#9)]
+ [!code-vb[System.Web.Management.WebRequestInformation#9](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebRequestInformation/VB/webrequestinformation.vb#9)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Principal">
+      <MemberSignature Language="C#" Value="public System.Security.Principal.IPrincipal Principal { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Security.Principal.IPrincipal Principal" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Management.WebRequestInformation.Principal" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Principal As IPrincipal" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Security::Principal::IPrincipal ^ Principal { System::Security::Principal::IPrincipal ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Security.Principal.IPrincipal</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="ff785-118">Obtiene la instancia de la entidad de seguridad del código administrado que está asociado a la solicitud Web.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ff785-118">Gets the instance of the managed-code principal associated with the Web request.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="ff785-119">Instancia de <see cref="T:System.Security.Principal.IPrincipal" /> que está asociada al evento de solicitud.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ff785-119">The <see cref="T:System.Security.Principal.IPrincipal" /> instance that is associated with the request event.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ff785-120">La entidad de seguridad hace referencia a la entidad autenticada que emitió la solicitud Web.</span><span class="sxs-lookup"><span data-stu-id="ff785-120">The principal refers to the authenticated entity that issued the Web request.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="ff785-121">En el ejemplo de código siguiente se muestra cómo utilizar la entidad de seguridad asociado a la solicitud Web.</span><span class="sxs-lookup"><span data-stu-id="ff785-121">The following code example shows how to use the principal associated with the Web request.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebRequestInformation#8](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebRequestInformation/CS/webrequestinformation.cs#8)]
+ [!code-vb[System.Web.Management.WebRequestInformation#8](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebRequestInformation/VB/webrequestinformation.vb#8)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RequestPath">
+      <MemberSignature Language="C#" Value="public string RequestPath { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string RequestPath" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Management.WebRequestInformation.RequestPath" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property RequestPath As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ RequestPath { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="ff785-122">Obtiene la ruta de acceso física de la solicitud Web.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ff785-122">Gets the physical path of the Web request.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="ff785-123">Ruta de acceso física de la solicitud.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ff785-123">The physical path of the request.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="ff785-124">En el ejemplo de código siguiente se muestra cómo obtener la ruta de acceso de la solicitud Web.</span><span class="sxs-lookup"><span data-stu-id="ff785-124">The following code example shows how to get the Web-request path.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebRequestInformation#5](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebRequestInformation/CS/webrequestinformation.cs#5)]
+ [!code-vb[System.Web.Management.WebRequestInformation#5](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebRequestInformation/VB/webrequestinformation.vb#5)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RequestUrl">
+      <MemberSignature Language="C#" Value="public string RequestUrl { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string RequestUrl" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Management.WebRequestInformation.RequestUrl" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property RequestUrl As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ RequestUrl { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="ff785-125">Obtiene la ruta de acceso lógica de la solicitud.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ff785-125">Gets the logical path of the request.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="ff785-126">Ruta de acceso lógica de la solicitud.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ff785-126">The logical path of the request.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ff785-127">En el ejemplo de código siguiente se muestra cómo obtener la ruta de acceso lógica de solicitud Web.</span><span class="sxs-lookup"><span data-stu-id="ff785-127">The following code example shows how to get the Web-request logical path.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebRequestInformation#6](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebRequestInformation/CS/webrequestinformation.cs#6)]
+ [!code-vb[System.Web.Management.WebRequestInformation#6](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebRequestInformation/VB/webrequestinformation.vb#6)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ThreadAccountName">
+      <MemberSignature Language="C#" Value="public string ThreadAccountName { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string ThreadAccountName" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Management.WebRequestInformation.ThreadAccountName" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ThreadAccountName As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ ThreadAccountName { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="ff785-128">Obtiene una cadena que representa el nombre de inicio de sesión de Windows del usuario en cuyo nombre se está ejecutando el código.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ff785-128">Gets a string that represents the Windows logon name of the user on whose behalf the code is being run.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="ff785-129">Inicio de sesión de Windows correspondiente al usuario en cuyo nombre se ejecuta el código.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ff785-129">The Windows logon name of the user on whose behalf the code is being run.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ff785-130">El valor de esta propiedad se determina por el actual <xref:System.Security.Principal.WindowsIdentity> del objeto <xref:System.Security.Principal.WindowsIdentity.Name%2A> propiedad.</span><span class="sxs-lookup"><span data-stu-id="ff785-130">The value of this property is determined by the current <xref:System.Security.Principal.WindowsIdentity> object's <xref:System.Security.Principal.WindowsIdentity.Name%2A> property.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UserHostAddress">
+      <MemberSignature Language="C#" Value="public string UserHostAddress { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string UserHostAddress" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Management.WebRequestInformation.UserHostAddress" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property UserHostAddress As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ UserHostAddress { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="ff785-131">Obtiene la dirección del host del usuario.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ff785-131">Gets the user host address.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="ff785-132">Dirección del host del usuario.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ff785-132">The user host address.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ff785-133">En el ejemplo de código siguiente se muestra cómo obtener la dirección de host de usuario.</span><span class="sxs-lookup"><span data-stu-id="ff785-133">The following code example shows how to get the user host address.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebRequestInformation#7](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebRequestInformation/CS/webrequestinformation.cs#7)]
+ [!code-vb[System.Web.Management.WebRequestInformation#7](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebRequestInformation/VB/webrequestinformation.vb#7)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -1,0 +1,1940 @@
+<Type Name="Interlocked" FullName="System.Threading.Interlocked">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="883047e940a7b189bf8c52c13e9ba85d0fb9bf82" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="es-ES" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public static class Interlocked" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Interlocked extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:System.Threading.Interlocked" />
+  <TypeSignature Language="VB.NET" Value="Public Class Interlocked" />
+  <TypeSignature Language="C++ CLI" Value="public ref class Interlocked abstract sealed" />
+  <AssemblyInfo>
+    <AssemblyName>System.Threading</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <AssemblyVersion>4.0.10.0</AssemblyVersion>
+    <AssemblyVersion>4.1.0.0</AssemblyVersion>
+    <AssemblyVersion>4.1.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="9bfa7-101">Proporciona operaciones atómicas para las variables compartidas por varios subprocesos.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="9bfa7-101">Provides atomic operations for variables that are shared by multiple threads.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9bfa7-102">Los métodos de esta clase ayudan a proteger frente a errores que pueden producirse cuando el programador cambia de contexto mientras un subproceso está actualizando una variable que se puede acceder por otros subprocesos, o cuando dos subprocesos se están ejecutando simultáneamente en procesadores separados.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-102">The methods of this class help protect against errors that can occur when the scheduler switches contexts while a thread is updating a variable that can be accessed by other threads, or when two threads are executing concurrently on separate processors.</span></span> <span data-ttu-id="9bfa7-103">Los miembros de esta clase no producen excepciones.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-103">The members of this class do not throw exceptions.</span></span>  
+  
+ <span data-ttu-id="9bfa7-104">El <xref:System.Threading.Interlocked.Increment%2A> y <xref:System.Threading.Interlocked.Decrement%2A> métodos incrementar o disminuir una variable y almacenar el valor resultante en una sola operación.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-104">The <xref:System.Threading.Interlocked.Increment%2A> and <xref:System.Threading.Interlocked.Decrement%2A> methods increment or decrement a variable and store the resulting value in a single operation.</span></span> <span data-ttu-id="9bfa7-105">En la mayoría de los equipos, el incremento de una variable no es una operación atómica, que requieren los siguientes pasos:</span><span class="sxs-lookup"><span data-stu-id="9bfa7-105">On most computers, incrementing a variable is not an atomic operation, requiring the following steps:</span></span>  
+  
+1.  <span data-ttu-id="9bfa7-106">Cargar un valor de una variable de instancia en un registro.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-106">Load a value from an instance variable into a register.</span></span>  
+  
+2.  <span data-ttu-id="9bfa7-107">Incrementar o disminuir el valor.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-107">Increment or decrement the value.</span></span>  
+  
+3.  <span data-ttu-id="9bfa7-108">Almacena el valor en la variable de instancia.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-108">Store the value in the instance variable.</span></span>  
+  
+ <span data-ttu-id="9bfa7-109">Si no usa <xref:System.Threading.Interlocked.Increment%2A> y <xref:System.Threading.Interlocked.Decrement%2A>, un subproceso puede ser adelantado después de ejecutar los dos primeros pasos.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-109">If you do not use <xref:System.Threading.Interlocked.Increment%2A> and <xref:System.Threading.Interlocked.Decrement%2A>, a thread can be preempted after executing the first two steps.</span></span> <span data-ttu-id="9bfa7-110">Otro subproceso, a continuación, puede ejecutar los tres pasos.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-110">Another thread can then execute all three steps.</span></span> <span data-ttu-id="9bfa7-111">Cuando el primer subproceso reanuda la ejecución, sobrescribe el valor de la variable de instancia y se pierde el efecto del incremento o decremento realizadas por el segundo subproceso.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-111">When the first thread resumes execution, it overwrites the value in the instance variable, and the effect of the increment or decrement performed by the second thread is lost.</span></span>  
+  
+ <span data-ttu-id="9bfa7-112">El <xref:System.Threading.Interlocked.Exchange%2A> método intercambia los valores de las variables especificadas atómicamente.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-112">The <xref:System.Threading.Interlocked.Exchange%2A> method atomically exchanges the values of the specified variables.</span></span> <span data-ttu-id="9bfa7-113">El <xref:System.Threading.Interlocked.CompareExchange%2A> método combina dos operaciones: compara dos valores y almacena un tercer valor en una de las variables, según el resultado de la comparación.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-113">The <xref:System.Threading.Interlocked.CompareExchange%2A> method combines two operations: comparing two values and storing a third value in one of the variables, based on the outcome of the comparison.</span></span> <span data-ttu-id="9bfa7-114">Las operaciones de comparación e intercambio se realizan como una operación atómica.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-114">The compare and exchange operations are performed as an atomic operation.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9bfa7-115">En el ejemplo de código siguiente se muestra un mecanismo de bloqueo de recursos seguro para subprocesos.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-115">The following code example shows a thread-safe resource locking mechanism.</span></span>  
+  
+ [!code-cpp[System.Threading.Interlocked.Exchange Int32 Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Interlocked.Exchange Int32 Example/CPP/class1.cpp#1)]
+ [!code-csharp[System.Threading.Interlocked.Exchange Int32 Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Interlocked.Exchange Int32 Example/CS/class1.cs#1)]
+ [!code-vb[System.Threading.Interlocked.Exchange Int32 Example#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.Interlocked.Exchange Int32 Example/VB/class1.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <threadsafe>
+      <span data-ttu-id="9bfa7-116">Este tipo es seguro para la ejecución de subprocesos.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="9bfa7-116">This type is thread safe.</span>
+      </span>
+    </threadsafe>
+  </Docs>
+  <Members>
+    <MemberGroup MemberName="Add">
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9bfa7-117">Agrega dos enteros y reemplaza el primer entero por la suma, como una operación atómica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-117">Adds two integers and replaces the first integer with the sum, as an atomic operation.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Add">
+      <MemberSignature Language="C#" Value="public static int Add (ref int location1, int value);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig int32 Add(int32&amp; location1, int32 value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.Add(System.Int32@,System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Add (ByRef location1 As Integer, value As Integer) As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static int Add(int % location1, int value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="location1" Type="System.Int32&amp;" RefType="ref" />
+        <Parameter Name="value" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="location1">
+          <span data-ttu-id="9bfa7-118">Variable que contiene el primer valor que se va a agregar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-118">A variable containing the first value to be added.</span>
+          </span>
+          <span data-ttu-id="9bfa7-119">La suma de los dos valores se almacena en <c>location1</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-119">The sum of the two values is stored in <c>location1</c>.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="9bfa7-120">Valor que se va a agregar al entero en <c>location1</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-120">The value to be added to the integer at <c>location1</c>.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-121">Agrega dos enteros de 32 bits y reemplaza el primer entero por la suma, como una operación atómica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-121">Adds two 32-bit integers and replaces the first integer with the sum, as an atomic operation.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-122">Nuevo valor almacenado en <paramref name="location1" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-122">The new value stored at <paramref name="location1" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9bfa7-123">Este método controla una condición de desbordamiento mediante un ajuste: si el valor en `location1` es <xref:System.Int32.MaxValue?displayProperty=nameWithType> y `value` es 1, el resultado es <xref:System.Int32.MinValue?displayProperty=nameWithType>; si `value` es 2, el resultado es (<xref:System.Int32.MinValue?displayProperty=nameWithType> + 1); y así sucesivamente.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-123">This method handles an overflow condition by wrapping: if the value at `location1` is <xref:System.Int32.MaxValue?displayProperty=nameWithType> and `value` is 1, the result is <xref:System.Int32.MinValue?displayProperty=nameWithType>; if `value` is 2, the result is (<xref:System.Int32.MinValue?displayProperty=nameWithType> + 1); and so on.</span></span> <span data-ttu-id="9bfa7-124">No se inicia ninguna excepción.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-124">No exception is thrown.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NullReferenceException">
+          <span data-ttu-id="9bfa7-125">La dirección de <paramref name="location1" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-125">The address of <paramref name="location1" /> is a null pointer.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Add">
+      <MemberSignature Language="C#" Value="public static long Add (ref long location1, long value);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig int64 Add(int64&amp; location1, int64 value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.Add(System.Int64@,System.Int64)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Add (ByRef location1 As Long, value As Long) As Long" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static long Add(long % location1, long value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="location1" Type="System.Int64&amp;" RefType="ref" />
+        <Parameter Name="value" Type="System.Int64" />
+      </Parameters>
+      <Docs>
+        <param name="location1">
+          <span data-ttu-id="9bfa7-126">Variable que contiene el primer valor que se va a agregar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-126">A variable containing the first value to be added.</span>
+          </span>
+          <span data-ttu-id="9bfa7-127">La suma de los dos valores se almacena en <c>location1</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-127">The sum of the two values is stored in <c>location1</c>.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="9bfa7-128">Valor que se va a agregar al entero en <c>location1</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-128">The value to be added to the integer at <c>location1</c>.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-129">Agrega dos enteros de 64 bits y reemplaza el primer entero por la suma, como una operación atómica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-129">Adds two 64-bit integers and replaces the first integer with the sum, as an atomic operation.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-130">Nuevo valor almacenado en <paramref name="location1" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-130">The new value stored at <paramref name="location1" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9bfa7-131">Este método controla una condición de desbordamiento mediante un ajuste: si el valor en `location1` es <xref:System.Int64.MaxValue?displayProperty=nameWithType> y `value` es 1, el resultado es <xref:System.Int64.MinValue?displayProperty=nameWithType>; si `value` es 2, el resultado es (<xref:System.Int64.MinValue?displayProperty=nameWithType> + 1); y así sucesivamente.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-131">This method handles an overflow condition by wrapping: if the value at `location1` is <xref:System.Int64.MaxValue?displayProperty=nameWithType> and `value` is 1, the result is <xref:System.Int64.MinValue?displayProperty=nameWithType>; if `value` is 2, the result is (<xref:System.Int64.MinValue?displayProperty=nameWithType> + 1); and so on.</span></span> <span data-ttu-id="9bfa7-132">No se inicia ninguna excepción.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-132">No exception is thrown.</span></span>  
+  
+ <span data-ttu-id="9bfa7-133">El <xref:System.Threading.Interlocked.Read%2A> método y las sobrecargas de 64 bits de la <xref:System.Threading.Interlocked.Increment%2A>, <xref:System.Threading.Interlocked.Decrement%2A>, y <xref:System.Threading.Interlocked.Add%2A> métodos son verdaderamente atómicos sólo en sistemas donde un <xref:System.IntPtr?displayProperty=nameWithType> es de 64 bits de longitud.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-133">The <xref:System.Threading.Interlocked.Read%2A> method and the 64-bit overloads of the <xref:System.Threading.Interlocked.Increment%2A>, <xref:System.Threading.Interlocked.Decrement%2A>, and <xref:System.Threading.Interlocked.Add%2A> methods are truly atomic only on systems where a <xref:System.IntPtr?displayProperty=nameWithType> is 64 bits long.</span></span> <span data-ttu-id="9bfa7-134">En otros sistemas, estos métodos son atómicos con respecto a entre sí, pero no con respecto a otras formas de obtener acceso a los datos.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-134">On other systems, these methods are atomic with respect to each other, but not with respect to other means of accessing the data.</span></span> <span data-ttu-id="9bfa7-135">Por lo tanto, para que sea segura para subprocesos en sistemas de 32 bits, cualquier acceso a un valor de 64 bits debe realizarse a través de los miembros de la <xref:System.Threading.Interlocked> clase.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-135">Thus, to be thread safe on 32-bit systems, any access to a 64-bit value must be made through the members of the <xref:System.Threading.Interlocked> class.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NullReferenceException">
+          <span data-ttu-id="9bfa7-136">La dirección de <paramref name="location1" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-136">The address of <paramref name="location1" /> is a null pointer.</span>
+          </span>
+        </exception>
+        <altmember cref="Overload:System.Threading.Interlocked.Increment" />
+        <altmember cref="Overload:System.Threading.Interlocked.Decrement" />
+        <altmember cref="M:System.Threading.Interlocked.Read(System.Int64@)" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="CompareExchange">
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9bfa7-137">Compara dos valores para comprobar si son iguales y, si lo son, reemplaza el primer valor.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-137">Compares two values for equality and, if they are equal, replaces the first value.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="CompareExchange">
+      <MemberSignature Language="C#" Value="public static double CompareExchange (ref double location1, double value, double comparand);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig float64 CompareExchange(float64&amp; location1, float64 value, float64 comparand) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.CompareExchange(System.Double@,System.Double,System.Double)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function CompareExchange (ByRef location1 As Double, value As Double, comparand As Double) As Double" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static double CompareExchange(double % location1, double value, double comparand);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="location1" Type="System.Double&amp;" RefType="ref" />
+        <Parameter Name="value" Type="System.Double" />
+        <Parameter Name="comparand" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="location1">
+          <span data-ttu-id="9bfa7-138">Destino cuyo valor se compara con <c>comparand</c> y que posiblemente se reemplace.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-138">The destination, whose value is compared with <c>comparand</c> and possibly replaced.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="9bfa7-139">Valor que reemplaza el valor de destino si la comparación da como resultado una igualdad.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-139">The value that replaces the destination value if the comparison results in equality.</span>
+          </span>
+        </param>
+        <param name="comparand">
+          <span data-ttu-id="9bfa7-140">Valor que se compara con el que hay en <c>location1</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-140">The value that is compared to the value at <c>location1</c>.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-141">Compara dos números de punto flotante de precisión doble para comprobar si son iguales y, si lo son, reemplaza el primero de los valores.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-141">Compares two double-precision floating point numbers for equality and, if they are equal, replaces the first value.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-142">Valor original de <paramref name="location1" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-142">The original value in <paramref name="location1" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9bfa7-143">Si `comparand` y el valor de `location1` son iguales, a continuación, `value` se almacena en `location1`.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-143">If `comparand` and the value in `location1` are equal, then `value` is stored in `location1`.</span></span> <span data-ttu-id="9bfa7-144">De lo contrario, no se realiza ninguna operación.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-144">Otherwise, no operation is performed.</span></span> <span data-ttu-id="9bfa7-145">Las operaciones de comparación e intercambio se realizan como una operación atómica.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-145">The compare and exchange operations are performed as an atomic operation.</span></span> <span data-ttu-id="9bfa7-146">El valor devuelto de <xref:System.Threading.Interlocked.CompareExchange%2A> es el valor original de `location1`, o no tiene lugar el intercambio.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-146">The return value of <xref:System.Threading.Interlocked.CompareExchange%2A> is the original value in `location1`, whether or not the exchange takes place.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9bfa7-147">En el ejemplo de código siguiente se muestra un método seguro para subprocesos que se acumula el total acumulativo de <xref:System.Double> valores.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-147">The following code example demonstrates a thread-safe method that accumulates a running total of <xref:System.Double> values.</span></span> <span data-ttu-id="9bfa7-148">Dos subprocesos agregan una serie de <xref:System.Double> valores mediante el método seguro para subprocesos y la suma ordinaria, y cuando los subprocesos finalizan, se comparan los totales.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-148">Two threads add a series of <xref:System.Double> values using the thread-safe method and ordinary addition, and when the threads complete the totals are compared.</span></span> <span data-ttu-id="9bfa7-149">En un equipo con procesador dual, hay una diferencia significativa en los totales.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-149">On a dual-processor computer, there is a significant difference in the totals.</span></span>  
+  
+ <span data-ttu-id="9bfa7-150">En el método seguro para subprocesos, se guarda el valor inicial de la duración total y, a continuación, el <xref:System.Threading.Interlocked.CompareExchange%2A> método se usa para intercambiar el total recientemente calculado con el total anterior.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-150">In the thread-safe method, the initial value of the running total is saved, and then the <xref:System.Threading.Interlocked.CompareExchange%2A> method is used to exchange the newly computed total with the old total.</span></span> <span data-ttu-id="9bfa7-151">Si el valor devuelto no es igual que el valor guardado del total de ejecución, a continuación, otro subproceso ha actualizado el total mientras tanto.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-151">If the return value is not equal to the saved value of the running total, then another thread has updated the total in the meantime.</span></span> <span data-ttu-id="9bfa7-152">En ese caso, se debe repetir el intento de actualizar el total acumulado.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-152">In that case, the attempt to update the running total must be repeated.</span></span>  
+  
+ [!code-csharp[System.Threading.Interlocked CompareExchange Double#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Interlocked CompareExchange Double/cs/source.cs#1)]
+ [!code-vb[System.Threading.Interlocked CompareExchange Double#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.Interlocked CompareExchange Double/vb/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NullReferenceException">
+          <span data-ttu-id="9bfa7-153">La dirección de <paramref name="location1" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-153">The address of <paramref name="location1" /> is a null pointer.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="CompareExchange">
+      <MemberSignature Language="C#" Value="public static int CompareExchange (ref int location1, int value, int comparand);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig int32 CompareExchange(int32&amp; location1, int32 value, int32 comparand) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.CompareExchange(System.Int32@,System.Int32,System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function CompareExchange (ByRef location1 As Integer, value As Integer, comparand As Integer) As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static int CompareExchange(int % location1, int value, int comparand);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="location1" Type="System.Int32&amp;" RefType="ref" />
+        <Parameter Name="value" Type="System.Int32" />
+        <Parameter Name="comparand" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="location1">
+          <span data-ttu-id="9bfa7-154">Destino cuyo valor se compara con <c>comparand</c> y que posiblemente se reemplace.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-154">The destination, whose value is compared with <c>comparand</c> and possibly replaced.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="9bfa7-155">Valor que reemplaza el valor de destino si la comparación da como resultado una igualdad.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-155">The value that replaces the destination value if the comparison results in equality.</span>
+          </span>
+        </param>
+        <param name="comparand">
+          <span data-ttu-id="9bfa7-156">Valor que se compara con el que hay en <c>location1</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-156">The value that is compared to the value at <c>location1</c>.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-157">Compara dos enteros de 32 bits con signo para comprobar si son iguales y, si lo son, reemplaza el primer valor.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-157">Compares two 32-bit signed integers for equality and, if they are equal, replaces the first value.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-158">Valor original de <paramref name="location1" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-158">The original value in <paramref name="location1" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9bfa7-159">Si `comparand` y el valor de `location1` son iguales, a continuación, `value` se almacena en `location1`.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-159">If `comparand` and the value in `location1` are equal, then `value` is stored in `location1`.</span></span> <span data-ttu-id="9bfa7-160">De lo contrario, no se realiza ninguna operación.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-160">Otherwise, no operation is performed.</span></span> <span data-ttu-id="9bfa7-161">Las operaciones de comparación e intercambio se realizan como una operación atómica.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-161">The compare and exchange operations are performed as an atomic operation.</span></span> <span data-ttu-id="9bfa7-162">El valor devuelto de <xref:System.Threading.Interlocked.CompareExchange%2A> es el valor original de `location1`, o no tiene lugar el intercambio.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-162">The return value of <xref:System.Threading.Interlocked.CompareExchange%2A> is the original value in `location1`, whether or not the exchange takes place.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9bfa7-163">En el ejemplo de código siguiente se muestra un método seguro para subprocesos que se acumula un total acumulativo.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-163">The following code example demonstrates a thread-safe method that accumulates a running total.</span></span> <span data-ttu-id="9bfa7-164">Se guarda el valor inicial de la duración total y, a continuación, el <xref:System.Threading.Interlocked.CompareExchange%2A> método se usa para intercambiar el total recientemente calculado con el total anterior.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-164">The initial value of the running total is saved, and then the <xref:System.Threading.Interlocked.CompareExchange%2A> method is used to exchange the newly computed total with the old total.</span></span> <span data-ttu-id="9bfa7-165">Si el valor devuelto no es igual que el valor guardado del total de ejecución, a continuación, otro subproceso ha actualizado el total mientras tanto.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-165">If the return value is not equal to the saved value of the running total, then another thread has updated the total in the meantime.</span></span> <span data-ttu-id="9bfa7-166">En ese caso, se debe repetir el intento de actualizar el total acumulado.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-166">In that case, the attempt to update the running total must be repeated.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9bfa7-167">El <xref:System.Threading.Interlocked.Add%2A> (método), que se introdujo en la versión 2.0 de .NET Framework, proporciona una manera más conveniente para acumular los totales acumulados de subprocesos para números enteros.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-167">The <xref:System.Threading.Interlocked.Add%2A> method, introduced in version 2.0 of the .NET Framework, provides a more convenient way to accumulate thread-safe running totals for integers.</span></span>  
+  
+ [!code-cpp[System.Threading.Interlocked CompareExchange0#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Interlocked CompareExchange0/CPP/source.cpp#1)]
+ [!code-csharp[System.Threading.Interlocked CompareExchange0#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Interlocked CompareExchange0/CS/source.cs#1)]
+ [!code-vb[System.Threading.Interlocked CompareExchange0#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.Interlocked CompareExchange0/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NullReferenceException">
+          <span data-ttu-id="9bfa7-168">La dirección de <paramref name="location1" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-168">The address of <paramref name="location1" /> is a null pointer.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="CompareExchange">
+      <MemberSignature Language="C#" Value="public static long CompareExchange (ref long location1, long value, long comparand);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig int64 CompareExchange(int64&amp; location1, int64 value, int64 comparand) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.CompareExchange(System.Int64@,System.Int64,System.Int64)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function CompareExchange (ByRef location1 As Long, value As Long, comparand As Long) As Long" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static long CompareExchange(long % location1, long value, long comparand);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="location1" Type="System.Int64&amp;" RefType="ref" />
+        <Parameter Name="value" Type="System.Int64" />
+        <Parameter Name="comparand" Type="System.Int64" />
+      </Parameters>
+      <Docs>
+        <param name="location1">
+          <span data-ttu-id="9bfa7-169">Destino cuyo valor se compara con <c>comparand</c> y que posiblemente se reemplace.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-169">The destination, whose value is compared with <c>comparand</c> and possibly replaced.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="9bfa7-170">Valor que reemplaza el valor de destino si la comparación da como resultado una igualdad.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-170">The value that replaces the destination value if the comparison results in equality.</span>
+          </span>
+        </param>
+        <param name="comparand">
+          <span data-ttu-id="9bfa7-171">Valor que se compara con el que hay en <c>location1</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-171">The value that is compared to the value at <c>location1</c>.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-172">Compara dos enteros de 64 bits con signo para comprobar si son iguales y, si lo son, reemplaza el primer valor.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-172">Compares two 64-bit signed integers for equality and, if they are equal, replaces the first value.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-173">Valor original de <paramref name="location1" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-173">The original value in <paramref name="location1" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9bfa7-174">Si `comparand` y el valor de `location1` son iguales, a continuación, `value` se almacena en `location1`.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-174">If `comparand` and the value in `location1` are equal, then `value` is stored in `location1`.</span></span> <span data-ttu-id="9bfa7-175">De lo contrario, no se realiza ninguna operación.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-175">Otherwise, no operation is performed.</span></span> <span data-ttu-id="9bfa7-176">Las operaciones de comparación e intercambio se realizan como una operación atómica.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-176">The compare and exchange operations are performed as an atomic operation.</span></span> <span data-ttu-id="9bfa7-177">El valor devuelto de <xref:System.Threading.Interlocked.CompareExchange%2A> es el valor original de `location1`, o no tiene lugar el intercambio.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-177">The return value of <xref:System.Threading.Interlocked.CompareExchange%2A> is the original value in `location1`, whether or not the exchange takes place.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NullReferenceException">
+          <span data-ttu-id="9bfa7-178">La dirección de <paramref name="location1" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-178">The address of <paramref name="location1" /> is a null pointer.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="CompareExchange">
+      <MemberSignature Language="C#" Value="public static IntPtr CompareExchange (ref IntPtr location1, IntPtr value, IntPtr comparand);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig native int CompareExchange(native int&amp; location1, native int value, native int comparand) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.CompareExchange(System.IntPtr@,System.IntPtr,System.IntPtr)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function CompareExchange (ByRef location1 As IntPtr, value As IntPtr, comparand As IntPtr) As IntPtr" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static IntPtr CompareExchange(IntPtr % location1, IntPtr value, IntPtr comparand);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="location1" Type="System.IntPtr&amp;" RefType="ref" />
+        <Parameter Name="value" Type="System.IntPtr" />
+        <Parameter Name="comparand" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="location1">
+          <span data-ttu-id="9bfa7-179">Destino <see cref="T:System.IntPtr" />, cuyo valor se compara con el valor de <c>comparand</c> y que posiblemente se reemplace por <c>value</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-179">The destination <see cref="T:System.IntPtr" />, whose value is compared with the value of <c>comparand</c> and possibly replaced by <c>value</c>.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="9bfa7-180">Estructura <see cref="T:System.IntPtr" /> que reemplaza el valor de destino si la comparación da como resultado una igualdad.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-180">The <see cref="T:System.IntPtr" /> that replaces the destination value if the comparison results in equality.</span>
+          </span>
+        </param>
+        <param name="comparand">
+          <span data-ttu-id="9bfa7-181">Valor <see cref="T:System.IntPtr" /> que se compara con el que hay en <c>location1</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-181">The <see cref="T:System.IntPtr" /> that is compared to the value at <c>location1</c>.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-182">Compara dos identificadores o punteros específicos de plataforma para comprobar si son iguales y, si lo son, reemplaza el primero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-182">Compares two platform-specific handles or pointers for equality and, if they are equal, replaces the first one.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-183">Valor original de <paramref name="location1" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-183">The original value in <paramref name="location1" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9bfa7-184">Si `comparand` y el valor de `location1` son iguales, a continuación, `value` se almacena en `location1`.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-184">If `comparand` and the value in `location1` are equal, then `value` is stored in `location1`.</span></span> <span data-ttu-id="9bfa7-185">De lo contrario, no se realiza ninguna operación.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-185">Otherwise, no operation is performed.</span></span> <span data-ttu-id="9bfa7-186">Las operaciones de comparación e intercambio se realizan como una operación atómica.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-186">The compare and exchange operations are performed as an atomic operation.</span></span> <span data-ttu-id="9bfa7-187">El valor devuelto de este método es el valor original en `location1`, o no tiene lugar el intercambio.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-187">The return value of this method is the original value in `location1`, whether or not the exchange takes place.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9bfa7-188"><xref:System.IntPtr> es un tipo específico de la plataforma.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-188"><xref:System.IntPtr> is a platform-specific type.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NullReferenceException">
+          <span data-ttu-id="9bfa7-189">La dirección de <paramref name="location1" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-189">The address of <paramref name="location1" /> is a null pointer.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="CompareExchange">
+      <MemberSignature Language="C#" Value="public static object CompareExchange (ref object location1, object value, object comparand);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig object CompareExchange(object&amp; location1, object value, object comparand) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.CompareExchange(System.Object@,System.Object,System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function CompareExchange (ByRef location1 As Object, value As Object, comparand As Object) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Object ^ CompareExchange(System::Object ^ % location1, System::Object ^ value, System::Object ^ comparand);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="location1" Type="System.Object&amp;" RefType="ref" />
+        <Parameter Name="value" Type="System.Object" />
+        <Parameter Name="comparand" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="location1">
+          <span data-ttu-id="9bfa7-190">Objeto de destino que se compara con <c>comparand</c> y que posiblemente se reemplace.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-190">The destination object that is compared with <c>comparand</c> and possibly replaced.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="9bfa7-191">Objeto que reemplaza el objeto de destino si la comparación da como resultado la igualdad de ambos parámetros.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-191">The object that replaces the destination object if the comparison results in equality.</span>
+          </span>
+        </param>
+        <param name="comparand">
+          <span data-ttu-id="9bfa7-192">Objeto que se compara con el objeto que hay en <c>location1</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-192">The object that is compared to the object at <c>location1</c>.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-193">Compara dos objetos para comprobar si sus referencias son iguales y, si lo son, reemplaza el primero de los objetos.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-193">Compares two objects for reference equality and, if they are equal, replaces the first object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-194">Valor original de <paramref name="location1" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-194">The original value in <paramref name="location1" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9bfa7-195">Si `comparand` y el objeto en `location1` son iguales, a continuación, `value` se almacena en `location1`.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-195">If `comparand` and the object in `location1` are equal, then `value` is stored in `location1`.</span></span> <span data-ttu-id="9bfa7-196">De lo contrario, no se realiza ninguna operación.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-196">Otherwise, no operation is performed.</span></span> <span data-ttu-id="9bfa7-197">Las operaciones de comparación e intercambio se realizan como una operación atómica.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-197">The compare and exchange operations are performed as an atomic operation.</span></span> <span data-ttu-id="9bfa7-198">El valor devuelto de <xref:System.Threading.Interlocked.CompareExchange%2A> es el valor original de `location1`, o no tiene lugar el intercambio.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-198">The return value of <xref:System.Threading.Interlocked.CompareExchange%2A> is the original value in `location1`, whether or not the exchange takes place.</span></span>  
+  
+ <span data-ttu-id="9bfa7-199">A partir de .NET Framework versión 2.0, el <xref:System.Threading.Interlocked.CompareExchange%60%601%28%60%600%40%2C%60%600%2C%60%600%29> sobrecarga del método proporciona una alternativa con seguridad de tipos para tipos de referencia.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-199">Beginning with .NET Framework version 2.0, the <xref:System.Threading.Interlocked.CompareExchange%60%601%28%60%600%40%2C%60%600%2C%60%600%29> method overload provides a type-safe alternative for reference types.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9bfa7-200">Los objetos se comparan la igualdad de referencia, en lugar de <xref:System.Object.Equals%2A?displayProperty=nameWithType>.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-200">The objects are compared for reference equality, rather than <xref:System.Object.Equals%2A?displayProperty=nameWithType>.</span></span> <span data-ttu-id="9bfa7-201">Como resultado, dos instancias de conversión boxing del mismo tipo de valor (por ejemplo, el entero 3) siempre aparecen distintas, y se realiza ninguna operación.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-201">As a result, two boxed instances of the same value type (for example, the integer 3) always appear to be unequal, and no operation is performed.</span></span> <span data-ttu-id="9bfa7-202">No utilice esta sobrecarga con tipos de valor.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-202">Do not use this overload with value types.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="9bfa7-203">La dirección de <paramref name="location1" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-203">The address of <paramref name="location1" /> is a null pointer.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="CompareExchange">
+      <MemberSignature Language="C#" Value="public static float CompareExchange (ref float location1, float value, float comparand);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig float32 CompareExchange(float32&amp; location1, float32 value, float32 comparand) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.CompareExchange(System.Single@,System.Single,System.Single)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function CompareExchange (ByRef location1 As Single, value As Single, comparand As Single) As Single" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static float CompareExchange(float % location1, float value, float comparand);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="location1" Type="System.Single&amp;" RefType="ref" />
+        <Parameter Name="value" Type="System.Single" />
+        <Parameter Name="comparand" Type="System.Single" />
+      </Parameters>
+      <Docs>
+        <param name="location1">
+          <span data-ttu-id="9bfa7-204">Destino cuyo valor se compara con <c>comparand</c> y que posiblemente se reemplace.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-204">The destination, whose value is compared with <c>comparand</c> and possibly replaced.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="9bfa7-205">Valor que reemplaza el valor de destino si la comparación da como resultado una igualdad.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-205">The value that replaces the destination value if the comparison results in equality.</span>
+          </span>
+        </param>
+        <param name="comparand">
+          <span data-ttu-id="9bfa7-206">Valor que se compara con el que hay en <c>location1</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-206">The value that is compared to the value at <c>location1</c>.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-207">Compara dos números de punto flotante de precisión sencilla para comprobar si son iguales y, si lo son, reemplaza el primero de los valores.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-207">Compares two single-precision floating point numbers for equality and, if they are equal, replaces the first value.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-208">Valor original de <paramref name="location1" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-208">The original value in <paramref name="location1" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9bfa7-209">Si `comparand` y el valor de `location1` son iguales, a continuación, `value` se almacena en `location1`.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-209">If `comparand` and the value in `location1` are equal, then `value` is stored in `location1`.</span></span> <span data-ttu-id="9bfa7-210">De lo contrario, no se realiza ninguna operación.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-210">Otherwise, no operation is performed.</span></span> <span data-ttu-id="9bfa7-211">Las operaciones de comparación e intercambio se realizan como una operación atómica.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-211">The compare and exchange operations are performed as an atomic operation.</span></span> <span data-ttu-id="9bfa7-212">El valor devuelto de <xref:System.Threading.Interlocked.CompareExchange%2A> es el valor original de `location1`, o no tiene lugar el intercambio.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-212">The return value of <xref:System.Threading.Interlocked.CompareExchange%2A> is the original value in `location1`, whether or not the exchange takes place.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9bfa7-213">En el ejemplo de código siguiente se muestra un método seguro para subprocesos que se acumula el total acumulativo de <xref:System.Single> valores.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-213">The following code example demonstrates a thread-safe method that accumulates a running total of <xref:System.Single> values.</span></span> <span data-ttu-id="9bfa7-214">Dos subprocesos agregan una serie de <xref:System.Single> valores mediante el método seguro para subprocesos y la suma ordinaria, y cuando los subprocesos finalizan, se comparan los totales.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-214">Two threads add a series of <xref:System.Single> values using the thread-safe method and ordinary addition, and when the threads complete the totals are compared.</span></span> <span data-ttu-id="9bfa7-215">En un equipo con procesador dual, hay una diferencia significativa en los totales.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-215">On a dual-processor computer, there is a significant difference in the totals.</span></span>  
+  
+ <span data-ttu-id="9bfa7-216">En el método seguro para subprocesos, se guarda el valor inicial de la duración total y, a continuación, el <xref:System.Threading.Interlocked.CompareExchange%2A> método se usa para intercambiar el total recientemente calculado con el total anterior.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-216">In the thread-safe method, the initial value of the running total is saved, and then the <xref:System.Threading.Interlocked.CompareExchange%2A> method is used to exchange the newly computed total with the old total.</span></span> <span data-ttu-id="9bfa7-217">Si el valor devuelto no es igual que el valor guardado del total de ejecución, a continuación, otro subproceso ha actualizado el total mientras tanto.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-217">If the return value is not equal to the saved value of the running total, then another thread has updated the total in the meantime.</span></span> <span data-ttu-id="9bfa7-218">En ese caso, se debe repetir el intento de actualizar el total acumulado.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-218">In that case, the attempt to update the running total must be repeated.</span></span>  
+  
+ [!code-csharp[System.Threading.Interlocked CompareExchange Single#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Interlocked CompareExchange Single/cs/source.cs#1)]
+ [!code-vb[System.Threading.Interlocked CompareExchange Single#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.Interlocked CompareExchange Single/vb/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NullReferenceException">
+          <span data-ttu-id="9bfa7-219">La dirección de <paramref name="location1" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-219">The address of <paramref name="location1" /> is a null pointer.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="CompareExchange&lt;T&gt;">
+      <MemberSignature Language="C#" Value="public static T CompareExchange&lt;T&gt; (ref T location1, T value, T comparand) where T : class;" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig !!T CompareExchange&lt;class T&gt;(!!T&amp; location1, !!T value, !!T comparand) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.CompareExchange``1(``0@,``0,``0)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function CompareExchange(Of T As Class) (ByRef location1 As T, value As T, comparand As T) As T" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename T&gt;&#xA; where T : class static T CompareExchange(T % location1, T value, T comparand);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>T</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="T">
+          <Constraints>
+            <ParameterAttribute>ReferenceTypeConstraint</ParameterAttribute>
+          </Constraints>
+        </TypeParameter>
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="location1" Type="T&amp;" RefType="ref" />
+        <Parameter Name="value" Type="T" />
+        <Parameter Name="comparand" Type="T" />
+      </Parameters>
+      <Docs>
+        <typeparam name="T">
+          <span data-ttu-id="9bfa7-220">El tipo que se usará para <c>location1</c>, <c>valor</c>, y <c>comparand</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-220">The type to be used for <c>location1</c>, <c>value</c>, and <c>comparand</c>.</span>
+          </span>
+          <span data-ttu-id="9bfa7-221">Este tipo debe ser un tipo de referencia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-221">This type must be a reference type.</span>
+          </span>
+        </typeparam>
+        <param name="location1">
+          <span data-ttu-id="9bfa7-222">Destino cuyo valor se compara con <c>comparand</c> y que posiblemente se reemplace.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-222">The destination, whose value is compared with <c>comparand</c> and possibly replaced.</span>
+          </span>
+          <span data-ttu-id="9bfa7-223">Este es un parámetro de referencia (<see langword="ref" /> en C#, <see langword="ByRef" /> en Visual Basic).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-223">This is a reference parameter (<see langword="ref" /> in C#, <see langword="ByRef" /> in Visual Basic).</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="9bfa7-224">Valor que reemplaza el valor de destino si la comparación da como resultado una igualdad.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-224">The value that replaces the destination value if the comparison results in equality.</span>
+          </span>
+        </param>
+        <param name="comparand">
+          <span data-ttu-id="9bfa7-225">Valor que se compara con el que hay en <c>location1</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-225">The value that is compared to the value at <c>location1</c>.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-226">Compara dos instancias del tipo de referencia especificado <paramref name="T" /> para comprobar si son iguales y, si lo son, reemplaza la primera.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-226">Compares two instances of the specified reference type <paramref name="T" /> for equality and, if they are equal, replaces the first one.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-227">Valor original de <paramref name="location1" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-227">The original value in <paramref name="location1" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9bfa7-228">Si `comparand` y el valor de `location1` son iguales, a continuación, `value` se almacena en `location1`.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-228">If `comparand` and the value in `location1` are equal, then `value` is stored in `location1`.</span></span> <span data-ttu-id="9bfa7-229">De lo contrario, no se realiza ninguna operación.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-229">Otherwise, no operation is performed.</span></span> <span data-ttu-id="9bfa7-230">La comparación y el intercambio se realizan como una operación atómica.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-230">The comparison and the exchange are performed as an atomic operation.</span></span> <span data-ttu-id="9bfa7-231">El valor devuelto de este método es el valor original en `location1`, o no tiene lugar el intercambio.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-231">The return value of this method is the original value in `location1`, whether or not the exchange takes place.</span></span>  
+  
+ <span data-ttu-id="9bfa7-232">Este método solo admite tipos de referencia.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-232">This method only supports reference types.</span></span> <span data-ttu-id="9bfa7-233">Hay sobrecargas de la <xref:System.Threading.Interlocked.CompareExchange%2A> método para los tipos de valor <xref:System.Int32>, <xref:System.Int64>, <xref:System.IntPtr>, <xref:System.Single>, y <xref:System.Double>, pero no hay ninguna compatibilidad con otros tipos de valor.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-233">There are overloads of the <xref:System.Threading.Interlocked.CompareExchange%2A> method for the value types <xref:System.Int32>, <xref:System.Int64>, <xref:System.IntPtr>, <xref:System.Single>, and <xref:System.Double>, but there is no support for other value types.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9bfa7-234">Esta sobrecarga del método es preferible a la <xref:System.Threading.Interlocked.CompareExchange%28System.Object%40%2CSystem.Object%2CSystem.Object%29> sobrecarga del método, porque el último exige que el objeto de destino para tener acceso en tiempo de ejecución.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-234">This method overload is preferable to the <xref:System.Threading.Interlocked.CompareExchange%28System.Object%40%2CSystem.Object%2CSystem.Object%29> method overload, because the latter requires the destination object to be accessed late-bound.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NullReferenceException">
+          <span data-ttu-id="9bfa7-235">La dirección de <paramref name="location1" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-235">The address of <paramref name="location1" /> is a null pointer.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Decrement">
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9bfa7-236">Disminuye el valor de una variable especificada y almacena el resultado, como una operación atómica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-236">Decrements a specified variable and stores the result, as an atomic operation.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Decrement">
+      <MemberSignature Language="C#" Value="public static int Decrement (ref int location);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig int32 Decrement(int32&amp; location) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.Decrement(System.Int32@)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Decrement (ByRef location As Integer) As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static int Decrement(int % location);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="location" Type="System.Int32&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="location">
+          <span data-ttu-id="9bfa7-237">Variable cuyo valor se va a reducir.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-237">The variable whose value is to be decremented.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-238">Disminuye el valor de una variable especificada y almacena el resultado, como una operación atómica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-238">Decrements a specified variable and stores the result, as an atomic operation.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-239">Valor reducido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-239">The decremented value.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9bfa7-240">Este método controla una condición de desbordamiento mediante un ajuste: si `location`  =  <xref:System.Int32.MinValue?displayProperty=nameWithType>, `location` - 1 = <xref:System.Int32.MaxValue?displayProperty=nameWithType>.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-240">This method handles an overflow condition by wrapping: If `location` = <xref:System.Int32.MinValue?displayProperty=nameWithType>, `location` - 1 = <xref:System.Int32.MaxValue?displayProperty=nameWithType>.</span></span> <span data-ttu-id="9bfa7-241">No se inicia ninguna excepción.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-241">No exception is thrown.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9bfa7-242">En el ejemplo siguiente se determina cuántos números aleatorios comprendidos entre 0 y 1000 necesarios para generar números aleatorios 1.000 con un valor de punto medio.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-242">The following example determines how many random numbers that range from 0 to 1,000 are required to generate 1,000 random numbers with a midpoint value.</span></span> <span data-ttu-id="9bfa7-243">Para mantener el seguimiento del número de valores de punto medio, una variable, `midpointCount`, está establecida igual a 1.000 y disminuye cada vez que el generador de números aleatorios devuelve un valor de punto medio.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-243">To keep track of the number of midpoint values, a variable, `midpointCount`, is set equal to 1,000 and decremented each time the random number generator returns a midpoint value.</span></span> <span data-ttu-id="9bfa7-244">Dado que tres subprocesos generarán los números aleatorios, la <xref:System.Threading.Interlocked.Decrement%28System.Int32%40%29> método se llama para asegurarse de que varios subprocesos no se actualizan `midpointCount` simultáneamente.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-244">Because three threads generate the random numbers, the <xref:System.Threading.Interlocked.Decrement%28System.Int32%40%29> method is called to ensure that multiple threads don't update `midpointCount` concurrently.</span></span> <span data-ttu-id="9bfa7-245">Tenga en cuenta que también se usa un bloqueo para proteger el generador de números aleatorios y que un <xref:System.Threading.CountdownEvent> objeto se usa para asegurarse de que el `Main` método no finaliza la ejecución antes de los tres subprocesos.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-245">Note that a lock is also used to protect the random number generator, and that a <xref:System.Threading.CountdownEvent> object is used to ensure that the `Main` method doesn't finish execution before the three threads.</span></span>  
+  
+ [!code-csharp[System.Threading.Interlocked.Decrement#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.interlocked.decrement/cs/decrement1.cs#1)]
+ [!code-vb[System.Threading.Interlocked.Decrement#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.interlocked.decrement/vb/decrement1.vb#1)]  
+  
+ <span data-ttu-id="9bfa7-246">En el ejemplo siguiente es similar al anterior, salvo que usa el en lugar de un procedimiento de subproceso para generar 50.000 enteros aleatorios punto medio.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-246">The following example is similar to the previous one, except that it uses the  instead of a thread procedure to generate 50,000 random midpoint integers.</span></span> <span data-ttu-id="9bfa7-247">En este ejemplo, una expresión lambda reemplaza el `GenerateNumbers` procedimiento de subproceso y la llamada a la <xref:System.Threading.Tasks.Task.WaitAll%2A?displayProperty=nameWithType> método elimina la necesidad de la <xref:System.Threading.CountdownEvent> objeto.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-247">In this example, a lambda expression replaces the `GenerateNumbers` thread procedure, and the call to the <xref:System.Threading.Tasks.Task.WaitAll%2A?displayProperty=nameWithType> method eliminates the need for the <xref:System.Threading.CountdownEvent> object.</span></span>  
+  
+ [!code-csharp[System.Threading.Interlocked.Decrement#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.interlocked.decrement/cs/decrement2.cs#2)]
+ [!code-vb[System.Threading.Interlocked.Decrement#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.interlocked.decrement/vb/decrement2.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="9bfa7-248">La dirección de <paramref name="location" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-248">The address of <paramref name="location" /> is a null pointer.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Decrement">
+      <MemberSignature Language="C#" Value="public static long Decrement (ref long location);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig int64 Decrement(int64&amp; location) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.Decrement(System.Int64@)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Decrement (ByRef location As Long) As Long" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static long Decrement(long % location);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="location" Type="System.Int64&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="location">
+          <span data-ttu-id="9bfa7-249">Variable cuyo valor se va a reducir.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-249">The variable whose value is to be decremented.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-250">Disminuye el valor de la variable especificada y almacena el resultado, como una operación atómica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-250">Decrements the specified variable and stores the result, as an atomic operation.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-251">Valor reducido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-251">The decremented value.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9bfa7-252">Este método controla una condición de desbordamiento mediante un ajuste: si `location`  =  <xref:System.Int64.MinValue?displayProperty=nameWithType>, `location` - 1 = <xref:System.Int64.MaxValue?displayProperty=nameWithType>.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-252">This method handles an overflow condition by wrapping: if `location` = <xref:System.Int64.MinValue?displayProperty=nameWithType>, `location` - 1 = <xref:System.Int64.MaxValue?displayProperty=nameWithType>.</span></span> <span data-ttu-id="9bfa7-253">No se inicia ninguna excepción.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-253">No exception is thrown.</span></span>  
+  
+ <span data-ttu-id="9bfa7-254">El <xref:System.Threading.Interlocked.Read%2A> método y las sobrecargas de 64 bits de la <xref:System.Threading.Interlocked.Increment%2A>, <xref:System.Threading.Interlocked.Decrement%2A>, y <xref:System.Threading.Interlocked.Add%2A> métodos son verdaderamente atómicos sólo en sistemas donde un <xref:System.IntPtr?displayProperty=nameWithType> es de 64 bits de longitud.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-254">The <xref:System.Threading.Interlocked.Read%2A> method and the 64-bit overloads of the <xref:System.Threading.Interlocked.Increment%2A>, <xref:System.Threading.Interlocked.Decrement%2A>, and <xref:System.Threading.Interlocked.Add%2A> methods are truly atomic only on systems where a <xref:System.IntPtr?displayProperty=nameWithType> is 64 bits long.</span></span> <span data-ttu-id="9bfa7-255">En otros sistemas, estos métodos son atómicos con respecto a entre sí, pero no con respecto a otras formas de obtener acceso a los datos.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-255">On other systems, these methods are atomic with respect to each other, but not with respect to other means of accessing the data.</span></span> <span data-ttu-id="9bfa7-256">Por lo tanto, para que sea segura para subprocesos en sistemas de 32 bits, cualquier acceso a un valor de 64 bits debe realizarse a través de los miembros de la <xref:System.Threading.Interlocked> clase.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-256">Thus, to be thread safe on 32-bit systems, any access to a 64-bit value must be made through the members of the <xref:System.Threading.Interlocked> class.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="9bfa7-257">La dirección de <paramref name="location" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-257">The address of <paramref name="location" /> is a null pointer.</span>
+          </span>
+        </exception>
+        <altmember cref="Overload:System.Threading.Interlocked.Increment" />
+        <altmember cref="Overload:System.Threading.Interlocked.Add" />
+        <altmember cref="M:System.Threading.Interlocked.Read(System.Int64@)" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Exchange">
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9bfa7-258">Establece una variable en un valor especificado como una operación atómica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-258">Sets a variable to a specified value as an atomic operation.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Exchange">
+      <MemberSignature Language="C#" Value="public static double Exchange (ref double location1, double value);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig float64 Exchange(float64&amp; location1, float64 value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.Exchange(System.Double@,System.Double)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Exchange (ByRef location1 As Double, value As Double) As Double" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static double Exchange(double % location1, double value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="location1" Type="System.Double&amp;" RefType="ref" />
+        <Parameter Name="value" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="location1">
+          <span data-ttu-id="9bfa7-259">Variable que se va a establecer en el valor especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-259">The variable to set to the specified value.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="9bfa7-260">Valor en el que está establecido el parámetro <c>location1</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-260">The value to which the <c>location1</c> parameter is set.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-261">Establece un número de punto flotante de precisión doble en un valor especificado y devuelve el valor original, como una operación atómica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-261">Sets a double-precision floating point number to a specified value and returns the original value, as an atomic operation.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-262">Valor original de <paramref name="location1" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-262">The original value of <paramref name="location1" />.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.NullReferenceException">
+          <span data-ttu-id="9bfa7-263">La dirección de <paramref name="location1" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-263">The address of <paramref name="location1" /> is a null pointer.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Exchange">
+      <MemberSignature Language="C#" Value="public static int Exchange (ref int location1, int value);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig int32 Exchange(int32&amp; location1, int32 value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.Exchange(System.Int32@,System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Exchange (ByRef location1 As Integer, value As Integer) As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static int Exchange(int % location1, int value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="location1" Type="System.Int32&amp;" RefType="ref" />
+        <Parameter Name="value" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="location1">
+          <span data-ttu-id="9bfa7-264">Variable que se va a establecer en el valor especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-264">The variable to set to the specified value.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="9bfa7-265">Valor en el que está establecido el parámetro <c>location1</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-265">The value to which the <c>location1</c> parameter is set.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-266">Establece un entero de 32 bits con signo en un valor especificado y devuelve el valor original, como una operación atómica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-266">Sets a 32-bit signed integer to a specified value and returns the original value, as an atomic operation.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-267">Valor original de <paramref name="location1" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-267">The original value of <paramref name="location1" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="9bfa7-268">En el ejemplo de código siguiente se muestra un mecanismo de bloqueo de recursos seguro para subprocesos.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-268">The following code example shows a thread-safe resource locking mechanism.</span></span>  
+  
+ [!code-cpp[System.Threading.Interlocked.Exchange Int32 Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Interlocked.Exchange Int32 Example/CPP/class1.cpp#1)]
+ [!code-csharp[System.Threading.Interlocked.Exchange Int32 Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Interlocked.Exchange Int32 Example/CS/class1.cs#1)]
+ [!code-vb[System.Threading.Interlocked.Exchange Int32 Example#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.Interlocked.Exchange Int32 Example/VB/class1.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="9bfa7-269">La dirección de <paramref name="location1" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-269">The address of <paramref name="location1" /> is a null pointer.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Exchange">
+      <MemberSignature Language="C#" Value="public static long Exchange (ref long location1, long value);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig int64 Exchange(int64&amp; location1, int64 value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.Exchange(System.Int64@,System.Int64)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Exchange (ByRef location1 As Long, value As Long) As Long" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static long Exchange(long % location1, long value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="location1" Type="System.Int64&amp;" RefType="ref" />
+        <Parameter Name="value" Type="System.Int64" />
+      </Parameters>
+      <Docs>
+        <param name="location1">
+          <span data-ttu-id="9bfa7-270">Variable que se va a establecer en el valor especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-270">The variable to set to the specified value.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="9bfa7-271">Valor en el que está establecido el parámetro <c>location1</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-271">The value to which the <c>location1</c> parameter is set.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-272">Establece un entero de 64 bits con signo en un valor especificado y devuelve el valor original, como una operación atómica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-272">Sets a 64-bit signed integer to a specified value and returns the original value, as an atomic operation.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-273">Valor original de <paramref name="location1" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-273">The original value of <paramref name="location1" />.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.NullReferenceException">
+          <span data-ttu-id="9bfa7-274">La dirección de <paramref name="location1" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-274">The address of <paramref name="location1" /> is a null pointer.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Exchange">
+      <MemberSignature Language="C#" Value="public static IntPtr Exchange (ref IntPtr location1, IntPtr value);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig native int Exchange(native int&amp; location1, native int value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.Exchange(System.IntPtr@,System.IntPtr)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Exchange (ByRef location1 As IntPtr, value As IntPtr) As IntPtr" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static IntPtr Exchange(IntPtr % location1, IntPtr value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="location1" Type="System.IntPtr&amp;" RefType="ref" />
+        <Parameter Name="value" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="location1">
+          <span data-ttu-id="9bfa7-275">Variable que se va a establecer en el valor especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-275">The variable to set to the specified value.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="9bfa7-276">Valor en el que está establecido el parámetro <c>location1</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-276">The value to which the <c>location1</c> parameter is set.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-277">Establece un puntero o identificador específico de plataforma en un valor especificado y devuelve el valor original, como una operación atómica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-277">Sets a platform-specific handle or pointer to a specified value and returns the original value, as an atomic operation.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-278">Valor original de <paramref name="location1" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-278">The original value of <paramref name="location1" />.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.NullReferenceException">
+          <span data-ttu-id="9bfa7-279">La dirección de <paramref name="location1" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-279">The address of <paramref name="location1" /> is a null pointer.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Exchange">
+      <MemberSignature Language="C#" Value="public static object Exchange (ref object location1, object value);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig object Exchange(object&amp; location1, object value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.Exchange(System.Object@,System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Exchange (ByRef location1 As Object, value As Object) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Object ^ Exchange(System::Object ^ % location1, System::Object ^ value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="location1" Type="System.Object&amp;" RefType="ref" />
+        <Parameter Name="value" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="location1">
+          <span data-ttu-id="9bfa7-280">Variable que se va a establecer en el valor especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-280">The variable to set to the specified value.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="9bfa7-281">Valor en el que está establecido el parámetro <c>location1</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-281">The value to which the <c>location1</c> parameter is set.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-282">Establece un objeto en un valor especificado y devuelve una referencia al objeto original, como una operación atómica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-282">Sets an object to a specified value and returns a reference to the original object, as an atomic operation.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-283">Valor original de <paramref name="location1" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-283">The original value of <paramref name="location1" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9bfa7-284">A partir de .NET Framework versión 2.0, el <xref:System.Threading.Interlocked.Exchange%60%601%28%60%600%40%2C%60%600%29> sobrecarga del método proporciona una alternativa con seguridad de tipos para tipos de referencia.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-284">Beginning with .NET Framework version 2.0, the <xref:System.Threading.Interlocked.Exchange%60%601%28%60%600%40%2C%60%600%29> method overload provides a type-safe alternative for reference types.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9bfa7-285">En el ejemplo de código siguiente se muestra la sintaxis para usar `Exchange` con cualquier objeto de tipo de referencia.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-285">The following code example shows the syntax for using `Exchange` with any reference type object.</span></span>  
+  
+ [!code-cpp[System.Threading.Interlocked.Exchange#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Interlocked.Exchange/CPP/source.cpp#1)]
+ [!code-csharp[System.Threading.Interlocked.Exchange#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Interlocked.Exchange/CS/source.cs#1)]
+ [!code-vb[System.Threading.Interlocked.Exchange#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.Interlocked.Exchange/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="9bfa7-286">La dirección de <paramref name="location1" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-286">The address of <paramref name="location1" /> is a null pointer.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Exchange">
+      <MemberSignature Language="C#" Value="public static float Exchange (ref float location1, float value);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig float32 Exchange(float32&amp; location1, float32 value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.Exchange(System.Single@,System.Single)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Exchange (ByRef location1 As Single, value As Single) As Single" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static float Exchange(float % location1, float value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="location1" Type="System.Single&amp;" RefType="ref" />
+        <Parameter Name="value" Type="System.Single" />
+      </Parameters>
+      <Docs>
+        <param name="location1">
+          <span data-ttu-id="9bfa7-287">Variable que se va a establecer en el valor especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-287">The variable to set to the specified value.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="9bfa7-288">Valor en el que está establecido el parámetro <c>location1</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-288">The value to which the <c>location1</c> parameter is set.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-289">Establece un número de punto flotante de precisión sencilla en un valor especificado y devuelve el valor original, como una operación atómica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-289">Sets a single-precision floating point number to a specified value and returns the original value, as an atomic operation.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-290">Valor original de <paramref name="location1" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-290">The original value of <paramref name="location1" />.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.NullReferenceException">
+          <span data-ttu-id="9bfa7-291">La dirección de <paramref name="location1" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-291">The address of <paramref name="location1" /> is a null pointer.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Exchange&lt;T&gt;">
+      <MemberSignature Language="C#" Value="public static T Exchange&lt;T&gt; (ref T location1, T value) where T : class;" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig !!T Exchange&lt;class T&gt;(!!T&amp; location1, !!T value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.Exchange``1(``0@,``0)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Exchange(Of T As Class) (ByRef location1 As T, value As T) As T" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename T&gt;&#xA; where T : class static T Exchange(T % location1, T value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>T</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="T">
+          <Constraints>
+            <ParameterAttribute>ReferenceTypeConstraint</ParameterAttribute>
+          </Constraints>
+        </TypeParameter>
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="location1" Type="T&amp;" RefType="ref" />
+        <Parameter Name="value" Type="T" />
+      </Parameters>
+      <Docs>
+        <typeparam name="T">
+          <span data-ttu-id="9bfa7-292">El tipo que se usará para <c>location1</c> y <c>valor</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-292">The type to be used for <c>location1</c> and <c>value</c>.</span>
+          </span>
+          <span data-ttu-id="9bfa7-293">Este tipo debe ser un tipo de referencia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-293">This type must be a reference type.</span>
+          </span>
+        </typeparam>
+        <param name="location1">
+          <span data-ttu-id="9bfa7-294">Variable que se va a establecer en el valor especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-294">The variable to set to the specified value.</span>
+          </span>
+          <span data-ttu-id="9bfa7-295">Este es un parámetro de referencia (<see langword="ref" /> en C#, <see langword="ByRef" /> en Visual Basic).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-295">This is a reference parameter (<see langword="ref" /> in C#, <see langword="ByRef" /> in Visual Basic).</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="9bfa7-296">Valor en el que está establecido el parámetro <c>location1</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-296">The value to which the <c>location1</c> parameter is set.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-297">Establece una variable del tipo <paramref name="T" /> especificado en un valor determinado y devuelve el valor original, como una operación atómica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-297">Sets a variable of the specified type <paramref name="T" /> to a specified value and returns the original value, as an atomic operation.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-298">Valor original de <paramref name="location1" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-298">The original value of <paramref name="location1" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9bfa7-299">Este método solo admite tipos de referencia.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-299">This method only supports reference types.</span></span> <span data-ttu-id="9bfa7-300">Hay sobrecargas de la <xref:System.Threading.Interlocked.Exchange%2A> método para el <xref:System.Int32>, <xref:System.Int64>, <xref:System.IntPtr>, <xref:System.Single>, y <xref:System.Double> los tipos de valor, pero no hay ninguna compatibilidad con otros tipos de valor.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-300">There are overloads of the <xref:System.Threading.Interlocked.Exchange%2A> method for the <xref:System.Int32>, <xref:System.Int64>, <xref:System.IntPtr>, <xref:System.Single>, and <xref:System.Double> value types, but there is no support for other value types.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9bfa7-301">Esta sobrecarga del método es preferible a la <xref:System.Threading.Interlocked.Exchange%28System.Object%40%2CSystem.Object%29> sobrecarga del método, porque el último exige acceso en tiempo de ejecución para el objeto de destino.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-301">This method overload is preferable to the <xref:System.Threading.Interlocked.Exchange%28System.Object%40%2CSystem.Object%29> method overload, because the latter requires late-bound access to the destination object .</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9bfa7-302">En el ejemplo siguiente se inicia diez tareas, cada uno de los cuales genera los números de pieza de diez caracteres 100.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-302">The following example launches ten tasks, each of which generates  100 ten-character part numbers.</span></span> <span data-ttu-id="9bfa7-303">A continuación, el número de pieza es primero alfabéticamente.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-303">It then the part number that is first alphabetically.</span></span>  
+  
+ [!code-csharp[System.Threading.Interlocked.Exchange#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Interlocked.Exchange/CS/Exchange5.cs#2)]
+ [!code-vb[System.Threading.Interlocked.Exchange#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.Interlocked.Exchange/VB/Exchange5.vb#2)]  
+  
+ <span data-ttu-id="9bfa7-304">El ejemplo se utiliza la `firstWidget` variable para almacenar el identificador que aparezca en primer lugar en el criterio de ordenación.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-304">The example uses the `firstWidget` variable to store the ID that occurs first in the sort order.</span></span> <span data-ttu-id="9bfa7-305">Compara cada Id. que genera con el `firstWidget` valor.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-305">It compares each ID that it generates with the `firstWidget` value.</span></span>  <span data-ttu-id="9bfa7-306">Si el nuevo valor precede el valor actual de `firstWidget` en el criterio de ordenación, el ejemplo llama a la <xref:System.Threading.Interlocked.Exchange%2A> método para asignar el nuevo valor a `firstWidget`.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-306">If the new value precedes the current value of `firstWidget` in the sort order, the example calls the <xref:System.Threading.Interlocked.Exchange%2A> method to assign the new value to `firstWidget`.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NullReferenceException">
+          <span data-ttu-id="9bfa7-307">La dirección de <paramref name="location1" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-307">The address of <paramref name="location1" /> is a null pointer.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Increment">
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9bfa7-308">Aumenta el valor de una variable especificada y almacena el resultado, como una operación atómica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-308">Increments a specified variable and stores the result, as an atomic operation.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Increment">
+      <MemberSignature Language="C#" Value="public static int Increment (ref int location);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig int32 Increment(int32&amp; location) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.Increment(System.Int32@)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Increment (ByRef location As Integer) As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static int Increment(int % location);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="location" Type="System.Int32&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="location">
+          <span data-ttu-id="9bfa7-309">Variable cuyo valor se va a incrementar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-309">The variable whose value is to be incremented.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-310">Aumenta el valor de una variable especificada y almacena el resultado, como una operación atómica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-310">Increments a specified variable and stores the result, as an atomic operation.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-311">Valor incrementado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-311">The incremented value.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9bfa7-312">Este método controla una condición de desbordamiento mediante un ajuste: si `location`  =  <xref:System.Int32.MaxValue?displayProperty=nameWithType>, `location` + 1 = <xref:System.Int32.MinValue?displayProperty=nameWithType>.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-312">This method handles an overflow condition by wrapping: if `location` = <xref:System.Int32.MaxValue?displayProperty=nameWithType>, `location` + 1 = <xref:System.Int32.MinValue?displayProperty=nameWithType>.</span></span> <span data-ttu-id="9bfa7-313">No se inicia ninguna excepción.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-313">No exception is thrown.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9bfa7-314">En el ejemplo siguiente se determina cuántos números aleatorios comprendidos entre 0 y 1000 necesarios para generar números aleatorios 1.000 con un valor de punto medio.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-314">The following example determines how many random numbers that range from 0 to 1,000 are required to generate 1,000 random numbers with a midpoint value.</span></span> <span data-ttu-id="9bfa7-315">Para mantener el seguimiento del número de valores de punto medio, una variable, `midpointCount`, se establece igual que 0 y se incrementa cada vez que el generador de números aleatorios devuelve un valor de punto medio hasta que llega a 10.000.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-315">To keep track of the number of midpoint values, a variable, `midpointCount`, is set equal to 0 and incremented each time the random number generator returns a midpoint value until it reaches 10,000.</span></span> <span data-ttu-id="9bfa7-316">Dado que tres subprocesos generarán los números aleatorios, la <xref:System.Threading.Interlocked.Increment%28System.Int32%40%29> método se llama para asegurarse de que varios subprocesos no se actualizan `midpointCount` simultáneamente.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-316">Because three threads generate the random numbers, the <xref:System.Threading.Interlocked.Increment%28System.Int32%40%29> method is called to ensure that multiple threads don't update `midpointCount` concurrently.</span></span> <span data-ttu-id="9bfa7-317">Tenga en cuenta que también se usa un bloqueo para proteger el generador de números aleatorios y que un <xref:System.Threading.CountdownEvent> objeto se usa para asegurarse de que el `Main` método no finaliza la ejecución antes de los tres subprocesos.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-317">Note that a lock is also used to protect the random number generator, and that a <xref:System.Threading.CountdownEvent> object is used to ensure that the `Main` method doesn't finish execution before the three threads.</span></span>  
+  
+ [!code-csharp[System.Threading.Interlocked.Increment2#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.interlocked.increment2/cs/increment3.cs#3)]
+ [!code-vb[System.Threading.Interlocked.Increment2#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.interlocked.increment2/vb/Increment3.vb#3)]  
+  
+ <span data-ttu-id="9bfa7-318">En el ejemplo siguiente es similar al anterior, salvo que usa el en lugar de un procedimiento de subproceso para generar 50.000 enteros aleatorios punto medio.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-318">The following example is similar to the previous one, except that it uses the  instead of a thread procedure to generate 50,000 random midpoint integers.</span></span> <span data-ttu-id="9bfa7-319">En este ejemplo, una expresión lambda reemplaza el `GenerateNumbers` procedimiento de subproceso y la llamada a la <xref:System.Threading.Tasks.Task.WaitAll%2A?displayProperty=nameWithType> método elimina la necesidad de la <xref:System.Threading.CountdownEvent> objeto.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-319">In this example, a lambda expression replaces the `GenerateNumbers` thread procedure, and the call to the <xref:System.Threading.Tasks.Task.WaitAll%2A?displayProperty=nameWithType> method eliminates the need for the <xref:System.Threading.CountdownEvent> object.</span></span>  
+  
+ [!code-csharp[System.Threading.Interlocked.Increment2#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.interlocked.increment2/cs/increment4.cs#4)]
+ [!code-vb[System.Threading.Interlocked.Increment2#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.interlocked.increment2/vb/Increment4.vb#4)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NullReferenceException">
+          <span data-ttu-id="9bfa7-320">La dirección de <paramref name="location" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-320">The address of <paramref name="location" /> is a null pointer.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Increment">
+      <MemberSignature Language="C#" Value="public static long Increment (ref long location);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig int64 Increment(int64&amp; location) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.Increment(System.Int64@)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Increment (ByRef location As Long) As Long" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static long Increment(long % location);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="location" Type="System.Int64&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="location">
+          <span data-ttu-id="9bfa7-321">Variable cuyo valor se va a incrementar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-321">The variable whose value is to be incremented.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-322">Aumenta el valor de una variable especificada y almacena el resultado, como una operación atómica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-322">Increments a specified variable and stores the result, as an atomic operation.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-323">Valor incrementado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-323">The incremented value.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9bfa7-324">Este método controla una condición de desbordamiento mediante un ajuste: si `location`  =  <xref:System.Int64.MaxValue?displayProperty=nameWithType>, `location` + 1 = <xref:System.Int64.MinValue?displayProperty=nameWithType>.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-324">This method handles an overflow condition by wrapping: if `location` = <xref:System.Int64.MaxValue?displayProperty=nameWithType>, `location` + 1 = <xref:System.Int64.MinValue?displayProperty=nameWithType>.</span></span> <span data-ttu-id="9bfa7-325">No se inicia ninguna excepción.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-325">No exception is thrown.</span></span>  
+  
+ <span data-ttu-id="9bfa7-326">El <xref:System.Threading.Interlocked.Read%2A> método y las sobrecargas de 64 bits de la <xref:System.Threading.Interlocked.Increment%2A>, <xref:System.Threading.Interlocked.Decrement%2A>, y <xref:System.Threading.Interlocked.Add%2A> métodos son verdaderamente atómicos sólo en sistemas donde un <xref:System.IntPtr?displayProperty=nameWithType> es de 64 bits de longitud.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-326">The <xref:System.Threading.Interlocked.Read%2A> method and the 64-bit overloads of the <xref:System.Threading.Interlocked.Increment%2A>, <xref:System.Threading.Interlocked.Decrement%2A>, and <xref:System.Threading.Interlocked.Add%2A> methods are truly atomic only on systems where a <xref:System.IntPtr?displayProperty=nameWithType> is 64 bits long.</span></span> <span data-ttu-id="9bfa7-327">En otros sistemas, estos métodos son atómicos con respecto a entre sí, pero no con respecto a otras formas de obtener acceso a los datos.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-327">On other systems, these methods are atomic with respect to each other, but not with respect to other means of accessing the data.</span></span> <span data-ttu-id="9bfa7-328">Por lo tanto, para que sea segura para subprocesos en sistemas de 32 bits, cualquier acceso a un valor de 64 bits debe realizarse a través de los miembros de la <xref:System.Threading.Interlocked> clase.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-328">Thus, to be thread safe on 32-bit systems, any access to a 64-bit value must be made through the members of the <xref:System.Threading.Interlocked> class.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NullReferenceException">
+          <span data-ttu-id="9bfa7-329">La dirección de <paramref name="location" /> es un puntero nulo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-329">The address of <paramref name="location" /> is a null pointer.</span>
+          </span>
+        </exception>
+        <altmember cref="Overload:System.Threading.Interlocked.Decrement" />
+        <altmember cref="Overload:System.Threading.Interlocked.Add" />
+        <altmember cref="M:System.Threading.Interlocked.Read(System.Int64@)" />
+      </Docs>
+    </Member>
+    <Member MemberName="MemoryBarrier">
+      <MemberSignature Language="C#" Value="public static void MemoryBarrier ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void MemoryBarrier() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.MemoryBarrier" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub MemoryBarrier ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void MemoryBarrier();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="9bfa7-330">Sincroniza el acceso a la memoria de la siguiente forma: el procesador que ejecuta el subproceso actual no puede reordenar instrucciones de forma que los accesos a la memoria anteriores a la llamada a <see cref="M:System.Threading.Interlocked.MemoryBarrier" /> se ejecuten después de los accesos a memoria que siguen a la llamada a <see cref="M:System.Threading.Interlocked.MemoryBarrier" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-330">Synchronizes memory access as follows: The processor that executes the current thread cannot reorder instructions in such a way that memory accesses before the call to <see cref="M:System.Threading.Interlocked.MemoryBarrier" /> execute after memory accesses that follow the call to <see cref="M:System.Threading.Interlocked.MemoryBarrier" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9bfa7-331">Este método se agregó a la <xref:System.Threading.Interlocked> clase en el [!INCLUDE[net_v45](~/includes/net-v45-md.md)] como una comodidad; es un contenedor para el <xref:System.Threading.Thread.MemoryBarrier%2A?displayProperty=nameWithType> método.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-331">This method was added to the <xref:System.Threading.Interlocked> class in the [!INCLUDE[net_v45](~/includes/net-v45-md.md)] as a convenience; it's a wrapper for the <xref:System.Threading.Thread.MemoryBarrier%2A?displayProperty=nameWithType> method.</span></span>  
+  
+ <span data-ttu-id="9bfa7-332"><xref:System.Threading.Interlocked.MemoryBarrier%2A> solo es necesario en sistemas multiprocesador que tienen una ordenación de memoria débil (por ejemplo, un sistema que utiliza varios procesadores Intel Itanium).</span><span class="sxs-lookup"><span data-stu-id="9bfa7-332"><xref:System.Threading.Interlocked.MemoryBarrier%2A> is required only on multiprocessor systems that have weak memory ordering (for example, a system that employs multiple Intel Itanium processors).</span></span>  
+  
+ <span data-ttu-id="9bfa7-333">Para la mayoría de los propósitos, C# `lock` instrucción, Visual Basic `SyncLock` (instrucción), o la <xref:System.Threading.Monitor> clase proporcionan formas más sencillas de sincronizar los datos.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-333">For most purposes, the C# `lock` statement, the Visual Basic `SyncLock` statement, or the <xref:System.Threading.Monitor> class provide easier ways to synchronize data.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MemoryBarrierProcessWide">
+      <MemberSignature Language="C#" Value="public static void MemoryBarrierProcessWide ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void MemoryBarrierProcessWide() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.MemoryBarrierProcessWide" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub MemoryBarrierProcessWide ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void MemoryBarrierProcessWide();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Read">
+      <MemberSignature Language="C#" Value="public static long Read (ref long location);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig int64 Read(int64&amp; location) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Interlocked.Read(System.Int64@)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Read (ByRef location As Long) As Long" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static long Read(long % location);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="location" Type="System.Int64&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="location">
+          <span data-ttu-id="9bfa7-334">Valor de 64 bits que se va a cargar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-334">The 64-bit value to be loaded.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9bfa7-335">Devuelve un valor de 64 bits, cargado como una operación atómica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-335">Returns a 64-bit value, loaded as an atomic operation.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9bfa7-336">Valor cargado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9bfa7-336">The loaded value.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9bfa7-337">El <xref:System.Threading.Interlocked.Read%2A> método no es necesario en sistemas de 64 bits, porque las operaciones de lectura de 64 bits ya son atómicas.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-337">The <xref:System.Threading.Interlocked.Read%2A> method is unnecessary on 64-bit systems, because 64-bit read operations are already atomic.</span></span> <span data-ttu-id="9bfa7-338">En los sistemas de 32 bits, las operaciones de lectura de 64 bits no son atómicas a menos que se realizan mediante <xref:System.Threading.Interlocked.Read%2A>.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-338">On 32-bit systems, 64-bit read operations are not atomic unless performed using <xref:System.Threading.Interlocked.Read%2A>.</span></span>  
+  
+ <span data-ttu-id="9bfa7-339">El <xref:System.Threading.Interlocked.Read%2A> método y las sobrecargas de 64 bits de la <xref:System.Threading.Interlocked.Increment%2A>, <xref:System.Threading.Interlocked.Decrement%2A>, y <xref:System.Threading.Interlocked.Add%2A> métodos son verdaderamente atómicos sólo en sistemas donde un <xref:System.IntPtr?displayProperty=nameWithType> es de 64 bits de longitud.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-339">The <xref:System.Threading.Interlocked.Read%2A> method and the 64-bit overloads of the <xref:System.Threading.Interlocked.Increment%2A>, <xref:System.Threading.Interlocked.Decrement%2A>, and <xref:System.Threading.Interlocked.Add%2A> methods are truly atomic only on systems where a <xref:System.IntPtr?displayProperty=nameWithType> is 64 bits long.</span></span> <span data-ttu-id="9bfa7-340">En otros sistemas, estos métodos son atómicos con respecto a entre sí, pero no con respecto a otras formas de obtener acceso a los datos.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-340">On other systems, these methods are atomic with respect to each other, but not with respect to other means of accessing the data.</span></span> <span data-ttu-id="9bfa7-341">Por lo tanto, para que sea segura para subprocesos en sistemas de 32 bits, cualquier acceso a un valor de 64 bits debe realizarse a través de los miembros de la <xref:System.Threading.Interlocked> clase.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-341">Thus, to be thread safe on 32-bit systems, any access to a 64-bit value must be made through the members of the <xref:System.Threading.Interlocked> class.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9bfa7-342"><xref:System.IntPtr> es un tipo específico de la plataforma.</span><span class="sxs-lookup"><span data-stu-id="9bfa7-342"><xref:System.IntPtr> is a platform-specific type.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="Overload:System.Threading.Interlocked.Increment" />
+        <altmember cref="Overload:System.Threading.Interlocked.Decrement" />
+        <altmember cref="Overload:System.Threading.Interlocked.Add" />
+      </Docs>
+    </Member>
+  </Members>
+</Type>
