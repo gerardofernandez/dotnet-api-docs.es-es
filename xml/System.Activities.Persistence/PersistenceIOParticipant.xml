@@ -1,0 +1,346 @@
+<Type Name="PersistenceIOParticipant" FullName="System.Activities.Persistence.PersistenceIOParticipant">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="bedb5f708a01c10d43d5e690417e34ae5ece459c" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="es-ES" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public abstract class PersistenceIOParticipant : System.Activities.Persistence.PersistenceParticipant" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit PersistenceIOParticipant extends System.Activities.Persistence.PersistenceParticipant" />
+  <TypeSignature Language="DocId" Value="T:System.Activities.Persistence.PersistenceIOParticipant" />
+  <TypeSignature Language="VB.NET" Value="Public MustInherit Class PersistenceIOParticipant&#xA;Inherits PersistenceParticipant" />
+  <TypeSignature Language="C++ CLI" Value="public ref class PersistenceIOParticipant abstract : System::Activities::Persistence::PersistenceParticipant" />
+  <AssemblyInfo>
+    <AssemblyName>System.Activities</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Activities.Persistence.PersistenceParticipant</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="04ebc-101">Clase vclass derivada de la clase <see cref="T:System.Activities.Persistence.PersistenceParticipant" /> con métodos que realizan las operaciones de entrada y salida además de conservar y cargar las instancias de flujo de trabajo a lo largo del proceso de persistencia.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="04ebc-101">A derived vclass of the <see cref="T:System.Activities.Persistence.PersistenceParticipant" /> class with methods that perform input and output operations in addition to the persisting and loading of workflow instances through the persistence process.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="04ebc-102">Un host ejecuta los siguientes pasos (o fases) al hacer persistir una instancia:</span><span class="sxs-lookup"><span data-stu-id="04ebc-102">A host executes the following steps (or stages) when persisting an instance:</span></span>  
+  
+1.  <span data-ttu-id="04ebc-103">Recopila los valores que se van a conservar.</span><span class="sxs-lookup"><span data-stu-id="04ebc-103">Collects values to be persisted.</span></span>  
+  
+2.  <span data-ttu-id="04ebc-104">Asigna campos de valores monolíticos estructurados a los valores individuales.</span><span class="sxs-lookup"><span data-stu-id="04ebc-104">Maps fields of monolithic structured values to individual values.</span></span>  
+  
+3.  <span data-ttu-id="04ebc-105">Envía el comando <xref:System.Activities.DurableInstancing.SaveWorkflowCommand> al proveedor de persistencia.</span><span class="sxs-lookup"><span data-stu-id="04ebc-105">Issues the <xref:System.Activities.DurableInstancing.SaveWorkflowCommand> to the persistence provider.</span></span>  
+  
+4.  <span data-ttu-id="04ebc-106">Realiza las operaciones de E/S de la transacción de persistencia.</span><span class="sxs-lookup"><span data-stu-id="04ebc-106">Performs I/O under the persistence transaction.</span></span>  
+  
+ <span data-ttu-id="04ebc-107">Los hosts completan cada fase antes de comenzar la fase siguiente.</span><span class="sxs-lookup"><span data-stu-id="04ebc-107">A host completes a stage before beginning the next stage.</span></span> <span data-ttu-id="04ebc-108">Por ejemplo, al realizar la persistencia, el host recopila valores de todos los participantes de persistencia antes de pasar a la siguiente fase.</span><span class="sxs-lookup"><span data-stu-id="04ebc-108">For example when persisting, the host collects values from all the persistence participants before moving to the second stage.</span></span> <span data-ttu-id="04ebc-109">En la segunda fase, el host proporciona a todos los participantes de persistencia todos los valores recopilados en la primera fase para su asignación.</span><span class="sxs-lookup"><span data-stu-id="04ebc-109">In the second stage, the host provides all the values collected in the first stage to all persistence participants in the second stage for mapping.</span></span> <span data-ttu-id="04ebc-110">En la tercera fase, el host proporciona al proveedor de persistencia todos los valores recopilados en las dos fases anteriores cuando invoca el comando <xref:System.Activities.DurableInstancing.SaveWorkflowCommand>.</span><span class="sxs-lookup"><span data-stu-id="04ebc-110">In the third stage, the host provides all the collected values in the first and second stages to the persistence provider when invoking the <xref:System.Activities.DurableInstancing.SaveWorkflowCommand>.</span></span> <span data-ttu-id="04ebc-111">Por último, en la cuarta fase el host proporciona todos los valores recopilados a todos los participantes de persistencia de la transacción de E/S de persistencia.</span><span class="sxs-lookup"><span data-stu-id="04ebc-111">Then in the fourth stage, the host provides all the collected values to all the persistence IO participants under the persistence transaction.</span></span>  
+  
+ <span data-ttu-id="04ebc-112">Un host ejecuta las fases siguientes cuando carga una instancia de persistencia:</span><span class="sxs-lookup"><span data-stu-id="04ebc-112">A host executes the following stages when loading a persistence instance:</span></span>  
+  
+1.  <span data-ttu-id="04ebc-113">Envía los comandos <xref:System.Activities.DurableInstancing.LoadWorkflowCommand> y <xref:System.Activities.DurableInstancing.LoadWorkflowByInstanceKeyCommand> al proveedor de persistencia.</span><span class="sxs-lookup"><span data-stu-id="04ebc-113">Issues the <xref:System.Activities.DurableInstancing.LoadWorkflowCommand> and <xref:System.Activities.DurableInstancing.LoadWorkflowByInstanceKeyCommand> to the persistence provider.</span></span>  
+  
+2.  <span data-ttu-id="04ebc-114">Realiza las operaciones de E/S de la transacción de persistencia.</span><span class="sxs-lookup"><span data-stu-id="04ebc-114">Performs I/O under the persistence transaction.</span></span>  
+  
+3.  <span data-ttu-id="04ebc-115">Publica los valores cargados.</span><span class="sxs-lookup"><span data-stu-id="04ebc-115">Publishes the loaded values.</span></span>  
+  
+ <span data-ttu-id="04ebc-116">En el nivel más alto, las extensiones de instancia de flujo de trabajo que se derivan de la clase <xref:System.Activities.Persistence.PersistenceParticipant> pueden participar en la primera fase (Recopilación) y en la segunda fase (Asignación) del proceso de persistencia, y en la tercera fase (Publicación) del proceso de carga.</span><span class="sxs-lookup"><span data-stu-id="04ebc-116">At the highest level, workflow instance extensions that derive from the <xref:System.Activities.Persistence.PersistenceParticipant> class can participate in the first (Collect) and second (Map) stages of persisting process and the third stage (Publish) of loading process.</span></span>  <span data-ttu-id="04ebc-117">Las extensiones de instancia de flujo de trabajo que se derivan de la clase PersistenceIOParticipant pueden participar además en la cuarta fase del proceso de persistencia y en la segunda fase del proceso de carga (E/S).</span><span class="sxs-lookup"><span data-stu-id="04ebc-117">Workflow instance extensions deriving from the PersistenceIOParticipant class can additionally participate in the fourth stage of the persisting process and the second stage of the loading process (I/O).</span></span>  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected PersistenceIOParticipant (bool isSaveTransactionRequired, bool isLoadTransactionRequired);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor(bool isSaveTransactionRequired, bool isLoadTransactionRequired) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Activities.Persistence.PersistenceIOParticipant.#ctor(System.Boolean,System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub New (isSaveTransactionRequired As Boolean, isLoadTransactionRequired As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; PersistenceIOParticipant(bool isSaveTransactionRequired, bool isLoadTransactionRequired);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Activities</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="isSaveTransactionRequired" Type="System.Boolean" />
+        <Parameter Name="isLoadTransactionRequired" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="isSaveTransactionRequired">
+          <span data-ttu-id="04ebc-118">
+            <see langword="true" /> si se requiere una transacción para la operación de almacenamiento (Save).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-118">
+              <see langword="true" /> if a transaction is required for the Save operation.</span>
+          </span>
+          <span data-ttu-id="04ebc-119">Si se crea el objeto <see cref="T:System.Activities.Persistence.PersistenceIOParticipant" /> con este parámetro establecido en <see langword="true" />, se garantiza que la propiedad Transaction.Current estará establecida cuando se invoque BeginOnSave.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-119">If the <see cref="T:System.Activities.Persistence.PersistenceIOParticipant" /> object is created with this parameter set to <see langword="true" />,  Transaction.Current is guaranteed to be set when BeginOnSave is invoked.</span>
+          </span>
+          <span data-ttu-id="04ebc-120">La transacción se comparte entre el proveedor de persistencia, todas las extensiones PersistenceIOParticipant y con otros posibles participantes en la transacción.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-120">The transaction is shared between the persistence provider, all PersistenceIOParticipant extensions, and potentially other transaction participants.</span>
+          </span>
+        </param>
+        <param name="isLoadTransactionRequired">
+          <span data-ttu-id="04ebc-121">
+            <see langword="true" /> si se requiere una transacción para la operación de carga (Load).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-121">
+              <see langword="true" /> if a transaction is required for the Load operation.</span>
+          </span>
+          <span data-ttu-id="04ebc-122">Si se crea el objeto <see cref="T:System.Activities.Persistence.PersistenceIOParticipant" /> con este parámetro establecido en <see langword="true" />, se garantiza que la propiedad Transaction.Current estará establecida cuando se invoque BeginOnLoad.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-122">If the <see cref="T:System.Activities.Persistence.PersistenceIOParticipant" /> object is created with this parameter set to <see langword="true" />,  Transaction.Current is guaranteed to be set  when BeginOnLoad is invoked.</span>
+          </span>
+          <span data-ttu-id="04ebc-123">La transacción se comparte entre el proveedor de persistencia, todas las extensiones PersistenceIOParticipant y con otros posibles participantes en la transacción.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-123">The transaction is shared between the persistence provider, all PersistenceIOParticipant extensions, and potentially other transaction participants.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="04ebc-124">Inicializa una instancia de la clase <see cref="T:System.Activities.Persistence.PersistenceIOParticipant" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-124">Initializes an instance of the <see cref="T:System.Activities.Persistence.PersistenceIOParticipant" /> class.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Abort">
+      <MemberSignature Language="C#" Value="protected abstract void Abort ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Abort() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Activities.Persistence.PersistenceIOParticipant.Abort" />
+      <MemberSignature Language="VB.NET" Value="Protected MustOverride Sub Abort ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; abstract void Abort();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Activities</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="04ebc-125">Anula la operación pendiente de E/S (carga o almacenamiento, Load o Save).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-125">Aborts the pending IO (Load or Save) operation.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="04ebc-126">Las clases derivadas que invalidan los métodos BeginOnSave o BeginOnLoad y que podrían no completarse siempre inmediatamente deben invalidar el comando de anulación (Abort).</span><span class="sxs-lookup"><span data-stu-id="04ebc-126">Derived classes that override BeginOnSave or BeginOnLoad and might not always complete immediately must override Abort.</span></span> <span data-ttu-id="04ebc-127">Si se invoca la operación Abort, se debe cancelar cualquier operación de E/S que haya pendiente.</span><span class="sxs-lookup"><span data-stu-id="04ebc-127">If Abort is invoked, any pending IO operations must be canceled.</span></span> <span data-ttu-id="04ebc-128">Si se cancela una operación de esta manera, el método de finalización (End) correspondiente debería producir la excepción OperationCanceledException.</span><span class="sxs-lookup"><span data-stu-id="04ebc-128">If an operation is canceled in this way, the corresponding End method should throw OperationCanceledException.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BeginOnLoad">
+      <MemberSignature Language="C#" Value="protected virtual IAsyncResult BeginOnLoad (System.Collections.Generic.IDictionary&lt;System.Xml.Linq.XName,object&gt; readWriteValues, TimeSpan timeout, AsyncCallback callback, object state);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance class System.IAsyncResult BeginOnLoad(class System.Collections.Generic.IDictionary`2&lt;class System.Xml.Linq.XName, object&gt; readWriteValues, valuetype System.TimeSpan timeout, class System.AsyncCallback callback, object state) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Activities.Persistence.PersistenceIOParticipant.BeginOnLoad(System.Collections.Generic.IDictionary{System.Xml.Linq.XName,System.Object},System.TimeSpan,System.AsyncCallback,System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Function BeginOnLoad (readWriteValues As IDictionary(Of XName, Object), timeout As TimeSpan, callback As AsyncCallback, state As Object) As IAsyncResult" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual IAsyncResult ^ BeginOnLoad(System::Collections::Generic::IDictionary&lt;System::Xml::Linq::XName ^, System::Object ^&gt; ^ readWriteValues, TimeSpan timeout, AsyncCallback ^ callback, System::Object ^ state);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Activities</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IAsyncResult</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="readWriteValues" Type="System.Collections.Generic.IDictionary&lt;System.Xml.Linq.XName,System.Object&gt;" />
+        <Parameter Name="timeout" Type="System.TimeSpan" />
+        <Parameter Name="callback" Type="System.AsyncCallback" />
+        <Parameter Name="state" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="readWriteValues">
+          <span data-ttu-id="04ebc-129">Diccionario de valores de lectura y escritura cargado por el proveedor de persistencia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-129">A dictionary of read-write values loaded by the persistence provider.</span>
+          </span>
+          <span data-ttu-id="04ebc-130">Esto corresponde al conjunto de valores de lectura y escritura pasado al método BeginOnSave del episodio más reciente de persistencia para esta instancia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-130">This corresponds to the set of read-write values passed to BeginOnSave in the most recent persistence episode for this instance.</span>
+          </span>
+        </param>
+        <param name="timeout">
+          <span data-ttu-id="04ebc-131">Intervalo de tiempo de espera dentro del que se debe completar la operación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-131">The time span within which the operation should be completed without timing out.</span>
+          </span>
+        </param>
+        <param name="callback">
+          <span data-ttu-id="04ebc-132">Delegado de devolución de llamada asincrónica que recibe notificación de la finalización de la operación de carga (Load) asincrónica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-132">The asynchronous callback delegate that receives notification of the completion of the asynchronous Load operation.</span>
+          </span>
+        </param>
+        <param name="state">
+          <span data-ttu-id="04ebc-133">Información de estado asociada a la operación asincrónica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-133">The state information associated with the asynchronous operation.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="04ebc-134">Comienza una operación asincrónica para cargar el estado adicional junto con una instancia que se vaya a cargar desde el almacén de instancias.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-134">Begins an asynchronous operation to load additional state in conjunction with an instance being loaded from the instance store.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="04ebc-135">Estado de una operación asincrónica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-135">The status of an asynchronous operation.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BeginOnSave">
+      <MemberSignature Language="C#" Value="protected virtual IAsyncResult BeginOnSave (System.Collections.Generic.IDictionary&lt;System.Xml.Linq.XName,object&gt; readWriteValues, System.Collections.Generic.IDictionary&lt;System.Xml.Linq.XName,object&gt; writeOnlyValues, TimeSpan timeout, AsyncCallback callback, object state);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance class System.IAsyncResult BeginOnSave(class System.Collections.Generic.IDictionary`2&lt;class System.Xml.Linq.XName, object&gt; readWriteValues, class System.Collections.Generic.IDictionary`2&lt;class System.Xml.Linq.XName, object&gt; writeOnlyValues, valuetype System.TimeSpan timeout, class System.AsyncCallback callback, object state) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Activities.Persistence.PersistenceIOParticipant.BeginOnSave(System.Collections.Generic.IDictionary{System.Xml.Linq.XName,System.Object},System.Collections.Generic.IDictionary{System.Xml.Linq.XName,System.Object},System.TimeSpan,System.AsyncCallback,System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Function BeginOnSave (readWriteValues As IDictionary(Of XName, Object), writeOnlyValues As IDictionary(Of XName, Object), timeout As TimeSpan, callback As AsyncCallback, state As Object) As IAsyncResult" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual IAsyncResult ^ BeginOnSave(System::Collections::Generic::IDictionary&lt;System::Xml::Linq::XName ^, System::Object ^&gt; ^ readWriteValues, System::Collections::Generic::IDictionary&lt;System::Xml::Linq::XName ^, System::Object ^&gt; ^ writeOnlyValues, TimeSpan timeout, AsyncCallback ^ callback, System::Object ^ state);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Activities</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IAsyncResult</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="readWriteValues" Type="System.Collections.Generic.IDictionary&lt;System.Xml.Linq.XName,System.Object&gt;" />
+        <Parameter Name="writeOnlyValues" Type="System.Collections.Generic.IDictionary&lt;System.Xml.Linq.XName,System.Object&gt;" />
+        <Parameter Name="timeout" Type="System.TimeSpan" />
+        <Parameter Name="callback" Type="System.AsyncCallback" />
+        <Parameter Name="state" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="readWriteValues">
+          <span data-ttu-id="04ebc-136">Diccionario de valores de lectura y escritura recopilados durante las fases MapValues y CollectValues.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-136">A dictionary of read-write values collected in the CollectValues and MapValues stages.</span>
+          </span>
+        </param>
+        <param name="writeOnlyValues">
+          <span data-ttu-id="04ebc-137">Diccionario de valores de solo escritura recopilados durante las fases CollectValues y MapValues.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-137">A dictionary of write-only values collected in the CollectValues and MapValues stages.</span>
+          </span>
+        </param>
+        <param name="timeout">
+          <span data-ttu-id="04ebc-138">Intervalo de tiempo de espera dentro del que se debe completar la operación.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-138">The time span within which the operation should be completed without timing out.</span>
+          </span>
+        </param>
+        <param name="callback">
+          <span data-ttu-id="04ebc-139">Delegado de devolución de llamada asincrónica que recibe notificación de la finalización de la operación asincrónica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-139">The asynchronous callback delegate that receives notification of the completion of the asynchronous operation.</span>
+          </span>
+        </param>
+        <param name="state">
+          <span data-ttu-id="04ebc-140">Información de estado asociada a la operación asincrónica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-140">The state information associated with the asynchronous operation.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="04ebc-141">Comienza una operación asincrónica para guardar el estado adicional junto con una instancia que vaya a persistir en el almacén de instancias.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-141">Begins an asynchronous operation to save additional state in conjunction with an instance being persisted to the instance store.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="04ebc-142">Estado de una operación asincrónica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-142">The status of an asynchronous operation.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EndOnLoad">
+      <MemberSignature Language="C#" Value="protected virtual void EndOnLoad (IAsyncResult result);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void EndOnLoad(class System.IAsyncResult result) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Activities.Persistence.PersistenceIOParticipant.EndOnLoad(System.IAsyncResult)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub EndOnLoad (result As IAsyncResult)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void EndOnLoad(IAsyncResult ^ result);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Activities</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="result" Type="System.IAsyncResult" />
+      </Parameters>
+      <Docs>
+        <param name="result">
+          <span data-ttu-id="04ebc-143">Resultado asincrónico devuelto por una llamada al método <see cref="M:System.Activities.Persistence.PersistenceIOParticipant.BeginOnSave(System.Collections.Generic.IDictionary{System.Xml.Linq.XName,System.Object},System.Collections.Generic.IDictionary{System.Xml.Linq.XName,System.Object},System.TimeSpan,System.AsyncCallback,System.Object)" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-143">The asynchronous result returned by a call to the <see cref="M:System.Activities.Persistence.PersistenceIOParticipant.BeginOnSave(System.Collections.Generic.IDictionary{System.Xml.Linq.XName,System.Object},System.Collections.Generic.IDictionary{System.Xml.Linq.XName,System.Object},System.TimeSpan,System.AsyncCallback,System.Object)" /> method.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="04ebc-144">Completa la operación asincrónica de carga (Load).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-144">Completes the asynchronous Load operation.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EndOnSave">
+      <MemberSignature Language="C#" Value="protected virtual void EndOnSave (IAsyncResult result);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void EndOnSave(class System.IAsyncResult result) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Activities.Persistence.PersistenceIOParticipant.EndOnSave(System.IAsyncResult)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub EndOnSave (result As IAsyncResult)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void EndOnSave(IAsyncResult ^ result);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Activities</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="result" Type="System.IAsyncResult" />
+      </Parameters>
+      <Docs>
+        <param name="result">
+          <span data-ttu-id="04ebc-145">Resultado asincrónico devuelto por una llamada al método <see cref="M:System.Activities.Persistence.PersistenceIOParticipant.BeginOnSave(System.Collections.Generic.IDictionary{System.Xml.Linq.XName,System.Object},System.Collections.Generic.IDictionary{System.Xml.Linq.XName,System.Object},System.TimeSpan,System.AsyncCallback,System.Object)" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-145">The asynchronous result returned by a call to the <see cref="M:System.Activities.Persistence.PersistenceIOParticipant.BeginOnSave(System.Collections.Generic.IDictionary{System.Xml.Linq.XName,System.Object},System.Collections.Generic.IDictionary{System.Xml.Linq.XName,System.Object},System.TimeSpan,System.AsyncCallback,System.Object)" /> method.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="04ebc-146">Completa la operación asincrónica de guardar (Save).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="04ebc-146">Completes the asynchronous Save operation.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
