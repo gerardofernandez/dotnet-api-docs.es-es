@@ -1,0 +1,789 @@
+<Type Name="ValueSerializer" FullName="System.Windows.Markup.ValueSerializer">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="dfe7052738061deaaa68c30a6aaa5efc25671310" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="es-ES" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public abstract class ValueSerializer" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract ValueSerializer extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:System.Windows.Markup.ValueSerializer" />
+  <TypeSignature Language="VB.NET" Value="Public MustInherit Class ValueSerializer" />
+  <TypeSignature Language="C++ CLI" Value="public ref class ValueSerializer abstract" />
+  <AssemblyInfo>
+    <AssemblyName>System.Xaml</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Runtime.CompilerServices.TypeForwardedFrom("WindowsBase, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35")</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="78110-101">Clase abstracta que define el comportamiento de conversión para la serialización de una representación de objeto.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="78110-101">Abstract class that defines conversion behavior for serialization from an object representation.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="78110-102">La cadena que devuelve el convertidor para serialización debe ser pérdida menor y el convertidor siempre debe devolver la misma cadena de un valor determinado.</span><span class="sxs-lookup"><span data-stu-id="78110-102">The string a converter returns for serialization must be loss-less and the converter must always return the same string for a particular value.</span></span>  <span data-ttu-id="78110-103">Si un convertidor de tipos (derivado de <xref:System.ComponentModel.TypeConverter>) no cumple estos requisitos en su `ConvertTo` las implementaciones para la salida de cadena, un personalizado <xref:System.Windows.Markup.ValueSerializer> debe declararse.</span><span class="sxs-lookup"><span data-stu-id="78110-103">If a type converter (derived from <xref:System.ComponentModel.TypeConverter>) does not meet these requirements in its `ConvertTo` implementations for string output, a custom <xref:System.Windows.Markup.ValueSerializer> must be declared.</span></span> <span data-ttu-id="78110-104">Ya sea la <xref:System.Windows.Markup.ValueSerializer> debe cumplir los requisitos, o un valor null <xref:System.Windows.Markup.ValueSerializer> debe estar asociado con el tipo.</span><span class="sxs-lookup"><span data-stu-id="78110-104">Either the <xref:System.Windows.Markup.ValueSerializer> should meet the requirements, or a null <xref:System.Windows.Markup.ValueSerializer> should be associated with the type.</span></span> <span data-ttu-id="78110-105">A <xref:System.Windows.Markup.ValueSerializer> está asociado a un tipo aplicando el <xref:System.Windows.Markup.ValueSerializerAttribute> atributo.</span><span class="sxs-lookup"><span data-stu-id="78110-105">A <xref:System.Windows.Markup.ValueSerializer> is associated with a type by applying the <xref:System.Windows.Markup.ValueSerializerAttribute> attribute.</span></span>  
+  
+ <span data-ttu-id="78110-106">Un valor null <xref:System.Windows.Markup.ValueSerializer> indica que se debe ignorar el convertidor de tipos para convertir a cadena conversiones del gráfico de objetos.</span><span class="sxs-lookup"><span data-stu-id="78110-106">A null <xref:System.Windows.Markup.ValueSerializer> indicates the type converter should be ignored for convert-to-string conversions from the object graph.</span></span>  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="78110-107">Implementación de <xref:System.Windows.Markup.ValueSerializer> debe evitar producir excepciones.</span><span class="sxs-lookup"><span data-stu-id="78110-107">Implementation of <xref:System.Windows.Markup.ValueSerializer> should avoid throwing exceptions.</span></span> <span data-ttu-id="78110-108">Las excepciones producidas pudieran finalizar la serialización.</span><span class="sxs-lookup"><span data-stu-id="78110-108">Any exceptions thrown could terminate serialization.</span></span>  
+  
+ <span data-ttu-id="78110-109"><xref:System.Windows.Markup.IValueSerializerContext> para una <xref:System.Windows.Markup.ValueSerializer> y sus API es análogo a <xref:System.ComponentModel.ITypeDescriptorContext> para un <xref:System.ComponentModel.TypeConverter>.</span><span class="sxs-lookup"><span data-stu-id="78110-109"><xref:System.Windows.Markup.IValueSerializerContext> for a <xref:System.Windows.Markup.ValueSerializer> and its APIs is analogous to <xref:System.ComponentModel.ITypeDescriptorContext> for a <xref:System.ComponentModel.TypeConverter>.</span></span> <span data-ttu-id="78110-110">De hecho, <xref:System.Windows.Markup.IValueSerializerContext> hereda <xref:System.ComponentModel.ITypeDescriptorContext>.</span><span class="sxs-lookup"><span data-stu-id="78110-110">In fact, <xref:System.Windows.Markup.IValueSerializerContext> inherits <xref:System.ComponentModel.ITypeDescriptorContext>.</span></span> <span data-ttu-id="78110-111">Cuando un <xref:System.Windows.Markup.ValueSerializer> se llama la API de la clase derivada, el llamador (normalmente un proceso de serializador) pasa un contexto que puede proporcionar ciertos servicios.</span><span class="sxs-lookup"><span data-stu-id="78110-111">When a <xref:System.Windows.Markup.ValueSerializer> derived class API is called, the caller (typically a serializer process) passes a context that may provide certain services.</span></span> <span data-ttu-id="78110-112">Debido a las instrucciones generales que un <xref:System.Windows.Markup.ValueSerializer> no deben producir excepciones.</span><span class="sxs-lookup"><span data-stu-id="78110-112">Because of the general guidance that a <xref:System.Windows.Markup.ValueSerializer> must not throw exceptions.</span></span> <span data-ttu-id="78110-113">Error al devolver un servicio determinado desde el contexto también debe no produce ninguna excepción.</span><span class="sxs-lookup"><span data-stu-id="78110-113">Failure to return a particular service from the context must also not throw any exceptions.</span></span>  
+  
+ <span data-ttu-id="78110-114">En versiones anteriores de .NET Framework, esta clase existía en el ensamblado específico de WPF WindowsBase.</span><span class="sxs-lookup"><span data-stu-id="78110-114">In previous versions of the .NET Framework, this class existed in the WPF-specific assembly WindowsBase.</span></span> <span data-ttu-id="78110-115">En [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], <xref:System.Windows.Markup.ValueSerializer> en el ensamblado System.Xaml.</span><span class="sxs-lookup"><span data-stu-id="78110-115">In [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], <xref:System.Windows.Markup.ValueSerializer> is in the System.Xaml assembly.</span></span> <span data-ttu-id="78110-116">Para obtener más información, consulte [tipos migrados de WPF a System.Xaml](~/docs/framework/xaml-services/types-migrated-from-wpf-to-system-xaml.md).</span><span class="sxs-lookup"><span data-stu-id="78110-116">For more information, see [Types Migrated from WPF to System.Xaml](~/docs/framework/xaml-services/types-migrated-from-wpf-to-system-xaml.md).</span></span>  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Xaml.XamlXmlWriter" />
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected ValueSerializer ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Markup.ValueSerializer.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; ValueSerializer();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xaml</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="78110-117">Inicializa una nueva instancia de la clase <see cref="T:System.Windows.Markup.ValueSerializer" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-117">Initializes a new instance of the <see cref="T:System.Windows.Markup.ValueSerializer" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="78110-118">El cuerpo de este constructor está vacío; la <xref:System.Windows.Markup.ValueSerializer> clase no contiene los valores que requieren inicialización.</span><span class="sxs-lookup"><span data-stu-id="78110-118">The body of this constructor is empty; the <xref:System.Windows.Markup.ValueSerializer> class does not contain any values that require initialization.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CanConvertFromString">
+      <MemberSignature Language="C#" Value="public virtual bool CanConvertFromString (string value, System.Windows.Markup.IValueSerializerContext context);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool CanConvertFromString(string value, class System.Windows.Markup.IValueSerializerContext context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Markup.ValueSerializer.CanConvertFromString(System.String,System.Windows.Markup.IValueSerializerContext)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function CanConvertFromString (value As String, context As IValueSerializerContext) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool CanConvertFromString(System::String ^ value, System::Windows::Markup::IValueSerializerContext ^ context);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xaml</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.String" />
+        <Parameter Name="context" Type="System.Windows.Markup.IValueSerializerContext" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="78110-119">Cadena que se va a evaluar para la conversión.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-119">The string to evaluate for conversion.</span>
+          </span>
+        </param>
+        <param name="context">
+          <span data-ttu-id="78110-120">Información contextual usada para la conversión.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-120">Context information that is used for conversion.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="78110-121">Si se reemplaza en una clase derivada, determina si el elemento <see cref="T:System.String" /> especificado se puede convertir en una instancia del tipo que admite la implementación de <see cref="T:System.Windows.Markup.ValueSerializer" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-121">When overridden in a derived class, determines whether the specified <see cref="T:System.String" /> can be converted to an instance of the type that the implementation of <see cref="T:System.Windows.Markup.ValueSerializer" /> supports.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="78110-122">
+            <see langword="true" /> si el valor se puede convertir; de lo contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-122">
+              <see langword="true" /> if the value can be converted; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="78110-123">La implementación base siempre devuelve `false`.</span><span class="sxs-lookup"><span data-stu-id="78110-123">The base implementation always returns `false`.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CanConvertToString">
+      <MemberSignature Language="C#" Value="public virtual bool CanConvertToString (object value, System.Windows.Markup.IValueSerializerContext context);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool CanConvertToString(object value, class System.Windows.Markup.IValueSerializerContext context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Markup.ValueSerializer.CanConvertToString(System.Object,System.Windows.Markup.IValueSerializerContext)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function CanConvertToString (value As Object, context As IValueSerializerContext) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool CanConvertToString(System::Object ^ value, System::Windows::Markup::IValueSerializerContext ^ context);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xaml</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.Object" />
+        <Parameter Name="context" Type="System.Windows.Markup.IValueSerializerContext" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="78110-124">Objeto que se va a evaluar para la conversión.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-124">The object to evaluate for conversion.</span>
+          </span>
+        </param>
+        <param name="context">
+          <span data-ttu-id="78110-125">Información contextual usada para la conversión.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-125">Context information that is used for conversion.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="78110-126">Si se reemplaza en una clase derivada, determina si el objeto especificado se puede convertir en una <see cref="T:System.String" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-126">When overridden in a derived class, determines whether the specified object can be converted into a <see cref="T:System.String" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="78110-127">
+            <see langword="true" /> si <paramref name="value" /> se puede convertir en <see cref="T:System.String" />; en caso contrario, <see langword="false." />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-127">
+              <see langword="true" /> if the <paramref name="value" /> can be converted into a <see cref="T:System.String" />; otherwise, <see langword="false." /></span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="78110-128">La implementación base siempre devuelve `false`.</span><span class="sxs-lookup"><span data-stu-id="78110-128">The base implementation always returns `false`.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ConvertFromString">
+      <MemberSignature Language="C#" Value="public virtual object ConvertFromString (string value, System.Windows.Markup.IValueSerializerContext context);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance object ConvertFromString(string value, class System.Windows.Markup.IValueSerializerContext context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Markup.ValueSerializer.ConvertFromString(System.String,System.Windows.Markup.IValueSerializerContext)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function ConvertFromString (value As String, context As IValueSerializerContext) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Object ^ ConvertFromString(System::String ^ value, System::Windows::Markup::IValueSerializerContext ^ context);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xaml</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.String" />
+        <Parameter Name="context" Type="System.Windows.Markup.IValueSerializerContext" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="78110-129">Cadena que se va a convertir.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-129">The string to convert.</span>
+          </span>
+        </param>
+        <param name="context">
+          <span data-ttu-id="78110-130">Información contextual usada para la conversión.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-130">Context information that is used for conversion.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="78110-131">Si se reemplaza en una clase derivada, convierte una <see cref="T:System.String" /> en una instancia del tipo que la implementación de <see cref="T:System.Windows.Markup.ValueSerializer" /> admite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-131">When overridden in a derived class, converts a <see cref="T:System.String" /> to an instance of the type that the implementation of <see cref="T:System.Windows.Markup.ValueSerializer" /> supports.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="78110-132">Nueva instancia del tipo que la implementación de <see cref="T:System.Windows.Markup.ValueSerializer" /> admite basada en el <paramref name="value" /> proporcionado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-132">A new instance of the type that the implementation of <see cref="T:System.Windows.Markup.ValueSerializer" /> supports based on the supplied <paramref name="value" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="78110-133">La implementación base siempre produce una excepción.</span><span class="sxs-lookup"><span data-stu-id="78110-133">The base implementation always throws an exception.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NotSupportedException">
+          <span data-ttu-id="78110-134">
+            <paramref name="value" /> no se puede convertir.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-134">
+              <paramref name="value" /> cannot be converted.</span>
+          </span>
+        </exception>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="78110-135">Evitar producir excepciones de las implementaciones.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="78110-135">Avoid throwing exceptions from implementations.</span>
+            </span>
+            <span data-ttu-id="78110-136">Vea <see cref="T:System.Windows.Markup.ValueSerializer" />.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="78110-136">See <see cref="T:System.Windows.Markup.ValueSerializer" />.</span>
+            </span>
+          </para>
+        </block>
+      </Docs>
+    </Member>
+    <Member MemberName="ConvertToString">
+      <MemberSignature Language="C#" Value="public virtual string ConvertToString (object value, System.Windows.Markup.IValueSerializerContext context);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance string ConvertToString(object value, class System.Windows.Markup.IValueSerializerContext context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Markup.ValueSerializer.ConvertToString(System.Object,System.Windows.Markup.IValueSerializerContext)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function ConvertToString (value As Object, context As IValueSerializerContext) As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::String ^ ConvertToString(System::Object ^ value, System::Windows::Markup::IValueSerializerContext ^ context);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xaml</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.Object" />
+        <Parameter Name="context" Type="System.Windows.Markup.IValueSerializerContext" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="78110-137">Objeto que se va a convertir en una cadena.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-137">The object to convert into a string.</span>
+          </span>
+        </param>
+        <param name="context">
+          <span data-ttu-id="78110-138">Información contextual usada para la conversión.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-138">Context information that is used for conversion.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="78110-139">Si se reemplaza en una clase derivada, convierte el objeto especificado en una <see cref="T:System.String" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-139">When overridden in a derived class, converts the specified object to a <see cref="T:System.String" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="78110-140">Representación de cadena del objeto especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-140">A string representation of the specified object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="78110-141">La implementación base siempre produce una excepción.</span><span class="sxs-lookup"><span data-stu-id="78110-141">The base implementation always throws an exception.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NotSupportedException">
+          <span data-ttu-id="78110-142">
+            <paramref name="value" /> no se puede convertir.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-142">
+              <paramref name="value" /> cannot be converted.</span>
+          </span>
+        </exception>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="78110-143">Evitar producir excepciones de las implementaciones.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="78110-143">Avoid throwing exceptions from implementations.</span>
+            </span>
+            <span data-ttu-id="78110-144">Vea <see cref="T:System.Windows.Markup.ValueSerializer" />.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="78110-144">See <see cref="T:System.Windows.Markup.ValueSerializer" />.</span>
+            </span>
+          </para>
+        </block>
+      </Docs>
+    </Member>
+    <Member MemberName="GetConvertFromException">
+      <MemberSignature Language="C#" Value="protected Exception GetConvertFromException (object value);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance class System.Exception GetConvertFromException(object value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Markup.ValueSerializer.GetConvertFromException(System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Protected Function GetConvertFromException (value As Object) As Exception" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; Exception ^ GetConvertFromException(System::Object ^ value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xaml</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Exception</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="78110-145">Objeto que no se pudo convertir.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-145">The object that could not be converted.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="78110-146">Devuelve una excepción que se debe iniciar cuando no se puede realizar una conversión.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-146">Returns an exception to throw when a conversion cannot be performed.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="78110-147">Objeto <see cref="T:System.Exception" /> de la excepción que se va a iniciar cuando no se pueda realizar una conversión <see langword="ConvertFrom" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-147">An <see cref="T:System.Exception" /> object for the exception to throw when a <see langword="ConvertFrom" /> conversion cannot be performed.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="78110-148">Los datos reales `throw` palabra clave no se invoca este método, por lo tanto, lo normal es `throw GetConvertFromException` (con parámetros proporcionan).</span><span class="sxs-lookup"><span data-stu-id="78110-148">The actual `throw` keyword is not invoked by this method, therefore the typical usage is `throw GetConvertFromException` (with parameters provided).</span></span>  
+  
+ <span data-ttu-id="78110-149">La excepción concreta devuelto es <xref:System.InvalidOperationException>, con `value` pasa el mensaje de excepción.</span><span class="sxs-lookup"><span data-stu-id="78110-149">The specific exception returned is <xref:System.InvalidOperationException>, with `value` passed in the exception message.</span></span> <span data-ttu-id="78110-150">El patrón de uso es el mismo que las utilidades de excepción en <xref:System.ComponentModel.TypeConverter>.</span><span class="sxs-lookup"><span data-stu-id="78110-150">The pattern for usage is the same as for exception utilities in <xref:System.ComponentModel.TypeConverter>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetConvertToException">
+      <MemberSignature Language="C#" Value="protected Exception GetConvertToException (object value, Type destinationType);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance class System.Exception GetConvertToException(object value, class System.Type destinationType) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Markup.ValueSerializer.GetConvertToException(System.Object,System.Type)" />
+      <MemberSignature Language="VB.NET" Value="Protected Function GetConvertToException (value As Object, destinationType As Type) As Exception" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; Exception ^ GetConvertToException(System::Object ^ value, Type ^ destinationType);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xaml</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Exception</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.Object" />
+        <Parameter Name="destinationType" Type="System.Type" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="78110-151">Objeto que no se pudo convertir.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-151">The object that could not be converted.</span>
+          </span>
+        </param>
+        <param name="destinationType">
+          <span data-ttu-id="78110-152">Tipo que representa el tipo al que la conversión se intentaba convertir.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-152">A type that represents the type the conversion was trying to convert to.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="78110-153">Devuelve una excepción que se debe iniciar cuando no se puede realizar una conversión.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-153">Returns an exception to throw when a conversion cannot be performed.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="78110-154">Objeto <see cref="T:System.Exception" /> de la excepción que se va a iniciar cuando no se pueda realizar una conversión <see langword="ConvertTo" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-154">An <see cref="T:System.Exception" /> object for the exception to throw when a <see langword="ConvertTo" /> conversion cannot be performed.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="78110-155">Los datos reales `throw` palabra clave no se invoca este método, por lo tanto, lo normal es `throw GetConvertToException` (con `value` parámetro proporcionado).</span><span class="sxs-lookup"><span data-stu-id="78110-155">The actual `throw` keyword is not invoked by this method, therefore the typical usage is `throw GetConvertToException` (with `value` parameter provided).</span></span>  
+  
+ <span data-ttu-id="78110-156">La excepción concreta devuelto es <xref:System.InvalidOperationException>, con `value` pasa el mensaje de excepción.</span><span class="sxs-lookup"><span data-stu-id="78110-156">The specific exception returned is <xref:System.InvalidOperationException>, with `value` passed in the exception message.</span></span> <span data-ttu-id="78110-157">El patrón de uso es el mismo que las utilidades de excepción en <xref:System.ComponentModel.TypeConverter>.</span><span class="sxs-lookup"><span data-stu-id="78110-157">The pattern for usage is the same as for exception utilities in <xref:System.ComponentModel.TypeConverter>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="GetSerializerFor">
+      <AssemblyInfo>
+        <AssemblyName>System.Xaml</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="78110-158">Obtiene el serializador <see cref="T:System.Windows.Markup.ValueSerializer" /> de un objeto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-158">Gets the <see cref="T:System.Windows.Markup.ValueSerializer" /> for an object.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="GetSerializerFor">
+      <MemberSignature Language="C#" Value="public static System.Windows.Markup.ValueSerializer GetSerializerFor (System.ComponentModel.PropertyDescriptor descriptor);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Windows.Markup.ValueSerializer GetSerializerFor(class System.ComponentModel.PropertyDescriptor descriptor) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Markup.ValueSerializer.GetSerializerFor(System.ComponentModel.PropertyDescriptor)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function GetSerializerFor (descriptor As PropertyDescriptor) As ValueSerializer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Windows::Markup::ValueSerializer ^ GetSerializerFor(System::ComponentModel::PropertyDescriptor ^ descriptor);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xaml</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Markup.ValueSerializer</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="descriptor" Type="System.ComponentModel.PropertyDescriptor" />
+      </Parameters>
+      <Docs>
+        <param name="descriptor">
+          <span data-ttu-id="78110-159">El descriptor de propiedad CLR para la propiedad que se va a serializar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-159">The CLR property descriptor for the property to be serialized.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="78110-160">Obtiene el serializador <see cref="T:System.Windows.Markup.ValueSerializer" /> declarado de una propiedad pasando un descriptor de propiedad de CLR para la propiedad.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-160">Gets the <see cref="T:System.Windows.Markup.ValueSerializer" /> declared for a property, by passing a CLR property descriptor for the property.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="78110-161">Serializador asociado a la propiedad especificada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-161">The serializer associated with the specified property.</span>
+          </span>
+          <span data-ttu-id="78110-162">Puede devolver <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-162">May return <see langword="null" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="78110-163">A <xref:System.Windows.Markup.ValueSerializer> para una propiedad o para un tipo que se utiliza como el valor de una propiedad, se indica mediante la aplicación de la <xref:System.Windows.Markup.ValueSerializerAttribute> atributo en la declaración de propiedad o un tipo.</span><span class="sxs-lookup"><span data-stu-id="78110-163">A <xref:System.Windows.Markup.ValueSerializer> for a property, or for a type that is used as the value for a property, is indicated by applying the <xref:System.Windows.Markup.ValueSerializerAttribute> attribute on the property or type declaration.</span></span> <span data-ttu-id="78110-164">El <xref:System.Windows.Markup.ValueSerializer.GetSerializerFor%2A> método es un método de utilidad que lee la información de sistema de tipos CLR y devuelve un nuevo <xref:System.Windows.Markup.ValueSerializer> clase basada en el atributo si se encuentra en la propiedad y, a continuación, si se encuentra en el tipo de propiedad.</span><span class="sxs-lookup"><span data-stu-id="78110-164">The <xref:System.Windows.Markup.ValueSerializer.GetSerializerFor%2A> method is a utility method that reads the CLR type system information and returns a new <xref:System.Windows.Markup.ValueSerializer> class based on the attribute if found on the property, or then if found on the property's type.</span></span> <span data-ttu-id="78110-165">`null` se podrían devolver si no existiera el serializador.</span><span class="sxs-lookup"><span data-stu-id="78110-165">`null` might be returned if no such serializer exists.</span></span> <span data-ttu-id="78110-166">`null` También podría mostrarse si un tipo o una propiedad se atribuye deliberadamente con un valor null <xref:System.Windows.Markup.ValueSerializerAttribute>.</span><span class="sxs-lookup"><span data-stu-id="78110-166">`null` might also be returned if a type or property is deliberately attributed with a null-value <xref:System.Windows.Markup.ValueSerializerAttribute>.</span></span>  
+  
+ <span data-ttu-id="78110-167">Otro modo que <xref:System.Windows.Markup.ValueSerializer.GetSerializerFor%2A> admite está devolviendo interno `TypeConverterValueSerializer` (clase), que es un <xref:System.Windows.Markup.ValueSerializer> implementación que contiene un <xref:System.ComponentModel.TypeConverter> y traduce el `Convert` métodos para `Convert*String` métodos (para la instancia <xref:System.ComponentModel.TypeConverter.ConvertTo%2A?displayProperty=nameWithType> se llama con una entrada de la <xref:System.String> escriba y se convierte en <xref:System.Windows.Markup.ValueSerializer.ConvertToString%2A>.</span><span class="sxs-lookup"><span data-stu-id="78110-167">Another mode that <xref:System.Windows.Markup.ValueSerializer.GetSerializerFor%2A> supports is returning the internal `TypeConverterValueSerializer` class, which is a <xref:System.Windows.Markup.ValueSerializer> implementation that wraps a <xref:System.ComponentModel.TypeConverter> and translates the `Convert` methods to `Convert*String` methods (for instance <xref:System.ComponentModel.TypeConverter.ConvertTo%2A?displayProperty=nameWithType> is called with input of the <xref:System.String> type, and translates to <xref:System.Windows.Markup.ValueSerializer.ConvertToString%2A>.</span></span> <span data-ttu-id="78110-168">Esto se realiza solo en casos donde todos los elementos siguientes son verdaderas:</span><span class="sxs-lookup"><span data-stu-id="78110-168">This is done only in cases where all of the following are true:</span></span>  
+  
+-   <span data-ttu-id="78110-169">A <xref:System.ComponentModel.TypeConverterAttribute> se encuentra en la propiedad pertinente o el tipo de la propiedad relevante.</span><span class="sxs-lookup"><span data-stu-id="78110-169">A <xref:System.ComponentModel.TypeConverterAttribute> is found on the relevant property, or the relevant property's type.</span></span>  
+  
+-   <span data-ttu-id="78110-170">El functoid <xref:System.ComponentModel.TypeConverter> se puede construir correctamente.</span><span class="sxs-lookup"><span data-stu-id="78110-170">The indicated <xref:System.ComponentModel.TypeConverter> can be successfully constructed.</span></span>  
+  
+-   <span data-ttu-id="78110-171">El <xref:System.ComponentModel.TypeConverter> devuelve `true` para <xref:System.ComponentModel.TypeConverter.ConvertTo%2A?displayProperty=nameWithType>, llamado que hacen referencia a la <xref:System.String> tipo.</span><span class="sxs-lookup"><span data-stu-id="78110-171">The <xref:System.ComponentModel.TypeConverter> returns `true` for <xref:System.ComponentModel.TypeConverter.ConvertTo%2A?displayProperty=nameWithType>, called referencing the <xref:System.String> type.</span></span>  
+  
+-   <span data-ttu-id="78110-172">El <xref:System.ComponentModel.TypeConverter> devuelve `true` para <xref:System.ComponentModel.TypeConverter.CanConvertTo%2A?displayProperty=nameWithType>, llamado que hacen referencia a la <xref:System.String> tipo.</span><span class="sxs-lookup"><span data-stu-id="78110-172">The <xref:System.ComponentModel.TypeConverter> returns `true` for <xref:System.ComponentModel.TypeConverter.CanConvertTo%2A?displayProperty=nameWithType>, called referencing the <xref:System.String> type.</span></span>  
+  
+-   <span data-ttu-id="78110-173">El <xref:System.ComponentModel.TypeConverter> devuelve `true` para <xref:System.ComponentModel.TypeConverter.CanConvertFrom%2A?displayProperty=nameWithType>, llamado que hacen referencia a la <xref:System.String> tipo.</span><span class="sxs-lookup"><span data-stu-id="78110-173">The <xref:System.ComponentModel.TypeConverter> returns `true` for <xref:System.ComponentModel.TypeConverter.CanConvertFrom%2A?displayProperty=nameWithType>, called referencing the <xref:System.String> type.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="78110-174">Los siguientes son casos especiales: <xref:System.DateTime> tipos devuelven un <xref:System.Windows.Markup.DateTimeValueSerializer>; <xref:System.String> tipos devuelven un serializador interno pero funcional (`StringValueSerializer`).</span><span class="sxs-lookup"><span data-stu-id="78110-174">The following are special cases: <xref:System.DateTime> types return a <xref:System.Windows.Markup.DateTimeValueSerializer>; <xref:System.String> types return an internal but functional serializer (`StringValueSerializer`).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="78110-175">
+            <paramref name="descriptor" /> es <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-175">
+              <paramref name="descriptor" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetSerializerFor">
+      <MemberSignature Language="C#" Value="public static System.Windows.Markup.ValueSerializer GetSerializerFor (Type type);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Windows.Markup.ValueSerializer GetSerializerFor(class System.Type type) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Markup.ValueSerializer.GetSerializerFor(System.Type)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Windows::Markup::ValueSerializer ^ GetSerializerFor(Type ^ type);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xaml</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Markup.ValueSerializer</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="type" Type="System.Type" />
+      </Parameters>
+      <Docs>
+        <param name="type">
+          <span data-ttu-id="78110-176">Tipo para el que se va a obtener el serializador <see cref="T:System.Windows.Markup.ValueSerializer" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-176">The type to get the <see cref="T:System.Windows.Markup.ValueSerializer" /> for.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="78110-177">Obtiene el serializador <see cref="T:System.Windows.Markup.ValueSerializer" /> declarado para el tipo especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-177">Gets the <see cref="T:System.Windows.Markup.ValueSerializer" /> declared for the specified type.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="78110-178">Serializador asociado al tipo especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-178">The serializer associated with the specified type.</span>
+          </span>
+          <span data-ttu-id="78110-179">Puede devolver <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-179">May return <see langword="null" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="78110-180">A <xref:System.Windows.Markup.ValueSerializer> para un tipo se indica aplicando el <xref:System.Windows.Markup.ValueSerializerAttribute> atributo en la declaración de tipos.</span><span class="sxs-lookup"><span data-stu-id="78110-180">A <xref:System.Windows.Markup.ValueSerializer> for a type is indicated by applying the <xref:System.Windows.Markup.ValueSerializerAttribute> attribute on the type declaration.</span></span> <span data-ttu-id="78110-181">El <xref:System.Windows.Markup.ValueSerializer.GetSerializerFor%2A> método es un método de utilidad que lee la información de sistema de tipos CLR y devuelve un nuevo <xref:System.Windows.Markup.ValueSerializer> clase basada en el atributo si se encuentra en las clases `type`.</span><span class="sxs-lookup"><span data-stu-id="78110-181">The <xref:System.Windows.Markup.ValueSerializer.GetSerializerFor%2A> method is a utility method that reads the CLR type system information and returns a new <xref:System.Windows.Markup.ValueSerializer> class based on the attribute if found on the specified `type`.</span></span> <span data-ttu-id="78110-182">`null` se podrían devolver si no existiera el serializador.</span><span class="sxs-lookup"><span data-stu-id="78110-182">`null` might be returned if no such serializer exists.</span></span> <span data-ttu-id="78110-183">`null` También podría mostrarse si un tipo tiene el atributo deliberadamente con un valor null <xref:System.Windows.Markup.ValueSerializerAttribute>.</span><span class="sxs-lookup"><span data-stu-id="78110-183">`null` might also be returned if a type is deliberately attributed with a null-value <xref:System.Windows.Markup.ValueSerializerAttribute>.</span></span>  
+  
+ <span data-ttu-id="78110-184">Otro modo que <xref:System.Windows.Markup.ValueSerializer.GetSerializerFor%2A> admite está devolviendo interno `TypeConverterValueSerializer` (clase), que es un <xref:System.Windows.Markup.ValueSerializer> implementación que contiene un <xref:System.ComponentModel.TypeConverter> y traduce el `Convert` métodos para `Convert*String` métodos (para la instancia <xref:System.ComponentModel.TypeConverter.ConvertTo%2A?displayProperty=nameWithType> se llama con una entrada de la <xref:System.String> escriba y se convierte en <xref:System.Windows.Markup.ValueSerializer.ConvertToString%2A>.</span><span class="sxs-lookup"><span data-stu-id="78110-184">Another mode that <xref:System.Windows.Markup.ValueSerializer.GetSerializerFor%2A> supports is returning the internal `TypeConverterValueSerializer` class, which is a <xref:System.Windows.Markup.ValueSerializer> implementation that wraps a <xref:System.ComponentModel.TypeConverter> and translates the `Convert` methods to `Convert*String` methods (for instance <xref:System.ComponentModel.TypeConverter.ConvertTo%2A?displayProperty=nameWithType> is called with input of the <xref:System.String> type, and translates to <xref:System.Windows.Markup.ValueSerializer.ConvertToString%2A>.</span></span> <span data-ttu-id="78110-185">Esto se realiza solo en casos donde todos los elementos siguientes son verdaderas:</span><span class="sxs-lookup"><span data-stu-id="78110-185">This is done only in cases where all of the following are true:</span></span>  
+  
+-   <span data-ttu-id="78110-186">A <xref:System.ComponentModel.TypeConverterAttribute> se encuentra en `type`.</span><span class="sxs-lookup"><span data-stu-id="78110-186">A <xref:System.ComponentModel.TypeConverterAttribute> is found on `type`.</span></span>  
+  
+-   <span data-ttu-id="78110-187">El functoid <xref:System.ComponentModel.TypeConverter> se puede construir correctamente.</span><span class="sxs-lookup"><span data-stu-id="78110-187">The indicated <xref:System.ComponentModel.TypeConverter> can be successfully constructed.</span></span>  
+  
+-   <span data-ttu-id="78110-188">El <xref:System.ComponentModel.TypeConverter> devuelve `true` para <xref:System.ComponentModel.TypeConverter.ConvertTo%2A?displayProperty=nameWithType>, llamado que hacen referencia a la <xref:System.String> tipo.</span><span class="sxs-lookup"><span data-stu-id="78110-188">The <xref:System.ComponentModel.TypeConverter> returns `true` for <xref:System.ComponentModel.TypeConverter.ConvertTo%2A?displayProperty=nameWithType>, called referencing the <xref:System.String> type.</span></span>  
+  
+-   <span data-ttu-id="78110-189">El <xref:System.ComponentModel.TypeConverter> devuelve `true` para <xref:System.ComponentModel.TypeConverter.CanConvertTo%2A?displayProperty=nameWithType>, llamado que hacen referencia a la <xref:System.String> tipo.</span><span class="sxs-lookup"><span data-stu-id="78110-189">The <xref:System.ComponentModel.TypeConverter> returns `true` for <xref:System.ComponentModel.TypeConverter.CanConvertTo%2A?displayProperty=nameWithType>, called referencing the <xref:System.String> type.</span></span>  
+  
+-   <span data-ttu-id="78110-190">El <xref:System.ComponentModel.TypeConverter> devuelve `true` para <xref:System.ComponentModel.TypeConverter.CanConvertFrom%2A?displayProperty=nameWithType>, llamado que hacen referencia a la <xref:System.String> tipo.</span><span class="sxs-lookup"><span data-stu-id="78110-190">The <xref:System.ComponentModel.TypeConverter> returns `true` for <xref:System.ComponentModel.TypeConverter.CanConvertFrom%2A?displayProperty=nameWithType>, called referencing the <xref:System.String> type.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="78110-191">Los siguientes son casos especiales: <xref:System.DateTime> tipos devuelven un <xref:System.Windows.Markup.DateTimeValueSerializer>; <xref:System.String> tipos devuelven un serializador interno pero funcional (`StringValueSerializer`).</span><span class="sxs-lookup"><span data-stu-id="78110-191">The following are special cases: <xref:System.DateTime> types return a <xref:System.Windows.Markup.DateTimeValueSerializer>; <xref:System.String> types return an internal but functional serializer (`StringValueSerializer`).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="78110-192">
+            <paramref name="type" /> es <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-192">
+              <paramref name="type" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetSerializerFor">
+      <MemberSignature Language="C#" Value="public static System.Windows.Markup.ValueSerializer GetSerializerFor (System.ComponentModel.PropertyDescriptor descriptor, System.Windows.Markup.IValueSerializerContext context);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Windows.Markup.ValueSerializer GetSerializerFor(class System.ComponentModel.PropertyDescriptor descriptor, class System.Windows.Markup.IValueSerializerContext context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Markup.ValueSerializer.GetSerializerFor(System.ComponentModel.PropertyDescriptor,System.Windows.Markup.IValueSerializerContext)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function GetSerializerFor (descriptor As PropertyDescriptor, context As IValueSerializerContext) As ValueSerializer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Windows::Markup::ValueSerializer ^ GetSerializerFor(System::ComponentModel::PropertyDescriptor ^ descriptor, System::Windows::Markup::IValueSerializerContext ^ context);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xaml</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Markup.ValueSerializer</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="descriptor" Type="System.ComponentModel.PropertyDescriptor" />
+        <Parameter Name="context" Type="System.Windows.Markup.IValueSerializerContext" />
+      </Parameters>
+      <Docs>
+        <param name="descriptor">
+          <span data-ttu-id="78110-193">Descriptor de la propiedad que se va a serializar.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-193">Descriptor for the property to be serialized.</span>
+          </span>
+        </param>
+        <param name="context">
+          <span data-ttu-id="78110-194">Información contextual usada para la conversión.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-194">Context information that is used for conversion.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="78110-195">Obtiene el serializador <see cref="T:System.Windows.Markup.ValueSerializer" /> declarado para la propiedad especificada, utilizando el contexto especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-195">Gets the <see cref="T:System.Windows.Markup.ValueSerializer" /> declared for the specified property, using the specified context.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="78110-196">Serializador asociado a la propiedad especificada.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-196">The serializer associated with the specified property.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="78110-197">En lugar de confiar exclusivamente en notifican los atributos en el sistema de tipos CLR, esta sobrecarga utiliza el `context` como un servicio y llama a la implementación del servicio de <xref:System.Windows.Markup.IValueSerializerContext.GetValueSerializerFor%2A?displayProperty=nameWithType>.</span><span class="sxs-lookup"><span data-stu-id="78110-197">Rather than relying purely on attributes reported in the CLR type system, this overload uses the `context` as a service, and calls the service's implementation of <xref:System.Windows.Markup.IValueSerializerContext.GetValueSerializerFor%2A?displayProperty=nameWithType>.</span></span> <span data-ttu-id="78110-198">El <xref:System.Windows.Markup.IValueSerializerContext.GetValueSerializerFor%2A?displayProperty=nameWithType> implementación confiaría normalmente también en el `descriptor`, pero podría implementar un comportamiento especial en ciertos contextos.</span><span class="sxs-lookup"><span data-stu-id="78110-198">The <xref:System.Windows.Markup.IValueSerializerContext.GetValueSerializerFor%2A?displayProperty=nameWithType> implementation would typically also rely on the `descriptor`, but might implement special behavior for certain contexts.</span></span>  
+  
+ <span data-ttu-id="78110-199">Debe llamar a este método cuando el llamador tiene una disposición <xref:System.Windows.Markup.IValueSerializerContext> de un servicio.</span><span class="sxs-lookup"><span data-stu-id="78110-199">This method should be called when the caller has an available <xref:System.Windows.Markup.IValueSerializerContext> from a service.</span></span>  <span data-ttu-id="78110-200">Esto garantizará que el valor correcto <xref:System.Windows.Markup.ValueSerializer> se devuelve para el contexto especificado.</span><span class="sxs-lookup"><span data-stu-id="78110-200">This will ensure that the correct <xref:System.Windows.Markup.ValueSerializer> is returned for the specific context.</span></span>  
+  
+ <span data-ttu-id="78110-201">Si el contexto devuelve `null` desde su <xref:System.Windows.Markup.IValueSerializerContext.GetValueSerializerFor%2A?displayProperty=nameWithType> para el elemento especificado `descriptor`, o si el contexto se especifica es `null`, a continuación, el comportamiento es idéntico a llamar a la <xref:System.Windows.Markup.ValueSerializer.GetSerializerFor%28System.ComponentModel.PropertyDescriptor%29> sobrecarga.</span><span class="sxs-lookup"><span data-stu-id="78110-201">If the context returns `null` from its <xref:System.Windows.Markup.IValueSerializerContext.GetValueSerializerFor%2A?displayProperty=nameWithType> for your specified `descriptor`, or if the context you specify is `null`, then behavior is identical to calling the <xref:System.Windows.Markup.ValueSerializer.GetSerializerFor%28System.ComponentModel.PropertyDescriptor%29> overload.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="78110-202">
+            <paramref name="descriptor" /> es <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-202">
+              <paramref name="descriptor" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetSerializerFor">
+      <MemberSignature Language="C#" Value="public static System.Windows.Markup.ValueSerializer GetSerializerFor (Type type, System.Windows.Markup.IValueSerializerContext context);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Windows.Markup.ValueSerializer GetSerializerFor(class System.Type type, class System.Windows.Markup.IValueSerializerContext context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Markup.ValueSerializer.GetSerializerFor(System.Type,System.Windows.Markup.IValueSerializerContext)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Windows::Markup::ValueSerializer ^ GetSerializerFor(Type ^ type, System::Windows::Markup::IValueSerializerContext ^ context);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xaml</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Markup.ValueSerializer</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="type" Type="System.Type" />
+        <Parameter Name="context" Type="System.Windows.Markup.IValueSerializerContext" />
+      </Parameters>
+      <Docs>
+        <param name="type">
+          <span data-ttu-id="78110-203">Tipo para el que se va a obtener el serializador <see cref="T:System.Windows.Markup.ValueSerializer" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-203">The type to get the <see cref="T:System.Windows.Markup.ValueSerializer" /> for.</span>
+          </span>
+        </param>
+        <param name="context">
+          <span data-ttu-id="78110-204">Información contextual usada para la conversión.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-204">Context information that is used for conversion.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="78110-205">Obtiene el serializador <see cref="T:System.Windows.Markup.ValueSerializer" /> declarado para el tipo especificado que utiliza el contexto indicado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-205">Gets the <see cref="T:System.Windows.Markup.ValueSerializer" /> declared for the specified type, using the specified context.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="78110-206">Serializador asociado al tipo especificado.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-206">The serializer associated with the specified type.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="78110-207">En lugar de confiar exclusivamente en notifican los atributos en el sistema de tipos CLR, esta sobrecarga utiliza el `context` como un servicio y llama a la implementación del servicio de <xref:System.Windows.Markup.IValueSerializerContext.GetValueSerializerFor%2A?displayProperty=nameWithType>.</span><span class="sxs-lookup"><span data-stu-id="78110-207">Rather than relying purely on attributes reported in the CLR type system, this overload uses the `context` as a service, and calls the service's implementation of <xref:System.Windows.Markup.IValueSerializerContext.GetValueSerializerFor%2A?displayProperty=nameWithType>.</span></span> <span data-ttu-id="78110-208">El <xref:System.Windows.Markup.IValueSerializerContext.GetValueSerializerFor%2A?displayProperty=nameWithType> implementación confiaría normalmente también en el `type`, pero podría implementar un comportamiento especial en ciertos contextos.</span><span class="sxs-lookup"><span data-stu-id="78110-208">The <xref:System.Windows.Markup.IValueSerializerContext.GetValueSerializerFor%2A?displayProperty=nameWithType> implementation would typically also rely on the `type`, but might implement special behavior for certain contexts.</span></span>  
+  
+ <span data-ttu-id="78110-209">Debe llamar a este método cuando el llamador tiene una disposición <xref:System.Windows.Markup.IValueSerializerContext> de un servicio.</span><span class="sxs-lookup"><span data-stu-id="78110-209">This method should be called when the caller has an available <xref:System.Windows.Markup.IValueSerializerContext> from a service.</span></span> <span data-ttu-id="78110-210">Esto garantizará que el valor correcto <xref:System.Windows.Markup.ValueSerializer> se devuelve para el contexto especificado.</span><span class="sxs-lookup"><span data-stu-id="78110-210">This will ensure that the correct <xref:System.Windows.Markup.ValueSerializer> is returned for the specific context.</span></span>  
+  
+ <span data-ttu-id="78110-211">Si el contexto devuelve `null` desde su <xref:System.Windows.Markup.IValueSerializerContext.GetValueSerializerFor%2A?displayProperty=nameWithType> para el elemento especificado `type`, o si el contexto se especifica es `null`, a continuación, el comportamiento es idéntico a llamar a la <xref:System.Windows.Markup.ValueSerializer.GetSerializerFor%28System.Type%29> sobrecarga.</span><span class="sxs-lookup"><span data-stu-id="78110-211">If the context returns `null` from its <xref:System.Windows.Markup.IValueSerializerContext.GetValueSerializerFor%2A?displayProperty=nameWithType> for your specified `type`, or if the context you specify is `null`, then behavior is identical to calling the <xref:System.Windows.Markup.ValueSerializer.GetSerializerFor%28System.Type%29> overload.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="78110-212">
+            <paramref name="type" /> es <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-212">
+              <paramref name="type" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="TypeReferences">
+      <MemberSignature Language="C#" Value="public virtual System.Collections.Generic.IEnumerable&lt;Type&gt; TypeReferences (object value, System.Windows.Markup.IValueSerializerContext context);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Collections.Generic.IEnumerable`1&lt;class System.Type&gt; TypeReferences(object value, class System.Windows.Markup.IValueSerializerContext context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Markup.ValueSerializer.TypeReferences(System.Object,System.Windows.Markup.IValueSerializerContext)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function TypeReferences (value As Object, context As IValueSerializerContext) As IEnumerable(Of Type)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Collections::Generic::IEnumerable&lt;Type ^&gt; ^ TypeReferences(System::Object ^ value, System::Windows::Markup::IValueSerializerContext ^ context);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xaml</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.Generic.IEnumerable&lt;System.Type&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.Object" />
+        <Parameter Name="context" Type="System.Windows.Markup.IValueSerializerContext" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="78110-213">Valor que se serializa.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-213">The value being serialized.</span>
+          </span>
+        </param>
+        <param name="context">
+          <span data-ttu-id="78110-214">Información contextual usada para la conversión.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-214">Context information that is used for conversion.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="78110-215">Obtiene una enumeración de los tipos a los que hace referencia <see cref="T:System.Windows.Markup.ValueSerializer" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-215">Gets an enumeration of the types referenced by the <see cref="T:System.Windows.Markup.ValueSerializer" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="78110-216">Tipos convertidos por este serializador.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="78110-216">The types converted by this serializer.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="78110-217">Los tipos de un <xref:System.Windows.Markup.ValueSerializer> convierte debe incluirse en la enumeración devuelta.</span><span class="sxs-lookup"><span data-stu-id="78110-217">Any types a <xref:System.Windows.Markup.ValueSerializer> converts should be included in the returned enumeration.</span></span>  <span data-ttu-id="78110-218">Esto permite a un serializador para asegurarse de que un deserializador tiene suficiente información acerca de los tipos que este serializador convierte.</span><span class="sxs-lookup"><span data-stu-id="78110-218">This allows a serializer to ensure a de-serializer has enough information about the types this serializer converts.</span></span>  
+  
+ <span data-ttu-id="78110-219">Invalidación de este método es un escenario avanzado.</span><span class="sxs-lookup"><span data-stu-id="78110-219">Overriding this method is an advanced scenario.</span></span> <span data-ttu-id="78110-220">Invalidar solo debería ser necesario si va a implementar un sistema donde CLR tipo sistema ownertype las relaciones y propiedades disponibles para un contexto de esquema XAML no notifican suficiente información.</span><span class="sxs-lookup"><span data-stu-id="78110-220">Overriding should only be necessary if you are implementing a system where CLR type system ownertype-property relationships available to a XAML schema context do not report enough information.</span></span>  
+  
+## <a name="wpf-usage-notes"></a><span data-ttu-id="78110-221">Notas de uso de WPF</span><span class="sxs-lookup"><span data-stu-id="78110-221">WPF Usage Notes</span></span>  
+ <span data-ttu-id="78110-222">El [!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)] sistema de propiedad implementa un serializador de valor interno que invalida <xref:System.Windows.Markup.ValueSerializer.TypeReferences%2A> debido a una propiedad de dependencia tiene un concepto que puede haber agregado propietarios.</span><span class="sxs-lookup"><span data-stu-id="78110-222">The [!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)] property system implements an internal value serializer that overrides <xref:System.Windows.Markup.ValueSerializer.TypeReferences%2A> because a dependency property has a concept that it can have added owners.</span></span> [!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)]<span data-ttu-id="78110-223"> las expresiones también tienen control interno especial.</span><span class="sxs-lookup"><span data-stu-id="78110-223"> expressions also have special internal handling.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
