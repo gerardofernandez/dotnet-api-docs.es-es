@@ -1,0 +1,1 @@
+<span data-ttu-id="2df10-101">Este miembro es compatible con la infraestructura de .NET Framework y no debe utilizarse directamente desde el código.</span><span class="sxs-lookup"><span data-stu-id="2df10-101">This member supports the .NET Framework infrastructure and is not intended to be used directly from your code.</span></span>
