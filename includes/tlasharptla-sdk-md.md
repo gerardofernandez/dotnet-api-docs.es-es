@@ -1,0 +1,1 @@
+<span data-ttu-id="5200d-101">kit de desarrollo de software (SDK)</span><span class="sxs-lookup"><span data-stu-id="5200d-101">software development kit (SDK)</span></span>

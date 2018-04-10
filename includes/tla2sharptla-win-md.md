@@ -1,0 +1,1 @@
+<span data-ttu-id="febed-101">Ventanas</span><span class="sxs-lookup"><span data-stu-id="febed-101">Windows</span></span>

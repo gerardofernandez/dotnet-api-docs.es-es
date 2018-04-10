@@ -1,0 +1,1 @@
+<span data-ttu-id="bc805-101">Microsoft Annotations Framework</span><span class="sxs-lookup"><span data-stu-id="bc805-101">Microsoft Annotations Framework</span></span>

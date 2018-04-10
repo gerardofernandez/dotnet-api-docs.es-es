@@ -1,0 +1,1 @@
+<span data-ttu-id="c5f76-101">Atributos de .NET Framework</span><span class="sxs-lookup"><span data-stu-id="c5f76-101">.NET Framework attributes</span></span>

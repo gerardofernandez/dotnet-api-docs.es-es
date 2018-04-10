@@ -1,0 +1,1 @@
+<span data-ttu-id="a52f0-101">Tecnologías de asistencia</span><span class="sxs-lookup"><span data-stu-id="a52f0-101">Assistive technologies</span></span>

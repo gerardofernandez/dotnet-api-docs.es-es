@@ -1,0 +1,1 @@
+<span data-ttu-id="8c794-101">Windows en tiempo de ejecución</span><span class="sxs-lookup"><span data-stu-id="8c794-101">Windows Runtime</span></span>

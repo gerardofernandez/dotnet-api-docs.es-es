@@ -1,0 +1,1 @@
+<span data-ttu-id="5fd6b-101">Diseñador de flujo de trabajo de Windows</span><span class="sxs-lookup"><span data-stu-id="5fd6b-101">Windows Workflow Designer</span></span>

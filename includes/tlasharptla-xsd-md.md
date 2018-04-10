@@ -1,0 +1,1 @@
+<span data-ttu-id="eab4c-101">Definición de esquema XML (XSD)</span><span class="sxs-lookup"><span data-stu-id="eab4c-101">XML Schema Definition (XSD)</span></span>

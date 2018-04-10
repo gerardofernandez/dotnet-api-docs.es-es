@@ -1,0 +1,1 @@
+<span data-ttu-id="4c258-101">Resolución</span><span class="sxs-lookup"><span data-stu-id="4c258-101">URL</span></span>

@@ -1,0 +1,1 @@
+<span data-ttu-id="ea5ce-101">Automatización de la interfaz de usuario de Microsoft</span><span class="sxs-lookup"><span data-stu-id="ea5ce-101">Microsoft UI Automation</span></span>

@@ -1,0 +1,1 @@
+<span data-ttu-id="4004e-101">Servicio de transferencia inteligente en segundo plano de Microsoft (BITS)</span><span class="sxs-lookup"><span data-stu-id="4004e-101">Microsoft Background Intelligent Transfer Service (BITS)</span></span>

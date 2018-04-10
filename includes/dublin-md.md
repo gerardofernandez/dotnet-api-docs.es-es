@@ -1,0 +1,1 @@
+<span data-ttu-id="f1c78-101">características de hospedaje de Windows Server AppFabric</span><span class="sxs-lookup"><span data-stu-id="f1c78-101">hosting features of Windows Server AppFabric</span></span>
