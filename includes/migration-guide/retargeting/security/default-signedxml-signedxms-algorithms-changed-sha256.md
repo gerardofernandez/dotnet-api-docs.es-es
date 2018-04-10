@@ -1,0 +1,11 @@
+### <a name="default-signedxml-and-signedxms-algorithms-changed-to-sha256"></a>Algoritmos de SignedXML predeterminado y SignedXMS cambiados a SHA256
+
+|   |   |
+|---|---|
+|Detalles|En el 4.7 de .NET Framework y versiones anteriores, SignedXML y SignedCMS predeterminado para SHA1 para algunas operaciones. A partir de .NET Framework 4.7.1, SHA256 está habilitada de forma predeterminada para estas operaciones. Este cambio es necesario porque ya no se considera segura SHA1.|
+|Sugerencia|Hay dos nuevos valores de modificador de contexto para controlar si se utiliza SHA1 (no seguro) o SHA256 predeterminada:<ul><li>Switch.System.Security.Cryptography.Xml.UseInsecureHashAlgorithms</li><li>Switch.System.Security.Cryptography.Pkcs.UseInsecureHashAlgorithms</li></ul>Para las aplicaciones que destino es .NET Framework 4.7.1 y versiones posteriores, si el uso de SHA256 es no deseado, puede restaurar el valor predeterminado para SHA1 agregando la siguiente configuración del conmutador para la [en tiempo de ejecución](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) sección de la configuración de aplicaciones archivo:<pre><code class="language-xml">&lt;AppContextSwitchOverrides value=&quot;Switch.System.Security.Cryptography.Xml.UseInsecureHashAlgorithms=true;Switch.System.Security.Cryptography.Pkcs.UseInsecureHashAlgorithms=true&quot; /&gt;&#13;&#10;</code></pre>Para las aplicaciones destinadas a .NET Framework 4.7 y versiones anteriores, puede participar en este cambio agregando el siguiente cambio de configuración a la [en tiempo de ejecución](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) sección de su archivo de configuración de aplicación:<pre><code class="language-xml">&lt;AppContextSwitchOverrides value=&quot;Switch.System.Security.Cryptography.Xml.UseInsecureHashAlgorithms=false;Switch.System.Security.Cryptography.Pkcs.UseInsecureHashAlgorithms=false&quot; /&gt;&#13;&#10;</code></pre>|
+|Ámbito|Secundaria|
+|Versión|4.7.1|
+|Tipo|Redestinación|
+|API afectadas|<ul><li><xref:System.Security.Cryptography.Pkcs.CmsSigner?displayProperty=nameWithType></li><li><xref:System.Security.Cryptography.Xml.SignedXml?displayProperty=nameWithType></li><li><xref:System.Security.Cryptography.Xml.Reference?displayProperty=nameWithType></li></ul>|
+

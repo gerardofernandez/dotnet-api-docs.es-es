@@ -1,0 +1,1 @@
+Para obtener más información sobre el elemento que esta clase representa, vea la siguiente especificación: [metadatos para el OASIS aserción de seguridad Markup Language (SAML) V2.0](http://go.microsoft.com/fwlink/?LinkId=231291) (http://go.microsoft.com/fwlink/?LinkId=231291).
