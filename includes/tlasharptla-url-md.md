@@ -1,1 +1,1 @@
-Dirección URL
+Resolución
