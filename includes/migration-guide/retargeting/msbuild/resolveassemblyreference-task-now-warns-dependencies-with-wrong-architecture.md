@@ -1,4 +1,4 @@
-### <a name="resolveassemblyreference-task-now-warns-of-dependencies-with-the-wrong-architecture"></a>ResolveAssemblyReference (tarea) ahora se advierte de dependencias con la arquitectura incorrecta
+### <a name="resolveassemblyreference-task-now-warns-of-dependencies-with-the-wrong-architecture"></a>La tarea ResolveAssemblyReference ahora advierte sobre dependencias con la arquitectura incorrecta
 
 |   |   |
 |---|---|

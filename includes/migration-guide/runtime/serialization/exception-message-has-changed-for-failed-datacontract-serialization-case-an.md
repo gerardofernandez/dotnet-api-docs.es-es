@@ -1,9 +1,9 @@
-### <a name="exception-message-has-changed-for-failed-datacontract-serialization-in-case-of-an-unknown-type"></a>Mensaje de excepción ha cambiado para la serialización de DataContract errores en el caso de un tipo desconocido
+### <a name="exception-message-has-changed-for-failed-datacontract-serialization-in-case-of-an-unknown-type"></a>Ha cambiado el mensaje de excepción para el error de serialización de DataContract en el caso de un tipo desconocido
 
 |   |   |
 |---|---|
-|Detalles|A partir de .NET Framework 4.6, el mensaje de excepción dada si un <xref:System.Runtime.Serialization.DataContractSerializer?displayProperty=name> o <xref:System.Runtime.Serialization.Json.DataContractJsonSerializer?displayProperty=name> ha clarificado se produce un error al serializar o deserializar debido a que faltan "tipos conocidos".|
-|Sugerencia|Las aplicaciones no deben depender de mensajes de excepción específica. Si una aplicación según este mensaje, ya sea actualícelo esperar el nuevo mensaje o (preferiblemente) cambiar para depender solo el tipo de excepción.|
+|Detalles|A partir de .NET Framework 4.6, se ha clarificado el mensaje de excepción dado si no se puede serializar o deserializar <xref:System.Runtime.Serialization.DataContractSerializer?displayProperty=name> o <xref:System.Runtime.Serialization.Json.DataContractJsonSerializer?displayProperty=name> debido a que faltan "tipos conocidos".|
+|Sugerencia|Las aplicaciones no deben depender de mensajes de excepción específicos. Si una aplicación depende de este mensaje, actualícela para que espere el mensaje nuevo o, preferiblemente, cámbiela para que solo dependa del tipo de excepción.|
 |Ámbito|Borde|
 |Versión|4.6|
 |Tipo|Tiempo de ejecución|

@@ -1,9 +1,9 @@
-### <a name="some-workflow-drag-and-drop-apis-are-obsolete"></a>Algunas API de arrastrar y colocar de flujo de trabajo está obsoleto
+### <a name="some-workflow-drag-and-drop-apis-are-obsolete"></a>Algunas API WorkFlow de arrastrar y colocar están obsoletas
 
 |   |   |
 |---|---|
-|Detalles|Esta API de arrastrar y colocar de flujo de trabajo está obsoleta y hará que las advertencias del compilador si se vuelve a generar la aplicación en 4.5.|
-|Sugerencia|Nueva <xref:System.Activities.Presentation.DragDropHelper?displayProperty=name> API que admiten operaciones con varios objetos deben usarse en su lugar. También es posible suprimir las advertencias de compilación o usar un compilador anterior para evitarlas. Las API siguen siendo compatibles.|
+|Detalles|Esta API WorkFlow de arrastrar y colocar está obsoleta y generará advertencias del compilador si la aplicación se vuelve a compilar en 4.5.|
+|Sugerencia|En su lugar, se deben usar las API <xref:System.Activities.Presentation.DragDropHelper?displayProperty=name> nuevas compatibles con operaciones con varios objetos. También es posible suprimir las advertencias de compilación o usar un compilador anterior para evitarlas. Las API siguen siendo compatibles.|
 |Ámbito|Secundaria|
 |Versión|4.5|
 |Tipo|Redestinación|

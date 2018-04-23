@@ -1,9 +1,9 @@
-### <a name="etw-event-names-cannot-differ-only-by-a-start-or-stop-suffix"></a>Los nombres de eventos ETW no pueden diferenciarse solo por un sufijo "Start" o "Stop"
+### <a name="etw-event-names-cannot-differ-only-by-a-start-or-stop-suffix"></a>Los nombres de eventos de ETW no pueden diferir solamente en un sufijo "Start" o "Stop".
 
 |   |   |
 |---|---|
-|Detalles|En .NET Framework 4.6 y 4.6.1, el runtime produce una <xref:System.ArgumentException> cuando dos nombres de evento de seguimiento de eventos para Windows (ETW) solo se diferencian entre un &quot;iniciar&quot; o &quot;detener&quot; sufijo (como cuando un evento se denomina <code>LogUser</code>y otro denominado <code>LogUserStart</code>). En este caso, el entorno en tiempo de ejecución no puede crear el origen de eventos, que no puede emitir ningún registro.|
-|Sugerencia|Para evitar la excepción, asegúrese de que no hay nombres de dos eventos solo se diferencian entre un &quot;iniciar&quot; o &quot;detener&quot; sufijo. Se ha eliminado este requisito a partir de .NET Framework 4.6.2; el tiempo de ejecución puede eliminar la ambigüedad de los nombres de evento que se diferencien solo por la &quot;iniciar&quot; y &quot;detener&quot; sufijo.|
+|Detalles|En .NET Framework 4.6 y 4.6.1, el entorno de ejecución inicia una excepción <xref:System.ArgumentException> cuando dos nombres de evento de Seguimiento de eventos para Windows (ETW) solamente difieren en un sufijo &quot;Start&quot; o &quot;Stop&quot; (como cuando un evento se denomina <code>LogUser</code> y otro <code>LogUserStart</code>). En este caso, el entorno en tiempo de ejecución no puede crear el origen de eventos, que no puede emitir ningún registro.|
+|Sugerencia|Para evitar la excepción, asegúrese de que no haya dos nombres de evento que solo difieran en un sufijo &quot;Start&quot; o &quot;Stop&quot;. Este requisito se ha eliminado a partir de .NET Framework 4.6.2; el entorno de ejecución puede eliminar la ambigüedad de los nombres de evento que solo difieren en el sufijo &quot;Start&quot; y &quot;Stop&quot;.|
 |Ámbito|Borde|
 |Versión|4.6|
 |Tipo|Redestinación|

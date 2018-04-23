@@ -1,4 +1,4 @@
-### <a name="calling-attributegetcustomattributes-on-an-indexer-property-no-longer-throws-ambiguousmatchexception-if-the-ambiguity-can-be-resolved-by-indexs-type"></a>Llamar a Attribute.GetCustomAttributes en una propiedad de indizador ya no produce AmbiguousMatchException si se puede resolver la ambigüedad por tipo de índice
+### <a name="calling-attributegetcustomattributes-on-an-indexer-property-no-longer-throws-ambiguousmatchexception-if-the-ambiguity-can-be-resolved-by-indexs-type"></a>Las llamadas a Attribute.GetCustomAttributes en una propiedad de indizador ya no inician excepciones AmbiguousMatchException si es posible resolver la ambigüedad por el tipo de índice
 
 |   |   |
 |---|---|

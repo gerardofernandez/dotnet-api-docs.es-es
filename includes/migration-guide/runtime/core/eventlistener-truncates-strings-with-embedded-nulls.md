@@ -1,9 +1,9 @@
-### <a name="eventlistener-truncates-strings-with-embedded-nulls"></a>EventListener trunca las cadenas con valores null incrustados
+### <a name="eventlistener-truncates-strings-with-embedded-nulls"></a>EventListener trunca las cadenas con valores NULL insertados
 
 |   |   |
 |---|---|
 |Detalles|<xref:System.Diagnostics.Tracing.EventListener?displayProperty=name> trunca las cadenas con valores NULL incrustados. Los caracteres NULL no son compatibles con la clase <xref:System.Diagnostics.Tracing.EventSource?displayProperty=name>. El cambio solo afecta a las aplicaciones que usan <xref:System.Diagnostics.Tracing.EventListener?displayProperty=name> para leer datos <xref:System.Diagnostics.Tracing.EventSource?displayProperty=name> en proceso y que utilizan caracteres NULL como delimitadores.|
-|Sugerencia|<xref:System.Diagnostics.Tracing.EventSource?displayProperty=name> datos, si es posible, deben actualizarse para que no use caracteres nulos incrustados.|
+|Sugerencia|Se deben actualizar los datos de <xref:System.Diagnostics.Tracing.EventSource?displayProperty=name>, si es posible, para que no usen valores NULL insertados.|
 |Ámbito|Borde|
 |Versión|4.5.1|
 |Tipo|Tiempo de ejecución|

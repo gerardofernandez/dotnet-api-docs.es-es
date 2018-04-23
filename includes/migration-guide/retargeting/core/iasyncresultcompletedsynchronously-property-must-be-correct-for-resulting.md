@@ -1,9 +1,9 @@
-### <a name="iasyncresultcompletedsynchronously-property-must-be-correct-for-the-resulting-task-to-complete"></a>Propiedad IAsyncResult.CompletedSynchronously debe ser correcta para completar la tarea resultante
+### <a name="iasyncresultcompletedsynchronously-property-must-be-correct-for-the-resulting-task-to-complete"></a>La propiedad IAsyncResult.CompletedSynchronously debe ser correcta para que se complete la tarea resultante
 
 |   |   |
 |---|---|
-|Detalles|Al llamar a TaskFactory.FromAsync, la implementación de la <xref:System.IAsyncResult.CompletedSynchronously> propiedad debe ser correcta para completar la tarea resultante. Es decir, la propiedad debe devolver true solo si la implementación se completó de manera sincrónica. Anteriormente, esta propiedad no se comprobaba.|
-|Sugerencia|Si <xref:System.IAsyncResult?displayProperty=name> implementaciones correctamente devuelven true para el <xref:System.IAsyncResult.CompletedSynchronously?displayProperty=name> propiedad solo cuando una tarea se ha completado sincrónicamente, a continuación, no se tendrán en cuenta ningún salto. Los usuarios deben consultar <xref:System.IAsyncResult?displayProperty=name> implementaciones que poseen (si existe) para asegurarse de que evalúe correctamente si una tarea se completó de forma sincrónica o no.|
+|Detalles|Al llamar a TaskFactory.FromAsync, la implementación de la propiedad <xref:System.IAsyncResult.CompletedSynchronously> debe ser correcta para que se complete la tarea resultante. Es decir, la propiedad debe devolver true solo si la implementación se completó de manera sincrónica. Anteriormente, esta propiedad no se comprobaba.|
+|Sugerencia|Si las implementaciones de <xref:System.IAsyncResult?displayProperty=name> devuelven true para la propiedad <xref:System.IAsyncResult.CompletedSynchronously?displayProperty=name> solo cuando una tarea se completa de manera sincrónica, no se observará ninguna interrupción. Los usuarios deberían revisar las implementaciones de <xref:System.IAsyncResult?displayProperty=name> que posean (en caso de poseer alguna) para asegurarse de que evalúan correctamente si una tarea se completó de forma sincrónica o no.|
 |Ámbito|Borde|
 |Versión|4.5|
 |Tipo|Redestinación|

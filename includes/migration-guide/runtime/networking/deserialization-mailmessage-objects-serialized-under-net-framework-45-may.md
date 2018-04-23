@@ -1,9 +1,9 @@
-### <a name="deserialization-of-mailmessage-objects-serialized-under-the-net-framework-45-may-fail"></a>Puede producir un error de deserialización de objetos MailMessage serializados en .NET Framework 4.5
+### <a name="deserialization-of-mailmessage-objects-serialized-under-the-net-framework-45-may-fail"></a>Se puede producir un error en las deserialización de los objetos MailMessage serializados en .NET Framework 4.5
 
 |   |   |
 |---|---|
-|Detalles|A partir de .NET Framework 4.5, <xref:System.Web.Mail.MailMessage> objetos pueden incluir caracteres no ASCII. En .NET Framework 4, solo se admiten caracteres ASCII. <xref:System.Web.Mail.MailMessage> objetos que contienen caracteres no ASCII y que se serializan en .NET Framework 4.5 o posterior no se puede deserializar en .NET Framework 4.|
-|Sugerencia|Asegúrese de que el código proporciona el control de excepciones al deserializar un <xref:System.Web.Mail.MailMessage> objeto.|
+|Detalles|A partir de .NET Framework 4.5, los objetos <xref:System.Web.Mail.MailMessage> pueden incluir caracteres que no sean ASCII. En .NET Framework 4, solo se admiten caracteres ASCII. Los objetos <xref:System.Web.Mail.MailMessage> que contienen caracteres que no son ASCII y que están serializados en .NET Framework 4.5 o una versión posterior no se pueden deserializar en .NET Framework 4.|
+|Sugerencia|Asegúrese de que el código proporciona control de excepciones al deserializar un objeto <xref:System.Web.Mail.MailMessage>.|
 |Ámbito|Secundaria|
 |Versión|4.5|
 |Tipo|Tiempo de ejecución|

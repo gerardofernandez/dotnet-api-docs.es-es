@@ -1,9 +1,9 @@
-### <a name="wpf-textbox-selected-text-appears-a-different-color-when-the-text-box-is-inactive"></a>Texto de cuadro de texto de WPF seleccionado aparece un color diferente cuando el cuadro de texto está inactivo
+### <a name="wpf-textbox-selected-text-appears-a-different-color-when-the-text-box-is-inactive"></a>El texto seleccionado de un cuadro de texto de WPF aparece en otro color cuando el cuadro de texto está inactivo
 
 |   |   |
 |---|---|
 |Detalles|En .NET 4.5, cuando un control de cuadro de texto de WPF esté inactivo (sin el foco), el texto seleccionado dentro del cuadro aparecerá en un color diferente al que lo haría con el control activo.|
-|Sugerencia|Comportamiento de (.NET 4.0) anterior puede restaurarse estableciendo la <xref:System.Windows.FrameworkCompatibilityPreferences.AreInactiveSelectionHighlightBrushKeysSupported> propiedad <code>false</code>.|
+|Sugerencia|El comportamiento anterior (.NET 4.0) se puede restaurar si se establece la propiedad <xref:System.Windows.FrameworkCompatibilityPreferences.AreInactiveSelectionHighlightBrushKeysSupported> en <code>false</code>.|
 |Ámbito|Borde|
 |Versión|4.5|
 |Tipo|Tiempo de ejecución|

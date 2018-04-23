@@ -1,9 +1,9 @@
-### <a name="systemservicemodelwebwebservicehost-object-no-longer-adds-a-default-endpoint"></a>Objeto System.ServiceModel.Web.WebServiceHost ya no agrega un punto de conexión predeterminado
+### <a name="systemservicemodelwebwebservicehost-object-no-longer-adds-a-default-endpoint"></a>El objeto System.ServiceModel.Web.WebServiceHost ya no agrega un punto de conexión predeterminado
 
 |   |   |
 |---|---|
 |Detalles|El objeto <xref:System.ServiceModel.Web.WebServiceHost> ya no agrega un punto de conexión predeterminado si el código de la aplicación ha agregado un punto de conexión explícito.|
-|Sugerencia|Si los usuarios esperará hasta que pueda conectarse a un extremo predeterminado y otros puntos de conexión explícitas se han agregado a la <xref:System.ServiceModel.Web.WebServiceHost?displayProperty=name>, puntos de conexión predeterminados también deben agregarse explícitamente (mediante <xref:System.ServiceModel.ServiceHostBase.AddDefaultEndpoints?displayProperty=name>).|
+|Sugerencia|Si los usuarios esperan poder conectarse a un punto de conexión predeterminado y ya se han agregados otros puntos de conexión explícitos a <xref:System.ServiceModel.Web.WebServiceHost?displayProperty=name>, los puntos de conexión predeterminados también se deben agregar de forma explícita (mediante <xref:System.ServiceModel.ServiceHostBase.AddDefaultEndpoints?displayProperty=name>).|
 |Ámbito|Secundaria|
 |Versión|4.5|
 |Tipo|Tiempo de ejecución|

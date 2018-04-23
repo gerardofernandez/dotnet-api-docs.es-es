@@ -1,9 +1,9 @@
-### <a name="path-colon-checks-are-stricter"></a>Comprobaciones de dos puntos de ruta de acceso son más estrictas
+### <a name="path-colon-checks-are-stricter"></a>Las comprobaciones de dos puntos de ruta de acceso son más estrictas
 
 |   |   |
 |---|---|
-|Detalles|En .NET Framework 4.6.2, un número de cambios se realizaron para admitir las rutas de acceso anteriormente no admitidos (tanto en longitud y el formato). Comprobaciones de sintaxis de unidad correspondiente separador (dos puntos) se realizaron más correctas, que tenía el efecto secundario de bloqueo algunas rutas de acceso URI en donde usa para tolerar algunas API de ruta de acceso select.|
-|Sugerencia|Si pasa un URI a las API afectadas, modifique la cadena para que sea una ruta de acceso válida en primer lugar.<ul><li>Quite manualmente el esquema de direcciones URL (por ejemplo, quitar <code>file://</code> de direcciones URL)</li><li>Pasar el URI para el <xref:System.Uri> clase y usar <xref:System.Uri.LocalPath></li></ul>Como alternativa, puede rechazar la normalización de la ruta de acceso nuevo estableciendo la <code>Switch.System.IO.UseLegacyPathHandling</code> conmutador AppContext en true.|
+|Detalles|En .NET Framework 4.6.2, se realizaron varios cambios para admitir las rutas de acceso que anteriormente no eran compatibles (tanto en longitud como en formato). Se aumentó la corrección de las comprobaciones de sintaxis adecuada del separador de unidad (dos puntos), que tenía el efecto secundario de bloquear algunas rutas de acceso de URI en algunas API de ruta concretas en las que antes se toleraban.|
+|Sugerencia|Si se pasa un URI a las API afectadas, modifique la cadena para que primero sea una ruta de acceso válida.<ul><li>Quite manualmente el esquema de las direcciones URL (por ejemplo, quite <code>file://</code>).</li><li>Pase el URI a la clase <xref:System.Uri> y use <xref:System.Uri.LocalPath>.</li></ul>Como alternativa, puede rechazar la nueva normalización de la ruta de acceso si establece el conmutador <code>Switch.System.IO.UseLegacyPathHandling</code> de AppContext en true.|
 |Ámbito|Borde|
 |Versión|4.6.2|
 |Tipo|Redestinación|

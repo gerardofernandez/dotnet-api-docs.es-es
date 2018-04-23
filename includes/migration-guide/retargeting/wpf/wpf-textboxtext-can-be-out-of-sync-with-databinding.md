@@ -1,4 +1,4 @@
-### <a name="wpf-textboxtext-can-be-out-of-sync-with-databinding"></a>WPF TextBox.Text puede ser de la sincronización con enlace de datos
+### <a name="wpf-textboxtext-can-be-out-of-sync-with-databinding"></a>TextBox.Text de WPF se puede desincronizar con el enlace de datos
 
 |   |   |
 |---|---|

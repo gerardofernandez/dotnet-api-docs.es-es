@@ -1,9 +1,9 @@
-### <a name="workflowdesignerload-doesnt-remove-symbol-property"></a>WorkflowDesigner.Load no quita la propiedad de símbolo
+### <a name="workflowdesignerload-doesnt-remove-symbol-property"></a>El método WorkflowDesigner.Load no elimina una propiedad de símbolo
 
 |   |   |
 |---|---|
-|Detalles|Cuando el destino es .NET Framework 4.5 en el Diseñador de flujo de trabajo y cargar un flujo de trabajo 3.5 RE-hospedado con el <xref:System.Activities.Presentation.WorkflowDesigner.Load> método, un <xref:System.Xaml.XamlDuplicateMemberException?displayProperty=name> se produce al guardar el flujo de trabajo.|
-|Sugerencia|Este error sólo se presenta cuando el destino es .NET Framework 4.5 en el Diseñador de flujo de trabajo, por lo que puede ser solucionado estableciendo la <code>WorkflowDesigner.Context.Services.GetService&lt;DesignerConfigurationService&gt;().TargetFrameworkName</code> a la Framework.Alternatively .NET 4.0, el problema puede evitarse mediante el uso de la <xref:System.Activities.Presentation.WorkflowDesigner.Load(System.String)> método para cargar el flujo de trabajo en lugar de <xref:System.Activities.Presentation.WorkflowDesigner.Load>.|
+|Detalles|Al seleccionar .NET Framework 4.5 como destino en el Diseñador de flujo de trabajo y cargar un flujo de trabajo de la versión 3.5 rehospedado con el método <xref:System.Activities.Presentation.WorkflowDesigner.Load>, se inicia una excepción <xref:System.Xaml.XamlDuplicateMemberException?displayProperty=name> mientras se guarda el flujo de trabajo.|
+|Sugerencia|Este error solo se manifiesta al seleccionar .NET Framework 4.5 como destino en el Diseñador de flujo de trabajo, por lo que una solución alternativa consiste en establecer <code>WorkflowDesigner.Context.Services.GetService&lt;DesignerConfigurationService&gt;().TargetFrameworkName</code> en la versión 4.0 de .NET Framework. Como alternativa, el problema se puede solucionar si se usa el método <xref:System.Activities.Presentation.WorkflowDesigner.Load(System.String)> para cargar el flujo de trabajo, en lugar de <xref:System.Activities.Presentation.WorkflowDesigner.Load>.|
 |Ámbito|Major|
 |Versión|4.5|
 |Tipo|Redestinación|

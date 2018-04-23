@@ -1,9 +1,9 @@
-### <a name="listsort-algorithm-changed"></a>Algoritmo de List.Sort cambiado
+### <a name="listsort-algorithm-changed"></a>El algoritmo List.Sort ha cambiado
 
 |   |   |
 |---|---|
-|Detalles|A partir de .NET Framework 4.5, <xref:System.Collections.Generic.List%601?displayProperty=name>del algoritmo de ordenación ha cambiado (para que sea una ordenación introspectivas en lugar de una ordenación rápida). <xref:System.Collections.Generic.List%601?displayProperty=name>de ordenación nunca ha sido estable, pero este cambio puede provocar distintos escenarios ordenar de maneras inestable. Esto simplemente significa que pueden ordenar los elementos equivalentes en distintas órdenes en las llamadas subsiguientes de la API.|
-|Sugerencia|Dado que el algoritmo de ordenación anterior también estaba inestable (aunque de forma ligeramente diferente), no debería haber ningún código que depende de los elementos equivalentes siempre ordenar en un orden concreto. Si hay instancias de función de el código y está de suerte con el comportamiento anterior, que el código debe actualizarse para utilizar a un comparador que se ordenará de forma determinista los elementos en el orden deseado.|
+|Detalles|A partir de .NET Framework 4.5, se ha cambiado el algoritmo de ordenación de <xref:System.Collections.Generic.List%601?displayProperty=name> (para que sea una ordenación introspectiva en lugar de una ordenación rápida). La ordenación de <xref:System.Collections.Generic.List%601?displayProperty=name> nunca ha sido estable, pero este cambio puede provocar que otros escenarios se ordenen de maneras inestables. Esto simplemente significa que los elementos equivalentes se pueden ordenar de otra forma en las llamadas posteriores de la API.|
+|Sugerencia|Como el algoritmo de ordenación anterior también era inestable (aunque de forma ligeramente distinta), no debería haber código que dependa de que los elementos equivalentes se ordenen siempre en un orden concreto. Si hay instancias de código que dependan de eso y de tener suerte con el comportamiento anterior, ese código se debe actualizar para que use un comparador que ordene de forma determinista los elementos en el orden deseado.|
 |Ámbito|Transparente|
 |Versión|4.5|
 |Tipo|Tiempo de ejecución|

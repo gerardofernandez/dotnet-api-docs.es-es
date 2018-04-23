@@ -1,9 +1,9 @@
-### <a name="exceptions-during-unobserved-processing-in-systemthreadingtaskstask-no-longer-propagate-on-finalizer-thread"></a>Excepciones durante el procesamiento inadvertida en System.Threading.Tasks.Task ya no se propagan en el subproceso de finalizador
+### <a name="exceptions-during-unobserved-processing-in-systemthreadingtaskstask-no-longer-propagate-on-finalizer-thread"></a>Las excepciones durante el procesamiento inadvertido en System.Threading.Tasks.Task ya no se propagan por el subproceso de finalizador
 
 |   |   |
 |---|---|
 |Detalles|Dado que la clase <xref:System.Threading.Tasks.Task?displayProperty=name> representa una operación asincrónica, detecta todas las excepciones no graves que se producen durante el procesamiento asincrónico. En .NET Framework 4.5, si no se detecta una excepción y el código nunca espera a que se complete la tarea, la excepción ya no se propagará por el subproceso de finalizador y bloqueará el proceso durante la recolección de elementos no utilizados. Este cambio mejora la confiabilidad de las aplicaciones que usan la clase Task para realizar un procesamiento asincrónico inadvertido.|
-|Sugerencia|Si una aplicación depende de las excepciones asincrónicas inadvertidas propagando en el subproceso finalizador, el comportamiento anterior puede restaurarse proporcionando un controlador adecuado para la <xref:System.Threading.Tasks.TaskScheduler.UnobservedTaskException> eventos, o estableciendo un [elemento de configuración en tiempo de ejecución ](~/docs/framework/configure-apps/file-schema/runtime/throwunobservedtaskexceptions-element.md).|
+|Sugerencia|Si una aplicación depende de la propagación de excepciones asincrónicas inadvertidas al subproceso de finalizador, se puede restaurar el comportamiento anterior si se proporciona un controlador adecuado para el evento <xref:System.Threading.Tasks.TaskScheduler.UnobservedTaskException>, o bien se establece un [elemento de configuración del entorno de ejecución](~/docs/framework/configure-apps/file-schema/runtime/throwunobservedtaskexceptions-element.md).|
 |Ámbito|Borde|
 |Versión|4.5|
 |Tipo|Tiempo de ejecución|

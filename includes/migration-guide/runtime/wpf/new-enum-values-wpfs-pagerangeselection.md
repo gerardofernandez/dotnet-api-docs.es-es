@@ -2,8 +2,8 @@
 
 |   |   |
 |---|---|
-|Detalles|Dos nuevos miembros (<xref:System.Windows.Controls.PageRangeSelection.CurrentPage?displayProperty=name> y <xref:System.Windows.Controls.PageRangeSelection.SelectedPages?displayProperty=name>) se han agregado a la <xref:System.Windows.Controls.PageRangeSelection?displayProperty=name> enum.|
-|Sugerencia|En la mayoría de los casos, estos cambios no afectan al código del usuario. Código que depende de un determinado número de elementos existentes en <xref:System.Enum.GetNames(System.Type)> o <xref:System.Enum.GetValues(System.Type)> llama en el <xref:System.Windows.Controls.PageRangeSelection?displayProperty=name> tipo debe modificarse, aunque.|
+|Detalles|Se han agregado dos miembros nuevos (<xref:System.Windows.Controls.PageRangeSelection.CurrentPage?displayProperty=name> y <xref:System.Windows.Controls.PageRangeSelection.SelectedPages?displayProperty=name>) a la enumeración <xref:System.Windows.Controls.PageRangeSelection?displayProperty=name>.|
+|Sugerencia|En la mayoría de los casos, estos cambios no afectan al código del usuario. Pero se debe modificar el código que depende de un número concreto de elementos existentes en las llamadas a <xref:System.Enum.GetNames(System.Type)> o <xref:System.Enum.GetValues(System.Type)> del tipo <xref:System.Windows.Controls.PageRangeSelection?displayProperty=name>.|
 |Ámbito|Borde|
 |Versión|4.5|
 |Tipo|Tiempo de ejecución|

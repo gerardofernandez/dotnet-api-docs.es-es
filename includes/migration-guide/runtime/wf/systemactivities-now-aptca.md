@@ -1,4 +1,4 @@
-### <a name="systemactivities-is-now-aptca"></a>System.Activities es ahora APTCA
+### <a name="systemactivities-is-now-aptca"></a>System.Activities ahora es APTCA
 
 |   |   |
 |---|---|

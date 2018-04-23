@@ -2,8 +2,8 @@
 
 |   |   |
 |---|---|
-|Detalles|En algunos casos, un <xref:System.Windows.Documents.FlowDocument> elemento mostrará una línea de texto adicional cuando se ejecuta en .NET Framework 4.5 en comparación a cómo se mostraba cuando se ejecuta en .NET Framework 4.0. No hay casos conocidos del cambio que se produce cualquier texto que se mostrará un rendimiento bajo o illegibly, pero podría provocar que aparezca el texto que anteriormente estaba omitido en un <xref:System.Windows.Documents.FlowDocument>de la vista.|
-|Sugerencia|En algunos casos, reduciendo la presentación propiedad del elemento PageHeight en uno puede restaurar el número anterior de las líneas mostradas.|
+|Detalles|En algunos casos, un elemento <xref:System.Windows.Documents.FlowDocument> mostrará una línea de texto adicional cuando se ejecuta en .NET Framework 4.5 en comparación a cómo se mostraba cuando se ejecutaba en .NET Framework 4.0. No hay casos conocidos de que el cambio provoque que un texto se muestre de forma incorrecta o ilegible, pero podría dar la impresión de que el texto se omitió anteriormente de la vista de un <xref:System.Windows.Documents.FlowDocument>.|
+|Sugerencia|En algunos casos, reducir la propiedad PageHeight del elemento de visualización en uno puede restaurar el número anterior de líneas mostradas.|
 |Ámbito|Borde|
 |Versión|4.5|
 |Tipo|Tiempo de ejecución|

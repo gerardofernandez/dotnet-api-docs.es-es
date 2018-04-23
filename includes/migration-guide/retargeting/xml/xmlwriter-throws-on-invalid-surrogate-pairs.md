@@ -1,9 +1,9 @@
-### <a name="xmlwriter-throws-on-invalid-surrogate-pairs"></a>XmlWriter inicia en pares suplentes no válidos
+### <a name="xmlwriter-throws-on-invalid-surrogate-pairs"></a>XmlWriter inicia una excepción en los pares suplentes no válidos
 
 |   |   |
 |---|---|
-|Detalles|Para las aplicaciones destinadas a .NET Framework 4.5.2 o versiones anteriores, el procedimiento de escribir un par suplente no válido usando el control de reserva de excepción no siempre produce una excepción. Para las aplicaciones que tienen como destino .NET Framework 4.6, intenta escribir un suplente no válido par produce un <xref:System.ArgumentException?displayProperty=name>.|
-|Sugerencia|Si es necesario, puede ser este salto evitado estableciendo como destino .NET Framework 4.5.2 o versiones anteriores. Como alternativa, pares suplentes no válidos pueden ser previamente procesados en xml válido antes de escribirlos en ellas.|
+|Detalles|Para las aplicaciones destinadas a .NET Framework 4.5.2 o versiones anteriores, el procedimiento de escribir un par suplente no válido usando el control de reserva de excepción no siempre produce una excepción. Para las aplicaciones destinadas a .NET Framework 4.6, si se intenta escribir un par suplente no válido se inicia una excepción <xref:System.ArgumentException?displayProperty=name>.|
+|Sugerencia|Si es necesario, esta interrupción se puede evitar seleccionando .NET Framework 4.5.2 o una versión anterior como destino. Como alternativa, se puede realizar el preprocesamiento de los pares suplentes no válidos en código XML válido antes de escribirlos.|
 |Ámbito|Borde|
 |Versión|4.6|
 |Tipo|Redestinación|

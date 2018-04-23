@@ -1,4 +1,4 @@
-### <a name="sqlvariant-data-uses-sqlvariant-collation-rather-than-database-collation"></a>Datos sql_variant utilizan la intercalación de sql_variant en lugar de base de datos
+### <a name="sqlvariant-data-uses-sqlvariant-collation-rather-than-database-collation"></a>Los datos de sql_variant usan la intercalación de sql_variant en lugar de la intercalación de base de datos
 
 |   |   |
 |---|---|

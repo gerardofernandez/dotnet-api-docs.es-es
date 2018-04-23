@@ -1,9 +1,9 @@
-### <a name="wpf-printing-stack-update"></a>Actualización de la pila WPF impresión
+### <a name="wpf-printing-stack-update"></a>Actualización de la pila de impresión de WPF
 
 |   |   |
 |---|---|
-|Detalles|Uso de las API de impresión de WPF <xref:System.Printing.PrintQueue?displayProperty=name> ahora llamar a API de paquete de documento de impresión de la ventana en favor de la API de impresión XPS ya en desuso. El cambio se realizó con capacidad de servicio en cuenta; los usuarios ni a los desarrolladores deberían ver los cambios de comportamiento o el uso de la API. La nueva pila de impresión está habilitada de forma predeterminada cuando se ejecuta en Windows 10 creadores de actualización. La pila de impresión antigua sigue continuarán funcionando igual que antes en versiones anteriores de Windows.|
-|Sugerencia|Para usar la pila antigua en Windows 10 creadores de actualización, establezca la <code>UseXpsOMPrinting</code> valor REG_DWORD de la <code>HKEY_CURRENT_USER\Software\Microsoft\.NETFramework\Windows Presentation Foundation\Printing</code> clave del registro para <code>1</code>.|
+|Detalles|Las API de impresión de WPF en las que se usa <xref:System.Printing.PrintQueue?displayProperty=name> ahora llaman a la API Print Document Package de Windows en lugar de la API XPS Print, que está en desuso. El cambio se realizó con la facilidad en mente; ni los usuarios ni los desarrolladores deberían percibir cambios en el comportamiento o el uso de la API. La nueva pila de impresión está habilitada de forma predeterminada cuando se ejecuta en Windows 10 Creators Update. La pila de impresión antigua seguirá funcionando como antes en las versiones anteriores de Windows.|
+|Sugerencia|Para usar la pila antigua en Windows 10 Creators Update, establezca el valor <code>UseXpsOMPrinting</code> REG_DWORD de la clave del Registro <code>HKEY_CURRENT_USER\Software\Microsoft\.NETFramework\Windows Presentation Foundation\Printing</code> en <code>1</code>.|
 |Ámbito|Borde|
 |Versión|4.7|
 |Tipo|Tiempo de ejecución|

@@ -1,18 +1,18 @@
-Usando una indización de basados en caracteres con la <xref:System.Text.StringBuilder.Chars%2A> propiedad puede ser muy lenta en las siguientes condiciones:
+El uso de la indexación basada en caracteres con la propiedad <xref:System.Text.StringBuilder.Chars%2A> puede ser muy lento en las condiciones siguientes:
 
-- El <xref:System.Text.StringBuilder> instancia es grande (por ejemplo, consta de varias decenas de miles de caracteres).
-- El <xref:System.Text.StringBuilder> es "bloque". Es decir, las llamadas repetidas a métodos como <xref:System.Text.StringBuilder.Append%2A?displayProperty=nameWithType> automáticamente se han ampliado del objeto <xref:System.Text.StringBuilder.Capacity%2A?displayProperty=nameWithType> propiedad y fragmentos de nuevo asignadas de memoria a él.
+- La instancia de <xref:System.Text.StringBuilder> es grande (por ejemplo, consta de varias decenas de miles de caracteres).
+- <xref:System.Text.StringBuilder> es "pesado". Es decir, las llamadas repetidas a métodos como <xref:System.Text.StringBuilder.Append%2A?displayProperty=nameWithType> han ampliado automáticamente la propiedad <xref:System.Text.StringBuilder.Capacity%2A?displayProperty=nameWithType> del objeto y le han asignado nuevos fragmentos de memoria.
 
-Rendimiento se ve seriamente afectado ya que cada acceso carácter recorre toda la lista vinculada de fragmentos para buscar el búfer correcto para indizar en.
+El rendimiento se ve seriamente afectado ya que cada acceso de carácter recorre toda la lista vinculada de fragmentos para buscar el búfer correcto en el que indexar.
 
 > [!NOTE]
->  Incluso para una gran "bloque" <xref:System.Text.StringBuilder> objeto utilizando el <xref:System.Text.StringBuilder.Chars%2A> propiedad para el acceso a uno o un número pequeño de caracteres basado en el índice tiene un efecto insignificante en el rendimiento; por lo general, resulta una **0(n)** operación. El impacto de rendimiento significativas se produce al recorrer en iteración los caracteres de la <xref:System.Text.StringBuilder> objeto, que es un **O(n^2)** operación. 
+>  Incluso para un gran objeto <xref:System.Text.StringBuilder> pesado, el uso de la propiedad <xref:System.Text.StringBuilder.Chars%2A> para el acceso basado en índice a uno o un número reducido de caracteres tiene un efecto insignificante en el rendimiento; por lo general, es una operación **0(n)**. El impacto significativo en el rendimiento se produce al recorrer en iteración los caracteres del objeto <xref:System.Text.StringBuilder>, una operación **O(n^2)**. 
 
-Si encuentra problemas de rendimiento al usar indexación basada en caracteres con <xref:System.Text.StringBuilder> objetos, puede utilizar cualquiera de las siguientes acciones:
+Si encuentra problemas de rendimiento al usar la indexación basada en caracteres con objetos <xref:System.Text.StringBuilder>, puede usar cualquiera de las soluciones alternativas siguientes:
 
-- Convertir el <xref:System.Text.StringBuilder> instancia a un <xref:System.String> mediante una llamada a la <xref:System.Text.StringBuilder.ToString%2A> (método), tener acceso a los caracteres de la cadena.
+- Convertir la instancia de <xref:System.Text.StringBuilder> en una <xref:System.String> mediante una llamada al método <xref:System.Text.StringBuilder.ToString%2A> y después obtener acceso a los caracteres de la cadena.
 
-- Copie el contenido de las existentes <xref:System.Text.StringBuilder> objeto a un nuevo un tamaño previo <xref:System.Text.StringBuilder> objeto. Mejora el rendimiento porque el nuevo <xref:System.Text.StringBuilder> objeto no está en bloque. Por ejemplo:
+- Copiar el contenido del objeto <xref:System.Text.StringBuilder> existente en un objeto <xref:System.Text.StringBuilder> nuevo de tamaño predefinido. El rendimiento mejora porque el objeto <xref:System.Text.StringBuilder> nuevo no es pesado. Por ejemplo:
 
    ```csharp
    // sbOriginal is the existing StringBuilder object
@@ -22,4 +22,4 @@ Si encuentra problemas de rendimiento al usar indexación basada en caracteres c
    ' sbOriginal is the existing StringBuilder object
    Dim sbNew = New StringBuilder(sbOriginal.ToString(), sbOriginal.Length)
    ```
-- Establecer la capacidad inicial de la <xref:System.Text.StringBuilder> objeto en un valor que es aproximadamente igual a su tamaño máximo esperado mediante una llamada a la <xref:System.Text.StringBuilder.%23ctor(System.Int32)> constructor. Tenga en cuenta que así asigna el bloque completo de aunque se utilicen memoria el <xref:System.Text.StringBuilder> rara vez alcanza su capacidad máxima.
+- Establezca la capacidad inicial del objeto <xref:System.Text.StringBuilder> en un valor que sea aproximadamente igual a su tamaño máximo esperado mediante una llamada al constructor <xref:System.Text.StringBuilder.%23ctor(System.Int32)>. Tenga en cuenta que esto asigna el bloque completo de memoria aunque <xref:System.Text.StringBuilder> rara vez alcanza su capacidad máxima.

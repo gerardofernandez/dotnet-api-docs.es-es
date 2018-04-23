@@ -1,4 +1,4 @@
-### <a name="blockingcollectionlttgttrytakefromany-does-not-throw-anymore"></a>BlockingCollection&lt;T&gt;. TryTakeFromAny ya no produce
+### <a name="blockingcollectionlttgttrytakefromany-does-not-throw-anymore"></a>BlockingCollection&lt;T&gt;.TryTakeFromAny ya no inicia excepciones
 
 |   |   |
 |---|---|

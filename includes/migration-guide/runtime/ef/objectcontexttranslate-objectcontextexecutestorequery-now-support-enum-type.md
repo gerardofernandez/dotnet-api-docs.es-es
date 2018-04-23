@@ -1,4 +1,4 @@
-### <a name="objectcontexttranslate-and-objectcontextexecutestorequery-now-support-enum-type"></a>ObjectContext.Translate y ObjectContext.ExecuteStoreQuery ahora admiten el tipo de enumeración.
+### <a name="objectcontexttranslate-and-objectcontextexecutestorequery-now-support-enum-type"></a>Los métodos ObjectContext.Translate y ObjectContext.ExecuteStoreQuery ahora admiten el tipo enum
 
 |   |   |
 |---|---|
