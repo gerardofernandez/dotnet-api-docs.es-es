@@ -1,1 +1,0 @@
-tecnología de asistencia

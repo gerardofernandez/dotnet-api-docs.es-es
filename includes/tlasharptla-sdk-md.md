@@ -1,1 +1,0 @@
-kit de desarrollo de software (SDK)

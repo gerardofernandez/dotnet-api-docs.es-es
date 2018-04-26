@@ -1,1 +1,0 @@
-Servicio de transferencia inteligente en segundo plano de Microsoft (BITS)

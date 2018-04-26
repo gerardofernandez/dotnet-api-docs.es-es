@@ -1,1 +1,0 @@
-características de hospedaje de Windows Server AppFabric

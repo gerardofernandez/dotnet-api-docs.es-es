@@ -1,1 +1,0 @@
-Para obtener más información, consulte la [Especificación del lenguaje C#](~/docs/csharp/language-reference/language-specification/index.md). La especificación del lenguaje es la fuente definitiva de la sintaxis y el uso de C#.
