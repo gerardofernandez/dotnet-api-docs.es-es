@@ -1,1 +1,0 @@
-<span data-ttu-id="ddaab-101">unidad de procesamiento de gráficos (GPU)</span><span class="sxs-lookup"><span data-stu-id="ddaab-101">graphics processing unit (GPU)</span></span>

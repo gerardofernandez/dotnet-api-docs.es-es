@@ -1,1 +1,0 @@
-<span data-ttu-id="df142-101">Microsoft Direct3D</span><span class="sxs-lookup"><span data-stu-id="df142-101">Microsoft Direct3D</span></span>

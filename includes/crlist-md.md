@@ -1,1 +1,0 @@
-<span data-ttu-id="99fc5-101">Para obtener una lista de</span><span class="sxs-lookup"><span data-stu-id="99fc5-101">For a list of</span></span>

@@ -1,1 +1,0 @@
-<span data-ttu-id="e2fea-101">tecnología de asistencia</span><span class="sxs-lookup"><span data-stu-id="e2fea-101">assistive technology</span></span>
