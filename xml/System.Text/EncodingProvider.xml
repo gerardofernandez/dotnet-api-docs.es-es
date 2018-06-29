@@ -1,17 +1,18 @@
 <Type Name="EncodingProvider" FullName="System.Text.EncodingProvider">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="213b813ec5e5a38a3816aedc55e2d6e2e5a7636c" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="3dd8164857fc0ee882ea5619b0174b55570de658" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30530299" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36407729" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class EncodingProvider" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit EncodingProvider extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Text.EncodingProvider" />
   <TypeSignature Language="VB.NET" Value="Public MustInherit Class EncodingProvider" />
   <TypeSignature Language="C++ CLI" Value="public ref class EncodingProvider abstract" />
+  <TypeSignature Language="F#" Value="type EncodingProvider = class" />
   <AssemblyInfo>
     <AssemblyName>System.Text.Encoding</AssemblyName>
     <AssemblyVersion>4.0.10.0</AssemblyVersion>
@@ -128,6 +129,7 @@
       <MemberSignature Language="DocId" Value="M:System.Text.EncodingProvider.GetEncoding(System.Int32)" />
       <MemberSignature Language="VB.NET" Value="Public MustOverride Function GetEncoding (codepage As Integer) As Encoding" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract System::Text::Encoding ^ GetEncoding(int codepage);" />
+      <MemberSignature Language="F#" Value="abstract member GetEncoding : int -&gt; System.Text.Encoding" Usage="encodingProvider.GetEncoding codepage" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Text.Encoding</AssemblyName>
@@ -189,6 +191,7 @@ Este método es invocado por el [Encoding.GetEncoding(Int32)](<xref:System.Text.
       <MemberSignature Language="DocId" Value="M:System.Text.EncodingProvider.GetEncoding(System.String)" />
       <MemberSignature Language="VB.NET" Value="Public MustOverride Function GetEncoding (name As String) As Encoding" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract System::Text::Encoding ^ GetEncoding(System::String ^ name);" />
+      <MemberSignature Language="F#" Value="abstract member GetEncoding : string -&gt; System.Text.Encoding" Usage="encodingProvider.GetEncoding name" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Text.Encoding</AssemblyName>
@@ -244,6 +247,7 @@ Este método es invocado por el [Encoding.GetEncoding (String)](<xref:System.Tex
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Text.Encoding GetEncoding(int32 codepage, class System.Text.EncoderFallback encoderFallback, class System.Text.DecoderFallback decoderFallback) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Text.EncodingProvider.GetEncoding(System.Int32,System.Text.EncoderFallback,System.Text.DecoderFallback)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Text::Encoding ^ GetEncoding(int codepage, System::Text::EncoderFallback ^ encoderFallback, System::Text::DecoderFallback ^ decoderFallback);" />
+      <MemberSignature Language="F#" Value="abstract member GetEncoding : int * System.Text.EncoderFallback * System.Text.DecoderFallback -&gt; System.Text.Encoding&#xA;override this.GetEncoding : int * System.Text.EncoderFallback * System.Text.DecoderFallback -&gt; System.Text.Encoding" Usage="encodingProvider.GetEncoding (codepage, encoderFallback, decoderFallback)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Text.Encoding</AssemblyName>
@@ -283,9 +287,9 @@ Este método es invocado por el [Encoding.GetEncoding (String)](<xref:System.Tex
 ## Remarks  
  El `encoderFallback` y `decoderFallback` parámetros son objetos que definen la estrategia de reserva que se usa en caso de que un codificador no puede convertir un carácter en una secuencia de bytes o un descodificador no puede convertir una secuencia de bytes en un carácter. .NET Framework proporciona los siguientes mecanismos de reserva:  
   
--   Reserva de excepción. Si el `encoderFallback` argumento es una instancia de <xref:System.Text.EncoderExceptionFallback>, o la `decoderExceptionFallback` argumento es una instancia de <xref:System.Text.DecoderExceptionFallback>, el método de codificación produce una excepción si no se puede codificar caracteres y el método de descodificación produce una excepción si no se puede descodificar una secuencia de bytes.  
+-   Reserva de excepción. Si el `encoderFallback` argumento es una instancia de <xref:System.Text.EncoderExceptionFallback>, o la `decoderExceptionFallback` argumento es una instancia de <xref:System.Text.DecoderExceptionFallback>, el método de codificación produce una excepción si no se puede codificar caracteres y el método de descodificación produce una excepción si un byte no se puede descodificar la secuencia.  
   
--   Reserva de reemplazo. Si el `encoderFallback` argumento es una instancia de <xref:System.Text.EncoderReplacementFallback>, o la `decoderExceptionFallback` argumento es una instancia de <xref:System.Text.DecoderReplacementFallback>, la codificación y descodificación métodos sustituyen una cadena de reemplazo para los caracteres que no se pueden codificar y las secuencias de bytes no se puede descodificar. Si crea una instancia del objeto de reserva de reemplazo debe llamar al constructor predeterminado, el carácter de reemplazo es un "?". Si se llama a la <xref:System.Text.EncoderReplacementFallback.%23ctor%28System.String%29?displayProperty=nameWithType> o <xref:System.Text.DecoderReplacementFallback.%23ctor%28System.String%29?displayProperty=nameWithType> constructor, puede especificar la cadena de reemplazo.  
+-   Reserva de reemplazo. Si el `encoderFallback` argumento es una instancia de <xref:System.Text.EncoderReplacementFallback>, o la `decoderExceptionFallback` argumento es una instancia de <xref:System.Text.DecoderReplacementFallback>, la codificación y descodificación métodos sustituyen una cadena de reemplazo para los caracteres que no se pueden codificar y las secuencias de bytes no pueden ser descodificar. Si crea una instancia del objeto de reserva de reemplazo debe llamar al constructor predeterminado, el carácter de reemplazo es un "?". Si se llama a la <xref:System.Text.EncoderReplacementFallback.%23ctor%28System.String%29?displayProperty=nameWithType> o <xref:System.Text.DecoderReplacementFallback.%23ctor%28System.String%29?displayProperty=nameWithType> constructor, puede especificar la cadena de reemplazo.  
   
 -   Reserva con ajuste perfecto. Puede derivar de la <xref:System.Text.EncoderFallback> o <xref:System.Text.DecoderFallback> clase para implementar un mecanismo de reemplazo con ajuste perfecto.  
   
@@ -305,6 +309,7 @@ Este método es invocado por el [Encoding.GetEncoding (String)](<xref:System.Tex
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Text.Encoding GetEncoding(string name, class System.Text.EncoderFallback encoderFallback, class System.Text.DecoderFallback decoderFallback) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Text.EncodingProvider.GetEncoding(System.String,System.Text.EncoderFallback,System.Text.DecoderFallback)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Text::Encoding ^ GetEncoding(System::String ^ name, System::Text::EncoderFallback ^ encoderFallback, System::Text::DecoderFallback ^ decoderFallback);" />
+      <MemberSignature Language="F#" Value="abstract member GetEncoding : string * System.Text.EncoderFallback * System.Text.DecoderFallback -&gt; System.Text.Encoding&#xA;override this.GetEncoding : string * System.Text.EncoderFallback * System.Text.DecoderFallback -&gt; System.Text.Encoding" Usage="encodingProvider.GetEncoding (name, encoderFallback, decoderFallback)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Text.Encoding</AssemblyName>
@@ -344,9 +349,9 @@ Este método es invocado por el [Encoding.GetEncoding (String)](<xref:System.Tex
 ## Remarks  
  El `encoderFallback` y `decoderFallback` parámetros son objetos que definen la estrategia de reserva que se usa en caso de que un codificador no puede convertir un carácter en una secuencia de bytes o un descodificador no puede convertir una secuencia de bytes en un carácter. .NET Framework proporciona los siguientes mecanismos de reserva:  
   
--   Reserva de excepción. Si el `encoderFallback` argumento es una instancia de <xref:System.Text.EncoderExceptionFallback>, o la `decoderExceptionFallback` argumento es una instancia de <xref:System.Text.DecoderExceptionFallback>, el método de codificación produce una excepción si no se puede codificar caracteres y el método de descodificación produce una excepción si no se puede descodificar una secuencia de bytes.  
+-   Reserva de excepción. Si el `encoderFallback` argumento es una instancia de <xref:System.Text.EncoderExceptionFallback>, o la `decoderExceptionFallback` argumento es una instancia de <xref:System.Text.DecoderExceptionFallback>, el método de codificación produce una excepción si no se puede codificar caracteres y el método de descodificación produce una excepción si un byte no se puede descodificar la secuencia.  
   
--   Reserva de reemplazo. Si el `encoderFallback` argumento es una instancia de <xref:System.Text.EncoderReplacementFallback>, o la `decoderExceptionFallback` argumento es una instancia de <xref:System.Text.DecoderReplacementFallback>, la codificación y descodificación métodos sustituyen una cadena de reemplazo para los caracteres que no se pueden codificar y las secuencias de bytes no se puede descodificar. Si crea una instancia del objeto de reserva de reemplazo debe llamar al constructor predeterminado, el carácter de reemplazo es un "?". Si se llama a la <xref:System.Text.EncoderReplacementFallback.%23ctor%28System.String%29?displayProperty=nameWithType> o <xref:System.Text.DecoderReplacementFallback.%23ctor%28System.String%29?displayProperty=nameWithType> constructor, puede especificar la cadena de reemplazo.  
+-   Reserva de reemplazo. Si el `encoderFallback` argumento es una instancia de <xref:System.Text.EncoderReplacementFallback>, o la `decoderExceptionFallback` argumento es una instancia de <xref:System.Text.DecoderReplacementFallback>, la codificación y descodificación métodos sustituyen una cadena de reemplazo para los caracteres que no se pueden codificar y las secuencias de bytes no pueden ser descodificar. Si crea una instancia del objeto de reserva de reemplazo debe llamar al constructor predeterminado, el carácter de reemplazo es un "?". Si se llama a la <xref:System.Text.EncoderReplacementFallback.%23ctor%28System.String%29?displayProperty=nameWithType> o <xref:System.Text.DecoderReplacementFallback.%23ctor%28System.String%29?displayProperty=nameWithType> constructor, puede especificar la cadena de reemplazo.  
   
 -   Reserva con ajuste perfecto. Puede derivar de la <xref:System.Text.EncoderFallback> o <xref:System.Text.DecoderFallback> clase para implementar un mecanismo de reemplazo con ajuste perfecto.  
   
