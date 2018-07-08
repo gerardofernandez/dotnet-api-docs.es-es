@@ -1,11 +1,11 @@
 <Type Name="ICancelAddNew" FullName="System.ComponentModel.ICancelAddNew">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="cd2446cbe765291b3c6b7f8c8df33e2f265e2481" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="4a90ef799e4d00c36c06e1d73fd90e9c03baeab9" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36703047" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37692961" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface ICancelAddNew" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract ICancelAddNew" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type ICancelAddNew = interface" />
   <AssemblyInfo>
     <AssemblyName>System</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -34,22 +35,22 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.ComponentModel.ICancelAddNew> interfaz permite que una colección para agregar un nuevo elemento de forma extensible. El nuevo elemento posteriormente puede confirmar o revertir. El <xref:System.ComponentModel.IBindingList.AddNew%2A> método de la colección se utiliza para agregar provisionalmente el elemento, que posteriormente se lleva a cabo a través de las siguientes operaciones:  
+ El <xref:System.ComponentModel.ICancelAddNew> interfaz permite que una colección agregar un nuevo elemento de forma extensible. El nuevo elemento posteriormente puede confirmado o revertido. El <xref:System.ComponentModel.IBindingList.AddNew%2A> método de la colección se utiliza para agregar provisionalmente el elemento, que posteriormente se transfieran a través de las siguientes operaciones:  
   
--   El <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> método confirmará explícitamente la inclusión pendiente.  
+-   El <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> método confirmará explícitamente la adición pendiente.  
   
--   Realizar otra operación de colección, como una inserción, eliminación o movimiento, se confirmará implícitamente la adición pendiente.  
+-   Realizar otra operación de colección, como una inserción, eliminación o movimiento confirmará implícitamente la adición pendiente.  
   
--   El <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> método deshará la inclusión pendiente si lo no ya se ha confirmado.  
+-   El <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> método revertirá la adición pendiente si no ha confirmado.  
   
 > [!NOTE]
->  En algunos escenarios, como el enlace de datos complejo de formularios Windows Forms, la colección puede recibir <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> o <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> llama para elementos que no sean el elemento recién agregado. (Cada elemento es normalmente una fila en una vista de datos.) Pasar por alto estas llamadas; Cancelar o confirme el nuevo elemento solo si se especifica el índice de ese elemento.  
+>  En algunos escenarios, como el enlace de datos complejos de Windows Forms, puede recibir la colección <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> o <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> llama para los elementos que no sea el elemento recién agregado. (Cada elemento normalmente es una fila en una vista de datos). Omita estas llamadas; Cancelar o confirmar el nuevo elemento solo cuando se especifica el índice del elemento.  
   
- Hay dos modelos que permiten la adición transaccional de un elemento a una colección de enlace a datos:  
+ Hay dos modelos que permiten la adición transaccional de un elemento a una colección enlazada a datos:  
   
--   El modelo antiguo se basa directamente en una colección que implementa el <xref:System.ComponentModel.IBindingList> de interfaz y está enlazado a datos directamente mediante la <xref:System.Windows.Forms.CurrencyManager?displayProperty=nameWithType> clase. El <xref:System.Windows.Forms.CurrencyManager.AddNew%2A>, <xref:System.Windows.Forms.CurrencyManager.EndCurrentEdit%2A>, y <xref:System.Windows.Forms.CurrencyManager.CancelCurrentEdit%2A> métodos de la <xref:System.Windows.Forms.CurrencyManager?displayProperty=nameWithType> clase son responsables de compatibilidad transaccional para agregar nuevos elementos. Sin embargo, esta funcionalidad depende de los elementos que admitan el comportamiento transaccional a través de la <xref:System.ComponentModel.IEditableObject> interfaz. Si los elementos no admiten esta interfaz, el elemento siempre se agrega a la lista, independientemente de las llamadas subsiguientes a <xref:System.Windows.Forms.CurrencyManager.CancelCurrentEdit%2A>.  
+-   El modelo antiguo se basa directamente en una colección que implementa el <xref:System.ComponentModel.IBindingList> interfaz y está enlazado a datos directamente mediante la <xref:System.Windows.Forms.CurrencyManager?displayProperty=nameWithType> clase. El <xref:System.Windows.Forms.CurrencyManager.AddNew%2A>, <xref:System.Windows.Forms.CurrencyManager.EndCurrentEdit%2A>, y <xref:System.Windows.Forms.CurrencyManager.CancelCurrentEdit%2A> métodos de la <xref:System.Windows.Forms.CurrencyManager?displayProperty=nameWithType> son responsables de la compatibilidad transaccional para agregar nuevos elementos de la clase. Sin embargo, esta funcionalidad depende de los elementos que admiten el comportamiento transaccional a través de la <xref:System.ComponentModel.IEditableObject> interfaz. Si los elementos no admiten esta interfaz, el elemento se agregarán siempre a la lista, independientemente de las llamadas subsiguientes a <xref:System.Windows.Forms.CurrencyManager.CancelCurrentEdit%2A>.  
   
--   El modelo más reciente admite un escenario de enlace de datos más sólido a través de la interfaz genérica <xref:System.ComponentModel.BindingList%601> de la clase, que implementa el <xref:System.ComponentModel.IBindingList> y <xref:System.ComponentModel.ICancelAddNew> interfaces. En este caso, la compatibilidad transaccional es administrada por el <xref:System.ComponentModel.BindingList%601> colección directamente.  
+-   El modelo más reciente admite un escenario de enlace de datos más sólido a través del genérico <xref:System.ComponentModel.BindingList%601> clase que implementa el <xref:System.ComponentModel.IBindingList> y <xref:System.ComponentModel.ICancelAddNew> interfaces. En este caso, la compatibilidad transaccional se administra mediante el <xref:System.ComponentModel.BindingList%601> colección directamente.  
   
  ]]></format>
     </remarks>
@@ -69,6 +70,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -113,6 +115,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
