@@ -1,11 +1,11 @@
 <Type Name="ApplicationSettingsBase" FullName="System.Configuration.ApplicationSettingsBase">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="c0040a0585c9b345ede611c5c918a67c6203f833" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="de1da6a461d83e461c80a73ebd9d0c7066a7dfc7" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36698396" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37689165" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class ApplicationSettingsBase : System.Configuration.SettingsBase, System.ComponentModel.INotifyPropertyChanged" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit ApplicationSettingsBase extends System.Configuration.SettingsBase implements class System.ComponentModel.INotifyPropertyChanged" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type ApplicationSettingsBase = class&#xA;    inherit SettingsBase&#xA;    interface INotifyPropertyChanged" />
   <AssemblyInfo>
     <AssemblyName>System</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <AssemblyInfo>
@@ -37,48 +38,48 @@
 ## Remarks  
  <xref:System.Configuration.ApplicationSettingsBase> Agrega la siguiente funcionalidad a la <xref:System.Configuration.SettingsBase> (clase), que es utilizado por las aplicaciones basadas en Web:  
   
--   La capacidad de detectar atributos en una clase derivada, de contenedor de configuración. <xref:System.Configuration.ApplicationSettingsBase> es compatible con el modelo declarativo que se usa para las propiedades de la clase de contenedor, tal y como se describe más adelante.  
+-   La capacidad para detectar atributos en una clase derivada, de contenedor de configuración. <xref:System.Configuration.ApplicationSettingsBase> es compatible con el modelo declarativo que se usa para las propiedades de clase contenedora, como se describe más adelante.  
   
--   Un nivel más alto <xref:System.Configuration.ApplicationSettingsBase.Save%2A> y <xref:System.Configuration.ApplicationSettingsBase.Reload%2A> métodos.  
+-   Nivel más alto <xref:System.Configuration.ApplicationSettingsBase.Save%2A> y <xref:System.Configuration.ApplicationSettingsBase.Reload%2A> métodos.  
   
--   Eventos de validación adicionales que se pueden controlar para garantizar la exactitud de la configuración individual.  
+-   Eventos de validación adicionales que puede controlar para garantizar la exactitud de la configuración individual.  
   
- En la arquitectura de configuración de la aplicación, para tener acceso a un grupo de propiedades de configuración debe derivar una clase de contenedor concreta de <xref:System.Configuration.ApplicationSettingsBase>. La clase contenedora personaliza <xref:System.Configuration.ApplicationSettingsBase> de las maneras siguientes:  
+ En la arquitectura de configuración de la aplicación, para tener acceso a un grupo de propiedades de configuración debe derivar una clase de contenedor concreto de <xref:System.Configuration.ApplicationSettingsBase>. La clase contenedora personaliza <xref:System.Configuration.ApplicationSettingsBase> de las maneras siguientes:  
   
--   Para que todas las propiedades de configuración tener acceso, se agrega una propiedad pública fuertemente tipada correspondiente a la clase de contenedor. Esta propiedad no tiene `get` y `set` descriptores de acceso de configuración de la aplicación de lectura/escritura, pero sólo un `get` descriptor de acceso de configuración de solo lectura.  
+-   Para que tener acceso a cada propiedad de configuración, se agrega una propiedad pública fuertemente tipada correspondiente a la clase contenedora. Esta propiedad tiene `get` y `set` descriptores de acceso para la configuración de la aplicación de lectura/escritura, pero solo un `get` descriptor de acceso para la configuración de solo lectura.  
   
--   Atributos asignados deben aplicarse a las propiedades públicas de la clase contenedora para indicar las características de la propiedad de configuración, como el ámbito de la configuración (aplicación o usuario), si la configuración debe admitir la movilidad, el valor predeterminado para el configuración, el proveedor de configuración para usarse y así sucesivamente. Cada propiedad es necesaria para especificar su ámbito, con <xref:System.Configuration.ApplicationScopedSettingAttribute> o <xref:System.Configuration.UserScopedSettingAttribute>. La configuración de ámbito de aplicación es de solo lectura si el valor predeterminado <xref:System.Configuration.LocalFileSettingsProvider> se utiliza.  
+-   Se deben aplicar atributos adecuados a las propiedades públicas de la clase contenedora para indicar las características de la propiedad de configuración, como el ámbito de la configuración (aplicación o usuario), si debe admitir la configuración de roaming, el valor predeterminado para el configuración, el proveedor de configuración para su uso y así sucesivamente. Cada propiedad es necesaria para especificar su ámbito, ya sea mediante <xref:System.Configuration.ApplicationScopedSettingAttribute> o <xref:System.Configuration.UserScopedSettingAttribute>. Configuración de ámbito de aplicación es de solo lectura si el valor predeterminado <xref:System.Configuration.LocalFileSettingsProvider> se utiliza.  
   
  La <xref:System.Configuration.ApplicationSettingsBase> clase usa la reflexión para detectar estos atributos en tiempo de ejecución. La mayor parte de esta información se pasa a la capa de proveedor de configuración, que es responsable de almacenamiento, el formato de persistencia y así sucesivamente.  
   
- Cuando una aplicación tiene varias clases de contenedor de configuración, cada clase define un *grupo de configuración*. Cada grupo tiene las siguientes características:  
+ Cuando una aplicación tiene varias clases de contenedor de configuración, cada clase define un *grupo configuración*. Cada grupo tiene las siguientes características:  
   
 -   Un grupo puede contener cualquier número o tipo de valores de propiedad.  
   
--   Si el nombre del grupo no se establece explícitamente decorando la clase contenedora con un <xref:System.Configuration.SettingsGroupNameAttribute>, a continuación, se genera automáticamente un nombre.  
+-   Si no se establece explícitamente el nombre del grupo decorando la clase contenedora con un <xref:System.Configuration.SettingsGroupNameAttribute>, a continuación, se genera automáticamente un nombre.  
   
- De forma predeterminada, todas las aplicaciones basadas en cliente utilizan el <xref:System.Configuration.LocalFileSettingsProvider> para proporcionar almacenamiento de información. Si se desea un proveedor de configuración alternativo, la clase de contenedor o la propiedad se debe decorar con su correspondiente <xref:System.Configuration.SettingsProviderAttribute>.  
+ De forma predeterminada, todas las aplicaciones basadas en cliente utilizan la <xref:System.Configuration.LocalFileSettingsProvider> para proporcionar almacenamiento. Si se desea un proveedor de configuración alternativa y, después, se debe decorar la clase de contenedor o una propiedad con su correspondiente <xref:System.Configuration.SettingsProviderAttribute>.  
   
  Para obtener más información sobre el uso de la configuración de la aplicación, consulte [Application Settings for Windows Forms](~/docs/framework/winforms/advanced/application-settings-for-windows-forms.md).  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra el uso de la configuración de la aplicación para conservar los atributos siguientes del formulario principal: ubicación, tamaño, color de fondo y texto de la barra de título. Todos estos atributos se conservan como propiedades de configuración de aplicación único en la `FormSettings` (clase), denominado `FormLocation`, `FormSize`, `FormBackColor` y `FormText`, respectivamente. Todo excepto para `FormText` y `Size` son datos enlazan a sus propiedades de formulario asociado y tienen un valor predeterminado que se aplica mediante el valor <xref:System.Configuration.DefaultSettingValueAttribute>.  
+ En el ejemplo de código siguiente se muestra el uso de la configuración de la aplicación para conservar los atributos siguientes del formulario principal: ubicación, tamaño, color de fondo y texto de la barra de título. Todos estos atributos se conservan como propiedades de configuración de aplicación único en la `FormSettings` clase, denominada `FormLocation`, `FormSize`, `FormBackColor` y `FormText`, respectivamente. Todo excepto para `FormText` y `Size` son datos enlazados a sus propiedades de formulario asociado y tienen un valor predeterminado que se aplica mediante el valor <xref:System.Configuration.DefaultSettingValueAttribute>.  
   
  El formulario contiene cuatro controles secundarios que tienen los nombres y las funciones siguientes:  
   
--   Un botón denominado `btnBackColor` usa para mostrar el **Color** cuadro de diálogo común.  
+-   Un botón denominado `btnBackColor` utilizado para mostrar el **Color** cuadro de diálogo común.  
   
--   Un botón denominado `btnReload` permiten <xref:System.Configuration.ApplicationSettingsBase.Reload%2A> la configuración de la aplicación.  
+-   Un botón denominado `btnReload` solía <xref:System.Configuration.ApplicationSettingsBase.Reload%2A> la configuración de la aplicación.  
   
--   Un botón denominado `btnReset` permiten <xref:System.Configuration.ApplicationSettingsBase.Reset%2A> la configuración de la aplicación.  
+-   Un botón denominado `btnReset` solía <xref:System.Configuration.ApplicationSettingsBase.Reset%2A> la configuración de la aplicación.  
   
--   Un cuadro de texto denominado `tbStatus` usa para mostrar información de estado sobre el programa.  
+-   Un cuadro de texto denominado `tbStatus` utilizado para mostrar información de estado sobre el programa.  
   
  Tenga en cuenta que después de cada ejecución de la aplicación, se anexa un carácter de punto adicional para el texto del título del formulario.  
   
- Este ejemplo de código requiere un formulario con un <xref:System.Windows.Forms.ColorDialog> clase denominada `colorDialog1`y un <xref:System.Windows.Forms.StatusStrip> controlar con un <xref:System.Windows.Forms.ToolStripStatusLabel> denominado `tbStatus`. Además, se requieren tres <xref:System.Windows.Forms.Button> objetos denominados `btnReload`, `btnReset`, y `btnBackColor`.  
+ Este ejemplo de código requiere un formulario con un <xref:System.Windows.Forms.ColorDialog> clase denominada `colorDialog1`y un <xref:System.Windows.Forms.StatusStrip> controlar con un <xref:System.Windows.Forms.ToolStripStatusLabel> denominado `tbStatus`. Además, requiere tres <xref:System.Windows.Forms.Button> objetos denominados `btnReload`, `btnReset`, y `btnBackColor`.  
   
  [!code-cpp[AppSettingsSample#1](~/samples/snippets/cpp/VS_Snippets_Winforms/AppSettingsSample/cpp/AppSettingsSample.cpp#1)]
  [!code-csharp[AppSettingsSample#1](~/samples/snippets/csharp/VS_Snippets_Winforms/AppSettingsSample/CS/AppSettingsSample.cs#1)]
@@ -111,6 +112,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -124,21 +126,21 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El constructor predeterminado se diseñó para funcionar con la suposición de que no hay ningún componente asociado a la clase de contenedor de configuración actual, que se deriva de <xref:System.Configuration.ApplicationSettingsBase>.  
+ El constructor predeterminado se diseñó para funcionar con la asunción de que no hay ningún componente asociado a la clase contenedora de configuración actual, que se deriva de <xref:System.Configuration.ApplicationSettingsBase>.  
   
  Cuando se crea una instancia de una clase contenedora, el código heredado automáticamente realizará las siguientes acciones:  
   
-1.  Reflejar en la clase.  
+1.  Reflejar a través de la clase.  
   
-2.  Para cada propiedad en el contenedor marcado con cualquiera `[UserScopedSettingAttribute]` o `[ApplicationScopedSettingAttribute]`, correspondiente <xref:System.Configuration.SettingsProperty> se crea.  
+2.  Para cada propiedad en el contenedor marcado con `[UserScopedSettingAttribute]` o `[ApplicationScopedSettingAttribute]`, correspondiente <xref:System.Configuration.SettingsProperty> se crea.  
   
-3.  Cada <xref:System.Configuration.SettingsProperty> tiene algunas de sus propiedades establecidas en función de otros atributos que pueden estar presentes opcionalmente en las propiedades del contenedor, como el valor predeterminado o el proveedor de configuración.  
+3.  Cada <xref:System.Configuration.SettingsProperty> tiene algunas de sus propiedades establecidas en función de otros atributos que están presentes, opcionalmente, en las propiedades del contenedor, como el valor predeterminado o el proveedor de configuración.  
   
-4.  Todos los demás atributos simplemente se colocan en una bolsa de atributo, el <xref:System.Configuration.SettingsProperty.Attributes%2A> propiedad de la <xref:System.Configuration.SettingsProperty> clase.  
+4.  Todos los demás atributos simplemente se colocan en una bolsa de atributos, el <xref:System.Configuration.SettingsProperty.Attributes%2A> propiedad de la <xref:System.Configuration.SettingsProperty> clase.  
   
-5.  Todos los <xref:System.Configuration.SettingsProperty> objetos se agregan a un <xref:System.Configuration.SettingsPropertyCollection> representado por la <xref:System.Configuration.ApplicationSettingsBase.Properties%2A> propiedad de la <xref:System.Configuration.ApplicationSettingsBase> clase. Esta colección, a continuación, se pasa a la <xref:System.Configuration.SettingsBase.Initialize%2A> método.  
+5.  Todos los <xref:System.Configuration.SettingsProperty> se agregan objetos a un <xref:System.Configuration.SettingsPropertyCollection> representado por la <xref:System.Configuration.ApplicationSettingsBase.Properties%2A> propiedad de la <xref:System.Configuration.ApplicationSettingsBase> clase. Esta colección, a continuación, se pasa a la <xref:System.Configuration.SettingsBase.Initialize%2A> método.  
   
- Como implica el paso 3 se ha mencionado anteriormente, <xref:System.Configuration.ApplicationSettingsBase> funciona de forma nativa con varios atributos de propiedad, específicamente los siguientes: <xref:System.Configuration.SettingsProviderAttribute>, <xref:System.Configuration.DefaultSettingValueAttribute>, y <xref:System.Configuration.SettingsSerializeAsAttribute>. Todos los demás atributos de configuración simplemente se pasan al proveedor subyacente adecuado.  
+ Como implicado en el paso 3 se ha mencionado anteriormente, <xref:System.Configuration.ApplicationSettingsBase> funciona de forma nativa con varios atributos de propiedad, en concreto a lo siguiente: <xref:System.Configuration.SettingsProviderAttribute>, <xref:System.Configuration.DefaultSettingValueAttribute>, y <xref:System.Configuration.SettingsSerializeAsAttribute>. Todos los demás atributos de configuración simplemente se pasan a través del proveedor subyacente adecuada.  
   
  ]]></format>
         </remarks>
@@ -157,6 +159,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -173,7 +176,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este constructor es exactamente equivalente a la <xref:System.Configuration.ApplicationSettingsBase.%23ctor%28System.ComponentModel.IComponent%2CSystem.String%29> mediante la invocación del constructor:  
+ Este constructor equivale exactamente a la <xref:System.Configuration.ApplicationSettingsBase.%23ctor%28System.ComponentModel.IComponent%2CSystem.String%29> mediante la invocación del constructor:  
   
  `ApplicationSettingsBase(owner, String.Empty)`  
   
@@ -197,6 +200,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -213,7 +217,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este constructor inicializa la <xref:System.Configuration.ApplicationSettingsBase.SettingsKey%2A> en el valor de la `settingsKey` parámetro. Esta propiedad es útil para eliminar la ambigüedad de distintas instancias de la clase de contenedor de configuración en el mismo dominio de aplicación.  
+ Este constructor inicializa la <xref:System.Configuration.ApplicationSettingsBase.SettingsKey%2A> en el valor de la `settingsKey` parámetro. Esta propiedad es útil para eliminar la ambigüedad de las diferentes instancias de la clase contenedora de configuración en el mismo dominio de aplicación.  
   
  Para obtener información acerca de cómo se utiliza la reflexión durante la creación de instancias de una clase contenedora, vea el valor predeterminado <xref:System.Configuration.ApplicationSettingsBase.%23ctor> constructor.  
   
@@ -232,6 +236,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -250,9 +255,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.ComponentModel.IComponent> objeto especificado por el `owner` parámetro actúa como el propietario de la instancia actual de esta clase de configuración de aplicaciones. Durante la inicialización de la configuración que se deriva de la clase contenedora <xref:System.Configuration.ApplicationSettingsBase>, se consulta el sitio del propietario para un <xref:System.Configuration.ISettingsProviderService>. Si existe una, se utiliza con preferencia a proveedor de configuración nativo para todas las propiedades de la clase contenedora, según lo especificado por el <xref:System.Configuration.SettingsProviderAttribute>.  
+ El <xref:System.ComponentModel.IComponent> objeto especificado por el `owner` parámetro actúa como el propietario de la instancia actual de esta clase de configuración de aplicaciones. Durante la inicialización de la configuración que se deriva de la clase contenedora <xref:System.Configuration.ApplicationSettingsBase>, se consulta el sitio del propietario para un <xref:System.Configuration.ISettingsProviderService>. Si la hay, se usa con preferencia a proveedor de configuración nativo para todas las propiedades de la clase contenedora, según lo especificado por el <xref:System.Configuration.SettingsProviderAttribute>.  
   
- Este constructor inicializa la <xref:System.Configuration.ApplicationSettingsBase.SettingsKey%2A> en el valor de la `settingsKey` parámetro. Esta propiedad es útil para eliminar la ambigüedad de distintas instancias de la clase de contenedor en el mismo dominio de aplicación.  
+ Este constructor inicializa la <xref:System.Configuration.ApplicationSettingsBase.SettingsKey%2A> en el valor de la `settingsKey` parámetro. Esta propiedad es útil para eliminar la ambigüedad de las diferentes instancias de la clase de contenedor en el mismo dominio de aplicación.  
   
  Para obtener información acerca de cómo se utiliza la reflexión durante la creación de instancias de una clase contenedora, vea el valor predeterminado <xref:System.Configuration.ApplicationSettingsBase.%23ctor> constructor.  
   
@@ -275,6 +280,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -296,9 +302,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cada clase de contenedor de configuración que se deriva de <xref:System.Configuration.ApplicationSettingsBase> tiene un contexto asociado con él. El contexto se pasa al proveedor de configuración para cada propiedad para identificar cómo se usa la propiedad. Por lo tanto, el contexto actúa como una sugerencia para el proveedor de configuración determinar cuál es la mejor conservar los valores de configuración de aplicación asociada.  
+ Cada clase contenedora de configuración derivada de <xref:System.Configuration.ApplicationSettingsBase> tiene un contexto asociado con él. El contexto se pasa al proveedor de configuración para cada propiedad para identificar cómo se usa la propiedad. Por lo tanto, el contexto actúa como una sugerencia para ayudar a que el proveedor de configuración determinar la mejor manera de conservar los valores de configuración de la aplicación asociada.  
   
- En cambio, la <xref:System.Configuration.ApplicationSettingsBase.SettingsKey%2A> propiedad permite al proveedor de configuración eliminar la ambigüedad de varias instancias de la misma clase de contenedor.  
+ En cambio, el <xref:System.Configuration.ApplicationSettingsBase.SettingsKey%2A> propiedad permite que el proveedor de configuración eliminar la ambigüedad de varias instancias de la misma clase de contenedor.  
   
  ]]></format>
         </remarks>
@@ -319,6 +325,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -340,7 +347,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Configuration.ApplicationSettingsBase.GetPreviousVersion%2A> método se utiliza a menudo junto con el <xref:System.Configuration.ApplicationSettingsBase.Upgrade%2A> método al migrar la configuración de la aplicación durante la instalación de una nueva versión de una aplicación.  
+ El <xref:System.Configuration.ApplicationSettingsBase.GetPreviousVersion%2A> método se utiliza a menudo junto con el <xref:System.Configuration.ApplicationSettingsBase.Upgrade%2A> método cuando se migra la configuración de la aplicación durante la instalación de una nueva versión de una aplicación.  
   
  ]]></format>
         </remarks>
@@ -363,6 +370,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -388,13 +396,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Configuration.ApplicationSettingsBase.Item%2A> propiedad, también conocida como indizador, se utiliza habitualmente en la configuración que se deriva de la clase contenedora <xref:System.Configuration.ApplicationSettingsBase>. <xref:System.Configuration.ApplicationSettingsBase.Item%2A> enlaza la propiedad pública de la clase de contenedor para la propiedad de configuración correspondiente.  
+ El <xref:System.Configuration.ApplicationSettingsBase.Item%2A> propiedad, también conocida como indizador, se utiliza habitualmente en la configuración que se deriva de la clase contenedora <xref:System.Configuration.ApplicationSettingsBase>. <xref:System.Configuration.ApplicationSettingsBase.Item%2A> enlaza la propiedad pública de la clase contenedora para la propiedad de configuración correspondiente.  
   
- <xref:System.Configuration.ApplicationSettingsBase.Item%2A> genera varios eventos dependiendo de la operación que se va a realizar:  
+ <xref:System.Configuration.ApplicationSettingsBase.Item%2A> genera varios eventos según la operación que se va a realizar:  
   
--   La primera vez que se recupera una propiedad, el <xref:System.Configuration.ApplicationSettingsBase.SettingsLoaded> evento se desencadena.  
+-   La primera vez que se puede recuperar una propiedad, el <xref:System.Configuration.ApplicationSettingsBase.SettingsLoaded> provoca el evento.  
   
--   Cuando se establece una propiedad, el <xref:System.Configuration.ApplicationSettingsBase.OnSettingChanging%2A> evento se desencadena. Si el controlador no cancela el evento, se establece el valor de propiedad y el <xref:System.Configuration.ApplicationSettingsBase.PropertyChanged> evento se desencadena.  
+-   Cuando se establece una propiedad, el <xref:System.Configuration.ApplicationSettingsBase.OnSettingChanging%2A> provoca el evento. Si el controlador no cancela el evento, se establece el valor de propiedad y el <xref:System.Configuration.ApplicationSettingsBase.PropertyChanged> provoca el evento.  
   
  ]]></format>
         </remarks>
@@ -416,6 +424,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -444,7 +453,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Al reemplazar <see cref="M:System.Configuration.ApplicationSettingsBase.OnPropertyChanged(System.Object,System.ComponentModel.PropertyChangedEventArgs)" /> en una clase derivada, asegúrese de llamar a la clase base <see cref="M:System.Configuration.ApplicationSettingsBase.OnPropertyChanged(System.Object,System.ComponentModel.PropertyChangedEventArgs)" /> método para que los delegados registrados reciban el evento.</para>
+          <para>Cuando se reemplaza <see cref="M:System.Configuration.ApplicationSettingsBase.OnPropertyChanged(System.Object,System.ComponentModel.PropertyChangedEventArgs)" /> en una clase derivada, asegúrese de llamar a la clase base <see cref="M:System.Configuration.ApplicationSettingsBase.OnPropertyChanged(System.Object,System.ComponentModel.PropertyChangedEventArgs)" /> método para que los delegados registrados reciban el evento.</para>
         </block>
         <altmember cref="E:System.Configuration.ApplicationSettingsBase.PropertyChanged" />
       </Docs>
@@ -459,6 +468,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -487,7 +497,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Al reemplazar <see cref="M:System.Configuration.ApplicationSettingsBase.OnSettingChanging(System.Object,System.Configuration.SettingChangingEventArgs)" /> en una clase derivada, asegúrese de llamar a la clase base <see cref="M:System.Configuration.ApplicationSettingsBase.OnSettingChanging(System.Object,System.Configuration.SettingChangingEventArgs)" /> método para que los delegados registrados reciban el evento.</para>
+          <para>Cuando se reemplaza <see cref="M:System.Configuration.ApplicationSettingsBase.OnSettingChanging(System.Object,System.Configuration.SettingChangingEventArgs)" /> en una clase derivada, asegúrese de llamar a la clase base <see cref="M:System.Configuration.ApplicationSettingsBase.OnSettingChanging(System.Object,System.Configuration.SettingChangingEventArgs)" /> método para que los delegados registrados reciban el evento.</para>
         </block>
         <altmember cref="E:System.Configuration.ApplicationSettingsBase.SettingChanging" />
         <altmember cref="M:System.Configuration.ApplicationSettingsBase.OnSettingsLoaded(System.Object,System.Configuration.SettingsLoadedEventArgs)" />
@@ -504,6 +514,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -532,7 +543,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Al reemplazar <see cref="M:System.Configuration.ApplicationSettingsBase.OnSettingsLoaded(System.Object,System.Configuration.SettingsLoadedEventArgs)" /> en una clase derivada, asegúrese de llamar a la clase base <see cref="M:System.Configuration.ApplicationSettingsBase.OnSettingsLoaded(System.Object,System.Configuration.SettingsLoadedEventArgs)" /> método para que los delegados registrados reciban el evento.</para>
+          <para>Cuando se reemplaza <see cref="M:System.Configuration.ApplicationSettingsBase.OnSettingsLoaded(System.Object,System.Configuration.SettingsLoadedEventArgs)" /> en una clase derivada, asegúrese de llamar a la clase base <see cref="M:System.Configuration.ApplicationSettingsBase.OnSettingsLoaded(System.Object,System.Configuration.SettingsLoadedEventArgs)" /> método para que los delegados registrados reciban el evento.</para>
         </block>
         <altmember cref="E:System.Configuration.ApplicationSettingsBase.SettingsLoaded" />
         <altmember cref="M:System.Configuration.ApplicationSettingsBase.OnSettingChanging(System.Object,System.Configuration.SettingChangingEventArgs)" />
@@ -549,6 +560,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -577,7 +589,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Al reemplazar <see cref="M:System.Configuration.ApplicationSettingsBase.OnSettingsSaving(System.Object,System.ComponentModel.CancelEventArgs)" /> en una clase derivada, asegúrese de llamar a la clase base <see cref="M:System.Configuration.ApplicationSettingsBase.OnSettingsSaving(System.Object,System.ComponentModel.CancelEventArgs)" /> método para que los delegados registrados reciban el evento.</para>
+          <para>Cuando se reemplaza <see cref="M:System.Configuration.ApplicationSettingsBase.OnSettingsSaving(System.Object,System.ComponentModel.CancelEventArgs)" /> en una clase derivada, asegúrese de llamar a la clase base <see cref="M:System.Configuration.ApplicationSettingsBase.OnSettingsSaving(System.Object,System.ComponentModel.CancelEventArgs)" /> método para que los delegados registrados reciban el evento.</para>
         </block>
         <altmember cref="E:System.Configuration.ApplicationSettingsBase.SettingsSaving" />
         <altmember cref="M:System.Configuration.ApplicationSettingsBase.OnSettingChanging(System.Object,System.Configuration.SettingChangingEventArgs)" />
@@ -594,6 +606,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -615,9 +628,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El `get` descriptor de acceso de la <xref:System.Configuration.ApplicationSettingsBase.Properties%2A> propiedad refleja en los metadatos de la clase de contenedor de configuración, que se deriva de <xref:System.Configuration.ApplicationSettingsBase>, para determinar dinámicamente el conjunto de propiedades de configuración de aplicación disponibles.  
+ El `get` descriptor de acceso de la <xref:System.Configuration.ApplicationSettingsBase.Properties%2A> propiedad se refleja en los metadatos de la clase contenedora de configuración, que se deriva de <xref:System.Configuration.ApplicationSettingsBase>, para determinar dinámicamente el conjunto de propiedades de configuración de aplicación disponibles.  
   
- La <xref:System.Configuration.ApplicationSettingsBase> clase reconoce de forma nativa ciertas características de una configuración de aplicación, como su nombre, tipo de propiedad, proveedor de configuración, valor predeterminado, sólo estado de lectura y una preferencia de serialización. Estas características se reflejan como propiedades en la <xref:System.Configuration.SettingsProperty> clase. Todos los demás atributos de la propiedad de configuración solo se pasan a su proveedor de configuración asociado.  
+ La <xref:System.Configuration.ApplicationSettingsBase> clase reconoce ciertas características de configuración de la aplicación, como su nombre, el tipo de propiedad, el proveedor de configuración, valor predeterminado, de forma nativa solo estado de lectura y una preferencia de serialización. Estas características se reflejan como propiedades en el <xref:System.Configuration.SettingsProperty> clase. Todos los demás atributos de la propiedad de configuración solo se pasan a su proveedor de configuración asociado.  
   
  ]]></format>
         </remarks>
@@ -642,6 +655,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -659,7 +673,7 @@
 ## Remarks  
  El <xref:System.Configuration.ApplicationSettingsBase.PropertyChanged> evento se desencadena cuando se cambia una propiedad de configuración a través de la `set` descriptor de acceso de la <xref:System.Configuration.ApplicationSettingsBase.Item%2A> método, o para todas las propiedades que se restauran cuando se realiza una llamada a la <xref:System.Configuration.ApplicationSettingsBase.Reload%2A> o <xref:System.Configuration.ApplicationSettingsBase.Reset%2A> métodos.  
   
- No hay ningún correspondiente `PropertyChanging` eventos para esta clase; en su lugar, vea el <xref:System.Configuration.ApplicationSettingsBase.SettingChanging> eventos.  
+ No hay ningún correspondiente `PropertyChanging` eventos para esta clase; en su lugar, consulte el <xref:System.Configuration.ApplicationSettingsBase.SettingChanging> eventos.  
   
  ]]></format>
         </remarks>
@@ -681,6 +695,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -711,6 +726,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -732,7 +748,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Configuration.SettingsProviderAttribute> determina qué proveedor de configuración se utiliza una clase contenedora de configuración o una propiedad de configuración individuales. Si no se especifica este atributo, una aplicación cliente usará el <xref:System.Configuration.LocalFileSettingsProvider>.  
+ El <xref:System.Configuration.SettingsProviderAttribute> determina qué proveedor de configuración se usa en una clase contenedora de configuración o una propiedad de configuración individuales. Si no se especifica este atributo, una aplicación cliente usará el <xref:System.Configuration.LocalFileSettingsProvider>.  
   
  ]]></format>
         </remarks>
@@ -751,6 +767,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -767,18 +784,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Configuration.ApplicationSettingsBase.Reload%2A> método borra los valores de propiedad almacenadas en la caché, provocando una recarga de estos valores desde el almacenamiento persistente cuando acceden posteriormente. Este método realiza las siguientes acciones:  
+ El <xref:System.Configuration.ApplicationSettingsBase.Reload%2A> método borra los valores de propiedad actualmente almacenados en caché, provocando una recarga de estos valores desde el almacenamiento persistente cuando acceden posteriormente. Este método realiza las acciones siguientes:  
   
--   Borra las propiedades almacenadas en la caché mediante la desactivación de la colección representada por el <xref:System.Configuration.SettingsBase.PropertyValues%2A> propiedad.  
+-   Borra las propiedades almacenadas en la caché desactivando la colección representada por el <xref:System.Configuration.SettingsBase.PropertyValues%2A> propiedad.  
   
 -   Genera el <xref:System.Configuration.ApplicationSettingsBase.PropertyChanged> eventos para todos los miembros de la <xref:System.Configuration.ApplicationSettingsBase.Properties%2A> colección.  
   
- <xref:System.Configuration.ApplicationSettingsBase.Reload%2A> se compara con las <xref:System.Configuration.ApplicationSettingsBase.Reset%2A> en que el primero cargará el último conjunto de valores de configuración de aplicación guardados, mientras que la última carga los valores predeterminados guardados.  
+ <xref:System.Configuration.ApplicationSettingsBase.Reload%2A> contrasta con <xref:System.Configuration.ApplicationSettingsBase.Reset%2A> en que el primero cargará el último conjunto de valores de configuración de aplicación guardados, mientras que la última carga los valores predeterminados guardados.  
   
    
   
 ## Examples  
- El siguiente ejemplo de código muestra la <xref:System.Configuration.ApplicationSettingsBase.Reload%2A> método que se invoca en el cuerpo de la <xref:System.Windows.Forms.Control.Click> controlador de eventos para un botón denominado `btnReload`. Como resultado de esta llamada, se vuelven a cargar los valores actualmente almacenados para la configuración de la aplicación en sus propiedades correspondientes. En el ejemplo de código completo se muestra en el <xref:System.Configuration.ApplicationSettingsBase> general sobre la clase.  
+ El siguiente ejemplo de código muestra la <xref:System.Configuration.ApplicationSettingsBase.Reload%2A> método que se invoca en el cuerpo de la <xref:System.Windows.Forms.Control.Click> controlador de eventos para un botón denominado `btnReload`. Como resultado de esta llamada, los valores actualmente almacenados para la configuración de la aplicación se vuelve a cargar en sus propiedades correspondientes. El ejemplo de código completo se muestra en el <xref:System.Configuration.ApplicationSettingsBase> información general de clases.  
   
  [!code-cpp[AppSettingsSample#6](~/samples/snippets/cpp/VS_Snippets_Winforms/AppSettingsSample/cpp/AppSettingsSample.cpp#6)]
  [!code-csharp[AppSettingsSample#6](~/samples/snippets/csharp/VS_Snippets_Winforms/AppSettingsSample/CS/AppSettingsSample.cs#6)]
@@ -805,6 +822,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -821,18 +839,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Configuration.ApplicationSettingsBase.Reset%2A> método sobrescribe las propiedades de la configuración de ámbito de usuario mediante la restauración de los valores conservados actualmente de cada configuración de la aplicación. Este método realiza las siguientes acciones:  
+ El <xref:System.Configuration.ApplicationSettingsBase.Reset%2A> método sobrescribe las propiedades de configuración con ámbito de usuario mediante la restauración de los valores de cada configuración de la aplicación conservados actualmente. Este método realiza las acciones siguientes:  
   
--   Lo llama el <xref:System.Configuration.IApplicationSettingsProvider.Reset%2A?displayProperty=nameWithType> método en cada proveedor de configuración que es compatible con este método opcional.  
+-   Lo llama el <xref:System.Configuration.IApplicationSettingsProvider.Reset%2A?displayProperty=nameWithType> método en cada proveedor de configuración que admite este método opcional.  
   
 -   Lo llama el <xref:System.Configuration.ApplicationSettingsBase.Reload%2A> método para forzar una actualización de los valores de propiedad de configuración.  
   
- <xref:System.Configuration.ApplicationSettingsBase.Reload%2A> se compara con las <xref:System.Configuration.ApplicationSettingsBase.Reset%2A> en que el primero cargará el último conjunto de valores de configuración de aplicación guardados, mientras que la última carga los valores predeterminados guardados.  
+ <xref:System.Configuration.ApplicationSettingsBase.Reload%2A> contrasta con <xref:System.Configuration.ApplicationSettingsBase.Reset%2A> en que el primero cargará el último conjunto de valores de configuración de aplicación guardados, mientras que la última carga los valores predeterminados guardados.  
   
    
   
 ## Examples  
- El siguiente ejemplo de código muestra la <xref:System.Configuration.ApplicationSettingsBase.Reset%2A> método que se invoca en el cuerpo de la <xref:System.Windows.Forms.Control.Click> controlador de eventos para un botón denominado `btnReset`. Como resultado de esta llamada, se vuelven a cargar los valores predeterminados almacenados para la configuración de la aplicación en sus propiedades correspondientes. En el ejemplo de código completo se muestra en el <xref:System.Configuration.ApplicationSettingsBase> general sobre la clase.  
+ El siguiente ejemplo de código muestra la <xref:System.Configuration.ApplicationSettingsBase.Reset%2A> método que se invoca en el cuerpo de la <xref:System.Windows.Forms.Control.Click> controlador de eventos para un botón denominado `btnReset`. Como resultado de esta llamada, se vuelven a cargar los valores predeterminados almacenados para la configuración de la aplicación en sus propiedades correspondientes. El ejemplo de código completo se muestra en el <xref:System.Configuration.ApplicationSettingsBase> información general de clases.  
   
  [!code-cpp[AppSettingsSample#5](~/samples/snippets/cpp/VS_Snippets_Winforms/AppSettingsSample/cpp/AppSettingsSample.cpp#5)]
  [!code-csharp[AppSettingsSample#5](~/samples/snippets/csharp/VS_Snippets_Winforms/AppSettingsSample/CS/AppSettingsSample.cs#5)]
@@ -856,6 +874,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -874,19 +893,19 @@
 ## Remarks  
  El <xref:System.Configuration.ApplicationSettingsBase.Save%2A> método escribe el valor actual de cada propiedad de configuración en su almacén de datos asociado. Para cada propiedad, este método llama a la <xref:System.Configuration.SettingsProvider.SetPropertyValues%2A> método en el proveedor de configuración asociado.  
   
- Este método difiere de la implementación de la clase base en que genera el <xref:System.Configuration.ApplicationSettingsBase.SettingsSaving> evento antes de que se escriben los valores.  
+ Este método difiere de la implementación de la clase base en que provoca la <xref:System.Configuration.ApplicationSettingsBase.SettingsSaving> evento antes de que se escriben los valores.  
   
- Si la única configuración definida es la configuración de ámbito de la aplicación, <xref:System.Configuration.ApplicationSettingsBase.Save%2A> no tendrá ningún efecto ni no devolverá ningún error si se llama con el valor predeterminado <xref:System.Configuration.LocalFileSettingsProvider>. <xref:System.Configuration.LocalFileSettingsProvider> solo se guarda la configuración de ámbito de usuario.  
+ Si la única configuración definida es la configuración de ámbito de la aplicación, <xref:System.Configuration.ApplicationSettingsBase.Save%2A> no tendrá ningún efecto y se devolverá ningún error si se llama con el valor predeterminado <xref:System.Configuration.LocalFileSettingsProvider>. <xref:System.Configuration.LocalFileSettingsProvider> solo guarda la configuración de ámbito de usuario.  
   
 > [!IMPORTANT]
->  No hay ningún método Load correspondiente porque los valores de configuración de la aplicación se cargan automáticamente durante la inicialización de la clase de contenedor. En cambio, los estos valores no se guardan automáticamente cuando una aplicación finaliza. Por lo tanto, debe llamar explícitamente a la <xref:System.Configuration.ApplicationSettingsBase.Save%2A> método para conservar los valores actuales de la configuración de la aplicación. Normalmente, esto se realiza en el <xref:System.Windows.Forms.Form.Closing> controlador de eventos de la principal o que lo contiene <xref:System.Windows.Forms.Form>.  
+>  No hay ningún método de carga correspondiente porque los valores de configuración de la aplicación se cargan automáticamente durante la inicialización de la clase de contenedor. En cambio, los estos valores no se guardan automáticamente cuando finaliza una aplicación. Por lo tanto, debe llamar explícitamente la <xref:System.Configuration.ApplicationSettingsBase.Save%2A> método para conservar los valores actuales de la configuración de la aplicación. Normalmente, esto se realiza en el <xref:System.Windows.Forms.Form.Closing> controlador de eventos de la principal o que lo contiene <xref:System.Windows.Forms.Form>.  
   
    
   
 ## Examples  
- El siguiente ejemplo de código muestra la <xref:System.Configuration.ApplicationSettingsBase.Save%2A> método se llama desde el <xref:System.Windows.Forms.Form.Closing> controlador de eventos para el formulario principal. Este método también anexa un punto adicional a la propiedad de configuración que está asociada con el formulario <xref:System.Windows.Forms.Control.Text%2A> propiedad.  
+ El siguiente ejemplo de código muestra la <xref:System.Configuration.ApplicationSettingsBase.Save%2A> método que se llama desde el <xref:System.Windows.Forms.Form.Closing> controlador de eventos para el formulario principal. Este método también anexa un punto adicional a la propiedad de configuración que está asociada con el formulario <xref:System.Windows.Forms.Control.Text%2A> propiedad.  
   
- En el ejemplo de código completo se muestra en el <xref:System.Configuration.ApplicationSettingsBase> general sobre la clase.  
+ El ejemplo de código completo se muestra en el <xref:System.Configuration.ApplicationSettingsBase> información general de clases.  
   
  [!code-cpp[AppSettingsSample#3](~/samples/snippets/cpp/VS_Snippets_Winforms/AppSettingsSample/cpp/AppSettingsSample.cpp#3)]
  [!code-csharp[AppSettingsSample#3](~/samples/snippets/csharp/VS_Snippets_Winforms/AppSettingsSample/CS/AppSettingsSample.cs#3)]
@@ -911,6 +930,7 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -926,16 +946,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Configuration.ApplicationSettingsBase.SettingChanging> evento tiene lugar antes de que se cambia una propiedad de valor de configuración de aplicación a través de la <xref:System.Configuration.ApplicationSettingsBase.Item%2A> método. Este evento no se genera cuando el <xref:System.Configuration.ApplicationSettingsBase.Reload%2A> o <xref:System.Configuration.ApplicationSettingsBase.Reset%2A> se llaman a métodos. <xref:System.Configuration.ApplicationSettingsBase.SettingChanging> se puede cancelar mediante el <xref:System.Configuration.SettingChangingEventArgs> clase de datos de eventos.  
+ El <xref:System.Configuration.ApplicationSettingsBase.SettingChanging> evento se produce antes de que se cambia una propiedad de valor de configuración de aplicación a través de la <xref:System.Configuration.ApplicationSettingsBase.Item%2A> método. No es de este evento se genera cuando el <xref:System.Configuration.ApplicationSettingsBase.Reload%2A> o <xref:System.Configuration.ApplicationSettingsBase.Reset%2A> se llama a métodos. <xref:System.Configuration.ApplicationSettingsBase.SettingChanging> se puede cancelar mediante el <xref:System.Configuration.SettingChangingEventArgs> clase de evento.  
   
- Normalmente, se utiliza el <xref:System.Configuration.ApplicationSettingsBase.SettingChanging> eventos que controla la validación inmediata de una propiedad de configuración individuales. Para obtener más información acerca de la validación, consulte [Cómo: Validar configuración de la aplicación](~/docs/framework/winforms/advanced/how-to-validate-application-settings.md).  
+ Normalmente, se utiliza el <xref:System.Configuration.ApplicationSettingsBase.SettingChanging> eventos para controlar la validación inmediata de una propiedad de configuración individuales. Para obtener más información acerca de la validación, consulte [How to: Validate Application Settings](~/docs/framework/winforms/advanced/how-to-validate-application-settings.md).  
   
- No hay ningún correspondiente `SettingChanged` eventos para esta clase; en su lugar, vea el <xref:System.Configuration.ApplicationSettingsBase.PropertyChanged> eventos.  
+ No hay ningún correspondiente `SettingChanged` eventos para esta clase; en su lugar, consulte el <xref:System.Configuration.ApplicationSettingsBase.PropertyChanged> eventos.  
   
    
   
 ## Examples  
- El siguiente ejemplo de código muestra la <xref:System.Configuration.ApplicationSettingsBase.SettingChanging> controlador de eventos para el objeto de tipo `FormSettings`, que es una clase contenedora derivada de <xref:System.Configuration.ApplicationSettingsBase>. El controlador muestra la información de evento en un cuadro de texto denominado `tbStatus`. En el ejemplo de código completo se muestra en el <xref:System.Configuration.ApplicationSettingsBase> general sobre la clase.  
+ El siguiente ejemplo de código muestra la <xref:System.Configuration.ApplicationSettingsBase.SettingChanging> controlador de eventos para el objeto de tipo `FormSettings`, que es una clase contenedora derivada de <xref:System.Configuration.ApplicationSettingsBase>. El controlador muestra la información de evento en un cuadro de texto denominado `tbStatus`. El ejemplo de código completo se muestra en el <xref:System.Configuration.ApplicationSettingsBase> información general de clases.  
   
  [!code-cpp[AppSettingsSample#7](~/samples/snippets/cpp/VS_Snippets_Winforms/AppSettingsSample/cpp/AppSettingsSample.cpp#7)]
  [!code-csharp[AppSettingsSample#7](~/samples/snippets/csharp/VS_Snippets_Winforms/AppSettingsSample/CS/AppSettingsSample.cs#7)]
@@ -959,6 +979,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -982,15 +1003,15 @@
 ## Remarks  
  El <xref:System.Configuration.ApplicationSettingsBase.SettingsKey%2A> propiedad se proporciona para permitir que el código de cliente y en particular, el proveedor de configuración para eliminar la ambigüedad entre varias instancias de la misma clase de configuración de aplicación.  
   
- A menos que la clase de contenedor de configuración se ha diseñado con el patrón singleton, puede haber varias instancias de la misma clase de configuración de aplicación en una sola aplicación. El valor de <xref:System.Configuration.ApplicationSettingsBase.SettingsKey%2A> debe establecerse según cómo los valores de propiedad están diseñados para compartirse.  
+ A menos que la clase contenedora de configuración se ha diseñado con el patrón singleton, puede haber varias instancias de la misma clase de configuración de aplicación en una sola aplicación. El valor de <xref:System.Configuration.ApplicationSettingsBase.SettingsKey%2A> debe establecerse según cómo los valores de propiedad están diseñados para compartirse.  
   
--   Si las propiedades de configuración del contenedor están pensadas para que se pueden compartir entre todas las instancias del contenedor en la misma aplicación, a continuación, <xref:System.Configuration.ApplicationSettingsBase.SettingsKey%2A> debe tener el mismo valor en todas las instancias. Éste es el comportamiento predeterminado de la <xref:System.Configuration.ApplicationSettingsBase> clase.  
+-   Si las propiedades de configuración del contenedor están diseñadas para compartirse entre todas las instancias del contenedor en la misma aplicación, <xref:System.Configuration.ApplicationSettingsBase.SettingsKey%2A> debe tener el mismo valor en todas las instancias. Este es el comportamiento predeterminado de la <xref:System.Configuration.ApplicationSettingsBase> clase.  
   
 -   Si las propiedades de configuración del contenedor están pensadas para ser por instancia, a continuación, <xref:System.Configuration.ApplicationSettingsBase.SettingsKey%2A> debe tener un valor único para cada instancia. El <xref:System.Configuration.ApplicationSettingsBase.%23ctor%28System.String%29> versión del constructor permite inicializar <xref:System.Configuration.ApplicationSettingsBase.SettingsKey%2A> a una cadena única.  
   
- En cambio, la <xref:System.Configuration.ApplicationSettingsBase.Context%2A> propiedad proporciona sugerencias para el proveedor de configuración para habilitarla para conservar los valores de una manera eficaz y ordenada.  
+ En cambio, el <xref:System.Configuration.ApplicationSettingsBase.Context%2A> propiedad proporciona sugerencias para el proveedor de configuración para que pueda conservar los valores de una manera eficaz y ordenada.  
   
- El <xref:System.Configuration.SettingChangingEventArgs> clase contiene similares <xref:System.Configuration.SettingChangingEventArgs.SettingKey%2A> propiedad que le ayuda a identificar el origen de la <xref:System.Configuration.ApplicationSettingsBase.SettingChanging> eventos.  
+ El <xref:System.Configuration.SettingChangingEventArgs> clase contiene un texto similar <xref:System.Configuration.SettingChangingEventArgs.SettingKey%2A> propiedad que le ayuda a identificar el origen de la <xref:System.Configuration.ApplicationSettingsBase.SettingChanging> eventos.  
   
  ]]></format>
         </remarks>
@@ -1008,6 +1029,7 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1023,7 +1045,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Configuration.ApplicationSettingsBase.SettingsLoaded> evento tiene lugar después de la inicial `get` acceso de la primera propiedad de configuración que se utiliza, normalmente mediante la <xref:System.Configuration.ApplicationSettingsBase.Item%2A> método. Los accesos posteriores utilice valores para la propiedad de configuración que se almacenan en caché localmente. El <xref:System.Configuration.ApplicationSettingsBase.Reset%2A> y <xref:System.Configuration.ApplicationSettingsBase.Reload%2A> métodos borrará almacenados en caché todos los valores para este evento se producirá de nuevo al acceso a la propiedad posteriores.  
+ El <xref:System.Configuration.ApplicationSettingsBase.SettingsLoaded> evento tiene lugar solo después de la inicial `get` acceso de la primera propiedad de configuración que utiliza, normalmente a través del <xref:System.Configuration.ApplicationSettingsBase.Item%2A> método. Los accesos posteriores utilice valores para la propiedad de configuración que se almacenan en caché localmente. El <xref:System.Configuration.ApplicationSettingsBase.Reset%2A> y <xref:System.Configuration.ApplicationSettingsBase.Reload%2A> métodos, borrarán en caché todos los valores para este evento se genera nuevo tras el acceso a la propiedad subsiguientes.  
   
  ]]></format>
         </remarks>
@@ -1044,6 +1066,7 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1059,12 +1082,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Configuration.ApplicationSettingsBase.SettingsSaving> evento es desencadenado por la <xref:System.Configuration.ApplicationSettingsBase.Save%2A> método antes de que almacena las propiedades de configuración de aplicación a su almacén de datos asociado. El controlador de eventos asociado puede cancelar este evento.  
+ El <xref:System.Configuration.ApplicationSettingsBase.SettingsSaving> evento es desencadenado por la <xref:System.Configuration.ApplicationSettingsBase.Save%2A> método antes de almacena las propiedades de configuración de aplicación a su almacén de datos asociado. El controlador de eventos asociado puede cancelar este evento.  
   
    
   
 ## Examples  
- El siguiente ejemplo de código muestra la <xref:System.Configuration.ApplicationSettingsBase.SettingsSaving> controlador de eventos para el objeto de tipo `FormSettings`, que es una clase contenedora derivada de <xref:System.Configuration.ApplicationSettingsBase>. El controlador consulta al usuario para guardar los valores de propiedad de configuración de aplicación actual. En el ejemplo de código completo se muestra en el <xref:System.Configuration.ApplicationSettingsBase> general sobre la clase.  
+ El siguiente ejemplo de código muestra la <xref:System.Configuration.ApplicationSettingsBase.SettingsSaving> controlador de eventos para el objeto de tipo `FormSettings`, que es una clase contenedora derivada de <xref:System.Configuration.ApplicationSettingsBase>. El controlador de consulta al usuario para guardar los valores de propiedad de configuración de aplicación actual. El ejemplo de código completo se muestra en el <xref:System.Configuration.ApplicationSettingsBase> información general de clases.  
   
  [!code-cpp[AppSettingsSample#8](~/samples/snippets/cpp/VS_Snippets_Winforms/AppSettingsSample/cpp/AppSettingsSample.cpp#8)]
  [!code-csharp[AppSettingsSample#8](~/samples/snippets/csharp/VS_Snippets_Winforms/AppSettingsSample/CS/AppSettingsSample.cs#8)]
@@ -1086,6 +1109,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1104,13 +1128,13 @@
 ## Remarks  
  El <xref:System.Configuration.ApplicationSettingsBase.Upgrade%2A> método realiza dos acciones para asegurar una transición a una nueva versión de una aplicación:  
   
--   Notifica a todos los proveedores de configuración correspondiente de la existencia de la aplicación actualizada a través de una llamada a sus <xref:System.Configuration.IApplicationSettingsProvider.Upgrade%2A?displayProperty=nameWithType> método, suponiendo que han implementado los <xref:System.Configuration.IApplicationSettingsProvider> interfaz. Esta acción no se realiza si la clase de contenedor de configuración se marca con <xref:System.Configuration.NoSettingsVersionUpgradeAttribute>.  
+-   Notifica a todos los proveedores de configuración correspondiente de la existencia de la aplicación actualizada mediante una llamada a su <xref:System.Configuration.IApplicationSettingsProvider.Upgrade%2A?displayProperty=nameWithType> método, suponiendo que han implementado el <xref:System.Configuration.IApplicationSettingsProvider> interfaz. Esta acción no se realiza si la clase contenedora de configuración está marcada con <xref:System.Configuration.NoSettingsVersionUpgradeAttribute>.  
   
--   Vuelve a cargar los valores de todas las opciones de la aplicación.  
+-   Vuelve a cargar los valores para todas las configuraciones de aplicación.  
   
- Puede invalidar el comportamiento predeterminado de <xref:System.Configuration.ApplicationSettingsBase.Upgrade%2A> implementar actualización personalizada o un comportamiento de combinación. Use la <xref:System.Configuration.ApplicationSettingsBase.GetPreviousVersion%2A> método para recuperar valores individuales de una configuración para la versión anterior de la aplicación. Ejemplos de comportamiento personalizado de la actualización:  
+ Puede invalidar el comportamiento predeterminado de <xref:System.Configuration.ApplicationSettingsBase.Upgrade%2A> para implementar, actualizar o combinar el comportamiento personalizado. Use el <xref:System.Configuration.ApplicationSettingsBase.GetPreviousVersion%2A> método para recuperar valores individuales de una configuración para la versión anterior de la aplicación. Ejemplos de comportamiento de actualización personalizado:  
   
--   Uso de nuevos valores predeterminados de directiva que reemplacen uno o varios de los valores especificados por el usuario anteriores o valores predeterminados anteriores.  
+-   Uso de nuevos valores predeterminados de directiva que se invalidación uno o varios de los valores especificados por el usuario anteriores o anterior.  
   
 -   Traducción especial de los valores anteriores para que sean compatibles con versiones más recientes intervalos, un grupo de propiedades de una configuración diferente y así sucesivamente.  
   
