@@ -1,11 +1,11 @@
 <Type Name="RSAParameters" FullName="System.Security.Cryptography.RSAParameters">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="1bee924bc89de5bde91be913924903fd86f18239" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="29b15730365677e227c73f4f23e4febe1739aa29" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36529364" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37624749" />
   </Metadata>
   <TypeSignature Language="C#" Value="public struct RSAParameters" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi serializable sealed beforefieldinit RSAParameters extends System.ValueType" />
@@ -23,6 +23,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -45,7 +47,7 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Security.Cryptography.RSA> clase expone un <xref:System.Security.Cryptography.RSA.ExportParameters%2A> método que le permite recuperar la clave RSA sin formato en forma de una <xref:System.Security.Cryptography.RSAParameters> estructura. Comprender el contenido de esta estructura es necesario estar familiarizado con cómo <xref:System.Security.Cryptography.RSA> funciona el algoritmo. La siguiente sección describe brevemente el algoritmo.  
+ El <xref:System.Security.Cryptography.RSA> clase expone un <xref:System.Security.Cryptography.RSA.ExportParameters%2A> método que le permite recuperar la clave RSA sin procesar en forma de un <xref:System.Security.Cryptography.RSAParameters> estructura. Comprensión del contenido de esta estructura es necesario estar familiarizado con el modo <xref:System.Security.Cryptography.RSA> funciona el algoritmo. La siguiente sección describe brevemente el algoritmo.  
   
 ## <a name="rsa-algorithm"></a>Algoritmo de RSA  
  Para generar un par de claves, primero debe crear dos números primos grandes denominado p y q. Estos números se multiplican y el resultado se denomina n. Dado que p y q son ambos números primos, los únicos factores de n, p, q y n son 1.  
@@ -56,12 +58,12 @@
   
  Para crear la clave privada, debe calcular d, que es un número que (d)(e) mod (p - 1)(q-1) = 1. Según el algoritmo euclidiano, la clave privada está ahora {d, n}.  
   
- Cifrado de m de texto simple a texto cifrado c se define como c = (m ^ e) mod n. Descifrado, a continuación, se definiría como m = (c ^ d.) n mod.  
+ Cifrado de m de texto simple a texto cifrado c se define como c = (m ^ e) mod n. Descifrado, a continuación, se definiría como m = (c ^ d.) mod n.  
   
 ## <a name="summary-of-fields"></a>Resumen de campos  
- Sección A.1.2 de la [PKCS #1: estándar de criptografía RSA](http://go.microsoft.com/fwlink/?LinkId=113155) en la Web de RSA Laboratories sitio define un formato para las claves privadas RSA.  
+ Sección A.1.2 de la [PKCS #1: estándar de criptografía RSA](http://go.microsoft.com/fwlink/?LinkId=113155) en la Web de RSA Laboratories sitio define un formato para las claves privadas de RSA.  
   
- En la tabla siguiente se resume los campos de la <xref:System.Security.Cryptography.RSAParameters> estructura. La tercera columna proporciona el campo correspondiente de la sección A.1.2 de [PKCS #1: estándar de criptografía RSA](http://go.microsoft.com/fwlink/?LinkId=113155).  
+ En la tabla siguiente se resume los campos de la <xref:System.Security.Cryptography.RSAParameters> estructura. La tercera columna proporciona el campo correspondiente en la sección A.1.2 de [PKCS #1: estándar de criptografía RSA](http://go.microsoft.com/fwlink/?LinkId=113155).  
   
 |Campo de <xref:System.Security.Cryptography.RSAParameters>|Contiene|Campo correspondiente de PKCS #1|  
 |---------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|----------------------------------|  
@@ -69,16 +71,16 @@
 |<xref:System.Security.Cryptography.RSAParameters.DP>|d mod (p - 1)|exponent1|  
 |<xref:System.Security.Cryptography.RSAParameters.DQ>|d mod (q - 1)|exponent2|  
 |<xref:System.Security.Cryptography.RSAParameters.Exponent>|e, el exponente público|publicExponent|  
-|<xref:System.Security.Cryptography.RSAParameters.InverseQ>|(InverseQ) (q) = 1 p mod|Coeficiente|  
+|<xref:System.Security.Cryptography.RSAParameters.InverseQ>|(InverseQ) (p) = 1 p mod|coeficiente de|  
 |<xref:System.Security.Cryptography.RSAParameters.Modulus>|n|modulus|  
 |<xref:System.Security.Cryptography.RSAParameters.P>|p|prime1|  
 |<xref:System.Security.Cryptography.RSAParameters.Q>|q|prime2|  
   
- La seguridad de RSA se deriva del hecho de que, dada la clave pública {e, n}, es sea computacionalmente imposible calcular d, ya sea directamente o mediante la factorización n en p y q. Por lo tanto, cualquier parte de la clave relacionados con d, p y q debe mantenerse en secreto. Si se llama a  
+ La seguridad de RSA que se deriva del hecho de que, dada la clave pública {e, n}, es sea computacionalmente imposible calcular d, directamente o mediante la factorización n en p y q. Por lo tanto, cualquier parte de la clave relacionada con d, p o q debe mantenerse en secreto. Si se llama a  
   
- <xref:System.Security.Cryptography.RSACryptoServiceProvider.ExportParameters%2A> y pedir sólo la información de clave pública, por lo tanto, recibirá el mensaje solo <xref:System.Security.Cryptography.RSAParameters.Exponent> y <xref:System.Security.Cryptography.RSAParameters.Modulus>. Los demás campos que están disponibles únicamente si tiene acceso a la clave privada y lo solicita.  
+ <xref:System.Security.Cryptography.RSACryptoServiceProvider.ExportParameters%2A> y pedir solo la información de clave pública, por eso recibirá solo <xref:System.Security.Cryptography.RSAParameters.Exponent> y <xref:System.Security.Cryptography.RSAParameters.Modulus>. Los demás campos están disponibles sólo si tiene acceso a la clave privada, y lo solicita.  
   
- <xref:System.Security.Cryptography.RSAParameters> no se cifra de ninguna manera, por lo que debe tener cuidado cuando se usa con la información de clave privada. De hecho, ninguno de los campos que contienen información de clave privada se puede serializar. Si se intenta serializar un <xref:System.Security.Cryptography.RSAParameters> llamar la estructura con un entorno remoto o mediante uno de los serializadores, recibirá únicamente información de clave pública. Si desea pasar información de clave privada, tendrá que enviar manualmente esos datos. En todos los casos, si alguien puede derivar los parámetros, la clave que se transmite quedaría inservible.  
+ <xref:System.Security.Cryptography.RSAParameters> no se cifran de forma, por lo que debe tener cuidado al usarlo con la información de clave privada. De hecho, ninguno de los campos que contienen información de clave privada se puede serializar. Si se intenta serializar un <xref:System.Security.Cryptography.RSAParameters> llamar la estructura con un entorno remoto o mediante uno de los serializadores, recibirá solo información de clave pública. Si desea pasar información de clave privada, deberá enviar manualmente esos datos. En todos los casos, si alguien puede derivar los parámetros, la clave que se transmite quedaría inservible.  
   
  ]]></format>
     </remarks>
@@ -102,6 +104,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -135,6 +139,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -168,6 +174,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -201,6 +209,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -234,6 +244,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -267,6 +279,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -300,6 +314,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -333,6 +349,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
