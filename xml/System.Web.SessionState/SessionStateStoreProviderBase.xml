@@ -1,11 +1,11 @@
 <Type Name="SessionStateStoreProviderBase" FullName="System.Web.SessionState.SessionStateStoreProviderBase">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="750f19ccbe5ffeeefe94b6eba1845e3877c47a61" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="f67b526b76fe2727eda8b0a31e7600ff75016c6f" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36594048" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37602817" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class SessionStateStoreProviderBase : System.Configuration.Provider.ProviderBase" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit SessionStateStoreProviderBase extends System.Configuration.Provider.ProviderBase" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type SessionStateStoreProviderBase = class&#xA;    inherit ProviderBase" />
   <AssemblyInfo>
     <AssemblyName>System.Web</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -27,32 +28,32 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Estado de sesión ASP.NET lee y escribe el proveedor del almacén de datos de la sesión desde y hacia un almacén de datos con un estado de sesión. Un proveedor de almacén de estado de sesión es una clase que hereda la <xref:System.Web.SessionState.SessionStateStoreProviderBase> clase abstracta e invalida almacenan sus miembros con implementaciones específicas de los datos. El proveedor del almacén de estado de sesión se llama la <xref:System.Web.SessionState.SessionStateModule> clase durante el procesamiento de una página ASP.NET para comunicarse con el almacén de datos para el almacenamiento y recuperación de las variables de sesión y la información de sesión relacionados, como el valor de tiempo de espera.  
+ Estado de sesión ASP.NET lee y escribe el proveedor de almacén de datos desde y hacia un almacén de datos con un estado de sesión de la sesión. Un proveedor de almacén de estado de sesión es una clase que hereda la <xref:System.Web.SessionState.SessionStateStoreProviderBase> clase abstracta e invalida sus miembros con implementaciones específicas de los datos de almacén. El proveedor del almacén de estado de sesión llama a la <xref:System.Web.SessionState.SessionStateModule> clase durante el procesamiento de una página ASP.NET para comunicarse con el almacén de datos para el almacenamiento y recuperación de las variables de sesión y la información de sesión relacionada, como el valor de tiempo de espera.  
   
- Datos de la sesión de cada aplicación de ASP.NET se almacenan por separado para cada <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> propiedad. Las aplicaciones ASP.NET no comparten datos de la sesión.  
+ Datos de la sesión dentro de cada aplicación de ASP.NET se almacenan por separado para cada <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> propiedad. Las aplicaciones de ASP.NET no comparten datos de la sesión.  
   
- Puede especificar un personalizado <xref:System.Web.SessionState.SessionStateStoreProviderBase> implementación para una aplicación ASP.NET estableciendo el `mode` atributo de la `sessionState` elemento de configuración a <xref:System.Web.SessionState.SessionStateMode.Custom> y `customProvider` atributo en el nombre del proveedor personalizado, como se muestra en el ejemplo de este tema.  
+ Puede especificar un personalizado <xref:System.Web.SessionState.SessionStateStoreProviderBase> implementación para una aplicación ASP.NET estableciendo el `mode` atributo de la `sessionState` elemento de configuración a <xref:System.Web.SessionState.SessionStateMode.Custom> y `customProvider` atributo por el nombre del proveedor personalizado, como se muestra en el ejemplo de este tema.  
   
-## <a name="locking-session-store-data"></a>Bloqueo de los datos de almacén de la sesión  
- Dado que las aplicaciones ASP.NET son multiproceso para poder responder a solicitudes simultáneas, es posible que las solicitudes simultáneas intenten obtener acceso a la misma información de sesión. Considere un escenario donde varios marcos de un conjunto de marcos tener acceso a la misma aplicación. Las solicitudes independientes para cada fotograma en el conjunto de marcos se pueden ejecutar en el servidor Web simultáneamente en subprocesos diferentes. Si las páginas ASP.NET para cada origen de marco tener acceso a las variables de estado de sesión, podría tener varios subprocesos accedan simultáneamente a la tienda de la sesión.  
+## <a name="locking-session-store-data"></a>Bloqueo de datos de sesión Store  
+ Dado que las aplicaciones ASP.NET son multiproceso para poder responder a solicitudes simultáneas, es posible que las solicitudes simultáneas intenten obtener acceso a la misma información de sesión. Considere un escenario donde varios fotogramas en un conjunto de marcos tener acceso a la misma aplicación. Las solicitudes independientes para cada fotograma en el conjunto de marcos se pueden ejecutar en el servidor Web simultáneamente en diferentes subprocesos. Si las páginas ASP.NET para cada origen del marco acceder a las variables de estado de sesión, a continuación, podría tener acceso al almacén de sesión de forma simultánea de varios subprocesos.  
   
- Para evitar conflictos de datos en el almacén de sesión y un comportamiento inesperado del estado de sesión, el <xref:System.Web.SessionState.SessionStateModule> y <xref:System.Web.SessionState.SessionStateStoreProviderBase> clases incluyen la funcionalidad de bloqueo que bloquea exclusivamente el elemento de almacén de sesión para una sesión determinada en la duración de la ejecución de una página ASP.NET. Tenga en cuenta que incluso si la <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> atributo está marcado como `ReadOnly`, otras páginas ASP.NET en la misma aplicación podrían ser capaces de escribir en el almacén de la sesión, por lo que una solicitud de sesión de sólo lectura datos de la tienda todavía podrían acabar esperando bloquea los datos que se van libera.  
+ Para evitar conflictos de datos en el almacén de sesión y un comportamiento inesperado del estado de sesión, el <xref:System.Web.SessionState.SessionStateModule> y <xref:System.Web.SessionState.SessionStateStoreProviderBase> clases incluyen la funcionalidad de bloqueo que bloquea exclusivamente el elemento del almacén de sesión para una sesión determinada para la duración de la ejecución de una página ASP.NET. Tenga en cuenta que incluso si la <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> atributo está marcado como `ReadOnly`, otras páginas ASP.NET en la misma aplicación podrían ser capaces de escribir en el almacén de la sesión, de modo que una solicitud para la sesión de solo lectura de datos del almacén todavía podrían acabar esperando los datos para ser bloqueados liberado.  
   
  Se establece un bloqueo en los datos de almacén de sesiones al principio de la solicitud, en la llamada a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> método. Cuando se completa la solicitud, el bloqueo se libera durante la llamada a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> método.  
   
- Si el <xref:System.Web.SessionState.SessionStateModule> objeto encuentra datos de sesión bloqueado durante la llamada a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> o <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> método, volverá a solicitar los datos de sesión a intervalos de medio segundo hasta que se libere el bloqueo o la cantidad de tiempo que el datos de la sesión se ha bloqueado supera el valor de la <xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A> propiedad. Si se supera el tiempo de espera de ejecución, el <xref:System.Web.SessionState.SessionStateModule> objeto llamará el <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> método para liberar los datos de almacén de sesiones y solicitar los datos del almacén de la sesión en ese momento.  
+ Si el <xref:System.Web.SessionState.SessionStateModule> objeto encuentra datos de sesión bloqueado durante la llamada a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> o <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> método, volverá a solicitar la los datos de sesión a intervalos de medio segundo hasta que se libere el bloqueo o la cantidad de tiempo que el se ha bloqueado los datos de la sesión supera el valor de la <xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A> propiedad. Si se supera el tiempo de espera de ejecución, el <xref:System.Web.SessionState.SessionStateModule> objeto llamará el <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> método para liberar los datos de almacén de sesiones y solicitar los datos de almacén de la sesión en ese momento.  
   
- Porque bloqueados del almacén de la sesión de datos que se haya liberado mediante una llamada a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> método en un subproceso independiente antes de llamar a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> método para la respuesta actual, se realizará un intento para establecer y enviar los datos del almacén de estado de sesión que tienen ya se han liberado y modificado en otra sesión. Para evitar esta situación, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> y <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> métodos devuelven un identificador de bloqueo. Este identificador de bloqueo se debe incluir con cada solicitud para modificar los datos bloqueados del almacén de sesión. Almacén de la sesión se modifican los datos solo si el identificador de bloqueo en el almacén de datos coincide con el identificador de bloqueo proporcionado por el <xref:System.Web.SessionState.SessionStateModule>.  
+ Porque bloqueados del almacén de la sesión de datos que se haya liberado mediante una llamada a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> método en un subproceso independiente antes de llamar a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> método para la respuesta actual, se realiza un intento para establecer y liberar los datos del almacén de estado de sesión que tienen ya se han liberado y modificado en otra sesión. Para evitar esta situación, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> y <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> métodos devuelven un identificador de bloqueo. Este identificador de bloqueo debe incluirse con cada solicitud para modificar los datos de almacén de sesiones bloqueadas. Almacén de la sesión se modifican los datos solo si el identificador de bloqueo en el almacén de datos coincide con el identificador de bloqueo proporcionado por el <xref:System.Web.SessionState.SessionStateModule>.  
   
-## <a name="deleting-expired-session-store-data"></a>Eliminar datos de almacenamiento de sesión caducada  
- Cuando el <xref:System.Web.SessionState.HttpSessionState.Abandon%2A> método se llama en una sesión determinada, se eliminan los datos para esa sesión desde el almacén de datos utilizando el <xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A> método; en caso contrario, los datos permanecerán en el almacén de datos de sesión a las solicitudes futuras de servidor para la sesión. Depende del <xref:System.Web.SessionState.SessionStateStoreProviderBase> implementación para eliminar datos de sesión que ha expirado.  
+## <a name="deleting-expired-session-store-data"></a>Eliminación de datos Store de sesión expirada  
+ Cuando el <xref:System.Web.SessionState.HttpSessionState.Abandon%2A> se llama al método en una sesión determinada, se eliminan los datos de esa sesión desde el almacén de datos mediante el <xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A> método; en caso contrario, los datos permanecerán en el almacén de datos de sesión para futuras solicitudes de servidor para la sesión. Es hasta el <xref:System.Web.SessionState.SessionStateStoreProviderBase> implementación para eliminar datos de sesión expirada.  
   
    
   
 ## Examples  
- Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de almacén de estado de sesión](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
+ Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de estado de sesión Store](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
   
- En el ejemplo de código siguiente se muestra el archivo Web.config para una aplicación ASP.NET que está configurado para usar un proveedor de almacén de Estados de sesión personalizado.  
+ El ejemplo de código siguiente muestra el archivo Web.config para una aplicación ASP.NET que está configurado para usar un proveedor de almacén de estado de sesión personalizada.  
   
 ```  
 <configuration>  
@@ -87,6 +88,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters />
@@ -96,12 +98,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- No se debe implementar un constructor para una clase que hereda la <xref:System.Web.SessionState.SessionStateStoreProviderBase> clase abstracta. Los valores de inicialización para un <xref:System.Web.SessionState.SessionStateStoreProviderBase> implementación se pasan a la <xref:System.Configuration.Provider.ProviderBase.Initialize%2A> la implementación de método.  
+ No es necesario implementar un constructor para una clase que hereda la <xref:System.Web.SessionState.SessionStateStoreProviderBase> clase abstracta. Los valores de inicialización para un <xref:System.Web.SessionState.SessionStateStoreProviderBase> implementación se pasan a la <xref:System.Configuration.Provider.ProviderBase.Initialize%2A> implementación del método.  
   
    
   
 ## Examples  
- Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de almacén de estado de sesión](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
+ Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de estado de sesión Store](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
   
  ]]></format>
         </remarks>
@@ -117,6 +119,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -135,18 +138,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Web.SessionState.SessionStateModule> objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> (método) al principio de una solicitud para una página ASP.NET, durante la <xref:System.Web.HttpApplication.AcquireRequestState> eventos. El <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> método se llama si:  
+ El <xref:System.Web.SessionState.SessionStateModule> de objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> método al principio de una solicitud para una página ASP.NET, durante la <xref:System.Web.HttpApplication.AcquireRequestState> eventos. El <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> se llama al método si:  
   
--   la solicitud entrante no tiene ningún identificador de sesión, o  
+-   la solicitud entrante no tenga ningún identificador de sesión, o  
   
--   la solicitud entrante tiene un identificador de sesión, pero la sesión no se encuentra en el almacén de datos.  
+-   la solicitud entrante tenga un identificador de sesión, pero no se encuentra la sesión en el almacén de datos.  
   
- El <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> método crea un nuevo <xref:System.Web.SessionState.SessionStateStoreData> objeto con vacío <xref:System.Web.SessionState.ISessionStateItemCollection> objeto, un <xref:System.Web.HttpStaticObjectsCollection> colección y el valor especificado `timeout` valor. El <xref:System.Web.HttpStaticObjectsCollection> recopilación para la aplicación ASP.NET se puede recuperar mediante el <xref:System.Web.SessionState.SessionStateUtility.GetSessionStaticObjects%2A> método.  
+ El <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> crea un nuevo método <xref:System.Web.SessionState.SessionStateStoreData> objeto con un valor vacío <xref:System.Web.SessionState.ISessionStateItemCollection> objeto, un <xref:System.Web.HttpStaticObjectsCollection> colección y especificado `timeout` valor. El <xref:System.Web.HttpStaticObjectsCollection> colección para la aplicación ASP.NET se puede recuperar mediante el <xref:System.Web.SessionState.SessionStateUtility.GetSessionStaticObjects%2A> método.  
   
    
   
 ## Examples  
- Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de almacén de estado de sesión](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
+ Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de estado de sesión Store](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
   
  ]]></format>
         </remarks>
@@ -162,6 +165,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -181,18 +185,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> método se utiliza con las sesiones cuando la `cookieless` y `regenerateExpiredSessionId` atributos son `true`. Tener la `regenerateExpiredSessionId attribute` establecido en `true` hace que el <xref:System.Web.SessionState.SessionStateModule> objeto que se va a generar un nuevo <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valor cuando expiradas <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> se encuentra el valor.  
+ El <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> método se utiliza con las sesiones cuando la `cookieless` y `regenerateExpiredSessionId` atributos son ambos `true`. Tener la `regenerateExpiredSessionId attribute` establecido en `true` hace que el <xref:System.Web.SessionState.SessionStateModule> objeto para generar un nuevo <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valor cuando expiradas <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> encontró un valor.  
   
- El proceso de generar un nuevo <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valor requiere que se redirige al explorador a una dirección URL que contiene el recién generado <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valor. El <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> método se llama durante la solicitud inicial que contiene expiradas <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valor. Después de la <xref:System.Web.SessionState.SessionStateModule> adquiere un nuevo objeto <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valor que se debe para reemplazar el valor caducado, llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> método para agregar una entrada sin inicializar al almacén de datos de estado de sesión. A continuación, se redirige el explorador a la dirección URL que contiene el recién generado <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valor. La existencia de la entrada sin inicializar en el almacén de datos de sesión garantiza que la solicitud redirigida que incluye el recién generado <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valor no se confunda con una solicitud para una sesión que ha expirado y, en su lugar, se considere como una nueva sesión.  
+ El proceso de generar un nuevo <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valor requiere que se redirige al explorador a una dirección URL que contiene el recién generado <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valor. El <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> se llama al método durante la solicitud inicial que contiene un expiradas <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valor. Después de la <xref:System.Web.SessionState.SessionStateModule> adquiere un nuevo objeto <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valor para reemplazar el valor caducado, llama a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> método para agregar una entrada sin inicializar en el almacén de datos de estado de sesión. A continuación, se redirige el explorador a la dirección URL que contiene el recién generado <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valor. La existencia de la entrada no inicializada en el almacén de datos de sesión asegura de que la solicitud redirigida que incluye recién generado <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valor no se confunda con una solicitud de una sesión caducada y, en su lugar, trata como una nueva sesión.  
   
- La entrada no inicializada en el almacén de datos de sesión está asociada con el recién generado <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valor y contiene solo valores predeterminados, como una fecha de expiración y tiempo y un valor que corresponde a la `actionFlags` parámetro de la <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>y <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> métodos. La entrada no inicializada en el almacén de estado de sesión debe incluir un `actionFlags` cuyo valor equivale a la <xref:System.Web.SessionState.SessionStateActions.InitializeItem> valor de enumeración. Este valor se pasa a la <xref:System.Web.SessionState.SessionStateModule> objeto por el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> y <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> métodos e informa a la <xref:System.Web.SessionState.SessionStateModule> objeto que la sesión actual es un nuevo valor pero no se ha inicializado sesión. El <xref:System.Web.SessionState.SessionStateModule> objeto a continuación, inicializar la nueva sesión y generar el `Session_OnStart` eventos.  
+ La entrada no inicializada en el almacén de datos de sesión está asociada con el recién generado <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> de valor y contiene solo valores predeterminados, incluyendo una fecha de expiración y la hora y un valor que corresponde a la `actionFlags` parámetro de la <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>y <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> métodos. La entrada sin inicializar en el almacén de estado de sesión debe incluir un `actionFlags` valor igual a la <xref:System.Web.SessionState.SessionStateActions.InitializeItem> valor de enumeración. Este valor se pasa a la <xref:System.Web.SessionState.SessionStateModule> objeto por el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> y <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> métodos e informa a la <xref:System.Web.SessionState.SessionStateModule> sesión sin inicializar el objeto de la sesión actual es un nuevo pero. El <xref:System.Web.SessionState.SessionStateModule> objeto, a continuación, inicializará la nueva sesión y generar el `Session_OnStart` eventos.  
   
  Para obtener más información acerca de las sesiones sin cookies, consulte el <xref:System.Web.SessionState.HttpSessionState.IsCookieless%2A> propiedad.  
   
    
   
 ## Examples  
- Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de almacén de estado de sesión](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
+ Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de estado de sesión Store](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
   
  ]]></format>
         </remarks>
@@ -208,6 +212,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -220,12 +225,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Web.SessionState.SessionStateStoreProviderBase.Dispose%2A?displayProperty=nameWithType> se llama al método cuando el <xref:System.Web.SessionState.SessionStateModule.Dispose%2A?displayProperty=nameWithType> método se ejecuta en el cierre del dominio de aplicación. Las clases que heredan la <xref:System.Web.SessionState.SessionStateStoreProviderBase> clase puede utilizar este método para liberar los recursos ya no está en uso.  
+ El <xref:System.Web.SessionState.SessionStateStoreProviderBase.Dispose%2A?displayProperty=nameWithType> método se llama cuando el <xref:System.Web.SessionState.SessionStateModule.Dispose%2A?displayProperty=nameWithType> método se ejecuta en el cierre del dominio de aplicación. Las clases que heredan la <xref:System.Web.SessionState.SessionStateStoreProviderBase> clase puede usar este método para liberar los recursos ya no está en uso.  
   
    
   
 ## Examples  
- Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de almacén de estado de sesión](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
+ Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de estado de sesión Store](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
   
  ]]></format>
         </remarks>
@@ -241,6 +246,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -256,12 +262,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Web.SessionState.SessionStateModule> objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.EndRequest%2A> método al final de una solicitud para una página ASP.NET, durante la <xref:System.Web.HttpApplication.EndRequest> eventos. Puede usar el <xref:System.Web.SessionState.SessionStateStoreProviderBase.EndRequest%2A> método para realizar las operaciones de limpieza de cada solicitud requeridos por el proveedor de almacén de estado de sesión.  
+ El <xref:System.Web.SessionState.SessionStateModule> de objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.EndRequest%2A> método al final de una solicitud para una página ASP.NET, durante la <xref:System.Web.HttpApplication.EndRequest> eventos. Puede usar el <xref:System.Web.SessionState.SessionStateStoreProviderBase.EndRequest%2A> método para realizar cualquier limpieza por solicitud requerido por el proveedor de almacén de estado de sesión.  
   
    
   
 ## Examples  
- Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de almacén de estado de sesión](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
+ Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de estado de sesión Store](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
   
  ]]></format>
         </remarks>
@@ -277,6 +283,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -303,22 +310,22 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Web.SessionState.SessionStateModule> objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> (método) al principio de una solicitud, durante el <xref:System.Web.HttpApplication.AcquireRequestState> eventos, cuando la <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> atributo está establecido en `ReadOnly`. Si el <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> atributo está establecido en `true`, el <xref:System.Web.SessionState.SessionStateModule> llamadas del objeto en su lugar el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> método.  
+ El <xref:System.Web.SessionState.SessionStateModule> de objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> método al principio de una solicitud, durante el <xref:System.Web.HttpApplication.AcquireRequestState> evento, cuando el <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> atributo está establecido en `ReadOnly`. Si el <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> atributo está establecido en `true`, el <xref:System.Web.SessionState.SessionStateModule> en su lugar de objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> método.  
   
- El <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> método devuelve un <xref:System.Web.SessionState.SessionStateStoreData> objeto rellenado con información de sesión desde el almacén de datos y actualiza la fecha de expiración de los datos de sesión. Si no hay datos de elemento de sesión se encuentra en el almacén de datos, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> método establece la `locked` `out` parámetro `false` y devuelve `null`. Esto hace que la <xref:System.Web.SessionState.SessionStateModule> objeto que se va a llamar a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> método para crear un nuevo elemento de sesión en el almacén de datos.  
+ El <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> método devuelve un <xref:System.Web.SessionState.SessionStateStoreData> objeto rellenado con información de sesión del almacén de datos y actualiza la fecha de expiración de los datos de sesión. Si no hay datos de elemento de sesión se encuentra en el almacén de datos, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> método establece el `locked` `out` parámetro `false` y devuelve `null`. Esto hace que el <xref:System.Web.SessionState.SessionStateModule> objeto para llamar a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> método para crear un nuevo elemento de sesión en el almacén de datos.  
   
- Si elemento de sesión datos se encuentran en el almacén de datos pero se bloquean los datos, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> método establece la `locked` `out` parámetro `true`, Establece la `lockAge` `out` parámetro a la fecha y hora actuales menos la fecha y la hora cuando se ha bloqueado el elemento (que se recuperan del almacén de datos), Establece la `lockId` `out` parámetro para el identificador de bloqueo recuperado en el almacén de datos y devuelve `null`. Esto hace que la <xref:System.Web.SessionState.SessionStateModule> objeto que se va a llamar a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> método nuevo después de un intervalo de medio segundo para intentar recuperar la información del elemento de sesión.  
+ Si elemento de la sesión datos se encuentran en el almacén de datos pero se bloquean los datos, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> método establece el `locked` `out` parámetro `true`, Establece la `lockAge` `out` parámetro a la fecha y hora actuales menos la fecha y la hora cuando se ha bloqueado el elemento (que se recupera del almacén de datos), Establece la `lockId` `out` parámetro para el identificador de bloqueo se recupera desde el almacén de datos y devuelve `null`. Esto hace que el <xref:System.Web.SessionState.SessionStateModule> objeto para llamar a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> método nuevo después de un intervalo de medio segundo para intentar recuperar la información del elemento de sesión.  
   
- Si el valor que el `lockAge` `out` parámetro está establecido para superar la <xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A> valor, la <xref:System.Web.SessionState.SessionStateModule> objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> método para borrar el bloqueo en los datos de elemento de sesión y, a continuación, llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> nuevo al método.  
+ Si el valor que el `lockAge` `out` parámetro se establece en supera la <xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A> valor, el <xref:System.Web.SessionState.SessionStateModule> de objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> método para desactivar el bloqueo de los datos de elemento de sesión y, a continuación, llama a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> nuevo al método.  
   
- El `actionFlags` parámetro se utiliza cuando tanto el `cookieless` y `regenerateExpiredSessionId` atributos están establecidos en `true`. Un `actionFlags` valor establecido en <xref:System.Web.SessionState.SessionStateActions.InitializeItem> indica que la entrada en el almacén de datos de sesión es una nueva sesión que requiera una inicialización. Las entradas no inicializadas en el almacén de datos de sesión se crean mediante una llamada a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> método. Si el elemento desde el almacén de datos de sesión no es un elemento sin inicializar, el `actionFlags` parámetro se establecerá en cero.  
+ El `actionFlags` parámetro se utiliza cuando tanto el `cookieless` y `regenerateExpiredSessionId` atributos están establecidos en `true`. Un `actionFlags` valor establecido en <xref:System.Web.SessionState.SessionStateActions.InitializeItem> indica que la entrada en el almacén de datos de sesión es una nueva sesión que requiere inicialización. Se crean entradas sin inicializar en el almacén de datos de sesión mediante una llamada a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> método. Si el elemento del almacén de datos de sesión no es un elemento no inicializado, el `actionFlags` parámetro se establecerá en cero.  
   
- Los implementadores de almacén de Estados de sesión personalizado que admiten sesiones sin cookies deben establecer el `actionFlags` `out` parámetro en el valor devuelto desde el almacén de datos de sesión para el elemento actual. Si el `actionFlags` es igual elementos de valor de parámetro para el almacén de sesión solicitado la <xref:System.Web.SessionState.SessionStateActions.InitializeItem> valor de enumeración, entonces, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> método debe establecer el valor en el almacén de datos en cero después de establecer el `actionFlags` `out` parámetro.  
+ Los implementadores de almacén de estado de sesión personalizado que admiten sesiones sin cookies deben establecer el `actionFlags` `out` parámetro en el valor devuelto desde el almacén de datos de sesión para el elemento actual. Si el `actionFlags` es igual elementos de valor de parámetro para el almacén de sesión solicitado la <xref:System.Web.SessionState.SessionStateActions.InitializeItem> valor de enumeración, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> método debe establecer el valor en el almacén de datos en cero después de establecer el `actionFlags` `out` parámetro.  
   
    
   
 ## Examples  
- Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de almacén de estado de sesión](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
+ Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de estado de sesión Store](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
   
  ]]></format>
         </remarks>
@@ -334,6 +341,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -360,18 +368,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Web.SessionState.SessionStateModule> objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> (método) al principio de una solicitud, durante el <xref:System.Web.HttpApplication.AcquireRequestState> eventos, cuando la <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> atributo está establecido en `true`, que es el valor predeterminado. Si el <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> atributo está establecido en `ReadOnly`, el <xref:System.Web.SessionState.SessionStateModule> llamadas del objeto en su lugar el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> método.  
+ El <xref:System.Web.SessionState.SessionStateModule> de objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> método al principio de una solicitud, durante el <xref:System.Web.HttpApplication.AcquireRequestState> evento, cuando el <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> atributo está establecido en `true`, que es el valor predeterminado. Si el <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> atributo está establecido en `ReadOnly`, el <xref:System.Web.SessionState.SessionStateModule> en su lugar de objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> método.  
   
- El <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> método devuelve un <xref:System.Web.SessionState.SessionStateStoreData> objeto rellenado con información de la sesión desde el almacén de datos, actualiza la fecha de expiración de los datos almacenados y bloquea los datos de elemento de sesión en el almacén de datos para la duración de la solicitud. Si no hay datos de elemento de sesión se encuentra en el almacén de datos, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> método establece la `locked` `out` parámetro `false` y devuelve `null`. Esto hace que la <xref:System.Web.SessionState.SessionStateModule> objeto que se va a llamar a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> método para crear un nuevo elemento de sesión en el almacén de datos. Si elemento de sesión datos se encuentran en el almacén de datos pero se bloquean los datos, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> método establece la `locked` `out` parámetro `true`, Establece la `lockAge` `out` parámetro a la fecha y hora actuales menos la fecha y la hora cuando se ha bloqueado el elemento (que se recuperan del almacén de datos), Establece la `lockId` `out` parámetro para el identificador de bloqueo recuperado en el almacén de datos y devuelve `null`. Esto hace que la <xref:System.Web.SessionState.SessionStateModule> objeto que se va a llamar a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> método nuevo después de un intervalo de medio segundo para intentar recuperar la información del elemento de sesión y obtener un bloqueo en los datos. Si el valor que el `lockAge` `out` parámetro se establece en supera la <xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A> valor, la <xref:System.Web.SessionState.SessionStateModule> llamadas el <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> método para borrar el bloqueo en los datos de elemento de sesión y, a continuación, llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> nuevo al método.  
+ El <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> método devuelve un <xref:System.Web.SessionState.SessionStateStoreData> objeto rellenado con información de la sesión del almacén de datos, actualiza la fecha de expiración de los datos almacenados y bloquea los datos de elemento de sesión en el almacén de datos para la duración de la solicitud. Si no hay datos de elemento de sesión se encuentra en el almacén de datos, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> método establece el `locked` `out` parámetro `false` y devuelve `null`. Esto hace que el <xref:System.Web.SessionState.SessionStateModule> objeto para llamar a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> método para crear un nuevo elemento de sesión en el almacén de datos. Si elemento de la sesión datos se encuentran en el almacén de datos pero se bloquean los datos, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> método establece el `locked` `out` parámetro `true`, Establece la `lockAge` `out` parámetro a la fecha y hora actuales menos la fecha y la hora cuando se ha bloqueado el elemento (que se recupera del almacén de datos), Establece la `lockId` `out` parámetro para el identificador de bloqueo se recupera desde el almacén de datos y devuelve `null`. Esto hace que el <xref:System.Web.SessionState.SessionStateModule> objeto para llamar a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> método nuevo después de un intervalo de medio segundo para intentar recuperar la información del elemento de sesión y obtener un bloqueo en los datos. Si el valor que el `lockAge` `out` parámetro se establece en supera la <xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A> valor, el <xref:System.Web.SessionState.SessionStateModule> llamadas la <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> método para desactivar el bloqueo de los datos de elemento de sesión y, a continuación, llama a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> nuevo al método.  
   
- El `actionFlags` parámetro se utiliza cuando la `cookieless` y `regenerateExpiredSessionId` atributos están establecidos en `true`. Un `actionFlags` valor establecido en <xref:System.Web.SessionState.SessionStateActions.InitializeItem> indica que la entrada en el almacén de datos de sesión es una nueva sesión que requiera una inicialización. Las entradas no inicializadas en el almacén de datos de sesión se crean mediante una llamada a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> método. Si el elemento desde el almacén de datos de sesión no es un elemento sin inicializar, el `actionFlags` parámetro se establecerá en cero.  
+ El `actionFlags` parámetro se usa cuando el `cookieless` y `regenerateExpiredSessionId` atributos están establecidos en `true`. Un `actionFlags` valor establecido en <xref:System.Web.SessionState.SessionStateActions.InitializeItem> indica que la entrada en el almacén de datos de sesión es una nueva sesión que requiere inicialización. Se crean entradas sin inicializar en el almacén de datos de sesión mediante una llamada a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> método. Si el elemento del almacén de datos de sesión no es un elemento no inicializado, el `actionFlags` parámetro se establecerá en cero.  
   
- Los implementadores de almacén de Estados de sesión personalizado que admiten sesiones sin cookies deben establecer el `actionFlags` `out` parámetro en el valor devuelto desde el almacén de datos de sesión para el elemento actual. Si el `actionFlags` es igual elementos de valor de parámetro para el almacén de sesión solicitado la <xref:System.Web.SessionState.SessionStateActions.InitializeItem> valor de enumeración, entonces, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> método debe establecer el valor en el almacén de datos en cero después de establecer el `actionFlags` `out` parámetro.  
+ Los implementadores de almacén de estado de sesión personalizado que admiten sesiones sin cookies deben establecer el `actionFlags` `out` parámetro en el valor devuelto desde el almacén de datos de sesión para el elemento actual. Si el `actionFlags` es igual elementos de valor de parámetro para el almacén de sesión solicitado la <xref:System.Web.SessionState.SessionStateActions.InitializeItem> valor de enumeración, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> método debe establecer el valor en el almacén de datos en cero después de establecer el `actionFlags` `out` parámetro.  
   
    
   
 ## Examples  
- Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de almacén de estado de sesión](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
+ Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de estado de sesión Store](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
   
  ]]></format>
         </remarks>
@@ -387,6 +395,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -402,12 +411,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Web.SessionState.SessionStateModule> objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.InitializeRequest%2A> método antes de llamar a cualquier otro <xref:System.Web.SessionState.SessionStateStoreProviderBase> método. Puede usar el <xref:System.Web.SessionState.SessionStateStoreProviderBase.InitializeRequest%2A> método para realizar cualquier inicialización por solicitud requerido por el proveedor de almacén de estado de sesión.  
+ El <xref:System.Web.SessionState.SessionStateModule> de objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.InitializeRequest%2A> método antes de llamar a cualquier otro <xref:System.Web.SessionState.SessionStateStoreProviderBase> método. Puede usar el <xref:System.Web.SessionState.SessionStateStoreProviderBase.InitializeRequest%2A> método para realizar cualquier inicialización por solicitud requerido por el proveedor de almacén de estado de sesión.  
   
    
   
 ## Examples  
- Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de almacén de estado de sesión](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
+ Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de estado de sesión Store](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
   
  ]]></format>
         </remarks>
@@ -423,6 +432,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -442,16 +452,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Web.SessionState.SessionStateModule> objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> método para actualizar la fecha de expiración y liberar un bloqueo en un elemento en el almacén de datos de sesión. Se llama al final de una solicitud, durante el <xref:System.Web.HttpApplication.ReleaseRequestState> evento, si se modifican los valores de sesión. Si se han modificado los valores de la sesión, el <xref:System.Web.SessionState.SessionStateModule> llamadas del objeto en su lugar el <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> método.  
+ El <xref:System.Web.SessionState.SessionStateModule> de objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> para actualizar la fecha de expiración y liberar un bloqueo en un elemento en el almacén de datos de sesión. Se llama al final de una solicitud, durante el <xref:System.Web.HttpApplication.ReleaseRequestState> evento, si se modifican los valores de sesión. Si se han modificado los valores de sesión, el <xref:System.Web.SessionState.SessionStateModule> en su lugar de objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> método.  
   
- El <xref:System.Web.SessionState.SessionStateModule> objeto también llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> método cuando un bloqueo en un elemento en el almacén de datos de la sesión ha superado la <xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A> valor. Para obtener más información acerca de los bloqueos y los detalles sobre el identificador de bloqueo, vea "Bloqueo de datos de almacén de la sesión" en la <xref:System.Web.SessionState.SessionStateStoreProviderBase> general sobre la clase.  
+ El <xref:System.Web.SessionState.SessionStateModule> objeto también llama a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> método cuando un bloqueo en un elemento en el almacén de datos de la sesión ha superado el <xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A> valor. Para obtener más información acerca de los bloqueos y los detalles sobre el identificador de bloqueo, vea "Bloqueo de datos de sesión-Store" en el <xref:System.Web.SessionState.SessionStateStoreProviderBase> información general de clases.  
   
- El <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> método sólo quita el bloqueo de un elemento en el almacén de datos de sesión para la aplicación actual que coincide con la sesión proporcionada `id` y `lockId` valores. Si el `lockId` no coincide con del almacén de datos, la <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> método no hace nada.  
+ El <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> método sólo quita el bloqueo de un elemento en el almacén de datos de sesión para la aplicación actual que coincida con la sesión proporcionada `id` y `lockId` valores. Si el `lockId` no coincide con el que aparece en el almacén de datos, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> método no hace nada.  
   
    
   
 ## Examples  
- Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de almacén de estado de sesión](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
+ Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de estado de sesión Store](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
   
  ]]></format>
         </remarks>
@@ -467,6 +477,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -488,12 +499,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Web.SessionState.SessionStateModule> objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A> método al final de una solicitud, durante el <xref:System.Web.HttpApplication.ReleaseRequestState> eventos, para eliminar los datos de un elemento de sesión desde el almacén de datos de sesión si el <xref:System.Web.SessionState.HttpSessionState.Abandon%2A> ha llamado al método. Solo los datos de sesión para la aplicación actual que coincide con la sesión proporcionada `id` y `lockId` es eliminar los valores. Para obtener más información acerca de los bloqueos y los detalles sobre el identificador de bloqueo, vea "Bloqueo de datos de almacén de la sesión" en la <xref:System.Web.SessionState.SessionStateStoreProviderBase> general sobre la clase.  
+ El <xref:System.Web.SessionState.SessionStateModule> de objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A> método al final de una solicitud, durante el <xref:System.Web.HttpApplication.ReleaseRequestState> evento, para eliminar los datos de un elemento de sesión del almacén de datos de sesión si el <xref:System.Web.SessionState.HttpSessionState.Abandon%2A> ha llamado al método. Solo los datos de sesión de la aplicación actual que coincida con la sesión proporcionada `id` y `lockId` es eliminar los valores. Para obtener más información acerca de los bloqueos y los detalles sobre el identificador de bloqueo, vea "Bloqueo de datos de sesión-Store" en el <xref:System.Web.SessionState.SessionStateStoreProviderBase> información general de clases.  
   
    
   
 ## Examples  
- Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de almacén de estado de sesión](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
+ Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de estado de sesión Store](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
   
  ]]></format>
         </remarks>
@@ -509,6 +520,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -526,18 +538,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Web.SessionState.SessionStateModule> objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.ResetItemTimeout%2A> método para actualizar la fecha de expiración y la hora de una sesión a la fecha y hora actuales más la sesión <xref:System.Web.SessionState.HttpSessionState.Timeout%2A> valor cuando ambos:  
+ El <xref:System.Web.SessionState.SessionStateModule> de objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.ResetItemTimeout%2A> método para actualizar la fecha de expiración y la hora para una sesión a la fecha y hora actual más la sesión <xref:System.Web.SessionState.HttpSessionState.Timeout%2A> valor cuando ambos:  
   
 -   el <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> atributo es `true`, o  
   
--   la solicitud no emitió la <xref:System.Web.HttpApplication.AcquireRequestState> y <xref:System.Web.HttpApplication.ReleaseRequestState> eventos debido a un error.  
+-   la solicitud no emitía la <xref:System.Web.HttpApplication.AcquireRequestState> y <xref:System.Web.HttpApplication.ReleaseRequestState> eventos debido a un error.  
   
- Si se solicita una página ASP.NET y la <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> atributo está establecido en `false`, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.ResetItemTimeout%2A> todavía se llama el método para actualizar la fecha de expiración y la hora de los datos en el almacén de datos de sesión.  
+ Si se solicita una página ASP.NET y el <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> atributo está establecido en `false`, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.ResetItemTimeout%2A> todavía se llama el método para actualizar la fecha de expiración y la hora de los datos en el almacén de datos de sesión.  
   
    
   
 ## Examples  
- Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de almacén de estado de sesión](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
+ Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de estado de sesión Store](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
   
  ]]></format>
         </remarks>
@@ -553,6 +565,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -576,16 +589,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Web.SessionState.SessionStateModule> objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> método al final de una solicitud, durante el <xref:System.Web.HttpApplication.ReleaseRequestState> eventos, para insertar la información de elemento de sesión actual en el almacén de datos o actualizar información existente del elemento de sesión en el almacén de datos con los valores actuales, Para actualizar la fecha de expiración en el elemento y para liberar el bloqueo en los datos. Solo los datos de sesión para la aplicación actual que coincide con la sesión proporcionada `id` y `lockId` valores se actualizan. Para obtener más información acerca de los bloqueos, vea "Bloqueo de datos de almacén de la sesión" en la <xref:System.Web.SessionState.SessionStateStoreProviderBase> general sobre la clase.  
+ El <xref:System.Web.SessionState.SessionStateModule> de objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> método al final de una solicitud, durante el <xref:System.Web.HttpApplication.ReleaseRequestState> eventos, para insertar información de elemento de sesión actual en el almacén de datos o actualizar la información de elemento de sesión existente en el almacén de datos con los valores actuales, Para actualizar la fecha de expiración en el elemento y para liberar el bloqueo en los datos. Solo los datos de sesión de la aplicación actual que coincida con la sesión proporcionada `id` y `lockId` se actualizan los valores. Para obtener más información acerca de los bloqueos, vea "Bloqueo de datos de sesión Store" en el <xref:System.Web.SessionState.SessionStateStoreProviderBase> información general de clases.  
   
- Si no se han modificado los valores de sesión para la solicitud actual, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> no se llama el método. En su lugar, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> se llama al método.  
+ Si no se han modificado los valores de sesión para la solicitud actual, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> no se llama al método. En su lugar, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> se llama al método.  
   
- Si el <xref:System.Web.SessionState.HttpSessionState.Abandon%2A> se ha llamado el método, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> no se llama el método. En su lugar, el <xref:System.Web.SessionState.SessionStateModule> objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A> método para eliminar datos de elemento de sesión del origen de datos.  
+ Si el <xref:System.Web.SessionState.HttpSessionState.Abandon%2A> se ha llamado al método, el <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> no se llama al método. En su lugar, el <xref:System.Web.SessionState.SessionStateModule> de objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A> método para eliminar datos de elemento de sesión del origen de datos.  
   
    
   
 ## Examples  
- Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de almacén de estado de sesión](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
+ Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de estado de sesión Store](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
   
  ]]></format>
         </remarks>
@@ -601,6 +614,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -617,14 +631,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Web.SessionState.SessionStateModule> objeto llamadas el <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetItemExpireCallback%2A> método cuando se inicializa el módulo para determinar si llama a la `Session_OnEnd` eventos son compatibles con el <xref:System.Web.SessionState.SessionStateStoreProviderBase> implementación y asociar el <xref:System.Web.SessionState.SessionStateItemExpireCallback> delegado con el `Session_OnEnd` eventos.  
+ El <xref:System.Web.SessionState.SessionStateModule> de objeto llama el <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetItemExpireCallback%2A> método cuando se inicializa el módulo para determinar si las llamadas a la `Session_OnEnd` eventos son compatibles con el <xref:System.Web.SessionState.SessionStateStoreProviderBase> implementación y para asociar el <xref:System.Web.SessionState.SessionStateItemExpireCallback> delegado con el `Session_OnEnd` eventos.  
   
- Los implementadores de proveedor de almacén de estado de sesión personalizado deben utilizar el <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetItemExpireCallback%2A> método para informar a la <xref:System.Web.SessionState.SessionStateModule> objeto si llama a la `Session_OnEnd` se admite el evento y para establecer una referencia local la <xref:System.Web.SessionState.SessionStateItemExpireCallback> delegado proporcionado por el `expireCallback` parámetro. La implementación personalizada debe decidir cuándo local <xref:System.Web.SessionState.SessionStateItemExpireCallback> se llama al delegado. Por ejemplo, se podría llamar al delegado durante la llamada a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A> método, que se llama cuando se abandona una sesión.  
+ Los implementadores de proveedor de almacén de estado de sesión personalizado deben usar el <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetItemExpireCallback%2A> método para informar a la <xref:System.Web.SessionState.SessionStateModule> objeto si las llamadas a la `Session_OnEnd` se admite el evento y establecer una referencia local la <xref:System.Web.SessionState.SessionStateItemExpireCallback> delegado proporcionado por el `expireCallback` parámetro. La implementación personalizada debe decidir cuándo local <xref:System.Web.SessionState.SessionStateItemExpireCallback> se llama al delegado. Por ejemplo, podría ser llama al delegado durante la llamada a la <xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A> método, que se llama cuando se abandona una sesión.  
   
    
   
 ## Examples  
- Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de almacén de estado de sesión](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
+ Para obtener un ejemplo de una implementación de proveedor de almacén de estado de sesión, vea [implementar un proveedor de estado de sesión Store](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).  
   
  ]]></format>
         </remarks>
