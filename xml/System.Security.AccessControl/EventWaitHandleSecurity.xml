@@ -1,11 +1,11 @@
 <Type Name="EventWaitHandleSecurity" FullName="System.Security.AccessControl.EventWaitHandleSecurity">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="ff8ebd011695a3e1b88fe579dee644ca9bc7ca82" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="53c92bf39570207be810f6dfa4a58f895f55b64e" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36628268" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37466942" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class EventWaitHandleSecurity : System.Security.AccessControl.NativeObjectSecurity" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit EventWaitHandleSecurity extends System.Security.AccessControl.NativeObjectSecurity" />
@@ -20,6 +20,7 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -33,49 +34,49 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto especifica acceso derechos para el identificador de espera de un sistema con nombre y también especifica la manera en que se auditan los intentos de acceso. Derechos de acceso al identificador de espera se expresan como reglas, con cada regla de acceso representada por un <xref:System.Security.AccessControl.EventWaitHandleAccessRule> objeto. Cada regla de auditoría se representa mediante un <xref:System.Security.AccessControl.EventWaitHandleAuditRule> objeto.  
+ Un <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto especifica acceso de derechos para el identificador de espera de un sistema con nombre y también especifica la manera en que se auditan los intentos de acceso. Derechos de acceso para el identificador de espera se expresan como reglas, con cada regla de acceso representada por un <xref:System.Security.AccessControl.EventWaitHandleAccessRule> objeto. Cada regla de auditoría se representa mediante un <xref:System.Security.AccessControl.EventWaitHandleAuditRule> objeto.  
   
- Esto refleja el sistema de seguridad subyacente de Windows, en el que cada objeto asegurable tiene al menos un control lista de acceso discrecional (DACL) que controla el acceso al objeto protegido y a lo sumo lista de control de acceso de un sistema (SACL) que especifica que el acceso se auditan los intentos. La lista DACL y SACL son listas ordenadas de entradas de control de acceso (ACE) que especifican el acceso y auditoría para usuarios y grupos. Un <xref:System.Security.AccessControl.EventWaitHandleAccessRule> o <xref:System.Security.AccessControl.EventWaitHandleAuditRule> objeto podría representar más de una ACE.  
+ Esto refleja el sistema de seguridad de Windows subyacente, en el que cada objeto asegurable tiene a lo sumo un control lista de acceso discrecional (DACL) que controla el acceso al objeto protegido y, a lo sumo lista de control de acceso de un sistema (SACL) que especifica que el acceso se auditan los intentos. La DACL y SACL se ordenan las listas de entradas de control de acceso (ACE) que especifican el acceso y auditoría de los usuarios y grupos. Un <xref:System.Security.AccessControl.EventWaitHandleAccessRule> o <xref:System.Security.AccessControl.EventWaitHandleAuditRule> objeto podría representar más de una ACE.  
   
 > [!NOTE]
->  Un <xref:System.Threading.EventWaitHandle> objeto puede representar un identificador de espera local o identificador de espera de un sistema con nombre. Seguridad de control de acceso de Windows sólo es significativa para los identificadores de espera de sistema con nombre.  
+>  Un <xref:System.Threading.EventWaitHandle> objeto puede representar un identificador de espera local o un sistema con el identificador de espera. Seguridad de control de acceso de Windows solo es significativa para los identificadores de espera del sistema con nombre.  
   
- El <xref:System.Security.AccessControl.EventWaitHandleSecurity>, <xref:System.Security.AccessControl.EventWaitHandleAccessRule>, y <xref:System.Security.AccessControl.EventWaitHandleAuditRule> clases ocultan los detalles de implementación de ACL y ACE. Le permiten pasar por alto los distintos tipos ACE diecisiete y la complejidad de mantener correctamente la herencia y la propagación de derechos de acceso. Estos objetos también están diseñados para evitar los errores de control de acceso comunes siguientes:  
+ El <xref:System.Security.AccessControl.EventWaitHandleSecurity>, <xref:System.Security.AccessControl.EventWaitHandleAccessRule>, y <xref:System.Security.AccessControl.EventWaitHandleAuditRule> clases ocultan los detalles de implementación de ACL y ACE. Le permiten pasar por alto los diferentes tipos ACE diecisiete y la complejidad de mantener correctamente la herencia y propagación de derechos de acceso. Estos objetos también están diseñados para evitar los errores de control de acceso comunes siguientes:  
   
--   Crear un descriptor de seguridad con una DACL null. Una referencia nula a una DACL permite a cualquier usuario agregar reglas de acceso a un objeto, podría crear un ataque de denegación de servicio. Un nuevo <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto siempre se inicia con una DACL vacía que deniega el acceso a todos los usuarios.  
+-   Crear un descriptor de seguridad con una DACL null. Una referencia a una DACL null permite que cualquier usuario agregar reglas de acceso a un objeto, la posibilidad de crear un ataque de denegación de servicio. Un nuevo <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto comienza siempre con una DACL vacía que deniega el acceso a todos los usuarios.  
   
--   Infringir la clasificación canónica de ACE. Si la lista ACE en la DACL no se mantiene en el orden canónico, los usuarios sin darse cuenta pueden concederse acceso al objeto protegido. Por ejemplo, los derechos de acceso denegado siempre deben aparecer antes que los derechos de acceso permitido. <xref:System.Security.AccessControl.EventWaitHandleSecurity> objetos mantienen el orden interno correcto.  
+-   Infringir la clasificación canónica de ACE. Si no se mantiene la lista ACE en la DACL en el orden canónico, los usuarios inadvertidamente se podrían dar acceso al objeto protegido. Por ejemplo, los derechos de acceso denegado siempre deben aparecer antes que los derechos de acceso permitido. <xref:System.Security.AccessControl.EventWaitHandleSecurity> objetos mantienen internamente el orden correcto.  
   
--   La manipulación de marcas de descriptor de seguridad que deberían estar bajo el control del Administrador de recursos solo.  
+-   Manipular las marcas de descriptor de seguridad, que deberían ser bajo el control del Administrador de recursos solo.  
   
--   Crear combinaciones no válidas de indicadores ACE.  
+-   Crear combinaciones no válidas de marcadores ACE.  
   
--   Manipular heredadas. Herencia y la propagación se controlan mediante el Administrador de recursos, en respuesta a los cambios realizados en las reglas de acceso y auditoría.  
+-   Manipular ACE heredadas. Herencia y propagación se controlan mediante el Administrador de recursos, en respuesta a cambios en las reglas de acceso y auditoría.  
   
--   Insertar ACE sin sentido en ACL.  
+-   Insertar ACE no tiene sentidas en las ACL.  
   
- Las únicas funciones no admitidas por los objetos de seguridad de .NET son actividades peligrosas que deben evitarse la mayoría de los desarrolladores de aplicaciones, como las siguientes:  
+ Las únicas funciones no compatibles con los objetos de seguridad de .NET son actividades peligrosas que deben evitarse la mayoría de los desarrolladores de aplicaciones, como las siguientes:  
   
 -   Tareas de bajo nivel que normalmente se realizan mediante el Administrador de recursos.  
   
 -   Agregar o quitar entradas de control de acceso de maneras que no mantienen el orden canónico.  
   
- Para modificar la seguridad de control de acceso de Windows para un identificador de espera con nombre, utilice el <xref:System.Threading.EventWaitHandle.GetAccessControl%2A?displayProperty=nameWithType> método para obtener la <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto. Modificar el objeto de seguridad agregando y quitando las reglas y, a continuación, utilizar el <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType> método para adjuntarla.  
+ Para modificar la seguridad de control de acceso de Windows para un identificador de espera con nombre, utilice el <xref:System.Threading.EventWaitHandle.GetAccessControl%2A?displayProperty=nameWithType> método para obtener el <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto. Modificar el objeto de seguridad agregando y quitando las reglas y, a continuación, utilizar el <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType> método para volver a conectarlo.  
   
 > [!IMPORTANT]
->  Cambios realizados en un <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto no afectan a los niveles de acceso de identificador de espera con nombre hasta que llame a la <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType> método para asignar el objeto de seguridad alterado al identificador de espera con nombre.  
+>  Cambios en un <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto no afectan a los niveles de acceso del identificador de espera con nombre hasta que llame a la <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType> método para asignar el objeto de seguridad modificado al identificador de espera con nombre.  
   
- Para copiar la seguridad de control de acceso de identificador de espera de una a otra, utilice la <xref:System.Threading.EventWaitHandle.GetAccessControl%2A?displayProperty=nameWithType> método para obtener un <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto que representa las reglas de acceso y auditoría para el primer controlador de espera y, a continuación, usar el <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType> método o un constructor que acepta un <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto, para asignar esas reglas al segundo identificador de espera.  
+ Para copiar la seguridad de control de acceso del identificador de espera de una a otra, utilice el <xref:System.Threading.EventWaitHandle.GetAccessControl%2A?displayProperty=nameWithType> método para obtener un <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto que representa las reglas de acceso y auditoría para el primer identificador de espera y, a continuación, utilice el <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType> método o constructor que acepta un <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto, para asignar esas reglas al segundo identificador de espera.  
   
- Los usuarios con una inversión en el lenguaje de definición de descriptores de seguridad (SDDL) pueden utilizar el <xref:System.Security.AccessControl.ObjectSecurity.SetSecurityDescriptorSddlForm%2A> método para establecer reglas de acceso para un identificador de espera con nombre y el <xref:System.Security.AccessControl.ObjectSecurity.GetSecurityDescriptorSddlForm%2A> método para obtener una cadena que representa las reglas de acceso en formato SDDL. Esto no se recomienda para nuevo desarrollo.  
+ Los usuarios con una inversión en el lenguaje de definición de descriptores de seguridad (SDDL) pueden usar el <xref:System.Security.AccessControl.ObjectSecurity.SetSecurityDescriptorSddlForm%2A> método para establecer reglas de acceso para un identificador de espera con nombre y el <xref:System.Security.AccessControl.ObjectSecurity.GetSecurityDescriptorSddlForm%2A> método para obtener una cadena que representa las reglas de acceso en formato SDDL. Esto no se recomienda para nuevo desarrollo.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra la separación entre <xref:System.Security.AccessControl.AccessControlType.Allow> reglas y <xref:System.Security.AccessControl.AccessControlType.Deny> reglas y muestra la combinación de derechos de reglas compatibles. El ejemplo se crea un <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto, se agregan reglas que conceden y deniegan diferentes derechos al usuario actual y muestra el par de reglas resultante. En el ejemplo, a continuación, permite nuevos derechos para el usuario actual y muestra el resultado, que muestra que los nuevos derechos se combinan con las existentes <xref:System.Security.AccessControl.AccessControlType.Allow> regla.  
+ En el ejemplo de código siguiente se muestra la separación entre <xref:System.Security.AccessControl.AccessControlType.Allow> reglas y <xref:System.Security.AccessControl.AccessControlType.Deny> reglas y muestra la combinación de derechos de reglas compatibles. El ejemplo se crea un <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto, agrega las reglas que conceden y deniegan derechos distintos para el usuario actual y muestra el par de reglas resultante. En el ejemplo, a continuación, permite nuevos derechos para el usuario actual y muestra el resultado, que muestra que los nuevos derechos se combinan con las existentes <xref:System.Security.AccessControl.AccessControlType.Allow> regla.  
   
 > [!NOTE]
->  Este ejemplo no adjunta el objeto de seguridad a un <xref:System.Threading.EventWaitHandle> objeto. Encontrará ejemplos donde se adjuntan objetos de seguridad en <xref:System.Threading.EventWaitHandle.GetAccessControl%2A?displayProperty=nameWithType> y <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType>.  
+>  En este ejemplo no se adjunta el objeto de seguridad a un <xref:System.Threading.EventWaitHandle> objeto. Encontrará ejemplos donde se adjuntan los objetos de seguridad en <xref:System.Threading.EventWaitHandle.GetAccessControl%2A?displayProperty=nameWithType> y <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType>.  
   
  [!code-csharp[System.Security.AccessControl.EventWaitHandleSecurity.AddAccessRule#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.AccessControl.EventWaitHandleSecurity.AddAccessRule/CS/source.cs#1)]
  [!code-vb[System.Security.AccessControl.EventWaitHandleSecurity.AddAccessRule#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Security.AccessControl.EventWaitHandleSecurity.AddAccessRule/VB/source.vb#1)]  
@@ -103,6 +104,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -113,7 +115,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un nuevo <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto siempre se inicia con una lista vacía de acceso discrecional (DACL), que se deniega el acceso a todos los usuarios.  
+ Un nuevo <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto comienza siempre con una lista vacía de acceso discrecional (DACL), que se deniega el acceso a todos los usuarios.  
   
  ]]></format>
         </remarks>
@@ -135,6 +137,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -148,7 +151,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Las clases que derivan de la <xref:System.Security.AccessControl.ObjectSecurity> clase invalidación el <xref:System.Security.AccessControl.ObjectSecurity.AccessRightType%2A> propiedad y devuelven el tipo que utilizan para representar los derechos de acceso. Cuando se trabaja con matrices o colecciones que contienen varios tipos de objetos de seguridad, utilice esta propiedad para determinar el tipo de enumeración correctos para utilizar con cada objeto de seguridad.  
+ Las clases que derivan de la <xref:System.Security.AccessControl.ObjectSecurity> clase invalidación el <xref:System.Security.AccessControl.ObjectSecurity.AccessRightType%2A> propiedad y devuelva el tipo que se utilizan para representar los derechos de acceso. Cuando se trabaja con matrices o colecciones que contienen varios tipos de objetos de seguridad, use esta propiedad para determinar el tipo de enumeración correctos para utilizar con cada objeto de seguridad.  
   
  ]]></format>
         </remarks>
@@ -168,6 +171,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -195,10 +199,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La manera recomendada de crear las reglas de control de acceso es utilizar los constructores de la <xref:System.Security.AccessControl.EventWaitHandleAccessRule> clase.  
+ La manera recomendada para crear reglas de control de acceso es utilizar los constructores de la <xref:System.Security.AccessControl.EventWaitHandleAccessRule> clase.  
   
 > [!NOTE]
->  Aunque los indicadores de herencia y propagación tienen sentidos para los eventos con nombre, resulta todavía posible especificarlos. No se recomienda porque complica de manera innecesaria el mantenimiento de reglas, por ejemplo, interfiriendo con la combinación de reglas que de otro modo sería compatible.  
+>  Aunque los indicadores de herencia y propagación tienen sentidos para los eventos con nombre, es posible especificarlos. No se recomienda porque lo innecesariamente complica el mantenimiento de reglas, por ejemplo al interferir con la combinación de reglas que estarían compatible.  
   
  ]]></format>
         </remarks>
@@ -225,6 +229,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -238,7 +243,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Las clases que derivan de la <xref:System.Security.AccessControl.ObjectSecurity> clase invalidación el <xref:System.Security.AccessControl.ObjectSecurity.AccessRuleType%2A> propiedad y devuelven el tipo que utilizan para representar las reglas de acceso. Cuando se trabaja con matrices o colecciones que contienen varios tipos de objetos de seguridad, utilice esta propiedad para determinar el tipo de regla de acceso correcto a utilizar con cada objeto de seguridad.  
+ Las clases que derivan de la <xref:System.Security.AccessControl.ObjectSecurity> clase invalidación el <xref:System.Security.AccessControl.ObjectSecurity.AccessRuleType%2A> propiedad y devuelva el tipo que se utilizan para representar las reglas de acceso. Cuando se trabaja con matrices o colecciones que contienen varios tipos de objetos de seguridad, use esta propiedad para determinar el tipo de regla de acceso correcto a utilizar con cada objeto de seguridad.  
   
  ]]></format>
         </remarks>
@@ -259,6 +264,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -275,15 +281,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Security.AccessControl.EventWaitHandleSecurity.AddAccessRule%2A> método busca las reglas con el mismo usuario o grupo y el mismo <xref:System.Security.AccessControl.AccessControlType> como `rule`. Si no se encuentra ninguno, `rule` se agrega. Si se encuentra una regla de coincidencia, los derechos en `rule` se combinan con la regla existente.  
+ El <xref:System.Security.AccessControl.EventWaitHandleSecurity.AddAccessRule%2A> método busca las reglas con el mismo usuario o grupo y el mismo <xref:System.Security.AccessControl.AccessControlType> como `rule`. Si se encuentra ninguna, `rule` se agrega. Si se encuentra una regla de coincidencia, los derechos en `rule` se combinan con la regla existente.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra la separación entre <xref:System.Security.AccessControl.AccessControlType.Allow> reglas y <xref:System.Security.AccessControl.AccessControlType.Deny> reglas y muestra la combinación de derechos de reglas compatibles. El ejemplo se crea un <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto, se agregan reglas que conceden y deniegan diferentes derechos al usuario actual y muestra el par de reglas resultante. En el ejemplo, a continuación, permite nuevos derechos para el usuario actual y muestra el resultado, que muestra que los nuevos derechos se combinan con las existentes <xref:System.Security.AccessControl.AccessControlType.Allow> regla.  
+ En el ejemplo de código siguiente se muestra la separación entre <xref:System.Security.AccessControl.AccessControlType.Allow> reglas y <xref:System.Security.AccessControl.AccessControlType.Deny> reglas y muestra la combinación de derechos de reglas compatibles. El ejemplo se crea un <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto, agrega las reglas que conceden y deniegan derechos distintos para el usuario actual y muestra el par de reglas resultante. En el ejemplo, a continuación, permite nuevos derechos para el usuario actual y muestra el resultado, que muestra que los nuevos derechos se combinan con las existentes <xref:System.Security.AccessControl.AccessControlType.Allow> regla.  
   
 > [!NOTE]
->  Este ejemplo no adjunta el objeto de seguridad a un <xref:System.Threading.EventWaitHandle> objeto. Encontrará ejemplos donde se adjuntan objetos de seguridad en <xref:System.Threading.EventWaitHandle.GetAccessControl%2A?displayProperty=nameWithType> y <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType>.  
+>  En este ejemplo no se adjunta el objeto de seguridad a un <xref:System.Threading.EventWaitHandle> objeto. Encontrará ejemplos donde se adjuntan los objetos de seguridad en <xref:System.Threading.EventWaitHandle.GetAccessControl%2A?displayProperty=nameWithType> y <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType>.  
   
  [!code-csharp[System.Security.AccessControl.EventWaitHandleSecurity.AddAccessRule#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.AccessControl.EventWaitHandleSecurity.AddAccessRule/CS/source.cs#1)]
  [!code-vb[System.Security.AccessControl.EventWaitHandleSecurity.AddAccessRule#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Security.AccessControl.EventWaitHandleSecurity.AddAccessRule/VB/source.vb#1)]  
@@ -309,6 +315,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -325,7 +332,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Security.AccessControl.EventWaitHandleSecurity.AddAuditRule%2A> método busca las reglas con el mismo usuario o grupo como `rule`. Si no se encuentra ninguno, `rule` se agrega. Si se encuentra una regla de coincidencia, las marcas en `rule` se combinan en la regla existente.  
+ El <xref:System.Security.AccessControl.EventWaitHandleSecurity.AddAuditRule%2A> método busca las reglas con el mismo usuario o grupo que `rule`. Si se encuentra ninguna, `rule` se agrega. Si se encuentra una regla de coincidencia, las marcas en `rule` se combinan en una regla existente.  
   
  ]]></format>
         </remarks>
@@ -347,6 +354,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -374,10 +382,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La manera recomendada para crear reglas de auditoría es utilizar los constructores de la <xref:System.Security.AccessControl.EventWaitHandleAuditRule> clase.  
+ La manera recomendada para crear las reglas de auditoría es utilizar los constructores de la <xref:System.Security.AccessControl.EventWaitHandleAuditRule> clase.  
   
 > [!NOTE]
->  Aunque los indicadores de herencia y propagación tienen sentidos para los eventos con nombre, resulta todavía posible especificarlos. No se recomienda porque complica de manera innecesaria el mantenimiento de reglas, por ejemplo, interfiriendo con la combinación de reglas que de otro modo sería compatible.  
+>  Aunque los indicadores de herencia y propagación tienen sentidos para los eventos con nombre, es posible especificarlos. No se recomienda porque lo innecesariamente complica el mantenimiento de reglas, por ejemplo al interferir con la combinación de reglas que estarían compatible.  
   
  ]]></format>
         </remarks>
@@ -404,6 +412,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -417,7 +426,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Las clases que derivan de la <xref:System.Security.AccessControl.ObjectSecurity> clase invalidación el <xref:System.Security.AccessControl.ObjectSecurity.AuditRuleType%2A> propiedad y devuelven el tipo que utilizan para representar los derechos de auditoría. Cuando se trabaja con matrices o colecciones que contienen varios tipos de objetos de seguridad, utilice esta propiedad para determinar el tipo de regla de auditoría correcta para utilizar con cada objeto de seguridad.  
+ Las clases que derivan de la <xref:System.Security.AccessControl.ObjectSecurity> clase invalidación el <xref:System.Security.AccessControl.ObjectSecurity.AuditRuleType%2A> propiedad y devuelva el tipo que se utilizan para representar los derechos de auditoría. Cuando se trabaja con matrices o colecciones que contienen varios tipos de objetos de seguridad, use esta propiedad para determinar el tipo de regla de auditoría correcta para utilizar con cada objeto de seguridad.  
   
  ]]></format>
         </remarks>
@@ -438,6 +447,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -457,20 +467,20 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Actual <xref:System.Security.AccessControl.EventWaitHandleSecurity> se busca una regla que tenga el mismo usuario y el mismo <xref:System.Security.AccessControl.AccessControlType> valor como `rule`. Si no se encuentra la regla se realiza ninguna acción y el método devuelve `false`. Si se encuentran las reglas de coincidencia, se comprueban sus marcas de herencia y la compatibilidad para la compatibilidad con las marcas especificadas en `rule`. Si se encuentra ninguna regla compatible, no se realiza ninguna acción y el método devuelve `false`. Si se encuentra una regla con indicadores compatibles, los permisos se especifican en `rule` se quitan de la regla compatible, y el método devuelve `true`. Si `rule` especifica derechos no contenidos en la regla compatible, no se realiza ninguna acción con respecto a dichos derechos. Si se quitan todos los derechos de la regla compatible, se quita la regla completa actual <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto.  
+ Actual <xref:System.Security.AccessControl.EventWaitHandleSecurity> se busca una regla que tenga el mismo usuario y el mismo <xref:System.Security.AccessControl.AccessControlType> valor como `rule`. Si no se encuentra ninguna de estas reglas, se realiza ninguna acción y el método devuelve `false`. Si se encuentran las reglas de coincidencia, se comprueban los marcadores de herencia y compatibilidad para la compatibilidad con las marcas especificadas en `rule`. Si se encuentra ninguna regla compatible, se realiza ninguna acción y el método devuelve `false`. Si se encuentra una regla con marcadores compatibles, los derechos especifican en `rule` se quitan de la regla compatible, y el método devuelve `true`. Si `rule` especifica los derechos no contenidos en la regla compatible, se realiza ninguna acción con respecto a dichos derechos. Si se quitan todos los derechos de la regla compatible, se quita la regla completa actual <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto.  
   
 > [!IMPORTANT]
->  Aunque puede especificar indicadores de herencia y propagación para las reglas de acceso de eventos, si se crean con el <xref:System.Security.AccessControl.EventWaitHandleSecurity.AccessRuleFactory%2A> método, no se recomienda. Herencia y propagación no tienen ningún significado para los eventos con nombre y realizan el mantenimiento de reglas de acceso más complicado.  
+>  Aunque puede especificar los marcadores de herencia y propagación para las reglas de acceso de eventos, si se crean con el <xref:System.Security.AccessControl.EventWaitHandleSecurity.AccessRuleFactory%2A> método, no se recomienda. Herencia y propagación no tienen ningún significado para los eventos con nombre y realizan el mantenimiento de reglas de acceso más complicado.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra el uso de la <xref:System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRule%2A> método para quitar derechos de un <xref:System.Security.AccessControl.AccessControlType.Allow> regla en un <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto. También muestra que otros derechos en `rule` se omiten.  
+ En el ejemplo de código siguiente se muestra el uso de la <xref:System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRule%2A> método para quitar los derechos de un <xref:System.Security.AccessControl.AccessControlType.Allow> de regla en un <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto. También muestra que otros derechos en `rule` se omiten.  
   
- El ejemplo se crea un <xref:System.Security.AccessControl.EventWaitHandleSecurity> de objeto y se agregan reglas que conceden y deniegan diferentes derechos al usuario actual. Los derechos permiten incluir <xref:System.Security.AccessControl.EventWaitHandleRights.Modify>, <xref:System.Security.AccessControl.EventWaitHandleRights.ReadPermissions>, y <xref:System.Security.AccessControl.EventWaitHandleRights.Synchronize>. El ejemplo crea una nueva regla para el usuario actual, incluidos los <xref:System.Security.AccessControl.EventWaitHandleRights.ReadPermissions> y <xref:System.Security.AccessControl.EventWaitHandleRights.TakeOwnership> derechos y se utiliza esa regla con el <xref:System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRule%2A> método para quitar <xref:System.Security.AccessControl.EventWaitHandleRights.ReadPermissions> desde el <xref:System.Security.AccessControl.AccessControlType.Allow> regla en el <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto. El <xref:System.Security.AccessControl.EventWaitHandleRights.TakeOwnership> directamente en `rule` se omite.  
+ El ejemplo se crea un <xref:System.Security.AccessControl.EventWaitHandleSecurity> de objeto y se agregan reglas que conceden y deniegan diferentes derechos para el usuario actual. Los derechos permiten incluir <xref:System.Security.AccessControl.EventWaitHandleRights.Modify>, <xref:System.Security.AccessControl.EventWaitHandleRights.ReadPermissions>, y <xref:System.Security.AccessControl.EventWaitHandleRights.Synchronize>. El ejemplo, a continuación, crea una nueva regla para el usuario actual, incluidos <xref:System.Security.AccessControl.EventWaitHandleRights.ReadPermissions> y <xref:System.Security.AccessControl.EventWaitHandleRights.TakeOwnership> derechos y utiliza esa regla con el <xref:System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRule%2A> método para quitar <xref:System.Security.AccessControl.EventWaitHandleRights.ReadPermissions> desde el <xref:System.Security.AccessControl.AccessControlType.Allow> de regla en el <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto. El <xref:System.Security.AccessControl.EventWaitHandleRights.TakeOwnership> directamente en `rule` se omite.  
   
 > [!NOTE]
->  Este ejemplo no adjunta el objeto de seguridad a un <xref:System.Threading.EventWaitHandle> objeto. Encontrará ejemplos donde se adjuntan objetos de seguridad en <xref:System.Threading.EventWaitHandle.GetAccessControl%2A?displayProperty=nameWithType> y <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType>.  
+>  En este ejemplo no se adjunta el objeto de seguridad a un <xref:System.Threading.EventWaitHandle> objeto. Encontrará ejemplos donde se adjuntan los objetos de seguridad en <xref:System.Threading.EventWaitHandle.GetAccessControl%2A?displayProperty=nameWithType> y <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType>.  
   
  [!code-csharp[System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRule#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRule/CS/source.cs#1)]
  [!code-vb[System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRule#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRule/VB/source.vb#1)]  
@@ -496,6 +506,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -513,17 +524,17 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Actual <xref:System.Security.AccessControl.EventWaitHandleSecurity> de reglas que tengan el mismo usuario y el mismo se buscan en <xref:System.Security.AccessControl.AccessControlType> valor como `rule`. Los derechos especificados por `rule` se pasan por alto al realizar esta búsqueda. Se quitan todas las reglas coincidentes. Si no se encuentra ninguna regla coincidente, se realiza ninguna acción.  
+ Actual <xref:System.Security.AccessControl.EventWaitHandleSecurity> se busca en las reglas que tienen el mismo usuario y el mismo <xref:System.Security.AccessControl.AccessControlType> valor como `rule`. Los derechos especificados por `rule` se omiten al realizar esta búsqueda. Se quitan todas las reglas coincidentes. Si no se encuentra ninguna regla coincidente, se realiza ninguna acción.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra que la <xref:System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRuleAll%2A> método quita todas las reglas que coinciden con el usuario y <xref:System.Security.AccessControl.AccessControlType>, pasando por alto los derechos.  
+ En el ejemplo de código siguiente se muestra que el <xref:System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRuleAll%2A> método quita todas las reglas que coinciden con el usuario y <xref:System.Security.AccessControl.AccessControlType>, omitiendo los derechos.  
   
- El ejemplo se crea un <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto, se agregan reglas que conceden y deniegan diferentes derechos al usuario actual y, a continuación, combinan derechos adicionales en el <xref:System.Security.AccessControl.AccessControlType.Allow> regla. El ejemplo crea una nueva regla que permite al usuario actual tomar posesión y utiliza esa regla para quitar la <xref:System.Security.AccessControl.AccessControlType.Allow> regla a partir de la <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto.  
+ El ejemplo se crea un <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto, se agregan reglas que conceden y deniegan diferentes derechos para el usuario actual y, a continuación, combinan derechos adicionales en el <xref:System.Security.AccessControl.AccessControlType.Allow> regla. El ejemplo, a continuación, crea una nueva regla que permite al usuario actual tomar posesión y utiliza esa regla para quitar el <xref:System.Security.AccessControl.AccessControlType.Allow> regla desde el <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto.  
   
 > [!NOTE]
->  Este ejemplo no adjunta el objeto de seguridad a un <xref:System.Threading.EventWaitHandle> objeto. Encontrará ejemplos donde se adjuntan objetos de seguridad en <xref:System.Threading.EventWaitHandle.GetAccessControl%2A?displayProperty=nameWithType> y <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType>.  
+>  En este ejemplo no se adjunta el objeto de seguridad a un <xref:System.Threading.EventWaitHandle> objeto. Encontrará ejemplos donde se adjuntan los objetos de seguridad en <xref:System.Threading.EventWaitHandle.GetAccessControl%2A?displayProperty=nameWithType> y <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType>.  
   
  [!code-csharp[System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRuleAll#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRuleAll/CS/source.cs#1)]
  [!code-vb[System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRuleAll#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRuleAll/VB/source.vb#1)]  
@@ -549,6 +560,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -566,20 +578,20 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La regla sólo se quita si coincide exactamente con `rule` en todos los detalles, incluidos los marcadores. Otras reglas con el mismo usuario y <xref:System.Security.AccessControl.AccessControlType> no se ven afectadas.  
+ La regla se quitarán solo si coincide exactamente con `rule` en todos los detalles, incluidas marcas. Otras reglas con el mismo usuario y <xref:System.Security.AccessControl.AccessControlType> no se ven afectados.  
   
 > [!IMPORTANT]
->  Una regla representa una o más entradas de control de acceso (ACE) subyacente y estas entradas se dividen o se combinan según sea necesario cuando se modifican las reglas de seguridad de acceso para un usuario. Por lo tanto, una regla que ya no exista en la forma concreta que tenía cuando se agregó y, en ese caso el <xref:System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRuleSpecific%2A> método no puede quitarla.  
+>  Una regla representa una o más entradas de control de acceso (ACE) subyacentes y estas entradas se dividen o se combinan según sea necesario cuando se modifican las reglas de seguridad de acceso para un usuario. Por lo tanto, una regla que ya no exista en la forma concreta que tenía cuando se agregó y, en ese caso el <xref:System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRuleSpecific%2A> método no puede quitarla.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra que el <xref:System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRuleSpecific%2A> método requiere una coincidencia exacta para quitar una regla, y que las reglas para permitir y denegar los derechos son independientes entre sí.  
+ En el ejemplo de código siguiente se muestra que el <xref:System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRuleSpecific%2A> método requiere una coincidencia exacta para quitar una regla, y las reglas para permitir o denegar los derechos son independientes entre sí.  
   
- El ejemplo se crea un <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto, se agregan reglas que conceden y deniegan diferentes derechos al usuario actual y, a continuación, combinan derechos adicionales en el <xref:System.Security.AccessControl.AccessControlType.Allow> regla de acceso. En el ejemplo a continuación, pasa el original <xref:System.Security.AccessControl.AccessControlType.Allow> regla para el <xref:System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRuleSpecific%2A> método y muestra los resultados, que muestra que no se elimina nada. El ejemplo, a continuación, crea una regla que coincide con el <xref:System.Security.AccessControl.AccessControlType.Allow> de regla en el <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto y correctamente utiliza el <xref:System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRuleSpecific%2A> método para quitar la regla.  
+ El ejemplo se crea un <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto, se agregan reglas que conceden y deniegan diferentes derechos para el usuario actual y, a continuación, combinan derechos adicionales en el <xref:System.Security.AccessControl.AccessControlType.Allow> regla de acceso. El ejemplo a continuación, pasa el original <xref:System.Security.AccessControl.AccessControlType.Allow> de regla para el <xref:System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRuleSpecific%2A> método y muestra los resultados, que muestra que nada se ha eliminado. El ejemplo, a continuación, crea una regla que coincide con el <xref:System.Security.AccessControl.AccessControlType.Allow> de regla en el <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto y correctamente se usa el <xref:System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRuleSpecific%2A> método para quitar la regla.  
   
 > [!NOTE]
->  Este ejemplo no adjunta el objeto de seguridad a un <xref:System.Threading.EventWaitHandle> objeto. Encontrará ejemplos donde se adjuntan objetos de seguridad en <xref:System.Threading.EventWaitHandle.GetAccessControl%2A?displayProperty=nameWithType> y <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType>.  
+>  En este ejemplo no se adjunta el objeto de seguridad a un <xref:System.Threading.EventWaitHandle> objeto. Encontrará ejemplos donde se adjuntan los objetos de seguridad en <xref:System.Threading.EventWaitHandle.GetAccessControl%2A?displayProperty=nameWithType> y <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType>.  
   
  [!code-csharp[System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRuleSpecific#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRuleSpecific/CS/source.cs#1)]
  [!code-vb[System.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRuleSpecific#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Security.AccessControl.EventWaitHandleSecurity.RemoveAccessRuleSpecific/VB/source.vb#1)]  
@@ -605,6 +617,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -624,10 +637,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Actual <xref:System.Security.AccessControl.EventWaitHandleSecurity> de una regla de auditoría que tenga el mismo usuario que se buscan en `rule`. Si no se encuentra la regla se realiza ninguna acción y el método devuelve `false`. Si se encuentran las reglas de coincidencia, se comprueban sus marcas de herencia y la compatibilidad para la compatibilidad con las marcas especificadas en `rule`. Si se encuentra ninguna regla compatible, no se realiza ninguna acción y el método devuelve `false`. Si se encuentra una regla con indicadores compatibles, los permisos se especifican en `rule` se quitan de la regla compatible, y el método devuelve `true`. Si `rule` especifica derechos no contenidos en la regla compatible, no se realiza ninguna acción con respecto a dichos derechos. Si se quitan todos los derechos de la regla compatible, se quita la regla completa actual <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto.  
+ Actual <xref:System.Security.AccessControl.EventWaitHandleSecurity> se busca una regla de auditoría que tenga el mismo usuario que `rule`. Si no se encuentra ninguna de estas reglas, se realiza ninguna acción y el método devuelve `false`. Si se encuentran las reglas de coincidencia, se comprueban los marcadores de herencia y compatibilidad para la compatibilidad con las marcas especificadas en `rule`. Si se encuentra ninguna regla compatible, se realiza ninguna acción y el método devuelve `false`. Si se encuentra una regla con marcadores compatibles, los derechos especifican en `rule` se quitan de la regla compatible, y el método devuelve `true`. Si `rule` especifica los derechos no contenidos en la regla compatible, se realiza ninguna acción con respecto a dichos derechos. Si se quitan todos los derechos de la regla compatible, se quita la regla completa actual <xref:System.Security.AccessControl.EventWaitHandleSecurity> objeto.  
   
 > [!IMPORTANT]
->  Aunque puede especificar indicadores de herencia y propagación para las reglas de auditoría de eventos, si se crean con el <xref:System.Security.AccessControl.EventWaitHandleSecurity.AuditRuleFactory%2A> método, no se recomienda. Herencia y propagación no tienen ningún significado para los eventos con nombre y realizan el mantenimiento de reglas de auditoría más complicado.  
+>  Aunque puede especificar los marcadores de herencia y propagación para las reglas de auditoría de eventos, si se crean con el <xref:System.Security.AccessControl.EventWaitHandleSecurity.AuditRuleFactory%2A> método, no se recomienda. Herencia y propagación no tienen ningún significado para los eventos con nombre y realizan el mantenimiento de las reglas de auditoría más complicado.  
   
  ]]></format>
         </remarks>
@@ -650,6 +663,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -667,7 +681,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Actual <xref:System.Security.AccessControl.EventWaitHandleSecurity> de reglas de auditoría que tienen el mismo usuario que se buscan en `rule`. Los derechos especificados por `rule` se pasan por alto al realizar esta búsqueda. Se quitan todas las reglas coincidentes. Si no se encuentra ninguna regla coincidente, se realiza ninguna acción.  
+ Actual <xref:System.Security.AccessControl.EventWaitHandleSecurity> se busca en las reglas de auditoría que tienen el mismo usuario que `rule`. Los derechos especificados por `rule` se omiten al realizar esta búsqueda. Se quitan todas las reglas coincidentes. Si no se encuentra ninguna regla coincidente, se realiza ninguna acción.  
   
  ]]></format>
         </remarks>
@@ -690,6 +704,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -707,10 +722,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La regla sólo se quita si coincide exactamente con `rule` en todos los detalles, incluidos los marcadores. No se ven afectadas otras reglas de auditoría para el mismo usuario.  
+ La regla se quitarán solo si coincide exactamente con `rule` en todos los detalles, incluidas marcas. No se ven afectadas otras reglas de auditoría para el mismo usuario.  
   
 > [!IMPORTANT]
->  Una regla representa una o más entradas de control de acceso (ACE) subyacente y estas entradas se dividen o se combinan según sea necesario cuando se modifican las reglas de seguridad de auditoría para un usuario. Por lo tanto, una regla que ya no exista en la forma concreta que tenía cuando se agregó y, en ese caso el <xref:System.Security.AccessControl.EventWaitHandleSecurity.RemoveAuditRuleSpecific%2A> método no puede quitarla.  
+>  Una regla representa una o más entradas de control de acceso (ACE) subyacentes y estas entradas se dividen o se combinan según sea necesario cuando se modifican las reglas de seguridad de auditoría para un usuario. Por lo tanto, una regla que ya no exista en la forma concreta que tenía cuando se agregó y, en ese caso el <xref:System.Security.AccessControl.EventWaitHandleSecurity.RemoveAuditRuleSpecific%2A> método no puede quitarla.  
   
  ]]></format>
         </remarks>
@@ -733,6 +748,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -750,17 +766,17 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si no hay ninguna regla de acceso cuyo usuario coincida con la regla especificada, `rule` se agrega.  
+ Si no hay ninguna regla de acceso cuyo usuario coincide con la regla especificada, `rule` se agrega.  
   
    
   
 ## Examples  
- El siguiente ejemplo de código muestra cómo el <xref:System.Security.AccessControl.EventWaitHandleSecurity.ResetAccessRule%2A> método reemplaza todas las reglas de usuario coincidentes con la regla especificada para la búsqueda de coincidencias.  
+ El siguiente ejemplo de código muestra cómo el <xref:System.Security.AccessControl.EventWaitHandleSecurity.ResetAccessRule%2A> método reemplaza todas las reglas de usuario coincidentes con la regla especificada para la coincidencia.  
   
- El ejemplo se crea un <xref:System.Security.AccessControl.EventWaitHandleSecurity> de objeto y se agregan reglas que conceden y deniegan diferentes derechos al usuario actual. El ejemplo crea una nueva regla que permite el control completo al usuario actual y se utiliza el <xref:System.Security.AccessControl.EventWaitHandleSecurity.ResetAccessRule%2A> método para reemplazar dos de las reglas existentes con la nueva regla.  
+ El ejemplo se crea un <xref:System.Security.AccessControl.EventWaitHandleSecurity> de objeto y se agregan reglas que conceden y deniegan diferentes derechos para el usuario actual. El ejemplo, a continuación, crea una nueva regla que permite el control completo del usuario actual y usa el <xref:System.Security.AccessControl.EventWaitHandleSecurity.ResetAccessRule%2A> método para reemplazar dos de las reglas existentes con la nueva regla.  
   
 > [!NOTE]
->  Este ejemplo no adjunta el objeto de seguridad a un <xref:System.Threading.EventWaitHandle> objeto. Encontrará ejemplos donde se adjuntan objetos de seguridad en <xref:System.Threading.EventWaitHandle.GetAccessControl%2A?displayProperty=nameWithType> y <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType>.  
+>  En este ejemplo no se adjunta el objeto de seguridad a un <xref:System.Threading.EventWaitHandle> objeto. Encontrará ejemplos donde se adjuntan los objetos de seguridad en <xref:System.Threading.EventWaitHandle.GetAccessControl%2A?displayProperty=nameWithType> y <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType>.  
   
  [!code-csharp[System.Security.AccessControl.EventWaitHandleSecurity.ResetAccessRule#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.AccessControl.EventWaitHandleSecurity.ResetAccessRule/CS/source.cs#1)]
  [!code-vb[System.Security.AccessControl.EventWaitHandleSecurity.ResetAccessRule#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Security.AccessControl.EventWaitHandleSecurity.ResetAccessRule/VB/source.vb#1)]  
@@ -786,6 +802,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -803,7 +820,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si la regla especificada tiene <xref:System.Security.AccessControl.AccessControlType.Allow>, el efecto de este método es quitar todas <xref:System.Security.AccessControl.AccessControlType.Allow> reglas para el usuario especificado, reemplazarlos con la regla especificada. Si la regla especificada tiene <xref:System.Security.AccessControl.AccessControlType.Deny>todos los <xref:System.Security.AccessControl.AccessControlType.Deny> reglas para el usuario especificado se reemplazan con la regla especificada.  
+ Si la regla especificada tiene <xref:System.Security.AccessControl.AccessControlType.Allow>, es el efecto de este método quitar todos los <xref:System.Security.AccessControl.AccessControlType.Allow> reglas para el usuario especificado, reemplazándolos por la regla especificada. Si la regla especificada tiene <xref:System.Security.AccessControl.AccessControlType.Deny>, todos los <xref:System.Security.AccessControl.AccessControlType.Deny> reglas para el usuario especificado se reemplazan por la regla especificada.  
   
  Si no hay ninguna regla cuyo usuario y <xref:System.Security.AccessControl.AccessControlType> coincide con la regla especificada, `rule` se agrega.  
   
@@ -812,10 +829,10 @@
 ## Examples  
  El siguiente ejemplo de código muestra cómo el <xref:System.Security.AccessControl.EventWaitHandleSecurity.SetAccessRule%2A> método quita todas las reglas que coinciden con el usuario y la <xref:System.Security.AccessControl.AccessControlType> de `rule`, reemplazarlos con `rule`.  
   
- El ejemplo se crea un <xref:System.Security.AccessControl.EventWaitHandleSecurity> de objeto y se agregan reglas que conceden y deniegan diferentes derechos al usuario actual. El ejemplo crea una nueva regla que permite el control completo al usuario actual y se utiliza el <xref:System.Security.AccessControl.EventWaitHandleSecurity.SetAccessRule%2A> método para reemplazar el existente <xref:System.Security.AccessControl.AccessControlType.Allow> regla con la nueva regla. No se ve afectada la regla que deniegue el acceso.  
+ El ejemplo se crea un <xref:System.Security.AccessControl.EventWaitHandleSecurity> de objeto y se agregan reglas que conceden y deniegan diferentes derechos para el usuario actual. El ejemplo, a continuación, crea una nueva regla que permite el control completo del usuario actual y usa el <xref:System.Security.AccessControl.EventWaitHandleSecurity.SetAccessRule%2A> método para reemplazar el existente <xref:System.Security.AccessControl.AccessControlType.Allow> regla con la nueva regla. No se ve afectada la regla que deniegue el acceso.  
   
 > [!NOTE]
->  Este ejemplo no adjunta el objeto de seguridad a un <xref:System.Threading.EventWaitHandle> objeto. Encontrará ejemplos donde se adjuntan objetos de seguridad en <xref:System.Threading.EventWaitHandle.GetAccessControl%2A?displayProperty=nameWithType> y <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType>.  
+>  En este ejemplo no se adjunta el objeto de seguridad a un <xref:System.Threading.EventWaitHandle> objeto. Encontrará ejemplos donde se adjuntan los objetos de seguridad en <xref:System.Threading.EventWaitHandle.GetAccessControl%2A?displayProperty=nameWithType> y <xref:System.Threading.EventWaitHandle.SetAccessControl%2A?displayProperty=nameWithType>.  
   
  [!code-csharp[System.Security.AccessControl.EventWaitHandleSecurity.SetAccessRule#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.AccessControl.EventWaitHandleSecurity.SetAccessRule/CS/source.cs#1)]
  [!code-vb[System.Security.AccessControl.EventWaitHandleSecurity.SetAccessRule#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Security.AccessControl.EventWaitHandleSecurity.SetAccessRule/VB/source.vb#1)]  
@@ -841,6 +858,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -858,7 +876,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si no hay ninguna regla de auditoría cuyo usuario coincida con la regla especificada, `rule` se agrega.  
+ Si no hay ninguna regla de auditoría cuyo usuario coincide con la regla especificada, `rule` se agrega.  
   
  ]]></format>
         </remarks>

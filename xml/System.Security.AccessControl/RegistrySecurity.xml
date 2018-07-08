@@ -1,11 +1,11 @@
 <Type Name="RegistrySecurity" FullName="System.Security.AccessControl.RegistrySecurity">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="29a33c426d863c3351e76033a8ef74e3bb7b04ba" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="7a9af43b313937a3daa2acb8218dbaabc67a0a60" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36532367" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37466862" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class RegistrySecurity : System.Security.AccessControl.NativeObjectSecurity" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit RegistrySecurity extends System.Security.AccessControl.NativeObjectSecurity" />
@@ -19,6 +19,7 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -38,64 +39,64 @@
 ## Remarks  
  Un <xref:System.Security.AccessControl.RegistrySecurity> objeto especifica los derechos de acceso para una clave del registro y también especifica cómo se auditan los intentos de acceso. Derechos de acceso a la clave del registro se expresan como reglas, con cada regla de acceso representada por un <xref:System.Security.AccessControl.RegistryAccessRule> objeto. Cada regla de auditoría se representa mediante un <xref:System.Security.AccessControl.RegistryAuditRule> objeto.  
   
- Esto refleja el sistema de seguridad subyacente de Windows, en el que cada objeto asegurable tiene al menos un control lista de acceso discrecional (DACL) que controla el acceso al objeto protegido y a lo sumo lista de control de acceso de un sistema (SACL) que especifica que el acceso se auditan los intentos. La lista DACL y SACL son listas ordenadas de entradas de control de acceso (ACE) que especifican el acceso y auditoría para usuarios y grupos. A <xref:System.Security.AccessControl.RegistryAccessRule> o <xref:System.Security.AccessControl.RegistryAuditRule> objeto podría representar más de una ACE.  
+ Esto refleja el sistema de seguridad de Windows subyacente, en el que cada objeto asegurable tiene a lo sumo un control lista de acceso discrecional (DACL) que controla el acceso al objeto protegido y, a lo sumo lista de control de acceso de un sistema (SACL) que especifica que el acceso se auditan los intentos. La DACL y SACL se ordenan las listas de entradas de control de acceso (ACE) que especifican el acceso y auditoría de los usuarios y grupos. Un <xref:System.Security.AccessControl.RegistryAccessRule> o <xref:System.Security.AccessControl.RegistryAuditRule> objeto podría representar más de una ACE.  
   
 > [!NOTE]
->  Seguridad de control de acceso de Windows solo puede aplicarse a las claves del registro. No se puede aplicar a pares de clave/valor individuales almacenados en una clave.  
+>  Seguridad de control de acceso de Windows sólo puede aplicarse a las claves del registro. No se puede aplicar a pares de clave/valor individuales almacenados en una clave.  
   
- El <xref:System.Security.AccessControl.RegistrySecurity>, <xref:System.Security.AccessControl.RegistryAccessRule>, y <xref:System.Security.AccessControl.RegistryAuditRule> clases ocultan los detalles de implementación de ACL y ACE. Le permiten pasar por alto los distintos tipos ACE diecisiete y la complejidad de mantener correctamente la herencia y la propagación de derechos de acceso. Estos objetos también están diseñados para evitar los errores de control de acceso comunes siguientes:  
+ El <xref:System.Security.AccessControl.RegistrySecurity>, <xref:System.Security.AccessControl.RegistryAccessRule>, y <xref:System.Security.AccessControl.RegistryAuditRule> clases ocultan los detalles de implementación de ACL y ACE. Le permiten pasar por alto los diferentes tipos ACE diecisiete y la complejidad de mantener correctamente la herencia y propagación de derechos de acceso. Estos objetos también están diseñados para evitar los errores de control de acceso comunes siguientes:  
   
--   Crear un descriptor de seguridad con una DACL null. Una referencia nula a una DACL permite a cualquier usuario agregar reglas de acceso a un objeto, podría crear un ataque de denegación de servicio. Un nuevo <xref:System.Security.AccessControl.RegistrySecurity> objeto siempre se inicia con una DACL vacía que deniega el acceso a todos los usuarios.  
+-   Crear un descriptor de seguridad con una DACL null. Una referencia a una DACL null permite que cualquier usuario agregar reglas de acceso a un objeto, la posibilidad de crear un ataque de denegación de servicio. Un nuevo <xref:System.Security.AccessControl.RegistrySecurity> objeto comienza siempre con una DACL vacía que deniega el acceso a todos los usuarios.  
   
--   Infringir la clasificación canónica de ACE. Si la lista ACE en la DACL no se mantiene en el orden canónico, los usuarios sin darse cuenta pueden concederse acceso al objeto protegido. Por ejemplo, los derechos de acceso denegado siempre deben aparecer antes que los derechos de acceso permitido. <xref:System.Security.AccessControl.RegistrySecurity> objetos mantienen el orden interno correcto.  
+-   Infringir la clasificación canónica de ACE. Si no se mantiene la lista ACE en la DACL en el orden canónico, los usuarios inadvertidamente se podrían dar acceso al objeto protegido. Por ejemplo, los derechos de acceso denegado siempre deben aparecer antes que los derechos de acceso permitido. <xref:System.Security.AccessControl.RegistrySecurity> objetos mantienen internamente el orden correcto.  
   
--   La manipulación de marcas de descriptor de seguridad que deberían estar bajo el control del Administrador de recursos solo.  
+-   Manipular las marcas de descriptor de seguridad, que deberían ser bajo el control del Administrador de recursos solo.  
   
--   Crear combinaciones no válidas de indicadores ACE.  
+-   Crear combinaciones no válidas de marcadores ACE.  
   
--   Manipular heredadas. Herencia y la propagación se controlan mediante el Administrador de recursos, en respuesta a los cambios realizados en las reglas de acceso y auditoría.  
+-   Manipular ACE heredadas. Herencia y propagación se controlan mediante el Administrador de recursos, en respuesta a cambios en las reglas de acceso y auditoría.  
   
--   Insertar ACE sin sentido en ACL.  
+-   Insertar ACE no tiene sentidas en las ACL.  
   
- Las únicas funciones no admitidas por los objetos de seguridad de .NET son actividades peligrosas que deben evitarse la mayoría de los desarrolladores de aplicaciones, como las siguientes:  
+ Las únicas funciones no compatibles con los objetos de seguridad de .NET son actividades peligrosas que deben evitarse la mayoría de los desarrolladores de aplicaciones, como las siguientes:  
   
 -   Tareas de bajo nivel que normalmente se realizan mediante el Administrador de recursos.  
   
 -   Agregar o quitar entradas de control de acceso de maneras que no mantienen el orden canónico.  
   
- Para modificar la seguridad de control de acceso de Windows para una clave del registro, utilice la <xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType> método para obtener la <xref:System.Security.AccessControl.RegistrySecurity> objeto. Modificar el objeto de seguridad agregando y quitando las reglas y, a continuación, utilizar el <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType> método para adjuntarla.  
+ Para modificar la seguridad de control de acceso de Windows para una clave del registro, use el <xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType> método para obtener el <xref:System.Security.AccessControl.RegistrySecurity> objeto. Modificar el objeto de seguridad agregando y quitando las reglas y, a continuación, utilizar el <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType> método para volver a conectarlo.  
   
 > [!IMPORTANT]
->  Cambios realizados en un <xref:System.Security.AccessControl.RegistrySecurity> objeto no afectan a los niveles de acceso de la clave del registro hasta que llame a la <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType> método para asignar el objeto de seguridad alterado a la clave del registro.  
+>  Cambios en un <xref:System.Security.AccessControl.RegistrySecurity> objeto no afectan a los niveles de acceso de la clave del registro hasta que llame a la <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType> método para asignar el objeto de seguridad modificado a la clave del registro.  
   
- Para copiar la seguridad de control de acceso de una clave del registro a otra, utilice la <xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType> método para obtener un <xref:System.Security.AccessControl.RegistrySecurity> objeto que representa las reglas de acceso y auditoría para la primera clave del registro y, a continuación, utilice el <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType> método para asignar esas reglas a la segunda clave del registro. También puede asignar las reglas a una segunda clave del registro con un <xref:Microsoft.Win32.RegistryKey.OpenSubKey%2A?displayProperty=nameWithType> o <xref:Microsoft.Win32.RegistryKey.CreateSubKey%2A?displayProperty=nameWithType> método que toma un <xref:System.Security.AccessControl.RegistrySecurity> parámetro del objeto.  
+ Para copiar la seguridad de control de acceso de clave del registro de una a otra, utilice el <xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType> método para obtener un <xref:System.Security.AccessControl.RegistrySecurity> objeto que representa las reglas de acceso y auditoría para la primera clave del registro y, a continuación, utilice el <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType> método para asignar esas reglas a la segunda clave del registro. También puede asignar las reglas para una segunda clave del registro con un <xref:Microsoft.Win32.RegistryKey.OpenSubKey%2A?displayProperty=nameWithType> o <xref:Microsoft.Win32.RegistryKey.CreateSubKey%2A?displayProperty=nameWithType> método que toma un <xref:System.Security.AccessControl.RegistrySecurity> parámetro del objeto.  
   
- Los usuarios con una inversión en el lenguaje de definición de descriptores de seguridad (SDDL) pueden utilizar el <xref:System.Security.AccessControl.ObjectSecurity.SetSecurityDescriptorSddlForm%2A> método para establecer reglas de acceso para una clave del registro y la <xref:System.Security.AccessControl.ObjectSecurity.GetSecurityDescriptorSddlForm%2A> método para obtener una cadena que representa las reglas de acceso en formato SDDL. Esto no se recomienda para nuevo desarrollo.  
+ Los usuarios con una inversión en el lenguaje de definición de descriptores de seguridad (SDDL) pueden usar el <xref:System.Security.AccessControl.ObjectSecurity.SetSecurityDescriptorSddlForm%2A> método para establecer reglas de acceso para una clave del registro y el <xref:System.Security.AccessControl.ObjectSecurity.GetSecurityDescriptorSddlForm%2A> método para obtener una cadena que representa las reglas de acceso en formato SDDL. Esto no se recomienda para nuevo desarrollo.  
   
    
   
 ## Examples  
- Esta sección contiene dos ejemplos de código. El primer ejemplo muestra cómo las reglas se combinan compatibles cuando se agregan y se quitan y la segunda muestra cómo afectan a los indicadores de herencia y propagación la adición y eliminación de reglas.  
+ Esta sección contiene dos ejemplos de código. El primer ejemplo muestra cómo las reglas se combinan compatibles cuando se agregan y quitan y la segunda muestra cómo afectan a marcadores de herencia y propagación de la adición y eliminación de reglas.  
   
  Ejemplo 1  
   
  El siguiente ejemplo de código muestra cómo el <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A> método quita los derechos de una regla compatible y cómo el <xref:System.Security.AccessControl.RegistrySecurity.AddAccessRule%2A> método combina los derechos con reglas compatibles.  
   
- El ejemplo se crea un <xref:System.Security.AccessControl.RegistrySecurity> objeto y agrega una regla que permite al usuario actual <xref:System.Security.AccessControl.RegistryRights.ReadKey?displayProperty=nameWithType> derechos. El ejemplo crea una regla que concede al usuario <xref:System.Security.AccessControl.RegistryRights.SetValue?displayProperty=nameWithType>, con la misma herencia y derechos de propagación que la primera regla y utiliza el <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A> método para quitar esta nueva regla de la <xref:System.Security.AccessControl.RegistrySecurity> objeto. <xref:System.Security.AccessControl.RegistryRights.SetValue> es parte integrante de <xref:System.Security.AccessControl.RegistryRights.ReadKey>, por lo que se quita de la regla compatible. Las reglas de la <xref:System.Security.AccessControl.RegistrySecurity> objeto se muestran los componentes restantes de <xref:System.Security.AccessControl.RegistryRights.ReadKey>.  
+ El ejemplo se crea un <xref:System.Security.AccessControl.RegistrySecurity> objeto y agrega una regla que permite al usuario actual <xref:System.Security.AccessControl.RegistryRights.ReadKey?displayProperty=nameWithType> derechos. El ejemplo, a continuación, crea una regla que concede al usuario <xref:System.Security.AccessControl.RegistryRights.SetValue?displayProperty=nameWithType>, con la misma herencia y derechos de propagación que la primera regla y usa el <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A> método para quitar esta nueva regla de la <xref:System.Security.AccessControl.RegistrySecurity> objeto. <xref:System.Security.AccessControl.RegistryRights.SetValue> es un componente de <xref:System.Security.AccessControl.RegistryRights.ReadKey>, por lo que se quita de la regla compatible. Las reglas en el <xref:System.Security.AccessControl.RegistrySecurity> objeto se muestran los componentes restantes de <xref:System.Security.AccessControl.RegistryRights.ReadKey>.  
   
- El código de ejemplo, a continuación, llama a la <xref:System.Security.AccessControl.RegistrySecurity.AddAccessRule%2A> método para combinar la <xref:System.Security.AccessControl.RegistryRights.SetValue> derecho en la regla en la <xref:System.Security.AccessControl.RegistrySecurity> objeto.  
+ El código de ejemplo, a continuación, llama a la <xref:System.Security.AccessControl.RegistrySecurity.AddAccessRule%2A> método para combinar el <xref:System.Security.AccessControl.RegistryRights.SetValue> botón derecho en la regla en el <xref:System.Security.AccessControl.RegistrySecurity> objeto.  
   
 > [!NOTE]
->  Este ejemplo no adjunta el objeto de seguridad a un <xref:Microsoft.Win32.RegistryKey> objeto. El segundo ejemplo de esta sección adjunta un objeto de seguridad y, por lo que los ejemplos <xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType> y <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType>.  
+>  En este ejemplo no se adjunta el objeto de seguridad a un <xref:Microsoft.Win32.RegistryKey> objeto. El segundo ejemplo de esta sección adjunta un objeto de seguridad, y también lo hacen los ejemplos <xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType> y <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType>.  
   
  [!code-csharp[System.Security.AccessControl.RegistrySecurity.RemoveAccessRule#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.AccessControl.RegistrySecurity.RemoveAccessRule/CS/source.cs#1)]
  [!code-vb[System.Security.AccessControl.RegistrySecurity.RemoveAccessRule#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Security.AccessControl.RegistrySecurity.RemoveAccessRule/VB/source.vb#1)]  
   
  Ejemplo 2  
   
- En el ejemplo de código siguiente se muestra las reglas de acceso con herencia y propagación. El ejemplo se crea un <xref:System.Security.AccessControl.RegistrySecurity> objeto, a continuación, crea y agrega dos reglas que tienen el <xref:System.Security.AccessControl.InheritanceFlags.ContainerInherit> marca. La primera regla no tiene ningún indicadores de propagación, mientras la segunda tiene <xref:System.Security.AccessControl.PropagationFlags.NoPropagateInherit> y <xref:System.Security.AccessControl.PropagationFlags.InheritOnly>.  
+ El ejemplo de código siguiente muestra las reglas de acceso con herencia y propagación. El ejemplo se crea un <xref:System.Security.AccessControl.RegistrySecurity> objeto, a continuación, crea y agrega dos reglas que tienen el <xref:System.Security.AccessControl.InheritanceFlags.ContainerInherit> marca. La primera regla no tiene ninguna marca de propagación, mientras la segunda tiene <xref:System.Security.AccessControl.PropagationFlags.NoPropagateInherit> y <xref:System.Security.AccessControl.PropagationFlags.InheritOnly>.  
   
- El programa muestra las reglas en la <xref:System.Security.AccessControl.RegistrySecurity> objeto y, a continuación, utiliza el <xref:System.Security.AccessControl.RegistrySecurity> objeto que se va a crear una subclave. El programa crea a un elemento secundario subclave y una subclave nieta, a continuación, muestra la seguridad para cada subclave. Por último, el programa elimina las claves de prueba.  
+ El programa muestra las reglas en el <xref:System.Security.AccessControl.RegistrySecurity> objeto y, a continuación, utiliza el <xref:System.Security.AccessControl.RegistrySecurity> objeto va a crear una subclave. El programa crea a un elemento secundario de subclave y una una subclave y luego muestra la seguridad para cada subclave. Por último, el programa elimina las claves de prueba.  
   
  [!code-csharp[System.Security.AccessControl.RegistryAccessRule.ctor2#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.AccessControl.RegistryAccessRule.ctor2/CS/source.cs#1)]
  [!code-vb[System.Security.AccessControl.RegistryAccessRule.ctor2#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Security.AccessControl.RegistryAccessRule.ctor2/VB/source.vb#1)]  
@@ -117,6 +118,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -131,7 +133,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un nuevo <xref:System.Security.AccessControl.RegistrySecurity> objeto siempre se inicia con una lista vacía de acceso discrecional (DACL), que se deniega el acceso a todos los usuarios.  
+ Un nuevo <xref:System.Security.AccessControl.RegistrySecurity> objeto comienza siempre con una lista vacía de acceso discrecional (DACL), que se deniega el acceso a todos los usuarios.  
   
  ]]></format>
         </remarks>
@@ -151,6 +153,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -168,7 +171,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Las clases que derivan de la <xref:System.Security.AccessControl.ObjectSecurity> clase invalidación el <xref:System.Security.AccessControl.ObjectSecurity.AccessRightType%2A> propiedad y devuelven el tipo que utilizan para representar los derechos de acceso. Cuando se trabaja con matrices o colecciones que contienen varios tipos de objetos de seguridad, utilice esta propiedad para determinar el tipo de enumeración correctos para utilizar con cada objeto de seguridad.  
+ Las clases que derivan de la <xref:System.Security.AccessControl.ObjectSecurity> clase invalidación el <xref:System.Security.AccessControl.ObjectSecurity.AccessRightType%2A> propiedad y devuelva el tipo que se utilizan para representar los derechos de acceso. Cuando se trabaja con matrices o colecciones que contienen varios tipos de objetos de seguridad, use esta propiedad para determinar el tipo de enumeración correctos para utilizar con cada objeto de seguridad.  
   
  ]]></format>
         </remarks>
@@ -187,6 +190,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -218,10 +222,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La manera recomendada de crear las reglas de control de acceso es utilizar los constructores de la <xref:System.Security.AccessControl.RegistryAccessRule> clase.  
+ La manera recomendada para crear reglas de control de acceso es utilizar los constructores de la <xref:System.Security.AccessControl.RegistryAccessRule> clase.  
   
 > [!NOTE]
->  Aunque se puede especificar el <xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit?displayProperty=nameWithType> marca, no hay ningún punto de hacerlo. Para los fines de control de acceso, los pares de nombre/valor de una subclave no son objetos independientes. Los derechos de acceso a los pares de nombre/valor son controlados por los derechos de la subclave. Además, dado que todas las subclaves son contenedores (es decir, pueden contener otras subclaves), no se ven afectados por la <xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit> marca. Por último, especificar el <xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit> marca complica de manera innecesaria el mantenimiento de reglas, puesto que interfiere con la combinación normal de reglas compatibles.  
+>  Aunque puede especificar el <xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit?displayProperty=nameWithType> marca, no hay ningún punto de hacerlo. Para los fines de control de acceso, los pares nombre/valor de una subclave no son objetos independientes. Los derechos de acceso a los pares nombre/valor son controlados por los derechos de la subclave. Además, dado que todas las subclaves son contenedores (es decir, puede contener otras subclaves), no se ven afectadas por la <xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit> marca. Por último, especificar el <xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit> marca innecesariamente complica el mantenimiento de reglas, puesto que interfiere con la combinación normal de reglas compatibles.  
   
  ]]></format>
         </remarks>
@@ -247,6 +251,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -264,7 +269,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Las clases que derivan de la <xref:System.Security.AccessControl.ObjectSecurity> clase invalidación el <xref:System.Security.AccessControl.ObjectSecurity.AccessRuleType%2A> propiedad y devuelven el tipo que utilizan para representar las reglas de acceso. Cuando se trabaja con matrices o colecciones que contienen varios tipos de objetos de seguridad, utilice esta propiedad para determinar el tipo de regla de acceso correcto a utilizar con cada objeto de seguridad.  
+ Las clases que derivan de la <xref:System.Security.AccessControl.ObjectSecurity> clase invalidación el <xref:System.Security.AccessControl.ObjectSecurity.AccessRuleType%2A> propiedad y devuelva el tipo que se utilizan para representar las reglas de acceso. Cuando se trabaja con matrices o colecciones que contienen varios tipos de objetos de seguridad, use esta propiedad para determinar el tipo de regla de acceso correcto a utilizar con cada objeto de seguridad.  
   
  ]]></format>
         </remarks>
@@ -284,6 +289,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -304,23 +310,23 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Security.AccessControl.RegistrySecurity.AddAccessRule%2A> método busca las reglas con el mismo usuario o grupo y el mismo <xref:System.Security.AccessControl.AccessControlType> como `rule`. Si no se encuentra ninguno, `rule` se agrega. Si se encuentra una regla de coincidencia, los derechos en `rule` se combinan con la regla existente.  
+ El <xref:System.Security.AccessControl.RegistrySecurity.AddAccessRule%2A> método busca las reglas con el mismo usuario o grupo y el mismo <xref:System.Security.AccessControl.AccessControlType> como `rule`. Si se encuentra ninguna, `rule` se agrega. Si se encuentra una regla de coincidencia, los derechos en `rule` se combinan con la regla existente.  
   
- No se pueden combinar reglas si tienen marcas de herencia diferente. Por ejemplo, si un usuario puede tener acceso de lectura sin marcadores de herencia y <xref:System.Security.AccessControl.RegistrySecurity.AddAccessRule%2A> se utiliza para agregar una regla que proporciona al usuario acceso de escritura con herencia para subclaves (<xref:System.Security.AccessControl.InheritanceFlags.ContainerInherit?displayProperty=nameWithType>), no se pueden combinar las dos reglas.  
+ No se pueden combinar reglas si tienen marcadores de herencia diferente. Por ejemplo, si un usuario puede tener acceso de lectura sin marcadores de herencia y <xref:System.Security.AccessControl.RegistrySecurity.AddAccessRule%2A> se usa para agregar una regla que proporciona el acceso de escritura de usuario con herencia para subclaves (<xref:System.Security.AccessControl.InheritanceFlags.ContainerInherit?displayProperty=nameWithType>), no se pueden combinar las dos reglas.  
   
  Las reglas con diferentes <xref:System.Security.AccessControl.AccessControlType> valores nunca se combinan.  
   
- Las reglas expresan derechos de la manera más económica. Por ejemplo, si un usuario tiene <xref:System.Security.AccessControl.RegistryRights.QueryValues>, <xref:System.Security.AccessControl.RegistryRights.Notify> y <xref:System.Security.AccessControl.RegistryRights.ReadPermissions> derechos y agregar una regla que permite <xref:System.Security.AccessControl.RegistryRights.EnumerateSubKeys> derechos, el usuario tiene todas las partes constituyentes de <xref:System.Security.AccessControl.RegistryRights.ReadKey> derechos. Si consulta los derechos del usuario, verá una regla que contiene <xref:System.Security.AccessControl.RegistryRights.ReadKey> derechos. De forma similar, si quita <xref:System.Security.AccessControl.RegistryRights.EnumerateSubKeys> de derechos, los demás componentes del <xref:System.Security.AccessControl.RegistryRights.ReadKey> derechos volverá a aparecer.  
+ Las reglas expresan los permisos de la manera más económica. Por ejemplo, si un usuario tiene <xref:System.Security.AccessControl.RegistryRights.QueryValues>, <xref:System.Security.AccessControl.RegistryRights.Notify> y <xref:System.Security.AccessControl.RegistryRights.ReadPermissions> derechos y agregar una regla que permita <xref:System.Security.AccessControl.RegistryRights.EnumerateSubKeys> derechos, el usuario tiene todas las partes constituyentes de <xref:System.Security.AccessControl.RegistryRights.ReadKey> derechos. Si consulta los derechos del usuario, verá una regla que contenga <xref:System.Security.AccessControl.RegistryRights.ReadKey> derechos. De forma similar, si quita <xref:System.Security.AccessControl.RegistryRights.EnumerateSubKeys> derechos, los demás componentes del <xref:System.Security.AccessControl.RegistryRights.ReadKey> derechos volverá a aparecer.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se crea reglas de acceso del registro y se agregan a un <xref:System.Security.AccessControl.RegistrySecurity> objeto y muestra cómo las reglas que conceden y deniegan derechos permanecen aparte, mientras las reglas compatibles del mismo tipo se combina.  
+ El siguiente ejemplo de código crea las reglas de acceso del registro y las agrega a un <xref:System.Security.AccessControl.RegistrySecurity> se combina el objeto y muestra cómo las reglas que conceden y deniegan derechos permanecen separadas, mientras que las reglas compatibles del mismo tipo.  
   
 > [!NOTE]
->  Este ejemplo no adjunta el objeto de seguridad a un <xref:Microsoft.Win32.RegistryKey> objeto. Encontrará ejemplos donde se adjuntan objetos de seguridad en <xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType> y <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType>.  
+>  En este ejemplo no se adjunta el objeto de seguridad a un <xref:Microsoft.Win32.RegistryKey> objeto. Encontrará ejemplos donde se adjuntan los objetos de seguridad en <xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType> y <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType>.  
   
- Encontrará un ejemplo de código que muestra indicadores de herencia y propagación en la <xref:System.Security.AccessControl.RegistryAccessRule> clase.  
+ Encontrará un ejemplo de código que muestra marcadores de herencia y propagación en la <xref:System.Security.AccessControl.RegistryAccessRule> clase.  
   
  [!code-csharp[System.Security.AccessControl.RegistrySecurity.AddAccessRule#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.AccessControl.RegistrySecurity.AddAccessRule/CS/source.cs#1)]
  [!code-vb[System.Security.AccessControl.RegistrySecurity.AddAccessRule#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Security.AccessControl.RegistrySecurity.AddAccessRule/VB/source.vb#1)]  
@@ -345,6 +351,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -365,9 +372,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Security.AccessControl.RegistrySecurity.AddAuditRule%2A> método busca las reglas con el mismo usuario o grupo como `rule`. Si no se encuentra ninguno, `rule` se agrega. Si se encuentra una regla de coincidencia, las marcas en `rule` se combinan en la regla existente.  
+ El <xref:System.Security.AccessControl.RegistrySecurity.AddAuditRule%2A> método busca las reglas con el mismo usuario o grupo que `rule`. Si se encuentra ninguna, `rule` se agrega. Si se encuentra una regla de coincidencia, las marcas en `rule` se combinan en una regla existente.  
   
- No se pueden combinar reglas si tienen marcas de herencia diferente. Por ejemplo, si no se intenta escribir en una clave se auditan para un usuario determinado, con no existen marcadores de herencia y <xref:System.Security.AccessControl.RegistrySecurity.AddAuditRule%2A> se utiliza para agregar una regla que especifica que intentos para cambiar los permisos que se auditarán para el mismo usuario, pero con herencia para subclaves (<xref:System.Security.AccessControl.InheritanceFlags.ContainerInherit?displayProperty=nameWithType>), no se pueden combinar las dos reglas.  
+ No se pueden combinar reglas si tienen marcadores de herencia diferente. Por ejemplo, si los intentos de escribir en una clave se auditan para un usuario determinado, sin marcadores de herencia y <xref:System.Security.AccessControl.RegistrySecurity.AddAuditRule%2A> se usa para agregar una regla que especifique que son intentos para cambiar los permisos que se auditarán para el mismo usuario, pero con herencia para las subclaves (<xref:System.Security.AccessControl.InheritanceFlags.ContainerInherit?displayProperty=nameWithType>), no se pueden combinar las dos reglas.  
   
  ]]></format>
         </remarks>
@@ -386,6 +393,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -417,10 +425,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La manera recomendada para crear reglas de auditoría es utilizar los constructores de la <xref:System.Security.AccessControl.RegistryAuditRule> clase.  
+ La manera recomendada para crear las reglas de auditoría es utilizar los constructores de la <xref:System.Security.AccessControl.RegistryAuditRule> clase.  
   
 > [!NOTE]
->  Aunque se puede especificar el <xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit?displayProperty=nameWithType> marca, no hay ningún punto de hacerlo. Para los fines de control de auditoría, los pares de nombre/valor de una subclave no son objetos independientes. Los derechos de auditoría a los pares de nombre/valor son controlados por los derechos de la subclave. Además, dado que todas las subclaves son contenedores (es decir, pueden contener otras subclaves), no se ven afectados por la <xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit> marca. Por último, especificar el <xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit> marca complica de manera innecesaria el mantenimiento de reglas, puesto que interfiere con la combinación normal de reglas compatibles.  
+>  Aunque puede especificar el <xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit?displayProperty=nameWithType> marca, no hay ningún punto de hacerlo. Para los fines de control de auditoría, los pares nombre/valor de una subclave no son objetos independientes. Los derechos de auditoría para los pares nombre/valor son controlados por los derechos de la subclave. Además, dado que todas las subclaves son contenedores (es decir, puede contener otras subclaves), no se ven afectadas por la <xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit> marca. Por último, especificar el <xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit> marca innecesariamente complica el mantenimiento de reglas, puesto que interfiere con la combinación normal de reglas compatibles.  
   
  ]]></format>
         </remarks>
@@ -446,6 +454,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -463,7 +472,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Las clases que derivan de la <xref:System.Security.AccessControl.ObjectSecurity> clase invalidación el <xref:System.Security.AccessControl.ObjectSecurity.AuditRuleType%2A> propiedad y devuelven el tipo que utilizan para representar los derechos de auditoría. Cuando se trabaja con matrices o colecciones que contienen varios tipos de objetos de seguridad, utilice esta propiedad para determinar el tipo de regla de auditoría correcta para utilizar con cada objeto de seguridad.  
+ Las clases que derivan de la <xref:System.Security.AccessControl.ObjectSecurity> clase invalidación el <xref:System.Security.AccessControl.ObjectSecurity.AuditRuleType%2A> propiedad y devuelva el tipo que se utilizan para representar los derechos de auditoría. Cuando se trabaja con matrices o colecciones que contienen varios tipos de objetos de seguridad, use esta propiedad para determinar el tipo de regla de auditoría correcta para utilizar con cada objeto de seguridad.  
   
  ]]></format>
         </remarks>
@@ -483,6 +492,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -505,19 +515,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Actual <xref:System.Security.AccessControl.RegistrySecurity> se busca una regla que tenga el mismo usuario y el mismo <xref:System.Security.AccessControl.AccessControlType> valor como `rule`. Si no se encuentra la regla se realiza ninguna acción y el método devuelve `false`. Si se encuentran las reglas de coincidencia, se comprueban sus marcas de herencia y la compatibilidad para la compatibilidad con las marcas especificadas en `rule`. Si se encuentra ninguna regla compatible, no se realiza ninguna acción y el método devuelve `false`. Si se encuentra una regla con indicadores compatibles, los permisos se especifican en `rule` se quitan de la regla compatible, y el método devuelve `true`. Si `rule` especifica derechos no contenidos en la regla compatible, no se realiza ninguna acción con respecto a dichos derechos. Si se quitan todos los derechos de la regla compatible, se quita la regla completa actual <xref:System.Security.AccessControl.RegistrySecurity> objeto.  
+ Actual <xref:System.Security.AccessControl.RegistrySecurity> se busca una regla que tenga el mismo usuario y el mismo <xref:System.Security.AccessControl.AccessControlType> valor como `rule`. Si no se encuentra ninguna de estas reglas, se realiza ninguna acción y el método devuelve `false`. Si se encuentran las reglas de coincidencia, se comprueban los marcadores de herencia y compatibilidad para la compatibilidad con las marcas especificadas en `rule`. Si se encuentra ninguna regla compatible, se realiza ninguna acción y el método devuelve `false`. Si se encuentra una regla con marcadores compatibles, los derechos especifican en `rule` se quitan de la regla compatible, y el método devuelve `true`. Si `rule` especifica los derechos no contenidos en la regla compatible, se realiza ninguna acción con respecto a dichos derechos. Si se quitan todos los derechos de la regla compatible, se quita la regla completa actual <xref:System.Security.AccessControl.RegistrySecurity> objeto.  
   
    
   
 ## Examples  
  El siguiente ejemplo de código muestra cómo el <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A> método quita los derechos de una regla compatible y cómo el <xref:System.Security.AccessControl.RegistrySecurity.AddAccessRule%2A> método combina los derechos con reglas compatibles.  
   
- El ejemplo se crea un <xref:System.Security.AccessControl.RegistrySecurity> objeto y agrega una regla que permite al usuario actual <xref:System.Security.AccessControl.RegistryRights.ReadKey?displayProperty=nameWithType> derechos. El ejemplo crea una regla que concede al usuario <xref:System.Security.AccessControl.RegistryRights.SetValue?displayProperty=nameWithType>, con la misma herencia y derechos de propagación que la primera regla y utiliza el <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A> método para quitar esta nueva regla de la <xref:System.Security.AccessControl.RegistrySecurity> objeto. <xref:System.Security.AccessControl.RegistryRights.SetValue> es parte integrante de <xref:System.Security.AccessControl.RegistryRights.ReadKey>, por lo que se quita de la regla compatible. Las reglas de la <xref:System.Security.AccessControl.RegistrySecurity> objeto se muestran los componentes restantes de <xref:System.Security.AccessControl.RegistryRights.ReadKey>.  
+ El ejemplo se crea un <xref:System.Security.AccessControl.RegistrySecurity> objeto y agrega una regla que permite al usuario actual <xref:System.Security.AccessControl.RegistryRights.ReadKey?displayProperty=nameWithType> derechos. El ejemplo, a continuación, crea una regla que concede al usuario <xref:System.Security.AccessControl.RegistryRights.SetValue?displayProperty=nameWithType>, con la misma herencia y derechos de propagación que la primera regla y usa el <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A> método para quitar esta nueva regla de la <xref:System.Security.AccessControl.RegistrySecurity> objeto. <xref:System.Security.AccessControl.RegistryRights.SetValue> es un componente de <xref:System.Security.AccessControl.RegistryRights.ReadKey>, por lo que se quita de la regla compatible. Las reglas en el <xref:System.Security.AccessControl.RegistrySecurity> objeto se muestran los componentes restantes de <xref:System.Security.AccessControl.RegistryRights.ReadKey>.  
   
- El código de ejemplo, a continuación, llama a la <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A> método para combinar la <xref:System.Security.AccessControl.RegistryRights.SetValue> derecho en la regla en la <xref:System.Security.AccessControl.RegistrySecurity> objeto.  
+ El código de ejemplo, a continuación, llama a la <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A> método para combinar el <xref:System.Security.AccessControl.RegistryRights.SetValue> botón derecho en la regla en el <xref:System.Security.AccessControl.RegistrySecurity> objeto.  
   
 > [!NOTE]
->  Este ejemplo no adjunta el objeto de seguridad a un <xref:Microsoft.Win32.RegistryKey> objeto. El segundo ejemplo de esta sección adjunta un objeto de seguridad y, por lo que los ejemplos <xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType> <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType>.  
+>  En este ejemplo no se adjunta el objeto de seguridad a un <xref:Microsoft.Win32.RegistryKey> objeto. El segundo ejemplo de esta sección adjunta un objeto de seguridad, y también lo hacen los ejemplos <xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType> <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType>.  
   
  [!code-csharp[System.Security.AccessControl.RegistrySecurity.RemoveAccessRule#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.AccessControl.RegistrySecurity.RemoveAccessRule/CS/source.cs#1)]
  [!code-vb[System.Security.AccessControl.RegistrySecurity.RemoveAccessRule#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Security.AccessControl.RegistrySecurity.RemoveAccessRule/VB/source.vb#1)]  
@@ -542,6 +552,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -563,19 +574,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Actual <xref:System.Security.AccessControl.RegistrySecurity> de reglas que tengan el mismo usuario y el mismo se buscan en <xref:System.Security.AccessControl.AccessControlType> valor como `rule`. Los derechos, los indicadores de herencia o indicadores de propagación especificados por `rule` se pasan por alto al realizar esta búsqueda. Si no se encuentra ninguna regla coincidente, se realiza ninguna acción.  
+ Actual <xref:System.Security.AccessControl.RegistrySecurity> se busca en las reglas que tienen el mismo usuario y el mismo <xref:System.Security.AccessControl.AccessControlType> valor como `rule`. Los derechos, marcadores de herencia o marcadores de propagación especificados por `rule` se omiten al realizar esta búsqueda. Si no se encuentra ninguna regla coincidente, se realiza ninguna acción.  
   
- Por ejemplo, si un usuario tiene varias reglas que conceden distintos derechos con indicadores de propagación y herencia distintos, puede quitar todas esas reglas creando un <xref:System.Security.AccessControl.RegistryAccessRule> objeto que especifica el usuario y <xref:System.Security.AccessControl.AccessControlType.Allow?displayProperty=nameWithType>, no tiene los derechos arbitrarios y los indicadores, y pasar esa regla para el <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll%2A> método.  
+ Por ejemplo, si un usuario tiene varias reglas que conceden derechos distintos con diferentes marcadores de herencia y propagación, puede quitar todas esas reglas mediante la creación de un <xref:System.Security.AccessControl.RegistryAccessRule> objeto que especifica el usuario y <xref:System.Security.AccessControl.AccessControlType.Allow?displayProperty=nameWithType>, con los derechos arbitrarios y las marcas, y pasar esa regla para el <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll%2A> método.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra que la <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll%2A> método quita todas las reglas que coinciden con el usuario y <xref:System.Security.AccessControl.AccessControlType>, omitiendo los derechos e indicadores.  
+ En el ejemplo de código siguiente se muestra que el <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll%2A> método quita todas las reglas que coinciden con el usuario y <xref:System.Security.AccessControl.AccessControlType>, omitiendo los derechos e indicadores.  
   
- El ejemplo se crea un <xref:System.Security.AccessControl.RegistrySecurity> de objeto y se agregan reglas que conceden y deniegan diferentes derechos al usuario actual, con marcadores de herencia y propagación diferentes. El ejemplo crea una nueva regla que permite al usuario actual tomar posesión y pasa esa regla para el <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll%2A> método para quitar las dos reglas que permitan el acceso.  
+ El ejemplo se crea un <xref:System.Security.AccessControl.RegistrySecurity> de objeto y se agregan reglas que conceden y deniegan diferentes derechos para el usuario actual, con marcadores de herencia y propagación diferentes. El ejemplo, a continuación, crea una nueva regla que permite al usuario tomar posesión actual y pasa esa regla para el <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll%2A> método para quitar las dos reglas que permiten el acceso.  
   
 > [!NOTE]
->  Este ejemplo no adjunta el objeto de seguridad a un <xref:Microsoft.Win32.RegistryKey> objeto. Consulte la <xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType> método y <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType> método.  
+>  En este ejemplo no se adjunta el objeto de seguridad a un <xref:Microsoft.Win32.RegistryKey> objeto. Consulte la <xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType> método y el <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType> método.  
   
  [!code-csharp[System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll/CS/source.cs#1)]
  [!code-vb[System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll/VB/source.vb#1)]  
@@ -600,6 +611,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -614,26 +626,27 @@
         <Parameter Name="rule" Type="System.Security.AccessControl.RegistryAccessRule" />
       </Parameters>
       <Docs>
-        <param name="rule">Objeto <see cref="T:System.Security.AccessControl.RegistryAccessRule" /> que se va a quitar.</param>
+        <param name="rule">
+          <see cref="T:System.Security.AccessControl.RegistryAccessRule" /> que se va a quitar.</param>
         <summary>Busca una regla de control de acceso que coincida exactamente con la regla especificada y, si la encuentra, la quita.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La regla sólo se quita si coincide exactamente con `rule` en todos los detalles, incluidos los marcadores. Otras reglas con el mismo usuario y <xref:System.Security.AccessControl.AccessControlType> no se ven afectadas.  
+ La regla se quitarán solo si coincide exactamente con `rule` en todos los detalles, incluidas marcas. Otras reglas con el mismo usuario y <xref:System.Security.AccessControl.AccessControlType> no se ven afectados.  
   
 > [!IMPORTANT]
->  Una regla representa una o más entradas de control de acceso (ACE) subyacente y estas entradas se dividen o se combinan según sea necesario cuando se modifican las reglas de seguridad de acceso para un usuario. Por lo tanto, una regla que ya no exista en la forma concreta que tenía cuando se agregó y, en ese caso el <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific%2A> método no puede quitarla.  
+>  Una regla representa una o más entradas de control de acceso (ACE) subyacentes y estas entradas se dividen o se combinan según sea necesario cuando se modifican las reglas de seguridad de acceso para un usuario. Por lo tanto, una regla que ya no exista en la forma concreta que tenía cuando se agregó y, en ese caso el <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific%2A> método no puede quitarla.  
   
    
   
 ## Examples  
  En el ejemplo de código siguiente se muestra que el <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific%2A> método quita una regla solo si coincide exactamente.  
   
- El ejemplo crea dos reglas que conceden derechos diferentes. Las reglas tienen indicadores de herencia y propagación compatibles, por lo que cuando se agrega la segunda regla combina con la primera. El ejemplo se llama el <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific%2A> método, especificando la primera regla, pero dado que se combinan las reglas no hay ninguna regla que coincide con. El ejemplo, a continuación, se llama la <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A> método para quitar la segunda regla de la regla combinada y finalmente llama el <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific%2A> método para quitar la primera regla.  
+ El ejemplo crea dos reglas que conceden derechos diferentes. Las reglas tienen marcadores de herencia y propagación compatibles, por lo que cuando se agrega la segunda regla se combina con la primera. El ejemplo llama a la <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific%2A> método, especificando la primera regla, pero dado que se combinan las reglas no hay ninguna regla que coincida con. El ejemplo llama a la <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A> método para quitar la segunda regla de la regla combinada y, por último, llama a la <xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific%2A> método para quitar la primera regla.  
   
 > [!NOTE]
->  Este ejemplo no adjunta el objeto de seguridad a un <xref:Microsoft.Win32.RegistryKey> objeto. Consulte la <xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType> método y <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType> método.  
+>  En este ejemplo no se adjunta el objeto de seguridad a un <xref:Microsoft.Win32.RegistryKey> objeto. Consulte la <xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType> método y el <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType> método.  
   
  [!code-csharp[System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific/CS/source.cs#1)]
  [!code-vb[System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific/VB/source.vb#1)]  
@@ -658,6 +671,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -681,7 +695,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Actual <xref:System.Security.AccessControl.RegistrySecurity> de una regla de auditoría que tenga el mismo usuario que se buscan en `rule`. Si no se encuentra la regla se realiza ninguna acción y el método devuelve `false`. Si se encuentran las reglas de coincidencia, se comprueban sus marcas de herencia y la compatibilidad para la compatibilidad con las marcas especificadas en `rule`. Si se encuentra ninguna regla compatible, no se realiza ninguna acción y el método devuelve `false`. Si se encuentra una regla con indicadores compatibles, los permisos se especifican en `rule` se quitan de la regla compatible, y el método devuelve `true`. Si `rule` especifica derechos no contenidos en la regla compatible, no se realiza ninguna acción con respecto a dichos derechos. Si se quitan todos los derechos de la regla compatible, se quita la regla completa actual <xref:System.Security.AccessControl.RegistrySecurity> objeto.  
+ Actual <xref:System.Security.AccessControl.RegistrySecurity> se busca una regla de auditoría que tenga el mismo usuario que `rule`. Si no se encuentra ninguna de estas reglas, se realiza ninguna acción y el método devuelve `false`. Si se encuentran las reglas de coincidencia, se comprueban los marcadores de herencia y compatibilidad para la compatibilidad con las marcas especificadas en `rule`. Si se encuentra ninguna regla compatible, se realiza ninguna acción y el método devuelve `false`. Si se encuentra una regla con marcadores compatibles, los derechos especifican en `rule` se quitan de la regla compatible, y el método devuelve `true`. Si `rule` especifica los derechos no contenidos en la regla compatible, se realiza ninguna acción con respecto a dichos derechos. Si se quitan todos los derechos de la regla compatible, se quita la regla completa actual <xref:System.Security.AccessControl.RegistrySecurity> objeto.  
   
  ]]></format>
         </remarks>
@@ -703,6 +717,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -724,7 +739,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Actual <xref:System.Security.AccessControl.RegistrySecurity> de reglas de auditoría que tienen el mismo usuario que se buscan en `rule`. Los derechos, los indicadores de herencia o indicadores de propagación especificados por `rule` se pasan por alto al realizar esta búsqueda. Si no se encuentra ninguna regla coincidente, se realiza ninguna acción.  
+ Actual <xref:System.Security.AccessControl.RegistrySecurity> se busca en las reglas de auditoría que tienen el mismo usuario que `rule`. Los derechos, marcadores de herencia o marcadores de propagación especificados por `rule` se omiten al realizar esta búsqueda. Si no se encuentra ninguna regla coincidente, se realiza ninguna acción.  
   
  ]]></format>
         </remarks>
@@ -746,6 +761,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -767,10 +783,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La regla sólo se quita si coincide exactamente con `rule` en todos los detalles, incluidos los marcadores. No se ven afectadas otras reglas de auditoría para el mismo usuario.  
+ La regla se quitarán solo si coincide exactamente con `rule` en todos los detalles, incluidas marcas. No se ven afectadas otras reglas de auditoría para el mismo usuario.  
   
 > [!IMPORTANT]
->  Una regla representa una o más entradas de control de acceso (ACE) subyacente y estas entradas se dividen o se combinan según sea necesario cuando se modifican las reglas de seguridad de auditoría para un usuario. Por lo tanto, una regla que ya no exista en la forma concreta que tenía cuando se agregó y, en ese caso el <xref:System.Security.AccessControl.RegistrySecurity.RemoveAuditRuleSpecific%2A> método no puede quitarla.  
+>  Una regla representa una o más entradas de control de acceso (ACE) subyacentes y estas entradas se dividen o se combinan según sea necesario cuando se modifican las reglas de seguridad de auditoría para un usuario. Por lo tanto, una regla que ya no exista en la forma concreta que tenía cuando se agregó y, en ese caso el <xref:System.Security.AccessControl.RegistrySecurity.RemoveAuditRuleSpecific%2A> método no puede quitarla.  
   
  ]]></format>
         </remarks>
@@ -792,6 +808,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -807,23 +824,23 @@
       </Parameters>
       <Docs>
         <param name="rule">
-          <see cref="T:System.Security.AccessControl.RegistryAccessRule" /> que se va a sumar. El usuario especificado por esta regla determina las reglas que se van a quitar antes de agregar esta regla.</param>
+          <see cref="T:System.Security.AccessControl.RegistryAccessRule" /> que se va a agregar. El usuario especificado por esta regla determina las reglas que se van a quitar antes de agregar esta regla.</param>
         <summary>Quita todas las reglas de control de acceso con el mismo usuario que la regla especificada, independientemente de <see cref="T:System.Security.AccessControl.AccessControlType" />, y, a continuación, agrega la regla especificada.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si no hay ninguna regla de acceso cuyo usuario coincida con la regla especificada, `rule` se agrega.  
+ Si no hay ninguna regla de acceso cuyo usuario coincide con la regla especificada, `rule` se agrega.  
   
    
   
 ## Examples  
- El siguiente ejemplo de código muestra cómo el <xref:System.Security.AccessControl.RegistrySecurity.ResetAccessRule%2A> método reemplaza todas las reglas de usuario coincidentes con la regla especificada para la búsqueda de coincidencias.  
+ El siguiente ejemplo de código muestra cómo el <xref:System.Security.AccessControl.RegistrySecurity.ResetAccessRule%2A> método reemplaza todas las reglas de usuario coincidentes con la regla especificada para la coincidencia.  
   
- El ejemplo se crea un <xref:System.Security.AccessControl.RegistrySecurity> de objeto y se agregan reglas que conceden y deniegan diferentes derechos al usuario actual, con marcadores de herencia y propagación diferentes. El ejemplo crea una nueva regla que permite al usuario sólo leer la clave actual y usa el <xref:System.Security.AccessControl.RegistrySecurity.ResetAccessRule%2A> método para quitar todas las reglas para el usuario y reemplácelas con la nueva regla.  
+ El ejemplo se crea un <xref:System.Security.AccessControl.RegistrySecurity> de objeto y se agregan reglas que conceden y deniegan diferentes derechos para el usuario actual, con marcadores de herencia y propagación diferentes. El ejemplo, a continuación, crea una nueva regla que permite al usuario solo leer la clave actual y usa el <xref:System.Security.AccessControl.RegistrySecurity.ResetAccessRule%2A> método para quitar todas las reglas para el usuario y reemplazarlos por la nueva regla.  
   
 > [!NOTE]
->  Este ejemplo no adjunta el objeto de seguridad a un <xref:Microsoft.Win32.RegistryKey> objeto. Consulte la <xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType> método y <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType> método.  
+>  En este ejemplo no se adjunta el objeto de seguridad a un <xref:Microsoft.Win32.RegistryKey> objeto. Consulte la <xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType> método y el <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType> método.  
   
  [!code-csharp[System.Security.AccessControl.RegistrySecurity.ResetAccessRule#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.AccessControl.RegistrySecurity.ResetAccessRule/CS/source.cs#1)]
  [!code-vb[System.Security.AccessControl.RegistrySecurity.ResetAccessRule#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Security.AccessControl.RegistrySecurity.ResetAccessRule/VB/source.vb#1)]  
@@ -846,6 +863,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -861,25 +879,25 @@
       </Parameters>
       <Docs>
         <param name="rule">
-          <see cref="T:System.Security.AccessControl.RegistryAccessRule" /> que se va a sumar. El usuario y el objeto <see cref="T:System.Security.AccessControl.AccessControlType" /> de esta regla determinan las reglas que se van a quitar antes de agregar esta regla.</param>
+          <see cref="T:System.Security.AccessControl.RegistryAccessRule" /> que se va a agregar. El usuario y el objeto <see cref="T:System.Security.AccessControl.AccessControlType" /> de esta regla determinan las reglas que se van a quitar antes de agregar esta regla.</param>
         <summary>Quita todas las reglas de control de acceso con el mismo usuario y <see cref="T:System.Security.AccessControl.AccessControlType" /> (conceder o denegar) que la regla especificada y, a continuación, agrega la regla especificada.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si la regla especificada tiene <xref:System.Security.AccessControl.AccessControlType.Allow>, el efecto de este método es quitar todas <xref:System.Security.AccessControl.AccessControlType.Allow> reglas para el usuario especificado, reemplazarlos con la regla especificada. Si la regla especificada tiene <xref:System.Security.AccessControl.AccessControlType.Deny>todos los <xref:System.Security.AccessControl.AccessControlType.Deny> reglas para el usuario especificado se reemplazan con la regla especificada.  
+ Si la regla especificada tiene <xref:System.Security.AccessControl.AccessControlType.Allow>, es el efecto de este método quitar todos los <xref:System.Security.AccessControl.AccessControlType.Allow> reglas para el usuario especificado, reemplazándolos por la regla especificada. Si la regla especificada tiene <xref:System.Security.AccessControl.AccessControlType.Deny>, todos los <xref:System.Security.AccessControl.AccessControlType.Deny> reglas para el usuario especificado se reemplazan por la regla especificada.  
   
  Si no hay ninguna regla cuyo usuario y <xref:System.Security.AccessControl.AccessControlType> coincide con la regla especificada, `rule` se agrega.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra que la <xref:System.Security.AccessControl.RegistrySecurity.SetAccessRule%2A> método quita todas las reglas que coinciden con el usuario y la <xref:System.Security.AccessControl.AccessControlType> de `rule`, omitiendo los derechos e indicadores y los reemplaza con `rule`.  
+ En el ejemplo de código siguiente se muestra que el <xref:System.Security.AccessControl.RegistrySecurity.SetAccessRule%2A> método quita todas las reglas que coinciden con el usuario y la <xref:System.Security.AccessControl.AccessControlType> de `rule`, omitiendo los derechos e indicadores y los reemplaza con `rule`.  
   
- El ejemplo se crea un <xref:System.Security.AccessControl.RegistrySecurity> de objeto y se agregan reglas que conceden y deniegan diferentes derechos al usuario actual, con marcadores de herencia y propagación diferentes. El ejemplo crea una nueva regla que permite al usuario sólo leer la clave actual y usa el <xref:System.Security.AccessControl.RegistrySecurity.SetAccessRule%2A> método para quitar las dos reglas que permiten el acceso y reemplácelas con la nueva regla. No se ve afectada la regla que deniegue el acceso.  
+ El ejemplo se crea un <xref:System.Security.AccessControl.RegistrySecurity> de objeto y se agregan reglas que conceden y deniegan diferentes derechos para el usuario actual, con marcadores de herencia y propagación diferentes. El ejemplo, a continuación, crea una nueva regla que permite al usuario solo leer la clave actual y usa el <xref:System.Security.AccessControl.RegistrySecurity.SetAccessRule%2A> método para quitar las dos reglas que permiten el acceso y reemplazarlos por la nueva regla. No se ve afectada la regla que deniegue el acceso.  
   
 > [!NOTE]
->  Este ejemplo no adjunta el objeto de seguridad a un <xref:Microsoft.Win32.RegistryKey> objeto. Consulte la <xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType> método y <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType> método.  
+>  En este ejemplo no se adjunta el objeto de seguridad a un <xref:Microsoft.Win32.RegistryKey> objeto. Consulte la <xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType> método y el <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType> método.  
   
  [!code-csharp[System.Security.AccessControl.RegistrySecurity.SetAccessRule#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.AccessControl.RegistrySecurity.SetAccessRule/CS/source.cs#1)]
  [!code-vb[System.Security.AccessControl.RegistrySecurity.SetAccessRule#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Security.AccessControl.RegistrySecurity.SetAccessRule/VB/source.vb#1)]  
@@ -904,6 +922,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -919,13 +938,13 @@
       </Parameters>
       <Docs>
         <param name="rule">
-          <see cref="T:System.Security.AccessControl.RegistryAuditRule" /> que se va a sumar. El usuario especificado por esta regla determina las reglas que se van a quitar antes de agregar esta regla.</param>
+          <see cref="T:System.Security.AccessControl.RegistryAuditRule" /> que se va a agregar. El usuario especificado por esta regla determina las reglas que se van a quitar antes de agregar esta regla.</param>
         <summary>Quita todas las reglas de auditoría con el mismo usuario que la regla especificada, sin tener en cuenta el valor de <see cref="T:System.Security.AccessControl.AuditFlags" />, y, a continuación, agrega la regla especificada.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si no hay ninguna regla de auditoría cuyo usuario coincida con la regla especificada, `rule` se agrega.  
+ Si no hay ninguna regla de auditoría cuyo usuario coincide con la regla especificada, `rule` se agrega.  
   
  ]]></format>
         </remarks>
