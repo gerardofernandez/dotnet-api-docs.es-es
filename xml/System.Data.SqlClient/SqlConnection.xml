@@ -1,11 +1,11 @@
 <Type Name="SqlConnection" FullName="System.Data.SqlClient.SqlConnection">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="56f615d90a566daae7440b923b5478aab869ff69" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="4d14e75d09d6c6b0876d67016720bdcdae71e5d5" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36680206" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37672720" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class SqlConnection : System.Data.Common.DbConnection, ICloneable, IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit SqlConnection extends System.Data.Common.DbConnection implements class System.Data.IDbConnection, class System.ICloneable, class System.IDisposable" />
@@ -20,6 +20,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>System.Data</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -29,6 +31,7 @@
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Data.Common.DbConnection</BaseTypeName>
+    <BaseTypeName FrameworkAlternate="netframework-1.1">System.ComponentModel.Component</BaseTypeName>
   </Base>
   <Interfaces>
     <Interface>
@@ -49,18 +52,18 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un <xref:System.Data.SqlClient.SqlConnection> objeto representa una sesión única a un origen de datos de SQL Server. Con un sistema de base de datos cliente/servidor, es equivalente a una conexión de red al servidor. <xref:System.Data.SqlClient.SqlConnection> se utiliza junto con <xref:System.Data.SqlClient.SqlDataAdapter> y <xref:System.Data.SqlClient.SqlCommand> para aumentar el rendimiento cuando se conecta a una base de datos de Microsoft SQL Server. Para todos los productos de SQL Server de terceros y otros orígenes de datos compatibles con OLE DB, use <xref:System.Data.OleDb.OleDbConnection>.  
+ Un <xref:System.Data.SqlClient.SqlConnection> objeto representa una sesión única a un origen de datos de SQL Server. Con un sistema de base de datos cliente/servidor, es equivalente a una conexión de red al servidor. <xref:System.Data.SqlClient.SqlConnection> se utiliza junto con <xref:System.Data.SqlClient.SqlDataAdapter> y <xref:System.Data.SqlClient.SqlCommand> para aumentar el rendimiento al conectarse a una base de datos de Microsoft SQL Server. Para todos los productos de SQL Server de terceros y otros orígenes de datos compatibles con OLE DB, use <xref:System.Data.OleDb.OleDbConnection>.  
   
- Cuando se crea una instancia de <xref:System.Data.SqlClient.SqlConnection>, todas las propiedades se establecen en sus valores iniciales. Para obtener una lista de estos valores, consulte el <xref:System.Data.SqlClient.SqlConnection> constructor.  
+ Cuando se crea una instancia de <xref:System.Data.SqlClient.SqlConnection>, todas las propiedades se establecen en sus valores iniciales. Para obtener una lista de estos valores, vea el <xref:System.Data.SqlClient.SqlConnection> constructor.  
   
  Consulte <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A> para obtener una lista de las palabras clave en una cadena de conexión.  
   
- Si la <xref:System.Data.SqlClient.SqlConnection> queda fuera del ámbito, no se cerrará. Por lo tanto, debe cerrar la conexión explícitamente mediante una llamada a `Close` o `Dispose`. `Close` y `Dispose` son funcionalmente equivalentes. Si la agrupación de conexiones de los valores `Pooling` está establecido en `true` o `yes`, la conexión subyacente se devuelve a la agrupación de conexiones. Por otro lado, si `Pooling` está establecido en `false` o `no`, la conexión al servidor subyacente está cerrada realmente.  
+ Si el <xref:System.Data.SqlClient.SqlConnection> queda fuera del ámbito, no se cerrará. Por lo tanto, debe cerrar explícitamente la conexión mediante una llamada a `Close` o `Dispose`. `Close` y `Dispose` son funcionalmente equivalentes. Si el valor de la agrupación de conexiones `Pooling` está establecido en `true` o `yes`, la conexión subyacente se devuelve al grupo de conexiones. Por otro lado, si `Pooling` está establecido en `false` o `no`, la conexión al servidor subyacente está cerrada realmente.  
   
 > [!NOTE]
 >  Los eventos de inicio y cierre de sesión no se provocarán en el servidor cuando se busque una conexión desde el grupo de conexiones o se devuelva a éste, puesto que la conexión no está cerrada realmente cuando se devuelve al grupo de conexiones. Para obtener más información, vea [Agrupación de conexiones de SQL Server (ADO.NET)](~/docs/framework/data/adonet/sql-server-connection-pooling.md).  
   
- Para asegurarse de que siempre se cierran las conexiones, abra la conexión dentro de un `using` bloquear, tal como se muestra en el siguiente fragmento de código. Este modo se asegura que la conexión se cierra automáticamente cuando el código sale del bloque.  
+ Para asegurarse de que siempre se cierran las conexiones, abra la conexión dentro de un `using` bloquear, tal como se muestra en el siguiente fragmento de código. Este modo se garantiza que la conexión se cierra automáticamente cuando el código sale del bloque.  
   
 ```vb  
 Using connection As New SqlConnection(connectionString)  
@@ -79,21 +82,21 @@ using (SqlConnection connection = new SqlConnection(connectionString))
 ```  
   
 > [!NOTE]
->  Para implementar aplicaciones de alto rendimiento, debe usar la agrupación de conexiones. Cuando se usa el proveedor de datos de .NET Framework para SQL Server, no es necesario que habilitar la agrupación de conexiones porque el proveedor encarga de ello automáticamente, aunque se pueden modificar algunos valores de configuración. Para obtener más información, vea [Agrupación de conexiones de SQL Server (ADO.NET)](~/docs/framework/data/adonet/sql-server-connection-pooling.md).  
+>  Para implementar aplicaciones de alto rendimiento, debe usar la agrupación de conexiones. Cuando se usa el proveedor de datos de .NET Framework para SQL Server, no es necesario habilitar la agrupación de conexiones porque el proveedor encarga de ello automáticamente, aunque puede modificar algunas opciones de configuración. Para obtener más información, vea [Agrupación de conexiones de SQL Server (ADO.NET)](~/docs/framework/data/adonet/sql-server-connection-pooling.md).  
   
- Si un <xref:System.Data.SqlClient.SqlException> generado por el método que ejecuta un <xref:System.Data.SqlClient.SqlCommand>, el <xref:System.Data.SqlClient.SqlConnection> permanece abierta cuando el nivel de gravedad es 19 o inferior. Cuando el nivel de gravedad es 20 o superior, el servidor normalmente cierra el <xref:System.Data.SqlClient.SqlConnection>. Sin embargo, el usuario puede volver a abrir la conexión y continuar.  
+ Si un <xref:System.Data.SqlClient.SqlException> generado por el método que ejecuta un <xref:System.Data.SqlClient.SqlCommand>, el <xref:System.Data.SqlClient.SqlConnection> permanece abierta cuando el nivel de gravedad es 19 o inferior. Cuando el nivel de gravedad es 20 o superior, el servidor normalmente se cierra el <xref:System.Data.SqlClient.SqlConnection>. Sin embargo, el usuario puede volver a abrir la conexión y continuar.  
   
- Una aplicación que crea una instancia de la <xref:System.Data.SqlClient.SqlConnection> objeto puede requerir que todos los llamadores directos e indirectos tengan permisos suficientes en el código mediante el establecimiento de las peticiones de seguridad declarativo o imperativo. <xref:System.Data.SqlClient.SqlConnection> hace que las peticiones de seguridad mediante la <xref:System.Data.SqlClient.SqlClientPermission> objeto. Los usuarios pueden comprobar que su código tiene los permisos necesarios mediante la <xref:System.Data.SqlClient.SqlClientPermissionAttribute> objeto. Los usuarios y administradores también pueden utilizar el [Caspol.exe (Code Access Security Policy Tool)](~/docs/framework/tools/caspol-exe-code-access-security-policy-tool.md) para modificar la directiva de seguridad en los niveles de equipo, usuario y empresa. Para más información, consulte [Seguridad](http://msdn.microsoft.com/library/9a9621d7-8883-4a4f-a874-65e8e09e20a6). Para obtener un ejemplo que muestra cómo usar las peticiones de seguridad, consulte [seguridad de acceso del código y ADO.NET](~/docs/framework/data/adonet/code-access-security.md).  
+ Una aplicación que crea una instancia de la <xref:System.Data.SqlClient.SqlConnection> objeto puede requerir que todos los llamadores directos e indirectos tengan permisos suficientes en el código mediante el establecimiento de las peticiones de seguridad declarativo o imperativo. <xref:System.Data.SqlClient.SqlConnection> demandas de seguridad mediante la <xref:System.Data.SqlClient.SqlClientPermission> objeto. Los usuarios pueden comprobar que su código tiene los permisos necesarios mediante el <xref:System.Data.SqlClient.SqlClientPermissionAttribute> objeto. Los usuarios y administradores también pueden utilizar el [Caspol.exe (herramienta de directiva de seguridad de acceso de código)](~/docs/framework/tools/caspol-exe-code-access-security-policy-tool.md) para modificar la directiva de seguridad en los niveles de equipo, usuario y empresa. Para más información, consulte [Seguridad](http://msdn.microsoft.com/library/9a9621d7-8883-4a4f-a874-65e8e09e20a6). Para obtener un ejemplo que muestra cómo utilizar las peticiones de seguridad, consulte [Code Access Security and ADO.NET](~/docs/framework/data/adonet/code-access-security.md).  
   
  Para obtener más información sobre el control de mensajes de advertencia e informativos desde el servidor, consulte [eventos de conexión](~/docs/framework/data/adonet/connection-events.md). Errores del motor de SQL Server y los mensajes de error se documentan en los libros en pantalla de SQL Server.  
   
 > [!CAUTION]
->  Puede forzar TCP en lugar de la memoria compartida. Puede hacerlo agregando el prefijo tcp: para el nombre del servidor en la conexión de cadena, o bien puede usar localhost.  
+>  Puede forzar TCP en lugar de memoria compartida. Puede hacerlo agregando el prefijo tcp: para el nombre del servidor en la conexión de cadena, o bien puede usar localhost.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se crea un <xref:System.Data.SqlClient.SqlCommand> y <xref:System.Data.SqlClient.SqlConnection>. El <xref:System.Data.SqlClient.SqlConnection> se abre y se establece como el <xref:System.Data.SqlClient.SqlCommand.Connection%2A> para el <xref:System.Data.SqlClient.SqlCommand>. El ejemplo, a continuación, se llama <xref:System.Data.SqlClient.SqlCommand.ExecuteNonQuery%2A>. Para lograr esto, la <xref:System.Data.SqlClient.SqlCommand.ExecuteNonQuery%2A> se pasa una cadena de conexión y una cadena de consulta que es una [!INCLUDE[tsql](~/includes/tsql-md.md)] instrucción INSERT. La conexión se cierra automáticamente cuando el código sale del uso de bloque.  
+ En el ejemplo siguiente se crea un <xref:System.Data.SqlClient.SqlCommand> y un <xref:System.Data.SqlClient.SqlConnection>. El <xref:System.Data.SqlClient.SqlConnection> se abre y se establece como el <xref:System.Data.SqlClient.SqlCommand.Connection%2A> para el <xref:System.Data.SqlClient.SqlCommand>. El ejemplo llama a <xref:System.Data.SqlClient.SqlCommand.ExecuteNonQuery%2A>. Para lograr esto, el <xref:System.Data.SqlClient.SqlCommand.ExecuteNonQuery%2A> se pasa una cadena de conexión y una cadena de consulta que es un [!INCLUDE[tsql](~/includes/tsql-md.md)] instrucción INSERT. La conexión se cierra automáticamente cuando el código sale del uso de bloque.  
   
  [!code-csharp[Classic WebData SqlCommand.ExecuteNonQuery Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlCommand.ExecuteNonQuery Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlCommand.ExecuteNonQuery Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlCommand.ExecuteNonQuery Example/VB/source.vb#1)]  
@@ -126,6 +129,8 @@ using (SqlConnection connection = new SqlConnection(connectionString))
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -140,7 +145,7 @@ using (SqlConnection connection = new SqlConnection(connectionString))
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cuando una nueva instancia de <xref:System.Data.SqlClient.SqlConnection> se crea la lectura y escritura propiedades se establecen en los valores iniciales siguientes a menos que se establezcan específicamente mediante sus palabras clave asociadas en la <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A> propiedad.  
+ Cuando una nueva instancia de <xref:System.Data.SqlClient.SqlConnection> se crea, la lectura y escritura se establecen propiedades en los siguientes valores iniciales a menos que se establezcan específicamente mediante las palabras clave asociadas en la <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A> propiedad.  
   
 |Propiedades|Valor inicial|  
 |----------------|-------------------|  
@@ -149,12 +154,12 @@ using (SqlConnection connection = new SqlConnection(connectionString))
 |<xref:System.Data.SqlClient.SqlConnection.Database%2A>|una cadena vacía ("")|  
 |<xref:System.Data.SqlClient.SqlConnection.DataSource%2A>|una cadena vacía ("")|  
   
- Puede cambiar el valor de estas propiedades sólo mediante el <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A> propiedad. La <xref:System.Data.SqlClient.SqlConnectionStringBuilder> clase proporciona la funcionalidad para crear y administrar el contenido de las cadenas de conexión.  
+ Puede cambiar el valor de estas propiedades mediante el <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A> propiedad. La <xref:System.Data.SqlClient.SqlConnectionStringBuilder> clase proporciona funcionalidad para crear y administrar el contenido de las cadenas de conexión.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se crea y abre un <xref:System.Data.SqlClient.SqlConnection>.  
+ El ejemplo siguiente se crea y abre un <xref:System.Data.SqlClient.SqlConnection>.  
   
  [!code-csharp[Classic WebData SqlConnection.SqlConnection Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlConnection.SqlConnection Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlConnection.SqlConnection Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlConnection.SqlConnection Example/VB/source.vb#1)]  
@@ -178,6 +183,8 @@ using (SqlConnection connection = new SqlConnection(connectionString))
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -195,7 +202,7 @@ using (SqlConnection connection = new SqlConnection(connectionString))
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cuando una nueva instancia de <xref:System.Data.SqlClient.SqlConnection> se crea la lectura y escritura propiedades se establecen en los valores iniciales siguientes a menos que se establezcan específicamente mediante sus palabras clave asociadas en la <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A> propiedad.  
+ Cuando una nueva instancia de <xref:System.Data.SqlClient.SqlConnection> se crea, la lectura y escritura se establecen propiedades en los siguientes valores iniciales a menos que se establezcan específicamente mediante las palabras clave asociadas en la <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A> propiedad.  
   
 |Propiedades|Valor inicial|  
 |----------------|-------------------|  
@@ -204,12 +211,12 @@ using (SqlConnection connection = new SqlConnection(connectionString))
 |<xref:System.Data.SqlClient.SqlConnection.Database%2A>|una cadena vacía ("")|  
 |<xref:System.Data.SqlClient.SqlConnection.DataSource%2A>|una cadena vacía ("")|  
   
- Puede cambiar el valor de estas propiedades sólo mediante el <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A> propiedad. La <xref:System.Data.SqlClient.SqlConnection> clase proporciona la funcionalidad para crear y administrar el contenido de las cadenas de conexión.  
+ Puede cambiar el valor de estas propiedades mediante el <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A> propiedad. La <xref:System.Data.SqlClient.SqlConnection> clase proporciona funcionalidad para crear y administrar el contenido de las cadenas de conexión.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se crea y abre un <xref:System.Data.SqlClient.SqlConnection>.  
+ El ejemplo siguiente se crea y abre un <xref:System.Data.SqlClient.SqlConnection>.  
   
  [!code-csharp[Classic WebData SqlConnection.SqlConnection1 Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlConnection.SqlConnection1 Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlConnection.SqlConnection1 Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlConnection.SqlConnection1 Example/VB/source.vb#1)]  
@@ -291,6 +298,7 @@ using (SqlConnection connection = new SqlConnection(connectionString))
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -336,6 +344,8 @@ using (SqlConnection connection = new SqlConnection(connectionString))
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -356,23 +366,23 @@ using (SqlConnection connection = new SqlConnection(connectionString))
 ## Remarks  
  Este comando se asigna a la implementación de SQL Server de BEGIN TRANSACTION.  
   
- Explícitamente debe confirmar o revertir la transacción mediante la <xref:System.Data.SqlClient.SqlTransaction.Commit%2A> o <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> método. Para asegurarse de que el proveedor de datos de .NET Framework para el modelo de administración de transacciones de SQL Server se realiza correctamente, evite el uso de otros modelos de administración de transacciones, como la proporcionada por SQL Server.  
+ Explícitamente debe confirmar o revertir la transacción mediante la <xref:System.Data.SqlClient.SqlTransaction.Commit%2A> o <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> método. Para asegurarse de que el proveedor de datos de .NET Framework para el modelo de administración de transacciones de SQL Server se realiza correctamente, evite el uso de otros modelos de administración de transacciones, como la proporciona SQL Server.  
   
 > [!NOTE]
->  Si no especifica un nivel de aislamiento, se utiliza el nivel de aislamiento predeterminado. Para especificar un nivel de aislamiento con el <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A> método, utilice la sobrecarga que toma el `iso` parámetro (<xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A>). El nivel de aislamiento establecido para una transacción continúa después de que se completa la transacción y hasta que la conexión se cierra o elimina. Establecer nivel para el aislamiento **instantánea** en una base de datos y no está habilitado el nivel de aislamiento de instantánea no produce una excepción. La transacción se completará con el nivel de aislamiento predeterminado.  
+>  Si no especifica un nivel de aislamiento, se utiliza el nivel de aislamiento predeterminado. Para especificar un nivel de aislamiento con el <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A> método, utilice la sobrecarga que toma el `iso` parámetro (<xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A>). El nivel de aislamiento establecido para una transacción conserva una vez completada la transacción y hasta que la conexión es cerrada o desechada. Establecimiento del nivel para el aislamiento **instantánea** en una base de datos donde no está habilitado el nivel de aislamiento de instantánea no produce una excepción. La transacción se completará con el nivel de aislamiento predeterminado.  
   
 > [!CAUTION]
->  Si se inicia una transacción y se produce un nivel 16 o superior en el servidor, la transacción no se revertirá hasta que el <xref:System.Data.SqlClient.SqlDataReader.Read%2A> se invoca el método. Se inicia ninguna excepción **ExecuteReader**.  
+>  Si se inicia una transacción y se produce un nivel de 16 o posterior en el servidor, la transacción no revertirá hasta el <xref:System.Data.SqlClient.SqlDataReader.Read%2A> se invoca el método. Se produce ninguna excepción **ExecuteReader**.  
   
 > [!CAUTION]
->  Cuando la consulta devuelve una gran cantidad de datos y las llamadas `BeginTransaction`, un <xref:System.Data.SqlClient.SqlException> se produce porque SQL Server no admite transacciones paralelas al utilizar MARS. Para evitar este problema, asociar siempre una transacción con el comando, la conexión o ambos para que los lectores están abiertos.  
+>  Cuando la consulta devuelve una gran cantidad de datos y las llamadas `BeginTransaction`, un <xref:System.Data.SqlClient.SqlException> se produce porque SQL Server no permiten transacciones paralelas al utilizar MARS. Para evitar este problema, asociar siempre una transacción con el comando, la conexión o ambas antes de que los lectores están abiertos.  
   
- Para obtener más información sobre las transacciones de SQL Server, vea "Explicit Transactions" y "Codificar transacciones eficaces" en libros en pantalla de SQL Server.  
+ Para obtener más información sobre las transacciones de SQL Server, vea "Transacciones explícitas" y "Codificar transacciones eficaces" en libros en pantalla de SQL Server.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se crea un <xref:System.Data.SqlClient.SqlConnection> y <xref:System.Data.SqlClient.SqlTransaction>. También muestra cómo utilizar el <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A>, <xref:System.Data.SqlClient.SqlTransaction.Commit%2A>, y <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> métodos.  
+ En el ejemplo siguiente se crea un <xref:System.Data.SqlClient.SqlConnection> y un <xref:System.Data.SqlClient.SqlTransaction>. También se muestra cómo usar el <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A>, un <xref:System.Data.SqlClient.SqlTransaction.Commit%2A>, y <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> métodos.  
   
  [!code-csharp[Classic WebData SqlConnection.BeginTransaction Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlConnection.BeginTransaction Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlConnection.BeginTransaction Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlConnection.BeginTransaction Example/VB/source.vb#1)]  
@@ -398,6 +408,8 @@ using (SqlConnection connection = new SqlConnection(connectionString))
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -421,20 +433,20 @@ using (SqlConnection connection = new SqlConnection(connectionString))
 ## Remarks  
  Este comando se asigna a la implementación de SQL Server de BEGIN TRANSACTION.  
   
- Explícitamente debe confirmar o revertir la transacción mediante la <xref:System.Data.SqlClient.SqlTransaction.Commit%2A> o <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> método. Para asegurarse de que el proveedor de datos de .NET Framework para el modelo de administración de transacciones de SQL Server se realiza correctamente, evite el uso de otros modelos de administración de transacciones, como la proporcionada por SQL Server.  
+ Explícitamente debe confirmar o revertir la transacción mediante la <xref:System.Data.SqlClient.SqlTransaction.Commit%2A> o <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> método. Para asegurarse de que el proveedor de datos de .NET Framework para el modelo de administración de transacciones de SQL Server se realiza correctamente, evite el uso de otros modelos de administración de transacciones, como la proporciona SQL Server.  
   
 > [!NOTE]
->  Después de confirmar o revertir una transacción, el nivel de aislamiento de la transacción continúa para todos los comandos posteriores que estén en modo de confirmación automática (el valor predeterminado de SQL Server). Esto puede producir resultados inesperados, como un nivel de aislamiento de REPEATABLE READ y se bloquee a otros usuarios fuera de una fila. Para restablecer el nivel de aislamiento en el valor predeterminado (READ COMMITTED), ejecute el [!INCLUDE[tsql](~/includes/tsql-md.md)] instrucción establece TRANSACTION ISOLATION LEVEL READ COMMITTED o llamada <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A?displayProperty=nameWithType> seguido inmediatamente por <xref:System.Data.SqlClient.SqlTransaction.Commit%2A?displayProperty=nameWithType>. Para obtener más información sobre los niveles de aislamiento de SQL Server, vea "Aislamiento niveles in the Database Engine" en libros en pantalla de SQL Server.  
+>  Una vez que se confirma o revierte una transacción, el nivel de aislamiento de la transacción continúa para todos los comandos posteriores que estén en modo de confirmación automática (el valor predeterminado de SQL Server). Esto puede producir resultados inesperados, como un nivel de aislamiento de REPEATABLE READ y bloqueo de otros usuarios fuera de una fila. Para restablecer el nivel de aislamiento en el valor predeterminado (READ COMMITTED), ejecute el [!INCLUDE[tsql](~/includes/tsql-md.md)] instrucción establece TRANSACTION ISOLATION LEVEL READ COMMITTED o llamada <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A?displayProperty=nameWithType> seguido inmediatamente por <xref:System.Data.SqlClient.SqlTransaction.Commit%2A?displayProperty=nameWithType>. Para obtener más información sobre los niveles de aislamiento de SQL Server, vea "Aislamiento niveles in the Database Engine" en libros en pantalla de SQL Server.  
   
- Para obtener más información sobre las transacciones de SQL Server, vea "Explicit Transactions" y "Codificar transacciones eficaces" en libros en pantalla de SQL Server.  
+ Para obtener más información sobre las transacciones de SQL Server, vea "Transacciones explícitas" y "Codificar transacciones eficaces" en libros en pantalla de SQL Server.  
   
 > [!CAUTION]
->  Cuando la consulta devuelve una gran cantidad de datos y las llamadas `BeginTransaction`, un <xref:System.Data.SqlClient.SqlException> se produce porque SQL Server no admite transacciones paralelas al utilizar MARS. Para evitar este problema, asociar siempre una transacción con el comando, la conexión o ambos para que los lectores están abiertos.  
+>  Cuando la consulta devuelve una gran cantidad de datos y las llamadas `BeginTransaction`, un <xref:System.Data.SqlClient.SqlException> se produce porque SQL Server no permiten transacciones paralelas al utilizar MARS. Para evitar este problema, asociar siempre una transacción con el comando, la conexión o ambas antes de que los lectores están abiertos.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se crea un <xref:System.Data.SqlClient.SqlConnection> y <xref:System.Data.SqlClient.SqlTransaction>. También muestra cómo utilizar el <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A>, <xref:System.Data.SqlClient.SqlTransaction.Commit%2A>, y <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> métodos.  
+ En el ejemplo siguiente se crea un <xref:System.Data.SqlClient.SqlConnection> y un <xref:System.Data.SqlClient.SqlTransaction>. También se muestra cómo usar el <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A>, un <xref:System.Data.SqlClient.SqlTransaction.Commit%2A>, y <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> métodos.  
   
  [!code-csharp[Classic WebData SqlConnection.BeginTransaction1 Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlConnection.BeginTransaction1 Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlConnection.BeginTransaction1 Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlConnection.BeginTransaction1 Example/VB/source.vb#1)]  
@@ -460,6 +472,8 @@ using (SqlConnection connection = new SqlConnection(connectionString))
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -485,19 +499,19 @@ using (SqlConnection connection = new SqlConnection(connectionString))
   
  La longitud de la `transactionName` parámetro no debe superar los 32 caracteres; de lo contrario se producirá una excepción.  
   
- El valor de la `transactionName` parámetro se puede utilizar en llamadas posteriores a <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> y en el `savePoint` parámetro de la <xref:System.Data.SqlClient.SqlTransaction.Save%2A> método.  
+ El valor de la `transactionName` parámetro puede usarse en las llamadas posteriores a <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> y en el `savePoint` parámetro de la <xref:System.Data.SqlClient.SqlTransaction.Save%2A> método.  
   
- Explícitamente debe confirmar o revertir la transacción mediante la <xref:System.Data.SqlClient.SqlTransaction.Commit%2A> o <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> método. Para asegurarse de que el [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] proveedor de datos de modelo de administración de transacciones de SQL Server se realiza correctamente, evite el uso de otros modelos de administración de transacciones, como los proporcionados por SQL Server.  
+ Explícitamente debe confirmar o revertir la transacción mediante la <xref:System.Data.SqlClient.SqlTransaction.Commit%2A> o <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> método. Para asegurarse de que el [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] proveedor de datos de modelo de administración de transacciones de SQL Server se realiza correctamente, evite el uso de otros modelos de administración de transacciones, como la proporcionada por SQL Server.  
   
- Para obtener más información sobre las transacciones de SQL Server, vea "Explicit Transactions" y "Codificar transacciones eficaces" en libros en pantalla de SQL Server.  
+ Para obtener más información sobre las transacciones de SQL Server, vea "Transacciones explícitas" y "Codificar transacciones eficaces" en libros en pantalla de SQL Server.  
   
 > [!CAUTION]
->  Cuando la consulta devuelve una gran cantidad de datos y las llamadas `BeginTransaction`, un <xref:System.Data.SqlClient.SqlException> se produce porque SQL Server no admite transacciones paralelas al utilizar MARS. Para evitar este problema, asociar siempre una transacción con el comando, la conexión o ambos para que los lectores están abiertos.  
+>  Cuando la consulta devuelve una gran cantidad de datos y las llamadas `BeginTransaction`, un <xref:System.Data.SqlClient.SqlException> se produce porque SQL Server no permiten transacciones paralelas al utilizar MARS. Para evitar este problema, asociar siempre una transacción con el comando, la conexión o ambas antes de que los lectores están abiertos.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se crea un <xref:System.Data.SqlClient.SqlConnection> y <xref:System.Data.SqlClient.SqlTransaction>. También muestra cómo utilizar el <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A>, <xref:System.Data.SqlClient.SqlTransaction.Commit%2A>, y <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> métodos.  
+ En el ejemplo siguiente se crea un <xref:System.Data.SqlClient.SqlConnection> y un <xref:System.Data.SqlClient.SqlTransaction>. También se muestra cómo usar el <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A>, un <xref:System.Data.SqlClient.SqlTransaction.Commit%2A>, y <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> métodos.  
   
  [!code-csharp[Classic WebData SqlConnection.BeginTransaction2 Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlConnection.BeginTransaction2 Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlConnection.BeginTransaction2 Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlConnection.BeginTransaction2 Example/VB/source.vb#1)]  
@@ -523,6 +537,8 @@ using (SqlConnection connection = new SqlConnection(connectionString))
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -548,22 +564,22 @@ using (SqlConnection connection = new SqlConnection(connectionString))
 ## Remarks  
  Este comando se asigna a la implementación de SQL Server de BEGIN TRANSACTION.  
   
- El valor de la `transactionName` parámetro se puede utilizar en llamadas posteriores a <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> y en el `savePoint` parámetro de la <xref:System.Data.SqlClient.SqlTransaction.Save%2A> método.  
+ El valor de la `transactionName` parámetro puede usarse en las llamadas posteriores a <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> y en el `savePoint` parámetro de la <xref:System.Data.SqlClient.SqlTransaction.Save%2A> método.  
   
- Explícitamente debe confirmar o revertir la transacción mediante la <xref:System.Data.SqlClient.SqlTransaction.Commit%2A> o <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> método. Para asegurarse de que el modelo de administración de transacciones de SQL Server se realiza correctamente, evite el uso de otros modelos de administración de transacciones, como la proporcionada por SQL Server.  
+ Explícitamente debe confirmar o revertir la transacción mediante la <xref:System.Data.SqlClient.SqlTransaction.Commit%2A> o <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> método. Para asegurarse de que el modelo de administración de transacciones de SQL Server se realiza correctamente, evite el uso de otros modelos de administración de transacciones, como la proporciona SQL Server.  
   
 > [!NOTE]
->  Después de confirmar o revertir una transacción, el nivel de aislamiento de la transacción continúa para todos los comandos posteriores que estén en modo de confirmación automática (el valor predeterminado de SQL Server). Esto puede producir resultados inesperados, como un nivel de aislamiento de REPEATABLE READ y se bloquee a otros usuarios fuera de una fila. Para restablecer el nivel de aislamiento en el valor predeterminado (READ COMMITTED), ejecute el [!INCLUDE[tsql](~/includes/tsql-md.md)] instrucción establece TRANSACTION ISOLATION LEVEL READ COMMITTED o llamada <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A?displayProperty=nameWithType> seguido inmediatamente por <xref:System.Data.SqlClient.SqlTransaction.Commit%2A?displayProperty=nameWithType>. Para obtener más información sobre los niveles de aislamiento de SQL Server, vea "Aislamiento niveles in the Database Engine" en libros en pantalla de SQL Server.  
+>  Una vez que se confirma o revierte una transacción, el nivel de aislamiento de la transacción continúa para todos los comandos posteriores que estén en modo de confirmación automática (el valor predeterminado de SQL Server). Esto puede producir resultados inesperados, como un nivel de aislamiento de REPEATABLE READ y bloqueo de otros usuarios fuera de una fila. Para restablecer el nivel de aislamiento en el valor predeterminado (READ COMMITTED), ejecute el [!INCLUDE[tsql](~/includes/tsql-md.md)] instrucción establece TRANSACTION ISOLATION LEVEL READ COMMITTED o llamada <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A?displayProperty=nameWithType> seguido inmediatamente por <xref:System.Data.SqlClient.SqlTransaction.Commit%2A?displayProperty=nameWithType>. Para obtener más información sobre los niveles de aislamiento de SQL Server, vea "Aislamiento niveles in the Database Engine" en libros en pantalla de SQL Server.  
   
- Para obtener más información sobre las transacciones de SQL Server, vea "Explicit Transactions" y "Codificar transacciones eficaces" en libros en pantalla de SQL Server.  
+ Para obtener más información sobre las transacciones de SQL Server, vea "Transacciones explícitas" y "Codificar transacciones eficaces" en libros en pantalla de SQL Server.  
   
 > [!CAUTION]
->  Cuando la consulta devuelve una gran cantidad de datos y las llamadas `BeginTransaction`, un <xref:System.Data.SqlClient.SqlException> se produce porque SQL Server no admite transacciones paralelas al utilizar MARS. Para evitar este problema, asociar siempre una transacción con el comando, la conexión o ambos para que los lectores están abiertos.  
+>  Cuando la consulta devuelve una gran cantidad de datos y las llamadas `BeginTransaction`, un <xref:System.Data.SqlClient.SqlException> se produce porque SQL Server no permiten transacciones paralelas al utilizar MARS. Para evitar este problema, asociar siempre una transacción con el comando, la conexión o ambas antes de que los lectores están abiertos.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se crea un <xref:System.Data.SqlClient.SqlConnection> y <xref:System.Data.SqlClient.SqlTransaction>. También muestra cómo utilizar el <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A>, <xref:System.Data.SqlClient.SqlTransaction.Commit%2A>, y <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> métodos.  
+ En el ejemplo siguiente se crea un <xref:System.Data.SqlClient.SqlConnection> y un <xref:System.Data.SqlClient.SqlTransaction>. También se muestra cómo usar el <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A>, un <xref:System.Data.SqlClient.SqlTransaction.Commit%2A>, y <xref:System.Data.SqlClient.SqlTransaction.Rollback%2A> métodos.  
   
  [!code-csharp[Classic WebData SqlConnection.BeginTransaction3 Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlConnection.BeginTransaction3 Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlConnection.BeginTransaction3 Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlConnection.BeginTransaction3 Example/VB/source.vb#1)]  
@@ -592,6 +608,8 @@ using (SqlConnection connection = new SqlConnection(connectionString))
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -612,12 +630,12 @@ using (SqlConnection connection = new SqlConnection(connectionString))
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El valor proporcionado en el `database` parámetro debe ser un nombre de base de datos válido. El `database` parámetro no puede contener un valor null, una cadena vacía o una cadena con caracteres solo en blanco.  
+ El valor proporcionado en el `database` parámetro debe ser un nombre de base de datos válido. El `database` parámetro no puede contener un valor null, una cadena vacía o una cadena con caracteres en blanco únicamente.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se crea un <xref:System.Data.SqlClient.SqlConnection> y se muestran algunas de sus propiedades de solo lectura.  
+ En el ejemplo siguiente se crea un <xref:System.Data.SqlClient.SqlConnection> y muestra algunas de sus propiedades de solo lectura.  
   
  [!code-csharp[Classic WebData SqlConnection.Database Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlConnection.Database Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlConnection.Database Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlConnection.Database Example/VB/source.vb#1)]  
@@ -649,6 +667,7 @@ using (SqlConnection connection = new SqlConnection(connectionString))
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -667,18 +686,18 @@ using (SqlConnection connection = new SqlConnection(connectionString))
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cuando se utiliza SQL Server en Windows Server, los desarrolladores pueden aprovechar las ventajas de funcionalidad que permite que la aplicación cliente proporcionar la versión actual y una contraseña nueva para cambiar la contraseña existente. Las aplicaciones pueden implementar la funcionalidad como solicitar al usuario una contraseña nueva durante el inicio de sesión inicial si la anterior ha expirado y se puede completar esta operación sin intervención del administrador.  
+ Cuando se usa SQL Server en Windows Server, los desarrolladores pueden aprovechar la funcionalidad que permite que la aplicación cliente proporcionar actual y una nueva contraseña para poder cambiar la contraseña existente. Las aplicaciones pueden implementar la funcionalidad, por ejemplo, pedir al usuario una contraseña nueva durante el inicio de sesión inicial si ha expirado la vieja y esta operación puede realizarse sin intervención del administrador.  
   
- El <xref:System.Data.SqlClient.SqlConnection.ChangePassword%2A> método cambia la contraseña de SQL Server para el usuario indicado en proporcionado `connectionString` parámetro para el valor proporcionado en el `newPassword` parámetro. Si la cadena de conexión incluye la opción para la seguridad integrada (es decir, "Integrated Security = True" o el equivalente), se produce una excepción.  
+ El <xref:System.Data.SqlClient.SqlConnection.ChangePassword%2A> método cambia la contraseña de SQL Server para el usuario indicado en proporcionado `connectionString` parámetro para el valor proporcionado en el `newPassword` parámetro. Si la cadena de conexión incluye la opción para la seguridad integrada (es decir, "Integrated Security = True" o su equivalente), se produce una excepción.  
   
- Para determinar que la contraseña ha expirado, una llamada a la <xref:System.Data.SqlClient.SqlConnection.Open%2A> método genera una <xref:System.Data.SqlClient.SqlException>. Para indicar que se debe restablecer la contraseña que está dentro de la cadena de conexión, el <xref:System.Data.SqlClient.SqlException.Number%2A> propiedad para la excepción contiene el valor de estado 18487 o 18488. El primer valor (18487) indica que la contraseña ha expirado y el segundo (18488) indica que se debe restablecer la contraseña antes de iniciar sesión.  
+ Para determinar que la contraseña ha expirado, una llamada a la <xref:System.Data.SqlClient.SqlConnection.Open%2A> método que provoca un <xref:System.Data.SqlClient.SqlException>. Con el fin de indicar que se debe restablecer la contraseña que está dentro de la cadena de conexión, el <xref:System.Data.SqlClient.SqlException.Number%2A> propiedad para la excepción contiene el valor 18487 o 18488 de estado. El primer valor (18487) indica que la contraseña ha expirado y el segundo (18488) indica que se debe restablecer la contraseña antes de iniciar sesión.  
   
  Este método abre su propia conexión al servidor, solicita el cambio de contraseña y cierra la conexión tan pronto como se ha completado. Esta conexión no se recupera de ni se devuelve a la agrupación de conexiones de SQL Server.  
   
    
   
 ## Examples  
- El siguiente es un ejemplo sencillo de cambiar una contraseña:  
+ Este es un ejemplo sencillo de cambiar una contraseña:  
   
 ```  
 class Program {  
@@ -702,7 +721,7 @@ End Module
   
 ```  
   
- La siguiente aplicación de consola muestra los problemas implicados en el cambio de contraseña de un usuario porque la contraseña actual ha expirado.  
+ La siguiente aplicación de consola muestra los problemas implicados en el cambio de contraseña de un usuario porque ha caducado la contraseña actual.  
   
  [!code-csharp[DataWorks SqlConnection.ChangePassword#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/DataWorks SqlConnection.ChangePassword/CS/source.cs#1)]
  [!code-vb[DataWorks SqlConnection.ChangePassword#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/DataWorks SqlConnection.ChangePassword/VB/source.vb#1)]  
@@ -758,6 +777,7 @@ End Module
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -775,7 +795,7 @@ End Module
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Data.SqlClient.SqlConnection.ClearAllPools%2A> restablece (o vacía) la agrupación de conexiones. Si hay conexiones están en uso en el momento de la llamada, se marcan adecuadamente y que se descartarán (en lugar de devolverse al grupo) cuando <xref:System.Data.SqlClient.SqlConnection.Close%2A> se llama en ellos.  
+ <xref:System.Data.SqlClient.SqlConnection.ClearAllPools%2A> Restablece la agrupación de conexiones (o vacía). Si hay conexiones en el momento de la llamada, se marcan adecuadamente y se descartarán (en lugar de devolverse al grupo) cuando <xref:System.Data.SqlClient.SqlConnection.Close%2A> se denomina en ellos.  
   
  ]]></format>
         </remarks>
@@ -796,6 +816,7 @@ End Module
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -816,7 +837,7 @@ End Module
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Data.SqlClient.SqlConnection.ClearPool%2A> Borra la agrupación de conexiones que está asociada la `connection`. Si las conexiones adicionales asociadas con `connection` están en uso en el momento de la llamada, se marcan adecuadamente y se descartan (en lugar de devolverse al grupo) cuando <xref:System.Data.SqlClient.SqlConnection.Close%2A> se llama en ellos.  
+ <xref:System.Data.SqlClient.SqlConnection.ClearPool%2A> Borra el grupo de conexión que está asociado el `connection`. Si las conexiones adicionales asociados con `connection` están en uso en el momento de la llamada, se marcan adecuadamente y se descartan (en lugar de devolverse al grupo) cuando <xref:System.Data.SqlClient.SqlConnection.Close%2A> se denomina en ellos.  
   
  ]]></format>
         </remarks>
@@ -854,9 +875,9 @@ End Module
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Data.SqlClient.SqlConnection.ClientConnectionId%2A> funciona independientemente de qué versión del servidor se conecta a, pero los registros de eventos extendidos y la entrada sobre errores de búfer de anillo de conectividad no estarán presentes en [!INCLUDE[sskatmai_r2](~/includes/sskatmai-r2-md.md)] y versiones anteriores.  
+ <xref:System.Data.SqlClient.SqlConnection.ClientConnectionId%2A> funciona independientemente de qué versión del servidor se conecta a, pero los registros de eventos extendidos y entrada en errores de búfer de anillo de conectividad no estará presentes en [!INCLUDE[sskatmai_r2](~/includes/sskatmai-r2-md.md)] y versiones anteriores.  
   
- Puede buscar el identificador de conexión en el registro de eventos extendidos para comprobar si el error se encontraba en el servidor si está habilitado el evento extendido para registrar el identificador de conexión. También puede buscar el identificador de conexión en el búfer de anillo de conexión ([solucionar problemas de conectividad en SQL Server 2008 con el búfer de anillo de conectividad](http://go.microsoft.com/fwlink/?LinkId=207752)) para ciertos errores de conexión. Si el identificador de conexión no está en el búfer de anillo de conexión, puede suponer un error de red.  
+ Puede buscar el identificador de conexión en el registro de eventos extendidos para ver si el error se produjo en el servidor si está habilitado el evento extendido para registrar el identificador de conexión. También puede buscar el identificador de conexión en el búfer de anillo de conexión ([solucionar problemas de conectividad en SQL Server 2008 con el búfer de anillo de conectividad](http://go.microsoft.com/fwlink/?LinkId=207752)) para determinados errores de conexión. Si el identificador de conexión no está en el búfer de anillo de conexión, puede suponer un error de red.  
   
  ]]></format>
         </remarks>
@@ -880,6 +901,8 @@ End Module
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -900,17 +923,17 @@ End Module
  El <xref:System.Data.SqlClient.SqlConnection.Close%2A> método revierte todas las transacciones pendientes. A continuación, libera la conexión al grupo de conexiones o se cierra la conexión si la agrupación de conexiones está deshabilitada.  
   
 > [!NOTE]
->  Pendiente de las transacciones iniciadas mediante [!INCLUDE[tsql](~/includes/tsql-md.md)] o <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A> se revierte automáticamente cuando se restablece la conexión si la agrupación de conexiones está habilitada. Si la agrupación de conexiones está desactivada, la transacción se revierte después `SqlConnection.Close` se llama. Las transacciones se inician a través de <xref:System.Transactions> se controlan a través de la `System.Transactions` infraestructura y son no afectados por `SqlConnection.Close`.  
+>  Pendiente de las transacciones iniciadas con [!INCLUDE[tsql](~/includes/tsql-md.md)] o <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A> se revierten automáticamente cuando se restablece la conexión si la agrupación de conexiones está habilitada. Si la agrupación de conexiones está desactivada, la transacción se revierte después `SqlConnection.Close` se llama. Las transacciones se inician a través de <xref:System.Transactions> se controlan a través de la `System.Transactions` infraestructura y son no afectados por `SqlConnection.Close`.  
   
- Una aplicación puede llamar a <xref:System.Data.SqlClient.SqlConnection.Close%2A> más de una vez. Se genera ninguna excepción.  
+ Una aplicación puede llamar a <xref:System.Data.SqlClient.SqlConnection.Close%2A> más de una vez. No se genera ninguna excepción.  
   
- Si la <xref:System.Data.SqlClient.SqlConnection> queda fuera del ámbito, no se cerrará. Por lo tanto, debe cerrar la conexión explícitamente mediante una llamada a `Close` o `Dispose`. `Close` y `Dispose` son funcionalmente equivalentes. Si la agrupación de conexiones de los valores `Pooling` está establecido en `true` o `yes`, la conexión subyacente se devuelve a la agrupación de conexiones. Por otro lado, si `Pooling` está establecido en `false` o `no`, el subyacente de conexión con el servidor se cierra.  
+ Si el <xref:System.Data.SqlClient.SqlConnection> queda fuera del ámbito, no se cerrará. Por lo tanto, debe cerrar explícitamente la conexión mediante una llamada a `Close` o `Dispose`. `Close` y `Dispose` son funcionalmente equivalentes. Si el valor de la agrupación de conexiones `Pooling` está establecido en `true` o `yes`, la conexión subyacente se devuelve al grupo de conexiones. Por otro lado, si `Pooling` está establecido en `false` o `no`, la conexión al servidor subyacente está cerrada.  
   
 > [!NOTE]
 >  Los eventos de inicio y cierre de sesión no se provocarán en el servidor cuando se busque una conexión desde el grupo de conexiones o se devuelva a éste, puesto que la conexión no está cerrada realmente cuando se devuelve al grupo de conexiones. Para obtener más información, vea [Agrupación de conexiones de SQL Server (ADO.NET)](~/docs/framework/data/adonet/sql-server-connection-pooling.md).  
   
 > [!CAUTION]
->  No llame a `Close` o `Dispose` en una conexión, un DataReader o cualquier otro objeto administrado en el `Finalize` método de la clase. En un finalizador, sólo se deberían liberar recursos no administrados que pertenezcan directamente a su clase. Si la clase no dispone de recursos no administrados, no incluya un método `Finalize` en la definición de clase. Para obtener más información, consulte [recolección](~/docs/standard/garbage-collection/index.md).  
+>  No llame a `Close` o `Dispose` en una conexión, un objeto DataReader o cualquier otro objeto administrado en el `Finalize` método de la clase. En un finalizador, debe liberar únicamente recursos no administrados que pertenezcan directamente a la clase. Si la clase no dispone de recursos no administrados, no incluya un método `Finalize` en la definición de clase. Para obtener más información, consulte [recolección](~/docs/standard/garbage-collection/index.md).  
   
    
   
@@ -978,9 +1001,9 @@ End Module
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Para las consultas parametrizadas, SqlClient hace un ida y vuelta a SQL Server para los metadatos de parámetro, para ver qué parámetro necesita para cifrar y cómo (qué claves y algoritmos deben utilizarse). Si la aplicación llama a la misma consulta varias veces, se realiza una ida y vuelta adicional al servidor cada vez, lo que disminuye el rendimiento de la aplicación.  
+ Para consultas con parámetros, SqlClient realiza un ida y vuelta en SQL Server para los metadatos del parámetro, para ver qué parámetro debe cifrar y cómo (se deben usar los algoritmos y claves). Si la aplicación llama a la misma consulta varias veces, se realiza un ida y vuelta adicionales al servidor cada vez, lo que disminuye el rendimiento de la aplicación.  
   
- Con **ColumnEncryptionQueryMetadataCacheEnabled** establecida en true, si la misma consulta se llama varias veces, la ida y vuelta al servidor se realizará una sola vez. La memoria caché tiene un parámetro de tamaño máximo no configurable que se establece en las consultas de 2000.  
+ Con **ColumnEncryptionQueryMetadataCacheEnabled** se establece en true, si se llama varias veces en la misma consulta, la ida y vuelta al servidor se realizará una sola vez. La memoria caché tiene un parámetro de tamaño máximo que no son configurables por el que se establece en las consultas de 2000.  
   
  ]]></format>
         </remarks>
@@ -1030,6 +1053,8 @@ End Module
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1061,9 +1086,9 @@ End Module
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A> es similar a una cadena de conexión OLE DB, pero no es idéntica. A diferencia de OLE DB o ADO, la cadena de conexión que se devuelve es el mismo que el conjunto de usuarios <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A>, menos la información de seguridad si se establece el valor de Persist Security Info en `false` (valor predeterminado). El proveedor de datos de .NET Framework para SQL Server no se conservan o devolver la contraseña en una cadena de conexión a menos que establezca Persist Security Info `true`.  
+ El <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A> es similar a una cadena de conexión OLE DB, pero no es idéntico. A diferencia de OLE DB o ADO, la cadena de conexión que se devuelve es el mismo que el establecido por el usuario <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A>, menos la información de seguridad si se establece el valor de Persist Security Info en `false` (valor predeterminado). El proveedor de datos de .NET Framework para SQL Server no conservar o devolver la contraseña de una cadena de conexión a menos que establezca Persist Security Info `true`.  
   
- Puede usar el <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A> propiedad para conectarse a una base de datos. En el ejemplo siguiente se muestra la cadena de conexión típica.  
+ Puede usar el <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A> propiedad para conectarse a una base de datos. En el ejemplo siguiente se muestra una cadena de conexión típica.  
   
 ```  
 "Persist Security Info=False;Integrated Security=true;Initial Catalog=Northwind;server=(local)"  
@@ -1071,21 +1096,21 @@ End Module
   
  Use la nueva <xref:System.Data.SqlClient.SqlConnectionStringBuilder> para construir cadenas de conexión válidas en tiempo de ejecución. Para obtener más información, vea [Generadores de cadenas de conexión](~/docs/framework/data/adonet/connection-string-builders.md).  
   
- El <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A> propiedad se puede establecer únicamente cuando se cierra la conexión. Muchos de los valores de cadena de conexión tienen propiedades correspondientes de sólo lectura. Cuando se establece la cadena de conexión, se actualizan estas propiedades, excepto cuando se detecta un error. En este caso, ninguna de las propiedades se actualizan. <xref:System.Data.SqlClient.SqlConnection> propiedades devuelven únicamente los valores que figuran en la <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A>.  
+ El <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A> propiedad puede establecerse solo cuando se cierra la conexión. Muchos de los valores de cadena de conexión tienen propiedades correspondientes de solo lectura. Cuando se establece la cadena de conexión, se actualizan estas propiedades, excepto cuando se detecta un error. En este caso, ninguna de las propiedades se actualizan. <xref:System.Data.SqlClient.SqlConnection> las propiedades devuelven únicamente los valores que se encuentran en el <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A>.  
   
  Para conectarse a un equipo local, especifique "(local)" para el servidor. Si no se especifica un nombre de servidor, se intentará una conexión a la instancia predeterminada en el equipo local.  
   
- Restablecer el <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A> en una conexión cerrada, se restablecen todos los valores de cadena de conexión (y propiedades relacionadas) incluida la contraseña. Por ejemplo, si se establece una cadena de conexión que incluye "base de datos = AdventureWorks" y, a continuación, restablece la cadena de conexión en "origen de datos = myserver; Integrated Security = true", la <xref:System.Data.SqlClient.SqlConnection.Database%2A> propiedad ya no está establecida en "AdventureWorks".  
+ Restableciendo el <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A> en una conexión cerrada, restablece todos los valores de cadena de conexión (y las propiedades relacionadas) incluida la contraseña. Por ejemplo, si se establece una cadena de conexión que incluye "base de datos = AdventureWorks" y, a continuación, restablece la cadena de conexión en "origen de datos = myserver; Integrated Security = true", el <xref:System.Data.SqlClient.SqlConnection.Database%2A> propiedad ya no está establecida en "AdventureWorks".  
   
- La cadena de conexión se analiza inmediatamente después de que se va a establecer. Si se detectan errores de sintaxis al analizar, una excepción en tiempo de ejecución, como <xref:System.ArgumentException>, se genera. Otros errores se pueden encontrar cuando se realiza un intento para abrir la conexión.  
+ La cadena de conexión se analiza inmediatamente después de que se va a establecer. Si se encuentran errores de sintaxis al analizar, una excepción en tiempo de ejecución, como <xref:System.ArgumentException>, se genera. Otros errores se pueden encontrar sólo cuando se realiza un intento para abrir la conexión.  
   
- El formato básico de una cadena de conexión incluye una serie de pares de palabra clave/valor separados por punto y coma. El signo igual (=) asocia cada palabra clave a su valor. Para incluir valores que contengan un punto y coma, un carácter de comilla simple o un carácter de comillas dobles, el valor debe ir entre comillas dobles. Si el valor contiene un punto y coma y un carácter de comillas dobles, el valor puede ir entre comillas simples. La comilla simple también es útil si el valor comienza por un carácter de comillas dobles. Por el contrario, las comillas dobles puede utilizarse si el valor comienza con una comilla simple. Si el valor contiene caracteres de comillas simples y comillas dobles, el carácter de comilla que se encierra el valor debe duplicarse cada vez que se produce dentro del valor.  
+ El formato básico de una cadena de conexión incluye una serie de pares palabra clave-valor separados por punto y coma. El signo igual (=) asocia cada palabra clave a su valor. Para incluir los valores que contienen un punto y coma, caracteres de comillas simples o carácter de comillas dobles, el valor debe incluirse entre comillas dobles. Si el valor contiene un punto y coma y un carácter de comillas dobles, el valor puede ir entre comillas simples. La comilla simple también es útil si el valor empieza por un carácter de comillas dobles. Por el contrario, se puede usar las comillas dobles si el valor empieza por una comilla simple. Si el valor contiene caracteres de comillas simples y comillas dobles, se debe duplicar el carácter de comilla de cierre que se encierra el valor cada vez que se produzca en el valor.  
   
- Para incluir espacios finales o anteriores en el valor de cadena, el valor debe incluirse entre comillas simples o dobles comillas. Se omiten los espacios iniciales o finales alrededor de integer, Boolean o valores enumerados, incluso si entre comillas. Sin embargo, se conservan los espacios dentro de una palabra clave de literales de cadena o un valor. Puede utilizarse comillas simples o dobles dentro de una cadena de conexión sin usar delimitadores (por ejemplo, Data Source = My ' Server o el origen de datos = my Server"), a menos que un carácter de comillas es el primer o último carácter en el valor.  
+ Para incluir espacios del principio o al finales del valor de cadena, el valor debe incluirse en comillas simples o dobles comillas. Se omiten los espacios iniciales o finales en torno a entero, booleano o valores enumerados, incluso si se incluyen entre comillas. Sin embargo, se conservan los espacios dentro de una palabra clave de literales de cadena o un valor. Las comillas simples o dobles puede utilizarse dentro de una cadena de conexión sin usar delimitadores (por ejemplo, el origen de datos = ' servidor o el origen de datos = mi servidor"), a menos que un carácter de comilla de cierre es el primer o último carácter del valor.  
   
- Palabras clave no distinguen entre mayúsculas y minúsculas.  
+ Palabras clave no distinguen mayúsculas de minúsculas.  
   
- En la tabla siguiente se muestra los nombres válidos para los valores de palabra clave dentro de la <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A>.  
+ En la tabla siguiente se enumera los nombres válidos para los valores de palabra clave dentro de la <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A>.  
   
   En la lista siguiente contiene los nombres válidos para los valores dentro de la agrupación de conexiones del <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A>. Para obtener más información, vea [Agrupación de conexiones de SQL Server (ADO.NET)](~/docs/framework/data/adonet/sql-server-connection-pooling.md).  
   
@@ -1099,16 +1124,16 @@ End Module
   
 -   Agrupación  
   
- Al establecer la palabra clave o valores que requieren un valor booleano de agrupación de conexiones, se puede utilizar 'yes' en lugar de 'true' y 'no' en lugar de 'false'. Valores enteros se representan como cadenas.  
+ Al establecer la palabra clave o los valores que requieren un valor booleano de agrupación de conexiones, puede utilizar 'yes' en lugar de 'true' y 'no' en lugar de 'false'. Los valores enteros se representan como cadenas.  
   
 > [!NOTE]
->  El proveedor de datos de .NET Framework para SQL Server utiliza su propio protocolo para comunicarse con SQL Server. Por lo tanto, no admite el uso de un nombre de origen de datos ODBC (DSN) al conectarse a SQL Server porque no agrega una capa ODBC.  
+>  El proveedor de datos de .NET Framework para SQL Server usa su propio protocolo para comunicarse con SQL Server. Por lo tanto, no admite el uso de un nombre de origen de datos ODBC (DSN) al conectarse a SQL Server ya no agrega una capa ODBC.  
   
 > [!NOTE]
->  No se admiten archivos universal data link (UDL) para el proveedor de datos de .NET Framework para SQL Server.  
+>  Archivos universal data link (UDL) no se admiten para el proveedor de datos de .NET Framework para SQL Server.  
   
 > [!CAUTION]
->  En esta versión, la aplicación debe tener cuidado al construir una cadena de conexión basada en la entrada del usuario (por ejemplo, al recuperar la información de identificador y la contraseña de usuario de un cuadro de diálogo y agregarla a la cadena de conexión). La aplicación debe asegurarse de que un usuario no puede incrustar parámetros de cadena de conexión adicionales en estos valores (por ejemplo, escribir una contraseña como "validpassword; base de datos = somedb" en un intento para adjuntar una base de datos diferente). Si necesita construir cadenas de conexión basadas en la entrada de usuario, use la nueva <xref:System.Data.SqlClient.SqlConnectionStringBuilder>, que valida la cadena de conexión y ayuda a eliminar este problema. Vea [generadores de cadenas de conexión](~/docs/framework/data/adonet/connection-string-builders.md) para obtener más información.  
+>  En esta versión, la aplicación debe tener cuidado al construir una cadena de conexión basándose en la entrada de usuario (por ejemplo, al recuperar la información de identificador y la contraseña de usuario de un cuadro de diálogo y agregarla a la cadena de conexión). La aplicación debe asegurarse de que un usuario no puede incrustar parámetros de cadena de conexión adicionales en estos valores (por ejemplo, si escribe una contraseña como "validpassword; database = somedb" en un intento para adjuntar una base de datos diferente). Si necesita construir cadenas de conexión basadas en la entrada de usuario, use la nueva <xref:System.Data.SqlClient.SqlConnectionStringBuilder>, que valida la cadena de conexión y ayuda a eliminar este problema. Consulte [generadores de cadenas de conexión](~/docs/framework/data/adonet/connection-string-builders.md) para obtener más información.  
   
    
   
@@ -1141,6 +1166,8 @@ End Module
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1163,7 +1190,7 @@ End Module
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Puede establecer la cantidad de tiempo de espera de una conexión en tiempo de espera mediante el uso de la `Connect Timeout` o `Connection Timeout` palabras clave en la cadena de conexión. Un valor de 0 indica sin límite y debería evitarse en un <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A> porque espera indefinidamente a que un intento de conexión.  
+ Puede establecer la cantidad de tiempo de espera de una conexión en tiempo de espera mediante la `Connect Timeout` o `Connection Timeout` las palabras clave en la cadena de conexión. Un valor de 0 no indica límite y debería evitarse en un <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A> porque el intento de conexión espera indefinidamente.  
   
    
   
@@ -1193,6 +1220,8 @@ End Module
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1233,6 +1262,7 @@ End Module
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1284,17 +1314,17 @@ End Module
   
  El valor predeterminado de <xref:System.Data.SqlClient.SqlConnection.Credential%2A> es null.  
   
- Un <xref:System.InvalidOperationException> se producirá la excepción:  
+ Un <xref:System.InvalidOperationException> , se generará la excepción:  
   
--   Si <xref:System.Data.SqlClient.SqlConnection.Credential%2A> está establecido en una conexión abierta.  
+-   Si <xref:System.Data.SqlClient.SqlConnection.Credential%2A> se establece en una conexión abierta.  
   
 -   Si <xref:System.Data.SqlClient.SqlConnection.Credential%2A> se establece cuando `Context Connection=true`.  
   
 -   Si <xref:System.Data.SqlClient.SqlConnection.Credential%2A> se establece cuando `Integrated Security = true`.  
   
--   Si <xref:System.Data.SqlClient.SqlConnection.Credential%2A> se establece cuando se utiliza la cadena de conexión `Password`.  
+-   Si <xref:System.Data.SqlClient.SqlConnection.Credential%2A> se establece cuando se usa la cadena de conexión `Password`.  
   
--   Si <xref:System.Data.SqlClient.SqlConnection.Credential%2A> se establece cuando se utiliza la cadena de conexión `UserID`.  
+-   Si <xref:System.Data.SqlClient.SqlConnection.Credential%2A> se establece cuando se usa la cadena de conexión `UserID`.  
   
  ]]></format>
         </remarks>
@@ -1340,6 +1370,8 @@ End Module
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1362,12 +1394,12 @@ End Module
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Data.SqlClient.SqlConnection.Database%2A> propiedad se actualiza dinámicamente. Si cambia la base de datos actual mediante una [!INCLUDE[tsql](~/includes/tsql-md.md)] instrucción o <xref:System.Data.SqlClient.SqlConnection.ChangeDatabase%2A> método, se envía un mensaje informativo y la propiedad se actualiza automáticamente.  
+ El <xref:System.Data.SqlClient.SqlConnection.Database%2A> propiedad actualiza dinámicamente. Si cambia la base de datos actual mediante una [!INCLUDE[tsql](~/includes/tsql-md.md)] instrucción o el <xref:System.Data.SqlClient.SqlConnection.ChangeDatabase%2A> método, se envía un mensaje informativo y se actualiza automáticamente la propiedad.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se crea un <xref:System.Data.SqlClient.SqlConnection> y se muestran algunas de sus propiedades de solo lectura.  
+ En el ejemplo siguiente se crea un <xref:System.Data.SqlClient.SqlConnection> y muestra algunas de sus propiedades de solo lectura.  
   
  [!code-csharp[Classic WebData SqlConnection.Database Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlConnection.Database Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlConnection.Database Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlConnection.Database Example/VB/source.vb#1)]  
@@ -1391,6 +1423,8 @@ End Module
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1423,7 +1457,7 @@ End Module
    
   
 ## Examples  
- En el ejemplo siguiente se crea un <xref:System.Data.SqlClient.SqlConnection> y se muestran algunas de sus propiedades de solo lectura.  
+ En el ejemplo siguiente se crea un <xref:System.Data.SqlClient.SqlConnection> y muestra algunas de sus propiedades de solo lectura.  
   
  [!code-csharp[Classic WebData SqlConnection.DataSource Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlConnection.DataSource Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlConnection.DataSource Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlConnection.DataSource Example/VB/source.vb#1)]  
@@ -1442,6 +1476,7 @@ End Module
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1469,6 +1504,8 @@ End Module
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1498,6 +1535,8 @@ End Module
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1513,11 +1552,11 @@ End Module
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Puede usar el <xref:System.Data.SqlClient.SqlConnection.EnlistTransaction%2A> método dar de alta en una transacción distribuida. Dado que se da de alta una conexión en un <xref:System.Transactions.Transaction> instancia, **EnlistTransaction** aprovecha la funcionalidad disponible en la <xref:System.Transactions> espacio de nombres para la administración de transacciones distribuidas, lo que preferible ** EnlistDistributedTransaction** para este propósito. Para obtener más información, consulte [transacciones distribuidas](~/docs/framework/data/adonet/distributed-transactions.md).  
+ Puede usar el <xref:System.Data.SqlClient.SqlConnection.EnlistTransaction%2A> método para dar de alta en una transacción distribuida. Dado que inscribe una conexión en un <xref:System.Transactions.Transaction> instancia, **EnlistTransaction** aprovecha la funcionalidad disponible en el <xref:System.Transactions> espacio de nombres para la administración de transacciones distribuidas, lo que preferible ** EnlistDistributedTransaction** para este propósito. Para obtener más información, consulte [transacciones distribuidas](~/docs/framework/data/adonet/distributed-transactions.md).  
   
- Aún puede dar de alta en una transacción distribuida existente mediante el **EnlistDistributedTransaction** método si la inscripción automática está deshabilitada. Dar de alta en una transacción distribuida existente garantiza que, si la transacción se confirma o revierte, las modificaciones realizadas por el código en el origen de datos son también confirmadas o revertidas.  
+ Aún puede dar de alta una transacción distribuida existente mediante el **EnlistDistributedTransaction** método si la inscripción automática está deshabilitada. Dar de alta una transacción distribuida existente garantiza que, si se confirma o revierte la transacción, las modificaciones realizadas por el código en el origen de datos son también confirmadas o revertidas.  
   
- `EnlistDistributedTransaction` Devuelve una excepción si el <xref:System.Data.SqlClient.SqlConnection> ya se ha iniciado una transacción mediante <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A>. Sin embargo, si la transacción es una transacción local iniciada en el origen de datos (por ejemplo, al ejecutar de forma explícita la instrucción BEGIN TRANSACTION mediante un <xref:System.Data.SqlClient.SqlCommand> objeto), **EnlistDistributedTransaction** revierte el transacción local y se da de alta en la transacción distribuida existente cuando se le solicite. No recibirá aviso de que se revirtió la transacción local, y el responsable de administrar las transacciones locales no iniciada mediante <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A>.  
+ `EnlistDistributedTransaction` Devuelve una excepción si el <xref:System.Data.SqlClient.SqlConnection> ya se ha iniciado una transacción mediante <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A>. Sin embargo, si la transacción es una transacción local iniciada en el origen de datos (por ejemplo, al ejecutar de forma explícita la instrucción BEGIN TRANSACTION mediante un <xref:System.Data.SqlClient.SqlCommand> objeto), **EnlistDistributedTransaction** revierte el transacción local y se inscribe en la transacción distribuida existente cuando se le solicite. No recibirá aviso de que se ha revertido la transacción local, y el responsable de administrar las transacciones locales no iniciada mediante <xref:System.Data.SqlClient.SqlConnection.BeginTransaction%2A>.  
   
  ]]></format>
         </remarks>
@@ -1532,6 +1571,7 @@ End Module
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1547,7 +1587,7 @@ End Module
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Puede usar el <xref:System.Data.SqlClient.SqlConnection.EnlistTransaction%2A> método dar de alta en una transacción distribuida. Dado que se da de alta una conexión en un <xref:System.Transactions.Transaction> instancia, **EnlistTransaction** aprovecha la funcionalidad disponible en la <xref:System.Transactions> espacio de nombres para la administración de transacciones distribuidas, lo que preferible ** EnlistDistributedTransaction**, que usa un **System.EnterpriseServices.ITransaction** objeto. También tiene una semántica ligeramente diferente: una vez que una conexión se inscribe explícitamente en una transacción, no se puede dar de baja o dado de alta en otra transacción hasta que finaliza la primera transacción. Para obtener más información sobre las transacciones distribuidas, consulte [transacciones distribuidas](~/docs/framework/data/adonet/distributed-transactions.md).  
+ Puede usar el <xref:System.Data.SqlClient.SqlConnection.EnlistTransaction%2A> método para dar de alta en una transacción distribuida. Dado que inscribe una conexión en un <xref:System.Transactions.Transaction> instancia, **EnlistTransaction** aprovecha la funcionalidad disponible en el <xref:System.Transactions> espacio de nombres para la administración de transacciones distribuidas, lo que preferible ** EnlistDistributedTransaction**, que usa un **System.EnterpriseServices.ITransaction** objeto. También tiene una semántica ligeramente diferente: una vez que una conexión se inscribe explícitamente en una transacción, no se puede dar de baja o dada de alta en otra transacción hasta que finaliza la primera transacción. Para obtener más información sobre las transacciones distribuidas, consulte [transacciones distribuidas](~/docs/framework/data/adonet/distributed-transactions.md).  
   
  ]]></format>
         </remarks>
@@ -1568,6 +1608,7 @@ End Module
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1586,10 +1627,10 @@ End Module
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Al establecer <xref:System.Data.SqlClient.SqlConnection.FireInfoMessageEventOnUserErrors%2A> a `true`, los errores que anteriormente se trataban como excepciones se controlan ahora como <xref:System.Data.SqlClient.SqlConnection.InfoMessage> eventos. Todos los eventos se desencadenan inmediatamente y se administran con el controlador de eventos. Si es <xref:System.Data.SqlClient.SqlConnection.FireInfoMessageEventOnUserErrors%2A> está establecido en `false`, a continuación, <xref:System.Data.SqlClient.SqlConnection.InfoMessage> se controlan los eventos al final del procedimiento.  
+ Al establecer <xref:System.Data.SqlClient.SqlConnection.FireInfoMessageEventOnUserErrors%2A> a `true`, los errores que anteriormente se tratan como excepciones ahora se tratan como <xref:System.Data.SqlClient.SqlConnection.InfoMessage> eventos. Todos los eventos se activan inmediatamente y se controlan mediante el controlador de eventos. Si es <xref:System.Data.SqlClient.SqlConnection.FireInfoMessageEventOnUserErrors%2A> está establecido en `false`, a continuación, <xref:System.Data.SqlClient.SqlConnection.InfoMessage> se controlan los eventos al final del procedimiento.  
   
 > [!NOTE]
->  Un error con nivel de gravedad de 17 o superior que hace que el servidor deje de procesar el comando debe tratarse como una excepción. En este caso, se inicia una excepción, independientemente del modo en que se controle el error en el evento <xref:System.Data.SqlClient.SqlConnection.InfoMessage>.  
+>  Un error con un nivel de gravedad de 17 o superior que hace que el servidor deje de procesar el comando debe tratarse como una excepción. En este caso, se inicia una excepción, independientemente del modo en que se controle el error en el evento <xref:System.Data.SqlClient.SqlConnection.InfoMessage>.  
   
  Para obtener más información sobre cómo trabajar con eventos, vea [eventos de conexión](~/docs/framework/data/adonet/connection-events.md). Para obtener más información sobre los errores generados por el motor de SQL Server, vea los libros en pantalla de SQL Server.  
   
@@ -1609,7 +1650,7 @@ End Module
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si se intenta recuperar la información de esquema para más de un procedimiento almacenado con control de versiones, solo se devuelve el esquema correspondiente al más reciente. Para obtener más información sobre los procedimientos almacenados con control de versiones, vea los libros en pantalla de SQL Server.  
+ Si se intenta recuperar la información de esquema para más de un procedimiento almacenado con control de versiones, solo se devuelve el esquema de la última de ellas. Para obtener más información sobre los procedimientos almacenados con control de versiones, vea los libros en pantalla de SQL Server.  
   
  ]]></format>
         </remarks>
@@ -1625,6 +1666,7 @@ End Module
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1649,6 +1691,7 @@ End Module
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1669,13 +1712,13 @@ End Module
 ## Remarks  
  Necesita la información del esquema de la base de datos, tablas o columnas. En este ejemplo:  
   
--   GetSchema y se utiliza para obtener información de esquema.  
+-   Usa GetSchema para obtener información de esquema.  
   
 -   Usar restricciones de esquema para obtener la información especificada.  
   
--   Obtiene información de esquema de la base de datos, tablas y algunas columnas.  
+-   Obtiene información del esquema de la base de datos, tablas y algunas columnas.  
   
- Antes de ejecutar el ejemplo, debe crear la base de datos de ejemplo, con los siguientes [!INCLUDE[tsql](~/includes/tsql-md.md)]:  
+ Antes de ejecutar el ejemplo, deberá crear la base de datos de ejemplo, con los siguientes [!INCLUDE[tsql](~/includes/tsql-md.md)]:  
   
 ```  
 USE [master]  
@@ -1741,7 +1784,7 @@ ALTER TABLE [dbo].[Course] CHECK CONSTRAINT [FK_Course_Department]
 GO  
 ```  
   
- [Cómo obtener la información de esquema de base de datos](https://code.msdn.microsoft.com/How-to-Get-Schema-b66d62e2) tiene versiones de C# y Visual Basic de este ejemplo de código en un proyecto de Visual Studio.  
+ [Cómo obtener información del esquema de base de datos](https://code.msdn.microsoft.com/How-to-Get-Schema-b66d62e2) tiene las versiones de C# y Visual Basic de este ejemplo de código en un proyecto de Visual Studio.  
   
 ```  
 using System;  
@@ -1919,6 +1962,7 @@ class Program {
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1939,11 +1983,11 @@ class Program {
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El `restrictionValues` puede proporcionar el parámetro *n* profundidad de valores, que se especifican en la colección de restricciones para una recopilación específica. Para establecer los valores en una restricción dada y no establecer los valores de otras restricciones, debe establecer las restricciones anteriores `null` y, a continuación, copie el valor apropiado para la restricción de que desea especificar un valor para.  
+ El `restrictionValues` puede proporcionar el parámetro *n* profundidad de valores, que se especifican mediante la colección de restricciones para una recopilación específica. Para establecer valores en una restricción dada y no establece los valores de otras restricciones, deberá establecer las restricciones anteriores `null` y, a continuación, coloque el valor apropiado para la restricción de que desea especificar un valor para.  
   
- Un ejemplo de esto es la colección "Tables". Si la colección "Tables" tiene tres restricciones--base de datos, propietario, y el nombre de tabla y desea obtener únicamente las tablas asociadas al propietario "Carl", tiene que pasar los valores siguientes: null y "Carl". Si no se pasa un valor de restricción, se usan los valores predeterminados para esa restricción. Se trata de la misma asignación como pasando `null`, que es diferente de pasar una cadena vacía para el valor del parámetro. En ese caso, la cadena vacía ("") se considera que el valor para el parámetro especificado.  
+ Un ejemplo de esto es la colección "Tables". Si la colección "Tables" tiene tres restricciones--base de datos, propietario y nombre de la tabla y desea obtener solo las tablas asociadas al propietario "Carl", deberá pasar los valores siguientes: "Carl" es null. Si no se pasa un valor de restricción, se usan los valores predeterminados para esa restricción. Se trata de la misma asignación como correctos en `null`, que es diferente de pasar una cadena vacía para el valor del parámetro. En ese caso, la cadena vacía ("") se considera que el valor del parámetro especificado.  
   
- Para un ejemplo de código que muestra <xref:System.Data.SqlClient.SqlConnection.GetSchema%2A>, consulte <xref:System.Data.SqlClient.SqlConnection.GetSchema%2A>.  
+ Para un ejemplo de código que muestran <xref:System.Data.SqlClient.SqlConnection.GetSchema%2A>, consulte <xref:System.Data.SqlClient.SqlConnection.GetSchema%2A>.  
   
  ]]></format>
         </remarks>
@@ -1966,6 +2010,8 @@ class Program {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1982,9 +2028,9 @@ class Program {
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Los clientes que van a procesar las advertencias o mensajes informativos enviados por el servidor deben crear un <xref:System.Data.SqlClient.SqlInfoMessageEventHandler> delegado para que escuche a este evento.  
+ Los clientes que desean procesar las advertencias o mensajes informativos enviados por el servidor deben crear un <xref:System.Data.SqlClient.SqlInfoMessageEventHandler> delegado para que escuche a este evento.  
   
- El <xref:System.Data.SqlClient.SqlConnection.InfoMessage> evento tiene lugar cuando un mensaje con una gravedad de 10 o menos devuelto por SQL Server. Los mensajes que tienen una gravedad entre 11 y 20 generan un error y los mensajes que tienen una gravedad mayor que 20 causan la conexión se cierre. Para obtener más información sobre los niveles de error de SQL Server, vea "Gravedades de Error de motor de base de datos" en libros en pantalla de SQL Server.  
+ El <xref:System.Data.SqlClient.SqlConnection.InfoMessage> evento tiene lugar cuando un mensaje con una gravedad de 10 o menos es devuelto por SQL Server. Los mensajes que tienen un nivel de gravedad entre 11 y 20 generan un error y los mensajes que tienen una gravedad mayor que 20 causan la conexión se cierre. Para obtener más información sobre los niveles de error de SQL Server, vea "Base de datos de motor de gravedad de los errores" en libros en pantalla de SQL Server.  
   
  Para obtener más información y un ejemplo, vea [eventos de conexión](~/docs/framework/data/adonet/connection-events.md).  
   
@@ -2010,6 +2056,8 @@ class Program {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2030,13 +2078,13 @@ class Program {
  El <xref:System.Data.SqlClient.SqlConnection> dibuja una conexión abierta del grupo de conexiones si está disponible. En caso contrario, Establece una nueva conexión a una instancia de SQL Server.  
   
 > [!NOTE]
->  Si la <xref:System.Data.SqlClient.SqlConnection> queda fuera del ámbito, no se cierra. Por lo tanto, debe cerrar la conexión explícitamente mediante una llamada a <xref:System.Data.SqlClient.SqlConnection.Close%2A>.  
+>  Si el <xref:System.Data.SqlClient.SqlConnection> queda fuera del ámbito, no se cierra. Por lo tanto, debe cerrar explícitamente la conexión mediante una llamada a <xref:System.Data.SqlClient.SqlConnection.Close%2A>.  
   
 > [!NOTE]
->  Si especifica un número de puerto distinto de 1433 cuando intenta conectarse a una instancia de SQL Server y utiliza un protocolo distinto de TCP/IP, el <xref:System.Data.SqlClient.SqlConnection.Open%2A> método se produce un error. Para especificar un número de puerto distinto de 1433, incluya "server = machinename, número de puerto" en la cadena de conexión y el protocolo TCP/IP de uso.  
+>  Si especifica un número de puerto distinto de 1433 cuando intenta conectarse a una instancia de SQL Server y el uso de un protocolo distinto de TCP/IP, el <xref:System.Data.SqlClient.SqlConnection.Open%2A> método produce un error. Para especificar un número de puerto distinto de 1433, incluya "server = machinename, número de puerto" en la cadena de conexión y el protocolo TCP/IP de uso.  
   
 > [!NOTE]
->  El proveedor de datos de .NET Framework para SQL Server requiere el permiso de seguridad "Permitir llamadas a ensamblados no administrados" habilitada (<xref:System.Security.Permissions.SecurityPermission> con <xref:System.Security.Permissions.SecurityPermissionFlag> establecido en `UnmanagedCode`) para abrir un <xref:System.Data.SqlClient.SqlConnection> con la depuración de SQL habilitada.  
+>  El proveedor de datos de .NET Framework para SQL Server requiere el permiso de seguridad con "Permite llamadas a ensamblados no administrados" habilitada (<xref:System.Security.Permissions.SecurityPermission> con <xref:System.Security.Permissions.SecurityPermissionFlag> establecido en `UnmanagedCode`) para abrir un <xref:System.Data.SqlClient.SqlConnection> con la depuración de SQL habilitada.  
   
    
   
@@ -2087,7 +2135,7 @@ class Program {
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Después de llamar a <xref:System.Data.SqlClient.SqlConnection.OpenAsync%2A>, <xref:System.Data.SqlClient.SqlConnection.State%2A> debe devolver <xref:System.Data.ConnectionState.Connecting> hasta que el valor devuelto <xref:System.Threading.Tasks.Task> se ha completado. A continuación, si la conexión se realizó correctamente, <xref:System.Data.SqlClient.SqlConnection.State%2A> debe devolver <xref:System.Data.ConnectionState.Open>. Si se produce un error en la conexión, <xref:System.Data.SqlClient.SqlConnection.State%2A> debe devolver <xref:System.Data.ConnectionState.Closed>.  
+ Después de llamar a <xref:System.Data.SqlClient.SqlConnection.OpenAsync%2A>, <xref:System.Data.SqlClient.SqlConnection.State%2A> debe devolver <xref:System.Data.ConnectionState.Connecting> hasta que el valor devuelto <xref:System.Threading.Tasks.Task> completada. A continuación, si la conexión se realizó correctamente, <xref:System.Data.SqlClient.SqlConnection.State%2A> debe devolver <xref:System.Data.ConnectionState.Open>. Si se produce un error en la conexión, <xref:System.Data.SqlClient.SqlConnection.State%2A> debe devolver <xref:System.Data.ConnectionState.Closed>.  
   
  Una llamada a <xref:System.Data.SqlClient.SqlConnection.Close%2A> intentará cancelar o cerrar correspondiente <xref:System.Data.SqlClient.SqlConnection.OpenAsync%2A> llamar.  
   
@@ -2116,6 +2164,8 @@ class Program {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2138,11 +2188,11 @@ class Program {
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si una aplicación realiza operaciones de copia masiva, o envía o recibe una gran cantidad de datos text o image, un tamaño de paquete mayor que el valor predeterminado puede mejorar la eficacia porque hace que la red menos operaciones lectura y escritura. Si una aplicación envía y recibe pequeñas cantidades de información, puede establecer el tamaño del paquete en 512 bytes (mediante el valor de tamaño de paquete en el <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A>), que es suficiente para la mayoría de las operaciones de transferencia de datos. Para la mayoría de las aplicaciones, el tamaño del paquete predeterminado es mejor.  
+ Si una aplicación realiza operaciones de copia masiva, o envía o recibe una gran cantidad de datos de texto o imagen, un tamaño de paquete mayor que el valor predeterminado puede mejorar la eficacia porque hace que la red menos operaciones lectura y escritura. Si una aplicación envía y recibe pequeñas cantidades de información, puede establecer el tamaño del paquete en 512 bytes (mediante el valor de tamaño de paquete en el <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A>), que es suficiente para la mayoría de las operaciones de transferencia de datos. Para la mayoría de las aplicaciones, el tamaño del paquete predeterminado es mejor.  
   
- <xref:System.Data.SqlClient.SqlConnection.PacketSize%2A> puede ser un valor entre 512 y 32767 bytes. Si el valor está fuera de este intervalo, se genera una excepción.  
+ <xref:System.Data.SqlClient.SqlConnection.PacketSize%2A> puede ser un valor en el intervalo de bytes de 512 y 32767. Se genera una excepción si el valor está fuera de este intervalo.  
   
- Si establece el valor predeterminado de un número mayor que 8000 hará que los paquetes que desea utilizar el asignador de varias páginas en la instancia de SQL Server en lugar del asignador de SinglePage mucho más eficaz, lo que reduce la escalabilidad global de SQL Server. Para obtener más información sobre cómo SQL Server utiliza la memoria, vea [arquitectura de memoria](http://go.microsoft.com/fwlink/?LinkId=143705) en libros en pantalla de SQL Server.  
+ Si establece el valor predeterminado de un número mayor que 8000 hará que los paquetes utilizar el asignador de varias páginas en la instancia de SQL Server en lugar del asignador de SinglePage mucho más eficaz, lo que reduce la escalabilidad general de SQL Server. Para obtener más información sobre cómo SQL Server utiliza la memoria, vea [arquitectura de memoria](http://go.microsoft.com/fwlink/?LinkId=143705) en libros en pantalla de SQL Server.  
   
    
   
@@ -2195,6 +2245,7 @@ class Program {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2233,6 +2284,7 @@ class Program {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2251,7 +2303,7 @@ class Program {
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cuando se llama a este método, los valores recuperados son las que en el momento actual en tiempo. Si continúa con la conexión, los valores son correctos. Debe volver a ejecutar el método para obtener los valores más recientes.  
+ Cuando se llama a este método, los valores recuperados son aquellas en el punto actual en el tiempo. Si sigue usando la conexión, los valores son incorrectos. Debe volver a ejecutar el método para obtener los valores más recientes.  
   
  ]]></format>
         </remarks>
@@ -2272,6 +2324,8 @@ class Program {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2297,7 +2351,7 @@ class Program {
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La versión tiene el formato *##. ##. ###*, donde los dos primeros dígitos corresponden a la versión principal, los dos dígitos siguientes son la versión secundaria y los últimos cuatro dígitos son la versión de lanzamiento. La cadena tiene la forma *principal.secundaria.compilación*, donde principal y secundarias son exactamente dos dígitos y compilación es exactamente cuatro dígitos.  
+ Es la versión del formulario *##. ##. ###*, donde los dos primeros dígitos son la versión principal, los dos dígitos son la versión secundaria y los cuatro últimos dígitos son la versión de lanzamiento. La cadena tiene el formato *principal.secundaria.compilación*, donde principal y secundarias son exactamente dos dígitos y compilación es exactamente cuatro dígitos.  
   
  <xref:System.Data.SqlClient.SqlConnection.ServerVersion%2A> se llamó mientras no se completó la tarea devuelta y no se abrió la conexión después de llamar a <xref:System.Data.SqlClient.SqlConnection.OpenAsync%2A>.  
   
@@ -2334,6 +2388,8 @@ class Program {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2365,6 +2421,31 @@ class Program {
         </remarks>
       </Docs>
     </Member>
+    <Member MemberName="StateChange">
+      <MemberSignature Language="C#" Value="public event System.Data.StateChangeEventHandler StateChange;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.Data.StateChangeEventHandler StateChange" />
+      <MemberSignature Language="DocId" Value="E:System.Data.SqlClient.SqlConnection.StateChange" />
+      <MemberSignature Language="VB.NET" Value="Public Custom Event StateChange As StateChangeEventHandler " />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; event System::Data::StateChangeEventHandler ^ StateChange;" />
+      <MemberSignature Language="F#" Value="member this.StateChange : System.Data.StateChangeEventHandler " Usage="member this.StateChange : System.Data.StateChangeEventHandler " />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Data.DataSysDescription("DbConnection_StateChange")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Data.StateChangeEventHandler</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="StatisticsEnabled">
       <MemberSignature Language="C#" Value="public bool StatisticsEnabled { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance bool StatisticsEnabled" />
@@ -2380,6 +2461,7 @@ class Program {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2402,10 +2484,85 @@ class Program {
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Habilitar la recopilación de estadísticas tiene un efecto secundario, pero puede medir en el rendimiento y, por tanto, debe habilitarse únicamente cuando sea necesario.  
+ Habilitar la recopilación de estadísticas tiene un efecto menor, pero perceptible en el rendimiento y, por tanto, debe habilitarse solo cuando sea necesario.  
   
  ]]></format>
         </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="System.Data.IDbConnection.BeginTransaction">
+      <MemberSignature Language="C#" Value="System.Data.IDbTransaction IDbConnection.BeginTransaction ();" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance class System.Data.IDbTransaction System.Data.IDbConnection.BeginTransaction() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlConnection.System#Data#IDbConnection#BeginTransaction" />
+      <MemberSignature Language="VB.NET" Value="Function BeginTransaction () As IDbTransaction Implements IDbConnection.BeginTransaction" />
+      <MemberSignature Language="C++ CLI" Value=" virtual System::Data::IDbTransaction ^ System.Data.IDbConnection.BeginTransaction() = System::Data::IDbConnection::BeginTransaction;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Data.IDbConnection.BeginTransaction</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.IDbTransaction</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="System.Data.IDbConnection.BeginTransaction">
+      <MemberSignature Language="C#" Value="System.Data.IDbTransaction IDbConnection.BeginTransaction (System.Data.IsolationLevel iso);" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance class System.Data.IDbTransaction System.Data.IDbConnection.BeginTransaction(valuetype System.Data.IsolationLevel iso) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlConnection.System#Data#IDbConnection#BeginTransaction(System.Data.IsolationLevel)" />
+      <MemberSignature Language="VB.NET" Value="Function BeginTransaction (iso As IsolationLevel) As IDbTransaction Implements IDbConnection.BeginTransaction" />
+      <MemberSignature Language="C++ CLI" Value=" virtual System::Data::IDbTransaction ^ System.Data.IDbConnection.BeginTransaction(System::Data::IsolationLevel iso) = System::Data::IDbConnection::BeginTransaction;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Data.IDbConnection.BeginTransaction(System.Data.IsolationLevel)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.IDbTransaction</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="iso" Type="System.Data.IsolationLevel" />
+      </Parameters>
+      <Docs>
+        <param name="iso">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="System.Data.IDbConnection.CreateCommand">
+      <MemberSignature Language="C#" Value="System.Data.IDbCommand IDbConnection.CreateCommand ();" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance class System.Data.IDbCommand System.Data.IDbConnection.CreateCommand() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlConnection.System#Data#IDbConnection#CreateCommand" />
+      <MemberSignature Language="VB.NET" Value="Function CreateCommand () As IDbCommand Implements IDbConnection.CreateCommand" />
+      <MemberSignature Language="C++ CLI" Value=" virtual System::Data::IDbCommand ^ System.Data.IDbConnection.CreateCommand() = System::Data::IDbConnection::CreateCommand;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Data.IDbConnection.CreateCommand</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.IDbCommand</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <Member MemberName="System.ICloneable.Clone">
@@ -2420,6 +2577,8 @@ class Program {
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2461,6 +2620,8 @@ class Program {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>

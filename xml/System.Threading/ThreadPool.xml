@@ -1,11 +1,11 @@
 <Type Name="ThreadPool" FullName="System.Threading.ThreadPool">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="2a9494e53c8c3c4a4db1cc0f00c52b716f7945b8" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="7542193821586bc0241b3b3025f0ccf05510af2f" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36407001" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37609240" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class ThreadPool" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit ThreadPool extends System.Object" />
@@ -21,6 +21,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -38,15 +40,15 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Muchas aplicaciones crean subprocesos que pasan mucho tiempo en el estado inactivo, esperando un evento que se produzca. Otros subprocesos pueden entrar en estado de inactividad y activarse periódicamente para sondear en busca de un cambio o actualizar información de estado. El grupo de subprocesos permite usar subprocesos más eficaz al proporcionar la aplicación con un grupo de subprocesos de trabajo administrados por el sistema. A continuación se indican algunos ejemplos de operaciones que utilizan el grupo de subprocesos:  
+ Muchas aplicaciones crean subprocesos que pasan mucho tiempo en estado inactivo, esperando a que se produzca un evento. Otros subprocesos pueden entrar en estado de inactividad y activarse periódicamente para sondear en busca de un cambio o actualizar la información de estado. El grupo de subprocesos permite usar subprocesos más eficaz, ya que proporciona la aplicación con un grupo de subprocesos de trabajo que están administrados por el sistema. Ejemplos de operaciones que usan los subprocesos de grupo incluyen lo siguiente:  
   
--   Cuando se crea un <xref:System.Threading.Tasks.Task> o <xref:System.Threading.Tasks.Task%601> objeto que se va a realizar algunas tareas de forma asincrónica, de forma predeterminada, la tarea está programada para ejecutarse en un subproceso del grupo.  
+-   Cuando creas un <xref:System.Threading.Tasks.Task> o <xref:System.Threading.Tasks.Task%601> objeto para realizar alguna tarea de forma asincrónica, de forma predeterminada, la tarea está programada para ejecutarse en un subproceso ThreadPool.  
   
--   Temporizadores asincrónicos usar el grupo de subprocesos. Grupo de subprocesos ejecuta devoluciones de llamada desde el <xref:System.Threading.Timer?displayProperty=nameWithType> clase y provocar eventos desde la <xref:System.Timers.Timer?displayProperty=nameWithType> clase.  
+-   Los temporizadores asincrónicos usar el grupo de subprocesos. Subprocesos de grupo ejecutarán devoluciones de llamada de la <xref:System.Threading.Timer?displayProperty=nameWithType> clase y provocar eventos desde el <xref:System.Timers.Timer?displayProperty=nameWithType> clase.  
   
--   Cuando se usa identificadores de espera registrada, un subproceso del sistema supervisa el estado de los identificadores de espera. Cuando se completa una operación de espera, un subproceso de trabajo del grupo de subprocesos ejecuta la función de devolución de llamada correspondiente.  
+-   Al usar identificadores de espera registrada, un subproceso del sistema supervisa el estado de los identificadores de espera. Cuando se completa una operación de espera, un subproceso del grupo de subprocesos de trabajo ejecuta la función de devolución de llamada correspondiente.  
   
--   Cuando se llama a la <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A> método para poner en cola un método para su ejecución en un subproceso del grupo. Para ello, pasando al método un <xref:System.Threading.WaitCallback> delegar.   El delegado tiene la firma  
+-   Cuando se llama a la <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A> método para poner en cola un método para su ejecución en un subproceso ThreadPool. Para ello, pasando al método un <xref:System.Threading.WaitCallback> delegar.   El delegado tiene la firma  
   
     ```csharp  
     void WaitCallback(Object state)  
@@ -56,24 +58,24 @@
     Sub WaitCallback(state As Object)  
     ```  
   
-     donde `state` es un objeto que contiene los datos que va a usar el delegado. Los datos reales se pueden pasar al delegado mediante una llamada a la <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%2CSystem.Object%29> método.  
+     donde `state` es un objeto que contiene datos para su uso por el delegado. Los datos reales se pueden pasar al delegado mediante una llamada a la <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%2CSystem.Object%29> método.  
   
 > [!NOTE]
->  Los subprocesos en el grupo de subprocesos administrados son subprocesos en segundo plano. Es decir, su <xref:System.Threading.Thread.IsBackground%2A> propiedades son `true`. Esto significa que un <xref:System.Threading.ThreadPool> subproceso no mantendrá una aplicación que se ejecuta después de que han salido de todos los subprocesos de primer plano.  
+>  Los subprocesos en el grupo de subprocesos administrados son subprocesos en segundo plano. Es decir, sus <xref:System.Threading.Thread.IsBackground%2A> propiedades son `true`. Esto significa que un <xref:System.Threading.ThreadPool> subproceso no mantendrá una aplicación que se ejecuta después de que han salido de todos los subprocesos de primer plano.  
   
 > [!IMPORTANT]
->  Cuando el grupo de subprocesos reutiliza un subproceso, no borra los datos de almacenamiento local de subprocesos o en los campos que se marcan con la <xref:System.ThreadStaticAttribute> atributo. Por lo tanto, cuando un método examina el almacenamiento local de subprocesos o campos que se marcan con la <xref:System.ThreadStaticAttribute> atributo, los valores que encuentra podrían quedar a través de un uso anterior de subproceso del grupo.  
+>  Cuando el grupo de subprocesos reutiliza un subproceso, no elimina los datos de almacenamiento local de subprocesos o en los campos que se marcan con el <xref:System.ThreadStaticAttribute> atributo. Por lo tanto, cuando un método examina el almacenamiento local de subprocesos o campos que se marcan con el <xref:System.ThreadStaticAttribute> atributo, los valores que encuentra podrían quedar a través de un uso anterior de subproceso de grupo.  
   
- También puede poner en cola los elementos de trabajo que no están relacionados con una operación de espera para el grupo de subprocesos. Para solicitar que un subproceso en el grupo de subprocesos controle un elemento de trabajo, llame a la <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A> método. Este método toma como parámetro una referencia para el método o el delegado al que llamará el subproceso seleccionado del grupo de subprocesos. No hay ninguna manera de cancelar un elemento de trabajo después de que se ha puesto en cola.  
+ También puede poner en cola los elementos de trabajo que no están relacionadas con una operación de espera para el grupo de subprocesos. Para solicitar que un subproceso en el grupo de subprocesos controle un elemento de trabajo, llame a la <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A> método. Este método toma como parámetro una referencia al método o delegado que llamará el subproceso seleccionado del grupo de subprocesos. No hay ninguna manera de cancelar un elemento de trabajo después de que se ha puesto en cola.  
   
- Temporizadores de la cola del temporizador y operaciones de espera registradas también utilizan el grupo de subprocesos. Sus funciones de devolución de llamada se ponen en cola para el grupo de subprocesos.  
+ Los temporizadores de la cola del temporizador y operaciones de espera registradas también utilizan el grupo de subprocesos. Sus funciones de devolución de llamada se ponen en cola para el grupo de subprocesos.  
   
- Hay un grupo de subprocesos por proceso. A partir de [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], el tamaño predeterminado del grupo de subprocesos de un proceso depende de varios factores, como el tamaño del espacio de direcciones virtuales. Un proceso puede llamar al método <xref:System.Threading.ThreadPool.GetMaxThreads%2A> para determinar el número de subprocesos. El número de subprocesos en el grupo de subprocesos puede cambiarse mediante el <xref:System.Threading.ThreadPool.SetMaxThreads%2A> método. Cada subproceso utiliza el tamaño de pila predeterminado y se ejecuta con la prioridad predeterminada.  
+ Hay un grupo de subprocesos por proceso. A partir de [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], el tamaño predeterminado del grupo de subprocesos de un proceso depende de varios factores, como el tamaño del espacio de direcciones virtuales. Un proceso puede llamar al método <xref:System.Threading.ThreadPool.GetMaxThreads%2A> para determinar el número de subprocesos. Se puede cambiar el número de subprocesos en el grupo de subprocesos mediante el uso de la <xref:System.Threading.ThreadPool.SetMaxThreads%2A> método. Cada subproceso utiliza el tamaño de pila predeterminado y se ejecuta con la prioridad predeterminada.  
   
 > [!NOTE]
->  Código no administrado que hospeda .NET Framework puede cambiar el tamaño del grupo de subprocesos mediante el `CorSetMaxThreads` función, definido en el archivo mscoree.h.  
+>  Código no administrado que hospeda .NET Framework puede cambiar el tamaño del grupo de subprocesos mediante la `CorSetMaxThreads` función definida en el archivo mscoree.h.  
   
- El grupo de subprocesos ofrece nuevos subprocesos de trabajo o subprocesos de finalización de E/S a petición hasta que alcanza el valor mínimo para cada categoría. Cuando se alcanza el mínimo, el grupo de subprocesos puede crear subprocesos adicionales en esa categoría o esperar hasta que se completen algunas tareas. A partir de [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)], el grupo de subprocesos crea y destruye subprocesos de trabajo para optimizar el rendimiento, definido como el número de tareas que se completan por unidad de tiempo. Si hay demasiados pocos subprocesos, puede que los recursos disponibles no se usen de manera óptima, mientras que si hay demasiados subprocesos, puede aumentar la contención de recursos.  
+ El grupo de subprocesos proporciona nuevos subprocesos de trabajo o subprocesos de finalización de E/S a petición hasta que alcanza el valor mínimo para cada categoría. Cuando se alcanza el mínimo, el grupo de subprocesos puede crear subprocesos adicionales en esa categoría o espere hasta que se completen algunas tareas. A partir de [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)], el grupo de subprocesos crea y destruye subprocesos de trabajo para optimizar el rendimiento, definido como el número de tareas que se completan por unidad de tiempo. Si hay demasiados pocos subprocesos, puede que los recursos disponibles no se usen de manera óptima, mientras que si hay demasiados subprocesos, puede aumentar la contención de recursos.  
   
 > [!NOTE]
 >  Cuando la demanda es baja, el número real de subprocesos del grupo de subprocesos puede descender por debajo de los valores mínimos.  
@@ -86,13 +88,13 @@
    
   
 ## Examples  
- En el ejemplo siguiente, el subproceso de aplicación principal se pone en cola con un método denominado `ThreadProc` para ejecutar en un subproceso del grupo, espera un segundo y, a continuación, se cierra. El `ThreadProc` método simplemente muestra un mensaje.  
+ En el ejemplo siguiente, el subproceso principal de la aplicación pone en cola un método denominado `ThreadProc` para ejecutar en un subproceso ThreadPool, se suspende durante un segundo y, a continuación, sale. El `ThreadProc` método simplemente muestra un mensaje.  
   
  [!code-cpp[System.Threading.ThreadPool QueueUserWorkItem0#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ThreadPool QueueUserWorkItem0/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ThreadPool QueueUserWorkItem0#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ThreadPool QueueUserWorkItem0/CS/source.cs#1)]
  [!code-vb[System.Threading.ThreadPool QueueUserWorkItem0#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ThreadPool QueueUserWorkItem0/VB/source.vb#1)]  
   
- Si Comente la llamada a la <xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType> método, el subproceso principal finaliza antes de ejecutarse el método en el subproceso del grupo.  El grupo de subprocesos utiliza subprocesos en segundo plano, que no mantienen la aplicación en ejecución si han finalizado todos los subprocesos de primer plano.  (Esto es un ejemplo sencillo de una condición de carrera).  
+ Si el comentario de la llamada a la <xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType> método, el subproceso principal finaliza antes de método se ejecuta en el subproceso del grupo.  El grupo de subprocesos usa subprocesos en segundo plano, que no mantienen la aplicación en ejecución si han finalizado todos los subprocesos de primer plano.  (Esto es un ejemplo sencillo de una condición de carrera).  
   
  ]]></format>
     </remarks>
@@ -119,6 +121,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -171,6 +175,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -197,7 +202,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El `osHandle` parámetro debe ser un <xref:Microsoft.Win32.SafeHandles.SafeFileHandle>, que deriva de la clase abstracta <xref:System.Runtime.InteropServices.SafeHandle> clase.  
+ El `osHandle` parámetro debe ser un <xref:Microsoft.Win32.SafeHandles.SafeFileHandle>, que se deriva de la clase abstracta <xref:System.Runtime.InteropServices.SafeHandle> clase.  
   
  ]]></format>
         </remarks>
@@ -216,6 +221,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -248,14 +255,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cuando <xref:System.Threading.ThreadPool.GetAvailableThreads%2A> devuelve, la variable especificada por `workerThreads` contiene el número de subprocesos de trabajo adicionales que se pueden iniciar y la variable especificada por `completionPortThreads` contiene el número de subprocesos de E/S asincrónicos adicionales que pueden ser se inició.  
+ Cuando <xref:System.Threading.ThreadPool.GetAvailableThreads%2A> devuelve la variable especificada por `workerThreads` contiene el número de subprocesos de trabajo adicionales que pueden iniciarse y la variable especificada por `completionPortThreads` contiene el número de subprocesos de E/S asincrónicos adicionales que puede ser se inició.  
   
- Si no hay ningún subproceso disponible, las solicitudes de grupo de subprocesos adicionales permanecen en la cola hasta que haya disponibles subprocesos de grupo de subprocesos.  
+ Si no hay ningún subproceso disponible, las solicitudes de grupo de subprocesos adicionales permanecen en la cola hasta que haya disponibles subprocesos de grupo.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra el número de subprocesos de trabajo y subprocesos de E/S disponibles cuando se inicia una aplicación sencilla.  
+ El ejemplo siguiente muestra el número de subprocesos de trabajo y subprocesos de E/S disponibles cuando se inicia una aplicación sencilla.  
   
  [!code-csharp[System.Threading.ThreadPool.GetAvailableThreads#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ThreadPool.GetAvailableThreads/CS/Example2.cs#2)]
  [!code-vb[System.Threading.ThreadPool.GetAvailableThreads#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ThreadPool.GetAvailableThreads/VB/Example2.vb#2)]  
@@ -278,6 +285,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -310,18 +319,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cuando <xref:System.Threading.ThreadPool.GetMaxThreads%2A> devuelve, la variable especificada por `workerThreads` contiene el número máximo de subprocesos de trabajo permitidos en el grupo de subprocesos y la variable especificada por `completionPortThreads` contiene el número máximo de subprocesos de E/S asincrónicos permitidos en el grupo de subprocesos.  
+ Cuando <xref:System.Threading.ThreadPool.GetMaxThreads%2A> devuelve la variable especificada por `workerThreads` contiene el número máximo de subprocesos de trabajo permitidos en el grupo de subprocesos y la variable especificada por `completionPortThreads` contiene el número máximo de subprocesos de E/S asincrónicos permitidos en el grupo de subprocesos.  
   
  Puede usar el <xref:System.Threading.ThreadPool.GetAvailableThreads%2A> método para determinar el número real de subprocesos en el grupo de subprocesos en un momento dado.  
   
  Puede usar el <xref:System.Threading.ThreadPool.SetMaxThreads%2A> para establecer el número máximo de subprocesos de trabajo y subprocesos de E/S asincrónicos en el grupo de subprocesos.  
   
- Puede poner en cola como muchas solicitudes de grupo de subprocesos como permita la memoria del sistema. Si hay más solicitudes que el grupo de subprocesos, las solicitudes adicionales permanecen en la cola hasta que haya disponibles subprocesos de grupo de subprocesos.  
+ Puede poner en cola como muchas solicitudes del grupo de subprocesos como permita la memoria del sistema. Si hay más solicitudes que subprocesos de grupo, las solicitudes adicionales permanecen en la cola hasta que haya disponibles subprocesos de grupo.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo recuperar un recuento del número máximo y disponible de subprocesos en el grupo de subprocesos. Un elemento de trabajo se pone en cola que usa `FileStream` para escribir en dos archivos de forma asincrónica. Se superó el tiempo de los métodos de devolución de llamada que se superponen. Un subproceso de trabajo controla el elemento de trabajo y, dependiendo de la velocidad y el número de procesadores del equipo, uno o dos subprocesos de puerto de finalización controlan las operaciones de escritura.  
+ En el ejemplo de código siguiente se muestra cómo recuperar un recuento del número de subprocesos en el grupo de subprocesos máximo y está disponible. Un elemento de trabajo se pone en cola que usa `FileStream` para escribir en dos archivos de forma asincrónica. Se superó el tiempo de los métodos de devolución de llamada se superpongan. Un subproceso de trabajo controla el elemento de trabajo y, según la velocidad y el número de procesadores del equipo, uno o dos subprocesos de puerto de finalización controlan las operaciones de escritura.  
   
  [!code-cpp[System.Threading.ThreadPool.GetAvailableThreads#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ThreadPool.GetAvailableThreads/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ThreadPool.GetAvailableThreads#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ThreadPool.GetAvailableThreads/CS/source.cs#1)]
@@ -345,6 +354,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -377,7 +388,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El grupo de subprocesos ofrece nuevos subprocesos de trabajo o subprocesos de finalización de E/S a petición hasta que alcanza el valor mínimo para cada categoría. De forma predeterminada, el número mínimo de subprocesos se establece en el número de procesadores en un sistema. Cuando se alcanza el mínimo, el grupo de subprocesos puede crear subprocesos adicionales en esa categoría o esperar hasta que se completen algunas tareas. A partir del [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)], el grupo de subprocesos crea y destruye subprocesos para optimizar el rendimiento, que se define como el número de tareas que se completan por unidad de tiempo. Si hay demasiados pocos subprocesos, puede que los recursos disponibles no se usen de manera óptima, mientras que si hay demasiados subprocesos, puede aumentar la contención de recursos.  
+ El grupo de subprocesos proporciona nuevos subprocesos de trabajo o subprocesos de finalización de E/S a petición hasta que alcanza el valor mínimo para cada categoría. De forma predeterminada, el número mínimo de subprocesos se establece en el número de procesadores en un sistema. Cuando se alcanza el mínimo, el grupo de subprocesos puede crear subprocesos adicionales en esa categoría o espere hasta que se completen algunas tareas. A partir del [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)], el grupo de subprocesos crea y destruye subprocesos con el fin de optimizar el rendimiento, que se define como el número de tareas que se completan por unidad de tiempo. Si hay demasiados pocos subprocesos, puede que los recursos disponibles no se usen de manera óptima, mientras que si hay demasiados subprocesos, puede aumentar la contención de recursos.  
   
 > [!NOTE]
 >  Cuando la demanda es baja, el número real de subprocesos del grupo de subprocesos puede descender por debajo de los valores mínimos.  
@@ -385,7 +396,7 @@
    
   
 ## Examples  
- En el ejemplo siguiente se establece el número mínimo de subprocesos de trabajo a cuatro y conserva el valor original para el número mínimo de subprocesos de finalización de E/S asincrónicos.  
+ El siguiente ejemplo establece el número mínimo de subprocesos de trabajo a cuatro y conserva el valor original para el número mínimo de subprocesos de finalización de E/S asincrónicos.  
   
  [!code-cpp[System.Threading.ThreadPool.GetSetMinThreads#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ThreadPool.GetSetMinThreads/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ThreadPool.GetSetMinThreads#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ThreadPool.GetSetMinThreads/CS/source.cs#1)]
@@ -424,6 +435,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -452,18 +465,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Puede colocar los datos requeridos por el método en cola en los campos de instancia de la clase en la que se define el método, o puede usar el <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%2CSystem.Object%29> sobrecarga que acepta un objeto que contiene los datos necesarios.  
+ Puede colocar datos requeridos por el método en cola en los campos de instancia de la clase en el que se define el método, o puede usar el <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%2CSystem.Object%29> sobrecarga que acepta un objeto que contiene los datos necesarios.  
   
 > [!NOTE]
->  Los usuarios de Visual Basic pueden omitir el <xref:System.Threading.WaitCallback> constructor y simplemente, usar el `AddressOf` operador cuando se pasa el método de devolución de llamada a <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A>. Visual Basic llama automáticamente al constructor de delegado correcto.  
+>  Los usuarios de Visual Basic pueden omitir el <xref:System.Threading.WaitCallback> constructor y basta con usar el `AddressOf` operador al pasar el método de devolución de llamada a <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A>. Visual Basic llama automáticamente al constructor de delegado correcto.  
   
 ## <a name="version-information"></a>Información de versión  
- En .NET Framework versión 2.0, el <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> valor de propiedad se propaga a los subprocesos de trabajo en una cola mediante el <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A> método. En versiones anteriores, no se propaga la información de entidad de seguridad.  
+ En .NET Framework versión 2.0, el <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> valor de propiedad se propaga a los subprocesos de trabajo en una cola mediante el <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A> método. En versiones anteriores, no se propaga la información de la entidad.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se usa el <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29> sobrecarga del método para poner en cola una tarea, que se representa mediante el `ThreadProc` método, se debe ejecutar cuando hay disponible un subproceso. No hay información de la tarea se suministra con esta sobrecarga. Por lo tanto, la información que está disponible para el `ThreadProc` método se limita al objeto al que pertenece el método.  
+ En el ejemplo siguiente se usa el <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29> sobrecarga del método para poner en cola una tarea, que viene representado por la `ThreadProc` método, se debe ejecutar cuando un subproceso esté disponible. No hay información de la tarea se suministra con esta sobrecarga. Por lo tanto, la información que está disponible para el `ThreadProc` método se limita a la que pertenece el método de objeto.  
   
  [!code-cpp[System.Threading.ThreadPool QueueUserWorkItem0#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ThreadPool QueueUserWorkItem0/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ThreadPool QueueUserWorkItem0#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ThreadPool QueueUserWorkItem0/CS/source.cs#1)]
@@ -492,6 +505,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -522,18 +537,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si el método de devolución de llamada requiere datos complejos, puede definir una clase para contener los datos.  
+ Si el método de devolución de llamada requiere datos complejos, puede definir una clase que contenga los datos.  
   
 > [!NOTE]
->  Los usuarios de Visual Basic pueden omitir el <xref:System.Threading.WaitCallback> constructor y simplemente, usar el `AddressOf` operador cuando se pasa el método de devolución de llamada a <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A>. Visual Basic llama automáticamente al constructor de delegado correcto.  
+>  Los usuarios de Visual Basic pueden omitir el <xref:System.Threading.WaitCallback> constructor y basta con usar el `AddressOf` operador al pasar el método de devolución de llamada a <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A>. Visual Basic llama automáticamente al constructor de delegado correcto.  
   
 ## <a name="version-information"></a>Información de versión  
- En .NET Framework versión 2.0, el <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> valor de propiedad se propaga a los subprocesos de trabajo en una cola mediante el <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A> método. En versiones anteriores, no se propaga la información de entidad de seguridad.  
+ En .NET Framework versión 2.0, el <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> valor de propiedad se propaga a los subprocesos de trabajo en una cola mediante el <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A> método. En versiones anteriores, no se propaga la información de la entidad.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo crear un objeto que contiene información de la tarea. También muestra cómo pasar ese objeto a una tarea que se pone en cola para su ejecución por el grupo de subprocesos.  
+ El ejemplo siguiente muestra cómo crear un objeto que contiene información de la tarea. También se muestra cómo pasar ese objeto a una tarea que se pone en cola para su ejecución por el grupo de subprocesos.  
   
  [!code-cpp[System.Threading.ThreadPool QueueUserWorkItem1#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ThreadPool QueueUserWorkItem1/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ThreadPool QueueUserWorkItem1#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ThreadPool QueueUserWorkItem1/CS/source.cs#1)]
@@ -605,6 +620,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -640,27 +657,27 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cuando haya terminado con el <xref:System.Threading.RegisteredWaitHandle> devuelto por este método, llame a su <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar las referencias al identificador de espera. Se recomienda que siempre llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, incluso si se especifica `true` para `executeOnlyOnce`. Recolección de elementos no utilizados funciona más eficazmente si se llama a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> en lugar del método según el finalizador del controlador de espera registrada.  
+ Cuando haya terminado con el <xref:System.Threading.RegisteredWaitHandle> devuelto por este método, llame a su <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar las referencias al identificador de espera. Se recomienda que siempre llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, incluso si se especifica `true` para `executeOnlyOnce`. Colección de elementos no utilizados resulta más eficaz si se llama a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método en lugar de según el finalizador del controlador de espera registrada.  
   
- El <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método pone en cola el delegado especificado en el grupo de subprocesos. Un subproceso de trabajo ejecutará al delegado cuando se produce una de las siguientes acciones:  
+ El <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método pone en cola el delegado especificado en el grupo de subprocesos. Un subproceso de trabajo ejecutará al delegado cuando se produce uno de los siguientes:  
   
 -   El objeto especificado está en el estado señalado.  
   
--   Se agota el tiempo de espera.  
+-   Transcurre el intervalo de tiempo de espera.  
   
- El <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método comprueba el estado actual del objeto especificado <xref:System.Threading.WaitHandle>. Si el estado del objeto no está señalado, el método registra una operación de espera. La operación de espera se realiza mediante un subproceso del grupo de subprocesos. Un subproceso de trabajo ejecuta el delegado cuando el estado del objeto se convierte en estado señalado o transcurre el intervalo de tiempo de espera. Si el `timeOutInterval` parámetro no es 0 (cero) y la `executeOnlyOnce` parámetro es `false`, el temporizador se restablece cada vez que se señala el evento o se agota el tiempo de espera.  
+ El <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método comprueba el estado actual del objeto especificado <xref:System.Threading.WaitHandle>. Si el estado del objeto no esté señalizado, el método registra una operación de espera. La operación de espera se realiza mediante un subproceso del grupo de subprocesos. El delegado se ejecuta un subproceso de trabajo cuando se señaliza el estado del objeto o transcurre el intervalo de tiempo de espera. Si el `timeOutInterval` parámetro no es 0 (cero) y el `executeOnlyOnce` parámetro es `false`, el temporizador se restablece cada vez que el evento está señalado o transcurre el intervalo de tiempo de espera.  
   
 > [!IMPORTANT]
->  Con un <xref:System.Threading.Mutex> para `waitObject` no proporciona la exclusión mutua para las devoluciones de llamada porque la API de Win32 subyacente utiliza el valor predeterminado `WT_EXECUTEDEFAULT` marca, por lo que cada devolución de llamada se envía en un subproceso independiente del grupo. En lugar de un <xref:System.Threading.Mutex>, use un <xref:System.Threading.Semaphore> con un recuento máximo de 1.  
+>  Mediante un <xref:System.Threading.Mutex> para `waitObject` no proporciona la exclusión mutua para las devoluciones de llamada porque la API de Win32 subyacente usa el valor predeterminado `WT_EXECUTEDEFAULT` marca, por lo que se envía cada devolución de llamada en un subproceso independiente de grupo. En lugar de un <xref:System.Threading.Mutex>, utilice un <xref:System.Threading.Semaphore> con un recuento máximo de 1.  
   
  Para cancelar la operación de espera, llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método.  
   
- El subproceso espera usa Win32 `WaitForMultipleObjects` función para supervisar las operaciones de espera registrada. Por lo tanto, si tiene que utilizar el mismo identificador de sistema operativo nativo en varias llamadas a <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, debe duplicar el identificador utilizando Win32 `DuplicateHandle` función. Tenga en cuenta que no debe marcar un objeto de evento que se pasa a <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, ya que el subproceso de espera podría no detectar que el evento está señalado antes de restablecerse.  
+ El subproceso espera usa Win32 `WaitForMultipleObjects` función para supervisar las operaciones de espera registrada. Por lo tanto, si se debe utilizar el mismo identificador de sistema operativo nativo en varias llamadas a <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, debe duplicar el identificador de Win32 `DuplicateHandle` función. Tenga en cuenta que no se debe marcar un objeto de evento que se pasa a <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, ya que el subproceso de espera podría no detectar que el evento está señalado antes de restablecerse.  
   
- La función modifica el estado de algunos tipos de objetos de sincronización antes de devolverse. Modificación se produce sólo para el objeto cuyo estado señalado provocó la condición de espera para que se cumpla. Por ejemplo, el recuento de un semáforo disminuye en uno.  
+ La función modifica el estado de algunos tipos de objetos de sincronización antes de devolverse. Modificación se produce sólo para el objeto cuyo estado señalado provocó que se debe cumplir la condición de espera. Por ejemplo, el recuento de un semáforo se reduce en uno.  
   
 ## <a name="version-information"></a>Información de versión  
- A partir de .NET Framework versión 2.0, el <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> valor de propiedad se propaga a los subprocesos de trabajo en una cola mediante el <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método. En versiones anteriores, no se propaga la información de entidad de seguridad.  
+ A partir de .NET Framework versión 2.0, el <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> valor de propiedad se propaga a los subprocesos de trabajo en una cola mediante el <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método. En versiones anteriores, no se propaga la información de la entidad.  
   
  ]]></format>
         </remarks>
@@ -683,6 +700,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -718,27 +737,27 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cuando haya terminado con el <xref:System.Threading.RegisteredWaitHandle> devuelto por este método, llame a su <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar las referencias al identificador de espera. Se recomienda que siempre llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, incluso si se especifica `true` para `executeOnlyOnce`. Recolección de elementos no utilizados funciona más eficazmente si se llama a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> en lugar del método según el finalizador del controlador de espera registrada.  
+ Cuando haya terminado con el <xref:System.Threading.RegisteredWaitHandle> devuelto por este método, llame a su <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar las referencias al identificador de espera. Se recomienda que siempre llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, incluso si se especifica `true` para `executeOnlyOnce`. Colección de elementos no utilizados resulta más eficaz si se llama a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método en lugar de según el finalizador del controlador de espera registrada.  
   
- El <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método pone en cola el delegado especificado en el grupo de subprocesos. Un subproceso de trabajo ejecutará al delegado cuando se produce una de las siguientes acciones:  
+ El <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método pone en cola el delegado especificado en el grupo de subprocesos. Un subproceso de trabajo ejecutará al delegado cuando se produce uno de los siguientes:  
   
 -   El objeto especificado está en el estado señalado.  
   
--   Se agota el tiempo de espera.  
+-   Transcurre el intervalo de tiempo de espera.  
   
- El <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método comprueba el estado actual del objeto especificado <xref:System.Threading.WaitHandle>. Si el estado del objeto no está señalado, el método registra una operación de espera. La operación de espera se realiza mediante un subproceso del grupo de subprocesos. Un subproceso de trabajo ejecuta el delegado cuando el estado del objeto se convierte en estado señalado o transcurre el intervalo de tiempo de espera. Si el `timeOutInterval` parámetro no es 0 (cero) y la `executeOnlyOnce` parámetro es `false`, el temporizador se restablece cada vez que se señala el evento o se agota el tiempo de espera.  
+ El <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método comprueba el estado actual del objeto especificado <xref:System.Threading.WaitHandle>. Si el estado del objeto no esté señalizado, el método registra una operación de espera. La operación de espera se realiza mediante un subproceso del grupo de subprocesos. El delegado se ejecuta un subproceso de trabajo cuando se señaliza el estado del objeto o transcurre el intervalo de tiempo de espera. Si el `timeOutInterval` parámetro no es 0 (cero) y el `executeOnlyOnce` parámetro es `false`, el temporizador se restablece cada vez que el evento está señalado o transcurre el intervalo de tiempo de espera.  
   
 > [!IMPORTANT]
->  Con un <xref:System.Threading.Mutex> para `waitObject` no proporciona la exclusión mutua para las devoluciones de llamada porque la API de Win32 subyacente utiliza el valor predeterminado `WT_EXECUTEDEFAULT` marca, por lo que cada devolución de llamada se envía en un subproceso independiente del grupo. En lugar de un <xref:System.Threading.Mutex>, use un <xref:System.Threading.Semaphore> con un recuento máximo de 1.  
+>  Mediante un <xref:System.Threading.Mutex> para `waitObject` no proporciona la exclusión mutua para las devoluciones de llamada porque la API de Win32 subyacente usa el valor predeterminado `WT_EXECUTEDEFAULT` marca, por lo que se envía cada devolución de llamada en un subproceso independiente de grupo. En lugar de un <xref:System.Threading.Mutex>, utilice un <xref:System.Threading.Semaphore> con un recuento máximo de 1.  
   
  Para cancelar la operación de espera, llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método.  
   
- El subproceso espera usa Win32 `WaitForMultipleObjects` función para supervisar las operaciones de espera registrada. Por lo tanto, si tiene que utilizar el mismo identificador de sistema operativo nativo en varias llamadas a <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, debe duplicar el identificador utilizando Win32 `DuplicateHandle` función. Tenga en cuenta que no debe marcar un objeto de evento que se pasa a <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, ya que el subproceso de espera podría no detectar que el evento está señalado antes de restablecerse.  
+ El subproceso espera usa Win32 `WaitForMultipleObjects` función para supervisar las operaciones de espera registrada. Por lo tanto, si se debe utilizar el mismo identificador de sistema operativo nativo en varias llamadas a <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, debe duplicar el identificador de Win32 `DuplicateHandle` función. Tenga en cuenta que no se debe marcar un objeto de evento que se pasa a <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, ya que el subproceso de espera podría no detectar que el evento está señalado antes de restablecerse.  
   
- La función modifica el estado de algunos tipos de objetos de sincronización antes de devolverse. Modificación se produce sólo para el objeto cuyo estado señalado provocó la condición de espera para que se cumpla. Por ejemplo, el recuento de un semáforo disminuye en uno.  
+ La función modifica el estado de algunos tipos de objetos de sincronización antes de devolverse. Modificación se produce sólo para el objeto cuyo estado señalado provocó que se debe cumplir la condición de espera. Por ejemplo, el recuento de un semáforo se reduce en uno.  
   
 ## <a name="version-information"></a>Información de versión  
- A partir de .NET Framework versión 2.0, el <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> valor de propiedad se propaga a los subprocesos de trabajo en una cola mediante el <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método. En versiones anteriores, no se propaga la información de entidad de seguridad.  
+ A partir de .NET Framework versión 2.0, el <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> valor de propiedad se propaga a los subprocesos de trabajo en una cola mediante el <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método. En versiones anteriores, no se propaga la información de la entidad.  
   
  ]]></format>
         </remarks>
@@ -761,6 +780,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -796,27 +817,27 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cuando haya terminado con el <xref:System.Threading.RegisteredWaitHandle> devuelto por este método, llame a su <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar las referencias al identificador de espera. Se recomienda que siempre llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, incluso si se especifica `true` para `executeOnlyOnce`. Recolección de elementos no utilizados funciona más eficazmente si se llama a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> en lugar del método según el finalizador del controlador de espera registrada.  
+ Cuando haya terminado con el <xref:System.Threading.RegisteredWaitHandle> devuelto por este método, llame a su <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar las referencias al identificador de espera. Se recomienda que siempre llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, incluso si se especifica `true` para `executeOnlyOnce`. Colección de elementos no utilizados resulta más eficaz si se llama a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método en lugar de según el finalizador del controlador de espera registrada.  
   
- El <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método pone en cola el delegado especificado en el grupo de subprocesos. Un subproceso de trabajo ejecutará al delegado cuando se produce una de las siguientes acciones:  
+ El <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método pone en cola el delegado especificado en el grupo de subprocesos. Un subproceso de trabajo ejecutará al delegado cuando se produce uno de los siguientes:  
   
 -   El objeto especificado está en el estado señalado.  
   
--   Se agota el tiempo de espera.  
+-   Transcurre el intervalo de tiempo de espera.  
   
- El <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método comprueba el estado actual del objeto especificado <xref:System.Threading.WaitHandle>. Si el estado del objeto no está señalado, el método registra una operación de espera. La operación de espera se realiza mediante un subproceso del grupo de subprocesos. Un subproceso de trabajo ejecuta el delegado cuando el estado del objeto se convierte en estado señalado o transcurre el intervalo de tiempo de espera. Si el `timeOutInterval` parámetro no es 0 (cero) y la `executeOnlyOnce` parámetro es `false`, el temporizador se restablece cada vez que se señala el evento o se agota el tiempo de espera.  
+ El <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método comprueba el estado actual del objeto especificado <xref:System.Threading.WaitHandle>. Si el estado del objeto no esté señalizado, el método registra una operación de espera. La operación de espera se realiza mediante un subproceso del grupo de subprocesos. El delegado se ejecuta un subproceso de trabajo cuando se señaliza el estado del objeto o transcurre el intervalo de tiempo de espera. Si el `timeOutInterval` parámetro no es 0 (cero) y el `executeOnlyOnce` parámetro es `false`, el temporizador se restablece cada vez que el evento está señalado o transcurre el intervalo de tiempo de espera.  
   
 > [!IMPORTANT]
->  Con un <xref:System.Threading.Mutex> para `waitObject` no proporciona la exclusión mutua para las devoluciones de llamada porque la API de Win32 subyacente utiliza el valor predeterminado `WT_EXECUTEDEFAULT` marca, por lo que cada devolución de llamada se envía en un subproceso independiente del grupo. En lugar de un <xref:System.Threading.Mutex>, use un <xref:System.Threading.Semaphore> con un recuento máximo de 1.  
+>  Mediante un <xref:System.Threading.Mutex> para `waitObject` no proporciona la exclusión mutua para las devoluciones de llamada porque la API de Win32 subyacente usa el valor predeterminado `WT_EXECUTEDEFAULT` marca, por lo que se envía cada devolución de llamada en un subproceso independiente de grupo. En lugar de un <xref:System.Threading.Mutex>, utilice un <xref:System.Threading.Semaphore> con un recuento máximo de 1.  
   
  Para cancelar la operación de espera, llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método.  
   
- El subproceso espera usa Win32 `WaitForMultipleObjects` función para supervisar las operaciones de espera registrada. Por lo tanto, si tiene que utilizar el mismo identificador de sistema operativo nativo en varias llamadas a <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, debe duplicar el identificador utilizando Win32 `DuplicateHandle` función. Tenga en cuenta que no debe marcar un objeto de evento que se pasa a <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, ya que el subproceso de espera podría no detectar que el evento está señalado antes de restablecerse.  
+ El subproceso espera usa Win32 `WaitForMultipleObjects` función para supervisar las operaciones de espera registrada. Por lo tanto, si se debe utilizar el mismo identificador de sistema operativo nativo en varias llamadas a <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, debe duplicar el identificador de Win32 `DuplicateHandle` función. Tenga en cuenta que no se debe marcar un objeto de evento que se pasa a <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, ya que el subproceso de espera podría no detectar que el evento está señalado antes de restablecerse.  
   
- La función modifica el estado de algunos tipos de objetos de sincronización antes de devolverse. Modificación se produce sólo para el objeto cuyo estado señalado provocó la condición de espera para que se cumpla. Por ejemplo, el recuento de un semáforo disminuye en uno.  
+ La función modifica el estado de algunos tipos de objetos de sincronización antes de devolverse. Modificación se produce sólo para el objeto cuyo estado señalado provocó que se debe cumplir la condición de espera. Por ejemplo, el recuento de un semáforo se reduce en uno.  
   
 ## <a name="version-information"></a>Información de versión  
- A partir de .NET Framework versión 2.0, el <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> valor de propiedad se propaga a los subprocesos de trabajo en una cola mediante el <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método. En versiones anteriores, no se propaga la información de entidad de seguridad.  
+ A partir de .NET Framework versión 2.0, el <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> valor de propiedad se propaga a los subprocesos de trabajo en una cola mediante el <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método. En versiones anteriores, no se propaga la información de la entidad.  
   
  ]]></format>
         </remarks>
@@ -840,6 +861,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -878,38 +901,38 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cuando haya terminado con el <xref:System.Threading.RegisteredWaitHandle> devuelto por este método, llame a su <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar las referencias al identificador de espera. Se recomienda que siempre llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, incluso si se especifica `true` para `executeOnlyOnce`. Recolección de elementos no utilizados funciona más eficazmente si se llama a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> en lugar del método según el finalizador del controlador de espera registrada.  
+ Cuando haya terminado con el <xref:System.Threading.RegisteredWaitHandle> devuelto por este método, llame a su <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar las referencias al identificador de espera. Se recomienda que siempre llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, incluso si se especifica `true` para `executeOnlyOnce`. Colección de elementos no utilizados resulta más eficaz si se llama a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método en lugar de según el finalizador del controlador de espera registrada.  
   
- El <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método pone en cola el delegado especificado en el grupo de subprocesos. Un subproceso de trabajo ejecutará al delegado cuando se produce una de las siguientes acciones:  
+ El <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método pone en cola el delegado especificado en el grupo de subprocesos. Un subproceso de trabajo ejecutará al delegado cuando se produce uno de los siguientes:  
   
 -   El objeto especificado está en el estado señalado.  
   
--   Se agota el tiempo de espera.  
+-   Transcurre el intervalo de tiempo de espera.  
   
- El <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método comprueba el estado actual del objeto especificado <xref:System.Threading.WaitHandle>. Si el estado del objeto no está señalado, el método registra una operación de espera. La operación de espera se realiza mediante un subproceso del grupo de subprocesos. Un subproceso de trabajo ejecuta el delegado cuando el estado del objeto se convierte en estado señalado o transcurre el intervalo de tiempo de espera. Si el `timeOutInterval` parámetro no es 0 (cero) y la `executeOnlyOnce` parámetro es `false`, el temporizador se restablece cada vez que se señala el evento o se agota el tiempo de espera.  
+ El <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método comprueba el estado actual del objeto especificado <xref:System.Threading.WaitHandle>. Si el estado del objeto no esté señalizado, el método registra una operación de espera. La operación de espera se realiza mediante un subproceso del grupo de subprocesos. El delegado se ejecuta un subproceso de trabajo cuando se señaliza el estado del objeto o transcurre el intervalo de tiempo de espera. Si el `timeOutInterval` parámetro no es 0 (cero) y el `executeOnlyOnce` parámetro es `false`, el temporizador se restablece cada vez que el evento está señalado o transcurre el intervalo de tiempo de espera.  
   
 > [!IMPORTANT]
->  Con un <xref:System.Threading.Mutex> para `waitObject` no proporciona la exclusión mutua para las devoluciones de llamada porque la API de Win32 subyacente utiliza el valor predeterminado `WT_EXECUTEDEFAULT` marca, por lo que cada devolución de llamada se envía en un subproceso independiente del grupo. En lugar de un <xref:System.Threading.Mutex>, use un <xref:System.Threading.Semaphore> con un recuento máximo de 1.  
+>  Mediante un <xref:System.Threading.Mutex> para `waitObject` no proporciona la exclusión mutua para las devoluciones de llamada porque la API de Win32 subyacente usa el valor predeterminado `WT_EXECUTEDEFAULT` marca, por lo que se envía cada devolución de llamada en un subproceso independiente de grupo. En lugar de un <xref:System.Threading.Mutex>, utilice un <xref:System.Threading.Semaphore> con un recuento máximo de 1.  
   
  Para cancelar la operación de espera, llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método.  
   
- El subproceso espera usa Win32 `WaitForMultipleObjects` función para supervisar las operaciones de espera registrada. Por lo tanto, si tiene que utilizar el mismo identificador de sistema operativo nativo en varias llamadas a <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, debe duplicar el identificador utilizando Win32 `DuplicateHandle` función. Tenga en cuenta que no debe marcar un objeto de evento que se pasa a <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, ya que el subproceso de espera podría no detectar que el evento está señalado antes de restablecerse.  
+ El subproceso espera usa Win32 `WaitForMultipleObjects` función para supervisar las operaciones de espera registrada. Por lo tanto, si se debe utilizar el mismo identificador de sistema operativo nativo en varias llamadas a <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, debe duplicar el identificador de Win32 `DuplicateHandle` función. Tenga en cuenta que no se debe marcar un objeto de evento que se pasa a <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A>, ya que el subproceso de espera podría no detectar que el evento está señalado antes de restablecerse.  
   
- La función modifica el estado de algunos tipos de objetos de sincronización antes de devolverse. Modificación se produce sólo para el objeto cuyo estado señalado provocó la condición de espera para que se cumpla. Por ejemplo, el recuento de un semáforo disminuye en uno.  
+ La función modifica el estado de algunos tipos de objetos de sincronización antes de devolverse. Modificación se produce sólo para el objeto cuyo estado señalado provocó que se debe cumplir la condición de espera. Por ejemplo, el recuento de un semáforo se reduce en uno.  
   
 ## <a name="version-information"></a>Información de versión  
- A partir de .NET Framework versión 2.0, el <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> valor de propiedad se propaga a los subprocesos de trabajo en una cola mediante el <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método. En versiones anteriores, no se propaga la información de entidad de seguridad.  
+ A partir de .NET Framework versión 2.0, el <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> valor de propiedad se propaga a los subprocesos de trabajo en una cola mediante el <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método. En versiones anteriores, no se propaga la información de la entidad.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método para ejecutar un método de devolución de llamada especificado cuando se señala a un controlador de espera especificado. En este ejemplo, el método de devolución de llamada es `WaitProc`, y el identificador de espera es un <xref:System.Threading.AutoResetEvent>.  
+ El ejemplo siguiente muestra cómo usar el <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método para ejecutar un método de devolución de llamada especificada cuando se señala un identificador de espera especificado. En este ejemplo, el método de devolución de llamada es `WaitProc`, y el identificador de espera es un <xref:System.Threading.AutoResetEvent>.  
   
- El ejemplo define un `TaskInfo` clase para contener la información que se pasa a la devolución de llamada cuando se ejecuta. El ejemplo se crea un `TaskInfo` de objeto y lo asigna algunos datos de cadena. El <xref:System.Threading.RegisteredWaitHandle> devuelto por la <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método se asigna a la `Handle` campo de la `TaskInfo` objeto para que el método de devolución de llamada no tiene acceso a la <xref:System.Threading.RegisteredWaitHandle>.  
+ El ejemplo define un `TaskInfo` clase para contener la información que se pasa a la devolución de llamada cuando se ejecuta. El ejemplo se crea un `TaskInfo` de objeto y lo asigna algunos datos de cadena. El <xref:System.Threading.RegisteredWaitHandle> devuelta por la <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método se asigna a la `Handle` campo de la `TaskInfo` objeto para que el método de devolución de llamada tiene acceso a la <xref:System.Threading.RegisteredWaitHandle>.  
   
- Además de especificar `TaskInfo` como el objeto que se va a pasar al método de devolución de llamada, la llamada a la <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método especifica la <xref:System.Threading.AutoResetEvent> que la tarea va a esperar, un <xref:System.Threading.WaitOrTimerCallback> delegado que representa el `WaitProc` método de devolución de llamada, un intervalo de tiempo de espera de un segundo y varias devoluciones de llamada.  
+ Además de especificar `TaskInfo` como el objeto debe pasar al método de devolución de llamada, la llamada a la <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método especifica el <xref:System.Threading.AutoResetEvent> que esperará la tarea, un <xref:System.Threading.WaitOrTimerCallback> delegado que representa el `WaitProc` el método de devolución de llamada, un intervalo de tiempo de espera un segundo y varias devoluciones de llamada.  
   
- Cuando el subproceso principal señala el <xref:System.Threading.AutoResetEvent> mediante una llamada a su <xref:System.Threading.EventWaitHandle.Set%2A> método, el <xref:System.Threading.WaitOrTimerCallback> se invoca el delegado. El `WaitProc` método pruebas <xref:System.Threading.RegisteredWaitHandle> para determinar si se produjo un tiempo de espera. Si la devolución de llamada se invocó porque se señaló el identificador de espera, el `WaitProc` método anula el registro del <xref:System.Threading.RegisteredWaitHandle>, deteniendo las devoluciones de llamada adicionales. En el caso de un tiempo de espera, la tarea sigue a la espera. El `WaitProc` método termina con la impresión de un mensaje en la consola.  
+ Cuando el subproceso principal señala el <xref:System.Threading.AutoResetEvent> mediante una llamada a su <xref:System.Threading.EventWaitHandle.Set%2A> método, el <xref:System.Threading.WaitOrTimerCallback> se invoca el delegado. El `WaitProc` método pruebas <xref:System.Threading.RegisteredWaitHandle> para determinar si se ha producido un tiempo de espera. Si la devolución de llamada se invocó porque se señaló el identificador de espera, el `WaitProc` anula el registro de método la <xref:System.Threading.RegisteredWaitHandle>, deteniendo las devoluciones de llamada adicionales. En el caso de un tiempo de espera, la tarea sigue esperando. El `WaitProc` método termina con la impresión de un mensaje en la consola.  
   
  [!code-cpp[System.Threading.ThreadPool RegisterWaitForSingleObject0#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ThreadPool RegisterWaitForSingleObject0/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ThreadPool RegisterWaitForSingleObject0#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ThreadPool RegisterWaitForSingleObject0/CS/source.cs#1)]
@@ -930,6 +953,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -963,17 +987,17 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- No se puede establecer el número máximo de subprocesos de trabajo o subprocesos de finalización de E/S en un número menor que el número de procesadores en el equipo. Para determinar cuántos procesadores están presentes, recuperar el valor de la <xref:System.Environment.ProcessorCount%2A?displayProperty=nameWithType> propiedad. Además, no se puede establecer el número máximo de subprocesos de trabajo o subprocesos de finalización de E/S en un número menor que el correspondiente número mínimo de subprocesos de trabajo o subprocesos de finalización de E/S. Para determinar el tamaño del grupo de subprocesos mínimos, llame a la <xref:System.Threading.ThreadPool.GetMinThreads%2A> método.  
+ No se puede establecer el número máximo de subprocesos de trabajo o subprocesos de finalización de E/S en un número menor que el número de procesadores del equipo. Para determinar cuántos procesadores están presentes, recuperar el valor de la <xref:System.Environment.ProcessorCount%2A?displayProperty=nameWithType> propiedad. Además, no se puede establecer el número máximo de subprocesos de trabajo o subprocesos de finalización de E/S en un número menor que el correspondiente número mínimo de subprocesos de trabajo o subprocesos de finalización de E/S. Para determinar el tamaño mínimo de subprocesos del grupo, llame a la <xref:System.Threading.ThreadPool.GetMinThreads%2A> método.  
   
- Si se hospeda common language runtime, por ejemplo mediante Internet Information Services (IIS) o SQL Server, el host puede limitar o impedir cambios en el tamaño del grupo de subprocesos.  
+ Si se hospeda common language runtime, por ejemplo mediante Internet Information Services (IIS) o SQL Server, el host puede limitar o evitar cambios en el tamaño del grupo de subprocesos.  
   
- Tenga cuidado al cambiar el número máximo de subprocesos en el grupo de subprocesos. Mientras que podría beneficiarse del código, los cambios pueden tener un efecto adverso en bibliotecas de código que usar.  
+ Tenga cuidado al cambiar el número máximo de subprocesos en el grupo de subprocesos. Mientras que podría beneficiarse del código, los cambios podrían tener un efecto adverso en bibliotecas de código que usar.  
   
- Establecer el tamaño del grupo de subprocesos demasiado grande puede causar problemas de rendimiento. Si hay demasiados subprocesos se ejecutan al mismo tiempo, el cambio de la tarea se convierte sobrecarga en un factor importante.  
+ Establecer el tamaño del grupo de subprocesos demasiado grande puede provocar problemas de rendimiento. Si se están ejecutando demasiados subprocesos al mismo tiempo, sobrecarga la conmutación de tareas se vuelve un factor importante.  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">la capacidad para controlar los subprocesos. Valor del permiso: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">la capacidad para controlar los subprocesos. Valor de permiso: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" /></permission>
         <altmember cref="M:System.Threading.ThreadPool.GetMaxThreads(System.Int32@,System.Int32@)" />
         <altmember cref="M:System.Threading.ThreadPool.SetMinThreads(System.Int32,System.Int32)" />
         <altmember cref="M:System.Threading.ThreadPool.GetMinThreads(System.Int32@,System.Int32@)" />
@@ -990,6 +1014,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1023,19 +1049,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El grupo de subprocesos ofrece nuevos subprocesos de trabajo o subprocesos de finalización de E/S a petición hasta que alcanza el valor mínimo para cada categoría. Cuando se alcanza el mínimo, el grupo de subprocesos puede crear subprocesos adicionales en esa categoría o esperar hasta que se completen algunas tareas. A partir del [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)], el grupo de subprocesos crea y destruye subprocesos para optimizar el rendimiento, que se define como el número de tareas que se completan por unidad de tiempo. Si hay demasiados pocos subprocesos, puede que los recursos disponibles no se usen de manera óptima, mientras que si hay demasiados subprocesos, puede aumentar la contención de recursos.  
+ El grupo de subprocesos proporciona nuevos subprocesos de trabajo o subprocesos de finalización de E/S a petición hasta que alcanza el valor mínimo para cada categoría. Cuando se alcanza el mínimo, el grupo de subprocesos puede crear subprocesos adicionales en esa categoría o espere hasta que se completen algunas tareas. A partir del [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)], el grupo de subprocesos crea y destruye subprocesos con el fin de optimizar el rendimiento, que se define como el número de tareas que se completan por unidad de tiempo. Si hay demasiados pocos subprocesos, puede que los recursos disponibles no se usen de manera óptima, mientras que si hay demasiados subprocesos, puede aumentar la contención de recursos.  
   
  Cuando la demanda es baja, el número real de subprocesos del grupo de subprocesos puede descender por debajo de los valores mínimos.  
   
- Si especifica un número negativo o un número mayor que el número máximo de subprocesos del grupo de subprocesos activos (obtenido mediante <xref:System.Threading.ThreadPool.GetMaxThreads%2A>), <xref:System.Threading.ThreadPool.SetMinThreads%2A> devuelve `false` y no cambia ninguno de los valores mínimos.  
+ Si especifica un número negativo o un número mayor que el número máximo de subprocesos de ThreadPool active (obtenidos mediante <xref:System.Threading.ThreadPool.GetMaxThreads%2A>), <xref:System.Threading.ThreadPool.SetMinThreads%2A> devuelve `false` y no cambia ninguno de los valores mínimos.  
   
 > [!CAUTION]
->  De forma predeterminada, el número mínimo de subprocesos se establece en el número de procesadores en un sistema. Puede usar el <xref:System.Threading.ThreadPool.SetMinThreads%2A> método para aumentar la ofthreads número mínimo. Sin embargo, aumentar innecesariamente estos valores puede causar problemas de rendimiento. Si se inician demasiadas tareas al mismo tiempo, puede que todas ellas parezcan funcionar con lentitud. En la mayoría de los casos, el grupo de subprocesos funciona mejor con su propio algoritmo de asignación de subprocesos. Reducir al mínimo a menos que el número de procesadores también puede afectar al rendimiento.  
+>  De forma predeterminada, el número mínimo de subprocesos se establece en el número de procesadores en un sistema. Puede usar el <xref:System.Threading.ThreadPool.SetMinThreads%2A> método para aumentar la ofthreads número mínimo. Sin embargo, aumentar innecesariamente estos valores puede causar problemas de rendimiento. Si se inician demasiadas tareas al mismo tiempo, puede que todas ellas parezcan funcionar con lentitud. En la mayoría de los casos, el grupo de subprocesos funcionará mejor con su propio algoritmo de asignación de subprocesos. A menos que el número de procesadores también puede afectar negativamente al rendimiento, lo que reduce al mínimo.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se establece el número mínimo de subprocesos de trabajo a cuatro y conserva el valor original para el número mínimo de subprocesos de finalización de E/S asincrónicos.  
+ El siguiente ejemplo establece el número mínimo de subprocesos de trabajo a cuatro y conserva el valor original para el número mínimo de subprocesos de finalización de E/S asincrónicos.  
   
  [!code-cpp[System.Threading.ThreadPool.GetSetMinThreads#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ThreadPool.GetSetMinThreads/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ThreadPool.GetSetMinThreads#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ThreadPool.GetSetMinThreads/CS/source.cs#1)]
@@ -1043,7 +1069,7 @@
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">la capacidad para controlar los subprocesos. Valor del permiso: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">la capacidad para controlar los subprocesos. Valor de permiso: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" /></permission>
         <altmember cref="M:System.Threading.ThreadPool.GetMinThreads(System.Int32@,System.Int32@)" />
         <altmember cref="M:System.Threading.ThreadPool.GetMaxThreads(System.Int32@,System.Int32@)" />
         <altmember cref="M:System.Threading.ThreadPool.GetAvailableThreads(System.Int32@,System.Int32@)" />
@@ -1058,6 +1084,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1092,14 +1119,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Para obtener información acerca de cómo utilizar Win32 nativo E/S superpuesta, vea el <xref:System.Threading.Overlapped> (clase), el <xref:System.Threading.NativeOverlapped> estructura y la `OVERLAPPED` estructura en el SDK de plataforma de Win32.  
+ Para obtener información acerca de cómo utilizar Win32 nativa superpuesta E/S, vea el <xref:System.Threading.Overlapped> (clase), el <xref:System.Threading.NativeOverlapped> estructura y el `OVERLAPPED` estructura en Platform SDK de Win32.  
   
 > [!CAUTION]
->  Mediante el <xref:System.Threading.ThreadPool.UnsafeQueueNativeOverlapped%2A> método podría abrir accidentalmente una vulnerabilidad de seguridad. Seguridad de acceso del código basa sus comprobaciones de permisos en los permisos de todos los llamadores de la pila. Cuando se pone en cola trabajo en un subproceso del grupo de subprocesos usando <xref:System.Threading.ThreadPool.UnsafeQueueNativeOverlapped%2A>, la pila del subproceso del grupo no tiene el contexto de los llamadores reales. Código malintencionado pueda aprovechar esta circunstancia para evitar las comprobaciones de permiso.  
+>  Mediante el <xref:System.Threading.ThreadPool.UnsafeQueueNativeOverlapped%2A> método podría abrir accidentalmente un agujero de seguridad. Seguridad de acceso del código basa sus comprobaciones de permisos en los permisos de todos los llamadores situados en la pila. Cuando trabajo en cola en un subproceso de grupo de subprocesos con <xref:System.Threading.ThreadPool.UnsafeQueueNativeOverlapped%2A>, la pila del subproceso de grupo no tiene el contexto de los llamadores reales. Código malintencionado podría ser capaz de aprovechar esto para evitar las comprobaciones de permiso.  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Requiere plena confianza para el llamador inmediato. Este miembro no puede usarse por código de confianza parcial o transparente.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no se puede usar código de confianza parcial o transparente.</permission>
       </Docs>
     </Member>
     <Member MemberName="UnsafeQueueUserWorkItem">
@@ -1112,6 +1139,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1150,7 +1179,7 @@
  A diferencia de la <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A> método <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A> no propaga la pila de llamadas al subproceso de trabajo. Esto permite que el código pierda la pila de llamadas y, por tanto, para elevar sus privilegios de seguridad.  
   
 > [!CAUTION]
->  Usar <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A> podría abrir accidentalmente una vulnerabilidad de seguridad. Seguridad de acceso del código basa sus comprobaciones de permisos en los permisos de todos los llamadores de la pila. Cuando se pone en cola trabajo en un subproceso del grupo de subprocesos usando <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A>, la pila del subproceso del grupo no tendrá el contexto de los llamadores reales. Código malintencionado pueda aprovechar esta circunstancia para evitar las comprobaciones de permiso.  
+>  Uso de <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A> podría abrir accidentalmente un agujero de seguridad. Seguridad de acceso del código basa sus comprobaciones de permisos en los permisos de todos los llamadores situados en la pila. Cuando trabajo en cola en un subproceso de grupo de subprocesos con <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A>, la pila del subproceso de grupo no tendrán el contexto de los llamadores reales. Código malintencionado podría ser capaz de aprovechar esto para evitar las comprobaciones de permiso.  
   
  ]]></format>
         </remarks>
@@ -1159,7 +1188,7 @@
         <exception cref="T:System.OutOfMemoryException">No se pudo poner en la cola el elemento de trabajo.</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="callBack" /> es <see langword="null" />.</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Requiere plena confianza para el llamador inmediato. Este miembro no puede usarse por código de confianza parcial o transparente.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no se puede usar código de confianza parcial o transparente.</permission>
       </Docs>
     </Member>
     <MemberGroup MemberName="UnsafeRegisterWaitForSingleObject">
@@ -1182,6 +1211,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1224,17 +1255,17 @@
  A diferencia de la <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> no propaga la pila de llamadas al subproceso de trabajo. Esto permite que el código pierda la pila de llamadas y, por tanto, para elevar sus privilegios de seguridad.  
   
 > [!CAUTION]
->  Usar <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> podría abrir accidentalmente una vulnerabilidad de seguridad. Seguridad de acceso del código basa sus comprobaciones de permisos en los permisos de todos los llamadores de la pila. Cuando se pone en cola trabajo en un subproceso del grupo de subprocesos usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A>, la pila del subproceso del grupo no tendrá el contexto de los llamadores reales. Código malintencionado pueda aprovechar esta circunstancia para evitar las comprobaciones de permiso.  
+>  Uso de <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> podría abrir accidentalmente un agujero de seguridad. Seguridad de acceso del código basa sus comprobaciones de permisos en los permisos de todos los llamadores situados en la pila. Cuando trabajo en cola en un subproceso de grupo de subprocesos con <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A>, la pila del subproceso de grupo no tendrán el contexto de los llamadores reales. Código malintencionado podría ser capaz de aprovechar esto para evitar las comprobaciones de permiso.  
   
- Con un <xref:System.Threading.Mutex> para `waitObject` no proporciona la exclusión mutua para las devoluciones de llamada porque la API de Win32 subyacente utiliza el valor predeterminado `WT_EXECUTEDEFAULT` marca, por lo que cada devolución de llamada se envía en un subproceso independiente del grupo.  
+ Mediante un <xref:System.Threading.Mutex> para `waitObject` no proporciona la exclusión mutua para las devoluciones de llamada porque la API de Win32 subyacente usa el valor predeterminado `WT_EXECUTEDEFAULT` marca, por lo que se envía cada devolución de llamada en un subproceso independiente de grupo.  
   
- Cuando haya terminado con el <xref:System.Threading.RegisteredWaitHandle> devuelto por este método, llame a su <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar las referencias al identificador de espera. Se recomienda que siempre llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, incluso si se especifica `true` para `executeOnlyOnce`. Recolección de elementos no utilizados funciona más eficazmente si se llama a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> en lugar del método según el finalizador del controlador de espera registrada.  
+ Cuando haya terminado con el <xref:System.Threading.RegisteredWaitHandle> devuelto por este método, llame a su <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar las referencias al identificador de espera. Se recomienda que siempre llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, incluso si se especifica `true` para `executeOnlyOnce`. Colección de elementos no utilizados resulta más eficaz si se llama a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método en lugar de según el finalizador del controlador de espera registrada.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">El parámetro <paramref name="millisecondsTimeOutInterval" /> es menor que -1.</exception>
         <exception cref="T:System.Security.SecurityException">El llamador no dispone del permiso requerido.</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Requiere plena confianza para el llamador inmediato. Este miembro no puede usarse por código de confianza parcial o transparente.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no se puede usar código de confianza parcial o transparente.</permission>
       </Docs>
     </Member>
     <Member MemberName="UnsafeRegisterWaitForSingleObject">
@@ -1247,6 +1278,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1289,17 +1322,17 @@
  A diferencia de la <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> no propaga la pila de llamadas al subproceso de trabajo. Esto permite que el código pierda la pila de llamadas y, por tanto, para elevar sus privilegios de seguridad.  
   
 > [!CAUTION]
->  Usar <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> podría abrir accidentalmente una vulnerabilidad de seguridad. Seguridad de acceso del código basa sus comprobaciones de permisos en los permisos de todos los llamadores de la pila. Cuando se pone en cola trabajo en un subproceso del grupo de subprocesos usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A>, la pila del subproceso del grupo no tendrá el contexto de los llamadores reales. Código malintencionado pueda aprovechar esta circunstancia para evitar las comprobaciones de permiso.  
+>  Uso de <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> podría abrir accidentalmente un agujero de seguridad. Seguridad de acceso del código basa sus comprobaciones de permisos en los permisos de todos los llamadores situados en la pila. Cuando trabajo en cola en un subproceso de grupo de subprocesos con <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A>, la pila del subproceso de grupo no tendrán el contexto de los llamadores reales. Código malintencionado podría ser capaz de aprovechar esto para evitar las comprobaciones de permiso.  
   
- Con un <xref:System.Threading.Mutex> para `waitObject` no proporciona la exclusión mutua para las devoluciones de llamada porque la API de Win32 subyacente utiliza el valor predeterminado `WT_EXECUTEDEFAULT` marca, por lo que cada devolución de llamada se envía en un subproceso independiente del grupo.  
+ Mediante un <xref:System.Threading.Mutex> para `waitObject` no proporciona la exclusión mutua para las devoluciones de llamada porque la API de Win32 subyacente usa el valor predeterminado `WT_EXECUTEDEFAULT` marca, por lo que se envía cada devolución de llamada en un subproceso independiente de grupo.  
   
- Cuando haya terminado con el <xref:System.Threading.RegisteredWaitHandle> devuelto por este método, llame a su <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar las referencias al identificador de espera. Se recomienda que siempre llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, incluso si se especifica `true` para `executeOnlyOnce`. Recolección de elementos no utilizados funciona más eficazmente si se llama a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> en lugar del método según el finalizador del controlador de espera registrada.  
+ Cuando haya terminado con el <xref:System.Threading.RegisteredWaitHandle> devuelto por este método, llame a su <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar las referencias al identificador de espera. Se recomienda que siempre llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, incluso si se especifica `true` para `executeOnlyOnce`. Colección de elementos no utilizados resulta más eficaz si se llama a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método en lugar de según el finalizador del controlador de espera registrada.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">El parámetro <paramref name="millisecondsTimeOutInterval" /> es menor que -1.</exception>
         <exception cref="T:System.Security.SecurityException">El llamador no dispone del permiso requerido.</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Requiere plena confianza para el llamador inmediato. Este miembro no puede usarse por código de confianza parcial o transparente.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no se puede usar código de confianza parcial o transparente.</permission>
       </Docs>
     </Member>
     <Member MemberName="UnsafeRegisterWaitForSingleObject">
@@ -1312,6 +1345,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1354,18 +1389,18 @@
  A diferencia de la <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> no propaga la pila de llamadas al subproceso de trabajo. Esto permite que el código pierda la pila de llamadas y, por tanto, para elevar sus privilegios de seguridad.  
   
 > [!CAUTION]
->  Usar <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> podría abrir accidentalmente una vulnerabilidad de seguridad. Seguridad de acceso del código basa sus comprobaciones de permisos en los permisos de todos los llamadores de la pila. Cuando se pone en cola trabajo en un subproceso del grupo de subprocesos usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A>, la pila del subproceso del grupo no tendrá el contexto de los llamadores reales. Código malintencionado pueda aprovechar esta circunstancia para evitar las comprobaciones de permiso.  
+>  Uso de <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> podría abrir accidentalmente un agujero de seguridad. Seguridad de acceso del código basa sus comprobaciones de permisos en los permisos de todos los llamadores situados en la pila. Cuando trabajo en cola en un subproceso de grupo de subprocesos con <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A>, la pila del subproceso de grupo no tendrán el contexto de los llamadores reales. Código malintencionado podría ser capaz de aprovechar esto para evitar las comprobaciones de permiso.  
   
- Con un <xref:System.Threading.Mutex> para `waitObject` no proporciona la exclusión mutua para las devoluciones de llamada porque la API de Win32 subyacente utiliza el valor predeterminado `WT_EXECUTEDEFAULT` marca, por lo que cada devolución de llamada se envía en un subproceso independiente del grupo.  
+ Mediante un <xref:System.Threading.Mutex> para `waitObject` no proporciona la exclusión mutua para las devoluciones de llamada porque la API de Win32 subyacente usa el valor predeterminado `WT_EXECUTEDEFAULT` marca, por lo que se envía cada devolución de llamada en un subproceso independiente de grupo.  
   
- Cuando haya terminado con el <xref:System.Threading.RegisteredWaitHandle> devuelto por este método, llame a su <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar las referencias al identificador de espera. Se recomienda que siempre llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, incluso si se especifica `true` para `executeOnlyOnce`. Recolección de elementos no utilizados funciona más eficazmente si se llama a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> en lugar del método según el finalizador del controlador de espera registrada.  
+ Cuando haya terminado con el <xref:System.Threading.RegisteredWaitHandle> devuelto por este método, llame a su <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar las referencias al identificador de espera. Se recomienda que siempre llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, incluso si se especifica `true` para `executeOnlyOnce`. Colección de elementos no utilizados resulta más eficaz si se llama a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método en lugar de según el finalizador del controlador de espera registrada.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">El parámetro <paramref name="timeout" /> es menor que -1.</exception>
         <exception cref="T:System.NotSupportedException">El valor del parámetro <paramref name="timeout" /> es mayor que el valor de la propiedad <see cref="F:System.Int32.MaxValue" />.</exception>
         <exception cref="T:System.Security.SecurityException">El llamador no dispone del permiso requerido.</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Requiere plena confianza para el llamador inmediato. Este miembro no puede usarse por código de confianza parcial o transparente.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no se puede usar código de confianza parcial o transparente.</permission>
       </Docs>
     </Member>
     <Member MemberName="UnsafeRegisterWaitForSingleObject">
@@ -1378,6 +1413,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1423,16 +1460,16 @@
  A diferencia de la <xref:System.Threading.ThreadPool.RegisterWaitForSingleObject%2A> método <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> no propaga la pila de llamadas al subproceso de trabajo. Esto permite que el código pierda la pila de llamadas y, por tanto, para elevar sus privilegios de seguridad.  
   
 > [!CAUTION]
->  Usar <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> podría abrir accidentalmente una vulnerabilidad de seguridad. Seguridad de acceso del código basa sus comprobaciones de permisos en los permisos de todos los llamadores de la pila. Cuando se pone en cola trabajo en un subproceso del grupo de subprocesos usando <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A>, la pila del subproceso del grupo no tendrá el contexto de los llamadores reales. Código malintencionado pueda aprovechar esta circunstancia para evitar las comprobaciones de permiso.  
+>  Uso de <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A> podría abrir accidentalmente un agujero de seguridad. Seguridad de acceso del código basa sus comprobaciones de permisos en los permisos de todos los llamadores situados en la pila. Cuando trabajo en cola en un subproceso de grupo de subprocesos con <xref:System.Threading.ThreadPool.UnsafeRegisterWaitForSingleObject%2A>, la pila del subproceso de grupo no tendrán el contexto de los llamadores reales. Código malintencionado podría ser capaz de aprovechar esto para evitar las comprobaciones de permiso.  
   
- Con un <xref:System.Threading.Mutex> para `waitObject` no proporciona la exclusión mutua para las devoluciones de llamada porque la API de Win32 subyacente utiliza el valor predeterminado `WT_EXECUTEDEFAULT` marca, por lo que cada devolución de llamada se envía en un subproceso independiente del grupo.  
+ Mediante un <xref:System.Threading.Mutex> para `waitObject` no proporciona la exclusión mutua para las devoluciones de llamada porque la API de Win32 subyacente usa el valor predeterminado `WT_EXECUTEDEFAULT` marca, por lo que se envía cada devolución de llamada en un subproceso independiente de grupo.  
   
- Cuando haya terminado con el <xref:System.Threading.RegisteredWaitHandle> devuelto por este método, llame a su <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar las referencias al identificador de espera. Se recomienda que siempre llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, incluso si se especifica `true` para `executeOnlyOnce`. Recolección de elementos no utilizados funciona más eficazmente si se llama a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> en lugar del método según el finalizador del controlador de espera registrada.  
+ Cuando haya terminado con el <xref:System.Threading.RegisteredWaitHandle> devuelto por este método, llame a su <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método para liberar las referencias al identificador de espera. Se recomienda que siempre llame a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método, incluso si se especifica `true` para `executeOnlyOnce`. Colección de elementos no utilizados resulta más eficaz si se llama a la <xref:System.Threading.RegisteredWaitHandle.Unregister%2A?displayProperty=nameWithType> método en lugar de según el finalizador del controlador de espera registrada.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.Security.SecurityException">El llamador no dispone del permiso requerido.</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Requiere plena confianza para el llamador inmediato. Este miembro no puede usarse por código de confianza parcial o transparente.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no se puede usar código de confianza parcial o transparente.</permission>
       </Docs>
     </Member>
   </Members>
