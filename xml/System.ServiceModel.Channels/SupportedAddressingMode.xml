@@ -1,11 +1,11 @@
 <Type Name="SupportedAddressingMode" FullName="System.ServiceModel.Channels.SupportedAddressingMode">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="1543cde8dbf5d2afa103db8cd8285b3cfad2e0dd" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="1ae63748c67f545e380dccbb2d4ab05c995bd875" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36620406" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37460102" />
   </Metadata>
   <TypeSignature Language="C#" Value="public enum SupportedAddressingMode" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed SupportedAddressingMode extends System.Enum" />
@@ -16,6 +16,7 @@
   <AssemblyInfo>
     <AssemblyName>System.ServiceModel</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -33,11 +34,11 @@
   
  En el caso más básico, cuando dos partes sólo intercambian mensajes entre ellas, no es necesario especificar estas direcciones por separado. Pero como los intercambios pueden implicar a otros destinos del mensaje, debe poder especificar cuándo se deben proporcionar las direcciones explícitamente. En ocasiones, esta capacidad se requiere incluso entre sólo dos partes, como con HTTP dual donde el servidor debe crear su propia solicitud HTTP. La enumeración <xref:System.ServiceModel.Channels.SupportedAddressingMode> define los tipos siguientes de relaciones para capturar estos modelos de mensajería:  
   
--   Direcciones anónimas son la forma más sencilla de direccionamiento. El direccionamiento anónimo se utiliza cuando hay una ruta de acceso predeterminada para una respuesta. TCP es un transporte de comunicación bidireccional y la respuesta a un mensaje TCP se puede devolver al otro lado del socket que envió el mensaje original. De igual forma, el modelo de respuesta y solicitud de HTTP envía las respuestas a través del canal de respuesta de HTTP. Ninguna de estas respuestas requiere especificar a dónde van los mensajes de respuesta. Cuando un servidor requiere respuestas anónimas del cliente, utiliza el valor de la enumeración anónimo. WCF proporcionados por el sistema <xref:System.ServiceModel.NetTcpBinding>, <xref:System.ServiceModel.BasicHttpBinding> y <xref:System.ServiceModel.WSHttpBinding> enlaces usan siempre direcciones anónimas.  
+-   Direcciones anónimas son la forma más básica de direccionamiento. El direccionamiento anónimo se utiliza cuando hay una ruta de acceso predeterminada para una respuesta. TCP es un transporte de comunicación bidireccional y la respuesta a un mensaje TCP se puede devolver al otro lado del socket que envió el mensaje original. De igual forma, el modelo de respuesta y solicitud de HTTP envía las respuestas a través del canal de respuesta de HTTP. Ninguna de estas respuestas requiere especificar a dónde van los mensajes de respuesta. Cuando un servidor requiere respuestas anónimas del cliente, usa el valor de la enumeración anónimo. WCF proporcionados por el sistema <xref:System.ServiceModel.NetTcpBinding>, <xref:System.ServiceModel.BasicHttpBinding> y <xref:System.ServiceModel.WSHttpBinding> enlaces usan siempre direcciones anónimas.  
   
--   Direcciones anónimas se utilizan cuando se envía la respuesta requiere la creación de un nuevo canal de comunicación. WCF proporcionados por el sistema <xref:System.ServiceModel.WSDualHttpBinding> enlace utiliza una dirección no anónimas. Con HTTP dual, el cliente crea una solicitud HTTP para enviar un mensaje y, a continuación, el servidor debe crear su propia solicitud HTTP para enviar una respuesta. Dado que el servidor está iniciando el envío, debe tener un extremo específico para establecer la conexión. Debe proporcionar al servidor la dirección de un punto de conexión para su respuesta. De forma similar, si un servicio debe responder a un mensaje unidireccional que recibió, también se necesita un dirección porque no hay ningún canal secundario disponible para la comunicación. Si el servidor devuelve un mensaje, se requiere una operación completamente diferente a la utilizada para enviar el primer mensaje.  
+-   Las direcciones no anónimas se usan al enviar la respuesta requiere la creación de un nuevo canal de comunicación. WCF proporcionados por el sistema <xref:System.ServiceModel.WSDualHttpBinding> enlace utiliza una dirección no anónimas. Con HTTP dual, el cliente crea una solicitud HTTP para enviar un mensaje y, a continuación, el servidor debe crear su propia solicitud HTTP para enviar una respuesta. Dado que el servidor está iniciando el envío, debe tener un extremo específico para establecer la conexión. Debe proporcionar al servidor la dirección de un punto de conexión para su respuesta. De forma similar, si un servicio debe responder a un mensaje unidireccional que recibió, también se requiere un dirección porque no hay ningún canal secundario disponible para la comunicación. Si el servidor devuelve un mensaje, se requiere una operación completamente diferente a la utilizada para enviar el primer mensaje.  
   
--   Mixto es un tercer formato de direccionamiento que combina direcciones, anónima y según el mensaje que se están enviando. Un ejemplo típico de direccionamiento de modo mixto es el uso de un equipo dedicado para procesar mensajes de error o confirmación. Si la secuencia de intercambio estándar para las respuestas es HTTP o TCP, las respuestas utilizan el direccionamiento anónimo pero los errores utilizan el direccionamiento no anónimo. Mientras que WCF no proporcionan funcionalidad en uno de sus enlaces estándares de direccionamiento de mixto, es posible escribir un canal que permita al servicio enviar respuestas directamente en el canal secundario (cuando la dirección de respuesta es anónimo) o en un canal independiente (cuando la dirección de respuesta es). En tal caso, el elemento de enlace del canal se usa para establecer <xref:System.ServiceModel.Channels.SupportedAddressingMode> en Mixed.  
+-   Mixto es un tercer formato de direccionamiento que combina direcciones, anónima y según el mensaje que se va a enviar. Un ejemplo típico de direccionamiento de modo mixto es el uso de un equipo dedicado para procesar mensajes de error o confirmación. Si la secuencia de intercambio estándar para las respuestas es HTTP o TCP, las respuestas utilizan el direccionamiento anónimo, pero los errores utilizan el direccionamiento no anónimo. Mientras que WCF no proporcionan mixto direccionamiento funcionalidad en uno de sus enlaces estándares, es posible escribir un canal que permite que el servicio envíe respuestas directamente en el canal secundario (cuando la dirección de respuesta es anónimo) o en un canal independiente (cuando la dirección de respuesta es). En tal caso, el elemento de enlace del canal se usa para establecer <xref:System.ServiceModel.Channels.SupportedAddressingMode> en Mixed.  
   
  ]]></format>
     </remarks>
@@ -54,6 +55,7 @@
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -75,6 +77,7 @@
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -96,6 +99,7 @@
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
