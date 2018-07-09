@@ -1,11 +1,11 @@
 <Type Name="DecoderFallbackBuffer" FullName="System.Text.DecoderFallbackBuffer">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="4b9d3cdc8c1d8049be37920e34444f6596636852" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="a5ee1975a51e97cb188a7330accd71e9d9d0ce13" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36407888" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37609544" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class DecoderFallbackBuffer" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit DecoderFallbackBuffer extends System.Object" />
@@ -19,6 +19,7 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -41,31 +42,31 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Una codificación define una asignación entre un carácter Unicode y una secuencia de bytes codificada. Se produce un error en una operación de descodificación, que convierte una secuencia de bytes de entrada en un carácter de salida, si no se ha definido ninguna asignación para una secuencia de bytes determinado.  
+ Una codificación define una asignación entre un carácter Unicode y una secuencia de bytes codificada. Se produce un error en una operación de descodificación, que convierte una secuencia de bytes de entrada en un carácter de salida, si no se define ninguna asignación para una secuencia de bytes determinado.  
   
  .NET Framework proporciona un mecanismo, denominado reserva, si no se puede realizar una conversión de control de errores. Todos los controladores de reserva del descodificador deben implementar lo siguiente:  
   
 -   Un descodificador de reserva, que se representa mediante una clase derivada de la <xref:System.Text.DecoderFallback> clase.  
   
--   Un búfer de reserva del descodificador, que está representado por un tipo derivado de la <xref:System.Text.DecoderFallbackBuffer> clase que puede devolver una cadena a la operación de conversión.  
+-   Un búfer de reserva del descodificador, que viene representado por un tipo derivado de la <xref:System.Text.DecoderFallbackBuffer> clase que puede devolver una cadena a la operación de conversión.  
   
- Las reservas pueden utilizar tres estrategias para controlar los errores de conversión:  
+ Reservas pueden usar tres estrategias para controlar los errores de conversión:  
   
--   Asignación con ajuste perfecto. El búfer de reserva del descodificador puede devolver una cadena que representa una aproximación a la secuencia de bytes de entrada. .NET Framework no proporciona un complemento público con ajuste perfecto <xref:System.Text.DecoderFallbackBuffer> implementación.  
+-   Asignación con ajuste perfecto. El búfer de reserva del descodificador puede devolver una cadena que representa una buena aproximación a la secuencia de bytes de entrada. .NET Framework no proporciona un público con ajuste perfecto <xref:System.Text.DecoderFallbackBuffer> implementación.  
   
--   Reemplazo. El búfer de reserva del descodificador puede devolver una cadena, como un signo de interrogación ("?"), que indica que no se pudieron descodificar una secuencia de bytes. En .NET Framework, el <xref:System.Text.DecoderReplacementFallback> y <xref:System.Text.DecoderReplacementFallbackBuffer> clases proporcionan una implementación de búfer de reserva de reemplazo pública. El constructor de la <xref:System.Text.DecoderReplacementFallback> clase le permite definir la cadena de reemplazo.  
+-   Sustitución. El búfer de reserva del descodificador puede devolver una cadena, como un signo de interrogación ("?"), que indica que no se pudieron descodificar una secuencia de bytes. En .NET Framework, el <xref:System.Text.DecoderReplacementFallback> y <xref:System.Text.DecoderReplacementFallbackBuffer> clases proporcionan una implementación de búfer de reserva de reemplazo pública. El constructor de la <xref:System.Text.DecoderReplacementFallback> clase le permite definir la cadena de reemplazo.  
   
--   Excepción. El <xref:System.Text.DecoderFallbackBuffer> implementación produce una excepción, lo que indica que no se puede descodificar una secuencia de bytes y finaliza la operación de descodificación. En este caso, el controlador de reserva debe proporcionar un <xref:System.Text.DecoderFallbackBuffer> implementación, aunque no se devuelve una cadena para el descodificador. En .NET Framework, el <xref:System.Text.DecoderExceptionFallback> y <xref:System.Text.DecoderExceptionFallbackBuffer> clases proporcionan una implementación de reserva de excepción pública que produce una <xref:System.Text.DecoderFallbackException> cuando no se puede descodificar una secuencia de bytes.  
+-   Excepción. El <xref:System.Text.DecoderFallbackBuffer> implementación produce una excepción, que indica que no se puede descodificar una secuencia de bytes y finaliza la operación de descodificación. En este caso, debe proporcionar el controlador de reserva un <xref:System.Text.DecoderFallbackBuffer> implementación, aunque no se devuelve una cadena en el descodificador. En .NET Framework, el <xref:System.Text.DecoderExceptionFallback> y <xref:System.Text.DecoderExceptionFallbackBuffer> clases proporcionan una implementación de reserva de excepción pública que se produce un <xref:System.Text.DecoderFallbackException> cuando no se puede descodificar una secuencia de bytes.  
   
- El búfer en un <xref:System.Text.DecoderFallbackBuffer> implementación representa toda la cadena que se devuelvan al descodificador en respuesta a un descodificador de reserva. Por lo general, las implementaciones también incluyen información de estado, como el índice del carácter siguiente para devolver el descodificador y el número de caracteres restantes va a devolver. Dado que <xref:System.Text.DecoderFallbackBuffer> es una clase abstracta, requiere que las clases derivadas implementan los siguientes miembros como mínimo:  
+ El búfer en un <xref:System.Text.DecoderFallbackBuffer> implementación representa toda la cadena que se devuelve en el descodificador en respuesta a un descodificador de reserva. Por lo general, las implementaciones también incluyen información de estado, como el índice del carácter siguiente para volver al descodificador y el número de caracteres restantes va a devolver. Dado que <xref:System.Text.DecoderFallbackBuffer> es una clase abstracta, requiere que las clases derivadas para implementar los miembros siguientes como mínimo:  
   
--   El <xref:System.Text.DecoderFallbackBuffer.Fallback%2A> método, que es llamado por el descodificador cuando no se puede descodificar una secuencia de bytes. El descodificador pasa dos piezas de información a la implementación del búfer de reserva: una matriz que contiene los bytes que no se pudieron descodificar y el índice del primer byte de la matriz de bytes de entrada. En un controlador de excepción reserva del descodificador, la excepción se produce en este método. En caso contrario, el método devuelve `true` si proporciona una reserva, o `false` si no es así.  
+-   El <xref:System.Text.DecoderFallbackBuffer.Fallback%2A> método, que es invocado por el descodificador cuando no se puede descodificar una secuencia de bytes. El descodificador pasa dos fragmentos de información a la implementación de búfer de reserva: una matriz que contiene los bytes que no se pudieron descodificar y el índice del primer byte de la matriz de bytes de entrada. En un controlador de excepción de reserva del descodificador, se produce la excepción en este método. En caso contrario, devuelve el método `true` si proporciona una reserva, o `false` si no es así.  
   
--   El <xref:System.Text.DecoderFallbackBuffer.GetNextChar%2A> método, que se llama repetidamente el descodificador si la <xref:System.Text.DecoderFallbackBuffer.Fallback%2A> método `true`. En llamadas sucesivas, el controlador debería devolver cada carácter en su búfer. Cuando haya devuelto todos los caracteres, debe devolver u+0000. Un controlador de reserva de excepción siempre devuelve u+0000.  
+-   El <xref:System.Text.DecoderFallbackBuffer.GetNextChar%2A> método, que se llama repetidamente el descodificador si el <xref:System.Text.DecoderFallbackBuffer.Fallback%2A> devuelve del método `true`. En las sucesivas llamadas, el controlador debe devolver cada carácter en su búfer. Cuando haya devuelto todos los caracteres, debe devolver u+0000. Un controlador de reserva de excepción siempre devuelve u+0000.  
   
--   El <xref:System.Text.DecoderFallbackBuffer.MovePrevious%2A> método, que intenta mover el puntero hasta la posición anterior en el búfer y se indica si el movimiento se realizó correctamente. Siempre devuelve un controlador de excepciones `false`.  
+-   El <xref:System.Text.DecoderFallbackBuffer.MovePrevious%2A> método, que intenta mover el puntero a la posición anterior en el búfer y que indica si el movimiento se realizó correctamente. Siempre devuelve un controlador de excepciones `false`.  
   
--   El <xref:System.Text.DecoderFallbackBuffer.Remaining%2A> propiedad, que indica el número de caracteres restantes que se devuelven al descodificador. Un controlador de reserva de excepción siempre devuelve cero.  
+-   El <xref:System.Text.DecoderFallbackBuffer.Remaining%2A> propiedad, que indica el número de caracteres restantes que se devuelven en el descodificador. Un controlador de reserva de excepción siempre devuelve cero.  
   
  ]]></format>
     </remarks>
@@ -85,6 +86,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -117,6 +119,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -145,7 +148,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Text.Encoding.GetChars%2A?displayProperty=nameWithType>, <xref:System.Text.Encoding.GetString%2A?displayProperty=nameWithType>, y <xref:System.Text.Decoder.Convert%2A?displayProperty=nameWithType> llamadas de métodos <xref:System.Text.DecoderFallbackBuffer.Fallback%2A> si produce una secuencia de bytes de entrada desconocida que no se puede descodificar. Un valor devuelto de `true` indica que el búfer de reserva puede procesar la secuencia de bytes de entrada, que hace que el método que realiza la llamada llamar a la <xref:System.Text.DecoderFallbackBuffer.GetNextChar%2A> método para obtener cada carácter del búfer de reserva. Dado que no se procesa bytes individuales, la <xref:System.Text.DecoderFallbackBuffer.Fallback%2A> método en un controlador de reserva de excepción produce una excepción.  
+ El <xref:System.Text.Encoding.GetChars%2A?displayProperty=nameWithType>, <xref:System.Text.Encoding.GetString%2A?displayProperty=nameWithType>, y <xref:System.Text.Decoder.Convert%2A?displayProperty=nameWithType> llamada métodos <xref:System.Text.DecoderFallbackBuffer.Fallback%2A> si encuentran una secuencia de bytes de entrada desconocido que no se puede descodificar. Un valor devuelto de `true` indica que el búfer de reserva puede procesar la secuencia de bytes de entrada, lo que hace que el método de llamada llamar a la <xref:System.Text.DecoderFallbackBuffer.GetNextChar%2A> método para obtener cada carácter del búfer de reserva. Dado que no procesa bytes individuales, la <xref:System.Text.DecoderFallbackBuffer.Fallback%2A> método en un controlador de reserva de excepción produce una excepción.  
   
  ]]></format>
         </remarks>
@@ -165,6 +168,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -188,7 +192,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Llama a una operación de descodificación el <xref:System.Text.DecoderFallbackBuffer.Fallback%2A> método si la operación encuentra una secuencia de bytes desconocida en la entrada. Si el <xref:System.Text.DecoderFallbackBuffer.Fallback%2A> método `true`, existe una cadena de reemplazo que se pueden insertar en la salida en lugar de descodificar la entrada desconocida. Las llamadas de operación de descodificación el <xref:System.Text.DecoderFallbackBuffer.GetNextChar%2A> método repetidamente y obtiene el sustituto de cadena un carácter a la vez. Cuando se han devuelto todos los caracteres en el búfer de reserva para el descodificador, el método debe devolver u+0000.  
+ Llama una operación de descodificación el <xref:System.Text.DecoderFallbackBuffer.Fallback%2A> método si la operación encuentra una secuencia de bytes desconocido en la entrada. Si el <xref:System.Text.DecoderFallbackBuffer.Fallback%2A> devuelve del método `true`, existe una cadena suplente que se pueden insertar en la salida en lugar de descodificar la entrada desconocida. Las llamadas de operación de descodificación el <xref:System.Text.DecoderFallbackBuffer.GetNextChar%2A> método varias veces y obtiene el sustituto cadena un carácter a la vez. Cuando se han devuelto todos los caracteres del búfer de reserva para el descodificador, el método debe devolver u+0000.  
   
  Para un controlador de reserva de excepción, el <xref:System.Text.DecoderFallbackBuffer.GetNextChar%2A> método debe devolver u+0000.  
   
@@ -210,6 +214,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -253,6 +258,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -275,7 +281,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Text.DecoderFallbackBuffer.Fallback%2A> método `true` si <xref:System.Text.DecoderFallbackBuffer.Remaining%2A> es un valor distinto de cero.  
+ El <xref:System.Text.DecoderFallbackBuffer.Fallback%2A> devuelve del método `true` si <xref:System.Text.DecoderFallbackBuffer.Remaining%2A> es un valor distinto de cero.  
   
  Para un controlador de reserva de excepción, el <xref:System.Text.DecoderFallbackBuffer.Remaining%2A> método debe devolver cero.  
   
@@ -297,6 +303,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -317,7 +324,7 @@
         <summary>Inicializa todos los datos y la información de estado relacionados con este búfer de reserva.</summary>
         <remarks>To be added.</remarks>
         <block subset="none" type="overrides">
-          <para>Después de llamar a la <see cref="M:System.Text.DecoderFallbackBuffer.Reset" /> método, el <see cref="P:System.Text.DecoderFallbackBuffer.Remaining" /> propiedad debería devolver 0, el <see cref="M:System.Text.DecoderFallbackBuffer.GetNextChar" /> método debe devolver u+0000 y el <see cref="M:System.Text.DecoderFallbackBuffer.MovePrevious" /> método debe devolver <see langword="false" />.</para>
+          <para>Después de llamar a la <see cref="M:System.Text.DecoderFallbackBuffer.Reset" /> método, el <see cref="P:System.Text.DecoderFallbackBuffer.Remaining" /> propiedad debe devolver 0, el <see cref="M:System.Text.DecoderFallbackBuffer.GetNextChar" /> método debe devolver u+0000 y el <see cref="M:System.Text.DecoderFallbackBuffer.MovePrevious" /> método debe devolver <see langword="false" />.</para>
         </block>
       </Docs>
     </Member>
