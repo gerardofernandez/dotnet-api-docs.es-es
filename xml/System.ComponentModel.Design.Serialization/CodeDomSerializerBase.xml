@@ -1,11 +1,11 @@
 <Type Name="CodeDomSerializerBase" FullName="System.ComponentModel.Design.Serialization.CodeDomSerializerBase">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="e5f7c074bbcbc3192bb101836481b8642dbdfcbb" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="144dbb568547f7474811c00a2c95c9f1b0c1a8df" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36709144" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37698772" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class CodeDomSerializerBase" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit CodeDomSerializerBase extends System.Object" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type CodeDomSerializerBase = class" />
   <AssemblyInfo>
     <AssemblyName>System.Design</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -23,7 +24,7 @@
   <Interfaces />
   <Attributes>
     <Attribute>
-      <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+      <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
@@ -53,6 +54,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -75,15 +77,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se trata de una aplicación auxiliar de método que las clases derivadas puede llamar para deserializar una expresión. Deserializa la instrucción interpretando y ejecutando la expresión CodeDOM especificada por el `expression` parámetro y, a continuación, devuelve los resultados. Si un objeto debe crearse como resultado de esta expresión, se le asignará el nombre especificado por el `name` parámetro. El nombre puede ser `null` si no hay ninguna necesidad de nombre del objeto. En la tabla siguiente se describe las expresiones específicas se controlan.  
+ Se trata de una aplicación auxiliar puede llamar al método que las clases derivadas para deserializar una expresión. Deserializa la instrucción interpretando y ejecutando la expresión CodeDOM especificada por el `expression` parámetro y, a continuación, devuelve los resultados. Si un objeto debe crearse como resultado de esta expresión, se le asignará el nombre especificado por el `name` parámetro. El nombre puede ser `null` si no es necesario un nombre al objeto. En la tabla siguiente se describe cómo determinadas expresiones se controlan.  
   
 |Expresión|Comportamiento|  
 |----------------|--------------|  
-|<xref:System.CodeDom.CodeThisReferenceExpression>|Esta expresión representa `this` o `Me`. Para buscar el objeto que está asociado a esta expresión, el <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.DeserializeExpression%2A> método buscará en la pila de contexto para un <xref:System.ComponentModel.Design.Serialization.RootContext>. Este objeto contiene el objeto raíz del gráfico y la expresión que lo representa. Si el objeto está presente y coincide con la expresión, se devolverá el objeto raíz. Se notifica un error si no se encuentra una instancia.|  
-|<xref:System.CodeDom.CodeFieldReferenceExpression>|Si se evalúa como el destino de la referencia del campo en el objeto raíz, el <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetInstance%2A> método del parámetro manager se usará para recuperar la instancia de objeto basada en el nombre. En caso contrario, la reflexión estándar se utiliza con el objeto de destino para buscar el campo solicitado. Si el campo no se encuentra, se notifica un error.|  
-|<xref:System.CodeDom.CodeVariableReferenceExpression>|El <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetInstance%2A> método de la `manager` parámetro se utiliza para buscar la instancia que representa el nombre de la variable. Se notifica un error si no se encuentra una instancia.|  
+|<xref:System.CodeDom.CodeThisReferenceExpression>|Esta expresión representa `this` o `Me`. Para encontrar el objeto que está asociado con esta expresión, el <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.DeserializeExpression%2A> método buscará en la pila de contexto para un <xref:System.ComponentModel.Design.Serialization.RootContext>. Este objeto contiene el objeto raíz del gráfico y la expresión que lo representa. Si el objeto está presente y coincide con la expresión, se devolverá el objeto raíz. Si una instancia no se encuentra, se notifica un error.|  
+|<xref:System.CodeDom.CodeFieldReferenceExpression>|Si se evalúa como el destino de la referencia de campo para el objeto raíz, el <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetInstance%2A> se usará el método del parámetro manager para recuperar la instancia del objeto según el nombre. En caso contrario, se usa reflexión estándar con el objeto de destino para buscar el campo solicitado. Si el campo no se encuentra, se notifica un error.|  
+|<xref:System.CodeDom.CodeVariableReferenceExpression>|El <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetInstance%2A> método de la `manager` parámetro se utiliza para buscar la instancia que representa el nombre de la variable. Si una instancia no se encuentra, se notifica un error.|  
   
- <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.DeserializeExpression%2A> continúa interpretar expresiones hasta que se resuelven completamente en el objeto, o hasta que ya no se puede simplificar la expresión. En este caso, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.DeserializeExpression%2A> devolverá un <xref:System.CodeDom.CodeExpression> que contiene la expresión más simplificada. No se admiten las siguientes expresiones:  
+ <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.DeserializeExpression%2A> continúa interpretar las expresiones hasta que se resuelvan completamente a un objeto, o hasta que ya no puede simplificar la expresión. En este caso, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.DeserializeExpression%2A> devolverá un <xref:System.CodeDom.CodeExpression> que contiene la expresión más simplificada. No se admiten las expresiones siguientes:  
   
 -   <xref:System.CodeDom.CodeEventReferenceExpression>  
   
@@ -106,6 +108,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -131,7 +134,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.DeserializeInstance%2A> método se invoca durante la deserialización para obtener una instancia de un objeto. Cuando se llama a esto, se debe devolver una instancia del tipo solicitado. La implementación predeterminada, se invoca el <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.CreateInstance%2A> método de la `manager` parámetro.  
+ El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.DeserializeInstance%2A> método se invoca durante la deserialización para obtener una instancia de un objeto. Cuando se llama a esto, se debe devolver una instancia del tipo solicitado. La implementación predeterminada invoca la <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.CreateInstance%2A> método de la `manager` parámetro.  
   
  ]]></format>
         </remarks>
@@ -149,6 +152,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -169,11 +173,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.DeserializePropertiesFromResources%2A> método es que puede llamar un método auxiliar que las clases derivadas. Busca las propiedades del objeto especificado y trate de cargar sus valores fuera del lote de recursos de la referencia cultural invariable. Esto generalmente se usa para controlar las propiedades de tiempo de diseño que no se emiten en código fuente. No se debe utilizar para las propiedades adaptadas porque sólo funciona en la referencia cultural invariable.  
+ El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.DeserializePropertiesFromResources%2A> método es que puede llamar un método auxiliar que las clases derivadas. Busca las propiedades del objeto especificado e intenta cargar sus valores fuera del lote de recursos de la referencia cultural invariable. Esto generalmente se usa para controlar las propiedades de tiempo de diseño que no se emiten en el código fuente. No se debe usar para las propiedades localizadas ya que sólo funciona en la referencia cultural invariable.  
   
- Este método inspecciona todas las propiedades de la `value` parámetro que coinciden con los atributos especificados por el `filter` parámetro y, a continuación, busca las propiedades en un objeto binario de recursos. Esto es útil para deserializar las propiedades que no se puede representar en el código, como propiedades en tiempo de diseño.  
+ Este método inspecciona todas las propiedades de la `value` parámetro que coinciden con los atributos especificados por el `filter` parámetro y, a continuación, busca esas propiedades en un objeto binario de recursos. Esto es útil para deserializar las propiedades que no se puede representar en el código, como las propiedades de tiempo de diseño.  
   
- Este método requiere que un cargador de diseñadores ofrece un <xref:System.ComponentModel.Design.IResourceService> para leer los recursos. Si el <xref:System.ComponentModel.Design.IResourceService> proporciona un <xref:System.Resources.ResXResourceReader> para la referencia cultural, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.DeserializePropertiesFromResources%2A> leerá los recursos de la sección de metadatos del archivo de recursos (.resx) de XML, que no se incluye en el código compilado final. Si este servicio no está disponible, no se leerá ningún recurso.  
+ Este método requiere que un cargador de diseñadores ofrece un <xref:System.ComponentModel.Design.IResourceService> para leer los recursos. Si el <xref:System.ComponentModel.Design.IResourceService> proporciona un <xref:System.Resources.ResXResourceReader> para la referencia cultural, a continuación, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.DeserializePropertiesFromResources%2A> leerá los recursos de la sección de metadatos del archivo de recursos (.resx) XML, que no está incluida en el código compilado final. Si este servicio no está disponible, no se leerá ningún recurso.  
   
  ]]></format>
         </remarks>
@@ -190,6 +194,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -310,6 +315,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -329,17 +335,17 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> método devuelve una expresión que representa el objeto especificado. Puede devolver `null`, lo que indica que no se ha establecido ninguna expresión que describe el objeto. Las expresiones se adquieren en una de estas tres maneras:  
+ El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> método devuelve una expresión que representa el objeto especificado. Puede devolver `null`, lo que indica que no se ha establecido ninguna expresión que describe el objeto. Las expresiones se adquieren en uno de tres maneras:  
   
 -   La expresión puede ser el resultado de una llamada anterior a la <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SetExpression%2A> método.  
   
--   La expresión se ha encontrado en el <xref:System.ComponentModel.Design.Serialization.RootContext>.  
+-   La expresión se puede haber encontrado en el <xref:System.ComponentModel.Design.Serialization.RootContext>.  
   
--   La expresión puede obtenerse a través de <xref:System.ComponentModel.Design.IReferenceService>.  
+-   La expresión podría derivarse a través de <xref:System.ComponentModel.Design.IReferenceService>.  
   
- Para derivar expresiones a través de <xref:System.ComponentModel.Design.IReferenceService>, el <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> método consulta el servicio de referencia para un nombre para el objeto especificado. Si el servicio de expresiones devuelve un nombre válido, <xref:System.ComponentModel.Design.IReferenceService>, el <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> método comprueba si hay un "." en el nombre. Esto indica que el servicio de expresiones encuentra este objeto como el valor devuelto de una propiedad de solo lectura en otro objeto. Si no hay un ".", <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> dividirá la referencia en partes. La parte izquierda es un nombre que se va a evaluar con el <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetInstance%2A> método. Para cada parte posterior, se generará una expresión de referencia de propiedad. A continuación, se devolverá la expresión final.  
+ Para derivar expresiones a través de <xref:System.ComponentModel.Design.IReferenceService>, el <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> método consulta el servicio de referencia para un nombre para el objeto dado. Si el servicio de la expresión devuelve un nombre válido, <xref:System.ComponentModel.Design.IReferenceService>, el <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> método comprueba si hay un "." en el nombre. Esto indica que el servicio de expresiones encuentra este objeto como el valor devuelto de una propiedad de solo lectura en otro objeto. Si hay un ".", <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> dividirá la referencia en partes. La parte izquierda es un nombre que se va a evaluar con el <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetInstance%2A> método. Para cada parte, se generará una expresión de referencia de propiedad. A continuación, se devolverá la expresión final.  
   
- Si el objeto no tuviese una expresión, o si no se encontró el objeto en el servicio de referencia, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> devolverá `null`, indicando que no hay ninguna expresión existente para el objeto.  
+ Si el objeto no tiene una expresión de conjunto, o si no se encontró el objeto en el servicio de referencia, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> devolverá `null`, que indica que no hay ninguna expresión existente para el objeto.  
   
  ]]></format>
         </remarks>
@@ -405,7 +411,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El valor devuelto no será igual a `type` y no debe usarse para la comparación con tipos de no reflexión.  
+ El valor devuelto no será igual a `type` y no debe usarse para la comparación con tipos distintos a reflection.  
   
  ]]></format>
         </remarks>
@@ -439,7 +445,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El valor devuelto no será igual al tipo de objeto y no debe usarse para la comparación con tipos de no reflexión.  
+ El valor devuelto no será igual al tipo de objeto y no debe usarse para la comparación con tipos distintos a reflection.  
   
  ]]></format>
         </remarks>
@@ -464,6 +470,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -483,7 +490,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetSerializer%2A> método es una extensión a la <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetSerializer%2A?displayProperty=nameWithType> método. El <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetSerializer%2A?displayProperty=nameWithType> método toma un tipo de objeto, en lugar de un valor del objeto. Si una parte externa hubiera reemplazado los metadatos para un objeto específico a través de <xref:System.ComponentModel.TypeDescriptor>, que la invalidación de metadatos no se pueden ver los <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetSerializer%2A?displayProperty=nameWithType> método, que solo toma un tipo. El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetSerializer%2A> método comprueba los metadatos del valor y el tipo del valor. Si los dos difieren, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetSerializer%2A> tendrá un aspecto para ver si hay un atributo de serializador de diseñador personalizado en el valor. Si es así, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetSerializer%2A> intentará usarla. En caso contrario, aplazará al <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetSerializer%2A?displayProperty=nameWithType>.  
+ El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetSerializer%2A> método es una extensión de la <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetSerializer%2A?displayProperty=nameWithType> método. El <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetSerializer%2A?displayProperty=nameWithType> método toma un tipo de objeto, en lugar de un valor de objeto. Si una parte externa hubiera reemplazado los metadatos para un objeto específico a través de <xref:System.ComponentModel.TypeDescriptor>, que la invalidación de metadatos no se verían por la <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetSerializer%2A?displayProperty=nameWithType> método, que sólo toma un tipo. El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetSerializer%2A> método comprueba los metadatos del valor y el tipo de valor. Si los dos son diferentes, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetSerializer%2A> tendrá un aspecto para ver si hay un atributo personalizado de serializador de diseñador en el valor. Si es así, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetSerializer%2A> intentará usarla. En caso contrario, aplazará al <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetSerializer%2A?displayProperty=nameWithType>.  
   
  ]]></format>
         </remarks>
@@ -501,6 +508,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -520,7 +528,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetSerializer%2A> método es una extensión a la <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetSerializer%2A?displayProperty=nameWithType> método. El <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetSerializer%2A?displayProperty=nameWithType> método toma un tipo de objeto, en lugar de un valor del objeto.  
+ El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetSerializer%2A> método es una extensión de la <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetSerializer%2A?displayProperty=nameWithType> método. El <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetSerializer%2A?displayProperty=nameWithType> método toma un tipo de objeto, en lugar de un valor de objeto.  
   
  ]]></format>
         </remarks>
@@ -565,6 +573,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -584,7 +593,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El método <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetUniqueName%2A> llama al método <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetName%2A>. Si este método no devuelve un nombre, a continuación, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetUniqueName%2A> utiliza <xref:System.ComponentModel.Design.Serialization.INameCreationService> para crear un nombre válido para el objeto. Si el servicio no está disponible, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetUniqueName%2A> se fabricar un nombre basado en el nombre de tipo corto combinado con un número de índice para que sea único. El nombre resultante se asocia con el Administrador de serialización llamando el <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.SetName%2A> método antes de que se devuelva el nuevo nombre.  
+ El método <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetUniqueName%2A> llama al método <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetName%2A>. Si este método no devuelve un nombre, a continuación, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetUniqueName%2A> usa <xref:System.ComponentModel.Design.Serialization.INameCreationService> para crear un nombre válido para el objeto. Si el servicio no está disponible, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetUniqueName%2A> se fabricar un nombre basado en el nombre de tipo corto combinado con un número de índice para que sea único. El nombre resultante está asociado con el Administrador de serialización mediante una llamada a la <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.SetName%2A> antes de que se devuelva el nuevo nombre de método.  
   
  ]]></format>
         </remarks>
@@ -612,6 +621,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -631,7 +641,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Para el `value` parámetro se consideren serializa, el `manager` parámetro u otro serializador debe haber llamado el <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SetExpression%2A> método para crear una relación entre `value` y una expresión que hace referencia.  
+ Para el `value` serializado del parámetro para tener en cuenta, el `manager` parámetro u otro serializador debe haber llamado a la <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SetExpression%2A> método para crear una relación entre `value` y una expresión que se hace referencia.  
   
  ]]></format>
         </remarks>
@@ -649,6 +659,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -670,7 +681,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Para el `value` parámetro se consideren serializa, el `manager` parámetro u otro serializador debe haber llamado el <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SetExpression%2A> método para crear una relación entre `value` y una expresión que hace referencia.  
+ Para el `value` serializado del parámetro para tener en cuenta, el `manager` parámetro u otro serializador debe haber llamado a la <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SetExpression%2A> método para crear una relación entre `value` y una expresión que se hace referencia.  
   
  ]]></format>
         </remarks>
@@ -688,6 +699,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -710,9 +722,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeCreationExpression%2A> método se puede utilizar para serializar una expresión que representa la creación de la `value` parámetro. Es compatible con descriptores de instancia.  
+ El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeCreationExpression%2A> método puede utilizarse para serializar una expresión que representa la creación de la `value` parámetro. Es compatible con descriptores de instancia.  
   
- El `isComplete` parámetro está establecido en `true` si la expresión representa un objeto totalmente configurado, o `false` si aún más serialización debe realizarse en las propiedades del objeto.  
+ El `isComplete` parámetro está establecido en `true` si la expresión representa un objeto completamente configurado, o `false` si aún más serialización debe realizarse en las propiedades del objeto.  
   
  ]]></format>
         </remarks>
@@ -730,6 +742,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -752,11 +765,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeEvent%2A> método es un método auxiliar que las clases derivadas puede llamar para serializar un único evento en el dado <xref:System.CodeDom.CodeStatementCollection>. <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeEvent%2A> consulta el Administrador de serialización para un <xref:System.ComponentModel.Design.Serialization.MemberCodeDomSerializer> para el evento determinado y, a continuación, se le preguntará el <xref:System.ComponentModel.Design.Serialization.MemberCodeDomSerializer> para serializarlo.  
+ El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeEvent%2A> método es que puede llamar un método auxiliar que las clases derivadas para serializar un único evento en el determinado <xref:System.CodeDom.CodeStatementCollection>. <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeEvent%2A> consulta el Administrador de serialización para un <xref:System.ComponentModel.Design.Serialization.MemberCodeDomSerializer> para el evento determinado y, a continuación, se le preguntará el <xref:System.ComponentModel.Design.Serialization.MemberCodeDomSerializer> serializarlo.  
   
- <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeEvent%2A> coloca el `statements` y `descriptor` parámetros en la <xref:System.ComponentModel.Design.Serialization.ContextStack>.  
+ <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeEvent%2A> coloca el `statements` y `descriptor` parámetros en el <xref:System.ComponentModel.Design.Serialization.ContextStack>.  
   
- <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeEvent%2A> requiere un <xref:System.ComponentModel.Design.IEventBindingService> para detectar los enlaces de evento a los métodos que no se compilan. Si este servicio no está presente, no se escribirán los enlaces de evento a los métodos no compilados. Enlaces de eventos a los métodos compilados todavía se van a serializar los objetos a los que están enlazados los eventos se pueden convertir en expresiones.  
+ <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeEvent%2A> requiere un <xref:System.ComponentModel.Design.IEventBindingService> para detectar los enlaces de evento a los métodos que no se compilan. Si este servicio no está presente, no se escribirán los enlaces de evento a los métodos no compilados. Enlaces de evento a los métodos compilados todavía se serializarán si los objetos a los que se enlazan los eventos se pueden convertir en expresiones.  
   
  ]]></format>
         </remarks>
@@ -781,6 +794,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -809,7 +823,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeEvents%2A> método es que puede llamar un método auxiliar que las clases derivadas. Examina los eventos el `value` parámetro que coincida con el `filter` parámetro y, a continuación, llama a la <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeEvent%2A> método para cada evento.  
+ El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeEvents%2A> método es que puede llamar un método auxiliar que las clases derivadas. Examina los eventos en el `value` parámetro que coinciden con el `filter` parámetro y, a continuación, llama a la <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeEvent%2A> método para cada evento.  
   
  El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeEvents%2A> método lugares el <xref:System.ComponentModel.InheritanceAttribute> para `value` en el <xref:System.ComponentModel.Design.Serialization.ContextStack>.  
   
@@ -832,6 +846,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -854,7 +869,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeProperties%2A> método es que puede llamar un método auxiliar que las clases derivadas. Examina las propiedades el `value` parámetro que coincida con el `filter` parámetro y, a continuación, llama a la <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeProperty%2A> método para cada propiedad.  
+ El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeProperties%2A> método es que puede llamar un método auxiliar que las clases derivadas. Examina las propiedades en el `value` parámetro que coinciden con el `filter` parámetro y, a continuación, llama a la <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeProperty%2A> método para cada propiedad.  
   
  El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeProperties%2A> método lugares el <xref:System.ComponentModel.InheritanceAttribute> para `value` en el <xref:System.ComponentModel.Design.Serialization.ContextStack>.  
   
@@ -877,6 +892,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -899,9 +915,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializePropertiesToResources%2A> método es que puede llamar un método auxiliar que las clases derivadas. Examina las propiedades el `value` parámetro que coincida con el `filter` parámetro y, a continuación, serializa las propiedades en el lote de recursos de la referencia cultural invariable. Si el servicio de recursos devuelve un <xref:System.Resources.ResXResourceWriter>, los valores de propiedad se almacenará en la sección de metadatos del archivo de recursos (.resx) XML. El `statements` parámetro no se utiliza.  
+ El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializePropertiesToResources%2A> método es que puede llamar un método auxiliar que las clases derivadas. Examina las propiedades en el `value` parámetro que coinciden con el `filter` parámetro y, a continuación, serializa las propiedades en el lote de recursos de la referencia cultural invariable. Si el servicio de recurso devuelve un <xref:System.Resources.ResXResourceWriter>, los valores de propiedad se almacenarán en la sección de metadatos del archivo de recursos (.resx) XML. El `statements` no se usa el parámetro.  
   
- Para serializar como un recurso, debe ser una propiedad simple (no una propiedad de contenido) y su valor deben ser serializables. Se omitirán las propiedades que no cumplen este patrón.  
+ Para serializarse como un recurso, debe ser una propiedad simple (no una propiedad de contenido) y su valor deben ser serializables. Las propiedades que no se ajustan a este patrón se omitirá.  
   
  <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializePropertiesToResources%2A> requiere un <xref:System.ComponentModel.Design.IResourceService> para obtener un <xref:System.Resources.ResourceWriter> para escribir los recursos para la referencia cultural invariable. Si este servicio no está disponible, no se escribirá ningún recurso.  
   
@@ -926,6 +942,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -948,9 +965,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeProperty%2A> método recupera una <xref:System.ComponentModel.Design.Serialization.MemberCodeDomSerializer> para el `propertyToSerialize` parámetro y delegados a él.  
+ El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeProperty%2A> método recupera un <xref:System.ComponentModel.Design.Serialization.MemberCodeDomSerializer> para el `propertyToSerialize` parámetro y los delegados a él.  
   
- <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeProperty%2A> coloca el `statements` y `propertyToSerialize` parámetros en la <xref:System.ComponentModel.Design.Serialization.ContextStack>.  
+ <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeProperty%2A> coloca el `statements` y `propertyToSerialize` parámetros en el <xref:System.ComponentModel.Design.Serialization.ContextStack>.  
   
  ]]></format>
         </remarks>
@@ -971,6 +988,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -991,15 +1009,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeResource%2A> método es un método auxiliar que serializa un valor en un lote de recursos en el nombre especificado. La referencia cultural que se escribe en el recurso se determina mediante la búsqueda del Administrador de serialización <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.Properties%2A> colección para una propiedad llamada `ResourceCulture`. Si esta propiedad no existe, los recursos se escribirán en esa referencia cultural. En caso contrario, los recursos se escribirán en la referencia cultural invariable. El `value` parámetro debe ser serializable.  
+ El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeResource%2A> método es un método auxiliar que serializa un valor en un lote de recursos en el nombre especificado. La referencia cultural que el recurso se escribe en se determina mediante la búsqueda del Administrador de serialización <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.Properties%2A> colección para una propiedad llamada `ResourceCulture`. Si esta propiedad no existe, los recursos se escribirán en esa referencia cultural. En caso contrario, los recursos se escribirán en la referencia cultural invariable. El `value` parámetro debe ser serializable.  
   
- <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeResource%2A> requiere un <xref:System.ComponentModel.Design.IResourceService> para obtener un <xref:System.Resources.ResourceWriter> para escribir los recursos para la referencia cultural correcta. Si este servicio no está disponible, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeResource%2A> en su lugar, creará un objeto binario en el código que representa el recurso.  
+ <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeResource%2A> requiere un <xref:System.ComponentModel.Design.IResourceService> para obtener un <xref:System.Resources.ResourceWriter> para escribir los recursos para la referencia cultural correcta. Si este servicio no está disponible, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeResource%2A> en su lugar, creará un objeto en el código que representa el recurso binario.  
   
  ]]></format>
         </remarks>
         <block subset="none" type="usage">
           <para>
-            <see langword="ResourceCulture" /> es una propiedad de lectura y escritura que se tiene acceso a través del Administrador de serialización <see cref="P:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.Properties" /> colección. El <see cref="M:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeResource(System.ComponentModel.Design.Serialization.IDesignerSerializationManager,System.String,System.Object)" /> método nunca cambia el valor de esta propiedad; simplemente lee para identificar la referencia cultural a la que va a escribir. La propiedad se establece durante la deserialización, tal y como se analiza y se cargan los recursos.</para>
+            <see langword="ResourceCulture" /> es una propiedad de lectura y escritura que se accede a través del Administrador de serialización <see cref="P:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.Properties" /> colección. El <see cref="M:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeResource(System.ComponentModel.Design.Serialization.IDesignerSerializationManager,System.String,System.Object)" /> método nunca cambia el valor de esta propiedad; simplemente lee para identificar la referencia cultural a la que va a escribir. La propiedad se establece durante la deserialización, como se analiza y se cargan los recursos.</para>
         </block>
         <altmember cref="T:System.ComponentModel.Design.Serialization.IDesignerSerializationManager" />
         <altmember cref="T:System.ComponentModel.Design.IResourceService" />
@@ -1016,6 +1034,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1038,7 +1057,7 @@
 ## Remarks  
  El recurso siempre se escribe en la referencia cultural invariable. El `value` parámetro debe ser serializable.  
   
- El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeResourceInvariant%2A> método requiere un <xref:System.ComponentModel.Design.IResourceService> para obtener un <xref:System.Resources.ResourceWriter> para escribir los recursos para la referencia cultural correcta. Si este servicio no está disponible, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeResource%2A> en su lugar, creará un objeto binario en el código que representa el recurso.  
+ El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeResourceInvariant%2A> método requiere un <xref:System.ComponentModel.Design.IResourceService> para obtener un <xref:System.Resources.ResourceWriter> para escribir los recursos para la referencia cultural correcta. Si este servicio no está disponible, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeResource%2A> en su lugar, creará un objeto en el código que representa el recurso binario.  
   
  ]]></format>
         </remarks>
@@ -1057,6 +1076,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1078,24 +1098,24 @@
 ## Remarks  
  El `value` parámetro puede ser `null`, en cuyo caso se devolverá una expresión primitiva.  
   
- El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeToExpression%2A> método utiliza las siguientes reglas para tipos de serialización:  
+ El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeToExpression%2A> método usa las siguientes reglas para serializar tipos:  
   
-1.  Llama primero la <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> método para ver si ya ha creado una expresión para el objeto. Si es así, devuelve la expresión existente.  
+1.  Llama primero el <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> método para ver si ya se ha creado una expresión para el objeto. Si es así, devuelve la expresión existente.  
   
-2.  A continuación, se busca el serializador del objeto y se le pide que serializar.  
+2.  A continuación, busca el serializador del objeto y le pide que se va a serializar.  
   
 3.  Si el valor devuelto por el serializador del objeto es un <xref:System.CodeDom.CodeExpression>, se devuelve la expresión.  
   
-4.  Realiza una última llamada a <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> para ver si el serializador ha agregado una expresión.  
+4.  Realiza una última llamada a <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> para ver si el serializador agrega una expresión.  
   
 5.  Por último, devuelve `null`.  
   
- Si no hay ninguna expresión se pudo crear ni no se encontró ningún serializador adecuado, se notificará un error a través del Administrador de serialización. Si se ha encontrado un serializador pero no pudo generar una expresión, no se notificará ningún error. En este caso, se supone que el serializador ya ha informado del error o no ha intentado serializar el objeto.  
+ Si se pudo crear ninguna expresión y no se encontró ningún serializador adecuado, se notificará un error a través del Administrador de serialización. No se notificará ningún error si se encontró un serializador, pero no se pudo generar una expresión. En este caso, se supone que el serializador ya ha informado del error o no ha intentado serializar el objeto.  
   
- Si el serializador devuelve una instrucción o una colección de instrucciones, estas instrucciones no se descartarán. El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeToExpression%2A> método buscará primero una <xref:System.ComponentModel.Design.Serialization.StatementContext> en el contexto de la pila y agregue instrucciones para el objeto de contexto de instrucción <xref:System.ComponentModel.Design.Serialization.StatementContext.StatementCollection%2A> propiedad. Si no hay ningún contexto de instrucción, el <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeToExpression%2A> método buscará en el contexto de un <xref:System.CodeDom.CodeStatementCollection> y agregue las instrucciones no existe. Si ningún lugar encontrará para agregar las instrucciones, se generará un error.  
+ Si el serializador devuelve una instrucción o una colección de instrucciones, esas instrucciones no se descartarán. El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeToExpression%2A> método buscará primero un <xref:System.ComponentModel.Design.Serialization.StatementContext> en el contexto de la pila y agregue instrucciones para el objeto de contexto de instrucción <xref:System.ComponentModel.Design.Serialization.StatementContext.StatementCollection%2A> propiedad. Si no hay ningún contexto de instrucción, el <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeToExpression%2A> método buscará en el contexto para un <xref:System.CodeDom.CodeStatementCollection> y agregue las instrucciones no existe. Si no hay pueden encontrarse para agregar las instrucciones, se generará un error.  
   
 > [!NOTE]
->  No debería llamar a la <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeToExpression%2A> método dentro de <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationService.Serialize%2A> al serializar un objeto propio. En su lugar, debe llamar a <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A>. Si devuelve `null`, cree su propia expresión y llame a <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SetExpression%2A>. A continuación, continúe con el resto de la serialización.  
+>  No se debe llamar a la <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeToExpression%2A> método dentro de <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationService.Serialize%2A> al serializar un objeto propio. En su lugar, debe llamar a <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A>. Si devuelve `null`, cree su propia expresión y llame a <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SetExpression%2A>. A continuación, continúe con el resto de la serialización.  
   
  ]]></format>
         </remarks>
@@ -1126,6 +1146,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1145,15 +1166,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeToResourceExpression%2A> método es un método auxiliar que serializa un valor en una expresión de recurso. Se trata de diferencia el <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeResource%2A> método, que escribe un valor en un objeto binario de recursos. <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeToResourceExpression%2A> va un paso más allá y devuelve una expresión que puede usarse para recuperar el recurso. Por ejemplo, el valor devuelto podría ser "rm. GetValue("SomeBitmap"); ". El nombre del recurso se calcula a partir del <xref:System.ComponentModel.Design.Serialization.ExpressionContext>, si no se puede encontrar uno en la pila de contexto.  
+ El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeToResourceExpression%2A> método es un método auxiliar que serializa un valor en una expresión de recurso. Esto es por el contrario el <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeResource%2A> método, que escribe un valor en un objeto binario de recursos. <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeToResourceExpression%2A> va un paso más allá y devuelve una expresión que puede usarse para recuperar el recurso. Por ejemplo, el valor devuelto podría ser "rm. GetValue("SomeBitmap"); ". El nombre del recurso se calcula a partir del <xref:System.ComponentModel.Design.Serialization.ExpressionContext>, si uno no se encuentra en la pila de contexto.  
   
- El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeToResourceExpression%2A> método tendrá un aspecto la <xref:System.ComponentModel.Design.Serialization.ContextStack> para los objetos siguientes:  
+ El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeToResourceExpression%2A> método tendrá un aspecto el <xref:System.ComponentModel.Design.Serialization.ContextStack> para los objetos siguientes:  
   
 -   <xref:System.CodeDom.CodeStatementCollection>: una colección de instrucciones para agregar un administrador de recursos, si es necesario declarar.  
   
--   <xref:System.ComponentModel.Design.Serialization.RootContext>: la expresión de raíz, que es necesario para crear un recurso de administrador.  
+-   <xref:System.ComponentModel.Design.Serialization.RootContext>: la expresión raíz, que es necesario para crear un recurso de administrador.  
   
--   <xref:System.ComponentModel.Design.Serialization.ExpressionContext>: utiliza para crear un nombre para el recurso y decidir qué tipo de llamada del Administrador de recursos para realizar.  
+-   <xref:System.ComponentModel.Design.Serialization.ExpressionContext>: usa para crear un nombre para el recurso y decidir qué tipo de llamada de resource manager para realizar.  
   
  ]]></format>
         </remarks>
@@ -1173,6 +1194,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1194,7 +1216,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si el `ensureInvariant` parámetro es `true`, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeToResourceExpression%2A> método también escribirá el valor del recurso en el archivo de recursos de la referencia cultural de todos los idiomas si actual `ResourceCulture` no es la referencia cultural invariable...  
+ Si el `ensureInvariant` parámetro es `true`, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeToResourceExpression%2A> método también escribirá el valor del recurso en el archivo de recursos de la referencia cultural invariable si actual `ResourceCulture` no es la referencia cultural invariable...  
   
  ]]></format>
         </remarks>
@@ -1223,6 +1245,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1244,7 +1267,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SetExpression%2A> método es un método auxiliar que asocia un <xref:System.CodeDom.CodeExpression> con un objeto. Objetos que se han asociado con las expresiones de esta manera son accesibles a través de la <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> método. <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SetExpression%2A> almacena su tabla de expresiones como un objeto agregado a la pila de contexto, por lo que es accesible para cualquier serializador <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> método.  
+ El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SetExpression%2A> método es un método auxiliar que asocia un <xref:System.CodeDom.CodeExpression> con un objeto. Los objetos que se han asociado con las expresiones de esta manera son accesibles a través de la <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> método. <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SetExpression%2A> almacena su tabla de expresiones como un objeto agregado a la pila de contexto, por lo que es accesible para cualquier serializador <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> método.  
   
  ]]></format>
         </remarks>
@@ -1264,6 +1287,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1287,7 +1311,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SetExpression%2A> método es un método auxiliar que asocia un <xref:System.CodeDom.CodeExpression> con un objeto. Objetos que se han asociado con las expresiones de esta manera son accesibles a través de la <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> método. El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SetExpression%2A> almacena su tabla de expresiones como un objeto agregado a la pila de contexto, por lo que es accesible para cualquier serializador <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> método.  
+ El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SetExpression%2A> método es un método auxiliar que asocia un <xref:System.CodeDom.CodeExpression> con un objeto. Los objetos que se han asociado con las expresiones de esta manera son accesibles a través de la <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> método. El <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SetExpression%2A> almacena su tabla de expresiones como un objeto agregado a la pila de contexto, por lo que es accesible para cualquier serializador <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.GetExpression%2A> método.  
   
  ]]></format>
         </remarks>
