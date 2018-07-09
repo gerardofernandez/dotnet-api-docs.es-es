@@ -1,11 +1,11 @@
 <Type Name="ViewStateException" FullName="System.Web.UI.ViewStateException">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="9112f3522e33130b35a0c92fd086e74cb8fcfc6e" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="537d962a0a07739b3f45470c894743b0b517f309" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36375414" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37586787" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class ViewStateException : Exception" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable sealed beforefieldinit ViewStateException extends System.Exception implements class System.Runtime.Serialization.ISerializable" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type ViewStateException = class&#xA;    inherit Exception&#xA;    interface ISerializable" />
   <AssemblyInfo>
     <AssemblyName>System.Web</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -27,18 +28,18 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si se produce una excepción cuando la página carga la información de estado de vista, la página crea un <xref:System.Web.UI.ViewStateException> objeto y lo pasa como una excepción interna dentro de un <xref:System.Web.HttpException> excepción. El <xref:System.Web.HttpException> excepción se vuelven a lanzar a ser controlada por la aplicación.  
+ Si se produce una excepción cuando la página carga la información de estado de vista, la página se crea un <xref:System.Web.UI.ViewStateException> objeto y lo pasa como una excepción interna dentro de un <xref:System.Web.HttpException> excepción. El <xref:System.Web.HttpException> excepción se produce de nuevo para administrar la aplicación.  
   
- El <xref:System.Web.UI.ViewStateException> clase almacena información sobre la excepción en el <xref:System.Web.UI.ViewStateException.Message%2A> propiedad. Si la solicitud tiene permiso para tener acceso a la <xref:System.Web.HttpRequest.ServerVariables%2A> propiedad, el <xref:System.Web.UI.ViewStateException.Message%2A> propiedad contiene los valores devueltos desde el <xref:System.Web.UI.ViewStateException.RemoteAddress%2A>, <xref:System.Web.UI.ViewStateException.RemotePort%2A>, <xref:System.Web.UI.ViewStateException.UserAgent%2A>, <xref:System.Web.UI.ViewStateException.PersistedState%2A>, <xref:System.Web.UI.ViewStateException.Referer%2A>, y <xref:System.Web.UI.ViewStateException.Path%2A> propiedades: en caso contrario, el <xref:System.Web.UI.ViewStateException.Message%2A> propiedad contiene un mensaje de error genérico del estado de vista.  
+ El <xref:System.Web.UI.ViewStateException> clase almacena información sobre la excepción en el <xref:System.Web.UI.ViewStateException.Message%2A> propiedad. Si la solicitud tiene permiso para acceder a la <xref:System.Web.HttpRequest.ServerVariables%2A> propiedad, el <xref:System.Web.UI.ViewStateException.Message%2A> propiedad contiene los valores devueltos desde el <xref:System.Web.UI.ViewStateException.RemoteAddress%2A>, <xref:System.Web.UI.ViewStateException.RemotePort%2A>, <xref:System.Web.UI.ViewStateException.UserAgent%2A>, <xref:System.Web.UI.ViewStateException.PersistedState%2A>, <xref:System.Web.UI.ViewStateException.Referer%2A>, y <xref:System.Web.UI.ViewStateException.Path%2A> propiedades; en caso contrario, el <xref:System.Web.UI.ViewStateException.Message%2A> propiedad contiene un mensaje de error genérico del estado de vista.  
   
- Una excepción del estado de vista puede ser el resultado de un error de validación de códigos de autenticación de mensajes (MAC). Si el atributo de página `enableViewStateMac` se establece en `true`, información de estado de vista se codifica con un identificador de MAC. Cuando se registra la información de estado de vista en el servidor, la página comprueba la codificación para asegurarse de que no se ha modificado por el usuario. Si la página no puede validar la codificación de MAC en la información de estado de vista, se producirá un <xref:System.Web.HttpException> excepción con la <xref:System.Web.UI.ViewStateException> objeto como una excepción interna.  
+ Una excepción del estado de vista puede ser el resultado de un error de validación de códigos de autenticación de mensajes (MAC). Si el atributo de página `enableViewStateMac` está establecido en `true`, información de estado de vista se codifica con un identificador de MAC. Cuando se registra la información de estado de vista al servidor, la página comprueba la codificación para garantizar que no se ha modificado por el usuario. Si la página no puede validar la codificación de MAC en la información de estado de vista, producirá un <xref:System.Web.HttpException> excepción con el <xref:System.Web.UI.ViewStateException> objeto como una excepción interna.  
   
- Para que la validación de MAC sea correcta, la información de estado de vista debe realizar el hash con la misma clave cuando se envían y se reciben. Dentro de una granja de servidores Web, la clave del equipo en cada servidor debe establecerse en una clave común.  
+ Para que la validación de MAC se realice correctamente, la información de estado de vista debe se aplica un algoritmo hash con la misma clave cuando se envía y recibe. Dentro de una granja de servidores Web, la clave del equipo en cada servidor debe establecerse en una clave común.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo implementar un método que deserializa una cadena codificada en base64 y devuelve un <xref:System.Collections.ICollection> colección de valores de propiedad. El <xref:System.Web.UI.ObjectStateFormatter.Deserialize%2A> método puede producir un <xref:System.Web.HttpException> la excepción que contiene un <xref:System.Web.UI.ViewStateException> objeto como una excepción interna. En el ejemplo se muestra cómo puede detectar un <xref:System.Web.HttpException> excepción y recuperar las propiedades de la <xref:System.Web.UI.ViewStateException> objeto.  
+ En el ejemplo de código siguiente se muestra cómo implementar un método que deserializa una cadena codificada en base64 y devuelve un <xref:System.Collections.ICollection> colección de valores de propiedad. El <xref:System.Web.UI.ObjectStateFormatter.Deserialize%2A> método puede producir un <xref:System.Web.HttpException> excepción que contiene un <xref:System.Web.UI.ViewStateException> objeto como una excepción interna. El ejemplo muestra cómo se puede detectar un <xref:System.Web.HttpException> excepción y recuperar las propiedades de la <xref:System.Web.UI.ViewStateException> objeto.  
   
  [!code-csharp[System.Web.UI.ViewStateException#2](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.UI.ViewStateException/CS/Class1.cs#2)]
  [!code-vb[System.Web.UI.ViewStateException#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.UI.ViewStateException/VB/Class1.vb#2)]  
@@ -57,6 +58,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters />
@@ -79,6 +81,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -105,6 +108,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -118,12 +122,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta propiedad devuelve el mismo valor que llamar al método el <xref:System.Web.HttpResponse.IsClientConnected%2A> propiedad.  
+ Esta propiedad devuelve el mismo valor que una llamada a la <xref:System.Web.HttpResponse.IsClientConnected%2A> propiedad.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo implementar un método que deserializa una cadena codificada en base64 y devuelve un <xref:System.Collections.ICollection> colección de valores de propiedad. El <xref:System.Web.UI.ObjectStateFormatter.Deserialize%2A> método puede producir un <xref:System.Web.HttpException> la excepción que contiene un <xref:System.Web.UI.ViewStateException> objeto como una excepción interna. En el ejemplo se muestra cómo puede detectar un <xref:System.Web.HttpException> excepción y recuperar las propiedades de la <xref:System.Web.UI.ViewStateException> objeto.  
+ En el ejemplo de código siguiente se muestra cómo implementar un método que deserializa una cadena codificada en base64 y devuelve un <xref:System.Collections.ICollection> colección de valores de propiedad. El <xref:System.Web.UI.ObjectStateFormatter.Deserialize%2A> método puede producir un <xref:System.Web.HttpException> excepción que contiene un <xref:System.Web.UI.ViewStateException> objeto como una excepción interna. El ejemplo muestra cómo se puede detectar un <xref:System.Web.HttpException> excepción y recuperar las propiedades de la <xref:System.Web.UI.ViewStateException> objeto.  
   
  [!code-csharp[System.Web.UI.ViewStateException#2](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.UI.ViewStateException/CS/Class1.cs#2)]
  [!code-vb[System.Web.UI.ViewStateException#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.UI.ViewStateException/VB/Class1.vb#2)]  
@@ -143,6 +147,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -155,7 +160,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si la solicitud no tiene permiso para tener acceso a las variables de servidor, esta propiedad devuelve un mensaje de error genérico del estado de vista. Si la solicitud tiene permiso para tener acceso a variables de servidor, el <xref:System.Web.UI.ViewStateException.Message%2A> propiedad contiene los valores devueltos desde el <xref:System.Web.UI.ViewStateException.RemoteAddress%2A>, <xref:System.Web.UI.ViewStateException.RemotePort%2A>, <xref:System.Web.UI.ViewStateException.UserAgent%2A>, <xref:System.Web.UI.ViewStateException.PersistedState%2A>, <xref:System.Web.UI.ViewStateException.Referer%2A>, y <xref:System.Web.UI.ViewStateException.Path%2A> propiedades.  
+ Si la solicitud no tiene permiso para acceder a las variables de servidor, esta propiedad devuelve un mensaje de error genérico del estado de vista. Si la solicitud tiene permiso para acceder a las variables de servidor, el <xref:System.Web.UI.ViewStateException.Message%2A> propiedad contiene los valores devueltos desde el <xref:System.Web.UI.ViewStateException.RemoteAddress%2A>, <xref:System.Web.UI.ViewStateException.RemotePort%2A>, <xref:System.Web.UI.ViewStateException.UserAgent%2A>, <xref:System.Web.UI.ViewStateException.PersistedState%2A>, <xref:System.Web.UI.ViewStateException.Referer%2A>, y <xref:System.Web.UI.ViewStateException.Path%2A> propiedades.  
   
  ]]></format>
         </remarks>
@@ -171,6 +176,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -188,7 +194,7 @@
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo implementar un método que deserializa una cadena codificada en base64 y devuelve un <xref:System.Collections.ICollection> colección de valores de propiedad. El <xref:System.Web.UI.ObjectStateFormatter.Deserialize%2A> método puede producir un <xref:System.Web.HttpException> la excepción que contiene un <xref:System.Web.UI.ViewStateException> objeto como una excepción interna. En el ejemplo se muestra cómo puede detectar un <xref:System.Web.HttpException> excepción y recuperar las propiedades de la <xref:System.Web.UI.ViewStateException> objeto.  
+ En el ejemplo de código siguiente se muestra cómo implementar un método que deserializa una cadena codificada en base64 y devuelve un <xref:System.Collections.ICollection> colección de valores de propiedad. El <xref:System.Web.UI.ObjectStateFormatter.Deserialize%2A> método puede producir un <xref:System.Web.HttpException> excepción que contiene un <xref:System.Web.UI.ViewStateException> objeto como una excepción interna. El ejemplo muestra cómo se puede detectar un <xref:System.Web.HttpException> excepción y recuperar las propiedades de la <xref:System.Web.UI.ViewStateException> objeto.  
   
  [!code-csharp[System.Web.UI.ViewStateException#2](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.UI.ViewStateException/CS/Class1.cs#2)]
  [!code-vb[System.Web.UI.ViewStateException#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.UI.ViewStateException/VB/Class1.vb#2)]  
@@ -207,6 +213,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -228,6 +235,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -245,7 +253,7 @@
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo implementar un método que deserializa una cadena codificada en base64 y devuelve un <xref:System.Collections.ICollection> colección de valores de propiedad. El <xref:System.Web.UI.ObjectStateFormatter.Deserialize%2A> método puede producir un <xref:System.Web.HttpException> la excepción que contiene un <xref:System.Web.UI.ViewStateException> objeto como una excepción interna. En el ejemplo se muestra cómo puede detectar un <xref:System.Web.HttpException> excepción y recuperar las propiedades de la <xref:System.Web.UI.ViewStateException> objeto.  
+ En el ejemplo de código siguiente se muestra cómo implementar un método que deserializa una cadena codificada en base64 y devuelve un <xref:System.Collections.ICollection> colección de valores de propiedad. El <xref:System.Web.UI.ObjectStateFormatter.Deserialize%2A> método puede producir un <xref:System.Web.HttpException> excepción que contiene un <xref:System.Web.UI.ViewStateException> objeto como una excepción interna. El ejemplo muestra cómo se puede detectar un <xref:System.Web.HttpException> excepción y recuperar las propiedades de la <xref:System.Web.UI.ViewStateException> objeto.  
   
  [!code-csharp[System.Web.UI.ViewStateException#2](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.UI.ViewStateException/CS/Class1.cs#2)]
  [!code-vb[System.Web.UI.ViewStateException#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.UI.ViewStateException/VB/Class1.vb#2)]  
@@ -264,6 +272,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -292,6 +301,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -320,6 +330,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -337,7 +348,7 @@
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo implementar un método que deserializa una cadena codificada en base64 y devuelve un <xref:System.Collections.ICollection> colección de valores de propiedad. El <xref:System.Web.UI.ObjectStateFormatter.Deserialize%2A> método puede producir un <xref:System.Web.HttpException> la excepción que contiene un <xref:System.Web.UI.ViewStateException> objeto como una excepción interna. En el ejemplo se muestra cómo puede detectar un <xref:System.Web.HttpException> excepción y recuperar las propiedades de la <xref:System.Web.UI.ViewStateException> objeto.  
+ En el ejemplo de código siguiente se muestra cómo implementar un método que deserializa una cadena codificada en base64 y devuelve un <xref:System.Collections.ICollection> colección de valores de propiedad. El <xref:System.Web.UI.ObjectStateFormatter.Deserialize%2A> método puede producir un <xref:System.Web.HttpException> excepción que contiene un <xref:System.Web.UI.ViewStateException> objeto como una excepción interna. El ejemplo muestra cómo se puede detectar un <xref:System.Web.HttpException> excepción y recuperar las propiedades de la <xref:System.Web.UI.ViewStateException> objeto.  
   
  [!code-csharp[System.Web.UI.ViewStateException#2](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.UI.ViewStateException/CS/Class1.cs#2)]
  [!code-vb[System.Web.UI.ViewStateException#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.UI.ViewStateException/VB/Class1.vb#2)]  

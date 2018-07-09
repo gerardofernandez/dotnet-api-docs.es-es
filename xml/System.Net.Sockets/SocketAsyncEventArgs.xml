@@ -1,11 +1,11 @@
 <Type Name="SocketAsyncEventArgs" FullName="System.Net.Sockets.SocketAsyncEventArgs">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="ece1699e39a8ec99cc6be3559509d6c255eea04e" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="6d32f2dd9ef982cbfb02299292560de5184866e8" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36473935" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37644048" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class SocketAsyncEventArgs : EventArgs, IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit SocketAsyncEventArgs extends System.EventArgs implements class System.IDisposable" />
@@ -21,6 +21,7 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>System</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -42,32 +43,32 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Net.Sockets.SocketAsyncEventArgs> clase forma parte de un conjunto de mejoras en la <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> clase que proporcionan un patrón asincrónico alternativo que se puede usar las aplicaciones de socket de alto rendimiento especializadas. Esta clase se diseñó específicamente para las aplicaciones de servidor de red que necesitan alto rendimiento. Una aplicación puede utilizar el modelo asincrónico mejorado exclusivamente o sólo en áreas activas (por ejemplo, cuando se reciben grandes cantidades de datos) concretas.  
+ El <xref:System.Net.Sockets.SocketAsyncEventArgs> clase forma parte de un conjunto de mejoras para el <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> clases que proporcionan un patrón asincrónico alternativo que se puede usar las aplicaciones de socket de alto rendimiento especializadas. Esta clase se diseñó específicamente para aplicaciones de servidor de red que necesitan un alto rendimiento. Una aplicación puede usar el patrón asincrónico mejorado exclusivamente o solo en áreas activas (por ejemplo, cuando se reciben grandes cantidades de datos) de destino.  
   
- La característica principal de estas mejoras es la elusión de la asignación y la sincronización repetidas de objetos durante la E/S de socket asincrónico de gran volumen. El modelo de diseño Begin/End actualmente implementado por el <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> clase requiere un <xref:System.IAsyncResult?displayProperty=nameWithType> objeto va a asignar para cada operación de socket asincrónico.  
+ La característica principal de estas mejoras es la elusión de la asignación y la sincronización repetidas de objetos durante la E/S de socket asincrónico de gran volumen. El patrón de diseño de Begin/End actualmente implementado por el <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> clase requiere un <xref:System.IAsyncResult?displayProperty=nameWithType> objeto va a asignar para cada operación de socket asincrónico.  
   
- En el nuevo <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> clase mejoras, las operaciones se describen mediante reutilizable de socket asincrónico <xref:System.Net.Sockets.SocketAsyncEventArgs> objetos asignados y mantenidos por la aplicación. Las aplicaciones de socket de alto rendimiento saben mejor la cantidad de operaciones de socket superpuestas que se deben mantener. La aplicación puede crear tantos objetos <xref:System.Net.Sockets.SocketAsyncEventArgs> como necesite. Por ejemplo, si una aplicación de servidor necesita tener 15 socket acepte operaciones pendientes en todo momento para admitir velocidades de conexión de cliente entrantes, puede asignar 15 reutilizables <xref:System.Net.Sockets.SocketAsyncEventArgs> objetos para ese fin.  
+ En el nuevo <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> mejoras, las operaciones se describen mediante reutilizable de socket asincrónico de la clase <xref:System.Net.Sockets.SocketAsyncEventArgs> objetos asignados y mantenidos por la aplicación. Las aplicaciones de socket de alto rendimiento saben mejor la cantidad de operaciones de socket superpuestas que se deben mantener. La aplicación puede crear tantos objetos <xref:System.Net.Sockets.SocketAsyncEventArgs> como necesite. Por ejemplo, si una aplicación de servidor necesita tener 15 socket Aceptar operaciones pendientes en todo momento para admitir velocidades de conexión de cliente entrantes, puede asignar 15 reutilizables <xref:System.Net.Sockets.SocketAsyncEventArgs> objetos para ese propósito.  
   
  El patrón para realizar una operación de socket asincrónico con esta clase consta de los pasos siguientes:  
   
 1.  Asigne un nuevo objeto de contexto <xref:System.Net.Sockets.SocketAsyncEventArgs> u obtenga uno libre de un grupo de aplicaciones.  
   
-2.  Establecer propiedades en el contexto de objeto a la operación de sobre que realiza (el método de devolución de llamada de finalización, el búfer de datos, el desplazamiento en el búfer y la cantidad máxima de datos que se va a transferir, por ejemplo).  
+2.  Establezca propiedades en el contexto de objeto a la operación sobre ser realizado (el método de devolución de llamada de finalización, el búfer de datos, el desplazamiento en el búfer y la cantidad máxima de datos que se van a transferir, por ejemplo).  
   
 3.  Llame al método de socket adecuado (xxxAsync) para iniciar la operación asincrónica.  
   
 4.  Si el método de socket asincrónico (xxxAsync) devuelve true, en la devolución de llamada, consultar las propiedades de contexto para el estado de finalización.  
   
-5.  Si el método de socket asincrónico (xxxAsync) devuelve false, la operación se completó sincrónicamente. Para ver el resultado de la operación se pueden consultar las propiedades de contexto.  
+5.  Si el método de socket asincrónico (xxxAsync) devuelve false, la operación finalice sincrónicamente. Para ver el resultado de la operación se pueden consultar las propiedades de contexto.  
   
 6.  Vuelva a usar el contexto para otra operación, vuelva a colocarlo en el grupo o descártelo.  
   
- Referencias determina la duración del nuevo objeto de contexto de operación de socket asincrónico mediante el código de la aplicación y las referencias de E/S asincrónicas. No es necesario que la aplicación conserve una referencia a un objeto de contexto de operación de socket asincrónico una vez que se ha enviado como parámetro a uno de los métodos de operación de socket asincrónico. La referencia se conserva hasta que se devuelve la devolución de llamada de finalización. Sin embargo, esto supone una mejora de la aplicación conservar la referencia al contexto para que se pueda reutilizar para una operación de socket asincrónico posterior.  
+ La duración del nuevo objeto de contexto de operación de socket asincrónico viene determinada por las referencias por el código de la aplicación y las referencias de E/S asincrónicas. No es necesario que la aplicación conserve una referencia a un objeto de contexto de operación de socket asincrónico una vez que se ha enviado como parámetro a uno de los métodos de operación de socket asincrónico. La referencia se conserva hasta que se devuelve la devolución de llamada de finalización. Sin embargo es ventajoso para la aplicación conservar la referencia al contexto para que se puede reutilizar para una operación de socket asincrónico futura.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se implementa la lógica de conexión para el servidor de socket que usa el <xref:System.Net.Sockets.SocketAsyncEventArgs> clase. Después de aceptar una conexión, todos los datos leídos desde el cliente se envía al cliente. La operación de lectura y eco hacia el patrón del cliente continúa hasta que el cliente se desconecta. La clase BufferManager que se utiliza en este ejemplo se muestra en el ejemplo de código para el <xref:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer%28System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32%29> método. La clase SocketAsyncEventArgsPool que se usa en este ejemplo se muestra en el ejemplo de código para el <xref:System.Net.Sockets.SocketAsyncEventArgs.%23ctor%2A> constructor.  
+ En el ejemplo de código siguiente se implementa la lógica de conexión para el servidor de socket que usa el <xref:System.Net.Sockets.SocketAsyncEventArgs> clase. Después de aceptar una conexión, todos los datos leídos desde el cliente se envía al cliente. La lectura y eco al modelo del cliente continúa hasta que el cliente se desconecta. La clase BufferManager que se usa en este ejemplo se muestra en el ejemplo de código para el <xref:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer%28System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32%29> método. La clase SocketAsyncEventArgsPool que se usa en este ejemplo se muestra en el ejemplo de código para el <xref:System.Net.Sockets.SocketAsyncEventArgs.%23ctor%2A> constructor.  
   
  [!code-csharp[NCLAsyncSocketServer#3](~/samples/snippets/csharp/VS_Snippets_Remoting/NCLAsyncSocketServer/CS/AsyncSocketServer.cs#3)]  
   
@@ -101,6 +102,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -110,7 +112,7 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>Crea una instancia de <see cref="T:System.Net.Sockets.SocketAsyncEventArgs" /> vacía.</summary>
+        <summary>Crea una instancia <see cref="T:System.Net.Sockets.SocketAsyncEventArgs" /> vacía.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -119,20 +121,20 @@
   
 -   Las referencias de objeto será nulos  
   
--   Las propiedades que devuelven un entero devolverán cero.  
+-   Las propiedades que devuelven un entero devolverá cero.  
   
 -   El <xref:System.Net.Sockets.SocketAsyncEventArgs.LastOperation%2A> propiedad será igual a <xref:System.Net.Sockets.SocketAsyncOperation.None>.  
   
--   El <xref:System.Net.Sockets.SocketAsyncEventArgs.SendPacketsFlags%2A> propiedad será igual a <xref:System.Net.Sockets.TransmitFileOptions.UseDefaultWorkerThread?displayProperty=nameWithType>, que no especifica ningún indicador se usará.  
+-   El <xref:System.Net.Sockets.SocketAsyncEventArgs.SendPacketsFlags%2A> propiedad será igual a <xref:System.Net.Sockets.TransmitFileOptions.UseDefaultWorkerThread?displayProperty=nameWithType>, que especifica que no hay marcas se usará.  
   
 -   El <xref:System.Net.Sockets.SocketAsyncEventArgs.SocketFlags%2A> propiedad será igual a <xref:System.Net.Sockets.SocketAsyncOperation.None>.  
   
- El llamador debe establecer las propiedades adecuadas antes de pasar el objeto al método de socket asincrónico adecuado (xxxAsync).  
+ El llamador debe establecer las propiedades adecuadas antes de pasar el objeto al método adecuado de socket asincrónico (xxxAsync).  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se representa una colección de reutilizable <xref:System.Net.Sockets.SocketAsyncEventArgs> objetos.  
+ El siguiente ejemplo de código representa una colección de reutilizable <xref:System.Net.Sockets.SocketAsyncEventArgs> objetos.  
   
  [!code-csharp[NCLAsyncSocketServer#2](~/samples/snippets/csharp/VS_Snippets_Remoting/NCLAsyncSocketServer/CS/AsyncSocketServer.cs#2)]  
   
@@ -157,6 +159,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -175,7 +178,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta propiedad puede utilizarse para proporcionar una ya se ha creado <xref:System.Net.Sockets.Socket> que se usará para un socket asincrónico operación de aceptación. Cuando se complete la operación de aceptación, es el socket que representa la conexión aceptada. Si no se proporciona (establecida en null) antes de llamar a la <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType> método, un nuevo socket se crearán automáticamente y ser accesible en la devolución de llamada de finalización con esta propiedad.  
+ Esta propiedad puede utilizarse para proporcionar una ya creada <xref:System.Net.Sockets.Socket> que se usará para un socket asincrónico operación de aceptación. Una vez completada la operación de aceptación, es el socket que representa la conexión aceptada. Si no se proporciona (establecida en null) antes de llamar a la <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType> método, un nuevo socket se crearán automáticamente y esté accesible en la devolución de llamada de finalización con esta propiedad.  
   
  ]]></format>
         </remarks>
@@ -198,6 +201,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -215,9 +219,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta propiedad obtiene el búfer de datos asociado actualmente a la <xref:System.Net.Sockets.SocketAsyncEventArgs> instancia. Para establecer el búfer, el <xref:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer%2A> se debe usar el método.  
+ Esta propiedad obtiene el búfer de datos actualmente asociado con el <xref:System.Net.Sockets.SocketAsyncEventArgs> instancia. Para establecer el búfer, el <xref:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer%2A> se debe usar el método.  
   
- Esta propiedad se utiliza con la <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType>, y <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> métodos.  
+ Esta propiedad se usa con el <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType>, y <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> métodos.  
   
  ]]></format>
         </remarks>
@@ -247,6 +251,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -265,17 +270,17 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta propiedad se utiliza con la <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType> y <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType> métodos.  
+ Esta propiedad se usa con el <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType> y <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType> métodos.  
   
- Esta propiedad se utiliza para proporcionar varios búferes de datos para enviar o para proporcionar varios búferes en los que se va a almacenar los datos recibidos para una operación de socket asincrónico que pueden enviar o recibir datos. Varios búferes con la <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> propiedad son compatibles con el <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType> y <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType> métodos.  
+ Esta propiedad se utiliza para proporcionar varios búferes de datos se envíen o para proporcionar varios búferes en el que se va a almacenar los datos recibidos de una operación de socket asincrónico que pueden enviar o recibir datos. Varios búferes mediante el <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> propiedad son compatibles con el <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType> y <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType> métodos.  
   
- Si el <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> propiedad está establecida en un valor distinto de null, el <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> propiedad debe ser null y pasa por alto el <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType> y <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType> métodos.  
+ Si el <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> propiedad está establecida en un valor distinto de null, el <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> propiedad debe ser null y se pasa por alto el <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType> y <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType> métodos.  
   
- Si el <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> se establece en un valor distinto de null y se realiza un intento para establecer el <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> propiedad en un valor distinto de null, se produce una excepción.  
+ Si el <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> se establece en un valor distinto de null y se realiza un intento para establecer el <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> propiedad un valor distinto de null, se produce una excepción.  
   
- Si el <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> propiedad está establecida en un valor distinto de null, el <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType> y <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType> métodos producirán una <xref:System.ArgumentException>.  
+ Si el <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> propiedad está establecida en un valor distinto de null, el <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType> y <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType> métodos producirán un <xref:System.ArgumentException>.  
   
- El <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> parámetro se ignora por la <xref:System.Net.Sockets.Socket.DisconnectAsync%2A?displayProperty=nameWithType> y <xref:System.Net.Sockets.Socket.SendPacketsAsync%2A?displayProperty=nameWithType> métodos.  
+ El <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> parámetro se omite la <xref:System.Net.Sockets.Socket.DisconnectAsync%2A?displayProperty=nameWithType> y <xref:System.Net.Sockets.Socket.SendPacketsAsync%2A?displayProperty=nameWithType> métodos.  
   
  ]]></format>
         </remarks>
@@ -301,6 +306,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -319,9 +325,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta propiedad proporciona el número de bytes transferidos en una operación de socket asincrónico que puede recibir o enviar datos. Si se devuelve cero de una operación de lectura, el extremo remoto ha cerrado la conexión.  
+ Esta propiedad proporciona el número de bytes transferidos en una operación de socket asincrónico que puede recibir o enviar datos. Si se devuelve cero en una operación de lectura, el extremo remoto cerró la conexión.  
   
- Esta propiedad se establece por todas las operaciones de socket asincrónico excepto la <xref:System.Net.Sockets.Socket.DisconnectAsync%2A?displayProperty=nameWithType> método.  
+ Esta propiedad se establece por todas las operaciones de socket asincrónico excepto el <xref:System.Net.Sockets.Socket.DisconnectAsync%2A?displayProperty=nameWithType> método.  
   
  ]]></format>
         </remarks>
@@ -351,6 +357,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -367,7 +374,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Net.Sockets.SocketAsyncEventArgs.Completed> eventos proporciona una manera para que las aplicaciones de cliente completar una operación de socket asincrónico. Un controlador de eventos debe asociarse al evento dentro de un <xref:System.Net.Sockets.SocketAsyncEventArgs> instancia cuando se inicia una operación de socket asincrónico, en caso contrario, la aplicación no será capaz de determinar cuándo se completa la operación.  
+ El <xref:System.Net.Sockets.SocketAsyncEventArgs.Completed> eventos proporciona una manera para las aplicaciones cliente completar una operación de socket asincrónico. Se debe adjuntar un controlador de eventos para el evento dentro de un <xref:System.Net.Sockets.SocketAsyncEventArgs> instancia cuando se inicia una operación de socket asincrónico, en caso contrario, la aplicación no será capaz de determinar cuándo se completa la operación.  
   
  Los delegados de devolución de llamada de finalización al que hace referencia el <xref:System.Net.Sockets.SocketAsyncEventArgs.Completed> evento contiene la lógica del programa para finalizar el procesamiento de la operación de socket asincrónico para el cliente.  
   
@@ -410,11 +417,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- En el caso de un error de conexión cuando un <xref:System.Net.DnsEndPoint> no se especificó para el <xref:System.Net.Sockets.SocketAsyncEventArgs.RemoteEndPoint%2A> propiedad, el <xref:System.Net.Sockets.SocketAsyncEventArgs.ConnectByNameError%2A> propiedad contendrá la excepción que indica la causa detallada del error de socket.  
+ En el caso de un error de conexión cuando un <xref:System.Net.DnsEndPoint> se especificó para el <xref:System.Net.Sockets.SocketAsyncEventArgs.RemoteEndPoint%2A> propiedad, el <xref:System.Net.Sockets.SocketAsyncEventArgs.ConnectByNameError%2A> propiedad contendrá la excepción que indica la causa detallada del error de socket.  
   
- Cuando un <xref:System.Net.IPEndPoint> no se especificó para el <xref:System.Net.Sockets.SocketAsyncEventArgs.RemoteEndPoint%2A> se produce un error de conexión y de propiedad, el <xref:System.Net.Sockets.SocketAsyncEventArgs.ConnectByNameError%2A> propiedad será un `null` referencia.  
+ Cuando un <xref:System.Net.IPEndPoint> se especificó para el <xref:System.Net.Sockets.SocketAsyncEventArgs.RemoteEndPoint%2A> se produce un error de conexión y de propiedad, el <xref:System.Net.Sockets.SocketAsyncEventArgs.ConnectByNameError%2A> propiedad será un `null` referencia.  
   
- El <xref:System.Net.Sockets.SocketAsyncEventArgs.SocketError%2A> propiedad siempre está establecida en el caso de un error de conexión. El <xref:System.Net.Sockets.SocketAsyncEventArgs.ConnectByNameError%2A> propiedad contiene más información sobre el error si fue un error al conectar con un <xref:System.Net.DnsEndPoint>. Si una aplicación sólo esté interesada en si la operación de conexión se realizó correctamente o no, la aplicación solo necesita comprobar la <xref:System.Net.Sockets.SocketAsyncEventArgs.SocketError%2A> propiedad.  
+ El <xref:System.Net.Sockets.SocketAsyncEventArgs.SocketError%2A> propiedad siempre está establecida en el caso de un error de conexión. El <xref:System.Net.Sockets.SocketAsyncEventArgs.ConnectByNameError%2A> propiedad contiene más información sobre el error si produjo un error en la conexión a un <xref:System.Net.DnsEndPoint>. Si una aplicación solo está interesada en si la operación de conexión se realizó o no, la aplicación sólo necesita comprobar el <xref:System.Net.Sockets.SocketAsyncEventArgs.SocketError%2A> propiedad.  
   
  ]]></format>
         </remarks>
@@ -477,6 +484,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -497,7 +505,7 @@
 ## Remarks  
  Esta propiedad se establece mediante una llamada a la <xref:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer%2A> método.  
   
- Esta propiedad se utiliza con la <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType>, y <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> métodos.  
+ Esta propiedad se usa con el <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType>, y <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> métodos.  
   
  ]]></format>
         </remarks>
@@ -522,6 +530,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -545,7 +554,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta propiedad se utiliza para modificar el comportamiento de <xref:System.Net.Sockets.Socket.DisconnectAsync%2A?displayProperty=nameWithType> método. Si es true, un socket desconectado por el <xref:System.Net.Sockets.Socket.DisconnectAsync%2A?displayProperty=nameWithType> método se puede reutilizar una vez completada la desconexión en socket subsiguientes acepte o conectarse a las operaciones.  
+ Esta propiedad se usa para modificar el comportamiento de <xref:System.Net.Sockets.Socket.DisconnectAsync%2A?displayProperty=nameWithType> método. Si es true, un socket desconectado por el <xref:System.Net.Sockets.Socket.DisconnectAsync%2A?displayProperty=nameWithType> método se puede reutilizar después desconectar la finalización en socket posteriores acepte o conectarse a las operaciones.  
   
  ]]></format>
         </remarks>
@@ -571,6 +580,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -588,7 +598,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se llama a este método público `Dispose()` método y <xref:System.Object.Finalize%2A> método. `Dispose()` se invoca el protegido `Dispose(Boolean)` método con el `disposing` parámetro establecido en `true`. <xref:System.Object.Finalize%2A> invoca `Dispose` con `disposing` establecido en `false`.  
+ Este método se llama por el público `Dispose()` método y el <xref:System.Object.Finalize%2A> método. `Dispose()` invoca el protegido `Dispose(Boolean)` método con el `disposing` parámetro establecido en `true`. <xref:System.Object.Finalize%2A> invoca `Dispose` con `disposing` establecido en `false`.  
   
  Cuando el parámetro `disposing` es `true`, este método libera todos los recursos retenidos por los objetos administrados a los que el control <xref:System.Net.Sockets.SocketAsyncEventArgs> hace referencia. Este método invoca al método `Dispose()` de cada uno de los objetos a los que se hace referencia.  
   
@@ -599,7 +609,7 @@
         </remarks>
         <block subset="none" type="overrides">
           <para>
-            <see langword="Dispose" /> puede recibir varias llamadas de otros objetos. Al invalidar <see langword="Dispose(Boolean)" />, tenga cuidado de no hacer referencia a objetos que se hayan eliminado en una llamada anterior a <see langword="Dispose" />. Para obtener más información sobre cómo implementar <see langword="Dispose(Boolean)" />, vea [implementar un Method](~/docs/standard/garbage-collection/implementing-dispose.md) Dispose.  Para obtener más información acerca de <see langword="Dispose" /> y <see cref="M:System.Object.Finalize" />, consulte [limpieza seguridad Resources](~/docs/standard/garbage-collection/unmanaged.md) no administrado y [invalidación del método Finalize] (http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</para>
+            <see langword="Dispose" /> puede llamarse varias veces por otros objetos. Al invalidar <see langword="Dispose(Boolean)" />, tenga cuidado de no hacer referencia a objetos que se hayan eliminado en una llamada anterior a <see langword="Dispose" />. Para obtener más información sobre cómo implementar <see langword="Dispose(Boolean)" />, vea [implementar un Method](~/docs/standard/garbage-collection/implementing-dispose.md) Dispose.  Para obtener más información acerca de <see langword="Dispose" /> y <see cref="M:System.Object.Finalize" />, consulte [limpieza de Resources](~/docs/standard/garbage-collection/unmanaged.md) no administrado y [reemplazando el método Finalize] (http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</para>
         </block>
         <altmember cref="M:System.Object.Finalize" />
       </Docs>
@@ -620,6 +630,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -632,7 +643,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Libera los recursos utilizados por la clase <see cref="T:System.Net.Sockets.SocketAsyncEventArgs" />.</summary>
+        <summary>Libera los recursos que usa la clase <see cref="T:System.Net.Sockets.SocketAsyncEventArgs" />.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -659,6 +670,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -676,13 +688,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta propiedad describe la operación de socket asincrónico que más recientemente se completó mediante este <xref:System.Net.Sockets.SocketAsyncEventArgs> objeto. El valor de esta propiedad será <xref:System.Net.Sockets.SocketAsyncOperation.None?displayProperty=nameWithType> hasta que el <xref:System.Net.Sockets.SocketAsyncEventArgs> instancia se utiliza para iniciar una operación de socket asincrónico. A continuación, se establecerá la propiedad para el tipo de operación que se realiza en los métodos que toman el <xref:System.Net.Sockets.SocketAsyncEventArgs> como un parámetro. Esta propiedad facilita más fácilmente mediante un delegado de devolución de llamada de finalización única para varios tipos de operaciones de socket asincrónico.  
+ Esta propiedad describe la operación de socket asincrónico que recientemente se completó mediante este <xref:System.Net.Sockets.SocketAsyncEventArgs> objeto. El valor de esta propiedad será <xref:System.Net.Sockets.SocketAsyncOperation.None?displayProperty=nameWithType> hasta que el <xref:System.Net.Sockets.SocketAsyncEventArgs> instancia sirve para comenzar una operación de socket asincrónico. La propiedad, a continuación, se establecerá en el tipo de operación que se realiza en los métodos que toman el <xref:System.Net.Sockets.SocketAsyncEventArgs> como un parámetro. Esta propiedad facilita más fácilmente utilizando a un delegado de devolución de llamada de finalización solo si hay varios tipos de operaciones de socket asincrónico.  
   
- Esta propiedad sigue siendo válida en una <xref:System.Net.Sockets.SocketAsyncEventArgs> instancia hasta que la <xref:System.Net.Sockets.SocketAsyncEventArgs> instancia se utiliza para otra operación de socket asincrónico (xxxAsync).  
+ Esta propiedad sigue siendo válida en un <xref:System.Net.Sockets.SocketAsyncEventArgs> instancia hasta que el <xref:System.Net.Sockets.SocketAsyncEventArgs> instancia se usa para otra operación de socket asincrónico (xxxAsync).  
   
  Esta propiedad se establece por todos los métodos de socket asincrónico (xxxAsync).  
   
- Llamar a un método de socket asincrónico (xxxAsync) en la <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> clase establece este valor de propiedad. Esta propiedad está diseñada para su uso con la rutina de finalización de SocketAsyncCallback implementada por la aplicación.  
+ Llamar a un método de socket asincrónico (xxxAsync) en el <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> clase establece este valor de propiedad. Esta propiedad está pensada para su uso con la realización de SocketAsyncCallback implementada por la aplicación.  
   
  ]]></format>
         </remarks>
@@ -735,6 +747,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -753,11 +766,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta propiedad describe el desplazamiento de byte inicial de datos en el <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> propiedad. Este valor se establece mediante una llamada a la <xref:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer%2A> método.  
+ Esta propiedad describe el desplazamiento de bytes a partir de los datos en el <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> propiedad. Este valor se establece mediante una llamada a la <xref:System.Net.Sockets.SocketAsyncEventArgs.SetBuffer%2A> método.  
   
- Esta propiedad no se aplica a la <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> propiedad.  
+ Esta propiedad no es aplicable a la <xref:System.Net.Sockets.SocketAsyncEventArgs.BufferList%2A> propiedad.  
   
- Esta propiedad se utiliza con la <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType>, y <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> métodos.  
+ Esta propiedad se usa con el <xref:System.Net.Sockets.Socket.AcceptAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType>, y <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> métodos.  
   
  ]]></format>
         </remarks>
@@ -787,6 +800,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -807,13 +821,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método no es invocable por código de usuario. Llama a este método obtiene el funcionamiento interno de la <xref:System.Net.Sockets.SocketAsyncEventArgs> objeto una vez completada la operación actual. Este método se utiliza con todos los métodos de socket asincrónico (xxxAsync).  
+ Este método no es invocable por código de usuario. Este método se llama mediante el funcionamiento interno de la <xref:System.Net.Sockets.SocketAsyncEventArgs> objeto una vez completada la operación actual. Este método se utiliza con todos los métodos de socket asincrónico (xxxAsync).  
   
- Una aplicación que crea una clase que hereda de <xref:System.Net.Sockets.SocketAsyncEventArgs> puede invalidar este método para conectarse a esta notificación de finalización y limpiar los recursos que asignan para la operación. La implementación predeterminada solo genera el <xref:System.Net.Sockets.SocketAsyncEventArgs.Completed> eventos.  
+ Una aplicación que crea una clase que hereda de <xref:System.Net.Sockets.SocketAsyncEventArgs> puede invalidar este método para enlazar en esta notificación de finalización y limpiar los recursos que asignan para la operación. La implementación predeterminada simplemente provoca la <xref:System.Net.Sockets.SocketAsyncEventArgs.Completed> eventos.  
   
- Este método se usa para enlazar un controlador de eventos que se usará como la devolución de llamada de finalización para una operación de socket asincrónico subsiguiente. El llamador debe implementar al menos un delegado de devolución de llamada heredado de este método antes de iniciar una operación de socket asincrónico mediante uno de los métodos asincrónicos (xxxAsync) en la <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> clase.  
+ Este método se usa para enlazar un controlador de eventos que se utilizará como devolución de llamada de finalización para una operación de socket asincrónico posterior. El llamador debe implementar al menos un delegado de devolución de llamada que se hereda de este método antes de iniciar una operación de socket asincrónico mediante uno de los métodos asincrónico (xxxAsync) en el <xref:System.Net.Sockets.Socket?displayProperty=nameWithType> clase.  
   
- El llamador <xref:System.Net.Sockets.SocketAsyncEventArgs.OnCompleted%2A> método proporciona una manera para que las aplicaciones de cliente completar una operación de socket asincrónico. Cuando se inicia una operación de socket asincrónico, se debe implementar un delegado de devolución de llamada. Los delegados de devolución de llamada de finalización se heredaron de la <xref:System.Net.Sockets.SocketAsyncEventArgs.OnCompleted%2A> el método debe contener la lógica del programa para finalizar el procesamiento de la operación de socket asincrónico para el cliente.  
+ El llamador <xref:System.Net.Sockets.SocketAsyncEventArgs.OnCompleted%2A> método proporciona una manera para las aplicaciones cliente completar una operación de socket asincrónico. Debe implementarse un delegado de devolución de llamada cuando se inicia una operación de socket asincrónico. Los delegados de devolución de llamada de finalización se heredan de la <xref:System.Net.Sockets.SocketAsyncEventArgs.OnCompleted%2A> el método debe contener la lógica del programa para finalizar el procesamiento de la operación de socket asincrónico para el cliente.  
   
  Cuando se señala a una operación asincrónica, la aplicación utiliza el <xref:System.Net.Sockets.SocketAsyncEventArgs> parámetro para obtener el estado de la operación de socket asincrónico completada del objeto.  
   
@@ -846,6 +860,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -863,9 +878,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta propiedad proporciona información sobre un paquete recibida mediante la <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType> método.  
+ Esta propiedad proporciona información sobre un paquete recibido con el <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType> método.  
   
- Esta propiedad se utiliza con la <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType> método.  
+ Esta propiedad se usa con el <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType> método.  
   
  ]]></format>
         </remarks>
@@ -892,6 +907,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -912,9 +928,9 @@
 ## Remarks  
  Esta propiedad especifica el extremo remoto. Esta propiedad puede especificar el extremo remoto al que se conecta mediante el <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType> método. Esta propiedad puede especificar el extremo remoto al que se va a enviar datos mediante <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> método. Esta propiedad puede especificar el extremo remoto desde el que se recibieron datos mediante el <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType> o <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType> métodos.  
   
- Este punto de conexión remoto especificado por esta propiedad puede incluir una dirección IPv4 o IPv6.  
+ En este punto de conexión remoto especificado por esta propiedad puede incluir una dirección IPv4 o IPv6.  
   
- Esta propiedad se utiliza con la <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType>, o <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> métodos.  
+ Esta propiedad se usa con el <xref:System.Net.Sockets.Socket.ConnectAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveMessageFromAsync%2A?displayProperty=nameWithType>, o <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> métodos.  
   
  ]]></format>
         </remarks>
@@ -941,6 +957,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -958,7 +975,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La matriz de búferes puede representar un archivo o archivos en la memoria o un conjunto de búferes de datos de memoria. Esta propiedad se utiliza con la <xref:System.Net.Sockets.Socket.SendPacketsAsync%2A?displayProperty=nameWithType> método.  
+ La matriz de búferes puede representar uno o varios archivos en la memoria o un conjunto de búferes de datos de memoria. Esta propiedad se usa con el <xref:System.Net.Sockets.Socket.SendPacketsAsync%2A?displayProperty=nameWithType> método.  
   
  ]]></format>
         </remarks>
@@ -976,6 +993,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -999,7 +1017,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta propiedad especifica el <xref:System.Net.Sockets.TransmitFileOptions> que se usan para la <xref:System.Net.Sockets.Socket.SendPacketsAsync%2A?displayProperty=nameWithType> método.  
+ Esta propiedad especifica el <xref:System.Net.Sockets.TransmitFileOptions> que usa el <xref:System.Net.Sockets.Socket.SendPacketsAsync%2A?displayProperty=nameWithType> método.  
   
  ]]></format>
         </remarks>
@@ -1023,6 +1041,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1046,7 +1065,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Establezca esta propiedad en cero para permitir que la capa de sockets seleccione un tamaño de envío predeterminado. Al establecer esta propiedad en 0xFFFFFFFF permite al llamador controlar el tamaño y el contenido de cada solicitud de envío, se consigue mediante la <xref:System.Net.Sockets.SendPacketsElement.EndOfPacket%2A?displayProperty=nameWithType> propiedad. Esta capacidad es útil para los protocolos de mensajes que imponen limitaciones en el tamaño de las solicitudes de envío individual.  
+ Establezca esta propiedad en cero para permitir que la capa de sockets seleccione un tamaño de envío predeterminado. Al establecer esta propiedad en 0xFFFFFFFF permite al llamador para controlar el tamaño y el contenido de cada solicitud de envío, se consigue mediante la <xref:System.Net.Sockets.SendPacketsElement.EndOfPacket%2A?displayProperty=nameWithType> propiedad. Esta capacidad es útil para los protocolos de mensaje que imponen limitaciones en el tamaño de las solicitudes de envío individual.  
   
  ]]></format>
         </remarks>
@@ -1065,7 +1084,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método establece la <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> propiedad en null y el <xref:System.Net.Sockets.SocketAsyncEventArgs.Count%2A> y <xref:System.Net.Sockets.SocketAsyncEventArgs.Offset%2A> propiedades a cero.  
+ Este método establece el <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> propiedad en null y el <xref:System.Net.Sockets.SocketAsyncEventArgs.Count%2A> y <xref:System.Net.Sockets.SocketAsyncEventArgs.Offset%2A> propiedades en cero.  
   
  ]]></format>
         </remarks>
@@ -1114,6 +1133,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1136,9 +1156,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El `offset` y `count` parámetros no pueden ser números negativos. La combinación de la `offset` y `count` parámetros deben estar en los límites de la matriz de búferes en la <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> propiedad.  
+ El `offset` y `count` parámetros no pueden ser números negativos. La combinación de la `offset` y `count` parámetros deben estar en los límites de la matriz del búfer en el <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> propiedad.  
   
- Este método establece la <xref:System.Net.Sockets.SocketAsyncEventArgs.Count%2A> propiedad a la `count` parámetro y el <xref:System.Net.Sockets.SocketAsyncEventArgs.Offset%2A> propiedad a la `offset` parámetro. Si el <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> propiedad es null, este método omite la `offset` y `count` parámetros y conjuntos de la <xref:System.Net.Sockets.SocketAsyncEventArgs.Offset%2A> y <xref:System.Net.Sockets.SocketAsyncEventArgs.Count%2A> propiedades en 0.  
+ Este método establece el <xref:System.Net.Sockets.SocketAsyncEventArgs.Count%2A> propiedad a la `count` parámetro y el <xref:System.Net.Sockets.SocketAsyncEventArgs.Offset%2A> propiedad a la `offset` parámetro. Si el <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> propiedad es null, este método omite la `offset` y `count` parámetros y conjuntos de la <xref:System.Net.Sockets.SocketAsyncEventArgs.Offset%2A> y <xref:System.Net.Sockets.SocketAsyncEventArgs.Count%2A> propiedades en 0.  
   
  Este método no cambia el <xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A> propiedad.  
   
@@ -1166,6 +1186,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1192,12 +1213,12 @@
 ## Remarks  
  El `offset` y `count` parámetros no pueden ser números negativos. La combinación de la `offset` y `count` parámetros deben estar en los límites de la matriz de datos en el `buffer` parámetro.  
   
- Este método establece el [SetBuffer (método) (Byte\<xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A > propiedad a la `buffer` parámetro, el [SetBuffer (método) (Byte\<ref: System.Net.Sockets.SocketAsyncEventArgs.Count%2A > propiedad a la `count` parámetro y la [SetBuffer (método) (Byte\<xref:System.Net.Sockets.SocketAsyncEventArgs.Offset%2A > propiedad a la `offset` parámetro.  
+ Este método establece el [SetBuffer (método) (Byte\<xref:System.Net.Sockets.SocketAsyncEventArgs.Buffer%2A > propiedad a la `buffer` parámetro, el [SetBuffer (método) (Byte\<xref: System.Net.Sockets.SocketAsyncEventArgs.Count%2A > propiedad a la `count` parámetro y el [SetBuffer (método) (Byte\<xref:System.Net.Sockets.SocketAsyncEventArgs.Offset%2A > propiedad a la `offset` parámetro.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se crea un búfer grande único que puede dividirse y asignarse a [SetBuffer (método) (Byte\<xref:System.Net.Sockets.SocketAsyncEventArgs > objetos para su uso con cada operación de E/S de socket. Esto permite reutilizar fácilmente los búferes y evita la fragmentación de memoria en montón.  
+ En el ejemplo de código siguiente se crea un único búfer grande que se puede dividir y asignar a [SetBuffer (método) (Byte\<xref:System.Net.Sockets.SocketAsyncEventArgs > objetos para su uso con cada operación de E/S de socket. Esto permite reutilizar fácilmente los búferes y protege contra la fragmentación de memoria del montón.  
   
  [!code-csharp[NCLAsyncSocketServer#1](~/samples/snippets/csharp/VS_Snippets_Remoting/NCLAsyncSocketServer/CS/AsyncSocketServer.cs#1)]  
   
@@ -1234,8 +1255,8 @@
         <ReturnType>System.Net.Sockets.SocketClientAccessPolicyProtocol</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtiene o establece el protocolo que se utiliza para descargar el archivo de directivas de acceso de cliente de socket.</summary>
-        <value>Devuelva <see cref="T:System.Net.Sockets.SocketClientAccessPolicyProtocol" />.  El protocolo que se utiliza para descargar el archivo de directivas de acceso de cliente de socket.</value>
+        <summary>Obtiene o establece el protocolo que se usa para descargar el archivo de directiva de acceso de cliente de socket.</summary>
+        <value>Devuelve <see cref="T:System.Net.Sockets.SocketClientAccessPolicyProtocol" />.  Protocolo que se usa para descargar el archivo de directiva de acceso de cliente de socket.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1262,6 +1283,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1314,6 +1336,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1334,7 +1357,7 @@
 ## Remarks  
  La propiedad especifica la combinación bit a bit de los <xref:System.Net.Sockets.SocketFlags?displayProperty=nameWithType> que se usará para una operación de socket asincrónico.  
   
- Esta propiedad se utiliza con la <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType>, y <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> métodos.  
+ Esta propiedad se usa con el <xref:System.Net.Sockets.Socket.ReceiveAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.ReceiveFromAsync%2A?displayProperty=nameWithType>, <xref:System.Net.Sockets.Socket.SendAsync%2A?displayProperty=nameWithType>, y <xref:System.Net.Sockets.Socket.SendToAsync%2A?displayProperty=nameWithType> métodos.  
   
  ]]></format>
         </remarks>
@@ -1361,6 +1384,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1378,7 +1402,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta propiedad se puede utilizar una aplicación para asociar un objeto de estado de aplicación con el <xref:System.Net.Sockets.SocketAsyncEventArgs> objeto. Principalmente, esta propiedad es una forma de una aplicación para pasar información de estado al controlador de eventos de la aplicación (por ejemplo, el método de finalización de la operación asincrónica).  
+ Esta propiedad se puede usar una aplicación para asociar un objeto de estado de la aplicación con el <xref:System.Net.Sockets.SocketAsyncEventArgs> objeto. Principalmente, esta propiedad es una forma de una aplicación para pasar información de estado al controlador de eventos de la aplicación (por ejemplo, el método de finalización de la operación asincrónica).  
   
  Esta propiedad se utiliza con todos los métodos de socket asincrónico (xxxAsync).  
   
