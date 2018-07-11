@@ -1,11 +1,11 @@
 <Type Name="TypeDelegator" FullName="System.Reflection.TypeDelegator">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="d0d8bd6a0ea6d364b353d886688bab5a142bbb2f" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="94f3f74cef646eb0ddcf7654d88197056130b1d5" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36638414" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37472884" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class TypeDelegator : System.Reflection.TypeInfo" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit TypeDelegator extends System.Reflection.TypeInfo" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type TypeDelegator = class&#xA;    inherit TypeInfo" />
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -29,6 +31,7 @@
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Reflection.TypeInfo</BaseTypeName>
+    <BaseTypeName FrameworkAlternate="netframework-1.1">System.Type</BaseTypeName>
   </Base>
   <Interfaces />
   <Attributes>
@@ -42,20 +45,20 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Derivar de este tipo e invalidar solo aquellos miembros que se deben proporcionar personalización en, además de los miembros que son requeridos por el programa y aún no está implementados por <xref:System.Reflection.TypeDelegator>.  
+ Derivan de este tipo y reemplazar solo aquellos miembros que tienen para proporcionar personalización, además de los miembros que son requeridos por el programa y aún no está implementados por <xref:System.Reflection.TypeDelegator>.  
   
- <xref:System.Reflection.TypeDelegator> se deriva de <xref:System.Type?displayProperty=nameWithType> e implementa la mayoría de las propiedades y métodos de <xref:System.Type>. Para cada miembro implementa, <xref:System.Reflection.TypeDelegator> automáticamente delega en el miembro correspondiente de un interno <xref:System.Type> objeto, que se proporciona como un argumento al constructor. Este interno <xref:System.Type> objeto se expone al derivar clases por el `protected` <xref:System.Reflection.TypeDelegator.typeImpl> campo.  
+ <xref:System.Reflection.TypeDelegator> se deriva de <xref:System.Type?displayProperty=nameWithType> e implementa la mayoría de las propiedades y métodos de <xref:System.Type>. Para cada miembro implementa, <xref:System.Reflection.TypeDelegator> automáticamente delega en el miembro correspondiente de una instancia interna <xref:System.Type> objeto, que se proporciona como un argumento al constructor. Este interno <xref:System.Type> objeto se expone al derivar clases mediante el `protected` <xref:System.Reflection.TypeDelegator.typeImpl> campo.  
   
 > [!NOTE]
->  Algunos miembros de <xref:System.Reflection.TypeDelegator> tienen implementaciones aunque los miembros propiamente dichos simplemente se heredan de <xref:System.Type>. En estos casos, se proporciona la implementación por un invalidado `protected` método que tiene un nombre que termina en "Impl". Por ejemplo, la implementación de todas las sobrecargas de la <xref:System.Reflection.TypeDelegator.GetMethods%2A> método se proporciona por el invalidado <xref:System.Reflection.TypeDelegator.GetMethodImpl%2A> método. La implementación para hereda propiedades como <xref:System.Type.IsPublic%2A> y <xref:System.Type.IsNestedAssembly%2A> se proporciona mediante el invalidado <xref:System.Reflection.TypeDelegator.GetAttributeFlagsImpl%2A> método.  
+>  Algunos miembros de <xref:System.Reflection.TypeDelegator> tienen implementaciones, aunque los propios miembros se heredan simplemente <xref:System.Type>. En estos casos, la implementación se proporciona mediante un invalidado `protected` método que tiene un nombre que termine en "Impl". Por ejemplo, la implementación de todas las sobrecargas de los <xref:System.Reflection.TypeDelegator.GetMethods%2A> método se proporciona por invalidado <xref:System.Reflection.TypeDelegator.GetMethodImpl%2A> método. La implementación para las propiedades heredadas, como <xref:System.Type.IsPublic%2A> y <xref:System.Type.IsNestedAssembly%2A> se proporciona por invalidado <xref:System.Reflection.TypeDelegator.GetAttributeFlagsImpl%2A> método.  
   
- Las clases derivadas pueden proporcionar un constructor público que toma una <xref:System.Type> objeto como parámetro y simplemente pasa ese objeto a la <xref:System.Reflection.TypeDelegator.%23ctor%28System.Type%29> constructor, o puede establecer interna <xref:System.Type> objeto de alguna otra manera.  
+ Las clases derivadas pueden proporcionar un constructor público que toma un <xref:System.Type> objeto como parámetro y simplemente pasa ese objeto a la <xref:System.Reflection.TypeDelegator.%23ctor%28System.Type%29> constructor, o bien puede establecer interno <xref:System.Type> objeto de alguna otra manera.  
   
- Si una clase derivada utiliza un miembro que no implementa <xref:System.Reflection.TypeDelegator>, debe reemplazar ese miembro y proporcionar una implementación. La implementación más sencilla consiste en llamar al miembro correspondiente en el fax interno <xref:System.Type> objeto expuesto por el <xref:System.Reflection.TypeDelegator.typeImpl> campo, pero puede proporcionar cualquier implementación de la aplicación requiere. No es necesario reemplazar estos miembros si no se utiliza la aplicación o biblioteca de funciones de las llamadas de la aplicación (por ejemplo, mediante el <xref:System.CodeDom.CodeTypeReference.%23ctor%28System.Type%29?displayProperty=nameWithType> constructor).  
+ Si una clase derivada usa un miembro que no implementa <xref:System.Reflection.TypeDelegator>, debe invalidar ese miembro y proporcionar una implementación. La implementación más sencilla consiste en llamar al miembro correspondiente en el interno <xref:System.Type> objeto expuesto por el <xref:System.Reflection.TypeDelegator.typeImpl> campo, pero puede proporcionar cualquier implementación de la aplicación requiere. No es necesario reemplazar estos miembros, si no se usa la aplicación o biblioteca de funciones de la aplicación llama (por ejemplo, si la <xref:System.CodeDom.CodeTypeReference.%23ctor%28System.Type%29?displayProperty=nameWithType> constructor).  
   
- Los siguientes métodos virtuales (`Overridable` métodos en Visual Basic) de <xref:System.Type> no implementa <xref:System.Reflection.TypeDelegator>: <xref:System.Type.MakeGenericType%2A>, <xref:System.Type.GetGenericTypeDefinition%2A>, <xref:System.Type.GetGenericArguments%2A>, <xref:System.Type.GetGenericParameterConstraints%2A>, <xref:System.Type.MakeArrayType%2A>, <xref:System.Type.MakeByRefType%2A>, <xref:System.Type.MakePointerType%2A> , <xref:System.Type.GetEnumNames%2A>, <xref:System.Type.GetEnumValues%2A>, <xref:System.Type.GetEnumUnderlyingType%2A>, <xref:System.Type.GetTypeCodeImpl%2A>, <xref:System.Type.IsEnumDefined%2A>, <xref:System.Type.IsEquivalentTo%2A>.  
+ Los siguientes métodos virtuales (`Overridable` métodos en Visual Basic) de <xref:System.Type> no se implementan mediante <xref:System.Reflection.TypeDelegator>: <xref:System.Type.MakeGenericType%2A>, <xref:System.Type.GetGenericTypeDefinition%2A>, <xref:System.Type.GetGenericArguments%2A>, <xref:System.Type.GetGenericParameterConstraints%2A>, <xref:System.Type.MakeArrayType%2A>, <xref:System.Type.MakeByRefType%2A>, <xref:System.Type.MakePointerType%2A> , <xref:System.Type.GetEnumNames%2A>, <xref:System.Type.GetEnumValues%2A>, <xref:System.Type.GetEnumUnderlyingType%2A>, <xref:System.Type.GetTypeCodeImpl%2A>, <xref:System.Type.IsEnumDefined%2A>, <xref:System.Type.IsEquivalentTo%2A>.  
   
- Las siguientes propiedades virtuales (`Overridable` propiedades en Visual Basic) de <xref:System.Type> no implementa <xref:System.Reflection.TypeDelegator>: <xref:System.Type.IsGenericType%2A>, <xref:System.Type.IsGenericTypeDefinition%2A>, <xref:System.Type.IsGenericParameter%2A>, <xref:System.Type.ContainsGenericParameters%2A>, <xref:System.Type.DeclaringMethod%2A>, <xref:System.Type.GenericParameterAttributes%2A>, <xref:System.Type.GenericParameterPosition%2A> , <xref:System.Type.IsSecurityCritical%2A>, <xref:System.Type.IsSecuritySafeCritical%2A>, <xref:System.Type.IsSecurityTransparent%2A>.  
+ Las siguientes propiedades virtuales (`Overridable` propiedades en Visual Basic) de <xref:System.Type> no se implementan mediante <xref:System.Reflection.TypeDelegator>: <xref:System.Type.IsGenericType%2A>, <xref:System.Type.IsGenericTypeDefinition%2A>, <xref:System.Type.IsGenericParameter%2A>, <xref:System.Type.ContainsGenericParameters%2A>, <xref:System.Type.DeclaringMethod%2A>, <xref:System.Type.GenericParameterAttributes%2A>, <xref:System.Type.GenericParameterPosition%2A> , <xref:System.Type.IsSecurityCritical%2A>, <xref:System.Type.IsSecuritySafeCritical%2A>, <xref:System.Type.IsSecurityTransparent%2A>.  
   
  ]]></format>
     </remarks>
@@ -80,6 +83,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -108,6 +113,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -130,7 +137,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se llama a este constructor desde una clase para generar un delegado basado en el `Type` objeto para la clase que define el método.  
+ Este constructor se llama desde una clase para generar un delegado basado en el `Type` objeto para la clase que define el método.  
   
  ]]></format>
         </remarks>
@@ -148,6 +155,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -170,7 +179,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Los ensamblados son las unidades de implementación en common language runtime. Ensamblados de establecen el espacio de nombres para resolver las solicitudes y determinan qué recursos se exponen externamente y que sean accesibles desde dentro del ensamblado. Common language runtime puede determinar y ubicar el ensamblado de cualquier objeto en ejecución.  
+ Los ensamblados son las unidades de implementación en common language runtime. Los ensamblados establecen el espacio de nombres para resolver las solicitudes y determinan qué recursos se exponen externamente y que son accesibles desde dentro del ensamblado. Common language runtime puede determinar y ubicar el ensamblado de cualquier objeto en ejecución.  
   
  ]]></format>
         </remarks>
@@ -186,6 +195,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -218,6 +229,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -240,7 +253,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El tipo base es el tipo del que hereda directamente este tipo. Puesto que la <xref:System.Object> tipo de clase es la clase base fundamental de todos los otros tipos, es el único tipo que no tiene un tipo base. En este caso, `null` se devuelve como el tipo base de la `Object` tipo.  
+ El tipo base es el tipo del que este tipo hereda directamente. Puesto que el <xref:System.Object> tipo de clase es la clase base fundamental de todos los demás tipos, es el único tipo que no tiene un tipo base. En este caso, `null` se devuelve como el tipo base de la `Object` tipo.  
   
  ]]></format>
         </remarks>
@@ -256,6 +269,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -295,6 +310,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -318,7 +335,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método puede utilizarse para determinar si la `TypeDelegator` es abstracto, público y así sucesivamente.  
+ Este método puede usarse para determinar si la `TypeDelegator` es abstracto, público y así sucesivamente.  
   
  ]]></format>
         </remarks>
@@ -334,6 +351,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -368,7 +387,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El `callConvention` parámetro indica la convención de llamada para el punto de entrada. Si no se especifica ninguna convención de llamada, valor predeterminado es <xref:System.Reflection.CallingConventions> valo `Standard` se utiliza.  
+ El `callConvention` parámetro indica la convención de llamada para el punto de entrada. Si no se especifica ninguna convención de llamada, un valor predeterminado <xref:System.Reflection.CallingConventions> valor `Standard` se utiliza.  
   
  ]]></format>
         </remarks>
@@ -387,6 +406,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -418,7 +439,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Inicializadores de clase sólo están disponibles mediante `GetMember`, `GetMembers`, `FindMembers`, y `GetConstructors`.  
+ Inicializadores de clase están disponibles solo a través de `GetMember`, `GetMembers`, `FindMembers`, y `GetConstructors`.  
   
  ]]></format>
         </remarks>
@@ -444,6 +465,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -480,6 +503,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -520,6 +545,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -553,6 +580,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -581,7 +610,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si `bindingAttr` es <xref:System.Reflection.BindingFlags>.`IgnoreCase`, el caso de los `name` parámetro se ignora.  
+ Si `bindingAttr` es <xref:System.Reflection.BindingFlags>.`IgnoreCase`, el caso de los `name` se omite el parámetro.  
   
  ]]></format>
         </remarks>
@@ -608,6 +637,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -640,6 +671,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -675,6 +708,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -703,7 +738,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Use un `bindingAttr` de <xref:System.Reflection.BindingFlags>. NonPublic para devolver todos los campos públicos y no públicos. Use `BindingFlags.IgnoreCase` para omitir el caso de los campos, como la búsqueda no distingue entre mayúsculas y minúsculas de forma predeterminada.  
+ Use un `bindingAttr` de <xref:System.Reflection.BindingFlags>. NonPublic para devolver todos los campos públicos y no públicos. Use `BindingFlags.IgnoreCase` para omitir el caso de los campos, como la búsqueda distingue entre mayúsculas y minúsculas de forma predeterminada.  
   
  ]]></format>
         </remarks>
@@ -720,6 +755,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -746,7 +783,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Reflection.TypeDelegator.GetFields%2A> método no devuelve campos en un orden determinado, como alfabético o el orden de declaración. El código no debe depender del orden en que se devuelven los campos, porque ese orden puede variar.  
+ El <xref:System.Reflection.TypeDelegator.GetFields%2A> método no devuelve los campos en un orden concreto, como alfabético o el orden de declaración. El código no debe depender del orden en que se devuelven los campos, porque ese orden puede variar.  
   
  Use un `bindingAttr` de <xref:System.Reflection.BindingFlags>. NonPublic para devolver todos los campos públicos y no públicos.  
   
@@ -764,6 +801,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -803,6 +842,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -835,7 +876,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El mapa de interfaz indica cómo se asigna una interfaz a los métodos reales de una clase que implementa esa interfaz.  
+ El mapa de interfaz indica cómo se asigna una interfaz a los métodos reales en una clase que implementa esa interfaz.  
   
  ]]></format>
         </remarks>
@@ -852,6 +893,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -884,6 +927,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -931,6 +976,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -972,6 +1019,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1008,7 +1057,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El `callConvention` parámetro indica la convención de llamada para el punto de entrada. Si no hay ningún <xref:System.Reflection.CallingConventions> se especifica, valor predeterminado es `CallingConventions` valo `Standard` se utiliza.  
+ El `callConvention` parámetro indica la convención de llamada para el punto de entrada. Si no hay ningún <xref:System.Reflection.CallingConventions> se especifica, valor predeterminado es `CallingConventions` valor `Standard` se utiliza.  
   
  ]]></format>
         </remarks>
@@ -1027,6 +1076,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1062,6 +1113,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1100,6 +1153,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1135,6 +1190,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1169,6 +1226,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1214,6 +1273,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1236,7 +1297,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El GUID (identificador único global) es una cadena de identificación exclusiva de 128 bits utilizada para identificar una clase o una interfaz. Es útil principalmente para la interoperabilidad entre Microsoft .NET Framework y COM.  
+ El GUID (identificador único global) es una cadena de identificación única de 128 bits utilizada para identificar una clase o una interfaz. Resulta útil principalmente para la interoperabilidad entre Microsoft .NET Framework y COM.  
   
  ]]></format>
         </remarks>
@@ -1253,6 +1314,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1284,6 +1347,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1327,16 +1392,16 @@
 ## Remarks  
  Un método se invocará si se cumplen las dos condiciones siguientes:  
   
--   El número de parámetros en la declaración del método es igual al número de argumentos en la lista de argumentos especificada (a menos que se definan argumentos predeterminados en el miembro).  
+-   El número de parámetros en la declaración del método es igual al número de argumentos de la lista de argumentos especificada (a menos que los argumentos predeterminados se definen en el miembro).  
   
--   El tipo de cada argumento se puede convertir por el enlazador al tipo del parámetro.  
+-   El tipo de cada argumento se puede convertir el enlazador para el tipo del parámetro.  
   
- El enlazador encontrará todos los métodos de búsqueda de coincidencias. Estos métodos se encuentran en función del tipo de enlace que se solicite (`BindingFlags.MethodInvoke`, `BindingFlags.GetProperties`, y así sucesivamente). El conjunto de métodos se filtra por el nombre, número de argumentos y un conjunto de modificadores de búsqueda definidos en el enlazador.  
+ El enlazador encontrará todos los métodos de coincidencia. Estos métodos se encuentran en función del tipo de enlace solicitado (`BindingFlags.MethodInvoke`, `BindingFlags.GetProperties`, y así sucesivamente). El conjunto de métodos se filtra por el nombre, número de argumentos y un conjunto de modificadores de búsqueda definidos en el enlazador.  
   
- Después de selecciona el método, se invocará. En ese momento se comprueba la accesibilidad. La búsqueda puede controlar qué conjunto de métodos que se buscan basándose en el atributo de accesibilidad asociado al método. El <xref:System.Reflection.Binder.BindToMethod%2A?displayProperty=nameWithType> método es responsable de seleccionar el método que se debe invocar. El enlazador predeterminado selecciona a la coincidencia más específica.  
+ Después de selecciona el método, se invocará. En ese momento se comprueba la accesibilidad. La búsqueda puede controlar qué conjunto de métodos se buscan en función del atributo de accesibilidad asociado al método. El <xref:System.Reflection.Binder.BindToMethod%2A?displayProperty=nameWithType> método es responsable de seleccionar el método que se debe invocar. El enlazador predeterminado, selecciona a la coincidencia más específica.  
   
 > [!NOTE]
->  Se omiten las restricciones de acceso de código de plena confianza. Es decir, propiedades, métodos, campos y constructores privados son accesibles y se invocan mediante la reflexión siempre que el código es de plena confianza.  
+>  Se omiten las restricciones de acceso para el código de plena confianza. Es decir, las propiedades, métodos, campos y constructores privados se pueden tener acceso e invocan mediante reflexión, siempre que el código es de plena confianza.  
   
  Actualmente, `InvokeMember` realiza la semántica de reflexión de Microsoft .NET Framework para cada tipo de objeto.  
   
@@ -1344,14 +1409,14 @@
   
  `String ret = (String) t.InvokeMember ("MyArray", BindingFlags.GetField, null, this, new Variant[]{0});`  
   
- Puede utilizar `InvokeMember` para establecer uno o más elementos de una matriz de miembros. Todos los elementos se establecen en el mismo valor. El `args` matriz debe tener el formato siguiente:  
+ Puede usar `InvokeMember` para establecer uno o más elementos de una matriz de miembros. Todos los elementos se establecen en el mismo valor. El `args` matriz debe tener el formato siguiente:  
   
 ```  
 {index1,  
     index2,, value}  
 ```  
   
- Por ejemplo, para establecer al primer miembro de MyArray del ejemplo anterior, la sintaxis es la siguiente:  
+ Por ejemplo, para establecer al primer miembro de MyArray del ejemplo anterior, la sintaxis es como sigue:  
   
 ```csharp  
 t.InvokeMember ("MyArray", BindingFlags.SetField, null, this, new  
@@ -1373,6 +1438,8 @@ t.InvokeMember ("MyArray", BindingFlags.SetField, null, this, new
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1440,6 +1507,8 @@ t.InvokeMember ("MyArray", BindingFlags.SetField, null, this, new
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1493,6 +1562,8 @@ t.InvokeMember ("MyArray", BindingFlags.SetField, null, this, new
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1557,6 +1628,8 @@ t.InvokeMember ("MyArray", BindingFlags.SetField, null, this, new
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1640,6 +1713,8 @@ t.InvokeMember ("MyArray", BindingFlags.SetField, null, this, new
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1672,6 +1747,8 @@ t.InvokeMember ("MyArray", BindingFlags.SetField, null, this, new
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1748,6 +1825,8 @@ t.InvokeMember ("MyArray", BindingFlags.SetField, null, this, new
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1802,6 +1881,7 @@ t.InvokeMember ("MyArray", BindingFlags.SetField, null, this, new
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1840,6 +1920,8 @@ t.InvokeMember ("MyArray", BindingFlags.SetField, null, this, new
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1878,6 +1960,8 @@ t.InvokeMember ("MyArray", BindingFlags.SetField, null, this, new
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1917,6 +2001,8 @@ t.InvokeMember ("MyArray", BindingFlags.SetField, null, this, new
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1956,6 +2042,8 @@ t.InvokeMember ("MyArray", BindingFlags.SetField, null, this, new
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1995,6 +2083,8 @@ t.InvokeMember ("MyArray", BindingFlags.SetField, null, this, new
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2025,6 +2115,8 @@ t.InvokeMember ("MyArray", BindingFlags.SetField, null, this, new
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
