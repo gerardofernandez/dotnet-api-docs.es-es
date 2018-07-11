@@ -1,11 +1,11 @@
 <Type Name="TaskScheduler" FullName="System.Threading.Tasks.TaskScheduler">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="4d9adf13c8a7e851e5512c4b8b0e6ada78afa563" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="9101875b3c768590b23db0c0c08ee17d09fc5e38" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36407625" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37609227" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class TaskScheduler" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit TaskScheduler extends System.Object" />
@@ -54,67 +54,67 @@
   
  El programador de tareas predeterminado está basado en el grupo de subprocesos .NET Framework 4, que proporciona robo de trabajo para el equilibrio de carga, inyección/retirada de subprocesos, a fin de obtener el máximo resultado y un buen rendimiento en general. Debería ser suficiente para la mayoría de los escenarios.  
   
- La <xref:System.Threading.Tasks.TaskScheduler> clase también actúa como el punto de extensión para toda la lógica de programación personalizable.  Esto incluye mecanismos como cómo programar una tarea para su ejecución y las tareas programadas cómo debe mostrarse a depuradores. Si necesita funcionalidad especial, puede crear a un programador personalizado y habilitarlo para tareas o consultas concretas.  
+ La <xref:System.Threading.Tasks.TaskScheduler> clase también actúa como el punto de extensión para toda la lógica de programación personalizable.  Esto incluye mecanismos, como cómo programar una tarea para su ejecución y las tareas programadas de cómo se debe exponer a los depuradores. Si necesita funcionalidad especial, puede crear a un programador personalizado y habilitarlo para tareas específicas o las consultas.  
   
  En este tema:  
 [El programador de tareas predeterminado y el grupo de subprocesos](#Default)  
  [La cola global frente a las colas locales](#Queues)  
  [Robo de trabajo](#Stealing)  
- [Tareas de larga duración](#LongRunning)  
+ [Tareas de ejecución prolongada](#LongRunning)  
  [Inclusión de tareas](#Inlining)  
-[Especificar un contexto de sincronización](#Sync)  
+[Especifica un contexto de sincronización](#Sync)  
   
 <a name="Default"></a>   
 ## <a name="the-default-task-scheduler-and-the-thread-pool"></a>El programador de tareas predeterminado y el grupo de subprocesos  
- El programador predeterminado para el Task Parallel Library y PLINQ utiliza el grupo de subprocesos de .NET Framework, que se representa mediante el <xref:System.Threading.ThreadPool> (clase), poner en cola y ejecutar el trabajo. El grupo de subprocesos utiliza la información proporcionada por el <xref:System.Threading.Tasks.Task> tipo para admitir el paralelismo específico (unidades efímeras de trabajo) que las tareas y consultas paralelas a menudo representan.  
+ El programador predeterminado para la biblioteca TPL y PLINQ usa el grupo de subprocesos de .NET Framework, que viene representado por la <xref:System.Threading.ThreadPool> (clase), para poner en cola y ejecutar el trabajo. El grupo de subprocesos usa la información suministrada por el <xref:System.Threading.Tasks.Task> tipo para admitir el paralelismo específico (unidades efímeras de trabajo) que en paralelo las tareas y las consultas a menudo representan de forma eficaz.  
   
 <a name="Queues"></a>   
 ### <a name="the-global-queue-vs-local-queues"></a>La cola global frente a las colas locales  
- El grupo de subprocesos mantiene la cola de subprocesos en cada dominio de aplicación de trabajo de un global FIFO (primero en salir). Cuando un programa llama la <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A?displayProperty=nameWithType> (o <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A?displayProperty=nameWithType>) método, el trabajo es poner en esta cola compartida y finalmente sale de la cola hacia el subproceso siguiente que está disponible. A partir de .NET Framework 4, esta cola se ha mejorado para usar un algoritmo sin bloqueo que se parece a la <xref:System.Collections.Concurrent.ConcurrentQueue%601> clase. Mediante esta implementación sin bloqueo, el grupo de subprocesos emplea menos tiempo en poner y sacar elementos de trabajo de las colas. Esta ventaja de rendimiento está disponible para todos los programas que usan el grupo de subprocesos.  
+ El grupo de subprocesos mantiene la cola de subprocesos en cada dominio de aplicación de trabajo de un global FIFO (primero en salir). Cada vez que un programa llama a la <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A?displayProperty=nameWithType> (o <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A?displayProperty=nameWithType>) método, el trabajo es poner en esta cola compartida y finalmente sale de la cola hacia el subproceso siguiente que está disponible. A partir de .NET Framework 4, esta cola se ha mejorado para usar un algoritmo sin bloqueo que se parezca a la <xref:System.Collections.Concurrent.ConcurrentQueue%601> clase. Mediante esta implementación sin bloqueo, el grupo de subprocesos emplea menos tiempo en poner y sacar elementos de trabajo de las colas. Esta ventaja de rendimiento está disponible para todos los programas que usan el grupo de subprocesos.  
   
- Las tareas de nivel superior, que son tareas que no se crean en el contexto de otra tarea, se colocan en la cola global igual que cualquier otro elemento de trabajo. Sin embargo, las tareas anidadas o secundarias, que se crean en el contexto de otra tarea, se controlan de forma bastante distinta. Una tarea secundaria o anidada se coloca en una cola local que es específica del subproceso en el que la tarea primaria se está ejecutando. La tarea primaria puede ser una tarea de nivel superior o también puede ser el elemento secundario de otra tarea. Cuando este subproceso está listo para más trabajo, primero busca en la cola local. Si hay elementos de trabajo esperando, se puede tener acceso a ellos rápidamente. Se tiene acceso a las colas locales en el orden último en salir (LIFO) para conservar el emplazamiento en caché y reducir la contención. Para obtener más información acerca de las tareas secundarias y anidadas, vea [adjuntas y tareas secundarias desasociadas](~/docs/standard/parallel-programming/attached-and-detached-child-tasks.md).  
+ Las tareas de nivel superior, que son tareas que no se crean en el contexto de otra tarea, se colocan en la cola global igual que cualquier otro elemento de trabajo. Sin embargo, las tareas anidadas o secundarias, que se crean en el contexto de otra tarea, se controlan de forma bastante distinta. Una tarea secundaria o anidada se coloca en una cola local que es específica del subproceso en el que la tarea primaria se está ejecutando. La tarea primaria puede ser una tarea de nivel superior o también puede ser el elemento secundario de otra tarea. Cuando este subproceso está listo para más trabajo, primero busca en la cola local. Si hay elementos de trabajo esperando, se puede tener acceso a ellos rápidamente. Se tiene acceso a las colas locales en el orden último en salir (LIFO) para conservar la localidad de memoria caché y reducir la contención. Para obtener más información acerca de las tareas secundarias y anidadas, vea [adjuntas y tareas secundarias desasociadas](~/docs/standard/parallel-programming/attached-and-detached-child-tasks.md).  
   
- El uso de colas locales no solo reduce la presión en la cola global, pero que también aprovecha las ventajas de la situación de los datos. Cola de elementos de trabajo en el equipo local con frecuencia las estructuras de datos de referencia que están físicamente cerca entre sí en la memoria. En estos casos, los datos ya están en la memoria caché después de la primera tarea se ha ejecutado y se puede obtener acceso rápidamente. Ambos [Parallel LINQ (PLINQ)](~/docs/standard/parallel-programming/parallel-linq-plinq.md) y <xref:System.Threading.Tasks.Parallel> clase usa tareas anidadas y tareas secundarias ampliamente y conseguir aumentos significativos de velocidad utilizando las colas de trabajo locales.  
+ El uso de colas locales no sólo reduce la presión en la cola global, sino que también aprovecha las ventajas de la localidad de los datos. Los elementos de trabajo locales en cola con frecuencia las estructuras de datos de referencia que se encuentran físicamente próximos entre sí en memoria. En estos casos, los datos ya están en la memoria caché después de la primera tarea se ha ejecutado y se puede acceder rápidamente. Ambos [Parallel LINQ (PLINQ)](~/docs/standard/parallel-programming/parallel-linq-plinq.md) y <xref:System.Threading.Tasks.Parallel> ampliamente de clases usa tareas anidadas y tareas secundarias y conseguir aumentos significativos de velocidad mediante las colas de trabajo local.  
   
 <a name="Stealing"></a>   
 ### <a name="work-stealing"></a>Robo de trabajo  
- A partir de .NET Framework 4, el grupo de subprocesos también incluye un algoritmo de robo de trabajo para ayudar a asegurar que ningún subproceso esté inactivo mientras otros todavía tienen trabajo en sus colas. Cuando un subproceso ThreadPool está listo para más trabajo, examina primero el encabezado de la cola local, a continuación, en la cola global y después en las colas locales de otros subprocesos. Si encuentra un elemento de trabajo en la cola local de otro subproceso, aplica primero heurística para asegurarse de que puede ejecutar el trabajo eficazmente. Si es posible, quita de la cola el elemento de trabajo de la cola (en orden FIFO). Esto reduce la contención en cada cola local y mantiene la situación de los datos. Esta arquitectura permite el equilibrio de carga de grupo de subprocesos trabajar más eficazmente que en versiones anteriores.  
+ A partir de .NET Framework 4, el grupo de subprocesos también incluye un algoritmo de robo de trabajo para ayudar a asegurarse de que no se encuentra ningún subproceso inactivo mientras otros todavía tienen trabajo en sus colas. Cuando un subproceso ThreadPool está listo para más trabajo, examina primero el encabezado de la cola local, a continuación, en la cola global y después en las colas locales de otros subprocesos. Si encuentra un elemento de trabajo en la cola local de otro subproceso, aplica primero heurística para asegurarse de que puede ejecutar el trabajo eficazmente. Si es posible, quita de la cola el elemento de trabajo de la cola (en orden FIFO). Esto reduce la contención en cada cola local y mantiene la situación de los datos. Esta arquitectura permite el equilibrio de carga de grupo de subprocesos funcione de manera más eficaz que versiones anteriores.  
   
 <a name="LongRunning"></a>   
-### <a name="long-running-tasks"></a>Tareas de larga duración  
- Tal vez le interese evitar explícitamente que una tarea se coloque en una cola local. Por ejemplo, puede saber que un elemento de trabajo determinado se ejecutará durante un tiempo relativamente largo y es probable que bloquee el resto de los elementos de trabajo de la cola local. En este caso, puede especificar la opción <xref:System.Threading.Tasks.TaskCreationOptions?displayProperty=nameWithType>, que proporciona una sugerencia al programador que le indica que tal vez es necesario un subproceso adicional para que la tarea no bloquee el progreso de otros subprocesos o elementos de trabajo de la cola local. Mediante esta opción no el grupo de subprocesos por completo, incluidas las colas globales y locales.  
+### <a name="long-running-tasks"></a>Tareas de ejecución prolongada  
+ Tal vez le interese evitar explícitamente que una tarea se coloque en una cola local. Por ejemplo, puede saber que un elemento de trabajo determinado se ejecutará durante un tiempo relativamente largo y es probable que bloquee el resto de los elementos de trabajo de la cola local. En este caso, puede especificar la opción <xref:System.Threading.Tasks.TaskCreationOptions?displayProperty=nameWithType>, que proporciona una sugerencia al programador que le indica que tal vez es necesario un subproceso adicional para que la tarea no bloquee el progreso de otros subprocesos o elementos de trabajo de la cola local. Con esta opción evita el grupo de subprocesos por completo, incluidas las colas globales y locales.  
   
 <a name="Inlining"></a>   
 ### <a name="task-inlining"></a>Inclusión de tareas  
- En algunos casos, cuando un <xref:System.Threading.Tasks.Task> se espera, se puede ejecutar sincrónicamente en el subproceso que realiza la operación de espera. Esto mejora el rendimiento evitando la necesidad de un subproceso adicional y usar en su lugar, el subproceso existente que se habría bloqueado en caso contrario. Para evitar errores de volver a entrar, inclusión de tareas solo se produce cuando el destino de la espera se encuentra en la cola local del subproceso pertinente.  
+ En algunos casos, cuando un <xref:System.Threading.Tasks.Task> se esperando, se puede ejecutar sincrónicamente en el subproceso que realiza la operación de espera. Esto mejora el rendimiento evitando la necesidad de un subproceso adicional y en su lugar utilizando el subproceso existente, que en caso contrario, se habría bloqueado. Para evitar errores debidos a la entrada reiterada, inclusión de tareas solo se produce cuando se encuentra el destino de la espera en cola local del subproceso pertinente.  
   
 <a name="Sync"></a>   
-## <a name="specifying-a-synchronization-context"></a>Especificar un contexto de sincronización  
+## <a name="specifying-a-synchronization-context"></a>Especifica un contexto de sincronización  
  Puede utilizar el método <xref:System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext%2A?displayProperty=nameWithType> para especificar que una tarea se debería programar para ejecutarse en un subproceso determinado. Esto es útil en marcos como Windows Forms y Windows Presentation Foundation, donde el acceso a los objetos de interfaz de usuario está restringido a menudo para el código que se está ejecutando en el mismo subproceso en el que se creó el objeto UI.  
   
- En el ejemplo siguiente se usa el <xref:System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext%2A?displayProperty=nameWithType> método en una aplicación de Windows Presentation Foundation (WPF) para programar una tarea en el mismo subproceso donde se creó el control de interfaz de usuario.   En el ejemplo se crea un mosaico de imágenes que se seleccionan aleatoriamente de un directorio especificado. Los objetos WPF se utilizan para cargar y cambiar el tamaño de las imágenes. Los píxeles sin formato, a continuación, se pasan a una tarea que usa un <xref:System.Threading.Tasks.Parallel.For%2A> bucle para escribir los datos de píxeles en una matriz grande de un solo byte. Se necesita ninguna sincronización porque no hay dos mosaicos ocupa los mismos elementos de matriz. Los iconos también pueden escribirse en cualquier orden porque su posición se calcula independientemente de cualquier otro icono. La matriz de gran tamaño, a continuación, se pasa a una tarea que se ejecuta en el subproceso de interfaz de usuario, que se cargan los datos de píxeles en un control de imagen.  
+ En el ejemplo siguiente se usa el <xref:System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext%2A?displayProperty=nameWithType> método en una aplicación de Windows Presentation Foundation (WPF) para programar una tarea en el mismo subproceso donde se creó el control de interfaz de usuario.   En el ejemplo se crea un mosaico de imágenes que se seleccionan aleatoriamente de un directorio especificado. Los objetos de WPF se usan para cargar y cambiar el tamaño de las imágenes. Los píxeles sin procesar, a continuación, se pasan a una tarea que usa un <xref:System.Threading.Tasks.Parallel.For%2A> bucle para escribir los datos de píxeles en una matriz grande de un byte. Se necesita ninguna sincronización porque no hay dos iconos ocupan los mismos elementos de matriz. Los iconos también se pueden escribir en cualquier orden porque su posición se calcula independientemente de cualquier otro icono. La matriz de gran tamaño, a continuación, se pasa a una tarea que se ejecuta en el subproceso de interfaz de usuario, donde se cargan los datos de píxeles en un control de imagen.  
   
- El ejemplo mueve los datos desde el subproceso de interfaz de usuario, se modifica mediante el uso de bucles paralelos y <xref:System.Threading.Tasks.Task> objetos y, a continuación, se pasa a una tarea que se ejecuta en el subproceso de interfaz de usuario. Este enfoque es útil cuando deba utilizar Task Parallel Library para realizar operaciones que no son compatibles con la API de WPF, o que no son suficientemente rápidos. Otra manera de crear un mosaico de la imagen en WPF es usar un <xref:System.Windows.Controls.WrapPanel?displayProperty=nameWithType> controlar y agregar imágenes a él. El <xref:System.Windows.Controls.WrapPanel> administra el trabajo de colocar los mosaicos. Sin embargo, este trabajo solo puede realizarse en el subproceso de interfaz de usuario.  
+ El ejemplo mueve los datos fuera del subproceso de interfaz de usuario, lo modifica mediante el uso de bucles paralelos y <xref:System.Threading.Tasks.Task> objetos y, a continuación, se pasa a una tarea que se ejecuta en el subproceso de interfaz de usuario. Este enfoque es útil cuando tiene que usar la biblioteca TPL para realizar operaciones que no son compatibles con la API de WPF, o que no son lo suficientemente rápido. Otra forma de crear un mosaico de la imagen en WPF es usar un <xref:System.Windows.Controls.WrapPanel?displayProperty=nameWithType> controlar y agregar imágenes a él. El <xref:System.Windows.Controls.WrapPanel> controla el trabajo de colocar los iconos. Sin embargo, este trabajo solo puede realizarse en el subproceso de interfaz de usuario.  
   
  [!code-csharp[TPL_SyncContext#01](~/samples/snippets/csharp/VS_Snippets_Misc/tpl_synccontext/cs/mainwindow.xaml.cs#01)]
  [!code-vb[TPL_SyncContext#01](~/samples/snippets/visualbasic/VS_Snippets_Misc/tpl_synccontext/vb/MainWindow.xaml.vb#01)]  
   
  Para crear el ejemplo, cree un proyecto de aplicación de WPF en Visual Studio y asígnele un nombre de su elección. A continuación, haga lo siguiente:  
   
-1.  En la vista de diseño, arrastre un <xref:System.Windows.Controls.Image> controlar desde la **cuadro de herramientas** a la superficie de diseño. En la vista XAML, especificar la alineación horizontal como "Left". El tamaño no importa porque se redimensiona el control de forma dinámica en tiempo de ejecución. Acepte el nombre predeterminado, "image".  
+1.  En la vista Diseño, arrastre un <xref:System.Windows.Controls.Image> controlar desde la **cuadro de herramientas** a la superficie de diseño. En la vista XAML, especificar la alineación horizontal como "Left". El tamaño no importa porque el control se ajustará dinámicamente en tiempo de ejecución. Acepte el nombre predeterminado, "la imagen".  
   
-2.  Arrastre un <xref:System.Windows.Controls.Button> controlar desde la **cuadro de herramientas** en la parte inferior izquierda de la ventana de la aplicación. Haga doble clic en el botón para agregar una <xref:System.Windows.Controls.Primitives.ButtonBase.Click> controlador de eventos. En la vista XAML, especifique la <xref:System.Windows.Controls.ContentControl.Content%2A> propiedad del botón como "Hacer que un mosaico" y especifica la alineación horizontal como "Left". Acepte el nombre predeterminado, "button".  
+2.  Arrastre un <xref:System.Windows.Controls.Button> controlar desde la **cuadro de herramientas** a la parte inferior izquierda de la ventana de la aplicación. Haga doble clic en el botón para agregar un <xref:System.Windows.Controls.Primitives.ButtonBase.Click> controlador de eventos. En la vista XAML, especifique el <xref:System.Windows.Controls.ContentControl.Content%2A> propiedad del botón como "Make un mosaico" y especifique la alineación horizontal como "Left". Acepte el nombre predeterminado, "button".  
   
 3.  Reemplace todo el contenido del archivo MainWindow.xaml.cs o MainWindow.xaml.vb por el código de este ejemplo. Asegúrese de que el nombre del área de trabajo coincide con el nombre del proyecto.  
   
-4.  En el ejemplo se lee las imágenes JPEG de un directorio denominado C:\Users\Public\Pictures\Sample Pictures\\. Crear el directorio y coloque algunas imágenes en ella o cambiar la ruta de acceso para hacer referencia a cualquier otro directorio que contiene imágenes.  
+4.  El ejemplo lee las imágenes JPEG de un directorio denominado C:\Users\Public\Pictures\Sample Pictures\\. Cree el directorio y coloque algunas imágenes en ella o cambiar la ruta de acceso para hacer referencia a otro directorio que contiene imágenes.  
   
- Este ejemplo tiene algunas limitaciones. Por ejemplo, se admiten imágenes de solo 32-bits por píxel; imágenes en otros formatos están dañadas por la <xref:System.Windows.Media.Imaging.BitmapImage> objeto durante la operación de cambio de tamaño. Además, las imágenes de origen deben mayores que el tamaño del mosaico. Como un ejercicio más extenso, puede agregar funcionalidad para controlar varios formatos de píxel y tamaños de archivo.  
+ En este ejemplo tiene algunas limitaciones. Por ejemplo, se admiten imágenes de sólo 32-bits por píxel; las imágenes en otros formatos están dañadas por la <xref:System.Windows.Media.Imaging.BitmapImage> objeto durante la operación de cambio de tamaño. Además, las imágenes de origen deben mayores que el tamaño del mosaico. Como ejercicio adicional, puede agregar funcionalidad para controlar varios formatos de píxel y tamaños de archivo.  
   
    
   
 ## Examples  
- En el siguiente ejemplo se toma de la [ejemplos de programación en paralelo con .NET Framework 4](http://go.microsoft.com/fwlink/?LinkID=165717) en el sitio Web de MSDN Code Gallery.  Crea a un programador de tareas personalizado que limita el número de subprocesos utilizados por la aplicación. A continuación, inicia dos conjuntos de tareas y muestra información acerca de la tarea y el subproceso en el que se ejecuta la tarea.  
+ En el siguiente ejemplo se toma de la [ejemplos de programación en paralelo con .NET Framework 4](http://go.microsoft.com/fwlink/?LinkID=165717) en el sitio Web de MSDN Code Gallery.  Crea a un programador de tareas personalizado que limita el número de subprocesos usados por la aplicación. A continuación, inicia dos conjuntos de tareas y muestra información acerca de la tarea y el subproceso en que se ejecuta la tarea.  
   
  [!code-csharp[TPL_Schedulers#02](~/samples/snippets/csharp/VS_Snippets_Misc/tpl_schedulers/cs/limitex1.cs#02)]
  [!code-vb[TPL_Schedulers#02](~/samples/snippets/visualbasic/VS_Snippets_Misc/tpl_schedulers/vb/module2.vb#02)]  
@@ -240,10 +240,31 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Para obtener más información, consulte [programadores de tareas](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
+ Para obtener más información, consulte [TaskScheduler](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
  ]]></format>
         </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~TaskScheduler ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.TaskScheduler.Finalize" />
+      <MemberSignature Language="VB.NET" Value="Finalize ()" />
+      <MemberSignature Language="C++ CLI" Value="!TaskScheduler ()" />
+      <MemberSignature Language="F#" Value="override this.Finalize : unit -&gt; unit" Usage="taskScheduler.Finalize " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <Member MemberName="FromCurrentSynchronizationContext">
@@ -284,9 +305,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Todos los <xref:System.Threading.Tasks.Task> instancias en cola para el valor devuelto programador que se va a ejecutar mediante una llamada a la <xref:System.Threading.SynchronizationContext.Post%2A> método en ese contexto.  
+ Todos los <xref:System.Threading.Tasks.Task> instancias en cola para el valor devuelto se ejecutará el programador mediante una llamada a la <xref:System.Threading.SynchronizationContext.Post%2A> método en ese contexto.  
   
- Para obtener más información, consulte [programadores de tareas](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
+ Para obtener más información, consulte [TaskScheduler](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
  ]]></format>
         </remarks>
@@ -336,9 +357,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Una clase derivada de <xref:System.Threading.Tasks.TaskScheduler> implementa este método para admitir la integración con depuradores. .NET Framework solo invocará este método cuando el depurador solicita acceso a los datos. El enumerable devuelto se pueda recorrer por depuración utilidades para tener acceso a las tareas actualmente en cola en este programador, lo que permite al depurador proporcionar una representación de esta información en la interfaz de usuario.  
+ Una clase derivada de <xref:System.Threading.Tasks.TaskScheduler> implementa este método para admitir la integración con los depuradores. .NET Framework solo invocará este método cuando el depurador solicita acceso a los datos. El enumerable devuelto se puede atravesar por las utilidades para tener acceso a las tareas de depuración actualmente en la cola de este programador, habilitar el depurador para proporcionar una representación de esta información en la interfaz de usuario.  
   
- Es importante tener en cuenta que, cuando se llama a este método, se bloquearán todos los demás subprocesos en el proceso. Por lo tanto, es importante evitar la sincronización con otros subprocesos que puede dar lugar al bloqueo. Si es necesaria la sincronización y no puede adquirir el bloqueo en este método, debería iniciar una excepción para que el depurador no se bloquea. En el ejemplo siguiente se muestra un posible enfoque en C#:  
+ Es importante tener en cuenta que, cuando se llama a este método, se bloquearán todos los otros subprocesos del proceso. Por lo tanto, es importante evitar la sincronización con otros subprocesos que puede dar lugar al bloqueo. Si la sincronización es necesaria y no puede adquirir el bloqueo en este método, debe producir una excepción para que el depurador no se bloquea. El ejemplo siguiente muestra un posible enfoque en C#:  
   
 ```  
 protected override IEnumerable<Task> GetScheduledTasks()  
@@ -361,9 +382,9 @@ protected override IEnumerable<Task> GetScheduledTasks()
   
  Además, este método y el enumerable devuelto no debe modificar cualquier estado visible globalmente.  
   
- El enumerable no devuelto nunca debería ser null. Si no hay actualmente ninguna tarea en cola, debe devolverse un vacío enumerable en su lugar.  
+ El enumerable no devuelto nunca debería ser null. Si no hay actualmente ninguna tarea en cola, se debe devolver en su lugar un enumerable vacío.  
   
- Los desarrolladores que están implementando depuradores personalizados no debe llamar directamente a este método, pero debe usar el método contenedor interna `GetScheduledTasksForDebugger` en su lugar: `internal Task[] GetScheduledTasksForDebugger()`. Este método contenedor devuelve una matriz de tareas en lugar de un enumerable. Para recuperar una lista de programadores activos, utilice el método interno `internal static TaskScheduler[] GetTaskSchedulersForDebugger()`. Este método estático devuelve una matriz de todos los activos <xref:System.Threading.Tasks.TaskScheduler> instancias. A continuación, puede usar `GetScheduledTasksForDebugger` en cada instancia del programador para recuperar su lista de tareas programadas.  
+ Los desarrolladores que están implementando los depuradores personalizados no debe llamar a este método directamente, pero debe usar el método de contenedor interna `GetScheduledTasksForDebugger` en su lugar: `internal Task[] GetScheduledTasksForDebugger()`. Este método contenedor devuelve una matriz de tareas en lugar de una colección enumerable. Para recuperar una lista de programadores activos, utilice el método interno `internal static TaskScheduler[] GetTaskSchedulersForDebugger()`. Este método estático devuelve una matriz de todos los activos <xref:System.Threading.Tasks.TaskScheduler> instancias. A continuación, puede usar `GetScheduledTasksForDebugger` en cada instancia del programador para recuperar su lista de tareas programadas.  
   
  ]]></format>
         </remarks>
@@ -407,7 +428,7 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Para obtener más información, consulte [programadores de tareas](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
+ Para obtener más información, consulte [TaskScheduler](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
  ]]></format>
         </remarks>
@@ -450,7 +471,7 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Para obtener más información, consulte [programadores de tareas](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
+ Para obtener más información, consulte [TaskScheduler](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
  ]]></format>
         </remarks>
@@ -502,9 +523,9 @@ protected override IEnumerable<Task> GetScheduledTasks()
 ## Remarks  
  Una clase derivada de <xref:System.Threading.Tasks.TaskScheduler> implementa este método para aceptar tareas que se programan en el programador.  
   
- Una implementación típica almacenaría la tarea en una estructura de datos interna, que se les preste servicio subprocesos que ejecutarían esas tareas en algún momento en el futuro.  
+ Una implementación típica almacenaría la tarea en una estructura de datos interna, que podría ser reparada por subprocesos que ejecutarían esas tareas en algún momento en el futuro.  
   
- Este método solo está pensado para ser llamado por .NET Framework y no se debe llamar directamente mediante la clase derivada. Esto es necesario para mantener la coherencia del sistema.  
+ Este método solo está pensado para ser llamado por .NET Framework y no debe llamarse directamente por la clase derivada. Esto es necesario para mantener la coherencia del sistema.  
   
  ]]></format>
         </remarks>
@@ -556,9 +577,9 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Para obtener más información, consulte [programadores de tareas](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
+ Para obtener más información, consulte [TaskScheduler](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
- Este método puede ejecutarse en un bloque finally; por lo tanto, debe devolver lo más rápido posible así que cualquier recursos como <xref:System.Threading.CancellationTokenRegistration> objetos pueden eliminarse de manera oportuna.  
+ Este método se puede ejecutar en un bloque finally; por lo tanto, debe devolver tan pronto como sea posible hasta que cualquier recursos como <xref:System.Threading.CancellationTokenRegistration> objetos puedan eliminar de manera oportuna.  
   
  ]]></format>
         </remarks>
@@ -610,7 +631,7 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Las implementaciones del programador se proporcionan con <xref:System.Threading.Tasks.Task> instancias que se ejecute a través la <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> método o la <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTaskInline%2A> método. Cuando el programador considere oportunas ejecutar la tarea proporcionada, <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> debe utilizarse para hacerlo. TryExecuteTask controla todos los aspectos de la ejecución de una tarea, incluida la invocación de la acción, control de excepciones, administración de Estados y control del ciclo de vida.  
+ Las implementaciones del programador se proporcionan con <xref:System.Threading.Tasks.Task> instancias que se ejecutará a través la <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> método o la <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTaskInline%2A> método. Cuando el programador considere adecuado para ejecutar la tarea proporcionada, <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> debe usarse para hacerlo. TryExecuteTask controla todos los aspectos de la ejecución de una tarea, incluida la invocación de acción, control de excepciones, administración de Estados y control del ciclo de vida.  
   
  <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> solo debe usarse para las tareas proporcionadas a este programador por la infraestructura de .NET Framework. No debe usarse para ejecutar tareas arbitrarias obtenidas a través de mecanismos personalizados.  
   
@@ -666,13 +687,13 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Una clase derivada de <xref:System.Threading.Tasks.TaskScheduler> implementa esta función para admitir la ejecución de en línea de una tarea en un subproceso que inicia una espera en ese objeto de tarea. Ejecución en línea es opcional y se puede rechazar la solicitud devolviendo false. Sin embargo, las tareas más que puede ser entre líneas, mejor será el programador escalará. De hecho, un programador que inserte muy poca puede ser susceptible a los interbloqueos. Una implementación correcta debe asegurarse de que una solicitud que se ejecute bajo las directivas garantizadas por el programador pueda correctamente alineado. Por ejemplo, si un programador utiliza un subproceso dedicado para ejecutar las tareas, las solicitudes de inserción desde ese subproceso deben ejecutarse correctamente.  
+ Una clase derivada de <xref:System.Threading.Tasks.TaskScheduler> implementa esta función para admitir la ejecución en línea de una tarea en un subproceso que inicia una espera en ese objeto de tarea. Ejecución insertada es opcional y se puede rechazar la solicitud y devuelve false. Sin embargo, las tareas más que pueden insertarse, mejor será el programador se escalará. De hecho, un programador que inlines demasiado poco puedan ser propensas a interbloqueos. Debe asegurarse de que una solicitud que se ejecuta bajo las directivas que se garantiza que el programador correctamente puede insertar una implementación apropiada. Por ejemplo, si un programador utiliza un subproceso dedicado para ejecutar tareas, las solicitudes de inserción desde ese subproceso deberían realizarse correctamente.  
   
- Si un programador decide realizar la ejecución en línea, deberá hacerlo mediante una llamada para el objeto TaskScheduler base <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> método con el objeto de tarea proporcionado, propagando el valor devuelto. También puede ser adecuado para el programador quitar una tarea insertada de sus estructuras de datos internas si decide aceptar la solicitud de inserción. Sin embargo, tenga en cuenta que en algunas circunstancias un programador se pedirá a en línea una tarea que no se proporcionó anteriormente a él con el <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> método.  
+ Si un programador decide llevar a cabo la ejecución en línea, deberá hacerlo mediante una llamada a la TaskScheduler base <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> método con el objeto de tarea proporcionado, propagando el valor devuelto. También puede ser adecuado para el programador quitar una tarea insertada de sus estructuras de datos internas si decide aceptar la solicitud de inserción. Sin embargo, tenga en cuenta que en algunas circunstancias un programador puede que se pida a una tarea que no se proporcionó anteriormente a él con el <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> método.  
   
- El programador derivado es responsable de asegurarse de que el subproceso que realiza la llamada es adecuado para ejecutar la tarea determinada en la medida de su propia programación y se refiere a las directivas de ejecución.  
+ El programador derivado es responsabilidad suya asegurarse de que el subproceso de llamada es adecuado para ejecutar la tarea determinada en cuanto a su propia programación y se refiere a las directivas de ejecución.  
   
- Para obtener más información, consulte [programadores de tareas](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
+ Para obtener más información, consulte [TaskScheduler](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
  ]]></format>
         </remarks>
@@ -726,7 +747,7 @@ protected override IEnumerable<Task> GetScheduledTasks()
 ## Remarks  
  Este evento de todo el dominio de aplicación proporciona un mecanismo para evitar que la directiva de elevación de excepciones (que, de forma predeterminada, finaliza el proceso) de desencadenamiento.  
   
- Para facilitar a los desarrolladores a escribir código asincrónico basado en tareas, el [!INCLUDE[net_v45](~/includes/net-v45-md.md)] cambia el comportamiento de excepción predeterminado para las excepciones inadvertidas. Aunque todavía excepciones inadvertidas generan el <xref:System.Threading.Tasks.TaskScheduler.UnobservedTaskException> excepción, el proceso no termina de forma predeterminada. En su lugar, se controla la excepción en tiempo de ejecución después de que se genera el evento, independientemente de si la excepción ajusta a un controlador de eventos. Este comportamiento puede configurarse. A partir de la [!INCLUDE[net_v45](~/includes/net-v45-md.md)], puede usar el elemento de configuración para revertir al comportamiento de la [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] y finalizar el proceso:  
+ Para facilitar a los desarrolladores escribir código asincrónico basado en tareas, el [!INCLUDE[net_v45](~/includes/net-v45-md.md)] cambia el comportamiento de excepción predeterminado para las excepciones no observadas. Aunque todavía excepciones no observadas elevar el <xref:System.Threading.Tasks.TaskScheduler.UnobservedTaskException> excepción, el proceso no finaliza de forma predeterminada. En su lugar, el tiempo de ejecución se controla la excepción después de que se genera el evento, independientemente de si un controlador de eventos observa la excepción. Este comportamiento se puede configurar. A partir de la [!INCLUDE[net_v45](~/includes/net-v45-md.md)], puede usar el elemento de configuración para revertir al comportamiento de la [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] y terminar el proceso:  
   
 ```xml  
 <configuration>   
