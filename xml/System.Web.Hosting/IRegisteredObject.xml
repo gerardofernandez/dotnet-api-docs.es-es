@@ -1,11 +1,11 @@
 <Type Name="IRegisteredObject" FullName="System.Web.Hosting.IRegisteredObject">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="5708af969617ad4db0ca86e81974d01ef8e89b77" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="bc0dbcea47c334ad03ffc47d96d36491a9a9cb7a" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36600864" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37545739" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IRegisteredObject" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IRegisteredObject" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type IRegisteredObject = interface" />
   <AssemblyInfo>
     <AssemblyName>System.Web</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Interfaces />
@@ -24,13 +25,13 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Los objetos deben implementar la <xref:System.Web.Hosting.IRegisteredObject> interfaz para registrar con el entorno de hospedaje y tienen su duración administrado por el entorno de hospedaje.  
+ Los objetos deben implementar la <xref:System.Web.Hosting.IRegisteredObject> interfaz para registrar con el entorno de hospedaje y tiene su duración administrado por el entorno de hospedaje.  
   
- Puede crear una instancia de un objeto registrado mediante una llamada a la <xref:System.Web.Hosting.ApplicationManager.CreateObject%2A?displayProperty=nameWithType> método en el Administrador de la aplicación. El Administrador de aplicaciones, devuelve el objeto recién creado al llamador, que, a continuación, se puede llamar a un método específico del tipo en el objeto. Durante el inicio, el objeto registrado debe llamar el <xref:System.Web.Hosting.HostingEnvironment.RegisterObject%2A?displayProperty=nameWithType> método para completar el registro del objeto.  
+ Puede crear una instancia de un objeto registrado mediante una llamada a la <xref:System.Web.Hosting.ApplicationManager.CreateObject%2A?displayProperty=nameWithType> método en el Administrador de la aplicación. El Administrador de aplicaciones, devuelve el objeto recién creado al llamador, que, a continuación, se puede llamar a un método específico del tipo en el objeto. Durante el inicio, el objeto registrado debería llamar el <xref:System.Web.Hosting.HostingEnvironment.RegisterObject%2A?displayProperty=nameWithType> método para completar el registro del objeto.  
   
- Cuando el Administrador de aplicaciones necesita detener un objeto registrado, llamará a la <xref:System.Web.Hosting.IRegisteredObject.Stop%2A> método.  
+ Cuando el Administrador de aplicaciones necesita detener un objeto registrado, llamará el <xref:System.Web.Hosting.IRegisteredObject.Stop%2A> método.  
   
- Las aplicaciones pueden tener solo una instancia de un tipo registrado. Para crear varias instancias de un tipo registrado, utilice el modelo de generador para crear un objeto de administrador que está registrado con la aplicación y, a continuación, administra varias instancias. Para obtener un ejemplo de un objeto que implementa el patrón de fábrica, vea el ejemplo de la <xref:System.Web.Hosting.ApplicationManager> clase.  
+ Las aplicaciones pueden tener solo una instancia de un tipo registrado. Para crear varias instancias de un tipo registrado, utilice el patrón de fábrica para crear un objeto de administrador que está registrado con la aplicación y, a continuación, administra las instancias múltiples. Para obtener un ejemplo de un objeto que implementa el patrón de fábrica, vea el ejemplo de la <xref:System.Web.Hosting.ApplicationManager> clase.  
   
  ]]></format>
     </remarks>
@@ -46,6 +47,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -62,11 +64,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El Administrador de aplicaciones llamará el <xref:System.Web.Hosting.IRegisteredObject.Stop%2A> método para solicitar un objeto registrado para anular el registro. Durante el procesamiento de la <xref:System.Web.Hosting.IRegisteredObject.Stop%2A> método, el objeto registrado debe llamar a la <xref:System.Web.Hosting.HostingEnvironment.UnregisterObject%2A?displayProperty=nameWithType> método.  
+ El Administrador de aplicación llamará a la <xref:System.Web.Hosting.IRegisteredObject.Stop%2A> método para pedir un objeto registrado para anular el registro. Durante el procesamiento de la <xref:System.Web.Hosting.IRegisteredObject.Stop%2A> método, el objeto registrado debe llamar a la <xref:System.Web.Hosting.HostingEnvironment.UnregisterObject%2A?displayProperty=nameWithType> método.  
   
- El <xref:System.Web.Hosting.IRegisteredObject.Stop%2A> método se llama por primera vez con el `immediate` parámetro establecido en `false`. El objeto puede cualquier complete el procesamiento, llame a la <xref:System.Web.Hosting.HostingEnvironment.UnregisterObject%2A> método y, a continuación, devolver o se puede devolver inmediatamente y completar el procesamiento de forma asincrónica antes de llamar a la <xref:System.Web.Hosting.HostingEnvironment.UnregisterObject%2A> método.  
+ El <xref:System.Web.Hosting.IRegisteredObject.Stop%2A> primero se llama al método con el `immediate` parámetro establecido en `false`. El objeto puede cualquier procesamiento completo, llame a la <xref:System.Web.Hosting.HostingEnvironment.UnregisterObject%2A> método y, luego, devolverla o se puede devolver de inmediato y completar el procesamiento de forma asincrónica antes de llamar a la <xref:System.Web.Hosting.HostingEnvironment.UnregisterObject%2A> método.  
   
- Si el objeto registrado no finaliza el procesamiento antes de que expire el período de tiempo de espera del Administrador de aplicaciones, el <xref:System.Web.Hosting.IRegisteredObject.Stop%2A> método se llama de nuevo con el `immediate` parámetro establecido en `true`. Cuando el `immediate` parámetro es `true`, el objeto registrado debe llamar a la <xref:System.Web.Hosting.HostingEnvironment.UnregisterObject%2A> método antes de regresar; en caso contrario, se quitará su registro por el Administrador de la aplicación.  
+ Si el objeto registrado no finaliza el procesamiento antes de que expire el período de tiempo de espera del Administrador de aplicaciones, el <xref:System.Web.Hosting.IRegisteredObject.Stop%2A> se llama al método nuevo con el `immediate` parámetro establecido en `true`. Cuando el `immediate` parámetro es `true`, el objeto registrado debe llamar a la <xref:System.Web.Hosting.HostingEnvironment.UnregisterObject%2A> método antes de regresar; en caso contrario, se quitará su registro mediante el Administrador de aplicaciones.  
   
  ]]></format>
         </remarks>
