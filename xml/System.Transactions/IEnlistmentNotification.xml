@@ -1,11 +1,11 @@
 <Type Name="IEnlistmentNotification" FullName="System.Transactions.IEnlistmentNotification">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="ce7c186bfa7974506e6f23870b923c6bfab1a333" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="7256756ee2810fe0aa45f03eee75996fac132199" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36406452" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37754204" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IEnlistmentNotification" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IEnlistmentNotification" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type IEnlistmentNotification = interface" />
   <AssemblyInfo>
     <AssemblyName>System.Transactions</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -34,26 +35,26 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- En orden para un administrador de recursos participar en una transacción, debe dar de alta en la transacción mediante el Administrador de transacciones. La clase <xref:System.Transactions.Transaction> define un conjunto de métodos cuyos nombres comienzan con `Enlist` que proporcionan esta funcionalidad. Los diferentes `Enlist` métodos corresponden a los distintos tipos de inscripción que puede tener un administrador de recursos.  
+ En el orden de un administrador de recursos al participar en una transacción, debe inscribirse en la transacción mediante el Administrador de transacciones. La clase <xref:System.Transactions.Transaction> define un conjunto de métodos cuyos nombres comienzan con `Enlist` que proporcionan esta funcionalidad. Los diferentes `Enlist` métodos corresponden a los distintos tipos de inscripción que puede tener un administrador de recursos.  
   
- Esta clase describe una interfaz que un administrador de recursos debe implementar para proporcionar devoluciones de llamada de notificación de confirmación en dos fases para el Administrador de transacciones al inscribirse para la participación. Para la implementación de cada administrador de recursos de la <xref:System.Transactions.IEnlistmentNotification> interfaz, debe darla mediante el <xref:System.Transactions.Transaction.EnlistVolatile%2A> método o la <xref:System.Transactions.Transaction.EnlistDurable%2A> método de la <xref:System.Transactions.Transaction> (clase), dependiendo de si el recurso es volátil o durable. Para obtener más información sobre la inscripción y 2PC, vea [dar de alta los recursos como los participantes en una transacción](~/docs/framework/data/transactions/enlisting-resources-as-participants-in-a-transaction.md) y [confirmar una transacción en una fase y en varias fases](~/docs/framework/data/transactions/committing-a-transaction-in-single-phase-and-multi-phase.md) respectivamente.  
+ Esta clase describe una interfaz que un administrador de recursos debe implementar para proporcionar devoluciones de llamada de notificación de confirmación en dos fases para el Administrador de transacciones al inscribirse para la participación. Para la implementación del Administrador de cada recurso de la <xref:System.Transactions.IEnlistmentNotification> interfaz, debe darla utilizando el <xref:System.Transactions.Transaction.EnlistVolatile%2A> método o la <xref:System.Transactions.Transaction.EnlistDurable%2A> método de la <xref:System.Transactions.Transaction> (clase), dependiendo de si el recurso es volátil o durable. Para obtener más información sobre la inscripción y 2PC, vea [dar de alta recursos como participantes en una transacción](~/docs/framework/data/transactions/enlisting-resources-as-participants-in-a-transaction.md) y [confirmar una transacción en fase única y múltiple](~/docs/framework/data/transactions/committing-a-transaction-in-single-phase-and-multi-phase.md) respectivamente.  
   
- El Administrador de transacciones informa del objeto inscrito en distintas fases del protocolo de confirmación en dos fases mediante los métodos siguientes.  
+ El Administrador de transacciones notifica al objeto dada de alta en las distintas fases del protocolo de confirmación de fase dos con los métodos siguientes.  
   
 |Método|Descripción|  
 |------------|-----------------|  
 |<xref:System.Transactions.IEnlistmentNotification.Prepare%2A>|El Administrador de transacciones utiliza este método de un objeto inscrito como una devolución de llamada durante la primera fase de una transacción, cuando el Administrador de transacciones solicita a los participantes si pueden confirmar la transacción.|  
 |<xref:System.Transactions.IEnlistmentNotification.Commit%2A>|El Administrador de transacciones utiliza este método de un objeto inscrito como una devolución de llamada durante la segunda fase de una transacción si la transacción está confirmada.|  
-|<xref:System.Transactions.IEnlistmentNotification.Rollback%2A>|Mediante el Administrador de transacciones utiliza este método de un objeto inscrito como una devolución de llamada durante la segunda fase de una transacción si se anula la transacción (que es, revierte).|  
+|<xref:System.Transactions.IEnlistmentNotification.Rollback%2A>|El Administrador de transacciones utiliza este método de un objeto inscrito como una devolución de llamada durante la segunda fase de una transacción si se anula la transacción (que es, revierte).|  
 |<xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>|El Administrador de transacciones utiliza este método de un objeto inscrito como una devolución de llamada durante la segunda fase de una transacción si la transacción está en duda.|  
   
 > [!NOTE]
->  Debe tener en cuenta que no puede enviarse notificaciones de forma secuencial o en un orden concreto.  
+>  Debe tener en cuenta que no se pueden enviar notificaciones secuencialmente o en un orden concreto.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra una implementación de esta interfaz, así como la inscripción del objeto como un participante en una transacción usando el <xref:System.Transactions.Transaction.EnlistVolatile%2A> método.  
+ El ejemplo siguiente muestra una implementación de esta interfaz, así como dar de alta el objeto como un participante en una transacción utilizando el <xref:System.Transactions.Transaction.EnlistVolatile%2A> método.  
   
  [!code-csharp[Tx_Enlist#1](~/samples/snippets/csharp/VS_Snippets_CFX/tx_enlist/cs/enlist.cs#1)]
  [!code-vb[Tx_Enlist#1](~/samples/snippets/visualbasic/VS_Snippets_CFX/tx_enlist/vb/enlist.vb#1)]  
@@ -72,6 +73,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -99,9 +101,9 @@
 ## Remarks  
  El Administrador de transacciones llama a este método de un objeto inscrito durante la segunda fase de una confirmación, cuando indica a todos los participantes para confirmar la transacción.  
   
- El Administrador de recursos debe realizar las operaciones necesarias para finalizar la transacción y, a continuación, informar a la memoria de traducción que ha terminado mediante una llamada a la <xref:System.Transactions.Enlistment.Done%2A> método en el `enlistment` parámetro.  
+ El Administrador de recursos debe realizar las operaciones necesarias para finalizar la transacción y después informará al que ha finalizado llamando el <xref:System.Transactions.Enlistment.Done%2A> método en el `enlistment` parámetro.  
   
- Si el Administrador de recursos ha inscrito de forma duradera, pero no responde llamando <xref:System.Transactions.Enlistment.Done%2A> método, el Administrador de transacciones está seguro de que el Administrador de recursos haya recibido el <xref:System.Transactions.IEnlistmentNotification.Commit%2A> llamar. Por lo tanto, el Administrador de transacciones sigue esperando una respuesta y mantiene información relevante para esta transacción.  Si <xref:System.Transactions.Enlistment.Done%2A> es nunca se llama, este fragmento de información se conserva indefinidamente en memoria o en un recurso de todo el sistema. Esto hace que no se puedan reclamar recursos. En el caso de una transacción distribuida, esto podría rellenar finalmente el registro MSDTC que detiene el proceso MSDTC. En el caso de una transacción administrada por <xref:System.Transactions>, esto da como resultado un aumento gradual y continuo del consumo de memoria de proceso del Administrador de recursos. Por lo tanto, es fundamental que se llama a la <xref:System.Transactions.Enlistment.Done%2A> método una vez que el Administrador de recursos se realiza con el trabajo de preparación.  
+ Si el Administrador de recursos ha inscrito de forma duradera, pero no responde mediante una llamada a <xref:System.Transactions.Enlistment.Done%2A> método, el Administrador de transacciones está seguro de que el Administrador de recursos ha recibido el <xref:System.Transactions.IEnlistmentNotification.Commit%2A> llamar. Por lo tanto, el Administrador de transacciones sigue esperando una respuesta y mantiene la información relevante para esta transacción.  Si <xref:System.Transactions.Enlistment.Done%2A> es nunca se llama, este fragmento de información se conserva indefinidamente en memoria o en un recurso de todo el sistema. Esto da como resultado de no poder reclamar los recursos. En el caso de una transacción distribuida, finalmente, esto podría llenar el registro de MSDTC que detiene el proceso MSDTC. En el caso de una transacción administrada por <xref:System.Transactions>, esto da como resultado un aumento gradual y continuo del consumo de memoria de proceso del Administrador de recursos. Por lo tanto, es fundamental que llame a la <xref:System.Transactions.Enlistment.Done%2A> método una vez que el Administrador de recursos se realiza con su trabajo de preparación.  
   
  ]]></format>
         </remarks>
@@ -116,6 +118,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -141,14 +144,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se llama a este método para los recursos volátiles cuando el Administrador de transacciones ha invocado una operación de confirmación de fase única a un solo recurso duradero y, a continuación, la conexión con el recurso duradero se perdió antes de obtener el resultado de la transacción. En ese momento, el resultado de la transacción no se puede determinar con seguridad.  
+ Este método se llama para los recursos volátiles cuando el Administrador de transacciones ha invocado una operación de confirmación de fase única a un recurso duradero único y, a continuación, la conexión con el recurso duradero se perdió antes de obtener el resultado de la transacción. En ese momento, el resultado de la transacción no se puede determinar con seguridad.  
   
- Como <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A> es considera que es un estado final de una transacción, no debe llamar <xref:System.Transactions.IEnlistmentNotification.Commit%2A> o <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> después de llamar a <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>.  
+ Como <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A> es considera un estado final de una transacción, no debería llamar <xref:System.Transactions.IEnlistmentNotification.Commit%2A> o <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> después de llamar a <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>.  
   
 > [!NOTE]
->  La implementación de este método para el recurso volátil debería realizar cualquier operación de recuperación o contención entienda en los datos afectados.  También debe llamar a la <xref:System.Transactions.Enlistment.Done%2A> método en la en la `enlistment` parámetro cuando ha finalizado su trabajo.  
+>  La implementación de este método para los recursos volátiles debe realizar cualquier operación de recuperación o contención entiende en los datos afectados.  También debe llamar a la <xref:System.Transactions.Enlistment.Done%2A> método en la en la `enlistment` parámetro cuando haya terminado su trabajo.  
   
- Si el Administrador de recursos ha inscrito de forma duradera, pero no responde llamando <xref:System.Transactions.Enlistment.Done%2A> método, el Administrador de transacciones está seguro de que el Administrador de recursos haya recibido el <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A> llamar. Por lo tanto, el Administrador de transacciones sigue esperando una respuesta y mantiene información relevante para esta transacción.  Si <xref:System.Transactions.Enlistment.Done%2A> es nunca se llama, este fragmento de información se conserva indefinidamente en memoria o en un recurso de todo el sistema. Esto hace que no se puedan reclamar recursos. En el caso de una transacción distribuida, esto podría rellenar finalmente el registro MSDTC que detiene el proceso MSDTC. En el caso de una transacción administrada por <xref:System.Transactions>, esto da como resultado un aumento gradual y continuo del consumo de memoria de proceso del Administrador de recursos. Por lo tanto, es fundamental que se llama a la <xref:System.Transactions.Enlistment.Done%2A> método una vez que el Administrador de recursos se realiza con el trabajo de preparación.  
+ Si el Administrador de recursos ha inscrito de forma duradera, pero no responde mediante una llamada a <xref:System.Transactions.Enlistment.Done%2A> método, el Administrador de transacciones está seguro de que el Administrador de recursos ha recibido el <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A> llamar. Por lo tanto, el Administrador de transacciones sigue esperando una respuesta y mantiene la información relevante para esta transacción.  Si <xref:System.Transactions.Enlistment.Done%2A> es nunca se llama, este fragmento de información se conserva indefinidamente en memoria o en un recurso de todo el sistema. Esto da como resultado de no poder reclamar los recursos. En el caso de una transacción distribuida, finalmente, esto podría llenar el registro de MSDTC que detiene el proceso MSDTC. En el caso de una transacción administrada por <xref:System.Transactions>, esto da como resultado un aumento gradual y continuo del consumo de memoria de proceso del Administrador de recursos. Por lo tanto, es fundamental que llame a la <xref:System.Transactions.Enlistment.Done%2A> método una vez que el Administrador de recursos se realiza con su trabajo de preparación.  
   
  ]]></format>
         </remarks>
@@ -163,6 +166,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -188,15 +192,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El Administrador de transacciones llama a este método de un recurso dada de alta manager durante la fase 1 de un compromiso, cuando solicita a los participantes si pueden confirmar la transacción.  
+ El Administrador de transacciones llama a este método de un recurso dada de alta manager durante la fase 1 de un compromiso, cuando se solicita a los participantes si pueden confirmar la transacción.  
   
- La hora de implementar un administrador de recursos duradero, debería registrar el registro de preparación durante esta fase. El registro debe contener toda la información necesaria para realizar la recuperación. Esto incluye la <xref:System.Transactions.PreparingEnlistment.RecoveryInformation%2A> propiedad, que se pasa al administrador de transacciones en el <xref:System.Transactions.TransactionManager.Reenlist%2A> método durante la recuperación. Para obtener más información sobre recuperación, vea [realizar recuperación](http://msdn.microsoft.com/library/d342c5c7-da64-4a4c-8e63-b52f4fbf2691).  
+ Cuando se implementa un administrador de recursos duradero, debe iniciar el registro de preparación durante esta fase. El registro debe contener toda la información necesaria para realizar la recuperación. Esto incluye la <xref:System.Transactions.PreparingEnlistment.RecoveryInformation%2A> propiedad, que se pasa al administrador de transacciones en el <xref:System.Transactions.TransactionManager.Reenlist%2A> método durante la recuperación. Para obtener más información sobre la recuperación, consulte [realizar recuperación](http://msdn.microsoft.com/library/d342c5c7-da64-4a4c-8e63-b52f4fbf2691).  
   
- El Administrador de recursos debe completar todo el trabajo que debe finalizar antes de llamar a la <xref:System.Transactions.PreparingEnlistment.Prepared%2A> método de la `preparingEnlistment` parámetro para indicar su voto para la confirmación. Debe asegurarse de que esto se lleva a cabo antes de recibir cualquier notificación de la fase 2 como confirmar, deshacer o en duda. Esto es porque las notificaciones de la fase 2 pueden realizar en línea en el mismo subproceso que llamó la <xref:System.Transactions.PreparingEnlistment.Prepared%2A> método en la fase 1. Como tal, no debería realizar ningún trabajo después de la llamada a <xref:System.Transactions.PreparingEnlistment.Prepared%2A> (por ejemplo, liberando bloqueos) que debería esperar que se habrían completado antes de recibir las notificaciones de la fase 2.  
+ El Administrador de recursos debe completar todo el trabajo que se debe finalizar antes de llamar a la <xref:System.Transactions.PreparingEnlistment.Prepared%2A> método de la `preparingEnlistment` parámetro para indicar su voto para la confirmación. Asegúrese de que esto se realiza antes de recibir cualquier notificación de la fase 2 como confirmar, deshacer o en caso de duda. Esto es porque las notificaciones de la fase 2 pueden suceder alineadas en el mismo subproceso que llamó la <xref:System.Transactions.PreparingEnlistment.Prepared%2A> método en la fase 1. Como tal, no debería realizar ningún trabajo después de la llamada a <xref:System.Transactions.PreparingEnlistment.Prepared%2A> (por ejemplo, liberando bloqueos) que debería esperar que se habrían completado antes de recibir las notificaciones de la fase 2.  
   
  También puede llamar al método de la `preparingEnlistment` parámetro para indicar un voto para deshacer.  
   
- Si desea que el objeto sólo observe y reaccione ante el progreso de la transacción, sin participar en ella, la implementación de este método debe llamar a la <xref:System.Transactions.Enlistment.Done%2A> método de la `preparingEnlistment` parámetro cuando ha finalizado su trabajo. Al hacerlo, el Administrador de recursos no recibiría cualquier notificación de la fase 2.  
+ Si desea que el objeto simplemente observar y reaccionar ante el progreso de la transacción, sin participar en ella, la implementación de este método debe llamar a la <xref:System.Transactions.Enlistment.Done%2A> método de la `preparingEnlistment` parámetro cuando haya terminado su trabajo. Al hacerlo, el Administrador de recursos no recibirá ninguna notificación de la fase 2.  
   
  ]]></format>
         </remarks>
@@ -211,6 +215,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -236,11 +241,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El Administrador de transacciones llama a este método de un objeto inscrito cuando la transacción se deshace (se anula) debido a la incapacidad de uno o varios participantes de la transacción para confirmar la transacción.  
+ El Administrador de transacciones llama a este método de un objeto inscrito cuando la transacción se deshace (anula) debido a la incapacidad de uno o varios participantes de la transacción para confirmar la transacción.  
   
- El Administrador de recursos debe realizar las operaciones necesarias para finalizar la transacción y, a continuación, informar a la memoria de traducción que ha terminado mediante una llamada a la <xref:System.Transactions.Enlistment.Done%2A> método en el `enlistment` parámetro.  
+ El Administrador de recursos debe realizar las operaciones necesarias para finalizar la transacción y después informará al que ha finalizado llamando el <xref:System.Transactions.Enlistment.Done%2A> método en el `enlistment` parámetro.  
   
- Si el Administrador de recursos ha inscrito de forma duradera, pero no responde llamando <xref:System.Transactions.Enlistment.Done%2A> método, el Administrador de transacciones está seguro de que el Administrador de recursos haya recibido el <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> llamar. Por lo tanto, el Administrador de transacciones sigue esperando una respuesta y mantiene información relevante para esta transacción.  Si <xref:System.Transactions.Enlistment.Done%2A> es nunca se llama, este fragmento de información se conserva indefinidamente en memoria o en un recurso de todo el sistema. Esto hace que no se puedan reclamar recursos. En el caso de una transacción distribuida, esto podría rellenar finalmente el registro MSDTC que detiene el proceso MSDTC. En el caso de una transacción administrada por <xref:System.Transactions>, esto da como resultado un aumento gradual y continuo del consumo de memoria de proceso del Administrador de recursos. Por lo tanto, es fundamental que se llama a la <xref:System.Transactions.Enlistment.Done%2A> método una vez que el Administrador de recursos se realiza con el trabajo de preparación.  
+ Si el Administrador de recursos ha inscrito de forma duradera, pero no responde mediante una llamada a <xref:System.Transactions.Enlistment.Done%2A> método, el Administrador de transacciones está seguro de que el Administrador de recursos ha recibido el <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> llamar. Por lo tanto, el Administrador de transacciones sigue esperando una respuesta y mantiene la información relevante para esta transacción.  Si <xref:System.Transactions.Enlistment.Done%2A> es nunca se llama, este fragmento de información se conserva indefinidamente en memoria o en un recurso de todo el sistema. Esto da como resultado de no poder reclamar los recursos. En el caso de una transacción distribuida, finalmente, esto podría llenar el registro de MSDTC que detiene el proceso MSDTC. En el caso de una transacción administrada por <xref:System.Transactions>, esto da como resultado un aumento gradual y continuo del consumo de memoria de proceso del Administrador de recursos. Por lo tanto, es fundamental que llame a la <xref:System.Transactions.Enlistment.Done%2A> método una vez que el Administrador de recursos se realiza con su trabajo de preparación.  
   
  ]]></format>
         </remarks>
