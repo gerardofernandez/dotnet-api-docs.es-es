@@ -1,11 +1,11 @@
 <Type Name="ReaderWriterLock" FullName="System.Threading.ReaderWriterLock">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="ed9a740eab700d16f5778c2b6c1ce675521e870e" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="eceaf936001c4e98e1bf97071c933f2a511a4a69" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36605895" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37754698" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class ReaderWriterLock : System.Runtime.ConstrainedExecution.CriticalFinalizerObject" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit ReaderWriterLock extends System.Runtime.ConstrainedExecution.CriticalFinalizerObject" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type ReaderWriterLock = class&#xA;    inherit CriticalFinalizerObject" />
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -29,6 +31,7 @@
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Runtime.ConstrainedExecution.CriticalFinalizerObject</BaseTypeName>
+    <BaseTypeName FrameworkAlternate="netframework-1.1">System.Object</BaseTypeName>
   </Base>
   <Interfaces />
   <Attributes>
@@ -46,39 +49,39 @@
 > [!IMPORTANT]
 >  [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] tiene dos bloqueos de lector y escritor, <xref:System.Threading.ReaderWriterLockSlim> y <xref:System.Threading.ReaderWriterLock>. <xref:System.Threading.ReaderWriterLockSlim> se recomienda para todos los nuevos desarrollos. <xref:System.Threading.ReaderWriterLockSlim> es similar a <xref:System.Threading.ReaderWriterLock>, pero se han simplificado las reglas para la recursividad y para actualizar y degradar el estado de bloqueo. <xref:System.Threading.ReaderWriterLockSlim> evita muchos casos de interbloqueo potencial. Además, el rendimiento de <xref:System.Threading.ReaderWriterLockSlim> es significativamente mayor que <xref:System.Threading.ReaderWriterLock>.  
   
- <xref:System.Threading.ReaderWriterLock> se utiliza para sincronizar el acceso a un recurso. En un momento dado, permite el acceso de lectura simultáneo de varios subprocesos, o bien acceso de escritura para un único subproceso. En una situación donde un recurso se cambia con poca frecuencia, un `ReaderWriterLock` proporciona un mayor rendimiento que un simple bloqueo de uno en uno, como <xref:System.Threading.Monitor>.  
+ <xref:System.Threading.ReaderWriterLock> se utiliza para sincronizar el acceso a un recurso. En un momento dado, permite el acceso de lectura simultáneo para varios subprocesos, o bien acceso de escritura para un único subproceso. En una situación donde un recurso cambia con poca frecuencia, un `ReaderWriterLock` proporciona un mejor rendimiento que un bloqueo simple de uno en uno, como <xref:System.Threading.Monitor>.  
   
- `ReaderWriterLock` funciona mejor en su mayoría de los accesos es de lectura y las escrituras son poco frecuentes y de corta duración. Se alternan varios lectores con escritores únicos, para que los lectores ni escritores se bloquean durante largos períodos.  
+ `ReaderWriterLock` funciona mejor en su mayoría de los accesos es de lectura y las escrituras son poco frecuentes y de corta duración. Varios lectores alternan con escritores únicos, por lo que ni a lectores ni a escritores se bloquean durante largos períodos.  
   
 > [!NOTE]
->  Que contiene los bloqueos de lector o bloqueos de escritor durante largos períodos privar a otros subprocesos. Para obtener el mejor rendimiento, considere la posibilidad de reestructurar la aplicación para reducir la duración de las escrituras.  
+>  Que contiene los bloqueos de lector o bloqueos del sistema de escritura durante largos períodos se privar a otros subprocesos. Para obtener el mejor rendimiento, considere la posibilidad de reestructuración de la aplicación para minimizar la duración de las escrituras.  
   
- Un subproceso puede contener un lector de bloqueo o un bloqueo de escritura, pero no ambos al mismo tiempo. En lugar de liberar un bloqueo de lector para adquirir el bloqueo de escritor, puede usar <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> y <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A>.  
+ Un subproceso puede contener un lector de bloqueo o un bloqueo de escritor, pero no ambos al mismo tiempo. En lugar de liberar un bloqueo de lector para adquirir el bloqueo de escritor, puede usar <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> y <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A>.  
   
  Solicitudes de bloqueo recursivas aumentan el recuento de bloqueos en un bloqueo.  
   
- Los lectores y escritores se ponen en cola por separado. Cuando un subproceso libera el bloqueo de escritor, todos los subprocesos que esperan en la cola del lector en ese momento se conceden bloqueos de lector; Cuando todos los bloqueos de lector de se han liberado, el siguiente subproceso en espera en el sistema de escritura de cola, si los hay, se concede el bloqueo de escritor y así sucesivamente. En otras palabras, `ReaderWriterLock` alterna entre una colección de lectores y un sistema de escritura.  
+ Los lectores y escritores se ponen en cola por separado. Cuando un subproceso libera el bloqueo de escritor, todos los subprocesos que esperan en la cola del lector en ese momento se conceden los bloqueos de lector; Cuando todos los bloqueos de lector se han publicado, el siguiente subproceso en espera en el sistema de escritura poner en cola, si existe, se concede el bloqueo de escritor y así sucesivamente. En otras palabras, `ReaderWriterLock` alterna entre una colección de lectores y un sistema de escritura.  
   
- Mientras un subproceso en la cola del escritor está esperando a que se liberen los bloqueos de lector activo, los subprocesos que soliciten nuevos bloqueos de lector se acumulan en la cola del lector. Sus solicitudes no se conceden, aunque podrían compartir el acceso simultáneo con propietarios de bloqueos de lector existentes; Esto ayuda a proteger a los escritores frente a bloqueos indefinidos por los lectores.  
+ Mientras un subproceso en la cola de sistema de escritura está esperando a que se liberen los bloqueos de lector activo, subprocesos que soliciten nuevos bloqueos de lector se acumulan en la cola del lector. No se conceden sus solicitudes, aunque podrían compartir el acceso simultáneo con marcadores de bloqueo de lector existentes; Esto ayuda a proteger a los escritores frente a bloqueos indefinidos por los lectores.  
   
- Mayoría de los métodos para adquirir bloqueos en un `ReaderWriterLock` aceptar valores de tiempo de espera. Use los tiempos de espera para evitar interbloqueos en la aplicación. Por ejemplo, un subproceso podría adquirir el bloqueo de escritor en un recurso y, a continuación, solicitar un bloqueo de lector en un segundo recurso; mientras tanto, otro subproceso podría adquirir el bloqueo de escritura en el segundo recurso y solicitar un bloqueo de lector en la primera. A menos que se utilizan los tiempos de espera, el interbloqueo de subprocesos.  
+ Mayoría de los métodos para adquirir bloqueos en un `ReaderWriterLock` acepte los valores de tiempo de espera. Use los tiempos de espera para evitar los interbloqueos en la aplicación. Por ejemplo, un subproceso podría adquirir el bloqueo de escritura en un recurso y, a continuación, solicitar un bloqueo de lector en un segundo recurso; mientras tanto, otro subproceso podría adquirir el bloqueo de escritura en el segundo recurso y solicitar un bloqueo de lector en la primera. A menos que se usan los tiempos de espera, el interbloqueo de subprocesos.  
   
- Si expira el intervalo de tiempo de espera y la solicitud de bloqueo no se ha concedido, el método devuelve el control al subproceso que realiza la llamada produciendo un <xref:System.ApplicationException>. Un subproceso puede detectar esta excepción y determinar qué acción se debe tomar.  
+ Si expira el intervalo de tiempo de espera y no se concedió la solicitud de bloqueo, el método devuelve el control al subproceso que realiza la llamada generando un <xref:System.ApplicationException>. Un subproceso puede detectar esta excepción y determinar qué acción se debe realizar a continuación.  
   
- Los tiempos de espera se expresan en milisegundos. Si utiliza un <xref:System.TimeSpan?displayProperty=nameWithType> para especificar el tiempo de espera, el valor utilizado es el número total de milisegundos enteros representados por la <xref:System.TimeSpan>. En la tabla siguiente se muestra los valores válidos de tiempo de espera en milisegundos.  
+ Los tiempos de espera se expresan en milisegundos. Si usa un <xref:System.TimeSpan?displayProperty=nameWithType> para especificar el tiempo de espera, el valor utilizado es el número total de milisegundos enteros representado por la <xref:System.TimeSpan>. En la tabla siguiente se muestra los valores de tiempo de espera válido en milisegundos.  
   
 |Valor|Descripción|  
 |-----------|-----------------|  
-|-1|El subproceso espera hasta que se adquiere el bloqueo, independientemente de cuánto tiempo tarda. Para los métodos que especifican los tiempos de espera de entero, la constante <xref:System.Threading.Timeout.Infinite> se puede utilizar.|  
-|0|El subproceso no espera para adquirir el bloqueo. Si no se puede adquirir el bloqueo inmediatamente, el método devuelve.|  
+|-1|El subproceso espera hasta que se adquiere el bloqueo, independientemente de cuánto se tarda. Para los métodos que especifican los tiempos de espera entero, la constante <xref:System.Threading.Timeout.Infinite> se puede usar.|  
+|0|El subproceso no esperar para adquirir el bloqueo. Si no se puede adquirir el bloqueo inmediatamente, el método devuelve.|  
 |>0|Número de milisegundos durante los que se va a esperar.|  
   
- A excepción de -1, no se permiten valores negativos de tiempo de espera. Si especifica un entero negativo distinto de -1, se usa en su lugar un valor de tiempo de espera de cero. (Es decir, el método devuelve sin esperar, si no se puede adquirir el bloqueo inmediatamente). Si especifica un <xref:System.TimeSpan> que representa un número negativo de milisegundos distinto de -1, <xref:System.ArgumentOutOfRangeException> se produce.  
+ A excepción de -1, no se permiten valores negativos del tiempo de espera. Si especifica un entero negativo distinto de -1, se usa en su lugar un valor de tiempo de espera de cero. (Es decir, el método devuelve sin tener que esperar, si el bloqueo no puede adquirirse inmediatamente). Si especifica un <xref:System.TimeSpan> que representa un número negativo de milisegundos distinto de -1, <xref:System.ArgumentOutOfRangeException> se produce.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar un <xref:System.Threading.ReaderWriterLock> para proteger un recurso compartido, un valor entero denominado `resource`, que se leen simultáneamente y escriben exclusivamente por varios subprocesos. Tenga en cuenta que el <xref:System.Threading.ReaderWriterLock> se declara en el nivel de clase para que sea visible para todos los subprocesos.  
+ En el ejemplo siguiente se muestra cómo usar un <xref:System.Threading.ReaderWriterLock> para proteger un recurso compartido, un número entero denominado `resource`, que se simultáneamente leer y escribir exclusivamente por varios subprocesos. Tenga en cuenta que el <xref:System.Threading.ReaderWriterLock> se declara en el nivel de clase para que sea visible para todos los subprocesos.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ReaderWriterLock#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#1)]
@@ -98,6 +101,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -119,7 +124,7 @@
 ## Examples  
  En el ejemplo de código siguiente se muestra cómo se crea una nueva instancia de la clase <xref:System.Threading.ReaderWriterLock>.  
   
- Este código forma parte de un ejemplo mayor proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
+ Este código forma parte de un ejemplo más extenso proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -152,6 +157,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -177,23 +184,23 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> se bloquea si un subproceso distinto tiene el bloqueo de escritor, o si al menos un subproceso está esperando para adquirir el bloqueo de escritor.  
+ <xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> se bloquea si un subproceso diferente tiene el bloqueo de escritor, o si al menos un subproceso está esperando el bloqueo de escritor.  
   
 > [!NOTE]
->  Si el subproceso actual ya tiene el bloqueo de escritor, no se adquiere ningún bloqueo de lector. En su lugar, se incrementa el recuento de bloqueos del bloqueo de escritor. Esto evita que un subproceso de bloqueo en su propio bloqueo de escritor. El resultado es exactamente el mismo que llamar al método <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>y una llamada adicional al <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> es necesaria cuando se libera el bloqueo de escritor.  
+>  Si el subproceso actual ya tiene el bloqueo de escritor, no se adquiere ningún bloqueo de lector. En su lugar, se incrementa el recuento de bloqueos del bloqueo de escritor. Esto evita que un subproceso de bloqueo en su propio bloqueo de escritor. El resultado es exactamente igual que llamar a <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>y una llamada adicional a <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> es necesaria cuando se libera el bloqueo de escritor.  
   
- `AcquireReaderLock` admite solicitudes de bloqueo de lector recursivas. Es decir, un subproceso puede llamar a AcquireReaderLock varias veces, lo que aumenta el recuento de bloqueos cada vez. Debe llamar a <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> una vez por cada vez que se llama `AcquireReaderLock`. Como alternativa, puede llamar a <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> para reducir el recuento de bloqueos a cero inmediatamente.  
+ `AcquireReaderLock` admite solicitudes de bloqueo de lector recursivas. Es decir, un subproceso puede llamar a AcquireReaderLock varias veces, lo que aumenta el recuento de bloqueos cada vez. Debe llamar a <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> una vez para cada vez que se llama `AcquireReaderLock`. Como alternativa, puede llamar a <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> para reducir el recuento de bloqueos a cero inmediatamente.  
   
- Solicitudes de bloqueo recursivas siempre se conceden inmediatamente, sin colocar el subproceso de solicitud en la cola del lector. Utilice los bloqueos recursivos con precaución, para evitar el bloqueo de las solicitudes de bloqueo de escritor durante largos períodos.  
+ Solicitudes de bloqueo recursivas siempre se conceden inmediatamente, sin colocar el subproceso de solicitud en la cola del lector. Usar bloqueos recursivos con precaución, para evitar el bloqueo de las solicitudes de bloqueo de escritor durante largos períodos.  
   
- Para los valores de tiempo de espera válidos, consulte <xref:System.Threading.ReaderWriterLock>.  
+ Para los valores de tiempo de espera válido, vea <xref:System.Threading.ReaderWriterLock>.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo adquirir y liberar un bloqueo de lector y cómo controlar la excepción que se produce cuando se agota el tiempo de espera de una solicitud.  
+ El ejemplo de código siguiente muestra cómo adquirir y liberar un bloqueo de lector y cómo controlar la excepción que se produce cuando se agota el tiempo de espera de una solicitud.  
   
- Este código forma parte de un ejemplo mayor proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
+ Este código forma parte de un ejemplo más extenso proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -221,6 +228,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -246,16 +255,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> se bloquea si un subproceso distinto tiene el bloqueo de escritor, o si al menos un subproceso está esperando para adquirir el bloqueo de escritor.  
+ <xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> se bloquea si un subproceso diferente tiene el bloqueo de escritor, o si al menos un subproceso está esperando el bloqueo de escritor.  
   
 > [!NOTE]
->  Si el subproceso actual ya tiene el bloqueo de escritor, no se adquiere ningún bloqueo de lector. En su lugar, se incrementa el recuento de bloqueos del bloqueo de escritor. Esto evita que un subproceso de bloqueo en su propio bloqueo de escritor. El resultado es exactamente el mismo que llamar al método <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>y una llamada adicional al <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> es necesaria cuando se libera el bloqueo de escritor.  
+>  Si el subproceso actual ya tiene el bloqueo de escritor, no se adquiere ningún bloqueo de lector. En su lugar, se incrementa el recuento de bloqueos del bloqueo de escritor. Esto evita que un subproceso de bloqueo en su propio bloqueo de escritor. El resultado es exactamente igual que llamar a <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>y una llamada adicional a <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> es necesaria cuando se libera el bloqueo de escritor.  
   
- `AcquireReaderLock` admite solicitudes de bloqueo de lector recursivas. Es decir, un subproceso puede llamar a AcquireReaderLock varias veces, lo que aumenta el recuento de bloqueos cada vez. Debe llamar a <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> una vez por cada vez que se llama `AcquireReaderLock`. Como alternativa, puede llamar a <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> para reducir el recuento de bloqueos a cero inmediatamente.  
+ `AcquireReaderLock` admite solicitudes de bloqueo de lector recursivas. Es decir, un subproceso puede llamar a AcquireReaderLock varias veces, lo que aumenta el recuento de bloqueos cada vez. Debe llamar a <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> una vez para cada vez que se llama `AcquireReaderLock`. Como alternativa, puede llamar a <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> para reducir el recuento de bloqueos a cero inmediatamente.  
   
- Solicitudes de bloqueo recursivas siempre se conceden inmediatamente, sin colocar el subproceso de solicitud en la cola del lector. Utilice los bloqueos recursivos con precaución, para evitar el bloqueo de las solicitudes de bloqueo de escritor durante largos períodos.  
+ Solicitudes de bloqueo recursivas siempre se conceden inmediatamente, sin colocar el subproceso de solicitud en la cola del lector. Usar bloqueos recursivos con precaución, para evitar el bloqueo de las solicitudes de bloqueo de escritor durante largos períodos.  
   
- Para los valores de tiempo de espera válidos, consulte <xref:System.Threading.ReaderWriterLock>.  
+ Para los valores de tiempo de espera válido, vea <xref:System.Threading.ReaderWriterLock>.  
   
  ]]></format>
         </remarks>
@@ -285,6 +294,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -310,25 +321,25 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método se bloquea si otro subproceso tiene un bloqueo de lector o escritor. Para obtener una descripción de la forma en que el bloqueo de escritor alterna con varios bloqueos de lector simultáneo, consulte la <xref:System.Threading.ReaderWriterLock> clase.  
+ Este método se bloquea si otro subproceso tiene un bloqueo de lector o escritor. Para obtener una descripción de la forma en que el bloqueo de escritor alterna con varios bloqueos de lector simultáneo, consulte el <xref:System.Threading.ReaderWriterLock> clase.  
   
- Un subproceso que ya tiene un bloqueo de lector puede adquirir el bloqueo de escritor de dos maneras: mediante la liberación del bloqueo de lector antes de llamar a <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, o mediante una llamada a <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.  
+ Un subproceso que ya tiene un bloqueo de lector puede adquirir el bloqueo de escritor en uno de dos maneras: mediante la liberación del bloqueo de lector antes de llamar a <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, o mediante una llamada a <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.  
   
 > [!CAUTION]
->  Si un subproceso llama a `AcquireWriterLock` mientras todavía tiene un bloqueo de lector, se bloqueará en su propio bloqueo de lector; si se especifica un tiempo de espera infinito, el subproceso interbloquee. Para evitar estos interbloqueos, utilice <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> para determinar si el subproceso actual ya tiene un bloqueo de lector.  
+>  Si un subproceso llama `AcquireWriterLock` mientras todavía tiene un bloqueo de lector, bloqueará en su propio bloqueo de lector; si se especifica un tiempo de espera infinito, el subproceso generará un interbloqueo. Para evitar estos interbloqueos, utilice <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> para determinar si el subproceso actual ya tiene un bloqueo de lector.  
   
- `AcquireWriterLock` admite solicitudes de bloqueo de escritor recursivas. Es decir, un subproceso puede llamar a `AcquireWriterLock` varias veces, lo que aumenta el recuento de bloqueos cada vez. Debe llamar a <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> una vez por cada vez que se llama `AcquireWriterLock`. Como alternativa, puede llamar a <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> para reducir el recuento de bloqueos a cero inmediatamente.  
+ `AcquireWriterLock` admite solicitudes de bloqueo de escritor recursivas. Es decir, un subproceso puede llamar a `AcquireWriterLock` varias veces, lo que aumenta el recuento de bloqueos cada vez. Debe llamar a <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> una vez para cada vez que se llama `AcquireWriterLock`. Como alternativa, puede llamar a <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> para reducir el recuento de bloqueos a cero inmediatamente.  
   
  Solicitudes de bloqueo recursivas siempre se conceden inmediatamente, sin colocar el subproceso de solicitud en la cola del escritor.  
   
- Para los valores de tiempo de espera válidos, consulte <xref:System.Threading.ReaderWriterLock>.  
+ Para los valores de tiempo de espera válido, vea <xref:System.Threading.ReaderWriterLock>.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo adquirir y liberar un bloqueo de escritura y cómo controlar la excepción que se produce cuando se agota el tiempo de espera de una solicitud.  
+ El ejemplo de código siguiente muestra cómo adquirir y liberar un bloqueo de escritor y cómo controlar la excepción que se produce cuando se agota el tiempo de espera de una solicitud.  
   
- Este código forma parte de un ejemplo mayor proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
+ Este código forma parte de un ejemplo más extenso proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -356,6 +367,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -381,18 +394,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método se bloquea si otro subproceso tiene un bloqueo de lector o escritor. Para obtener una descripción de la forma en que el bloqueo de escritor alterna con varios bloqueos de lector simultáneo, consulte la <xref:System.Threading.ReaderWriterLock> clase.  
+ Este método se bloquea si otro subproceso tiene un bloqueo de lector o escritor. Para obtener una descripción de la forma en que el bloqueo de escritor alterna con varios bloqueos de lector simultáneo, consulte el <xref:System.Threading.ReaderWriterLock> clase.  
   
- Un subproceso que ya tiene un bloqueo de lector puede adquirir el bloqueo de escritor de dos maneras: mediante la liberación del bloqueo de lector antes de llamar a <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, o mediante una llamada a <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.  
+ Un subproceso que ya tiene un bloqueo de lector puede adquirir el bloqueo de escritor en uno de dos maneras: mediante la liberación del bloqueo de lector antes de llamar a <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, o mediante una llamada a <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.  
   
 > [!CAUTION]
->  Si un subproceso llama a `AcquireWriterLock` mientras todavía tiene un bloqueo de lector, se bloqueará en su propio bloqueo de lector; si se especifica un tiempo de espera infinito, el subproceso interbloquee. Para evitar estos interbloqueos, utilice <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> para determinar si el subproceso actual ya tiene un bloqueo de lector.  
+>  Si un subproceso llama `AcquireWriterLock` mientras todavía tiene un bloqueo de lector, bloqueará en su propio bloqueo de lector; si se especifica un tiempo de espera infinito, el subproceso generará un interbloqueo. Para evitar estos interbloqueos, utilice <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> para determinar si el subproceso actual ya tiene un bloqueo de lector.  
   
- `AcquireWriterLock` admite solicitudes de bloqueo de escritor recursivas. Es decir, un subproceso puede llamar a `AcquireWriterLock` varias veces, lo que aumenta el recuento de bloqueos cada vez. Debe llamar a <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> una vez por cada vez que se llama `AcquireWriterLock`. Como alternativa, puede llamar a <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> para reducir el recuento de bloqueos a cero inmediatamente.  
+ `AcquireWriterLock` admite solicitudes de bloqueo de escritor recursivas. Es decir, un subproceso puede llamar a `AcquireWriterLock` varias veces, lo que aumenta el recuento de bloqueos cada vez. Debe llamar a <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> una vez para cada vez que se llama `AcquireWriterLock`. Como alternativa, puede llamar a <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> para reducir el recuento de bloqueos a cero inmediatamente.  
   
  Solicitudes de bloqueo recursivas siempre se conceden inmediatamente, sin colocar el subproceso de solicitud en la cola del escritor.  
   
- Para los valores de tiempo de espera válidos, consulte <xref:System.Threading.ReaderWriterLock>.  
+ Para los valores de tiempo de espera válido, vea <xref:System.Threading.ReaderWriterLock>.  
   
  ]]></format>
         </remarks>
@@ -412,6 +425,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -439,16 +454,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Puede usar <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> y `AnyWritersSince` para mejorar el rendimiento de la aplicación. Por ejemplo, un subproceso puede almacenar en caché la información que obtiene mientras se mantiene un bloqueo de lector. Después de liberar y volver a adquirir el bloqueo, el subproceso puede usar `AnyWritersSince` para determinar si otros subprocesos han escrito en el recurso en el ínterin; en caso contrario, se puede utilizar la información almacenada en caché. Esta técnica es útil donde leer la información protegida por el bloqueo es costoso; Por ejemplo, ejecutar una consulta de base de datos.  
+ Puede usar <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> y `AnyWritersSince` para mejorar el rendimiento de la aplicación. Por ejemplo, un subproceso podría guardar en caché la información que obtiene mientras se mantiene un bloqueo de lector. Después de liberar y volver a adquirir el bloqueo, puede usar el subproceso `AnyWritersSince` para determinar si otros subprocesos han escrito en el recurso en la versión preliminar; en caso contrario, se puede usar la información almacenada en caché. Esta técnica es útil donde resulta costoso; leer la información protegida por el bloqueo Por ejemplo, ejecutar una consulta de base de datos.  
   
- El llamador debe contener un bloqueo de lector o un bloqueo de escritura en orden para el número de secuencia ser útil.  
+ El llamador debe contener un bloqueo de lector o escritor en orden para el número de secuencia ser útil.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo utilizar el <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> método y <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> propiedad para determinar si otro subproceso haya adquirido el bloqueo de escritura en el recurso protegido desde el subproceso actual estuvo por última vez el bloqueo de escritor.  
+ En el ejemplo de código siguiente se muestra cómo utilizar el <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> método y el <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> por última vez, propiedad para determinar si otro subproceso adquirió el bloqueo de escritura al recurso protegido desde el subproceso actual mantiene el bloqueo de escritor.  
   
- Este código forma parte de un ejemplo mayor proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
+ Este código forma parte de un ejemplo más extenso proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -474,6 +489,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -499,19 +516,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> Libera el bloqueo de escritor, independientemente del recuento de bloqueos recursivos y restaura el bloqueo de lector que se ha mantenido por el subproceso antes de actualizar al bloqueo de escritor. Se restaura el recuento de bloqueos del bloqueo de lector.  
+ <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> Libera el bloqueo de escritor, independientemente del recuento de bloqueos recursivos y restaura el bloqueo de lector que se incluyen en el subproceso antes de actualizar al bloqueo de escritor. Se restaura el recuento de bloqueos del bloqueo de lector.  
   
 > [!NOTE]
->  `DowngradeFromWriterLock` acepta una <xref:System.Threading.LockCookie> obtenido mediante una llamada a <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>. No use un `LockCookie` devuelto por <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A>.  
+>  `DowngradeFromWriterLock` acepta un <xref:System.Threading.LockCookie> obtenido mediante una llamada a <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>. No use un `LockCookie` devuelto por <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A>.  
   
- Un subproceso no se bloquea al degradar el bloqueo de escritor, incluso si otros subprocesos están esperando el bloqueo de escritor, ya que todas las solicitudes de bloqueo de lector se conceden cuando se libera el bloqueo de escritor.  
+ Un subproceso no se bloquea al realizar una degradación de bloqueo de escritor, incluso si otros subprocesos están esperando el bloqueo de escritor, ya que todas las solicitudes de bloqueo de lector se conceden cuando se libera el bloqueo de escritor.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo solicitar un bloqueo de lector, actualizar el bloqueo de lector al bloqueo de escritor y degradar a un bloqueo de lector de nuevo.  
+ En el ejemplo de código siguiente se muestra cómo solicitar un bloqueo de lector, actualizar el bloqueo de lector a un bloqueo de escritor y cambiar a un bloqueo de lector de nuevo.  
   
- Este código forma parte de un ejemplo mayor proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
+ Este código forma parte de un ejemplo más extenso proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -539,6 +556,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -557,7 +575,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El recolector de elementos no utilizados llame <xref:System.Threading.ReaderWriterLock.Finalize%2A> cuando actual <xref:System.Threading.ReaderWriterLock> objeto está listo para ser finalizados.  
+ El recolector de elementos no utilizados llame al <xref:System.Threading.ReaderWriterLock.Finalize%2A> cuando actual <xref:System.Threading.ReaderWriterLock> objeto está listo para ser finalizados.  
   
  ]]></format>
         </remarks>
@@ -573,6 +591,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -601,7 +621,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo utilizar `IsReaderLockHeld` para evitar interbloqueos.  
+ En el ejemplo de código siguiente se muestra cómo usar `IsReaderLockHeld` para evitar interbloqueos.  
   
  [!code-cpp[System.Threading.ReaderWriterLock.IsWriterLockHeld#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock.IsWriterLockHeld/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ReaderWriterLock.IsWriterLockHeld#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock.IsWriterLockHeld/CS/source.cs#1)]
@@ -621,6 +641,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -649,7 +671,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- En el ejemplo de código siguiente se muestra que cuando se realiza un intento de adquirir un bloqueo de lector en un subproceso que tiene un bloqueo de escritor, `ReaderWriterLock` no concede el bloqueo de lector, sino que incrementa el recuento de bloqueos del bloqueo de escritor.  
+ El ejemplo de código siguiente muestra que cuando se intenta adquirir un bloqueo de lector en un subproceso que tiene un bloqueo de escritor, `ReaderWriterLock` no concede el bloqueo de lector, sino que incrementa el recuento de bloqueos del bloqueo de escritor.  
   
  [!code-cpp[System.Threading.ReaderWriterLock.IsWriterLockHeld#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock.IsWriterLockHeld/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ReaderWriterLock.IsWriterLockHeld#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock.IsWriterLockHeld/CS/source.cs#1)]
@@ -669,6 +691,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -692,14 +716,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> Libera el bloqueo de lector o el bloqueo de escritor, independientemente del recuento de bloqueos recursivos. Para restaurar el estado del bloqueo, incluido el recuento de bloqueos, pasar la <xref:System.Threading.LockCookie> a <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
+ <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> Libera el bloqueo de lector o el bloqueo de escritor, independientemente del recuento de bloqueos recursivos. Para restaurar el estado del bloqueo, incluido el recuento de bloqueos, pase el <xref:System.Threading.LockCookie> a <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo utilizar el <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> método para liberar el bloqueo, sin tener en cuenta el número de veces se ha adquirido por el subproceso y cómo restaurar el estado del bloqueo posteriormente.  
+ En el ejemplo de código siguiente se muestra cómo utilizar el <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> método para liberar el bloqueo, independientemente de cuántas veces ha sido adquirida por el subproceso y cómo restaurar el estado del bloqueo más adelante.  
   
- Este código forma parte de un ejemplo mayor proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
+ Este código forma parte de un ejemplo más extenso proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -725,6 +749,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -755,14 +781,14 @@
  <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> disminuye el recuento de bloqueos. Cuando el recuento llega a cero, se libera el bloqueo.  
   
 > [!NOTE]
->  Si un subproceso tiene el bloqueo de escritor, la llamada a `ReleaseReaderLock` tiene el mismo efecto que llamar al método <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A>. Si un subproceso no tiene bloqueos, una llamada a `ReleaseReaderLock` produce una <xref:System.ApplicationException>.  
+>  Si un subproceso tiene el bloqueo de escritor, la llamada a `ReleaseReaderLock` tiene el mismo efecto que llamar a <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A>. Si un subproceso no tiene bloqueos, una llamada a `ReleaseReaderLock` produce una <xref:System.ApplicationException>.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo adquirir y liberar un bloqueo de lector y cómo controlar la excepción que se produce cuando se agota el tiempo de espera de una solicitud.  
+ El ejemplo de código siguiente muestra cómo adquirir y liberar un bloqueo de lector y cómo controlar la excepción que se produce cuando se agota el tiempo de espera de una solicitud.  
   
- Este código forma parte de un ejemplo mayor proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
+ Este código forma parte de un ejemplo más extenso proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -789,6 +815,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -819,14 +847,14 @@
  <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> reduce el recuento de bloqueo de escritor. Cuando el recuento llega a cero, se libera el bloqueo de escritor.  
   
 > [!NOTE]
->  Si un subproceso tiene un bloqueo de lector, o no tiene bloqueos, una llamada a `ReleaseWriterLock` produce una <xref:System.ApplicationException>.  
+>  Si un subproceso tiene un bloqueo de lector o no tiene bloqueos, una llamada a `ReleaseWriterLock` produce una <xref:System.ApplicationException>.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo adquirir y liberar un bloqueo de escritura y cómo controlar la excepción que se produce cuando se agota el tiempo de espera de una solicitud.  
+ El ejemplo de código siguiente muestra cómo adquirir y liberar un bloqueo de escritor y cómo controlar la excepción que se produce cuando se agota el tiempo de espera de una solicitud.  
   
- Este código forma parte de un ejemplo mayor proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
+ Este código forma parte de un ejemplo más extenso proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -853,6 +881,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -878,9 +908,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El estado que restaura `RestoreLock` incluye el recuento de bloqueos recursivos.  
+ El estado restaurado por `RestoreLock` incluye el recuento de bloqueos recursivos.  
   
- Un subproceso se bloquea si intenta restaurar un bloqueo de lector después de que otro subproceso haya adquirido el bloqueo de escritor, o si intenta restaurar el bloqueo de escritor después de que otro subproceso haya adquirido un bloqueo de lector o escritor. Dado que `RestoreLock` no acepta un tiempo de espera, debe tener cuidado para evitar posibles interbloqueos.  
+ Un subproceso se bloquea si intenta restaurar un bloqueo de lector después de que otro subproceso ha adquirido el bloqueo de escritor, o si intenta restaurar el bloqueo de escritor después de que otro subproceso ha adquirido un bloqueo de lector o escritor. Dado que `RestoreLock` no acepta un tiempo de espera, procure evitar los interbloqueos posibles.  
   
 > [!CAUTION]
 >  Antes de llamar a `RestoreLock`, asegúrese de que ha liberado todos los bloqueos adquiridos desde la llamada a <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A>. Por ejemplo, un subproceso se interbloquea si adquiere un bloqueo de lector y, a continuación, intenta restaurar un bloqueo de escritor anterior. Use <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> y <xref:System.Threading.ReaderWriterLock.IsWriterLockHeld%2A> para detectar estos bloqueos adicionales.  
@@ -890,9 +920,9 @@
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo utilizar el <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> método para liberar el bloqueo, sin tener en cuenta el número de veces se ha adquirido por el subproceso y cómo restaurar el estado del bloqueo posteriormente.  
+ En el ejemplo de código siguiente se muestra cómo utilizar el <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> método para liberar el bloqueo, independientemente de cuántas veces ha sido adquirida por el subproceso y cómo restaurar el estado del bloqueo más adelante.  
   
- Este código forma parte de un ejemplo mayor proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
+ Este código forma parte de un ejemplo más extenso proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -929,6 +959,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -955,23 +987,23 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cuando un subproceso llama `UpgradeToWriterLock` se libera el bloqueo de lector, independientemente del recuento de bloqueos, y el subproceso va hasta el final de la cola para el bloqueo de escritor. Por lo tanto, otros subprocesos pueden escribir en el recurso antes de que el subproceso que solicitó que la actualización se concede el bloqueo de escritor.  
+ Cuando un subproceso llama `UpgradeToWriterLock` se libera el bloqueo de lector, independientemente del recuento de bloqueo, y el subproceso va hasta el final de la cola para el bloqueo de escritor. Por lo tanto, otros subprocesos pueden escribir en el recurso antes de que el subproceso que solicitó que la actualización se concede el bloqueo de escritor.  
   
 > [!IMPORTANT]
->  No se produce la excepción de tiempo de espera hasta que el subproceso que llamó la <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método puede volver a adquirir el bloqueo de lector. Si no hay ningún otro subproceso esperando el bloqueo de escritor, esto ocurre inmediatamente. Sin embargo, si otro subproceso está en cola para el bloqueo de escritor, el subproceso que llamó la <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método no puede adquirir el bloqueo de lector hasta que todos los lectores actuales liberen sus bloqueos y un subproceso adquiera y libere el bloqueo de escritor. Esto es cierto incluso si otro subproceso que solicitó el bloqueo de escritor solicitado después de que el subproceso actual llamado el <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método.  
+>  No se produce la excepción de tiempo de espera hasta que el subproceso que llama el <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método puede volver a adquirir el bloqueo de lector. Si no hay ningún otro subproceso esperando el bloqueo de escritor, esto ocurre inmediatamente. Sin embargo, si otro subproceso se pone en cola para el bloqueo de escritor, el subproceso que llama el <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método no puede volver a adquirir el bloqueo de lector hasta que todos los lectores actuales liberen sus bloqueos y un subproceso adquiera y libere el bloqueo de escritor. Esto es cierto incluso si el otro subproceso que solicitó el bloqueo de escritor lo ha solicitado una vez llamado el subproceso actual el <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método.  
   
- Para restaurar el estado de bloqueo, llame a <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> mediante la <xref:System.Threading.LockCookie> devuelto por `UpgradeToWriterLock`. No use este `LockCookie` con <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
+ Para restaurar el estado de bloqueo, llame a <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> utilizando el <xref:System.Threading.LockCookie> devuelto por `UpgradeToWriterLock`. No use este `LockCookie` con <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
   
  Cuando un subproceso no tiene ningún bloqueo de lector, no utilice `UpgradeToWriterLock`. Utilice <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A> en su lugar.  
   
- Para los valores de tiempo de espera válidos, consulte <xref:System.Threading.ReaderWriterLock>.  
+ Para los valores de tiempo de espera válido, vea <xref:System.Threading.ReaderWriterLock>.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo solicitar un bloqueo de lector, actualizar el bloqueo de lector al bloqueo de escritor y degradar a un bloqueo de lector de nuevo.  
+ En el ejemplo de código siguiente se muestra cómo solicitar un bloqueo de lector, actualizar el bloqueo de lector a un bloqueo de escritor y cambiar a un bloqueo de lector de nuevo.  
   
- Este código forma parte de un ejemplo mayor proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
+ Este código forma parte de un ejemplo más extenso proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -999,6 +1031,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1025,16 +1059,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cuando un subproceso llama `UpgradeToWriterLock` se libera el bloqueo de lector, independientemente del recuento de bloqueos, y el subproceso va hasta el final de la cola para el bloqueo de escritor. Por lo tanto, otros subprocesos pueden escribir en el recurso antes de que el subproceso que solicitó que la actualización se concede el bloqueo de escritor.  
+ Cuando un subproceso llama `UpgradeToWriterLock` se libera el bloqueo de lector, independientemente del recuento de bloqueo, y el subproceso va hasta el final de la cola para el bloqueo de escritor. Por lo tanto, otros subprocesos pueden escribir en el recurso antes de que el subproceso que solicitó que la actualización se concede el bloqueo de escritor.  
   
 > [!IMPORTANT]
->  No se produce la excepción de tiempo de espera hasta que el subproceso que llamó la <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método puede volver a adquirir el bloqueo de lector. Si no hay ningún otro subproceso esperando el bloqueo de escritor, esto ocurre inmediatamente. Sin embargo, si otro subproceso está en cola para el bloqueo de escritor, el subproceso que llamó la <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método no puede adquirir el bloqueo de lector hasta que todos los lectores actuales liberen sus bloqueos y un subproceso adquiera y libere el bloqueo de escritor. Esto es cierto incluso si otro subproceso que solicitó el bloqueo de escritor solicitado después de que el subproceso actual llamado el <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método.  
+>  No se produce la excepción de tiempo de espera hasta que el subproceso que llama el <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método puede volver a adquirir el bloqueo de lector. Si no hay ningún otro subproceso esperando el bloqueo de escritor, esto ocurre inmediatamente. Sin embargo, si otro subproceso se pone en cola para el bloqueo de escritor, el subproceso que llama el <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método no puede volver a adquirir el bloqueo de lector hasta que todos los lectores actuales liberen sus bloqueos y un subproceso adquiera y libere el bloqueo de escritor. Esto es cierto incluso si el otro subproceso que solicitó el bloqueo de escritor lo ha solicitado una vez llamado el subproceso actual el <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> método.  
   
- Para restaurar el estado de bloqueo, llame a <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> mediante la <xref:System.Threading.LockCookie> devuelto por `UpgradeToWriterLock`. No use este `LockCookie` con <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
+ Para restaurar el estado de bloqueo, llame a <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> utilizando el <xref:System.Threading.LockCookie> devuelto por `UpgradeToWriterLock`. No use este `LockCookie` con <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
   
  Cuando un subproceso no tiene ningún bloqueo de lector, no utilice `UpgradeToWriterLock`. Utilice <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A> en su lugar.  
   
- Para los valores de tiempo de espera válidos, consulte <xref:System.Threading.ReaderWriterLock>.  
+ Para los valores de tiempo de espera válido, vea <xref:System.Threading.ReaderWriterLock>.  
   
  ]]></format>
         </remarks>
@@ -1054,6 +1088,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1076,18 +1112,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El número de secuencia aumenta cada vez que un subproceso adquiere el bloqueo de escritor. Puede guardar el número de secuencia y pasarlo a <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> en un momento posterior, si desea determinar si otros subprocesos han adquirido el bloqueo de escritor entretanto.  
+ El número de secuencia aumenta cada vez que un subproceso adquiere el bloqueo de escritor. Puede guardar el número de secuencia y pasarlo a <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> en un momento posterior, si desea determinar si otros subprocesos han adquirido el bloqueo de escritor mientras tanto.  
   
- Puede usar `WriterSeqNum` para mejorar el rendimiento de la aplicación. Por ejemplo, un subproceso puede almacenar en caché la información que obtiene mientras se mantiene un bloqueo de lector. Después de liberar y volver a adquirir el bloqueo, el subproceso puede determinar si otros subprocesos han escrito en el recurso mediante una llamada a `AnyWritersSince`; si no es así, se puede utilizar la información almacenada en caché. Esta técnica es útil al leer la información protegida por el bloqueo es costosa; Por ejemplo, ejecutar una consulta de base de datos.  
+ Puede usar `WriterSeqNum` para mejorar el rendimiento de la aplicación. Por ejemplo, un subproceso podría guardar en caché la información que obtiene mientras se mantiene un bloqueo de lector. Después de liberar y volver a adquirir el bloqueo, el subproceso puede determinar si otros subprocesos han escrito en el recurso mediante una llamada a `AnyWritersSince`; si no, se puede usar la información almacenada en caché. Esta técnica es útil cuando la información protegida por el bloqueo es costosa; Por ejemplo, ejecutar una consulta de base de datos.  
   
- El llamador debe contener un bloqueo de lector o un bloqueo de escritura en orden para el número de secuencia ser útil.  
+ El llamador debe contener un bloqueo de lector o escritor en orden para el número de secuencia ser útil.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo utilizar el <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> propiedad y el <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> método para determinar si otro subproceso haya adquirido el bloqueo de escritura en el recurso protegido desde el subproceso actual estuvo por última vez el bloqueo de escritor.  
+ En el ejemplo de código siguiente se muestra cómo utilizar el <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> propiedad y el <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> por última vez, el método para determinar si otro subproceso adquirió el bloqueo de escritura al recurso protegido desde el subproceso actual mantiene el bloqueo de escritor.  
   
- Este código forma parte de un ejemplo mayor proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
+ Este código forma parte de un ejemplo más extenso proporcionado para el <xref:System.Threading.ReaderWriterLock> clase.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
