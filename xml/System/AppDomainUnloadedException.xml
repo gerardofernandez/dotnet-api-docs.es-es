@@ -1,11 +1,11 @@
 <Type Name="AppDomainUnloadedException" FullName="System.AppDomainUnloadedException">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="15acc01f045f8e4fdf704849419ae630e76acf43" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="2a387c09392a96c718b2cc6fdf4303ddb4397b8e" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36432991" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37729045" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class AppDomainUnloadedException : SystemException" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit AppDomainUnloadedException extends System.SystemException" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type AppDomainUnloadedException = class&#xA;    inherit SystemException" />
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -42,35 +44,35 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- En .NET Framework versión 2.0, un <xref:System.AppDomainUnloadedException> que es no controlado en usuario código tiene el siguiente efecto:  
+ En .NET Framework versión 2.0, un <xref:System.AppDomainUnloadedException> es decir, no controlado en usuario código tiene el siguiente efecto:  
   
--   Si se inició un subproceso en código administrado, se termina. No se permite la excepción no controlada para terminar la aplicación.  
+-   Si se inicia un subproceso en código administrado, se termina. No se permite la excepción no controlada para terminar la aplicación.  
   
--   Si una tarea se está ejecutando en un <xref:System.Threading.ThreadPool> thread, se termina y el subproceso se devuelve al grupo de subprocesos. No se permite la excepción no controlada para terminar la aplicación.  
+-   Si una tarea se está ejecutando en un <xref:System.Threading.ThreadPool> thread, se termina y se devuelve el subproceso al grupo de subprocesos. No se permite la excepción no controlada para terminar la aplicación.  
   
--   Si inicia un subproceso en código no administrado, como el subproceso de aplicación principal, se termina. La excepción no controlada puede continuar y el sistema operativo finaliza la aplicación.  
+-   Si inicia un subproceso en código no administrado, como el subproceso principal de la aplicación, se termina. La excepción no controlada puede continuar y el sistema operativo termina la aplicación.  
   
  <xref:System.AppDomainUnloadedException> utiliza HRESULT COR_E_APPDOMAINUNLOADED, que tiene el valor 0 x 80131014.  
   
- Para obtener una lista de valores de propiedad iniciales para una instancia de <xref:System.AppDomainUnloadedException>, consulte el <xref:System.AppDomainUnloadedException.%23ctor%2A> constructores.  
+ Para obtener una lista de valores de propiedad iniciales de una instancia de <xref:System.AppDomainUnloadedException>, consulte el <xref:System.AppDomainUnloadedException.%23ctor%2A> constructores.  
   
    
   
 ## Examples  
- Esta sección contiene dos ejemplos de código. El primer ejemplo muestra los efectos de una <xref:System.AppDomainUnloadedException> en varios subprocesos y el segundo muestra elemental aplicación descarga un dominio.  
+ Esta sección contiene dos ejemplos de código. El primer ejemplo muestra los efectos de un <xref:System.AppDomainUnloadedException> en varios subprocesos y la segunda muestra elemental aplicación descarga un dominio.  
   
  Ejemplo 1  
   
- En el ejemplo de código siguiente se define un `TestClass` clase cuyas referencias se puede calcular en los límites del dominio de aplicación y un `Example` clase que contiene un `static` (`Shared` en Visual Basic) `ThreadProc` método. El `ThreadProc` método crea un dominio de aplicación, crea un `TestClass` objeto en el dominio y llama a un método de `TestClass` que descarga el dominio en ejecución, provocando un <xref:System.AppDomainUnloadedException>.  
+ En el ejemplo de código siguiente se define un `TestClass` clase que se puede calcular referencias entre los límites del dominio de aplicación y un `Example` clase que contiene un `static` (`Shared` en Visual Basic) `ThreadProc` método. El `ThreadProc` método crea un dominio de aplicación, crea un `TestClass` objeto en el dominio y llama a un método de `TestClass` que descarga el dominio en ejecución, provocando un <xref:System.AppDomainUnloadedException>.  
   
- El `TestClass` método se ejecuta sin control de excepciones una <xref:System.Threading.ThreadPool> subproceso y desde un subproceso normal, que muestra que la excepción no controlada finaliza la tarea o subproceso pero no a la aplicación. A continuación, se ejecuta con y sin control de excepciones desde el subproceso de aplicación principal, que muestra que finaliza la aplicación si no se controlan.  
+ El `TestClass` método se ejecuta sin control de excepciones una <xref:System.Threading.ThreadPool> subproceso y desde un subproceso ordinario, que muestra que la excepción no controlada finaliza la tarea o subproceso pero no la aplicación. A continuación, se ejecuta con y sin control de excepciones desde el subproceso principal de la aplicación, que muestra que finaliza la aplicación si no controla.  
   
  [!code-csharp[AppDomainUnloadedException#1](~/samples/snippets/csharp/VS_Snippets_CLR/AppDomainUnloadedException/cs/Sample.cs#1)]
  [!code-vb[AppDomainUnloadedException#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/AppDomainUnloadedException/vb/Sample.vb#1)]  
   
  Ejemplo 2  
   
- En el ejemplo de código siguiente se crea y se descarga un dominio de aplicación y se muestra que un <xref:System.AppDomainUnloadedException> se produce en un intento posterior de acceso al dominio descargado.  
+ En el ejemplo de código siguiente se crea y descarga un dominio de aplicación y se muestra que un <xref:System.AppDomainUnloadedException> se produce en un intento posterior para tener acceso al dominio descargado.  
   
  [!code-cpp[ADUnload#1](~/samples/snippets/cpp/VS_Snippets_CLR/ADUnload/CPP/adunload.cpp#1)]
  [!code-csharp[ADUnload#1](~/samples/snippets/csharp/VS_Snippets_CLR/ADUnload/CS/adunload.cs#1)]
@@ -101,6 +103,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -143,6 +147,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -188,6 +194,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -205,14 +213,14 @@
         <Parameter Name="context" Type="System.Runtime.Serialization.StreamingContext" />
       </Parameters>
       <Docs>
-        <param name="info">Objeto que contiene los datos serializados.</param>
+        <param name="info">Objeto que contiene los datos del objeto serializados.</param>
         <param name="context">Información contextual acerca del origen o del destino.</param>
         <summary>Inicializa una nueva instancia de la clase <see cref="T:System.AppDomainUnloadedException" /> con datos serializados.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se llama a este constructor durante la deserialización para reconstituir el objeto de excepción transmitido sobre una secuencia. Para obtener más información, consulte [serialización XML y SOAP](~/docs/standard/serialization/xml-and-soap-serialization.md).  
+ Durante la deserialización se llama a este constructor para reconstituir el objeto de excepción transmitido en una secuencia. Para obtener más información, consulte [serialización SOAP y XML](~/docs/standard/serialization/xml-and-soap-serialization.md).  
   
  ]]></format>
         </remarks>
@@ -228,6 +236,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -246,15 +256,15 @@
       </Parameters>
       <Docs>
         <param name="message">Mensaje que describe el error.</param>
-        <param name="innerException">La excepción que es la causa de la excepción actual. Si el parámetro <c>innerException</c> no es una referencia nula, se produce la excepción actual en un bloque <see langword="catch" /> que controla la excepción interna.</param>
+        <param name="innerException">Excepción que es la causa de la excepción actual. Si el parámetro <c>innerException</c> no es una referencia nula, se produce la excepción actual en un bloque <see langword="catch" /> que controla la excepción interna.</param>
         <summary>Inicializa una nueva instancia de la clase <see cref="T:System.AppDomainUnloadedException" /> con el mensaje de error especificado y una referencia a la excepción interna que representa la causa de esta excepción.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se pretende que el contenido del parámetro `message` sea inteligible. El llamador de este constructor debe asegurarse de que esta cadena se ha traducido para la actual referencia cultural del sistema.  
+ Se pretende que el contenido del parámetro `message` sea inteligible. El autor de llamada de este constructor debe asegurarse de que la cadena se haya adaptado para la referencia cultural actual del sistema.  
   
- Una excepción que se produce como consecuencia directa de una excepción anterior debe incluir una referencia a esta última en la propiedad <xref:System.Exception.InnerException%2A>. El <xref:System.Exception.InnerException%2A> propiedad devuelve el mismo valor que se pasó al constructor o una referencia nula si el <xref:System.Exception.InnerException%2A> propiedad no proporciona el valor de la excepción interna al constructor.  
+ Una excepción que se produce como consecuencia directa de una excepción anterior debe incluir una referencia a esta última en la propiedad <xref:System.Exception.InnerException%2A>. El <xref:System.Exception.InnerException%2A> propiedad devuelve el mismo valor que se pasó al constructor o una referencia nula si la <xref:System.Exception.InnerException%2A> propiedad no proporciona el valor de la excepción interna al constructor.  
   
  En la tabla siguiente se muestran los valores de propiedad iniciales para una instancia de <xref:System.AppDomainUnloadedException>.  
   

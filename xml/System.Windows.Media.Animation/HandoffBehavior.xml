@@ -1,11 +1,11 @@
 <Type Name="HandoffBehavior" FullName="System.Windows.Media.Animation.HandoffBehavior">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="ca2e1fac60374b9457aabbdc3b55ef28007f909f" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="2b70ec3cdc83525372d47a6e63bfbac8f07c704a" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36499113" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37558580" />
   </Metadata>
   <TypeSignature Language="C#" Value="public enum HandoffBehavior" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed HandoffBehavior extends System.Enum" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type HandoffBehavior = " />
   <AssemblyInfo>
     <AssemblyName>PresentationCore</AssemblyName>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -26,17 +27,17 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Al aplicar un <xref:System.Windows.Media.Animation.Storyboard>, <xref:System.Windows.Media.Animation.AnimationTimeline>, o <xref:System.Windows.Media.Animation.AnimationClock> a una propiedad mediante el uso de cualquier redactar, <xref:System.Windows.Media.Animation.Clock> objetos asociados anteriormente a esa propiedad siguen consumiendo recursos del sistema; el sistema de temporización no quitará los relojes de forma automática.  
+ Al aplicar un <xref:System.Windows.Media.Animation.Storyboard>, <xref:System.Windows.Media.Animation.AnimationTimeline>, o <xref:System.Windows.Media.Animation.AnimationClock> a una propiedad mediante el uso de Compose, cualquier <xref:System.Windows.Media.Animation.Clock> objetos asociados anteriormente a esa propiedad siguen consumiendo recursos del sistema; el sistema de control de tiempo no quitará los relojes de forma automática.  
   
- Para evitar problemas de rendimiento cuando se aplica un gran número de relojes con redactar, debe quitar los relojes de composición de la propiedad animada cuando se hayan completado. Hay varias maneras de quitar un reloj:  
+ Para evitar problemas de rendimiento cuando aplique muchos relojes mediante Compose, debe quitar los relojes de composición de la propiedad animada cuando se hayan completado. Hay varias formas de quitar un reloj:  
   
--   Para quitar todos los relojes de una propiedad, utilice la <xref:System.Windows.Media.Animation.Animatable.ApplyAnimationClock%28System.Windows.DependencyProperty%2CSystem.Windows.Media.Animation.AnimationClock%29> o <xref:System.Windows.Media.Animation.Animatable.BeginAnimation%28System.Windows.DependencyProperty%2CSystem.Windows.Media.Animation.AnimationTimeline%29> método del objeto animado. Especifique la propiedad que se está animada como el primer parámetro, y `null` como el segundo. De este modo, se quitarán todos los relojes de animación de la propiedad.  
+-   Para quitar todos los relojes de una propiedad, utilice el <xref:System.Windows.Media.Animation.Animatable.ApplyAnimationClock%28System.Windows.DependencyProperty%2CSystem.Windows.Media.Animation.AnimationClock%29> o <xref:System.Windows.Media.Animation.Animatable.BeginAnimation%28System.Windows.DependencyProperty%2CSystem.Windows.Media.Animation.AnimationTimeline%29> método del objeto animado. Especifique la propiedad animada como primer parámetro, y `null` como el segundo. De este modo, se quitarán todos los relojes de animación de la propiedad.  
   
--   Para quitar un determinado <xref:System.Windows.Media.Animation.AnimationClock> en una lista de relojes, use la <xref:System.Windows.Media.Animation.Clock.Controller%2A> propiedad de la <xref:System.Windows.Media.Animation.AnimationClock> para recuperar un <xref:System.Windows.Media.Animation.ClockController>, a continuación, llame a la <xref:System.Windows.Media.Animation.ClockController.Remove%2A> método de la <xref:System.Windows.Media.Animation.ClockController>. Esto se hace normalmente en el <xref:System.Windows.Media.Animation.Clock.Completed> controlador de eventos para un reloj. Tenga en cuenta que los relojes de raíz única pueden controlarse mediante una <xref:System.Windows.Media.Animation.ClockController>; el <xref:System.Windows.Media.Animation.Clock.Controller%2A> propiedad de un reloj secundario devuelve `null`. Tenga en cuenta también que la <xref:System.Windows.Media.Animation.Clock.Completed> eventos no se producen si la duración efectiva del reloj es para siempre.  En ese caso, el usuario debe determinar cuándo se debe llamar a <xref:System.Windows.Media.Animation.ClockController.Remove%2A>.  
+-   Para quitar un determinado <xref:System.Windows.Media.Animation.AnimationClock> desde una lista de relojes, utilice la <xref:System.Windows.Media.Animation.Clock.Controller%2A> propiedad de la <xref:System.Windows.Media.Animation.AnimationClock> para recuperar un <xref:System.Windows.Media.Animation.ClockController>, a continuación, llame a la <xref:System.Windows.Media.Animation.ClockController.Remove%2A> método de la <xref:System.Windows.Media.Animation.ClockController>. Esto se hace normalmente el <xref:System.Windows.Media.Animation.Clock.Completed> controlador de eventos de un reloj. Tenga en cuenta que los relojes de raíz única pueden controlarse mediante una <xref:System.Windows.Media.Animation.ClockController>; el <xref:System.Windows.Media.Animation.Clock.Controller%2A> devuelve la propiedad de un reloj secundario `null`. Tenga en cuenta también que el <xref:System.Windows.Media.Animation.Clock.Completed> evento no se genera si la duración efectiva del reloj es para siempre.  En ese caso, el usuario debe determinar cuándo llamar a <xref:System.Windows.Media.Animation.ClockController.Remove%2A>.  
   
  Este problema se produce principalmente en las animaciones de objetos que tienen un período de duración prolongado.  Cuando un objeto se recolecta como elemento no utilizado, sus relojes también se desconectan y se recolectan como elementos no utilizados.  
   
- Para obtener más información acerca de los objetos de reloj, consulte [animación y temporización información general del sistema](~/docs/framework/wpf/graphics-multimedia/animation-and-timing-system-overview.md).  
+ Para obtener más información acerca de los objetos de reloj, consulte [Animation and Timing System Overview](~/docs/framework/wpf/graphics-multimedia/animation-and-timing-system-overview.md).  
   
  ]]></format>
     </remarks>
@@ -52,6 +53,7 @@
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -72,6 +74,7 @@
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
