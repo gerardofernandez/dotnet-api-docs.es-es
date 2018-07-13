@@ -1,11 +1,11 @@
 <Type Name="IPolicyImportExtension" FullName="System.ServiceModel.Description.IPolicyImportExtension">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="6eee719fff1036e50d9fddef949d3c8b2dfe4b65" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="2dafea050ab8f58e92bc123d4611ca1624cfae00" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36616688" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37456529" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IPolicyImportExtension" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IPolicyImportExtension" />
@@ -16,6 +16,7 @@
   <AssemblyInfo>
     <AssemblyName>System.ServiceModel</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Interfaces />
@@ -29,7 +30,7 @@
   
  A diferencia de su homólogo, <xref:System.ServiceModel.Description.IPolicyExportExtension>, <xref:System.ServiceModel.Description.IPolicyImportExtension> no requiere la implementación por parte de un objeto <xref:System.ServiceModel.Channels.BindingElement>; puede cargarse utilizando la sección de configuración de cliente mostrada en la sección Ejemplos, o mediante programación agregándolo al constructor <xref:System.ServiceModel.Description.WsdlImporter?displayProperty=nameWithType>.  
   
- Windows Communication Foundation (WCF) pasa dos objetos para el <xref:System.ServiceModel.Description.IPolicyImportExtension.ImportPolicy%2A> método, un <xref:System.ServiceModel.Description.MetadataImporter> y <xref:System.ServiceModel.Description.PolicyConversionContext>. Normalmente, el objeto <xref:System.ServiceModel.Description.PolicyConversionContext> ya contiene las aserciones de directiva para cada ámbito de enlace.  
+ Windows Communication Foundation (WCF) pasa dos objetos para el <xref:System.ServiceModel.Description.IPolicyImportExtension.ImportPolicy%2A> método, un <xref:System.ServiceModel.Description.MetadataImporter> y un <xref:System.ServiceModel.Description.PolicyConversionContext>. Normalmente, el objeto <xref:System.ServiceModel.Description.PolicyConversionContext> ya contiene las aserciones de directiva para cada ámbito de enlace.  
   
  Una implementación <xref:System.ServiceModel.Description.IPolicyImportExtension> realiza los pasos siguientes:  
   
@@ -39,7 +40,7 @@
   
 3.  Modifique la pila de enlace o el contrato agregando un <xref:System.ServiceModel.Channels.BindingElement> personalizado obligatorio a la propiedad <xref:System.ServiceModel.Description.PolicyConversionContext.BindingElements%2A>, o modificando la propiedad <xref:System.ServiceModel.Description.PolicyConversionContext.Contract%2A?displayProperty=nameWithType>.  
   
- El paso 2 es importante. Después de han llamado a todos los importadores de directivas, WCF comprueba la existencia de las aserciones de directiva que permanecen. Si existe una, WCF supone que la importación de la directiva fue incorrecta y no importó el enlace asociado.  
+ El paso 2 es importante. Después de han llamado a todos los importadores de directivas, WCF comprueba la existencia de cualquier aserción de directiva. Si la hay, WCF supone que la importación de directiva no tuvo éxito y no importa el enlace asociado.  
   
 > [!IMPORTANT]
 >  Un proveedor de metadatos malintencionado puede intentar enviar XML incorrecto como parte de los metadatos, para aprovecharse de un importador de directivas. Se recomienda encarecidamente que los importadores de directivas personalizados sean resistentes a todos los formularios de XML que puedan pasarles.  
@@ -49,7 +50,7 @@
  Si desea exportar e importar elementos WSDL personalizados que no son aserciones de la directiva, vea <xref:System.ServiceModel.Description.IWsdlExportExtension?displayProperty=nameWithType> y <xref:System.ServiceModel.Description.IWsdlImportExtension?displayProperty=nameWithType>.  
   
 > [!NOTE]
->  Puede usar directivas personalizadas importadores y exportadores con el [la herramienta de utilidad de metadatos de ServiceModel (Svcutil.exe)](~/docs/framework/wcf/servicemodel-metadata-utility-tool-svcutil-exe.md) mediante el uso de los mismos elementos de configuración en un archivo de configuración y el `/svcutilConfig:<configFile>` opción.  
+>  Puede usar directivas personalizadas importadores y exportadores con el [ServiceModel Metadata Utility Tool (Svcutil.exe)](~/docs/framework/wcf/servicemodel-metadata-utility-tool-svcutil-exe.md) utilizando los mismos elementos de configuración en un archivo de configuración y el `/svcutilConfig:<configFile>` opción.  
   
    
   
@@ -82,6 +83,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -102,7 +104,7 @@
 ## Remarks  
  Implemente el método `ImportPolicy` para obtener las aserciones de directiva y realizar alguna modificación del contrato importado, o establecer un enlace para admitir la aserción. Normalmente, un importador de directivas responde a la búsqueda de una aserción de directiva personalizada mediante la configuración o inserción de un elemento de enlace en el enlace que se importa.  
   
- Windows Communication Foundation (WCF) pasa dos objetos para el <xref:System.ServiceModel.Description.IPolicyImportExtension.ImportPolicy%2A> método, un <xref:System.ServiceModel.Description.MetadataImporter> y <xref:System.ServiceModel.Description.PolicyConversionContext>. Normalmente, el objeto <xref:System.ServiceModel.Description.PolicyConversionContext> ya contiene las aserciones de directiva para cada ámbito de enlace.  
+ Windows Communication Foundation (WCF) pasa dos objetos para el <xref:System.ServiceModel.Description.IPolicyImportExtension.ImportPolicy%2A> método, un <xref:System.ServiceModel.Description.MetadataImporter> y un <xref:System.ServiceModel.Description.PolicyConversionContext>. Normalmente, el objeto <xref:System.ServiceModel.Description.PolicyConversionContext> ya contiene las aserciones de directiva para cada ámbito de enlace.  
   
  Una implementación <xref:System.ServiceModel.Description.IPolicyImportExtension> realiza los pasos siguientes:  
   
@@ -112,7 +114,7 @@
   
 3.  Modifica la pila de enlace o el contrato agregando un <xref:System.ServiceModel.Channels.BindingElement> personalizado obligatorio a la propiedad <xref:System.ServiceModel.Description.PolicyConversionContext.BindingElements%2A>, o modificando la propiedad <xref:System.ServiceModel.Description.PolicyConversionContext.Contract%2A?displayProperty=nameWithType>.  
   
- El paso 2 es importante. Después de han llamado a todos los importadores de directivas, WCF comprueba la existencia de las aserciones de directiva que permanecen. Si existe una, WCF supone que la importación de la directiva fue incorrecta y no importó el enlace asociado.  
+ El paso 2 es importante. Después de han llamado a todos los importadores de directivas, WCF comprueba la existencia de cualquier aserción de directiva. Si la hay, WCF supone que la importación de directiva no tuvo éxito y no importa el enlace asociado.  
   
    
   
