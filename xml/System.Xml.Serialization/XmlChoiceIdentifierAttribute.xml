@@ -1,11 +1,11 @@
 <Type Name="XmlChoiceIdentifierAttribute" FullName="System.Xml.Serialization.XmlChoiceIdentifierAttribute">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="c25913080f6150c11f5a297c39a0adb03d702b12" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="c7c585dd58737eec95040e54dfeb4324da0c5916" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36439742" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37731688" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class XmlChoiceIdentifierAttribute : Attribute" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit XmlChoiceIdentifierAttribute extends System.Attribute" />
@@ -21,6 +21,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>System.Xml</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -38,12 +40,12 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>Especifica que el miembro se puede detectar mejor utilizando una enumeración.</summary>
+    <summary>Especifica que el miembro se puede detectar mejor con una enumeración.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La definición de elemento de esquema XML denominada `xsi:choice` se utiliza para definir un elemento complejo que puede contener un único elemento secundario en una instancia (maxoccurs = 1). Ese elemento secundario puede ser uno de varios tipos y puede tener uno de los diversos nombres. Cada nombre está asociado con un tipo específico; Sin embargo, varios nombres pueden asociarse con el mismo tipo. Por este motivo, una instancia de este tipo de elementos es imprecisa. Por ejemplo, considere el siguiente fragmento de esquema que define un elemento impreciso denominado `MyChoice`.  
+ La definición de elemento de esquema XML denominada `xsi:choice` se utiliza para definir un elemento complejo que puede contener sólo un elemento secundario en una instancia (maxoccurs = 1). Ese elemento secundario puede ser uno de los distintos tipos, y puede tener uno de los diversos nombres. Cada nombre está asociado con un tipo específico; Sin embargo, varios nombres pueden asociarse con el mismo tipo. Por este motivo, una instancia de ese tipo de elemento es imprecisa. Por ejemplo, considere el siguiente fragmento de esquema que define un elemento impreciso denominado `MyChoice`.  
   
 ```  
 <xsd:complexType name="MyChoice">  
@@ -56,7 +58,7 @@
 </xsd:complexType>  
 ```  
   
- El <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> permite asignar un valor de enumeración especial a cada instancia del miembro. Usted puede crear la enumeración o ésta puede ser generada por el [herramienta de definición de esquemas XML (Xsd.exe)](~/docs/standard/serialization/xml-schema-definition-tool-xsd-exe.md). La siguiente muestra de código de C# cómo <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> se aplica a un `Item` campo; el <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> propiedad identifica el campo que contiene la enumeración que se utiliza para detectar la elección.  
+ El <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> le permite asignar un valor de enumeración especial a cada instancia del miembro. Usted puede crear la enumeración o ésta puede ser generada por el [XML Schema Definition Tool (Xsd.exe)](~/docs/standard/serialization/xml-schema-definition-tool-xsd-exe.md). La siguiente muestra de código de C# cómo <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> se aplica a un `Item` campo; el <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> propiedad identifica el campo que contiene la enumeración que se utiliza para detectar la elección.  
   
 ```  
 public class Choices{  
@@ -77,7 +79,7 @@ public enum ItemChoiceType{
 }  
 ```  
   
- Cuando este código está en su lugar, se puede serializar y deserializar esta clase estableciendo el `ItemType` campo en una enumeración apropiada. Por ejemplo, para serializar el `Choice` (clase), el código de C# es similar al siguiente.  
+ Cuando este código está en su lugar, se puede serializar y deserializar esta clase estableciendo el `ItemType` campo en una enumeración adecuada. Por ejemplo, para serializar el `Choice` (clase), el código de C# es similar al siguiente.  
   
 ```  
 Choices mc = new Choices();  
@@ -85,7 +87,7 @@ mc.MyChoice = "Item Choice One";
 mc.ItemType = ItemChoiceType.ChoiceOne;  
 ```  
   
- Al deserializar, el código de C# es similar al siguiente:  
+ Al deserializar, el código de C# es similar a lo siguiente:  
   
 ```  
 MyChoice mc = (MyChoice) myXmlSerializer.Deserialize(myReader);  
@@ -103,7 +105,7 @@ if(mc.ItemType != null)
  }  
 ```  
   
- Hay un segundo escenario cuando el <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> se utiliza. En el esquema siguiente, el miembro es un campo que devuelve una matriz de elementos (maxOccurs = "unbounded"). La matriz puede contener objetos de la primera opción ("D-a-t-a") y de la segunda opción ("MoreData").  
+ Hay un segundo escenario cuando el <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> se utiliza. En el esquema siguiente, el miembro es un campo que devuelve una matriz de elementos (maxOccurs = "unbounded"). La matriz puede contener objetos de la primera opción ("D-a-t-a") y de la segunda ("MoreData").  
   
 ```  
 <xsd:complexType name="MyChoice">  
@@ -116,7 +118,7 @@ if(mc.ItemType != null)
 </xsd:complexType>  
 ```  
   
- La clase resultante, a continuación, usa un campo para devolver una matriz de elementos. Para cada elemento de la matriz, su correspondiente `ItemChoiceType` enumeración debe hallarse también. Las enumeraciones que coinciden se encuentran en la matriz devuelta por la `ItemsElementName` campo.  
+ La clase resultante, a continuación, usa un campo para devolver una matriz de elementos. Para cada elemento de la matriz, correspondiente `ItemChoiceType` también se debe encontrar la enumeración. Las enumeraciones que coinciden se encuentran en la matriz devuelta por la `ItemsElementName` campo.  
   
 ```  
 public class MyChoice {  
@@ -136,12 +138,12 @@ public enum ItemsChoiceType {
 }  
 ```  
   
- Al deserializar un objeto que incluye una amplia variedad de opciones, utilice una estructura de control (como if... then... else estructura) para determinar cómo deserializar un valor determinado. En la estructura de control, compruebe el valor de enumeración y deserializar el valor en consecuencia.  
+ Al deserializar un objeto que incluye una variedad de opciones, utilice una estructura de control (como if... then... else estructura) para determinar cómo deserializar un valor determinado. En la estructura de control, compruebe el valor de enumeración y deserializar el valor en consecuencia.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se serializa una clase denominada `Choices` que incluye dos campos, `MyChoice` y `ManyChoices`. El <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> se aplica a cada campo que especifica (a través de la <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> propiedad) otro miembro de clase que obtiene o establece una enumeración que detecta el valor del miembro. El `MyChoice` campo puede establecerse en un valor único, con un miembro de enumeración correspondiente que se encuentra en la `EnumType` campo. El `ManyChoices` campo devuelve una matriz de objetos. El `ChoiceArray` campo devuelve una matriz de valores de enumeración. Para cada miembro de la matriz en la `ManyChoices` campo, un miembro correspondiente se encuentra en la matriz devuelta por la `ChoiceArray` campo.  
+ El siguiente ejemplo serializa una clase denominada `Choices` que incluye dos campos, `MyChoice` y `ManyChoices`. El <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> se aplica a cada campo que especifica (a través de la <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> propiedad) otro miembro de clase que obtiene o establece una enumeración que detecta el valor del miembro. El `MyChoice` campo se puede establecer en un solo valor, con un miembro de enumeración correspondiente se encuentra en la `EnumType` campo. El `ManyChoices` campo devuelve una matriz de objetos. El `ChoiceArray` campo devuelve una matriz de valores de enumeración. Para cada miembro de la matriz en la `ManyChoices` campo, un miembro correspondiente se encuentra en la matriz devuelta por la `ChoiceArray` campo.  
   
  [!code-cpp[XmlChoiceIdentifierAttribute Example#1](~/samples/snippets/cpp/VS_Snippets_Remoting/XmlChoiceIdentifierAttribute Example/CPP/choice.cpp#1)]
  [!code-csharp[XmlChoiceIdentifierAttribute Example#1](~/samples/snippets/csharp/VS_Snippets_Remoting/XmlChoiceIdentifierAttribute Example/CS/choice.cs#1)]
@@ -177,6 +179,8 @@ public enum ItemsChoiceType {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -191,7 +195,7 @@ public enum ItemsChoiceType {
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- En el ejemplo siguiente se serializa una clase denominada `Choices` que incluye dos campos, `MyChoice` y `ManyChoices`. El <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> se aplica a cada campo que especifica (a través de la <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> propiedad) otro miembro de clase que obtiene o establece una enumeración que detecta el valor del miembro. El `MyChoice` campo puede establecerse en un valor único, con un miembro de enumeración correspondiente que se encuentra en la `EnumType` campo. El `ManyChoices` campo devuelve una matriz de objetos. El `ChoiceArray` campo devuelve una matriz de valores de enumeración. Para cada miembro de la matriz en la `ManyChoices` campo, un miembro correspondiente se encuentra en la matriz devuelta por la `ChoiceArray` campo.  
+ El siguiente ejemplo serializa una clase denominada `Choices` que incluye dos campos, `MyChoice` y `ManyChoices`. El <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> se aplica a cada campo que especifica (a través de la <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> propiedad) otro miembro de clase que obtiene o establece una enumeración que detecta el valor del miembro. El `MyChoice` campo se puede establecer en un solo valor, con un miembro de enumeración correspondiente se encuentra en la `EnumType` campo. El `ManyChoices` campo devuelve una matriz de objetos. El `ChoiceArray` campo devuelve una matriz de valores de enumeración. Para cada miembro de la matriz en la `ManyChoices` campo, un miembro correspondiente se encuentra en la matriz devuelta por la `ChoiceArray` campo.  
   
  [!code-cpp[XmlChoiceIdentifierAttribute Example#1](~/samples/snippets/cpp/VS_Snippets_Remoting/XmlChoiceIdentifierAttribute Example/CPP/choice.cpp#1)]
  [!code-csharp[XmlChoiceIdentifierAttribute Example#1](~/samples/snippets/csharp/VS_Snippets_Remoting/XmlChoiceIdentifierAttribute Example/CS/choice.cs#1)]
@@ -217,6 +221,8 @@ public enum ItemsChoiceType {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -249,6 +255,8 @@ public enum ItemsChoiceType {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -266,12 +274,12 @@ public enum ItemsChoiceType {
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Al menos un miembro debe estar presente en la enumeración que devuelve el campo denominado en el <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> valor. De forma predeterminada, dicho nombre de enumeración toma el nombre del campo que la <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> se aplica a.  
+ Al menos un miembro debe estar presente en la enumeración devuelta por el campo denominado en el <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> valor. De forma predeterminada, dicho nombre de enumeración toma el nombre del campo que el <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> se aplica a.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se serializa una clase denominada `Choices` que incluye dos campos, `MyChoice` y `ManyChoices`. El <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> se aplica a cada campo que especifica (a través de la <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> propiedad) otro miembro de clase que obtiene o establece una enumeración que detecta el valor del miembro. El `MyChoice` campo puede establecerse en un valor único, con un miembro de enumeración correspondiente que se encuentra en la `EnumType` campo. El `ManyChoices` campo devuelve una matriz de objetos. El `ChoiceArray` campo devuelve una matriz de valores de enumeración. Para cada miembro de la matriz en la `ManyChoices` campo, un miembro correspondiente se encuentra en la matriz devuelta por la `ChoiceArray` campo.  
+ El siguiente ejemplo serializa una clase denominada `Choices` que incluye dos campos, `MyChoice` y `ManyChoices`. El <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute> se aplica a cada campo que especifica (a través de la <xref:System.Xml.Serialization.XmlChoiceIdentifierAttribute.MemberName%2A> propiedad) otro miembro de clase que obtiene o establece una enumeración que detecta el valor del miembro. El `MyChoice` campo se puede establecer en un solo valor, con un miembro de enumeración correspondiente se encuentra en la `EnumType` campo. El `ManyChoices` campo devuelve una matriz de objetos. El `ChoiceArray` campo devuelve una matriz de valores de enumeración. Para cada miembro de la matriz en la `ManyChoices` campo, un miembro correspondiente se encuentra en la matriz devuelta por la `ChoiceArray` campo.  
   
  [!code-cpp[XmlChoiceIdentifierAttribute Example#1](~/samples/snippets/cpp/VS_Snippets_Remoting/XmlChoiceIdentifierAttribute Example/CPP/choice.cpp#1)]
  [!code-csharp[XmlChoiceIdentifierAttribute Example#1](~/samples/snippets/csharp/VS_Snippets_Remoting/XmlChoiceIdentifierAttribute Example/CS/choice.cs#1)]

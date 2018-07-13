@@ -1,11 +1,11 @@
 <Type Name="IXmlSerializable" FullName="System.Xml.Serialization.IXmlSerializable">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="07f472e239d440bb029fc42deaa18068f7a22d4d" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="bddcff4d03b849c87aa99efbd25f3b5d4ba625a0" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36440577" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37732497" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IXmlSerializable" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IXmlSerializable" />
@@ -22,6 +22,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>System.Xml</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -36,11 +38,11 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Hay dos razones principales para implementar esta interfaz. La primera consiste en controlar cómo se serializa o deserializa por el objeto de la <xref:System.Xml.Serialization.XmlSerializer>. Por ejemplo, puede fragmentar los datos en bytes en lugar de grandes conjuntos de datos de almacenamiento en búfer y evitar también la inflación que tiene lugar cuando los datos se codifican utilizando la codificación Base64. Para controlar la serialización, implemente el <xref:System.Xml.Serialization.IXmlSerializable.ReadXml%2A> y <xref:System.Xml.Serialization.IXmlSerializable.WriteXml%2A> métodos para controlar la <xref:System.Xml.XmlReader> y <xref:System.Xml.XmlWriter> clases utilizadas para leer y escribir el XML. Para obtener un ejemplo de esto, consulte [Cómo: serializar datos del fragmento](~/docs/standard/serialization/how-to-chunk-serialized-data.md).  
+ Hay dos razones para implementar esta interfaz. La primera consiste en controlar cómo se serializa o deserializa el objeto el <xref:System.Xml.Serialization.XmlSerializer>. Por ejemplo, puede fragmentar los datos en bytes en lugar de grandes conjuntos de datos de almacenamiento en búfer y evitar también la inflación que tiene lugar cuando se codifican los datos con codificación Base64. Para controlar la serialización, implemente el <xref:System.Xml.Serialization.IXmlSerializable.ReadXml%2A> y <xref:System.Xml.Serialization.IXmlSerializable.WriteXml%2A> métodos para controlar la <xref:System.Xml.XmlReader> y <xref:System.Xml.XmlWriter> clases usadas para leer y escribir el código XML. Para obtener un ejemplo de esto, consulte [Cómo: serializar datos del fragmento](~/docs/standard/serialization/how-to-chunk-serialized-data.md).  
   
- La segunda razón es capaz de controlar el esquema. Para habilitar esta opción, debe aplicar el <xref:System.Xml.Serialization.XmlSchemaProviderAttribute> a la serializable escriba y especifique el nombre del miembro estático que devuelve el esquema. Consulte la <xref:System.Xml.Serialization.XmlSchemaProviderAttribute> para obtener un ejemplo.  
+ La segunda razón es ser capaz de controlar el esquema. Para habilitar esta opción, debe aplicar el <xref:System.Xml.Serialization.XmlSchemaProviderAttribute> al elemento serializable escriba y especifique el nombre del miembro estático que devuelve el esquema. Consulte la <xref:System.Xml.Serialization.XmlSchemaProviderAttribute> para obtener un ejemplo.  
   
- Una clase que implementa la interfaz debe tener un constructor sin parámetros. Se trata de un requisito de la <xref:System.Xml.Serialization.XmlSerializer> clase.  
+ Una clase que implementa la interfaz debe tener un constructor sin parámetros. Este es un requisito de la <xref:System.Xml.Serialization.XmlSerializer> clase.  
   
    
   
@@ -71,6 +73,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -89,11 +93,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Al serializar o deserializar un objeto, el <xref:System.Xml.Serialization.XmlSerializer> clase no realiza la validación de XML. Por este motivo, a menudo es seguro omitir la información del esquema al proporcionar una implementación trivial de este método, por ejemplo devolviendo `null` (`Nothing` en Visual Basic).  
+ Al serializar o deserializar un objeto, el <xref:System.Xml.Serialization.XmlSerializer> clase no realiza la validación de XML. Por este motivo, a menudo es seguro omitir información de esquema, ya que proporciona una implementación trivial de este método, por ejemplo devolviendo `null` (`Nothing` en Visual Basic).  
   
- Si es necesario proporcionar información de esquema, debe utilizar el <xref:System.Xml.Serialization.XmlSchemaProviderAttribute> atributo. El `GetSchema` método todavía debe devolver `null` (o `Nothing`).  
+ Si es necesario proporcionar información de esquema, debe usar el <xref:System.Xml.Serialization.XmlSchemaProviderAttribute> atributo. El `GetSchema` método debería devolver `null` (o `Nothing`).  
   
- Algunos [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] tipos, así como heredados tipos personalizados que implementan la `IXmlSerializable` puede estar usando la interfaz `GetSchema` en lugar de `XmlSchemaProvider`. En este caso, el método devuelve un esquema XML preciso que describe la representación XML del objeto generado por el <xref:System.Data.DataSet.WriteXml%2A> método.  
+ Algunos [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] tipos como tipos personalizados heredados que implementan la `IXmlSerializable` puede estar usando la interfaz `GetSchema` en lugar de `XmlSchemaProvider`. En este caso, el método devuelve un esquema XML preciso que describe la representación XML del objeto generado por el <xref:System.Data.DataSet.WriteXml%2A> método.  
   
  ]]></format>
         </remarks>
@@ -116,6 +120,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -136,21 +142,21 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Xml.Serialization.IXmlSerializable.ReadXml%2A> método debe reconstituir el objeto utilizando la información que se escribió el <xref:System.Xml.Serialization.IXmlSerializable.WriteXml%2A> método.  
+ El <xref:System.Xml.Serialization.IXmlSerializable.ReadXml%2A> método debe reconstituir el objeto con la información que escribió la <xref:System.Xml.Serialization.IXmlSerializable.WriteXml%2A> método.  
   
- Cuando se llama a este método, el lector está situado en la etiqueta de apertura que contiene la información para su tipo. Es decir, directamente en la etiqueta de apertura indica el principio de un objeto serializado. Cuando este método vuelve, debe tener lectura todo el elemento de principio a fin, incluido todo su contenido. A diferencia de la <xref:System.Xml.Serialization.IXmlSerializable.WriteXml%2A> (método), el marco de trabajo no controla el elemento contenedor automáticamente. Su implementación debe hacerlo. Si no se observan estas reglas de posicionamiento puede hacer el código generar excepciones de tiempo de ejecución inesperado o datos dañados.  
+ Cuando se llama a este método, el lector está situado en la etiqueta de apertura que encapsula la información de su tipo. Es decir, directamente en la etiqueta de apertura indica el principio de un objeto serializado. Cuando este método finaliza, debe tener lectura todo el elemento de principio a fin, incluido todo su contenido. A diferencia de la <xref:System.Xml.Serialization.IXmlSerializable.WriteXml%2A> método, el marco de trabajo no controla automáticamente el elemento contenedor. Su implementación debe hacerlo. No se puede observar estas reglas de posicionamiento provocaría un código generar excepciones de tiempo de ejecución inesperado o datos dañados.  
   
- Al implementar este método, debe considerar la posibilidad de que un usuario malintencionado podría proporcionar una representación de XML con formato correcto pero no válida para deshabilitar o modificar el comportamiento de la aplicación.  
+ Al implementar este método, debe considerar la posibilidad de que un usuario malintencionado podría proporcionar una representación de XML con formato correcto pero no es válida con el fin de deshabilitar o modificar el comportamiento de la aplicación.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra una implementación de la <xref:System.Xml.Serialization.IXmlSerializable.ReadXml%2A> método.  
+ El ejemplo siguiente muestra una implementación de la <xref:System.Xml.Serialization.IXmlSerializable.ReadXml%2A> método.  
   
  [!code-cpp[XmlSerialization_IXmlSerializable#2](~/samples/snippets/cpp/VS_Snippets_Remoting/XmlSerialization_IXmlSerializable/CPP/person.cpp#2)]
  [!code-csharp[XmlSerialization_IXmlSerializable#2](~/samples/snippets/csharp/VS_Snippets_Remoting/XmlSerialization_IXmlSerializable/CS/person.cs#2)]  
   
- En el ejemplo siguiente se muestra el uso de la <xref:System.Xml.Serialization.XmlSerializer> clase para deserializar este objeto.  
+ El ejemplo siguiente muestra el uso de la <xref:System.Xml.Serialization.XmlSerializer> clase para deserializar este objeto.  
   
  [!code-cpp[XmlSerialization_IXmlSerializable#20](~/samples/snippets/cpp/VS_Snippets_Remoting/XmlSerialization_IXmlSerializable/CPP/reader.cpp#20)]
  [!code-csharp[XmlSerialization_IXmlSerializable#20](~/samples/snippets/csharp/VS_Snippets_Remoting/XmlSerialization_IXmlSerializable/CS/reader.cs#20)]  
@@ -176,6 +182,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -196,21 +204,21 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Xml.Serialization.IXmlSerializable.WriteXml%2A> implementación que proporcione debe escribir la representación XML del objeto. El marco de trabajo escribe un elemento contenedor y coloca el sistema de escritura XML después de su inicio. La implementación puede escribir su contenido, incluidos los elementos secundarios. El marco de trabajo, a continuación, cierra el elemento contenedor.  
+ El <xref:System.Xml.Serialization.IXmlSerializable.WriteXml%2A> implementación que proporcione debe escribir la representación XML del objeto. El marco de trabajo escribe un elemento contenedor y coloca el escritor XML después de su inicio. Su implementación puede escribir su contenido, incluidos los elementos secundarios. El marco de trabajo, a continuación, cierra el elemento contenedor.  
   
- Escribir información suficiente para la <xref:System.Xml.XmlWriter> secuencia que se va a permitir la <xref:System.Xml.Serialization.IXmlSerializable.ReadXml%2A> método para reconstituir el objeto.  
+ Escribir información suficiente para la <xref:System.Xml.XmlWriter> secuencia para permitir el <xref:System.Xml.Serialization.IXmlSerializable.ReadXml%2A> método para reconstituir el objeto.  
   
- Por ejemplo, si el estado del objeto incluye una variable de matriz, asegúrese de escribir la longitud de la matriz, o usar un elemento primario para incluir los elementos que se describen los valores de la matriz, para que sepa el número de valores que se leerá cuando el objeto se reconstituye.  
+ Por ejemplo, si el estado del objeto incluye una variable de matriz, asegúrese de escribir la longitud de la matriz, o usar un elemento primario que contiene los elementos que describen los valores de la matriz, por lo que sabe cuántos valores leer cuando el objeto se reconstituye.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra una implementación de la <xref:System.Xml.Serialization.IXmlSerializable.WriteXml%2A> método.  
+ El ejemplo siguiente muestra una implementación de la <xref:System.Xml.Serialization.IXmlSerializable.WriteXml%2A> método.  
   
  [!code-cpp[XmlSerialization_IXmlSerializable#1](~/samples/snippets/cpp/VS_Snippets_Remoting/XmlSerialization_IXmlSerializable/CPP/person.cpp#1)]
  [!code-csharp[XmlSerialization_IXmlSerializable#1](~/samples/snippets/csharp/VS_Snippets_Remoting/XmlSerialization_IXmlSerializable/CS/person.cs#1)]  
   
- En el ejemplo siguiente se muestra el uso de la <xref:System.Xml.Serialization.XmlSerializer> clase para deserializar este objeto.  
+ El ejemplo siguiente muestra el uso de la <xref:System.Xml.Serialization.XmlSerializer> clase para deserializar este objeto.  
   
  [!code-cpp[XmlSerialization_IXmlSerializable#10](~/samples/snippets/cpp/VS_Snippets_Remoting/XmlSerialization_IXmlSerializable/CPP/writer.cpp#10)]
  [!code-csharp[XmlSerialization_IXmlSerializable#10](~/samples/snippets/csharp/VS_Snippets_Remoting/XmlSerialization_IXmlSerializable/CS/writer.cs#10)]  
