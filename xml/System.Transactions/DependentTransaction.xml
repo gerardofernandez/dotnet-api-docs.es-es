@@ -1,11 +1,11 @@
 <Type Name="DependentTransaction" FullName="System.Transactions.DependentTransaction">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="14e78653203d9978eb1016724756f6e0d100a474" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="261b044e57a09e9c2b56f362f048e533fe2f8684" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36605362" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37548359" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class DependentTransaction : System.Transactions.Transaction, System.Runtime.Serialization.ISerializable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable sealed beforefieldinit DependentTransaction extends System.Transactions.Transaction implements class System.Runtime.Serialization.ISerializable" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type DependentTransaction = class&#xA;    inherit Transaction&#xA;    interface ISerializable" />
   <AssemblyInfo>
     <AssemblyName>System.Transactions</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -41,16 +42,16 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Transactions.DependentTransaction> es un clon de un <xref:System.Transactions.Transaction> objeto creado mediante el <xref:System.Transactions.Transaction.DependentClone%2A> método.  Su único propósito es permitir que la aplicación llegue a rest y garantizar que no se puede confirmar la transacción mientras todavía se realiza trabajo en la transacción (por ejemplo, en un subproceso de trabajo).  
+ El <xref:System.Transactions.DependentTransaction> es un clon de un <xref:System.Transactions.Transaction> objeto creado mediante el <xref:System.Transactions.Transaction.DependentClone%2A> método.  Su único propósito es permitir que la aplicación llegar a rest y garantizar que no se puede confirmar la transacción mientras todavía se está ejecutando el trabajo en la transacción (por ejemplo, en un subproceso de trabajo).  
   
- Cuando el trabajo realizado dentro de la transacción clonada finalmente está completo y listo para confirmarse, puede informar al creador de la transacción mediante el <xref:System.Transactions.DependentTransaction.Complete%2A> método. Así se pueden conservar la coherencia y la exactitud de los datos.  
+ Cuando el trabajo realizado dentro de la transacción clonada finalmente está completo y listo para confirmarse, puede informar al creador de la transacción con el <xref:System.Transactions.DependentTransaction.Complete%2A> método. Así se pueden conservar la coherencia y exactitud de los datos.  
   
- El <xref:System.Transactions.DependentCloneOption> enumeración se utiliza para determinar el comportamiento de confirmación.  Este control del comportamiento permite que una aplicación se detenga, así como proporciona compatibilidad con la simultaneidad. Para obtener más información sobre cómo se utiliza esta enumeración, consulte [Managing Concurrency with DependentTransaction](http://msdn.microsoft.com/library/bdad8468-2a90-4b81-8375-278067120cab).  
+ El <xref:System.Transactions.DependentCloneOption> enumeración se utiliza para determinar el comportamiento de confirmación.  Este control de comportamiento permite que una aplicación se detenga, así como proporciona compatibilidad con la simultaneidad. Para obtener más información sobre cómo se utiliza esta enumeración, vea [administración de simultaneidad con DependentTransaction](http://msdn.microsoft.com/library/bdad8468-2a90-4b81-8375-278067120cab).  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo crear una transacción dependiente.  
+ El ejemplo siguiente muestra cómo crear una transacción dependiente.  
   
  [!code-csharp[Tx_DependentTx#1](~/samples/snippets/csharp/VS_Snippets_CFX/tx_dependenttx/cs/dependenttx.cs#1)]
  [!code-vb[Tx_DependentTx#1](~/samples/snippets/visualbasic/VS_Snippets_CFX/tx_dependenttx/vb/dependenttx.vb#1)]  
@@ -70,6 +71,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -87,22 +89,22 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Intenta completar la transacción dependiente.</summary>
+        <summary>Intenta finalizar la transacción dependiente.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Llamar a este método cuando el clon dependiente desea informar al creador de la transacción que ha finalizado su trabajo, y se puede confirmar la transacción si el elemento primario también está listo.  
+ Llame a este método cuando el clon dependiente desea informar al creador de la transacción que ha finalizado su trabajo, y se puede confirmar la transacción si el elemento primario también está preparado.  
   
- Después de que se invoca esta llamada, no debería intentar ningún trabajo adicional en la transacción, o se produce una excepción.  
+ Una vez que se invoca esta llamada, no debe intentar ningún trabajo adicional en la transacción, o se produce una excepción.  
   
  Si el dominio de aplicación deja de funcionar después de que se llama a este método y antes de que finalice la transacción, puede anular la transacción.  
   
- **Tenga en cuenta** debe ser una sola vez llama a este método durante la duración de la transacción dependiente.  
+ **Tenga en cuenta** este método debe llamarse una sola vez durante la vigencia de la transacción dependiente.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Transactions.TransactionException">Se intenta realizar un trabajo adicional en la transacción después de que se llama a este método. Incluyen la invocación de métodos como <see cref="Overload:System.Transactions.Transaction.EnlistVolatile" />, <see cref="Overload:System.Transactions.Transaction.EnlistDurable" />, <see cref="M:System.Transactions.Transaction.Clone" />, <see cref="M:System.Transactions.Transaction.DependentClone(System.Transactions.DependentCloneOption)" /> o cualquier operación de serialización en la transacción.</exception>
+        <exception cref="T:System.Transactions.TransactionException">Cualquier intento de trabajo adicional en la transacción después de llamarse a este método. Incluyen la invocación de métodos como <see cref="Overload:System.Transactions.Transaction.EnlistVolatile" />, <see cref="Overload:System.Transactions.Transaction.EnlistDurable" />, <see cref="M:System.Transactions.Transaction.Clone" />, <see cref="M:System.Transactions.Transaction.DependentClone(System.Transactions.DependentCloneOption)" /> o cualquier operación de serialización en la transacción.</exception>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.Serialization.ISerializable.GetObjectData">

@@ -1,11 +1,11 @@
 <Type Name="Enlistment" FullName="System.Transactions.Enlistment">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="83677dcd285d02d338157cbdb038740221f092c8" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="1645a73090e75ec9e7a6410923ebccc3aa2978ee" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36406282" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37548342" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class Enlistment" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit Enlistment extends System.Object" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type Enlistment = class" />
   <AssemblyInfo>
     <AssemblyName>System.Transactions</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -39,14 +40,14 @@
 ## Remarks  
  Cuando el <xref:System.Transactions.Transaction.EnlistVolatile%2A> y <xref:System.Transactions.Transaction.EnlistDurable%2A> métodos de la <xref:System.Transactions.Transaction> objeto se invocan para inscribir un participante en una transacción, devuelve este objeto que describe la inscripción.  
   
- Durante la fase final de la confirmación de transacción, el Administrador de transacciones pasa este objeto a un administrador de recursos que implementa el <xref:System.Transactions.IEnlistmentNotification> interfaz que ha dado de alta en una transacción. En concreto, el Administrador de transacciones llama a la <xref:System.Transactions.IEnlistmentNotification.Commit%2A> o <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> método del participante, dependiendo de si este último ha decidido confirmar o revertir la transacción. El participante debe llamar a la <xref:System.Transactions.Enlistment.Done%2A> método de este objeto para que el Administrador de transacciones sepan que se ha completado su trabajo.  
+ Durante la fase final de la confirmación de transacción, el Administrador de transacciones pasa este objeto a un administrador de recursos que implementa el <xref:System.Transactions.IEnlistmentNotification> interfaz que ha dado de alta en una transacción. En concreto, el Administrador de transacciones llama a la <xref:System.Transactions.IEnlistmentNotification.Commit%2A> o <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> método del participante, dependiendo de si éste ha decidido confirmar o revertir la transacción. El participante debe llamar a la <xref:System.Transactions.Enlistment.Done%2A> método de este objeto para informar al administrador de transacciones que ha completado su trabajo.  
   
- Una inscripción puede llamar a la <xref:System.Transactions.Enlistment.Done%2A> método en cualquier momento antes de que se denomina <xref:System.Transactions.PreparingEnlistment.Prepared%2A> en la fase de preparación.  Al hacerlo, la inscripción produce un voto de sólo lectura, lo que significa que aprueba la confirmación de la transacción pero no necesita recibir el resultado final. Tenga en cuenta que, después de la <xref:System.Transactions.Enlistment.Done%2A> se llama al método, el participante inscrito no recibe ninguna notificación más del Administrador de transacciones.  
+ Puede llamar una inscripción el <xref:System.Transactions.Enlistment.Done%2A> en cualquier momento antes se llama al método <xref:System.Transactions.PreparingEnlistment.Prepared%2A> en la fase de preparación.  Al hacerlo, la inscripción produce un voto de sólo lectura, lo que significa que los votos de confirmación en la transacción pero no tiene que recibir el resultado final. Tenga en cuenta que, tras el <xref:System.Transactions.Enlistment.Done%2A> se llama al método, el participante inscrito no recibe ninguna notificación más extensa del Administrador de transacciones.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra una implementación de la <xref:System.Transactions.IEnlistmentNotification> interfaz y cuándo el <xref:System.Transactions.Enlistment.Done%2A> se debería llamar al método.  
+ El ejemplo siguiente muestra una implementación de la <xref:System.Transactions.IEnlistmentNotification> interfaz y cuándo el <xref:System.Transactions.Enlistment.Done%2A> método debe llamarse.  
   
  [!code-csharp[Tx_Enlist#2](~/samples/snippets/csharp/VS_Snippets_CFX/tx_enlist/cs/enlist.cs#2)]
  [!code-vb[Tx_Enlist#2](~/samples/snippets/visualbasic/VS_Snippets_CFX/tx_enlist/vb/enlist.vb#2)]  
@@ -68,6 +69,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -90,11 +92,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Durante la fase final de la confirmación de transacción, el Administrador de transacciones llama a la <xref:System.Transactions.IEnlistmentNotification.Commit%2A>, <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> o <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A> método del participante, dependiendo de si la transacción es que se haya confirmado o revertido. El Administrador de recursos debe realizar las operaciones necesarias para finalizar la transacción y, a continuación, informar al administrador de transacciones que ha terminado mediante una llamada a la <xref:System.Transactions.Enlistment.Done%2A> método en el `enlistment` parámetro.  
+ Durante la fase final de la confirmación de transacción, el Administrador de transacciones llama a la <xref:System.Transactions.IEnlistmentNotification.Commit%2A>, <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> o <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A> método del participante, dependiendo de si la transacción es que se confirma o revierte. El Administrador de recursos debe realizar las operaciones necesarias para finalizar la transacción y, a continuación, informar al administrador de transacciones que ha finalizado llamando el <xref:System.Transactions.Enlistment.Done%2A> método en el `enlistment` parámetro.  
   
- Si el Administrador de recursos ha inscrito de forma duradera, pero no responde llamando <xref:System.Transactions.Enlistment.Done%2A> método, el Administrador de transacciones está seguro de que el Administrador de recursos haya recibido la llamada de notificación respectiva. Por lo tanto, el Administrador de transacciones sigue esperando una respuesta y mantiene información relevante para esta transacción.  Si <xref:System.Transactions.Enlistment.Done%2A> es nunca se llama, este fragmento de información se conserva indefinidamente en memoria o en un recurso de todo el sistema. Esto hace que no se puedan reclamar recursos. En el caso de una transacción distribuida, esto podría rellenar finalmente el registro MSDTC que detiene el proceso MSDTC. En el caso de una transacción administrada por <xref:System.Transactions>, esto da como resultado un aumento gradual y continuo del consumo de memoria de proceso del Administrador de recursos. Por lo tanto, es fundamental que se llama a la <xref:System.Transactions.Enlistment.Done%2A> método una vez que el Administrador de recursos se realiza con el trabajo de preparación.  
+ Si el Administrador de recursos ha inscrito de forma duradera, pero no responde mediante una llamada a <xref:System.Transactions.Enlistment.Done%2A> método, el Administrador de transacciones está seguro de que el Administrador de recursos ha recibido la llamada de notificación respectiva. Por lo tanto, el Administrador de transacciones sigue esperando una respuesta y mantiene la información relevante para esta transacción.  Si <xref:System.Transactions.Enlistment.Done%2A> es nunca se llama, este fragmento de información se conserva indefinidamente en memoria o en un recurso de todo el sistema. Esto da como resultado de no poder reclamar los recursos. En el caso de una transacción distribuida, finalmente, esto podría llenar el registro de MSDTC que detiene el proceso MSDTC. En el caso de una transacción administrada por <xref:System.Transactions>, esto da como resultado un aumento gradual y continuo del consumo de memoria de proceso del Administrador de recursos. Por lo tanto, es fundamental que llame a la <xref:System.Transactions.Enlistment.Done%2A> método una vez que el Administrador de recursos se realiza con su trabajo de preparación.  
   
- Una inscripción puede llamar a la <xref:System.Transactions.Enlistment.Done%2A> método en cualquier momento antes de que se denomina <xref:System.Transactions.PreparingEnlistment.Prepared%2A> en la fase de preparación. Al hacerlo, la inscripción produce un voto de sólo lectura, lo que significa que aprueba la confirmación de la transacción pero no necesita recibir el resultado final. Tenga en cuenta que, después de que se llama a este método, el participante inscrito no recibe ninguna notificación más del Administrador de transacciones.  
+ Puede llamar una inscripción el <xref:System.Transactions.Enlistment.Done%2A> en cualquier momento antes se llama al método <xref:System.Transactions.PreparingEnlistment.Prepared%2A> en la fase de preparación. Al hacerlo, la inscripción produce un voto de sólo lectura, lo que significa que los votos de confirmación en la transacción pero no tiene que recibir el resultado final. Tenga en cuenta que, después de llamar a este método, el participante inscrito no recibe ninguna notificación más del Administrador de transacciones.  
   
  ]]></format>
         </remarks>
