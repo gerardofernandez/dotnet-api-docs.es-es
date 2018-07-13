@@ -1,11 +1,11 @@
 <Type Name="ManualResetEvent" FullName="System.Threading.ManualResetEvent">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="3c19185907e45c5b7b80aae8627946c15d4efd4f" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="c0a17f12cc4e28122f27008de4d7c78591b617c4" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36605911" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37608970" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class ManualResetEvent : System.Threading.EventWaitHandle" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit ManualResetEvent extends System.Threading.EventWaitHandle" />
@@ -22,6 +22,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -31,6 +33,7 @@
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Threading.EventWaitHandle</BaseTypeName>
+    <BaseTypeName FrameworkAlternate="netframework-1.1">System.Threading.WaitHandle</BaseTypeName>
   </Base>
   <Interfaces />
   <Attributes>
@@ -44,18 +47,18 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- En .NET Framework versión 2.0, <xref:System.Threading.ManualResetEvent> se deriva de la nueva <xref:System.Threading.EventWaitHandle> clase. A <xref:System.Threading.ManualResetEvent> es funcionalmente equivalente a un <xref:System.Threading.EventWaitHandle> creado con <xref:System.Threading.EventResetMode.ManualReset?displayProperty=nameWithType>.  
+ En .NET Framework versión 2.0, <xref:System.Threading.ManualResetEvent> se deriva de la nueva <xref:System.Threading.EventWaitHandle> clase. Un <xref:System.Threading.ManualResetEvent> es funcionalmente equivalente a un <xref:System.Threading.EventWaitHandle> creado con <xref:System.Threading.EventResetMode.ManualReset?displayProperty=nameWithType>.  
   
 > [!NOTE]
 >  A diferencia de la <xref:System.Threading.ManualResetEvent> (clase), el <xref:System.Threading.EventWaitHandle> clase proporciona acceso a los eventos de sincronización de sistema con nombre.  
   
- <xref:System.Threading.ManualResetEvent> permite que los subprocesos se comuniquen entre sí mediante señales. Normalmente, esta comunicación tiene relación con una tarea que un subproceso debe completar antes de pueden continuar otros subprocesos.  
+ <xref:System.Threading.ManualResetEvent> permite que los subprocesos se comuniquen entre sí mediante señalización. Normalmente, esta comunicación refiere a una tarea que un subproceso debe completar para que pueden continuar otros subprocesos.  
   
- Cuando un subproceso comienza una actividad que debe completar antes de otros subprocesos continuar, llama <xref:System.Threading.EventWaitHandle.Reset%2A> colocar `ManualResetEvent` en el estado no señalado. Este subproceso puede considerarse como controlar el `ManualResetEvent`. Subprocesos que llaman <xref:System.Threading.WaitHandle.WaitOne%2A> en el `ManualResetEvent` se bloqueará en espera de la señal. Cuando el subproceso controlador termina la actividad, llama al método <xref:System.Threading.EventWaitHandle.Set%2A> para indicar que los subprocesos en espera pueden continuar. Se liberan todos los subprocesos en espera.  
+ Cuando un subproceso comienza una actividad que debe completar antes que otras puedan continuar subprocesos, llama a <xref:System.Threading.EventWaitHandle.Reset%2A> poner `ManualResetEvent` en el estado no señalado. Este subproceso puede considerarse como controlar el `ManualResetEvent`. Subprocesos que llaman a <xref:System.Threading.WaitHandle.WaitOne%2A> en el `ManualResetEvent` se bloqueará en espera de la señal. Cuando el subproceso de control completa la actividad, llama a <xref:System.Threading.EventWaitHandle.Set%2A> para indicar que los subprocesos en espera pueden continuar. Se liberan todos los subprocesos en espera.  
   
- Una vez que se ha señalado, `ManualResetEvent` permanece señalado hasta que se restablezca manualmente. Es decir, se llama a `WaitOne` devuelven inmediatamente.  
+ Una vez que se ha señalado, `ManualResetEvent` permanece señalado hasta que se restablece manualmente. Es decir, las llamadas a `WaitOne` devolver inmediatamente.  
   
- Puede controlar el estado inicial de un `ManualResetEvent` pasando un valor Boolean al constructor, `true` si se señala el estado inicial y `false` en caso contrario.  
+ Puede controlar el estado inicial de un `ManualResetEvent` pasando un valor booleano al constructor, `true` si señala el estado inicial y `false` en caso contrario.  
   
  `ManualResetEvent` También puede utilizarse con el `static` <xref:System.Threading.WaitHandle.WaitAll%2A> y <xref:System.Threading.WaitHandle.WaitAny%2A> métodos.  
   
@@ -64,11 +67,11 @@
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo <xref:System.Threading.ManualResetEvent> funciona. En el ejemplo se inicia con un <xref:System.Threading.ManualResetEvent> en estado no señalado (es decir, `false` se pasa al constructor). El ejemplo crea tres subprocesos, cada uno de los bloques de la <xref:System.Threading.ManualResetEvent> mediante una llamada a su <xref:System.Threading.WaitHandle.WaitOne%2A> método. Cuando el usuario presiona el **ENTRAR** clave, el ejemplo llama el <xref:System.Threading.EventWaitHandle.Set%2A> método, que libera todos los subprocesos de tres. Compare esto con el comportamiento de la <xref:System.Threading.AutoResetEvent> (clase), lo que libera subprocesos de uno en uno, restablecer automáticamente después de cada versión.  
+ En el ejemplo siguiente se muestra cómo <xref:System.Threading.ManualResetEvent> funciona. El ejemplo se inicia con un <xref:System.Threading.ManualResetEvent> en el estado no señalizado (es decir, `false` se pasa al constructor). El ejemplo crea tres subprocesos, cada uno de los bloques de la <xref:System.Threading.ManualResetEvent> mediante una llamada a su <xref:System.Threading.WaitHandle.WaitOne%2A> método. Cuando el usuario presiona el **ENTRAR** clave, el ejemplo llama a la <xref:System.Threading.EventWaitHandle.Set%2A> método, lo que libera todos los subprocesos de tres. Compare esto con el comportamiento de la <xref:System.Threading.AutoResetEvent> (clase), lo que libera uno de los subprocesos a la vez, restablecer automáticamente después de cada versión.  
   
- Al presionar la **ENTRAR** clave nuevo muestra que la <xref:System.Threading.ManualResetEvent> permanece en el estado señalado hasta que su <xref:System.Threading.EventWaitHandle.Reset%2A> se llama al método: el ejemplo inicia dos subprocesos más. Estos subprocesos no se bloquean cuando llama a la <xref:System.Threading.WaitHandle.WaitOne%2A> método, sino que se ejecuten hasta su finalización.  
+ Al presionar el **ENTRAR** clave nuevo muestra que el <xref:System.Threading.ManualResetEvent> permanece en el estado señalado hasta que su <xref:System.Threading.EventWaitHandle.Reset%2A> se llama al método: el ejemplo inicia dos subprocesos más. Estos subprocesos no se bloquean cuando llama a la <xref:System.Threading.WaitHandle.WaitOne%2A> método, sino que se ejecuten hasta su finalización.  
   
- Al presionar la **ENTRAR** clave nuevo hace que el ejemplo llamar a la <xref:System.Threading.EventWaitHandle.Reset%2A> método e iniciar un subproceso más, que se bloquea cuando llama a <xref:System.Threading.WaitHandle.WaitOne%2A>. Al presionar la **ENTRAR** clave una última vez llamadas <xref:System.Threading.EventWaitHandle.Set%2A> liberar el último subproceso y el programa finaliza.  
+ Al presionar el **ENTRAR** clave que provoca el ejemplo para llamar a la <xref:System.Threading.EventWaitHandle.Reset%2A> método e iniciar otro subproceso, que se bloquea cuando llama a <xref:System.Threading.WaitHandle.WaitOne%2A>. Al presionar el **ENTRAR** clave uno llama a la última vez <xref:System.Threading.EventWaitHandle.Set%2A> liberar el último subproceso y el programa finaliza.  
   
  [!code-cpp[System.Threading.ManualResetEvent#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ManualResetEvent/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ManualResetEvent#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ManualResetEvent/CS/source.cs#1)]
@@ -97,6 +100,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -120,6 +125,50 @@
  ]]></format>
         </remarks>
         <altmember cref="T:System.Threading.WaitHandle" />
+      </Docs>
+    </Member>
+    <Member MemberName="Reset">
+      <MemberSignature Language="C#" Value="public bool Reset ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool Reset() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ManualResetEvent.Reset" />
+      <MemberSignature Language="VB.NET" Value="Public Function Reset () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool Reset();" />
+      <MemberSignature Language="F#" Value="member this.Reset : unit -&gt; bool" Usage="manualResetEvent.Reset " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Set">
+      <MemberSignature Language="C#" Value="public bool Set ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool Set() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ManualResetEvent.Set" />
+      <MemberSignature Language="VB.NET" Value="Public Function Set () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool Set();" />
+      <MemberSignature Language="F#" Value="member this.Set : unit -&gt; bool" Usage="manualResetEvent.Set " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
   </Members>
