@@ -1,11 +1,11 @@
 <Type Name="Monitor" FullName="System.Threading.Monitor">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="04c73d8d6d8c0205db70235fd1bb85ce866c6212" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="90a2111b4e95ea3ea80a469c06f7334a9e6eac2b" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36606694" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37549135" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class Monitor" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Monitor extends System.Object" />
@@ -22,6 +22,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -44,49 +46,49 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Threading.Monitor> clase le permite sincronizar el acceso a una región de código mediante la obtención y liberación de un bloqueo en un objeto determinado mediante una llamada a la <xref:System.Threading.Monitor.Enter%2A?displayProperty=nameWithType>, <xref:System.Threading.Monitor.TryEnter%2A?displayProperty=nameWithType>, y <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> métodos. Bloqueos de objeto proporcionan la capacidad para restringir el acceso a un bloque de código, que suele conocerse como una sección crítica. Mientras que un subproceso posee el bloqueo de un objeto, ningún otro subproceso puede adquirir ese bloqueo. También puede usar el <xref:System.Threading.Monitor> clase para asegurar que ningún otro subproceso tiene permiso para tener acceso a una sección de aplicación de código que se está ejecutando por el propietario del bloqueo, a menos que el otro subproceso está ejecutando el código utilizando un objeto bloqueado distinto.  
+ El <xref:System.Threading.Monitor> clase le permite sincronizar el acceso a una región de código mediante la obtención y liberación de un bloqueo en un objeto determinado mediante una llamada a la <xref:System.Threading.Monitor.Enter%2A?displayProperty=nameWithType>, <xref:System.Threading.Monitor.TryEnter%2A?displayProperty=nameWithType>, y <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> métodos. Los bloqueos de objeto proporcionan la capacidad para restringir el acceso a un bloque de código, normalmente denominado una sección crítica. Mientras un subproceso posee el bloqueo de un objeto, ningún otro subproceso puede adquirir ese bloqueo. También puede usar el <xref:System.Threading.Monitor> clase para asegurarse de que ningún otro subproceso puede tener acceso a una sección de la aplicación de código que se está ejecutando por el propietario del bloqueo, a menos que el otro subproceso está ejecutando el código que usa un objeto bloqueado distinto.  
   
  En este artículo:  
   
- [La clase de Monitor: información general](#Overview)   
+ [La clase Monitor: información general](#Overview)   
  [El objeto de bloqueo](#Lock)   
  [La sección crítica](#CriticalSection)   
- [Pulse y PulseAll, espera](#Pulse)   
- [Monitores y controladores de espera](#WaitHandles)  
+ [Pulse, PulseAll y espera](#Pulse)   
+ [Monitores y los identificadores de espera](#WaitHandles)  
   
 <a name="Overview"></a>   
-## <a name="the-monitor-class-an-overview"></a>La clase de Monitor: información general  
+## <a name="the-monitor-class-an-overview"></a>La clase Monitor: información general  
  <xref:System.Threading.Monitor> tiene las siguientes características:  
   
--   Está asociado a un objeto a petición.  
+-   Está asociado con un objeto a petición.  
   
 -   Es independiente, lo que significa que puede llamarse directamente desde cualquier contexto.  
   
--   Una instancia de la <xref:System.Threading.Monitor> no se puede crear la clase; los métodos de la <xref:System.Threading.Monitor> clase son todos estáticos. Cada método se le pasa el objeto sincronizado que controla el acceso a la sección crítica.  
+-   Una instancia de la <xref:System.Threading.Monitor> no se puede crear la clase; los métodos de la <xref:System.Threading.Monitor> clase son todos estáticos. Cada método se pasa el objeto sincronizado que controla el acceso a la sección crítica.  
   
 > [!NOTE]
->  Use la <xref:System.Threading.Monitor> clase a los objetos de bloqueo que no son cadenas (es decir, tipos de referencia distintos de <xref:System.String>), no tipos de valor. Para obtener más información, vea las sobrecargas de la <xref:System.Threading.Monitor.Enter%2A> método y [el objeto de bloqueo](#Lock) sección más adelante en este artículo.  
+>  Use la <xref:System.Threading.Monitor> clase para objetos de bloqueo que no sean cadenas (es decir, tipos de referencia distinto <xref:System.String>), no los tipos de valor. Para obtener más información, vea las sobrecargas de los <xref:System.Threading.Monitor.Enter%2A> método y [el objeto de bloqueo](#Lock) sección más adelante en este artículo.  
   
- En la tabla siguiente se describe las acciones que pueden realizarse por subprocesos que tienen acceso a objetos sincronizados:  
+ En la tabla siguiente se describe las acciones que pueden realizarse por los subprocesos que tienen acceso a los objetos sincronizados:  
   
 |Acción|Descripción|  
 |------------|-----------------|  
 |<xref:System.Threading.Monitor.Enter%2A>, <xref:System.Threading.Monitor.TryEnter%2A>|Adquiere un bloqueo de un objeto. Esta acción también marca el principio de una sección crítica. Ningún otro subproceso puede entrar en la sección crítica, a menos que se ejecuta las instrucciones que aparecen en la sección crítica utilizando un objeto bloqueado distinto.|  
-|<xref:System.Threading.Monitor.Wait%2A>|Libera el bloqueo en un objeto con el fin de permitir a otros subprocesos bloquear y obtener acceso al objeto. El subproceso que realiza la llamada espera mientras otro subproceso tiene acceso al objeto. Las señales de pulsos se utilizan para notificar a los subprocesos en espera sobre los cambios en el estado de un objeto.|  
-|<xref:System.Threading.Monitor.Pulse%2A> (señal) <xref:System.Threading.Monitor.PulseAll%2A>|Envía una señal a uno o varios subprocesos en espera. La señal notifica a un subproceso en espera que cambió el estado del objeto bloqueado, y el propietario del bloqueo está listo para liberar el bloqueo. El subproceso en espera se coloca en la cola de subprocesos listos del objeto para que pueda recibir el bloqueo para el objeto. Una vez que el subproceso tiene el bloqueo, puede comprobar el nuevo estado del objeto para ver si se ha alcanzado el estado necesario.|  
+|<xref:System.Threading.Monitor.Wait%2A>|Libera el bloqueo en un objeto con el fin de permitir que otros subprocesos de bloqueo y obtener acceso al objeto. Espera a que el subproceso de llamada mientras otro subproceso tiene acceso al objeto. Las señales de pulsos se usan para notificar a los subprocesos en espera sobre los cambios en el estado de un objeto.|  
+|<xref:System.Threading.Monitor.Pulse%2A> (señal), <xref:System.Threading.Monitor.PulseAll%2A>|Envía una señal a uno o varios subprocesos en espera. La señal notifica a un subproceso en espera que se ha cambiado el estado del objeto bloqueado, y el propietario del bloqueo está listo para liberar el bloqueo. El subproceso en espera se coloca en la cola del objeto listo para que pueda recibir el bloqueo para el objeto. Una vez que el subproceso tiene el bloqueo, puede comprobar el estado nueva del objeto para ver si se ha alcanzado el estado necesario.|  
 |<xref:System.Threading.Monitor.Exit%2A>|Libera el bloqueo en un objeto. Esta acción también marca el final de una sección crítica protegida por el objeto bloqueado.|  
   
- A partir del [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], hay dos conjuntos de sobrecargas para el <xref:System.Threading.Monitor.Enter%2A> y <xref:System.Threading.Monitor.TryEnter%2A> métodos. Un conjunto de sobrecargas tiene un `ref` (en C#) o `ByRef` (en Visual Basic) <xref:System.Boolean> parámetro que se establece de forma atómica en `true` si se adquiere el bloqueo, incluso si se produce una excepción al adquirir el bloqueo. Use estas sobrecargas si es crítico para liberar el bloqueo en todos los casos, incluso cuando los recursos que está protegiendo el bloqueo no estén en un estado coherente.  
+ A partir del [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], hay dos conjuntos de sobrecargas para el <xref:System.Threading.Monitor.Enter%2A> y <xref:System.Threading.Monitor.TryEnter%2A> métodos. Un conjunto de sobrecargas tiene un `ref` (en C#) o `ByRef` (en Visual Basic) <xref:System.Boolean> parámetro que se establece de forma atómica en `true` si se adquiere el bloqueo, incluso si se produce una excepción al adquirir el bloqueo. Use estas sobrecargas si es fundamental para liberar el bloqueo en todos los casos, incluso cuando los recursos que se está protegiendo el bloqueo no esté en un estado coherente.  
   
 <a name="Lock"></a>   
 ## <a name="the-lock-object"></a>El objeto de bloqueo  
- La clase Monitor consta de `static` (en C#) o `Shared` (en Visual Basic) métodos que operan en un objeto que controla el acceso a la sección crítica.  Para cada objeto sincronizado, se mantiene la información siguiente:  
+ La clase Monitor consta de `static` (en C#) o `Shared` (en Visual Basic) entre los métodos que operan en un objeto que controla el acceso a la sección crítica.  La siguiente información se mantiene para cada objeto sincronizado:  
   
--   Una referencia al subproceso que actualmente tiene el bloqueo.  
+-   Una referencia al subproceso que actualmente mantiene el bloqueo.  
   
 -   Una referencia a una cola de subprocesos listos, que contiene los subprocesos que están listos para obtener el bloqueo.  
   
--   Una referencia a una cola de espera, que contiene los subprocesos que están esperando para recibir notificaciones de un cambio en el estado del objeto bloqueado.  
+-   Una referencia a una cola de espera, que contiene los subprocesos que esperan para recibir notificaciones de un cambio en el estado del objeto bloqueado.  
   
  <xref:System.Threading.Monitor> bloquea objetos (es decir, tipos de referencia), no tipos de valor. Aunque puede pasar un tipo de valor a <xref:System.Threading.Monitor.Enter%2A> y <xref:System.Threading.Monitor.Exit%2A>, se somete a una conversión boxing independiente para cada llamada. Puesto que cada llamada crea un objeto independiente, <xref:System.Threading.Monitor.Enter%2A> nunca bloquea y el código al que supuestamente protege no está sincronizado realmente. Además, el objeto que se pasa a <xref:System.Threading.Monitor.Exit%2A> es diferente del objeto que se pasa a <xref:System.Threading.Monitor.Enter%2A>, por lo que <xref:System.Threading.Monitor> produce la excepción <xref:System.Threading.SynchronizationLockException> con el mensaje “El método de sincronización del objeto se ha llamado desde un bloque de códigos sin sincronizar.”.  
   
@@ -102,71 +104,71 @@
  [!code-csharp[Conceptual.Monitors#3](~/samples/snippets/csharp/VS_Snippets_CLR/conceptual.monitors/cs/badbox1.cs#3)]
  [!code-vb[Conceptual.Monitors#3](~/samples/snippets/visualbasic/VS_Snippets_CLR/conceptual.monitors/vb/badbox1.vb#3)]  
   
- Cuando se selecciona un objeto en el que se va a sincronizar, debe bloquear solo en objetos internos o privados. El bloqueo en objetos externos, se podría producir interbloqueos, porque el código relacionado con podría elegir los mismos objetos desea bloquear en para propósitos diferentes.  
+ Al seleccionar un objeto en el que se va a sincronizar, debe bloquear solo en objetos privados o internos. El bloqueo de objetos externos, se podría producir interbloqueos, porque el código relacionado con podría elegir los mismos objetos para bloquear para distintos fines.  
   
- Tenga en cuenta que puede sincronizar en un objeto en varios dominios de aplicación si el objeto utilizado para el bloqueo deriva de <xref:System.MarshalByRefObject>.  
+ Tenga en cuenta que puede sincronizar en un objeto en varios dominios de aplicación si el objeto usado para el bloqueo deriva <xref:System.MarshalByRefObject>.  
   
 <a name="CriticalSection"></a>   
 ## <a name="the-critical-section"></a>La sección crítica  
  Use la <xref:System.Threading.Monitor.Enter%2A> y <xref:System.Threading.Monitor.Exit%2A> métodos para marcar el principio y al final de una sección crítica.  
   
 > [!NOTE]
->  La funcionalidad proporcionada por el <xref:System.Threading.Monitor.Enter%2A> y <xref:System.Threading.Monitor.Exit%2A> métodos es idéntica a la que ofrece el [bloqueo](~/docs/csharp/language-reference/keywords/lock-statement.md) instrucción en C# y la [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instrucción en Visual Basic, salvo que el construcciones del lenguaje encapsulado el <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29?displayProperty=nameWithType> sobrecarga del método y la <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> método en un `try`...`finally` bloque para asegurarse de que se libere el monitor.  
+>  La funcionalidad proporcionada por el <xref:System.Threading.Monitor.Enter%2A> y <xref:System.Threading.Monitor.Exit%2A> métodos es idéntica a la que ofrece el [bloqueo](~/docs/csharp/language-reference/keywords/lock-statement.md) instrucción en C# y el [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instrucción en Visual Basic, salvo que el construcciones de lenguaje encapsulado el <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29?displayProperty=nameWithType> sobrecarga del método y el <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> método en un `try`...`finally` bloque para asegurarse de que se libera el monitor.  
   
- Si la sección crítica es un conjunto de instrucciones contiguas, el bloqueo adquirido por el <xref:System.Threading.Monitor.Enter%2A> método garantiza que un único subproceso pueda ejecutar el código delimitado con el objeto bloqueado. En este caso, se recomienda colocar ese código en un `try` bloquear y realizar una llamada a la <xref:System.Threading.Monitor.Exit%2A> método en un `finally` bloque. Esto garantiza la liberación del bloqueo aunque se produzca una excepción. El siguiente fragmento de código muestra este patrón.  
+ Si la sección crítica es un conjunto de instrucciones contiguas, a continuación, el bloqueo adquirido por el <xref:System.Threading.Monitor.Enter%2A> método garantiza que solo un subproceso puede ejecutar el código delimitado con el objeto bloqueado. En este caso, se recomienda colocar ese código en un `try` bloquear y realizar una llamada a la <xref:System.Threading.Monitor.Exit%2A> método en un `finally` bloque. Esto garantiza la liberación del bloqueo aunque se produzca una excepción. El siguiente fragmento de código muestra este patrón.  
   
  [!code-csharp[System.Threading.Monitor.Class#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.class/cs/Pattern2.cs#2)]
  [!code-vb[System.Threading.Monitor.Class#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.class/vb/Pattern2.vb#2)]  
   
- Esta función normalmente se utiliza para sincronizar el acceso a una variable static o un método de instancia de una clase.  
+ Esta función normalmente se utiliza para sincronizar el acceso a ningún elemento estático o un método de instancia de una clase.  
   
- Si una sección crítica abarca todo un método, la utilidad de bloqueo se puede lograr mediante la colocación de la <xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType> en el método y especificando el <xref:System.Runtime.CompilerServices.MethodImplOptions.Synchronized> valor en el constructor de <xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType>. Cuando se utiliza este atributo, el <xref:System.Threading.Monitor.Enter%2A> y <xref:System.Threading.Monitor.Exit%2A> no son necesarias las llamadas a métodos. El siguiente fragmento de código muestra este patrón:  
+ Si una sección crítica abarca todo un método, la utilidad de bloqueo puede lograrse mediante la colocación de la <xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType> en el método y especificando el <xref:System.Runtime.CompilerServices.MethodImplOptions.Synchronized> valor en el constructor de <xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType>. Cuando se utiliza este atributo, el <xref:System.Threading.Monitor.Enter%2A> y <xref:System.Threading.Monitor.Exit%2A> no son necesarias las llamadas a métodos. El siguiente fragmento de código muestra este patrón:  
   
  [!code-csharp[System.Threading.Monitor.Class#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.class/cs/Pattern2.cs#3)]
  [!code-vb[System.Threading.Monitor.Class#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.class/vb/Pattern2.vb#3)]  
   
- Tenga en cuenta que el atributo hace que el subproceso actual mantener el bloqueo hasta que el método devuelve; Si el bloqueo puede liberarse antes, utilice la <xref:System.Threading.Monitor> clase C#, [bloqueo](~/docs/csharp/language-reference/keywords/lock-statement.md) instrucción o Visual Basic [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instrucción dentro del método en lugar del atributo.  
+ Tenga en cuenta que el atributo hace que el subproceso actual mantiene el bloqueo hasta que el método devuelve; Si el bloqueo puede liberarse antes, utilice la <xref:System.Threading.Monitor> clase C#, [bloqueo](~/docs/csharp/language-reference/keywords/lock-statement.md) instrucción o Visual Basic [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instrucción dentro del método en lugar del atributo.  
   
- Aunque es posible que el <xref:System.Threading.Monitor.Enter%2A> y <xref:System.Threading.Monitor.Exit%2A> instrucciones que bloquear y liberar un objeto determinado puedan atravesar los límites de clase y miembro, no se recomienda esta práctica.  
+ Aunque es posible que el <xref:System.Threading.Monitor.Enter%2A> y <xref:System.Threading.Monitor.Exit%2A> las instrucciones que bloquear y liberar un objeto determinado para cruzar los límites de clase y miembro, no se recomienda esta práctica.  
   
 <a name="Pulse"></a>   
-## <a name="pulse-pulseall-and-wait"></a>Pulse y PulseAll, espera  
+## <a name="pulse-pulseall-and-wait"></a>Pulse, PulseAll y espera  
  Una vez que un subproceso posee el bloqueo y ha entrado en la sección crítica que protege el bloqueo, puede llamar a la <xref:System.Threading.Monitor.Wait%2A?displayProperty=nameWithType>, <xref:System.Threading.Monitor.Pulse%2A?displayProperty=nameWithType>, y <xref:System.Threading.Monitor.PulseAll%2A?displayProperty=nameWithType> métodos.  
   
- <xref:System.Threading.Monitor.Wait%2A> Libera el bloqueo si se mantiene, permite que un subproceso en espera o subprocesos para obtener el bloqueo y entrar en la sección crítica y espera a ser notificado por una llamada a la <xref:System.Threading.Monitor.Pulse%2A?displayProperty=nameWithType> o <xref:System.Threading.Monitor.PulseAll%2A?displayProperty=nameWithType> método. Cuando <xref:System.Threading.Monitor.Wait%2A> recibe la notificación, devuelve y vuelve a obtener el bloqueo.  
+ <xref:System.Threading.Monitor.Wait%2A> Libera el bloqueo si se mantiene, permite que un subproceso en espera o subprocesos para obtener el bloqueo y la sección crítica y espera a recibir una notificación mediante una llamada a la <xref:System.Threading.Monitor.Pulse%2A?displayProperty=nameWithType> o <xref:System.Threading.Monitor.PulseAll%2A?displayProperty=nameWithType> método. Cuando <xref:System.Threading.Monitor.Wait%2A> recibe la notificación, devuelve y vuelve a obtener el bloqueo.  
   
  Tanto <xref:System.Threading.Monitor.Pulse%2A> como <xref:System.Threading.Monitor.PulseAll%2A> indican al siguiente subproceso de la cola de espera que proceda.  
   
 <a name="WaitHandles"></a>   
-## <a name="monitors-and-wait-handles"></a>Monitores y controladores de espera  
+## <a name="monitors-and-wait-handles"></a>Monitores y los identificadores de espera  
  Es importante tener en cuenta la distinción entre el uso de la <xref:System.Threading.Monitor> clase y <xref:System.Threading.WaitHandle> objetos.  
   
--   La <xref:System.Threading.Monitor> clase es puramente administrados, son totalmente portátiles y podrían ser más eficaces en cuanto a requisitos de recursos del sistema operativo.  
+-   La <xref:System.Threading.Monitor> clase es puramente administrados, son totalmente portátiles y podrían ser más eficaces en cuanto a los requisitos de recursos del sistema operativo.  
   
 -   Los objetos <xref:System.Threading.WaitHandle> representan objetos del sistema operativo que pueden esperar, que son útiles para la sincronización entre el código administrado y el no administrado y exponen algunas características avanzadas del sistema operativo, como la capacidad de esperar muchos objetos a la vez.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se usa el <xref:System.Threading.Monitor> clase para sincronizar el acceso a una sola instancia de un generador de números aleatorios representado por la <xref:System.Random> clase. El ejemplo crea diez tareas, cada uno de los cuales se ejecuta de forma asincrónica en un subproceso del grupo. Cada tarea genera números aleatorios 10.000, calcula su Media y dos variables de nivel de procedimiento que mantienen un total acumulado del número de números aleatorios generados y la suma actualiza. Después de que se han ejecutado todas las tareas, estos dos valores, a continuación, se utilizan para calcular la media general.  
+ En el ejemplo siguiente se usa el <xref:System.Threading.Monitor> clase para sincronizar el acceso a una sola instancia de un generador de números aleatorios, representado por la <xref:System.Random> clase. El ejemplo crea diez tareas, cada uno de los cuales se ejecuta de forma asincrónica en un subproceso ThreadPool. Cada tarea genera números aleatorios 10.000, calcula su Media y actualiza dos variables de nivel de procedimiento que mantienen un total acumulado del número de números aleatorios generados y su suma. Después de que se han ejecutado todas las tareas, estos dos valores, a continuación, se utilizan para calcular la media general.  
   
  [!code-csharp[System.Threading.Monitor.Class#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.class/cs/example1.cs#1)]
  [!code-vb[System.Threading.Monitor.Class#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.class/vb/example1.vb#1)]  
   
- Dado que puede tener acceso desde cualquier tarea que se ejecuta en un subproceso del grupo, el acceso a las variables `total` y `n` también debe estar sincronizada. El <xref:System.Threading.Interlocked.Add%2A?displayProperty=nameWithType> método se usa para este propósito.  
+ Dado que se pueden acceder desde cualquier tarea que se ejecuta en un subproceso ThreadPool, acceder a las variables `total` y `n` también deben estar sincronizadas. El <xref:System.Threading.Interlocked.Add%2A?displayProperty=nameWithType> método se usa para este propósito.  
   
- En el ejemplo siguiente se muestra el uso combinado de la <xref:System.Threading.Monitor> clase (implementada con el `lock` o `SyncLock` construcción de lenguaje), el <xref:System.Threading.Interlocked> (clase) y la <xref:System.Threading.AutoResetEvent> clase. Define dos `internal` (en C#) o `Friend` (en Visual Basic) de las clases, `SyncResource` y `UnSyncResource`, que proporcionan respectivamente acceso sincronizado y a un recurso. Para asegurarse de que el ejemplo ilustra la diferencia entre el acceso sincronizado y sin sincronizar (lo que podría darse el caso si cada llamada al método se realiza rápidamente), el método incluye un retraso aleatorio: para subprocesos cuya <xref:System.Threading.Thread.ManagedThreadId%2A?displayProperty=nameWithType> propiedad es par, el llamadas al método <xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType> para insertar un retraso de 2.000 milisegundos. Tenga en cuenta que, dado el `SyncResource` clase no es pública, ninguno de los códigos de cliente tiene un bloqueo en el recurso sincronizado; la propia clase interna cargo del bloqueo. Esto evita que cualquier código malintencionado se haga cargo de un bloqueo en un objeto público.  
+ En el ejemplo siguiente se muestra el uso combinado de la <xref:System.Threading.Monitor> clase (implementada con el `lock` o `SyncLock` construcción de lenguaje), el <xref:System.Threading.Interlocked> (clase) y el <xref:System.Threading.AutoResetEvent> clase. Define dos `internal` (en C#) o `Friend` (en Visual Basic), las clases de `SyncResource` y `UnSyncResource`, que proporcionan respectivamente acceso sincronizado y sin sincronizar a un recurso. Para asegurarse de que el ejemplo ilustra la diferencia entre el acceso sincronizado y sin sincronizar (que podría ser el caso si cada llamada al método se realiza rápidamente), el método incluye un retraso aleatorio: para subprocesos cuya <xref:System.Threading.Thread.ManagedThreadId%2A?displayProperty=nameWithType> propiedad es par, el las llamadas al método <xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType> para insertar un retraso de 2.000 milisegundos. Tenga en cuenta que, dado el `SyncResource` clase no es pública, ninguno de los códigos de cliente toma un bloqueo en el recurso sincronizado, la propia clase interna que adopta el bloqueo. Esto evita que cualquier código malintencionado se haga cargo de un bloqueo en un objeto público.  
   
  [!code-csharp[Conceptual.Monitors#1](~/samples/snippets/csharp/VS_Snippets_CLR/conceptual.monitors/cs/source.cs#1)]
  [!code-vb[Conceptual.Monitors#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/conceptual.monitors/vb/source.vb#1)]  
   
- En el ejemplo se define una variable, `numOps`, que define el número de subprocesos que intentarán tener acceso al recurso. El subproceso de la aplicación llama el <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> método sincronizado y que no esté sincronizado tener acceso a cinco veces cada uno. El <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> método tiene un único parámetro, un delegado que no acepta parámetros y no devuelve ningún valor. Para obtener acceso sincronizado, invoca el `SyncUpdateResource` método; para el acceso sincronizado, invoca el `UnSyncUpdateResource` método. Después de cada conjunto de llamadas de método, el subproceso de la aplicación llama a la [AutoResetEvent.WaitOne](xref:System.Threading.WaitHandle.WaitOne*) método para que así se bloquee hasta que la <xref:System.Threading.AutoResetEvent> se señala la instancia.  
+ El ejemplo define una variable, `numOps`, que define el número de subprocesos que intentarán tener acceso al recurso. El subproceso de la aplicación llama a la <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> método sincronizado y no sincronizadas tener acceso a cinco veces cada uno. El <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> método tiene un único parámetro, un delegado que no acepta parámetros y no devuelve ningún valor. Para obtener acceso sincronizado, invoca el `SyncUpdateResource` método; para el acceso sincronizado, invoca el `UnSyncUpdateResource` método. Después de cada conjunto de llamadas de método, el subproceso de la aplicación llama a la [AutoResetEvent.WaitOne](xref:System.Threading.WaitHandle.WaitOne*) método para que así se bloquee hasta que la <xref:System.Threading.AutoResetEvent> se señala la instancia.  
   
- Cada llamada a la `SyncUpdateResource` llamadas de método interno `SyncResource.Access` método y, a continuación, llama el <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método para reducir el `numOps` contador. El <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método se usa para disminuir el contador, porque de lo contrario, no podrá saber que un segundo subproceso acceso al valor antes de reducido del primer subproceso valor se ha almacenado en la variable. Cuando el último trabajo subproceso sincronizado disminuya el contador a cero, que indica que todos los subprocesos sincronizados finalizaron obtener acceso al recurso, el `SyncUpdateResource` llamadas al método el <xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> método, que indica al subproceso principal para continuar ejecución.  
+ Cada llamada a la `SyncUpdateResource` llamadas de método interno `SyncResource.Access` método y, a continuación, llama a la <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método para reducir el `numOps` contador. El <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método se usa para reducir el contador, porque de lo contrario, no puede estar seguro de que un segundo subproceso acceso al valor reducido del primer subproceso antes de valor se ha almacenado en la variable. Cuando el último sincroniza disminuye de subproceso de trabajo en el contador a cero, que indica que todos los subprocesos sincronizados han accedido al recurso, el `SyncUpdateResource` llamadas al método el <xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> método, que indica al subproceso principal para continuar ejecución.  
   
- Cada llamada a la `UnSyncUpdateResource` llamadas de método interno `UnSyncResource.Access` método y, a continuación, llama el <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método para reducir el `numOps` contador. Una vez más, la <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método se usa para disminuir el contador para asegurarse de que un segundo subproceso no tiene acceso el valor antes de que se ha asignado el valor reducido del primer subproceso a la variable. Cuando el último no sincronizados disminuye de subprocesos de trabajo que el contador a cero, que indica que no hay más subprocesos no sincronizados necesita tener acceso al recurso, el `UnSyncUpdateResource` llamadas al método el <xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> método, que indica al subproceso principal para continuar la ejecución .  
+ Cada llamada a la `UnSyncUpdateResource` llamadas de método interno `UnSyncResource.Access` método y, a continuación, llama a la <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método para reducir el `numOps` contador. Una vez más, la <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método se usa para reducir el contador para asegurarse de que un segundo subproceso no tiene acceso el valor antes de que se ha asignado el valor reducido del primer subproceso a la variable. Cuando el último no sincronizadas disminuye de subproceso de trabajo que el contador a cero, que indica que no hay más subprocesos no sincronizados necesita tener acceso al recurso, el `UnSyncUpdateResource` llamadas al método el <xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> método, que indica al subproceso principal para continuar la ejecución .  
   
- Como se muestra en el resultado del ejemplo, el acceso sincronizado garantiza que el subproceso de llamada saldrá del recurso protegido antes de que otro subproceso pueda tener acceso a él; así pues, cada subproceso esperará a su predecesor. Por otro lado, sin el bloqueo, el `UnSyncResource.Access` método se llama en el orden en que los subprocesos accedan a él.  
+ Como se muestra en el resultado del ejemplo, el acceso sincronizado garantiza que el subproceso de llamada saldrá del recurso protegido antes de que otro subproceso pueda tener acceso a él; así pues, cada subproceso esperará a su predecesor. Por otro lado, sin bloqueo, el `UnSyncResource.Access` se llama al método en el orden en que los subprocesos accedan a él.  
   
  ]]></format>
     </remarks>
@@ -202,6 +204,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -227,13 +231,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Use `Enter` para adquirir el <xref:System.Threading.Monitor> en el objeto pasado como parámetro. Si otro subproceso ha ejecutado un `Enter` en el objeto, pero no se ha ejecutado todavía el correspondiente <xref:System.Threading.Monitor.Exit%2A>, se bloqueará el subproceso actual hasta que el otro subproceso libera el objeto. Es válido para el mismo subproceso invocar `Enter` más de una vez sin bloquearse; sin embargo, un número igual de `Exit` se deben invocar llamadas antes de que se desbloqueen otros subprocesos en espera en el objeto.  
+ Use `Enter` para adquirir el <xref:System.Threading.Monitor> en el objeto pasado como parámetro. Si otro subproceso ha ejecutado un `Enter` en el objeto, pero no se ha ejecutado el correspondiente <xref:System.Threading.Monitor.Exit%2A>, se bloqueará el subproceso actual hasta que el otro subproceso libere el objeto. Es válido para el mismo subproceso que invoca `Enter` más de una vez sin bloquearse; sin embargo, un número igual de `Exit` se deben invocar las llamadas antes de que se desbloqueen otros subprocesos en espera en el objeto.  
   
- Use <xref:System.Threading.Monitor> para bloquear objetos (es decir, tipos de referencia), no tipos de valor. Cuando se pasa una variable de tipo de valor a `Enter`, se encuadra como un objeto. Si se pasa la misma variable a `Enter` nuevo, es una conversión boxing como objeto independiente y no bloquea el subproceso. En este caso, el código que `Monitor` es supuestamente protege no está protegido. Además, al pasar la variable a `Exit`, se crea otro objeto independiente. Puesto que el objeto pasado a `Exit` es diferente del objeto pasado a `Enter`, `Monitor` produce <xref:System.Threading.SynchronizationLockException>. Para obtener más información, vea el tema conceptual [monitores](xref:System.Threading.Monitor).  
+ Use <xref:System.Threading.Monitor> para bloquear objetos (es decir, tipos de referencia), no los tipos de valor. Cuando se pasa una variable de tipo de valor a `Enter`, se aplica como un objeto. Si se pasa a la misma variable a `Enter` nuevo, se aplica como un objeto independiente y no bloquea el subproceso. En este caso, el código que `Monitor` es supuestamente protege no está protegido. Además, al pasar la variable a `Exit`, se crea otro objeto independiente. Puesto que el objeto pasado a `Exit` es diferente del objeto pasado a `Enter`, `Monitor` produce <xref:System.Threading.SynchronizationLockException>. Para obtener más información, vea el tema conceptual [monitores](xref:System.Threading.Monitor).  
   
- <xref:System.Threading.Thread.Interrupt%2A> puede interrumpir subprocesos que están esperando para escribir un `Monitor` en un objeto. Un <xref:System.Threading.ThreadInterruptedException> se iniciará.  
+ <xref:System.Threading.Thread.Interrupt%2A> puede interrumpir los subprocesos que esperan para escribir un `Monitor` en un objeto. Un <xref:System.Threading.ThreadInterruptedException> se iniciará.  
   
- Usar C# `try`...`finally` bloque (`Try`...`Finally` en Visual Basic) para asegurarse de que el monitor de la versión o utilizar el C# `lock` instrucción (`SyncLock` instrucción en Visual Basic), que encapsula el <xref:System.Threading.Monitor.Enter%2A> y <xref:System.Threading.Monitor.Exit%2A> métodos en un `try`...`finally` bloque.  
+ Uso de C# `try`...`finally` bloque (`Try`...`Finally` en Visual Basic) para asegurarse de que el monitor de versión o utilizar el C# `lock` instrucción (`SyncLock` instrucción en Visual Basic), que encapsula el <xref:System.Threading.Monitor.Enter%2A> y <xref:System.Threading.Monitor.Exit%2A> métodos en un `try`...`finally` bloque.  
   
    
   
@@ -289,18 +293,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Use `Enter` para adquirir el <xref:System.Threading.Monitor> en el objeto pasado como el `obj` parámetro. Si otro subproceso ha ejecutado un `Enter` en el objeto, pero no se ha ejecutado todavía el correspondiente <xref:System.Threading.Monitor.Exit%2A>, se bloqueará el subproceso actual hasta que el otro subproceso libera el objeto. Es válido para el mismo subproceso invocar `Enter` más de una vez sin bloquearse; sin embargo, un número igual de `Exit` se deben invocar llamadas antes de que se desbloqueen otros subprocesos en espera en el objeto.  
+ Use `Enter` para adquirir el <xref:System.Threading.Monitor> en el objeto pasado como el `obj` parámetro. Si otro subproceso ha ejecutado un `Enter` en el objeto, pero no se ha ejecutado el correspondiente <xref:System.Threading.Monitor.Exit%2A>, se bloqueará el subproceso actual hasta que el otro subproceso libere el objeto. Es válido para el mismo subproceso que invoca `Enter` más de una vez sin bloquearse; sin embargo, un número igual de `Exit` se deben invocar las llamadas antes de que se desbloqueen otros subprocesos en espera en el objeto.  
   
- Si no se realizó el bloqueo porque se produjo una excepción, la variable especificada para el `lockTaken` parámetro es `false` una vez finalizado este método. Esto permite que el programa determinar, en todos los casos, si es necesario liberar el bloqueo. Si este método devuelve sin producir una excepción, la variable especificada para el `lockTaken` parámetro siempre es `true`, y no es necesario para probarla.  
+ Si no se realizó el bloqueo porque se produjo una excepción, la variable especificada para el `lockTaken` parámetro es `false` cuando este método finalice. Esto permite que el programa determinar, en todos los casos, si es necesario para liberar el bloqueo. Si este método devuelve sin producir una excepción, la variable especificada para el `lockTaken` parámetro siempre es `true`, y no es necesario para probarla.  
   
- Use <xref:System.Threading.Monitor> para bloquear objetos (es decir, tipos de referencia), no tipos de valor. Cuando se pasa una variable de tipo de valor a `Enter`, se encuadra como un objeto. Si se pasa la misma variable a `Enter` nuevo, es una conversión boxing como objeto independiente y no bloquea el subproceso. En este caso, el código que `Monitor` es supuestamente protege no está protegido. Además, al pasar la variable a `Exit`, se crea otro objeto independiente. Puesto que el objeto pasado a `Exit` es diferente del objeto pasado a `Enter`, `Monitor` produce <xref:System.Threading.SynchronizationLockException>. Para obtener más información, vea el tema conceptual [monitores](xref:System.Threading.Monitor).  
+ Use <xref:System.Threading.Monitor> para bloquear objetos (es decir, tipos de referencia), no los tipos de valor. Cuando se pasa una variable de tipo de valor a `Enter`, se aplica como un objeto. Si se pasa a la misma variable a `Enter` nuevo, se aplica como un objeto independiente y no bloquea el subproceso. En este caso, el código que `Monitor` es supuestamente protege no está protegido. Además, al pasar la variable a `Exit`, se crea otro objeto independiente. Puesto que el objeto pasado a `Exit` es diferente del objeto pasado a `Enter`, `Monitor` produce <xref:System.Threading.SynchronizationLockException>. Para obtener más información, vea el tema conceptual [monitores](xref:System.Threading.Monitor).  
   
- <xref:System.Threading.Thread.Interrupt%2A> puede interrumpir subprocesos que están esperando para escribir un `Monitor` en un objeto. Un <xref:System.Threading.ThreadInterruptedException> se iniciará.  
+ <xref:System.Threading.Thread.Interrupt%2A> puede interrumpir los subprocesos que esperan para escribir un `Monitor` en un objeto. Un <xref:System.Threading.ThreadInterruptedException> se iniciará.  
   
    
   
 ## Examples  
- El código siguiente muestra el patrón básico para el uso de la <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29> sobrecarga del método. Esta sobrecarga siempre establece el valor de la variable que se pasa a la `ref` parámetro (`ByRef` en Visual Basic) `lockTaken`, incluso si el método produce una excepción, por lo que el valor de la variable es una manera fiable para comprobar si el bloqueo tiene que ser publicado.  
+ El código siguiente muestra el patrón básico para usar el <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29> sobrecarga del método. Esta sobrecarga siempre establece el valor de la variable que se pasa a la `ref` parámetro (`ByRef` en Visual Basic) `lockTaken`, incluso si el método produce una excepción, por lo que el valor de la variable es un método confiable para probar si el bloqueo debe ser publicado.  
   
  [!code-csharp[System.Threading.Monitor.Enter#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.enter/cs/example.cs#2)]
  [!code-vb[System.Threading.Monitor.Enter#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.enter/vb/example.vb#2)]  
@@ -328,6 +332,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -356,9 +362,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El subproceso que realiza la llamada debe tener el bloqueo en el `obj` parámetro. Si el subproceso que realiza la llamada posee el bloqueo en el objeto especificado y se ha realizado un número igual de `Exit` y <xref:System.Threading.Monitor.Enter%2A> llama para el objeto, a continuación, se libera el bloqueo. Si el subproceso que realiza la llamada no ha invocado `Exit` tantas veces como `Enter`, no se libera el bloqueo.  
+ El subproceso que realiza la llamada debe tener el bloqueo en el `obj` parámetro. Si el subproceso de llamada posee el bloqueo en el objeto especificado y ha realizado un número igual de `Exit` y <xref:System.Threading.Monitor.Enter%2A> llama para el objeto, a continuación, se libera el bloqueo. Si el subproceso de llamada no se ha invocado `Exit` tantas veces como `Enter`, no se libera el bloqueo.  
   
- Si el bloqueo se libera y otros subprocesos están en la cola de subprocesos listos para el objeto, uno de los subprocesos adquiere el bloqueo. Si hay otros subprocesos en la cola de espera para adquirir el bloqueo, no se mueven automáticamente a la cola de subprocesos listos cuando el propietario del bloqueo llama `Exit`. Para mover uno o varios subprocesos en espera en la cola de subprocesos listos, llame a <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A> antes de invocar `Exit`.  
+ Si se libera el bloqueo y otros subprocesos están en la cola de subprocesos listos para el objeto, uno de los subprocesos adquiere el bloqueo. Si hay otros subprocesos en la cola de espera para adquirir el bloqueo, no pasan automáticamente a la cola lista cuando el propietario del bloqueo llama `Exit`. Para mover uno o varios subprocesos en espera en la cola de subprocesos listos, llame a <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A> antes de invocar `Exit`.  
   
    
   
@@ -419,9 +425,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método solo funciona para los bloqueos adquiridos mediante los métodos de la <xref:System.Threading.Monitor> clase o usando C# `lock` instrucción o Visual Basic `SyncLock` instrucción, que se implementan con <xref:System.Threading.Monitor>.  
+ Este método solo funciona para los bloqueos adquiridos mediante el uso de los métodos de la <xref:System.Threading.Monitor> clase, o mediante C# `lock` instrucción o Visual Basic `SyncLock` instrucción, que se implementan con <xref:System.Threading.Monitor>.  
   
- Utilice este método con herramientas de diagnóstico, como la <xref:System.Diagnostics.Debug.Assert%2A> método y la <xref:System.Diagnostics.Contracts.Contract> (clase), para depurar problemas de bloqueo que implican la <xref:System.Threading.Monitor> clase.  
+ Utilice este método con las herramientas de diagnóstico, como la <xref:System.Diagnostics.Debug.Assert%2A> método y el <xref:System.Diagnostics.Contracts.Contract> (clase), para depurar problemas de bloqueo que implican la <xref:System.Threading.Monitor> clase.  
   
  ]]></format>
         </remarks>
@@ -446,6 +452,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -473,16 +481,16 @@
 ## Remarks  
  Solo el propietario actual del bloqueo puede señalar a un objeto de espera mediante `Pulse`.  
   
- El subproceso que actualmente posee el bloqueo en el objeto especificado, invoca este método para notificar el siguiente subproceso en línea para adquirir el bloqueo. Tras recibir el pulso, el subproceso en espera se mueve a la cola de subprocesos listos. Cuando el subproceso que invocó `Pulse` libera el bloqueo, el siguiente subproceso de la cola de subprocesos listos (que no es necesariamente el subproceso que ha recibido el pulso) adquiere el bloqueo.  
+ El subproceso que actualmente posee el bloqueo en el objeto especificado invoca este método para señalar el siguiente subproceso en línea para adquirir el bloqueo. Al recibir el pulso, el subproceso en espera se mueve a la cola de subprocesos listos. Cuando el subproceso que invoca `Pulse` libera el bloqueo, el siguiente subproceso en la cola de subprocesos listos (que no es necesariamente el subproceso que ha recibido el pulso) adquiere el bloqueo.  
   
 > [!IMPORTANT]
->  El <xref:System.Threading.Monitor> clase mantienen el estado que indica que el <xref:System.Threading.Monitor.Pulse%2A> ha llamado al método. Por lo tanto, si se llama a <xref:System.Threading.Monitor.Pulse%2A> cuando no hay ningún subproceso en espera, el siguiente subproceso que llama a <xref:System.Threading.Monitor.Wait%2A> bloques como si <xref:System.Threading.Monitor.Pulse%2A> nunca se hubiera llamado. Si están usando dos subprocesos <xref:System.Threading.Monitor.Pulse%2A> y <xref:System.Threading.Monitor.Wait%2A> para interactuar, esto podría provocar un interbloqueo. Contrastar esto con el comportamiento de la <xref:System.Threading.AutoResetEvent> clase: si indican una <xref:System.Threading.AutoResetEvent> mediante una llamada a su <xref:System.Threading.EventWaitHandle.Set%2A> método y no hay ningún subproceso en espera, el <xref:System.Threading.AutoResetEvent> permanece en un estado señalado hasta que un subproceso llama a <xref:System.Threading.WaitHandle.WaitOne%2A>, <xref:System.Threading.WaitHandle.WaitAny%2A>, o <xref:System.Threading.WaitHandle.WaitAll%2A>. El <xref:System.Threading.AutoResetEvent> libera ese subproceso y vuelve al estado no señalado.  
+>  El <xref:System.Threading.Monitor> clase mantienen el estado que indica que el <xref:System.Threading.Monitor.Pulse%2A> ha llamado al método. Por lo tanto, si se llama a <xref:System.Threading.Monitor.Pulse%2A> cuando no hay ningún subproceso en espera, el siguiente subproceso que llama a <xref:System.Threading.Monitor.Wait%2A> bloques como si <xref:System.Threading.Monitor.Pulse%2A> nunca hubiera llamado. Si usan dos subprocesos <xref:System.Threading.Monitor.Pulse%2A> y <xref:System.Threading.Monitor.Wait%2A> para interactuar, esto podría provocar un interbloqueo. Compare esto con el comportamiento de la <xref:System.Threading.AutoResetEvent> clase: si señalar un <xref:System.Threading.AutoResetEvent> mediante una llamada a su <xref:System.Threading.EventWaitHandle.Set%2A> método y no hay ningún subproceso en espera, el <xref:System.Threading.AutoResetEvent> permanece en un estado señalado hasta que un subproceso llama <xref:System.Threading.WaitHandle.WaitOne%2A>, <xref:System.Threading.WaitHandle.WaitAny%2A>, o <xref:System.Threading.WaitHandle.WaitAll%2A>. El <xref:System.Threading.AutoResetEvent> libera ese subproceso y vuelve al estado no señalizado.  
   
- Tenga en cuenta que un objeto sincronizado contiene varias referencias, incluida una referencia al subproceso que actualmente posee el bloqueo, una referencia a la cola de subprocesos listos, que contiene los subprocesos que están listos para obtener el bloqueo, y una referencia a la cola de espera, que contiene los subprocesos que están esperando recibir notificación de un cambio en el estado del objeto.  
+ Tenga en cuenta que un objeto sincronizado contiene varias referencias, incluida una referencia al subproceso que contiene actualmente el bloqueo, una referencia a la cola de subprocesos listos, que contiene los subprocesos que están listos para obtener el bloqueo, y una referencia a la cola de espera, que contiene los subprocesos que esperan para recibir notificaciones de un cambio en el estado del objeto.  
   
- El `Pulse`, <xref:System.Threading.Monitor.PulseAll%2A>, y <xref:System.Threading.Monitor.Wait%2A> métodos se deben invocar desde dentro de un bloque de código sincronizado.  
+ El `Pulse`, <xref:System.Threading.Monitor.PulseAll%2A>, y <xref:System.Threading.Monitor.Wait%2A> métodos deben invocarse desde dentro de un bloque de código sincronizado.  
   
- Para indicar varios subprocesos, utilice el <xref:System.Threading.Monitor.PulseAll%2A> método.  
+ Para marcar varios subprocesos, utilice el <xref:System.Threading.Monitor.PulseAll%2A> método.  
   
  ]]></format>
         </remarks>
@@ -508,6 +516,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -533,15 +543,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El subproceso que actualmente posee el bloqueo en el objeto especificado, invoca este método para notificar todos los subprocesos en espera para adquirir el bloqueo en el objeto. Una vez enviada la señal, los subprocesos en espera se mueven a la cola de subprocesos listos. Cuando el subproceso que invocó `PulseAll` libera el bloqueo, el siguiente subproceso de la cola de subprocesos listos adquiere el bloqueo.  
+ El subproceso que actualmente posee el bloqueo en el objeto especificado, invoca este método para indicar todos los subprocesos en espera para adquirir el bloqueo en el objeto. Una vez que se envía una señal, los subprocesos en espera se mueven a la cola de subprocesos listos. Cuando el subproceso que invoca `PulseAll` libera el bloqueo, el siguiente subproceso en la cola de subprocesos listos adquiere el bloqueo.  
   
- Tenga en cuenta que un objeto sincronizado contiene varias referencias, incluida una referencia al subproceso que actualmente posee el bloqueo, una referencia a la cola de subprocesos listos, que contiene los subprocesos que están listos para obtener el bloqueo, y una referencia a la cola de espera, que contiene los subprocesos que están esperando recibir notificación de un cambio en el estado del objeto.  
+ Tenga en cuenta que un objeto sincronizado contiene varias referencias, incluida una referencia al subproceso que contiene actualmente el bloqueo, una referencia a la cola de subprocesos listos, que contiene los subprocesos que están listos para obtener el bloqueo, y una referencia a la cola de espera, que contiene los subprocesos que esperan para recibir notificaciones de un cambio en el estado del objeto.  
   
- El <xref:System.Threading.Monitor.Pulse%2A>, `PulseAll`, y <xref:System.Threading.Monitor.Wait%2A> métodos se deben invocar desde dentro de un bloque de código sincronizado.  
+ El <xref:System.Threading.Monitor.Pulse%2A>, `PulseAll`, y <xref:System.Threading.Monitor.Wait%2A> métodos deben invocarse desde dentro de un bloque de código sincronizado.  
   
- La sección Comentarios para el <xref:System.Threading.Monitor.Pulse%2A> método se explica qué ocurre si <xref:System.Threading.Monitor.Pulse%2A> se llama cuando no hay ningún subproceso en espera.  
+ Los comentarios sobre la <xref:System.Threading.Monitor.Pulse%2A> método explica qué ocurre si <xref:System.Threading.Monitor.Pulse%2A> se llama cuando no hay ningún subproceso en espera.  
   
- Para indicar un único subproceso, utilice el `Pulse` método.  
+ Para marcar un único subproceso, utilice el `Pulse` método.  
   
  ]]></format>
         </remarks>
@@ -578,6 +588,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -599,14 +611,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si realiza correctamente, este método adquiere un bloqueo exclusivo en el `obj` parámetro. Este método vuelve inmediatamente, si el bloqueo está disponible o no.  
+ Si es correcto, este método adquiere un bloqueo exclusivo en el `obj` parámetro. Este método devuelve inmediatamente, si el bloqueo esté disponible.  
   
- Este método es similar a <xref:System.Threading.Monitor.Enter%2A>, pero nunca se bloqueará el subproceso actual. Si el subproceso no puede entrar sin bloquearse, el método devuelve `false,`.  
+ Este método es similar a <xref:System.Threading.Monitor.Enter%2A>, pero nunca se bloqueará el subproceso actual. Si el subproceso no se puede escribir sin bloqueo, el método devuelve `false,`.  
   
 > [!NOTE]
->  Use <xref:System.Threading.Monitor> para bloquear objetos (es decir, tipos de referencia), no tipos de valor. Para obtener más información, consulte el <xref:System.Threading.Monitor> artículo.  
+>  Use <xref:System.Threading.Monitor> para bloquear objetos (es decir, tipos de referencia), no los tipos de valor. Para obtener más información, consulte el <xref:System.Threading.Monitor> artículo.  
   
- Para asegurarse de que el subproceso no entra en la sección crítica, debe examinar el valor devuelto del método y ejecutan código en la sección crítica solo si su valor devuelto es `true`. El siguiente fragmento de código muestra la trama usada para llamar a este método. Tenga en cuenta que debe llamar a <xref:System.Threading.Monitor.Exit%2A> en un `finally` bloque para asegurarse de que el subproceso que realiza la llamada libera el bloqueo en la sección crítica, si se produce una excepción.  
+ Para asegurarse de que el subproceso no entrar en la sección crítica, debe examinar el valor devuelto del método y ejecutar código en la sección crítica solo si su valor devuelto es `true`. El fragmento de código siguiente muestra el patrón utilizado para llamar a este método. Tenga en cuenta que debe llamar a <xref:System.Threading.Monitor.Exit%2A> en un `finally` bloque para asegurarse de que el subproceso que realiza la llamada libera el bloqueo en la sección crítica si se produce una excepción.  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#1)]
  [!code-vb[System.Threading.Monitor.TryEnter#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#1)]  
@@ -665,16 +677,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si realiza correctamente, este método adquiere un bloqueo exclusivo en el `obj` parámetro. Este método vuelve inmediatamente, si el bloqueo está disponible o no.  
+ Si es correcto, este método adquiere un bloqueo exclusivo en el `obj` parámetro. Este método devuelve inmediatamente, si el bloqueo esté disponible.  
   
- Si no se realizó el bloqueo porque se produjo una excepción, la variable especificada para el `lockTaken` parámetro es `false` una vez finalizado este método. Esto permite que el programa determinar, en todos los casos, si es necesario liberar el bloqueo.  
+ Si no se realizó el bloqueo porque se produjo una excepción, la variable especificada para el `lockTaken` parámetro es `false` cuando este método finalice. Esto permite que el programa determinar, en todos los casos, si es necesario para liberar el bloqueo.  
   
- Este método es similar a <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29>, pero nunca se bloqueará el subproceso actual. Si el subproceso no puede entrar sin bloquearse, el `lockTaken` argumento está establecido en `false` cuando el método devuelve.  
+ Este método es similar a <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29>, pero nunca se bloqueará el subproceso actual. Si el subproceso no se puede escribir sin bloqueo, el `lockTaken` argumento está establecido en `false` cuando el método devuelve.  
   
 > [!NOTE]
->  Use <xref:System.Threading.Monitor> para bloquear objetos (es decir, tipos de referencia), no tipos de valor. Para obtener más información, vea el artículo <xref:System.Threading.Monitor>.  
+>  Use <xref:System.Threading.Monitor> para bloquear objetos (es decir, tipos de referencia), no los tipos de valor. Para obtener más información, vea el artículo <xref:System.Threading.Monitor>.  
   
- Para asegurarse de que el subproceso no entra en la sección crítica, debe examinar el valor de `lockTaken` y ejecutar el código en la sección crítica solo si su valor es `true`. El siguiente fragmento de código muestra la trama usada para llamar a este método. Tenga en cuenta que debe llamar a <xref:System.Threading.Monitor.Exit%2A> en un `finally` bloque para asegurarse de que el subproceso que realiza la llamada libera el bloqueo en la sección crítica, si se produce una excepción.  
+ Para asegurarse de que el subproceso no entra en la sección crítica, debe examinar el valor de `lockTaken` y ejecutar código en la sección crítica solo si su valor es `true`. El fragmento de código siguiente muestra el patrón utilizado para llamar a este método. Tenga en cuenta que debe llamar a <xref:System.Threading.Monitor.Exit%2A> en un `finally` bloque para asegurarse de que el subproceso que realiza la llamada libera el bloqueo en la sección crítica si se produce una excepción.  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#2)]
  [!code-vb[System.Threading.Monitor.TryEnter#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#2)]  
@@ -682,7 +694,7 @@
    
   
 ## Examples  
- El código siguiente muestra el patrón básico para el uso de la <xref:System.Threading.Monitor.TryEnter%28System.Object%2CSystem.Boolean%40%29> sobrecarga del método. Esta sobrecarga siempre establece el valor de la variable que se pasa a la `ref` parámetro (`ByRef` en Visual Basic) `lockTaken`, incluso si el método produce una excepción, por lo que el valor de la variable es una manera fiable para comprobar si el bloqueo tiene que ser publicado.  
+ El código siguiente muestra el patrón básico para usar el <xref:System.Threading.Monitor.TryEnter%28System.Object%2CSystem.Boolean%40%29> sobrecarga del método. Esta sobrecarga siempre establece el valor de la variable que se pasa a la `ref` parámetro (`ByRef` en Visual Basic) `lockTaken`, incluso si el método produce una excepción, por lo que el valor de la variable es un método confiable para probar si el bloqueo debe ser publicado.  
   
  [!code-csharp[System.Threading.Monitor.Enter#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.enter/cs/example.cs#3)]
  [!code-vb[System.Threading.Monitor.Enter#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.enter/vb/example.vb#3)]  
@@ -710,6 +722,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -736,9 +750,9 @@
  Si el `millisecondsTimeout` parámetro es igual a <xref:System.Threading.Timeout.Infinite>, este método es equivalente a <xref:System.Threading.Monitor.Enter%2A>. Si `millisecondsTimeout` es igual a 0, este método es equivalente a <xref:System.Threading.Monitor.TryEnter%2A>.  
   
 > [!NOTE]
->  Use <xref:System.Threading.Monitor> para bloquear objetos (es decir, tipos de referencia), no tipos de valor. Para obtener más información, consulte el <xref:System.Threading.Monitor> artículo.  
+>  Use <xref:System.Threading.Monitor> para bloquear objetos (es decir, tipos de referencia), no los tipos de valor. Para obtener más información, consulte el <xref:System.Threading.Monitor> artículo.  
   
- Para asegurarse de que el subproceso no entra en la sección crítica, debe examinar el valor devuelto del método y ejecutan código en la sección crítica solo si su valor devuelto es `true`. El siguiente fragmento de código muestra la trama usada para llamar a este método. Tenga en cuenta que debe llamar a <xref:System.Threading.Monitor.Exit%2A> en un `finally` bloque para asegurarse de que el subproceso que realiza la llamada libera el bloqueo en la sección crítica, si se produce una excepción.  
+ Para asegurarse de que el subproceso no entrar en la sección crítica, debe examinar el valor devuelto del método y ejecutar código en la sección crítica solo si su valor devuelto es `true`. El fragmento de código siguiente muestra el patrón utilizado para llamar a este método. Tenga en cuenta que debe llamar a <xref:System.Threading.Monitor.Exit%2A> en un `finally` bloque para asegurarse de que el subproceso que realiza la llamada libera el bloqueo en la sección crítica si se produce una excepción.  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#3)]
  [!code-vb[System.Threading.Monitor.TryEnter#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#3)]  
@@ -768,6 +782,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -792,12 +808,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si el valor de la `timeout` parámetro convertido a milisegundos es igual a -1, este método es equivalente a <xref:System.Threading.Monitor.Enter%2A>. Si el valor de `timeout` es igual a 0, este método es equivalente a <xref:System.Threading.Monitor.TryEnter%2A>.  
+ Si el valor de la `timeout` convierte a milisegundos del parámetro es igual a – 1, este método es equivalente a <xref:System.Threading.Monitor.Enter%2A>. Si el valor de `timeout` es igual a 0, este método es equivalente a <xref:System.Threading.Monitor.TryEnter%2A>.  
   
 > [!NOTE]
->  Use <xref:System.Threading.Monitor> para bloquear objetos (es decir, tipos de referencia), no tipos de valor. Para obtener más información, consulte el <xref:System.Threading.Monitor> tema de la clase.  
+>  Use <xref:System.Threading.Monitor> para bloquear objetos (es decir, tipos de referencia), no los tipos de valor. Para obtener más información, consulte el <xref:System.Threading.Monitor> tema de la clase.  
   
- Para asegurarse de que el subproceso no entra en la sección crítica, debe examinar el valor devuelto del método y ejecutan código en la sección crítica solo si su valor devuelto es `true`. El siguiente fragmento de código muestra la trama usada para llamar a este método. Tenga en cuenta que debe llamar a <xref:System.Threading.Monitor.Exit%2A> en un `finally` bloque para asegurarse de que el subproceso que realiza la llamada libera el bloqueo en la sección crítica, si se produce una excepción.  
+ Para asegurarse de que el subproceso no entrar en la sección crítica, debe examinar el valor devuelto del método y ejecutar código en la sección crítica solo si su valor devuelto es `true`. El fragmento de código siguiente muestra el patrón utilizado para llamar a este método. Tenga en cuenta que debe llamar a <xref:System.Threading.Monitor.Exit%2A> en un `finally` bloque para asegurarse de que el subproceso que realiza la llamada libera el bloqueo en la sección crítica si se produce una excepción.  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#5)]
  [!code-vb[System.Threading.Monitor.TryEnter#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#5)]  
@@ -852,12 +868,12 @@
 ## Remarks  
  Si el `millisecondsTimeout` parámetro es igual a <xref:System.Threading.Timeout.Infinite>, este método es equivalente a <xref:System.Threading.Monitor.Enter%28System.Object%29>. Si `millisecondsTimeout` es igual a 0, este método es equivalente a <xref:System.Threading.Monitor.TryEnter%28System.Object%29>.  
   
- Si no se realizó el bloqueo porque se produjo una excepción, la variable especificada para el `lockTaken` parámetro es `false` una vez finalizado este método. Esto permite que el programa determinar, en todos los casos, si es necesario liberar el bloqueo.  
+ Si no se realizó el bloqueo porque se produjo una excepción, la variable especificada para el `lockTaken` parámetro es `false` cuando este método finalice. Esto permite que el programa determinar, en todos los casos, si es necesario para liberar el bloqueo.  
   
 > [!NOTE]
->  Use <xref:System.Threading.Monitor> para bloquear objetos (es decir, tipos de referencia), no tipos de valor. Para obtener más información, consulte el <xref:System.Threading.Monitor> tema de la clase.  
+>  Use <xref:System.Threading.Monitor> para bloquear objetos (es decir, tipos de referencia), no los tipos de valor. Para obtener más información, consulte el <xref:System.Threading.Monitor> tema de la clase.  
   
- Para asegurarse de que el subproceso no entra en la sección crítica, debe examinar el valor de `lockTaken` y ejecutar el código en la sección crítica solo si su valor es `true`. El siguiente fragmento de código muestra la trama usada para llamar a este método. Tenga en cuenta que debe llamar a <xref:System.Threading.Monitor.Exit%2A> en un `finally` bloque para asegurarse de que el subproceso que realiza la llamada libera el bloqueo en la sección crítica, si se produce una excepción.  
+ Para asegurarse de que el subproceso no entra en la sección crítica, debe examinar el valor de `lockTaken` y ejecutar código en la sección crítica solo si su valor es `true`. El fragmento de código siguiente muestra el patrón utilizado para llamar a este método. Tenga en cuenta que debe llamar a <xref:System.Threading.Monitor.Exit%2A> en un `finally` bloque para asegurarse de que el subproceso que realiza la llamada libera el bloqueo en la sección crítica si se produce una excepción.  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#4)]
  [!code-vb[System.Threading.Monitor.TryEnter#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#4)]  
@@ -865,7 +881,7 @@
    
   
 ## Examples  
- El código siguiente muestra el patrón básico para el uso de la <xref:System.Threading.Monitor.TryEnter%28System.Object%2CSystem.Boolean%40%29> sobrecarga del método. Esta sobrecarga siempre establece el valor de la variable que se pasa a la `ref` parámetro (`ByRef` en Visual Basic) `lockTaken`, incluso si el método produce una excepción, por lo que el valor de la variable es una manera fiable para comprobar si el bloqueo tiene que ser publicado.  
+ El código siguiente muestra el patrón básico para usar el <xref:System.Threading.Monitor.TryEnter%28System.Object%2CSystem.Boolean%40%29> sobrecarga del método. Esta sobrecarga siempre establece el valor de la variable que se pasa a la `ref` parámetro (`ByRef` en Visual Basic) `lockTaken`, incluso si el método produce una excepción, por lo que el valor de la variable es un método confiable para probar si el bloqueo debe ser publicado.  
   
  [!code-csharp[System.Threading.Monitor.Enter#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.enter/cs/example.cs#4)]
  [!code-vb[System.Threading.Monitor.Enter#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.enter/vb/example.vb#4)]  
@@ -919,14 +935,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si el valor de la `timeout` parámetro convertido a milisegundos es igual a -1, este método es equivalente a <xref:System.Threading.Monitor.Enter%28System.Object%29>. Si el valor de `timeout` es igual a 0, este método es equivalente a <xref:System.Threading.Monitor.TryEnter%28System.Object%29>.  
+ Si el valor de la `timeout` convierte a milisegundos del parámetro es igual a – 1, este método es equivalente a <xref:System.Threading.Monitor.Enter%28System.Object%29>. Si el valor de `timeout` es igual a 0, este método es equivalente a <xref:System.Threading.Monitor.TryEnter%28System.Object%29>.  
   
- Si no se realizó el bloqueo porque se produjo una excepción, la variable especificada para el `lockTaken` parámetro es `false` una vez finalizado este método. Esto permite que el programa determinar, en todos los casos, si es necesario liberar el bloqueo.  
+ Si no se realizó el bloqueo porque se produjo una excepción, la variable especificada para el `lockTaken` parámetro es `false` cuando este método finalice. Esto permite que el programa determinar, en todos los casos, si es necesario para liberar el bloqueo.  
   
 > [!NOTE]
->  Use <xref:System.Threading.Monitor> para bloquear objetos (es decir, tipos de referencia), no tipos de valor. Para obtener más información, consulte el <xref:System.Threading.Monitor> tema de la clase.  
+>  Use <xref:System.Threading.Monitor> para bloquear objetos (es decir, tipos de referencia), no los tipos de valor. Para obtener más información, consulte el <xref:System.Threading.Monitor> tema de la clase.  
   
- Para asegurarse de que el subproceso no entra en la sección crítica, debe examinar el valor de `lockTaken` y ejecutar el código en la sección crítica solo si su valor es `true`. El siguiente fragmento de código muestra la trama usada para llamar a este método. Tenga en cuenta que debe llamar a <xref:System.Threading.Monitor.Exit%2A> en un `finally` bloque para asegurarse de que el subproceso que realiza la llamada libera el bloqueo en la sección crítica, si se produce una excepción.  
+ Para asegurarse de que el subproceso no entra en la sección crítica, debe examinar el valor de `lockTaken` y ejecutar código en la sección crítica solo si su valor es `true`. El fragmento de código siguiente muestra el patrón utilizado para llamar a este método. Tenga en cuenta que debe llamar a <xref:System.Threading.Monitor.Exit%2A> en un `finally` bloque para asegurarse de que el subproceso que realiza la llamada libera el bloqueo en la sección crítica si se produce una excepción.  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#6)]
  [!code-vb[System.Threading.Monitor.TryEnter#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#6)]  
@@ -967,6 +983,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -989,19 +1007,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El subproceso que actualmente posee el bloqueo en el objeto especificado, invoca este método para liberar el objeto para que otro subproceso puede obtener acceso a él. El autor de la llamada se bloquea mientras espera a adquirir el bloqueo. Se llama a este método cuando el llamador debe esperar para que un cambio de estado que se producirá como resultado de las operaciones de otro subproceso.  
+ El subproceso que actualmente posee el bloqueo en el objeto especificado, invoca este método con el fin de liberar el objeto para que otro subproceso puede tener acceso a él. El autor de la llamada se bloquea mientras espera a adquirir el bloqueo. Este método se llama cuando el llamador debe esperar un cambio de estado que se producirá como resultado de operaciones de otro subproceso.  
   
- Cuando un subproceso llama a `Wait`, se libera el bloqueo en el objeto y entra en cola de espera del objeto. El siguiente subproceso de cola de subprocesos listos del objeto (si hay alguno) adquiere el bloqueo y tiene uso exclusivo del objeto. Todos los subprocesos que llaman a `Wait` permanecen en la cola de espera hasta que reciben una señal de <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A>, enviada por el propietario del bloqueo. Si `Pulse` se envía, sólo el subproceso en el encabezado de la cola de espera se ve afectado. Si `PulseAll` se envía, se ven afectados todos los subprocesos que están esperando el objeto. Cuando se recibe la señal, uno o varios subprocesos deje la cola de espera y la cola de subprocesos listos. Se permite un subproceso en la cola de subprocesos listos para volver a adquirir el bloqueo.  
+ Cuando un subproceso llama `Wait`, libera el bloqueo en el objeto y entra en cola de espera del objeto. El siguiente subproceso en la cola de subprocesos listos del objeto (si hay alguno) adquiere el bloqueo y tiene uso exclusivo del objeto. Todos los subprocesos que llaman a `Wait` permanecen en la cola de espera hasta que reciben una señal de <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A>, enviada por el propietario del bloqueo. Si `Pulse` se envía, sólo el subproceso en el encabezado de la cola de espera se ve afectado. Si `PulseAll` se envía, se ven afectados todos los subprocesos que están esperando el objeto. Cuando se recibe la señal, uno o varios subprocesos deja la cola de espera y especifique la cola de subprocesos listos. Se permite un subproceso en la cola de subprocesos listos para volver a adquirir el bloqueo.  
   
  Este método devuelve cuando el subproceso que realiza la llamada vuelve a adquirir el bloqueo en el objeto. Tenga en cuenta que este método se bloquea indefinidamente si el propietario del bloqueo no llama a `Pulse` o `PulseAll`.  
   
- El llamador ejecuta `Wait` una vez, independientemente del número de veces que <xref:System.Threading.Monitor.Enter%2A> se ha invocado para el objeto especificado. Conceptualmente, la `Wait` método almacena el número de veces que el llamador ha invocado `Enter` en el objeto e invoca `Exit` tantas veces como sea necesario para liberar completamente el objeto bloqueado. El autor de la llamada, a continuación, se bloquea mientras espera a adquirir el objeto. Cuando el llamador vuelve a adquirir el bloqueo, el sistema llama `Enter` tantas veces como sea necesario para restaurar el guardado `Enter` recuento para el llamador. Al llamar a `Wait` libera el bloqueo para el objeto especificado; si el llamador es el propietario de los bloqueos sobre otros objetos, estos bloqueos no se liberan.  
+ El llamador ejecuta `Wait` una vez, independientemente del número de veces <xref:System.Threading.Monitor.Enter%2A> se ha invocado para el objeto especificado. Conceptualmente, el `Wait` método almacena el número de veces que el autor de llamada invocado `Enter` en el objeto e invoca `Exit` tantas veces como sea necesario para liberar completamente el objeto bloqueado. El llamador, a continuación, se bloquea mientras espera para adquirir el objeto. Cuando el autor de llamada vuelve a adquirir el bloqueo, el sistema llama `Enter` tantas veces como sea necesario para restaurar el guardado `Enter` recuento para el llamador. Una llamada a `Wait` libera el bloqueo para el objeto especificado; si el llamador es el propietario de los bloqueos de otros objetos, estos bloqueos se liberan no.  
   
- Tenga en cuenta que un objeto sincronizado contiene varias referencias, incluida una referencia al subproceso que actualmente posee el bloqueo, una referencia a la cola de subprocesos listos, que contiene los subprocesos que están listos para obtener el bloqueo, y una referencia a la cola de espera, que contiene los subprocesos que están esperando recibir notificación de un cambio en el estado del objeto.  
+ Tenga en cuenta que un objeto sincronizado contiene varias referencias, incluida una referencia al subproceso que contiene actualmente el bloqueo, una referencia a la cola de subprocesos listos, que contiene los subprocesos que están listos para obtener el bloqueo, y una referencia a la cola de espera, que contiene los subprocesos que esperan para recibir notificaciones de un cambio en el estado del objeto.  
   
- El <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, y `Wait` métodos se deben invocar desde dentro de un bloque de código sincronizado.  
+ El <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, y `Wait` métodos deben invocarse desde dentro de un bloque de código sincronizado.  
   
- La sección Comentarios para el <xref:System.Threading.Monitor.Pulse%2A> método se explica qué ocurre si <xref:System.Threading.Monitor.Pulse%2A> se llama cuando no hay ningún subproceso en espera.  
+ Los comentarios sobre la <xref:System.Threading.Monitor.Pulse%2A> método explica qué ocurre si <xref:System.Threading.Monitor.Pulse%2A> se llama cuando no hay ningún subproceso en espera.  
   
  ]]></format>
         </remarks>
@@ -1028,6 +1046,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1053,23 +1073,23 @@
 ## Remarks  
  Este método no vuelve hasta que vuelve a adquirir un bloqueo exclusivo en el `obj` parámetro.  
   
- El subproceso que actualmente posee el bloqueo en el objeto especificado, invoca este método para liberar el objeto para que otro subproceso puede obtener acceso a él. El autor de la llamada se bloquea mientras espera a adquirir el bloqueo. Se llama a este método cuando el llamador debe esperar para que un cambio de estado que se producirá como resultado de las operaciones de otro subproceso.  
+ El subproceso que actualmente posee el bloqueo en el objeto especificado, invoca este método con el fin de liberar el objeto para que otro subproceso puede tener acceso a él. El autor de la llamada se bloquea mientras espera a adquirir el bloqueo. Este método se llama cuando el llamador debe esperar un cambio de estado que se producirá como resultado de operaciones de otro subproceso.  
   
- El tiempo de espera garantiza que el subproceso actual no se bloquea indefinidamente si otro subproceso libera el bloqueo sin antes de llamar a la <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A> método. También se desplaza el subproceso a la cola de subprocesos listos, pasando por alto otros subprocesos que estén antes en la cola de espera, por lo que puede volver a adquirir el bloqueo antes. El subproceso puede probar el valor devuelto de la <xref:System.Threading.Monitor.Wait%2A> método para determinar si vuelven a adquirir el bloqueo antes el tiempo de espera. El subproceso puede evaluar las condiciones que han producido que entre en espera, y si es necesario llamada la <xref:System.Threading.Monitor.Wait%2A> nuevo al método.  
+ El tiempo de espera garantiza que el subproceso actual no se bloquea indefinidamente si otro subproceso libera el bloqueo sin llamar primero a la <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A> método. También se mueve el subproceso a la cola de subprocesos listos, pasando por alto otros subprocesos por delante de él en la cola de espera, por lo que puede volver a adquirir el bloqueo antes. El subproceso puede probar el valor devuelto de la <xref:System.Threading.Monitor.Wait%2A> método para determinar si volvió a adquirir el bloqueo antes el tiempo de espera. El subproceso puede evaluar las condiciones que ha provocado que entre en espera, y si es necesario llamada la <xref:System.Threading.Monitor.Wait%2A> nuevo al método.  
   
- Cuando un subproceso llama a `Wait`, se libera el bloqueo en el objeto y entra en cola de espera del objeto. El siguiente subproceso de cola de subprocesos listos del objeto (si hay alguno) adquiere el bloqueo y tiene uso exclusivo del objeto. El subproceso que invocó `Wait` permanece en la cola de espera hasta que se invoca un subproceso que tiene el bloqueo de <xref:System.Threading.Monitor.PulseAll%2A>, o es el siguiente en la cola y un subproceso que mantiene el bloqueo, se invoca <xref:System.Threading.Monitor.Pulse%2A>. Sin embargo, si `millisecondsTimeout` transcurre antes de que otro subproceso llama a este objeto <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A> método, el subproceso original se mueve a la cola de subprocesos listos para volver a adquirir el bloqueo.  
-  
-> [!NOTE]
->  Si <xref:System.Threading.Timeout.Infinite> se especifica para el `millisecondsTimeout` parámetro, este método se bloquea indefinidamente a menos que el propietario del bloqueo llame <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A>. Si `millisecondsTimeout` es igual a 0, el subproceso que llama `Wait` libera el bloqueo y, a continuación, inmediatamente después entra en la cola de subprocesos listos para volver a adquirir el bloqueo.  
-  
- El llamador ejecuta `Wait` una vez, independientemente del número de veces que <xref:System.Threading.Monitor.Enter%2A> se ha invocado para el objeto especificado. Conceptualmente, la `Wait` método almacena el número de veces que el llamador ha invocado <xref:System.Threading.Monitor.Enter%2A> en el objeto e invoca <xref:System.Threading.Monitor.Exit%2A> tantas veces como sea necesario para liberar completamente el objeto bloqueado. El autor de la llamada, a continuación, se bloquea mientras espera a adquirir el objeto. Cuando el llamador vuelve a adquirir el bloqueo, el sistema llama <xref:System.Threading.Monitor.Enter%2A> tantas veces como sea necesario para restaurar el guardado <xref:System.Threading.Monitor.Enter%2A> recuento para el llamador. Al llamar a `Wait` libera el bloqueo para el objeto especificado; si el llamador es el propietario de los bloqueos sobre otros objetos, estos bloqueos no se liberan.  
+ Cuando un subproceso llama `Wait`, libera el bloqueo en el objeto y entra en cola de espera del objeto. El siguiente subproceso en la cola de subprocesos listos del objeto (si hay alguno) adquiere el bloqueo y tiene uso exclusivo del objeto. El subproceso que invocó `Wait` permanece en la cola de espera hasta que un subproceso que mantiene el bloqueo invoca <xref:System.Threading.Monitor.PulseAll%2A>, o es el siguiente en la cola y un subproceso que mantiene el bloqueo invoca <xref:System.Threading.Monitor.Pulse%2A>. Sin embargo, si `millisecondsTimeout` transcurre antes de que otro subproceso llama a este objeto <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A> método, el subproceso original se mueve a la cola de subprocesos listos para volver a adquirir el bloqueo.  
   
 > [!NOTE]
->  Un objeto sincronizado contiene varias referencias, incluida una referencia al subproceso que actualmente posee el bloqueo, una referencia a la cola de subprocesos listos, que contiene los subprocesos que están listos para obtener el bloqueo, y una referencia a la cola de espera, que contiene el número de subprocesos que está esperando para recibir notificaciones de un cambio en el estado del objeto.  
+>  Si <xref:System.Threading.Timeout.Infinite> se especifica para el `millisecondsTimeout` parámetro, este método se bloquea indefinidamente a menos que el propietario del bloqueo llame <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A>. Si `millisecondsTimeout` es igual a 0, el subproceso que llama `Wait` libera el bloqueo y, a continuación, escribe inmediatamente la cola de subprocesos listos para volver a adquirir el bloqueo.  
   
- El <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, y `Wait` métodos se deben invocar desde dentro de un bloque de código sincronizado.  
+ El llamador ejecuta `Wait` una vez, independientemente del número de veces <xref:System.Threading.Monitor.Enter%2A> se ha invocado para el objeto especificado. Conceptualmente, el `Wait` método almacena el número de veces que el autor de llamada invocado <xref:System.Threading.Monitor.Enter%2A> en el objeto e invoca <xref:System.Threading.Monitor.Exit%2A> tantas veces como sea necesario para liberar completamente el objeto bloqueado. El llamador, a continuación, se bloquea mientras espera para adquirir el objeto. Cuando el autor de llamada vuelve a adquirir el bloqueo, el sistema llama <xref:System.Threading.Monitor.Enter%2A> tantas veces como sea necesario para restaurar el guardado <xref:System.Threading.Monitor.Enter%2A> recuento para el llamador. Una llamada a `Wait` libera el bloqueo para el objeto especificado; si el llamador es el propietario de los bloqueos de otros objetos, estos bloqueos se liberan no.  
   
- La sección Comentarios para el <xref:System.Threading.Monitor.Pulse%2A> método se explica qué ocurre si <xref:System.Threading.Monitor.Pulse%2A> se llama cuando no hay ningún subproceso en espera.  
+> [!NOTE]
+>  Un objeto sincronizado contiene varias referencias, incluida una referencia al subproceso que contiene actualmente el bloqueo, una referencia a la cola de subprocesos listos, que contiene los subprocesos que están listos para obtener el bloqueo, y una referencia a la cola de espera, que contiene el subprocesos que están esperando para recibir notificaciones de un cambio en el estado del objeto.  
+  
+ El <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, y `Wait` métodos deben invocarse desde dentro de un bloque de código sincronizado.  
+  
+ Los comentarios sobre la <xref:System.Threading.Monitor.Pulse%2A> método explica qué ocurre si <xref:System.Threading.Monitor.Pulse%2A> se llama cuando no hay ningún subproceso en espera.  
   
  ]]></format>
         </remarks>
@@ -1097,6 +1117,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1123,23 +1145,23 @@
 ## Remarks  
  Este método no vuelve hasta que vuelve a adquirir un bloqueo exclusivo en el `obj` parámetro.  
   
- El subproceso que actualmente posee el bloqueo en el objeto especificado, invoca este método para liberar el objeto para que otro subproceso puede obtener acceso a él. El autor de la llamada se bloquea mientras espera a adquirir el bloqueo. Se llama a este método cuando el llamador debe esperar para que un cambio de estado que se producirá como resultado de las operaciones de otro subproceso.  
+ El subproceso que actualmente posee el bloqueo en el objeto especificado, invoca este método con el fin de liberar el objeto para que otro subproceso puede tener acceso a él. El autor de la llamada se bloquea mientras espera a adquirir el bloqueo. Este método se llama cuando el llamador debe esperar un cambio de estado que se producirá como resultado de operaciones de otro subproceso.  
   
- El tiempo de espera garantiza que el subproceso actual no se bloquea indefinidamente si otro subproceso libera el bloqueo sin antes de llamar a la <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A> método. También se desplaza el subproceso a la cola de subprocesos listos, pasando por alto otros subprocesos que estén antes en la cola de espera, por lo que puede volver a adquirir el bloqueo antes. El subproceso puede probar el valor devuelto de la <xref:System.Threading.Monitor.Wait%2A> método para determinar si vuelven a adquirir el bloqueo antes el tiempo de espera. El subproceso puede evaluar las condiciones que han producido que entre en espera, y si es necesario llamada la <xref:System.Threading.Monitor.Wait%2A> nuevo al método.  
+ El tiempo de espera garantiza que el subproceso actual no se bloquea indefinidamente si otro subproceso libera el bloqueo sin llamar primero a la <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A> método. También se mueve el subproceso a la cola de subprocesos listos, pasando por alto otros subprocesos por delante de él en la cola de espera, por lo que puede volver a adquirir el bloqueo antes. El subproceso puede probar el valor devuelto de la <xref:System.Threading.Monitor.Wait%2A> método para determinar si volvió a adquirir el bloqueo antes el tiempo de espera. El subproceso puede evaluar las condiciones que ha provocado que entre en espera, y si es necesario llamada la <xref:System.Threading.Monitor.Wait%2A> nuevo al método.  
   
- Cuando un subproceso llama a `Wait`, se libera el bloqueo en el objeto y entra en cola de espera del objeto. El siguiente subproceso de cola de subprocesos listos del objeto (si hay alguno) adquiere el bloqueo y tiene uso exclusivo del objeto. El subproceso que invocó `Wait` permanece en la cola de espera hasta que se invoca un subproceso que tiene el bloqueo de <xref:System.Threading.Monitor.PulseAll%2A>, o es el siguiente en la cola y un subproceso que mantiene el bloqueo, se invoca <xref:System.Threading.Monitor.Pulse%2A>. Sin embargo, si `timeout` transcurre antes de que otro subproceso llama a este objeto <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A> método, el subproceso original se mueve a la cola de subprocesos listos para volver a adquirir el bloqueo.  
-  
-> [!NOTE]
->  Si un <xref:System.TimeSpan> que representa-1 milisegundo se especifica para el `timeout` parámetro, este método se bloquea indefinidamente a menos que el propietario del bloqueo llame <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A>. Si `timeout` es 0 milisegundos, el subproceso que llama `Wait` libera el bloqueo y, a continuación, inmediatamente después entra en la cola de subprocesos listos para volver a adquirir el bloqueo.  
-  
- El llamador ejecuta `Wait` una vez, independientemente del número de veces que <xref:System.Threading.Monitor.Enter%2A> se ha invocado para el objeto especificado. Conceptualmente, la `Wait` método almacena el número de veces que el llamador ha invocado <xref:System.Threading.Monitor.Enter%2A> en el objeto e invoca <xref:System.Threading.Monitor.Exit%2A> tantas veces como sea necesario para liberar completamente el objeto bloqueado. El autor de la llamada, a continuación, se bloquea mientras espera a adquirir el objeto. Cuando el llamador vuelve a adquirir el bloqueo, el sistema llama <xref:System.Threading.Monitor.Enter%2A> tantas veces como sea necesario para restaurar el guardado <xref:System.Threading.Monitor.Enter%2A> recuento para el llamador. Al llamar a `Wait` libera el bloqueo para el objeto especificado; si el llamador es el propietario de los bloqueos sobre otros objetos, estos bloqueos no se liberan.  
+ Cuando un subproceso llama `Wait`, libera el bloqueo en el objeto y entra en cola de espera del objeto. El siguiente subproceso en la cola de subprocesos listos del objeto (si hay alguno) adquiere el bloqueo y tiene uso exclusivo del objeto. El subproceso que invocó `Wait` permanece en la cola de espera hasta que un subproceso que mantiene el bloqueo invoca <xref:System.Threading.Monitor.PulseAll%2A>, o es el siguiente en la cola y un subproceso que mantiene el bloqueo invoca <xref:System.Threading.Monitor.Pulse%2A>. Sin embargo, si `timeout` transcurre antes de que otro subproceso llama a este objeto <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A> método, el subproceso original se mueve a la cola de subprocesos listos para volver a adquirir el bloqueo.  
   
 > [!NOTE]
->  Un objeto sincronizado contiene varias referencias, incluida una referencia al subproceso que actualmente posee el bloqueo, una referencia a la cola de subprocesos listos, que contiene los subprocesos que están listos para obtener el bloqueo, y una referencia a la cola de espera, que contiene el número de subprocesos que está esperando para recibir notificaciones de un cambio en el estado del objeto.  
+>  Si un <xref:System.TimeSpan> se ha especificado que representa-1 milisegundos para la `timeout` parámetro, este método se bloquea indefinidamente a menos que el propietario del bloqueo llame <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A>. Si `timeout` es 0 milisegundos, el subproceso que llama `Wait` libera el bloqueo y, a continuación, escribe inmediatamente la cola de subprocesos listos para volver a adquirir el bloqueo.  
   
- El <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, y `Wait` métodos se deben invocar desde dentro de un bloque de código sincronizado.  
+ El llamador ejecuta `Wait` una vez, independientemente del número de veces <xref:System.Threading.Monitor.Enter%2A> se ha invocado para el objeto especificado. Conceptualmente, el `Wait` método almacena el número de veces que el autor de llamada invocado <xref:System.Threading.Monitor.Enter%2A> en el objeto e invoca <xref:System.Threading.Monitor.Exit%2A> tantas veces como sea necesario para liberar completamente el objeto bloqueado. El llamador, a continuación, se bloquea mientras espera para adquirir el objeto. Cuando el autor de llamada vuelve a adquirir el bloqueo, el sistema llama <xref:System.Threading.Monitor.Enter%2A> tantas veces como sea necesario para restaurar el guardado <xref:System.Threading.Monitor.Enter%2A> recuento para el llamador. Una llamada a `Wait` libera el bloqueo para el objeto especificado; si el llamador es el propietario de los bloqueos de otros objetos, estos bloqueos se liberan no.  
   
- La sección Comentarios para el <xref:System.Threading.Monitor.Pulse%2A> método se explica qué ocurre si <xref:System.Threading.Monitor.Pulse%2A> se llama cuando no hay ningún subproceso en espera.  
+> [!NOTE]
+>  Un objeto sincronizado contiene varias referencias, incluida una referencia al subproceso que contiene actualmente el bloqueo, una referencia a la cola de subprocesos listos, que contiene los subprocesos que están listos para obtener el bloqueo, y una referencia a la cola de espera, que contiene el subprocesos que están esperando para recibir notificaciones de un cambio en el estado del objeto.  
+  
+ El <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, y `Wait` métodos deben invocarse desde dentro de un bloque de código sincronizado.  
+  
+ Los comentarios sobre la <xref:System.Threading.Monitor.Pulse%2A> método explica qué ocurre si <xref:System.Threading.Monitor.Pulse%2A> se llama cuando no hay ningún subproceso en espera.  
   
  ]]></format>
         </remarks>
@@ -1160,6 +1182,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1198,30 +1222,30 @@
 ## Remarks  
  Este método no vuelve hasta que vuelve a adquirir un bloqueo exclusivo en el `obj` parámetro.  
   
- El subproceso que actualmente posee el bloqueo en el objeto especificado, invoca este método para liberar el objeto para que otro subproceso puede obtener acceso a él. El autor de la llamada se bloquea mientras espera a adquirir el bloqueo. Se llama a este método cuando el llamador debe esperar para que un cambio de estado que se producirá como resultado de las operaciones de otro subproceso.  
+ El subproceso que actualmente posee el bloqueo en el objeto especificado, invoca este método con el fin de liberar el objeto para que otro subproceso puede tener acceso a él. El autor de la llamada se bloquea mientras espera a adquirir el bloqueo. Este método se llama cuando el llamador debe esperar un cambio de estado que se producirá como resultado de operaciones de otro subproceso.  
   
- El tiempo de espera garantiza que el subproceso actual no se bloquea indefinidamente si otro subproceso libera el bloqueo sin antes de llamar a la <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A> método. También se desplaza el subproceso a la cola de subprocesos listos, pasando por alto otros subprocesos que estén antes en la cola de espera, por lo que puede volver a adquirir el bloqueo antes. El subproceso puede probar el valor devuelto de la <xref:System.Threading.Monitor.Wait%2A> método para determinar si vuelven a adquirir el bloqueo antes el tiempo de espera. El subproceso puede evaluar las condiciones que han producido que entre en espera, y si es necesario llamada la <xref:System.Threading.Monitor.Wait%2A> nuevo al método.  
+ El tiempo de espera garantiza que el subproceso actual no se bloquea indefinidamente si otro subproceso libera el bloqueo sin llamar primero a la <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A> método. También se mueve el subproceso a la cola de subprocesos listos, pasando por alto otros subprocesos por delante de él en la cola de espera, por lo que puede volver a adquirir el bloqueo antes. El subproceso puede probar el valor devuelto de la <xref:System.Threading.Monitor.Wait%2A> método para determinar si volvió a adquirir el bloqueo antes el tiempo de espera. El subproceso puede evaluar las condiciones que ha provocado que entre en espera, y si es necesario llamada la <xref:System.Threading.Monitor.Wait%2A> nuevo al método.  
   
- Cuando un subproceso llama a `Wait`, se libera el bloqueo y entra en la cola de espera. En este momento, el siguiente subproceso de la cola de subprocesos listos (si existe) se permite controlar el bloqueo. El subproceso que invocó `Wait` permanece en la cola de espera hasta que se invoca un subproceso que tiene el bloqueo de <xref:System.Threading.Monitor.PulseAll%2A>, o es el siguiente en la cola y un subproceso que mantiene el bloqueo, se invoca <xref:System.Threading.Monitor.Pulse%2A>. Sin embargo, si `millisecondsTimeout` transcurre antes de que otro subproceso llama a este objeto <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A> método, el subproceso original se mueve a la cola de subprocesos listos para volver a adquirir el bloqueo.  
-  
-> [!NOTE]
->  Si <xref:System.Threading.Timeout.Infinite> se especifica para el `millisecondsTimeout` parámetro, este método se bloquea indefinidamente a menos que el propietario del bloqueo llame <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A>. Si `millisecondsTimeout` es igual a 0, el subproceso que llama `Wait` libera el bloqueo y, a continuación, inmediatamente después entra en la cola de subprocesos listos para volver a adquirir el bloqueo.  
-  
- El llamador ejecuta `Wait` una vez, independientemente del número de veces que <xref:System.Threading.Monitor.Enter%2A> se ha invocado para el objeto especificado. Conceptualmente, la `Wait` método almacena el número de veces que el llamador ha invocado <xref:System.Threading.Monitor.Enter%2A> en el objeto e invoca <xref:System.Threading.Monitor.Exit%2A> tantas veces como sea necesario para liberar completamente el objeto bloqueado. El autor de la llamada, a continuación, se bloquea mientras espera a adquirir el objeto. Cuando el llamador vuelve a adquirir el bloqueo, el sistema llama <xref:System.Threading.Monitor.Enter%2A> tantas veces como sea necesario para restaurar el guardado <xref:System.Threading.Monitor.Enter%2A> recuento para el llamador. Al llamar a `Wait` libera el bloqueo para el objeto especificado; si el llamador es el propietario de los bloqueos sobre otros objetos, estos bloqueos no se liberan.  
+ Cuando un subproceso llama `Wait`, libera el bloqueo y entra en la cola de espera. En este momento, el siguiente subproceso en la cola de subprocesos listos (si existe) se permite tomar el control del bloqueo. El subproceso que invocó `Wait` permanece en la cola de espera hasta que un subproceso que mantiene el bloqueo invoca <xref:System.Threading.Monitor.PulseAll%2A>, o es el siguiente en la cola y un subproceso que mantiene el bloqueo invoca <xref:System.Threading.Monitor.Pulse%2A>. Sin embargo, si `millisecondsTimeout` transcurre antes de que otro subproceso llama a este objeto <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A> método, el subproceso original se mueve a la cola de subprocesos listos para volver a adquirir el bloqueo.  
   
 > [!NOTE]
->  Un objeto sincronizado contiene varias referencias, incluida una referencia al subproceso que actualmente posee el bloqueo, una referencia a la cola de subprocesos listos, que contiene los subprocesos que están listos para obtener el bloqueo, y una referencia a la cola de espera, que contiene el número de subprocesos que está esperando para recibir notificaciones de un cambio en el estado del objeto.  
+>  Si <xref:System.Threading.Timeout.Infinite> se especifica para el `millisecondsTimeout` parámetro, este método se bloquea indefinidamente a menos que el propietario del bloqueo llame <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A>. Si `millisecondsTimeout` es igual a 0, el subproceso que llama `Wait` libera el bloqueo y, a continuación, escribe inmediatamente la cola de subprocesos listos para volver a adquirir el bloqueo.  
   
- El <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, y `Wait` métodos se deben invocar desde dentro de un bloque de código sincronizado.  
+ El llamador ejecuta `Wait` una vez, independientemente del número de veces <xref:System.Threading.Monitor.Enter%2A> se ha invocado para el objeto especificado. Conceptualmente, el `Wait` método almacena el número de veces que el autor de llamada invocado <xref:System.Threading.Monitor.Enter%2A> en el objeto e invoca <xref:System.Threading.Monitor.Exit%2A> tantas veces como sea necesario para liberar completamente el objeto bloqueado. El llamador, a continuación, se bloquea mientras espera para adquirir el objeto. Cuando el autor de llamada vuelve a adquirir el bloqueo, el sistema llama <xref:System.Threading.Monitor.Enter%2A> tantas veces como sea necesario para restaurar el guardado <xref:System.Threading.Monitor.Enter%2A> recuento para el llamador. Una llamada a `Wait` libera el bloqueo para el objeto especificado; si el llamador es el propietario de los bloqueos de otros objetos, estos bloqueos se liberan no.  
   
- La sección Comentarios para el <xref:System.Threading.Monitor.Pulse%2A> método se explica qué ocurre si <xref:System.Threading.Monitor.Pulse%2A> se llama cuando no hay ningún subproceso en espera.  
+> [!NOTE]
+>  Un objeto sincronizado contiene varias referencias, incluida una referencia al subproceso que contiene actualmente el bloqueo, una referencia a la cola de subprocesos listos, que contiene los subprocesos que están listos para obtener el bloqueo, y una referencia a la cola de espera, que contiene el subprocesos que están esperando para recibir notificaciones de un cambio en el estado del objeto.  
+  
+ El <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, y `Wait` métodos deben invocarse desde dentro de un bloque de código sincronizado.  
+  
+ Los comentarios sobre la <xref:System.Threading.Monitor.Pulse%2A> método explica qué ocurre si <xref:System.Threading.Monitor.Pulse%2A> se llama cuando no hay ningún subproceso en espera.  
   
 ## <a name="notes-on-exiting-the-context"></a>Notas sobre la salida del contexto  
- El`exitContext` parámetro no tiene ningún efecto a menos que el <xref:System.Threading.Monitor.Wait%2A> método se llama desde dentro de un contexto administrado no predeterminado. Esto puede ocurrir si el subproceso está dentro de una llamada a una instancia de una clase derivada de <xref:System.ContextBoundObject>. Incluso si está ejecutando actualmente un método en una clase que no se deriva de <xref:System.ContextBoundObject>, como <xref:System.String>, puede estar en un contexto no predeterminado si un <xref:System.ContextBoundObject> en la pila en el dominio de aplicación actual.  
+ El`exitContext` parámetro no tiene ningún efecto a menos que el <xref:System.Threading.Monitor.Wait%2A> método se llama desde dentro de un contexto administrado no predeterminado. Esto puede ocurrir si el subproceso está dentro de una llamada a una instancia de una clase derivada de <xref:System.ContextBoundObject>. Incluso si se están ejecutando un método en una clase que no se deriva <xref:System.ContextBoundObject>, como <xref:System.String>, puede estar en un contexto no predeterminado si un <xref:System.ContextBoundObject> en la pila en el dominio de aplicación actual.  
   
- Cuando el código se ejecuta en un contexto no predeterminado, especificar `true` para `exitContext` hace que el subproceso salga del contexto administrado no predeterminado (es decir, pase al contexto predeterminado) antes de ejecutar el <xref:System.Threading.Monitor.Wait%2A> método. Se devuelve al contexto no predeterminado original después de la llamada a la <xref:System.Threading.Monitor.Wait%2A> método se completa.  
+ Cuando el código se ejecuta en un contexto no predeterminado, especificar `true` para `exitContext` hace que el subproceso salga del contexto administrado no predeterminado (es decir, para realizar la transición al contexto predeterminado) antes de ejecutar el <xref:System.Threading.Monitor.Wait%2A> método. Devuelve al contexto original no predeterminado después de llamar a la <xref:System.Threading.Monitor.Wait%2A> método se completa.  
   
- Esto puede ser útil cuando la clase enlazadas a un contexto tiene la <xref:System.Runtime.Remoting.Contexts.SynchronizationAttribute> atributo aplicado. En ese caso, todas las llamadas a miembros de la clase se sincronizan automáticamente y el dominio de sincronización es el cuerpo completo del código de la clase. Si el código de la pila de llamadas de un miembro llama el <xref:System.Threading.Monitor.Wait%2A> método y especifica `true` para `exitContext`, el subproceso sale del dominio de sincronización, permitiendo la continuación un subproceso que esté bloqueado en una llamada a cualquier miembro del objeto para continuar. Cuando el <xref:System.Threading.Monitor.Wait%2A> método vuelve, el subproceso que realiza la llamada debe esperar para volver a escribir el dominio de sincronización.  
+ Esto puede ser útil cuando la clase de contexto enlazado tiene el <xref:System.Runtime.Remoting.Contexts.SynchronizationAttribute> atributo aplicado. En ese caso, todas las llamadas a miembros de la clase se sincronizan automáticamente y el dominio de sincronización es todo el cuerpo de código para la clase. Si llama código en la pila de llamadas de un miembro de la <xref:System.Threading.Monitor.Wait%2A> método y especifica `true` para `exitContext`, el subproceso sale del dominio de sincronización, lo que permite un subproceso que esté bloqueado en una llamada a cualquier miembro del objeto para continuar. Cuando el <xref:System.Threading.Monitor.Wait%2A> método finaliza, el subproceso que realizó la llamada debe esperar para volver a escribir el dominio de sincronización.  
   
  ]]></format>
         </remarks>
@@ -1243,6 +1267,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1277,30 +1303,30 @@
 ## Remarks  
  Este método no vuelve hasta que vuelve a adquirir un bloqueo exclusivo en el `obj` parámetro.  
   
- El subproceso que actualmente posee el bloqueo en el objeto especificado, invoca este método para liberar el objeto para que otro subproceso puede obtener acceso a él. El autor de la llamada se bloquea mientras espera a adquirir el bloqueo. Se llama a este método cuando el llamador debe esperar para que un cambio de estado que se producirá como resultado de las operaciones de otro subproceso.  
+ El subproceso que actualmente posee el bloqueo en el objeto especificado, invoca este método con el fin de liberar el objeto para que otro subproceso puede tener acceso a él. El autor de la llamada se bloquea mientras espera a adquirir el bloqueo. Este método se llama cuando el llamador debe esperar un cambio de estado que se producirá como resultado de operaciones de otro subproceso.  
   
- El tiempo de espera garantiza que el subproceso actual no se bloquea indefinidamente si otro subproceso libera el bloqueo sin antes de llamar a la <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A> método. También se desplaza el subproceso a la cola de subprocesos listos, pasando por alto otros subprocesos que estén antes en la cola de espera, por lo que puede volver a adquirir el bloqueo antes. El subproceso puede probar el valor devuelto de la <xref:System.Threading.Monitor.Wait%2A> método para determinar si vuelven a adquirir el bloqueo antes el tiempo de espera. El subproceso puede evaluar las condiciones que han producido que entre en espera, y si es necesario llamada la <xref:System.Threading.Monitor.Wait%2A> nuevo al método.  
+ El tiempo de espera garantiza que el subproceso actual no se bloquea indefinidamente si otro subproceso libera el bloqueo sin llamar primero a la <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A> método. También se mueve el subproceso a la cola de subprocesos listos, pasando por alto otros subprocesos por delante de él en la cola de espera, por lo que puede volver a adquirir el bloqueo antes. El subproceso puede probar el valor devuelto de la <xref:System.Threading.Monitor.Wait%2A> método para determinar si volvió a adquirir el bloqueo antes el tiempo de espera. El subproceso puede evaluar las condiciones que ha provocado que entre en espera, y si es necesario llamada la <xref:System.Threading.Monitor.Wait%2A> nuevo al método.  
   
- Cuando un subproceso llama a `Wait`, se libera el bloqueo y entra en la cola de espera. En este momento, el siguiente subproceso de la cola de subprocesos listos (si existe) se permite controlar el bloqueo. El subproceso que invocó `Wait` permanece en la cola de espera hasta que se invoca un subproceso que tiene el bloqueo de <xref:System.Threading.Monitor.PulseAll%2A>, o es el siguiente en la cola y un subproceso que mantiene el bloqueo, se invoca <xref:System.Threading.Monitor.Pulse%2A>. Sin embargo, si `timeout` milisegundos transcurran antes de que otro subproceso llama a este objeto <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A> método, el subproceso original se mueve a la cola de subprocesos listos para volver a adquirir el bloqueo.  
-  
-> [!NOTE]
->  Si un <xref:System.TimeSpan> que representa-1 milisegundo se especifica para el `timeout` parámetro, este método se bloquea indefinidamente a menos que el propietario del bloqueo llame <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A>. Si `timeout` es 0 milisegundos, el subproceso que llama `Wait` libera el bloqueo y, a continuación, inmediatamente después entra en la cola de subprocesos listos para volver a adquirir el bloqueo.  
-  
- El llamador ejecuta `Wait` una vez, independientemente del número de veces que <xref:System.Threading.Monitor.Enter%2A> se ha invocado para el objeto especificado. Conceptualmente, la `Wait` método almacena el número de veces que el llamador ha invocado <xref:System.Threading.Monitor.Enter%2A> en el objeto e invoca <xref:System.Threading.Monitor.Exit%2A> tantas veces como sea necesario para liberar completamente el objeto bloqueado. El autor de la llamada, a continuación, se bloquea mientras espera a adquirir el objeto. Cuando el llamador vuelve a adquirir el bloqueo, el sistema llama <xref:System.Threading.Monitor.Enter%2A> tantas veces como sea necesario para restaurar el guardado <xref:System.Threading.Monitor.Enter%2A> recuento para el llamador. Al llamar a `Wait` libera el bloqueo para el objeto especificado; si el llamador es el propietario de los bloqueos sobre otros objetos, estos bloqueos no se liberan.  
+ Cuando un subproceso llama `Wait`, libera el bloqueo y entra en la cola de espera. En este momento, el siguiente subproceso en la cola de subprocesos listos (si existe) se permite tomar el control del bloqueo. El subproceso que invocó `Wait` permanece en la cola de espera hasta que un subproceso que mantiene el bloqueo invoca <xref:System.Threading.Monitor.PulseAll%2A>, o es el siguiente en la cola y un subproceso que mantiene el bloqueo invoca <xref:System.Threading.Monitor.Pulse%2A>. Sin embargo, si `timeout` milisegundos que deben transcurrir antes de que otro subproceso llama a este objeto <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A> método, el subproceso original se mueve a la cola de subprocesos listos para volver a adquirir el bloqueo.  
   
 > [!NOTE]
->  Un objeto sincronizado contiene varias referencias, incluida una referencia al subproceso que actualmente posee el bloqueo, una referencia a la cola de subprocesos listos, que contiene los subprocesos que están listos para obtener el bloqueo, y una referencia a la cola de espera, que contiene el número de subprocesos que está esperando para recibir notificaciones de un cambio en el estado del objeto.  
+>  Si un <xref:System.TimeSpan> que representa-1 milisegundo se especifica para el `timeout` parámetro, este método se bloquea indefinidamente a menos que el propietario del bloqueo llame <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A>. Si `timeout` es 0 milisegundos, el subproceso que llama `Wait` libera el bloqueo y, a continuación, escribe inmediatamente la cola de subprocesos listos para volver a adquirir el bloqueo.  
   
- El <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, y `Wait` métodos se deben invocar desde dentro de un bloque de código sincronizado.  
+ El llamador ejecuta `Wait` una vez, independientemente del número de veces <xref:System.Threading.Monitor.Enter%2A> se ha invocado para el objeto especificado. Conceptualmente, el `Wait` método almacena el número de veces que el autor de llamada invocado <xref:System.Threading.Monitor.Enter%2A> en el objeto e invoca <xref:System.Threading.Monitor.Exit%2A> tantas veces como sea necesario para liberar completamente el objeto bloqueado. El llamador, a continuación, se bloquea mientras espera para adquirir el objeto. Cuando el autor de llamada vuelve a adquirir el bloqueo, el sistema llama <xref:System.Threading.Monitor.Enter%2A> tantas veces como sea necesario para restaurar el guardado <xref:System.Threading.Monitor.Enter%2A> recuento para el llamador. Una llamada a `Wait` libera el bloqueo para el objeto especificado; si el llamador es el propietario de los bloqueos de otros objetos, estos bloqueos se liberan no.  
   
- La sección Comentarios para el <xref:System.Threading.Monitor.Pulse%2A> método se explica qué ocurre si <xref:System.Threading.Monitor.Pulse%2A> se llama cuando no hay ningún subproceso en espera.  
+> [!NOTE]
+>  Un objeto sincronizado contiene varias referencias, incluida una referencia al subproceso que contiene actualmente el bloqueo, una referencia a la cola de subprocesos listos, que contiene los subprocesos que están listos para obtener el bloqueo, y una referencia a la cola de espera, que contiene el subprocesos que están esperando para recibir notificaciones de un cambio en el estado del objeto.  
+  
+ El <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, y `Wait` métodos deben invocarse desde dentro de un bloque de código sincronizado.  
+  
+ Los comentarios sobre la <xref:System.Threading.Monitor.Pulse%2A> método explica qué ocurre si <xref:System.Threading.Monitor.Pulse%2A> se llama cuando no hay ningún subproceso en espera.  
   
 ## <a name="notes-on-exiting-the-context"></a>Notas sobre la salida del contexto  
- El`exitContext` parámetro no tiene ningún efecto a menos que el <xref:System.Threading.Monitor.Wait%2A> método se llama desde dentro de un contexto administrado no predeterminado. Esto puede ocurrir si el subproceso está dentro de una llamada a una instancia de una clase derivada de <xref:System.ContextBoundObject>. Incluso si está ejecutando actualmente un método en una clase que no se deriva de <xref:System.ContextBoundObject>, como <xref:System.String>, puede estar en un contexto no predeterminado si un <xref:System.ContextBoundObject> en la pila en el dominio de aplicación actual.  
+ El`exitContext` parámetro no tiene ningún efecto a menos que el <xref:System.Threading.Monitor.Wait%2A> método se llama desde dentro de un contexto administrado no predeterminado. Esto puede ocurrir si el subproceso está dentro de una llamada a una instancia de una clase derivada de <xref:System.ContextBoundObject>. Incluso si se están ejecutando un método en una clase que no se deriva <xref:System.ContextBoundObject>, como <xref:System.String>, puede estar en un contexto no predeterminado si un <xref:System.ContextBoundObject> en la pila en el dominio de aplicación actual.  
   
- Cuando el código se ejecuta en un contexto no predeterminado, especificar `true` para `exitContext` hace que el subproceso salga del contexto administrado no predeterminado (es decir, pase al contexto predeterminado) antes de ejecutar el <xref:System.Threading.Monitor.Wait%2A> método. Se devuelve al contexto no predeterminado original después de la llamada a la <xref:System.Threading.Monitor.Wait%2A> método se completa.  
+ Cuando el código se ejecuta en un contexto no predeterminado, especificar `true` para `exitContext` hace que el subproceso salga del contexto administrado no predeterminado (es decir, para realizar la transición al contexto predeterminado) antes de ejecutar el <xref:System.Threading.Monitor.Wait%2A> método. Devuelve al contexto original no predeterminado después de llamar a la <xref:System.Threading.Monitor.Wait%2A> método se completa.  
   
- Esto puede ser útil cuando la clase enlazadas a un contexto tiene la <xref:System.Runtime.Remoting.Contexts.SynchronizationAttribute> atributo aplicado. En ese caso, todas las llamadas a miembros de la clase se sincronizan automáticamente y el dominio de sincronización es el cuerpo completo del código de la clase. Si el código de la pila de llamadas de un miembro llama el <xref:System.Threading.Monitor.Wait%2A> método y especifica `true` para `exitContext`, el subproceso sale del dominio de sincronización, permitiendo la continuación un subproceso que esté bloqueado en una llamada a cualquier miembro del objeto para continuar. Cuando el <xref:System.Threading.Monitor.Wait%2A> método vuelve, el subproceso que realiza la llamada debe esperar para volver a escribir el dominio de sincronización.  
+ Esto puede ser útil cuando la clase de contexto enlazado tiene el <xref:System.Runtime.Remoting.Contexts.SynchronizationAttribute> atributo aplicado. En ese caso, todas las llamadas a miembros de la clase se sincronizan automáticamente y el dominio de sincronización es todo el cuerpo de código para la clase. Si llama código en la pila de llamadas de un miembro de la <xref:System.Threading.Monitor.Wait%2A> método y especifica `true` para `exitContext`, el subproceso sale del dominio de sincronización, lo que permite un subproceso que esté bloqueado en una llamada a cualquier miembro del objeto para continuar. Cuando el <xref:System.Threading.Monitor.Wait%2A> método finaliza, el subproceso que realizó la llamada debe esperar para volver a escribir el dominio de sincronización.  
   
  ]]></format>
         </remarks>
