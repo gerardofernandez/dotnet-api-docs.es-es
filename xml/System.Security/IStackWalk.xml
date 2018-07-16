@@ -1,19 +1,22 @@
 <Type Name="IStackWalk" FullName="System.Security.IStackWalk">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="b37ff083eff27618aa07c0a744562f3f8a613708" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="3c5cadd87a930834cdbe8bf2c763e2c830f3df42" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30499169" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37461870" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IStackWalk" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IStackWalk" />
   <TypeSignature Language="DocId" Value="T:System.Security.IStackWalk" />
   <TypeSignature Language="VB.NET" Value="Public Interface IStackWalk" />
   <TypeSignature Language="C++ CLI" Value="public interface class IStackWalk" />
+  <TypeSignature Language="F#" Value="type IStackWalk = interface" />
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -28,14 +31,14 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>Administra el recorrido de pila que determina si todos los autores de llamada de la pila de llamadas tienen los permisos necesarios para tener acceso a un recurso protegido.</summary>
+    <summary>Manages the stack walk that determines whether all callers in the call stack have the required permissions to access a protected resource.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Código de confianza parcial siempre representa un riesgo de seguridad. A veces se puede manipular para realizar acciones en nombre de código malintencionado que no tiene permiso para tener acceso a un recurso. De esta manera, el código malintencionado puede lograr mayor seguridad de acceso que se debe permitir.  
+ Código de confianza parcial siempre presenta un riesgo de seguridad. A veces se puede manipular para llevar a cabo acciones en nombre de código malintencionado que no tiene permiso para acceder a un recurso. De este modo, el código malintencionado puede obtener mayor seguridad de acceso que debe permitirse.  
   
- Common language runtime ayuda a proteger el código administrado contra estos ataques ejecutando un recorrido de pila en todas las llamadas. El recorrido de pila requiere que todo el código en la pila de llamadas tenga permiso para tener acceso a un recurso protegido. Dado que el código intenta realizar el ataque siempre estará en alguna parte en la pila de llamadas, no podrá superar sus propios permisos de seguridad.  
+ Common language runtime ayuda a proteger el código administrado mediante la ejecución de un recorrido de pila en todas las llamadas a estos ataques. El recorrido de pila requiere que todo el código de la pila de llamadas tiene permiso para tener acceso a un recurso protegido. Dado que el código intenta realizar el ataque siempre estará en alguna parte en la pila de llamadas, no podrá superar sus propios permisos de seguridad.  
   
  ]]></format>
     </remarks>
@@ -47,9 +50,12 @@
       <MemberSignature Language="DocId" Value="M:System.Security.IStackWalk.Assert" />
       <MemberSignature Language="VB.NET" Value="Public Sub Assert ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void Assert();" />
+      <MemberSignature Language="F#" Value="abstract member Assert : unit -&gt; unit" Usage="iStackWalk.Assert " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -62,23 +68,23 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Afirma que el código de llamada puede tener acceso al recurso identificado por el objeto de permiso actual, incluso si los autores de la llamada situados en una posición más alta de la pila no tienen permiso para tener acceso al recurso.</summary>
+        <summary>Asserts that the calling code can access the resource identified by the current permission object, even if callers higher in the stack have not been granted permission to access the resource.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Una llamada a <xref:System.Security.IStackWalk.Assert%2A> se detiene la comprobación de permisos en los llamadores situados en la pila de llamadas. Por lo tanto, incluso si estos llamadores no tiene los permisos necesarios, pueden acceder a recursos. Una aserción es efectiva sólo si el código que llama <xref:System.Security.IStackWalk.Assert%2A> pasa la comprobación de seguridad para el permiso que está validando.  
+ Una llamada a <xref:System.Security.IStackWalk.Assert%2A> se detiene la comprobación del permiso en los llamadores situados en la pila de llamadas. Por lo tanto, incluso si estos llamadores no tienen los permisos necesarios, todavía pueden acceder los recursos. Una aserción es efectiva únicamente si el código que llama <xref:System.Security.IStackWalk.Assert%2A> pasa la comprobación de seguridad para el permiso que está la aserción.  
   
- Una llamada a <xref:System.Security.IStackWalk.Assert%2A> es efectivo hasta que el código de llamada devuelve al llamador o hasta que una llamada subsiguiente a <xref:System.Security.IStackWalk.Assert%2A> representa la aserción anterior ineficaces. Además, <xref:System.Security.CodeAccessPermission.RevertAssert%2A> o <xref:System.Security.CodeAccessPermission.RevertAll%2A> quita una pendiente <xref:System.Security.IStackWalk.Assert%2A>.  
+ Una llamada a <xref:System.Security.IStackWalk.Assert%2A> es efectivo hasta que el código de llamada vuelve a su llamador o hasta que una llamada subsiguiente a <xref:System.Security.IStackWalk.Assert%2A> representa la aserción anterior ineficaces. Además, <xref:System.Security.CodeAccessPermission.RevertAssert%2A> o <xref:System.Security.CodeAccessPermission.RevertAll%2A> quita una pendiente <xref:System.Security.IStackWalk.Assert%2A>.  
   
- <xref:System.Security.IStackWalk.Assert%2A> se omite para un permiso no concedido ya que no se realizará correctamente una demanda para ese permiso. Sin embargo, si el código situado más abajo en la pila de llamadas llama <xref:System.Security.IStackWalk.Demand%2A> para ese permiso, un <xref:System.Security.SecurityException> se produce cuando el recorrido de pila alcanza el código que intentó llamar a <xref:System.Security.IStackWalk.Assert%2A>. Esto sucede porque el código que llamó <xref:System.Security.IStackWalk.Assert%2A> no dispone del permiso, aunque intentó <xref:System.Security.IStackWalk.Assert%2A> lo.  
+ <xref:System.Security.IStackWalk.Assert%2A> se omite para un permiso no concedido, ya que no se realizará correctamente una demanda para ese permiso. Sin embargo, si llama código más abajo en la pila de llamadas <xref:System.Security.IStackWalk.Demand%2A> para ese permiso, un <xref:System.Security.SecurityException> se produce cuando el recorrido de pila alcanza el código que intentó llamar a <xref:System.Security.IStackWalk.Assert%2A>. Esto sucede porque el código que llamó <xref:System.Security.IStackWalk.Assert%2A> no dispone del permiso, aunque intentó <xref:System.Security.IStackWalk.Assert%2A> lo.  
   
 > [!CAUTION]
->  Dado que una llamada a <xref:System.Security.IStackWalk.Assert%2A> quita el requisito de que todo el código en la cadena de llamadas debe disponer de permiso para tener acceso al recurso especificado, lo cual puede provocar vulnerabilidades de seguridad si utiliza incorrectamente o incorrectamente. Por lo tanto, debe usarse con mucha precaución.  
+>  Dado que una llamada a <xref:System.Security.IStackWalk.Assert%2A> quita el requisito de que todo el código en la cadena de llamada debe tener el permiso para acceder al recurso especificado, lo cual puede provocar vulnerabilidades de seguridad si utiliza incorrectamente o incorrectamente. Por lo tanto, debe usarse con mucha precaución.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Security.SecurityException">El código de llamada no tiene <see cref="F:System.Security.Permissions.SecurityPermissionFlag.Assertion" />.</exception>
+        <exception cref="T:System.Security.SecurityException">The calling code does not have <see cref="F:System.Security.Permissions.SecurityPermissionFlag.Assertion" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="Demand">
@@ -87,9 +93,12 @@
       <MemberSignature Language="DocId" Value="M:System.Security.IStackWalk.Demand" />
       <MemberSignature Language="VB.NET" Value="Public Sub Demand ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void Demand();" />
+      <MemberSignature Language="F#" Value="abstract member Demand : unit -&gt; unit" Usage="iStackWalk.Demand " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -102,22 +111,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Determina en tiempo de ejecución si a todos los autores de llamada de la pila de llamadas se les ha concedido el permiso especificado por el objeto de permiso actual.</summary>
+        <summary>Determines at run time whether all callers in the call stack have been granted the permission specified by the current permission object.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método se usa normalmente por las bibliotecas seguras para garantizar que los llamadores tienen permiso para tener acceso a un recurso. Por ejemplo, llama a una clase de archivo en una biblioteca de clases seguras <xref:System.Security.IStackWalk.Demand%2A> para necesaria <xref:System.Security.Permissions.FileIOPermission> antes de realizar una operación de archivo solicitada por el llamador.  
+ Este método se usa normalmente por las bibliotecas seguras para asegurarse de que los llamadores tienen permiso para acceder a un recurso. Por ejemplo, llama una clase de archivo en una biblioteca de clases seguras <xref:System.Security.IStackWalk.Demand%2A> para necesarios <xref:System.Security.Permissions.FileIOPermission> antes de realizar una operación de archivo solicitada por el llamador.  
   
- Los permisos del código que llama a este método no se examinan; la comprobación comienza desde el llamador inmediato de dicho código y continúa hacia arriba en la pila. <xref:System.Security.IStackWalk.Demand%2A> se realiza correctamente sólo si no hay <xref:System.Security.SecurityException> se genera.  
+ Los permisos del código que llama a este método no se examinan; la comprobación comienza desde el llamador inmediato de ese código y continúa hasta la pila. <xref:System.Security.IStackWalk.Demand%2A> se realiza correctamente sólo si no hay ningún <xref:System.Security.SecurityException> se genera.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Security.SecurityException">Un autor de llamada situado más arriba en la pila de llamadas no tiene el permiso especificado por el objeto de permiso actual.  
-  
- O bien  
-  
- Un autor de llamada de la pila de llamadas ha llamado a <see cref="M:System.Security.IStackWalk.Deny" /> en el objeto de permiso actual.</exception>
+        <exception cref="T:System.Security.SecurityException">A caller higher in the call stack does not have the permission specified by the current permission object.  -or-  A caller in the call stack has called <see cref="M:System.Security.IStackWalk.Deny" /> on the current permission object.</exception>
       </Docs>
     </Member>
     <Member MemberName="Deny">
@@ -126,9 +131,12 @@
       <MemberSignature Language="DocId" Value="M:System.Security.IStackWalk.Deny" />
       <MemberSignature Language="VB.NET" Value="Public Sub Deny ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void Deny();" />
+      <MemberSignature Language="F#" Value="abstract member Deny : unit -&gt; unit" Usage="iStackWalk.Deny " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -141,16 +149,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Hace que cada <see cref="M:System.Security.IStackWalk.Demand" /> del objeto actual que pase por el código de llamada produzca un error.</summary>
+        <summary>Causes every <see cref="M:System.Security.IStackWalk.Demand" /> for the current object that passes through the calling code to fail.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método evita que los llamadores situados en la pila de llamadas de acceso al recurso protegido a través del código que llama a este método, incluso si los llamadores tienen permiso para tener acceso a él. La pila de llamadas suele representarse de forma decreciente, por lo que más arriba en la pila de llamadas de métodos llamar a métodos inferior en la pila de llamadas.  
+ Este método evita que los llamadores situados en la pila de llamadas de acceso al recurso protegido a través del código que llama a este método, incluso si los llamadores tienen permiso para acceder a él. La pila de llamadas suele representarse de forma decreciente, por lo que más arriba en la pila de llamadas de métodos llamar a métodos inferior en la pila de llamadas.  
   
- <xref:System.Security.IStackWalk.Deny%2A> puede limitar la responsabilidad del programador o ayudar a evitar vulnerabilidades de seguridad accidental porque ayuda a evitar que el método que llama a <xref:System.Security.IStackWalk.Deny%2A> desde que se va a utilizar para tener acceso al recurso protegido por el permiso denegado. Si llama a un método <xref:System.Security.IStackWalk.Deny%2A> en un permiso y si un <xref:System.Security.IStackWalk.Demand%2A> para ese permiso lo invoque un llamante hacia abajo en la pila de llamadas, dicha comprobación de seguridad se producirá un error cuando alcanza el <xref:System.Security.IStackWalk.Deny%2A>.  
+ <xref:System.Security.IStackWalk.Deny%2A> puede limitar la responsabilidad del programador o ayudar a evitar vulnerabilidades de seguridad accidental, ya que ayuda a evitar que el método que llama a <xref:System.Security.IStackWalk.Deny%2A> desde que se usa para tener acceso al recurso protegido por el permiso denegado. Si llama un método <xref:System.Security.IStackWalk.Deny%2A> en un permiso y si un <xref:System.Security.IStackWalk.Demand%2A> para ese permiso se invoque un llamante más abajo en la pila de llamadas, dicha comprobación de seguridad se producirá un error cuando se alcanza el <xref:System.Security.IStackWalk.Deny%2A>.  
   
- <xref:System.Security.IStackWalk.Deny%2A> se omite para un permiso no concedido ya que no se realizará correctamente una demanda para ese permiso.  
+ <xref:System.Security.IStackWalk.Deny%2A> se omite para un permiso no concedido, ya que no se realizará correctamente una demanda para ese permiso.  
   
  ]]></format>
         </remarks>
@@ -165,9 +173,12 @@
       <MemberSignature Language="DocId" Value="M:System.Security.IStackWalk.PermitOnly" />
       <MemberSignature Language="VB.NET" Value="Public Sub PermitOnly ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void PermitOnly();" />
+      <MemberSignature Language="F#" Value="abstract member PermitOnly : unit -&gt; unit" Usage="iStackWalk.PermitOnly " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -180,14 +191,14 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Hace que devuelva error cada método <see cref="M:System.Security.IStackWalk.Demand" /> de todos los objetos excepto del objeto actual que pase a través del código de llamada, incluso si el código situado más arriba en la pila de llamadas dispone de permiso para obtener acceso a otros recursos.</summary>
+        <summary>Causes every <see cref="M:System.Security.IStackWalk.Demand" /> for all objects except the current one that passes through the calling code to fail, even if code higher in the call stack has been granted permission to access other resources.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Security.IStackWalk.PermitOnly%2A> es similar a <xref:System.Security.IStackWalk.Deny%2A>, ya que ambos originan recorridos de pila se producirá un error cuando se realizarían correctamente en caso contrario. La diferencia es que <xref:System.Security.IStackWalk.Deny%2A> especifica permisos que hará que el recorrido de pila producirá un error, pero <xref:System.Security.IStackWalk.PermitOnly%2A> especifica los permisos que hacen que el recorrido de pila producirá un error. Llamar a este método para asegurarse de que el código puede utilizarse para tener acceso solo a los recursos especificados.  
+ <xref:System.Security.IStackWalk.PermitOnly%2A> es similar a <xref:System.Security.IStackWalk.Deny%2A>, ya que ambos provocan recorridos de pila producirá un error cuando se realizarían correctamente en caso contrario. La diferencia es que <xref:System.Security.IStackWalk.Deny%2A> especifica los permisos que hará que el recorrido de pila producirá un error, pero <xref:System.Security.IStackWalk.PermitOnly%2A> especifica los permisos que no producen un error en el recorrido de pila. Llame a este método para asegurarse de que el código puede utilizarse para tener acceso solo a los recursos especificados.  
   
- <xref:System.Security.IStackWalk.PermitOnly%2A> se omite para un permiso no concedido ya que no se realizará correctamente una demanda para ese permiso. Sin embargo, si el código situado más abajo en la llamada de la pila más adelante llamadas <xref:System.Security.IStackWalk.Demand%2A> para ese permiso, un <xref:System.Security.SecurityException> se produce cuando el recorrido de pila alcanza el código que intentó llamar a <xref:System.Security.IStackWalk.PermitOnly%2A>. Esto es porque el código que llamó <xref:System.Security.IStackWalk.PermitOnly%2A> no dispone del permiso, aunque haya llamado a <xref:System.Security.IStackWalk.PermitOnly%2A> para ese permiso. La pila de llamadas suele representarse de forma decreciente, por lo que más arriba en la pila de llamadas de métodos llamar a métodos inferior en la pila de llamadas.  
+ <xref:System.Security.IStackWalk.PermitOnly%2A> se omite para un permiso no concedido, ya que no se realizará correctamente una demanda para ese permiso. Sin embargo, si el código situado más abajo en la llamada de la pila más adelante llamadas <xref:System.Security.IStackWalk.Demand%2A> para ese permiso, un <xref:System.Security.SecurityException> se produce cuando el recorrido de pila alcanza el código que intentó llamar a <xref:System.Security.IStackWalk.PermitOnly%2A>. Esto es porque el código que llamó <xref:System.Security.IStackWalk.PermitOnly%2A> no dispone del permiso, aunque haya llamado a <xref:System.Security.IStackWalk.PermitOnly%2A> para ese permiso. La pila de llamadas suele representarse de forma decreciente, por lo que más arriba en la pila de llamadas de métodos llamar a métodos inferior en la pila de llamadas.  
   
  ]]></format>
         </remarks>

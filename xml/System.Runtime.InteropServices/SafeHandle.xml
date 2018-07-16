@@ -1,23 +1,25 @@
 <Type Name="SafeHandle" FullName="System.Runtime.InteropServices.SafeHandle">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="6c4334868cde5130ed9da65bfda7e798c24b12cd" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="23dd24cec3f1ab2757c42a1cc0db5f70fb253604" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30480629" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37469689" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class SafeHandle : System.Runtime.ConstrainedExecution.CriticalFinalizerObject, IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi abstract beforefieldinit SafeHandle extends System.Runtime.ConstrainedExecution.CriticalFinalizerObject implements class System.IDisposable" />
   <TypeSignature Language="DocId" Value="T:System.Runtime.InteropServices.SafeHandle" />
   <TypeSignature Language="VB.NET" Value="Public MustInherit Class SafeHandle&#xA;Inherits CriticalFinalizerObject&#xA;Implements IDisposable" />
   <TypeSignature Language="C++ CLI" Value="public ref class SafeHandle abstract : System::Runtime::ConstrainedExecution::CriticalFinalizerObject, IDisposable" />
+  <TypeSignature Language="F#" Value="type SafeHandle = class&#xA;    inherit CriticalFinalizerObject&#xA;    interface IDisposable" />
   <AssemblyInfo>
     <AssemblyName>System.Runtime.Handles</AssemblyName>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -50,12 +52,12 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>Representa una clase contenedora para los identificadores del sistema operativo. Se debe heredar esta clase.</summary>
+    <summary>Represents a wrapper class for operating system handles. This class must be inherited.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La <xref:System.Runtime.InteropServices.SafeHandle> clase proporciona una finalización crítica de recursos de identificador, evitar que los identificadores reclame prematuramente por la recolección y de que se recicle por Windows para hacer referencia a objetos no administrados imprevistos.  
+ La <xref:System.Runtime.InteropServices.SafeHandle> clase proporciona finalización crítica de los recursos de controlador, que impide identificadores reclame prematuramente por la recolección y se recicle por Windows para hacer referencia a objetos no administrados no deseados.  
   
  En este tema, se incluyen las siguientes secciones:  
   
@@ -65,37 +67,37 @@
   
 <a name="Why"></a>   
 ## <a name="why-safehandle"></a>¿Por qué SafeHandle?  
- Antes de .NET Framework versión 2.0, el sistema de operativo todos los identificadores solo se pueden encapsular en el <xref:System.IntPtr> objeto de contenedor administrado. Aunque esto era una manera cómoda de interoperar con código nativo, se podrían produzca una pérdida identificadores por las excepciones asincrónicas, por ejemplo, un subproceso que se anulase inesperadamente o un desbordamiento de pila. Estas excepciones asincrónicas son un obstáculo para limpiar los recursos del sistema operativo y se pueden producir prácticamente en cualquier parte de la aplicación.  
+ Antes de .NET Framework versión 2.0, todos los sistema operativos identificadores solo se pueden encapsular en el <xref:System.IntPtr> objeto contenedor administrado. Aunque esto fue una manera cómoda de interoperar con código nativo, se filtre controla las excepciones asincrónicas, por ejemplo, un subproceso que se anulase inesperadamente o un desbordamiento de pila. Estas excepciones asincrónicas son un obstáculo para limpiar los recursos del sistema operativo y se pueden producir prácticamente en cualquier parte de la aplicación.  
   
- Aunque las invalidaciones del <xref:System.Object.Finalize%2A?displayProperty=nameWithType> método permitir la limpieza de recursos no administrados cuando un objeto se está recolectando, en algunas circunstancias, se pueden reclamar objetos susceptibles de finalización por elementos no utilizados colección mientras se ejecuta un método dentro de una plataforma de llamada de invocación. Si un finalizador libera el identificador pasado a esa plataforma llamada de invocación, podría causar para daños de controlar. El identificador también se podría volver a reclamar mientras que el método se bloquea durante una plataforma de la llamada, como al leer un archivo.  
+ Aunque reemplaza a la <xref:System.Object.Finalize%2A?displayProperty=nameWithType> método permitir la limpieza de recursos no administrados cuando un objeto se recopila en algunas circunstancias, los objetos finalizables pueden ser reclamados por la recolección al ejecutar un método dentro de una plataforma de invocación llamada. Si un finalizador libera el identificador pasado a esa plataforma llamada de invocación, que podría dar lugar a dañar el identificador. El identificador también se podría recuperar mientras el método se bloquea durante una plataforma de la llamada, como al leer un archivo.  
   
- De manera más crítica, porque Windows recicla agresivamente los identificadores, un identificador podría reciclarse y señalar a otro recurso que podría contener datos confidenciales. Esto se conoce como un ataque de reciclaje puede dañar potencialmente los datos y ser una amenaza para la seguridad.  
+ Más fundamental, porque Windows recicla agresivamente los identificadores, un identificador podría se recicle y apunte a otro recurso que podría contener datos confidenciales. Esto se conoce como ataque de reciclaje y puede dañar los datos y ser una amenaza de seguridad.  
   
 <a name="Does"></a>   
 ## <a name="what-safehandle-does"></a>¿Qué SafeHandle  
- La <xref:System.Runtime.InteropServices.SafeHandle> clase simplifica algunos de estos problemas de duración de objetos y se integra con la plataforma de invocación para que no se pierden los recursos del sistema operativo. La <xref:System.Runtime.InteropServices.SafeHandle> clase resuelve los problemas de duración de objetos mediante la asignación y liberación de identificadores sin interrupción. Contiene un finalizador crítico que garantiza que el identificador se cierra y se ejecuta durante inesperado siempre <xref:System.AppDomain> descarga, incluso en el caso cuando la llamada de invocación de plataforma se supone que en un estado dañado.  
+ La <xref:System.Runtime.InteropServices.SafeHandle> clase simplifica algunos de estos problemas de duración de objetos y se integra con la plataforma de invocación de modo que no haya fugas de recursos del sistema operativo. La <xref:System.Runtime.InteropServices.SafeHandle> clase resuelve los problemas de duración de objetos asignando y liberando identificadores sin interrupción. Contiene un finalizador crítico que garantiza que el identificador se cierra y se garantiza la ejecución durante inesperado <xref:System.AppDomain> descarga, incluso en casos cuando la llamada de invocación de plataforma se supone que en un estado dañado.  
   
- Dado que <xref:System.Runtime.InteropServices.SafeHandle> hereda de <xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject>, se llama a todos los finalizadores no críticos antes que cualquiera de los finalizadores críticos. Se llama a los finalizadores en objetos que ya no están activos durante el mismo paso de la colección de elementos no utilizados. Por ejemplo, un <xref:System.IO.FileStream> objeto puede ejecutar un finalizador normal para vaciar los datos almacenados en búfer existentes sin el riesgo de que el identificador que se pierda o se recicle. Esta clasificación muy poco sólida entre finalizadores críticos y no está pensada para uso general. Existe principalmente para ayudar en la migración de bibliotecas existentes al permitir que las bibliotecas para usar <xref:System.Runtime.InteropServices.SafeHandle> sin modificar su semántica. Además, el finalizador crítico y cualquier aplicación llama, como el <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle?displayProperty=nameWithType> método, debe estar en una región de ejecución restringida. Esto impone restricciones sobre qué código se puede escribir en el gráfico de llamadas del finalizador.  
+ Dado que <xref:System.Runtime.InteropServices.SafeHandle> hereda <xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject>, se llama a todos los finalizadores no críticos antes que cualquiera de los finalizadores críticos. Se llaman a los finalizadores en los objetos que ya no están activos durante el mismo paso de la colección de elementos no utilizados. Por ejemplo, un <xref:System.IO.FileStream> objeto puede ejecutar un finalizador normal para vaciar los datos almacenados en búfer existentes sin el riesgo de que el identificador que se pierda o se recicle. Esta ordenación muy débil entre los finalizadores críticos y no está pensada para uso general. Existe principalmente para ayudar en la migración de bibliotecas existentes al permitir que esas bibliotecas utilizar <xref:System.Runtime.InteropServices.SafeHandle> sin modificar su semántica. Además, el finalizador crítico y cualquier otra cosa las llamadas, como el <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle?displayProperty=nameWithType> método, debe estar en una región de ejecución restringida. Esto impone restricciones sobre qué código se puede escribir en el gráfico de llamadas del finalizador.  
   
- Las operaciones de invocación de plataforma automáticamente incrementa el recuento de referencias de identificadores encapsulados por un <xref:System.Runtime.InteropServices.SafeHandle> y decremento ellos tras la finalización. Esto garantiza que el identificador no se recicle o cerró de forma inesperada.  
+ Las operaciones de invocación de plataforma automáticamente incrementar el recuento de referencias de identificadores encapsulados por un <xref:System.Runtime.InteropServices.SafeHandle> y ellos decremento tras la finalización. Esto garantiza que el identificador no se recicle o cerró de forma inesperada.  
   
- Puede especificar la propiedad del identificador subyacente al construir <xref:System.Runtime.InteropServices.SafeHandle> objetos proporcionando un valor para el `ownsHandle` argumento en el <xref:System.Runtime.InteropServices.SafeHandle> constructor de clase. Esta propiedad controla si el <xref:System.Runtime.InteropServices.SafeHandle> objeto libere el identificador después de que el objeto se ha eliminado.  Esto es útil para los identificadores con requisitos de duración específicos o para utilizar un identificador cuya duración está controlada por otra persona.  
+ Puede especificar la propiedad del identificador subyacente al construir <xref:System.Runtime.InteropServices.SafeHandle> objetos proporcionando un valor para el `ownsHandle` argumento en el <xref:System.Runtime.InteropServices.SafeHandle> constructor de clase. Esta opción controla si el <xref:System.Runtime.InteropServices.SafeHandle> objeto libere el identificador después de que el objeto se ha eliminado.  Esto es útil para los identificadores con requisitos de duración específicos o para utilizar un identificador cuya duración está controlada por otra persona.  
   
 <a name="Derived"></a>   
 ## <a name="classes-derived-from-safehandle"></a>Clases derivadas de SafeHandle  
- <xref:System.Runtime.InteropServices.SafeHandle> es una clase de contenedor abstracta para los identificadores del sistema operativo. Es difícil derivar de esta clase. En su lugar, use las clases derivadas del espacio de nombres <xref:Microsoft.Win32.SafeHandles> que proporcionan controladores seguros para lo siguiente:  
+ <xref:System.Runtime.InteropServices.SafeHandle> es una clase contenedora abstracta para los identificadores del sistema operativo. Es difícil derivar de esta clase. En su lugar, use las clases derivadas del espacio de nombres <xref:Microsoft.Win32.SafeHandles> que proporcionan controladores seguros para lo siguiente:  
   
--   Archivos (el <xref:Microsoft.Win32.SafeHandles.SafeFileHandle> clase).  
+-   Los archivos (el <xref:Microsoft.Win32.SafeHandles.SafeFileHandle> clase).  
   
 -   Archivos asignados a memoria (el <xref:Microsoft.Win32.SafeHandles.SafeMemoryMappedFileHandle> clase).  
   
--   Canalizaciones (la <xref:Microsoft.Win32.SafeHandles.SafePipeHandle> clase).  
+-   Canalizaciones (el <xref:Microsoft.Win32.SafeHandles.SafePipeHandle> clase).  
   
 -   Vistas de memoria (el <xref:Microsoft.Win32.SafeHandles.SafeMemoryMappedViewHandle> clase).  
   
--   Construcciones criptográficas (el <xref:Microsoft.Win32.SafeHandles.SafeNCryptHandle>, <xref:Microsoft.Win32.SafeHandles.SafeNCryptKeyHandle>, <xref:Microsoft.Win32.SafeHandles.SafeNCryptProviderHandle>, y <xref:Microsoft.Win32.SafeHandles.SafeNCryptSecretHandle> clases).  
+-   Construcciones de criptografía (el <xref:Microsoft.Win32.SafeHandles.SafeNCryptHandle>, <xref:Microsoft.Win32.SafeHandles.SafeNCryptKeyHandle>, <xref:Microsoft.Win32.SafeHandles.SafeNCryptProviderHandle>, y <xref:Microsoft.Win32.SafeHandles.SafeNCryptSecretHandle> clases).  
   
--   Procesos (la <xref:Microsoft.Win32.SafeHandles.SafeProcessHandle> clase).  
+-   Los procesos (el <xref:Microsoft.Win32.SafeHandles.SafeProcessHandle> clase).  
   
 -   Las claves del registro (el <xref:Microsoft.Win32.SafeHandles.SafeRegistryHandle> clase).  
   
@@ -104,26 +106,22 @@
    
   
 ## Examples  
- En el ejemplo de código siguiente se crea un identificador seguro personalizado para un identificador de archivo de sistema operativo, derivar de <xref:Microsoft.Win32.SafeHandles.SafeHandleZeroOrMinusOneIsInvalid>. Lee los bytes de un archivo y muestra sus valores hexadecimales. También contiene un error de prueba de aprovechamiento del que hace que el subproceso anular la operación, pero el valor del identificador se libera.  Cuando se usa un <xref:System.IntPtr> para representar los identificadores, el identificador se perdió ocasionalmente debido a la anulación de subprocesos asincrónicos.  
+ En el ejemplo de código siguiente se crea un identificador seguro personalizado para un identificador de archivo del sistema operativo, derivar de <xref:Microsoft.Win32.SafeHandles.SafeHandleZeroOrMinusOneIsInvalid>. Lee los bytes de un archivo y muestra sus valores hexadecimales. También contiene un error en la herramienta de comprobación que hace que el subproceso se anule, pero el valor de identificador se libera.  Cuando se usa un <xref:System.IntPtr> para representar los identificadores, el identificador en ocasiones, se pierde debido a la anulación de subproceso asincrónicas.  
   
- Necesitará un archivo de texto en la misma carpeta que la aplicación compilada. Suponiendo que el nombre de la aplicación "HexViewer" es el uso de la línea de comandos:  
+ Necesitará un archivo de texto en la misma carpeta que la aplicación compilada. Suponiendo que el nombre de la aplicación "HexViewer", el uso de la línea de comandos es:  
   
  `HexViewer <filename> -Fault`  
   
- Opcionalmente, especificar `-Fault` intentando intencionadamente el identificador de la pérdida anulando el subproceso en una ventana de determinados. Utilice la herramienta Perform.exe de Windows para supervisar los contadores del identificador al insertar los errores.  
+ Opcionalmente, especificar `-Fault` para intentar intencionadamente a perder el identificador anulando el subproceso en una ventana de determinados. Utilice la herramienta Windows Perform.exe para supervisar los contadores del identificador al insertar los errores.  
   
  [!code-csharp[SafeHandle#1](~/samples/snippets/csharp/VS_Snippets_CLR/SafeHandle/CS/program.cs#1)]  
   
  ]]></format>
     </remarks>
-    <permission cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand">de plena confianza para los herederos. Este miembro no puede heredar código de confianza parcial.</permission>
-    <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no puede usarse por código de confianza parcial o transparente.</permission>
+    <permission cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand">para plena confianza para los herederos. Este miembro no puede heredarse mediante código de confianza parcial.</permission>
+    <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no se puede usar código de confianza parcial o transparente.</permission>
     <block subset="none" type="overrides">
-      <para>Para crear una clase derivada de <see cref="T:System.Runtime.InteropServices.SafeHandle" />, debe saber cómo crear y liberar un identificador de sistema operativo. Este proceso es diferente para los tipos de identificador distintos porque algunos utilizan el [CloseHandle](https://msdn.microsoft.com/library/windows/desktop/ms724211.aspx) funcione, mientras que otros usan funciones más específicas como [UnmapViewOfFile](https://msdn.microsoft.com/library/windows/desktop/aa366882.aspx) o [FindClose](https://msdn.microsoft.com/library/windows/desktop/aa364413.aspx). Por este motivo, debe crear una clase derivada de <see cref="T:System.Runtime.InteropServices.SafeHandle" /> para cada tipo de identificador de sistema operativo que se va a incluir en un controlador seguro.  
-  
- Al heredar de <see cref="T:System.Runtime.InteropServices.SafeHandle" />, es necesario reemplazar los miembros siguientes: <see cref="P:System.Runtime.InteropServices.SafeHandle.IsInvalid" /> y <see cref="M:System.Runtime.InteropServices.SafeHandle.ReleaseHandle" />.  
-  
- También debe proporcionar un constructor predeterminado que llama al constructor base con un valor que representan un valor de identificador no válido, y un <see cref="T:System.Boolean" /> valor que indica si el identificador nativo pertenece a la <see cref="T:System.Runtime.InteropServices.SafeHandle" /> y, por consiguiente, se debería liberar cuando que <see cref="T:System.Runtime.InteropServices.SafeHandle" /> se ha eliminado.</para>
+      <para>Para crear una clase derivada de <see cref="T:System.Runtime.InteropServices.SafeHandle" />, debe saber cómo crear y liberar un identificador de sistema operativo. Este proceso es diferente para los tipos de identificador distintos porque algunos utilizan el [CloseHandle] (https://msdn.microsoft.com/library/windows/desktop/ms724211.aspx) funcione, mientras que otros usan funciones más específicas, como [UnmapViewOfFile] (https://msdn.microsoft.com/library/windows/desktop/aa366882.aspx) o [FindClose] (https://msdn.microsoft.com/library/windows/desktop/aa364413.aspx). Por este motivo, debe crear una clase derivada de <see cref="T:System.Runtime.InteropServices.SafeHandle" /> para cada tipo de identificador de sistema operativo que se va a incluir en un controlador seguro.  Al heredar de <see cref="T:System.Runtime.InteropServices.SafeHandle" />, es necesario reemplazar los miembros siguientes: <see cref="P:System.Runtime.InteropServices.SafeHandle.IsInvalid" /> y <see cref="M:System.Runtime.InteropServices.SafeHandle.ReleaseHandle" />.  También debe proporcionar un constructor predeterminado que llama al constructor base con un valor que representan un valor de identificador no válido, y un <see cref="T:System.Boolean" /> valor que indica si el identificador nativo es propiedad del <see cref="T:System.Runtime.InteropServices.SafeHandle" /> y por lo tanto debe liberarse cuando que <see cref="T:System.Runtime.InteropServices.SafeHandle" /> se ha eliminado.</para>
     </block>
     <altmember cref="N:Microsoft.Win32.SafeHandles" />
     <altmember cref="T:System.Runtime.InteropServices.CriticalHandle" />
@@ -153,6 +151,7 @@
       <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.SafeHandle.#ctor(System.IntPtr,System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Protected Sub New (invalidHandleValue As IntPtr, ownsHandle As Boolean)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; SafeHandle(IntPtr invalidHandleValue, bool ownsHandle);" />
+      <MemberSignature Language="F#" Value="new System.Runtime.InteropServices.SafeHandle : nativeint * bool -&gt; System.Runtime.InteropServices.SafeHandle" Usage="new System.Runtime.InteropServices.SafeHandle (invalidHandleValue, ownsHandle)" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Handles</AssemblyName>
@@ -160,6 +159,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -187,21 +187,21 @@
         <Parameter Name="ownsHandle" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="invalidHandleValue">Valor de un identificador no válido (normalmente 0 o -1).  Su implementación de <see cref="P:System.Runtime.InteropServices.SafeHandle.IsInvalid" /> debería devolver <see langword="true" /> para este valor.</param>
+        <param name="invalidHandleValue">The value of an invalid handle (usually 0 or -1).  Your implementation of <see cref="P:System.Runtime.InteropServices.SafeHandle.IsInvalid" /> should return <see langword="true" /> for this value.</param>
         <param name="ownsHandle">
-          Es <see langword="true" /> para permitir con confiabilidad que <see cref="T:System.Runtime.InteropServices.SafeHandle" /> libere el identificador durante la fase de finalización; en caso contrario, es <see langword="false" /> (no se recomienda).</param>
-        <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Runtime.InteropServices.SafeHandle" /> con un valor de identificador no válido especificado.</summary>
+          <see langword="true" /> to reliably let <see cref="T:System.Runtime.InteropServices.SafeHandle" /> release the handle during the finalization phase; otherwise, <see langword="false" /> (not recommended).</param>
+        <summary>Initializes a new instance of the <see cref="T:System.Runtime.InteropServices.SafeHandle" /> class with the specified invalid handle value.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si el `ownsHandle` parámetro es `false`, <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A> nunca se denomina; por lo tanto, no se recomienda usar este valor de parámetro como el código puede producir pérdida de recursos.  
+ Si el `ownsHandle` parámetro es `false`, <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A> nunca se llama; por lo tanto, no se recomienda usar este valor de parámetro como su código puede producir pérdida de recursos.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.TypeLoadException">La clase derivada reside en un ensamblado sin permiso de acceso a código no administrado.</exception>
-        <permission cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand">de plena confianza para los herederos. Este miembro no puede heredar código de confianza parcial.</permission>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no puede usarse por código de confianza parcial o transparente.</permission>
+        <exception cref="T:System.TypeLoadException">The derived class resides in an assembly without unmanaged code access permission.</exception>
+        <permission cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand">para plena confianza para los herederos. Este miembro no puede heredarse mediante código de confianza parcial.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no se puede usar código de confianza parcial o transparente.</permission>
       </Docs>
     </Member>
     <Member MemberName="Close">
@@ -210,9 +210,11 @@
       <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.SafeHandle.Close" />
       <MemberSignature Language="VB.NET" Value="Public Sub Close ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void Close();" />
+      <MemberSignature Language="F#" Value="member this.Close : unit -&gt; unit" Usage="safeHandle.Close " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -238,12 +240,12 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Marca el identificador para soltar y liberar recursos.</summary>
+        <summary>Marks the handle for releasing and freeing resources.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Llamar a la <xref:System.Runtime.InteropServices.SafeHandle.Close%2A> o <xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A> método permite que se liberen los recursos. Esto podría no reflejarse inmediatamente si otros subprocesos utilizan el mismo objeto de controlador seguro, pero se realizará tan pronto como ya no es el caso. Aunque la mayoría de las clases que usan el <xref:System.Runtime.InteropServices.SafeHandle> no es necesario que la clase proporciona un finalizador, esto a veces es necesario (por ejemplo, para vaciar los búferes de archivos o para escribir algunos datos de nuevo en memoria). En este caso, la clase puede proporcionar un finalizador que se garantiza la ejecución antes de la <xref:System.Runtime.InteropServices.SafeHandle> ejecute finalizador crítico.  
+ Una llamada a la <xref:System.Runtime.InteropServices.SafeHandle.Close%2A> o <xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A> método permite que se liberen los recursos. Esto podría no reflejarse inmediatamente si otros subprocesos utilizan el mismo objeto de controlador seguro, pero se realizará en cuanto ya no es así. Aunque la mayoría de las clases que usan el <xref:System.Runtime.InteropServices.SafeHandle> clase no es necesario proporcionar un finalizador, esto a veces es necesario (por ejemplo, para vaciar los búferes de archivos o para escribir algunos datos de copia en la memoria). En este caso, la clase puede proporcionar un finalizador que garantiza la ejecución antes de la <xref:System.Runtime.InteropServices.SafeHandle> ejecute finalizador crítico.  
   
  Llame a la <xref:System.Runtime.InteropServices.SafeHandle.Close%2A> o <xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A> método cuando haya terminado con el <xref:System.Runtime.InteropServices.SafeHandle> objeto.  
   
@@ -261,6 +263,7 @@
       <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.SafeHandle.DangerousAddRef(System.Boolean@)" />
       <MemberSignature Language="VB.NET" Value="Public Sub DangerousAddRef (ByRef success As Boolean)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void DangerousAddRef(bool % success);" />
+      <MemberSignature Language="F#" Value="member this.DangerousAddRef :  -&gt; unit" Usage="safeHandle.DangerousAddRef success" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Handles</AssemblyName>
@@ -268,6 +271,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -298,16 +302,16 @@
       </Parameters>
       <Docs>
         <param name="success">
-          <see langword="true" /> si el contador de referencia se incrementó correctamente; en caso contrario, <see langword="false" />.</param>
-        <summary>Incrementa manualmente el contador de referencia de las instancias <see cref="T:System.Runtime.InteropServices.SafeHandle" />.</summary>
+          <see langword="true" /> if the reference counter was successfully incremented; otherwise, <see langword="false" />.</param>
+        <summary>Manually increments the reference counter on <see cref="T:System.Runtime.InteropServices.SafeHandle" /> instances.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A> método impide que common language runtime reclame memoria utilizada por un identificador (que se produce cuando el runtime llama a la <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A> método). Puede usar este método aumentarás manualmente el recuento de referencias en un <xref:System.Runtime.InteropServices.SafeHandle> instancia. <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A> Devuelve un valor booleano mediante un `ref` parámetro (`success`) que indica si el recuento de referencias se incrementa correctamente. Esto permite que la lógica del programa revertir en caso de error. Debe establecer `success` a `false` antes de llamar a <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>. Si `success` es `true`, evitar pérdidas de recursos mediante la correspondencia de la llamada a <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A> con una llamada correspondiente a <xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A>.  
+ El <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A> método evita que common language runtime reclame memoria utilizada por un identificador (que se produce cuando el tiempo de ejecución llama a la <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A> método). Puede usar este método aumentarás manualmente el recuento de referencias en un <xref:System.Runtime.InteropServices.SafeHandle> instancia. <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A> Devuelve un valor booleano mediante un `ref` parámetro (`success`) que indica si el recuento de referencias se incrementa correctamente. Esto permite que la lógica del programa hacia atrás en caso de error. Debe establecer `success` a `false` antes de llamar a <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>. Si `success` es `true`, evitar pérdidas de recursos haciendo coincidir la llamada a <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A> con una llamada correspondiente a <xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A>.  
   
 > [!CAUTION]
->  Este método está diseñado para usuarios avanzados y siempre debe utilizarse con cuidado. Para evitar la pérdida de recursos de identificador, siempre llame a este método dentro de una región de ejecución restringida (CER), donde una anulación del subproceso no puede interrumpir el procesamiento.  
+>  Este método está pensado para usuarios avanzados y siempre debe utilizarse con cuidado. Para evitar la pérdida de los recursos de controlador, llame siempre a este método dentro de una región de ejecución restringida (CER), donde una anulación de subproceso no puede interrumpir el procesamiento.  
   
  ]]></format>
         </remarks>
@@ -321,6 +325,7 @@
       <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.SafeHandle.DangerousGetHandle" />
       <MemberSignature Language="VB.NET" Value="Public Function DangerousGetHandle () As IntPtr" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; IntPtr DangerousGetHandle();" />
+      <MemberSignature Language="F#" Value="member this.DangerousGetHandle : unit -&gt; nativeint" Usage="safeHandle.DangerousGetHandle " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Handles</AssemblyName>
@@ -328,6 +333,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -355,16 +361,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Devuelve el valor del campo <see cref="F:System.Runtime.InteropServices.SafeHandle.handle" />.</summary>
-        <returns>Un <see langword="IntPtr" /> que representa el valor del campo <see cref="F:System.Runtime.InteropServices.SafeHandle.handle" />. Si el identificador se marcó como no válido con <see cref="M:System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid" />, este método devolverá el valor del identificador original, que puede ser un valor obsoleto.</returns>
+        <summary>Returns the value of the <see cref="F:System.Runtime.InteropServices.SafeHandle.handle" /> field.</summary>
+        <returns>An <see langword="IntPtr" /> representing the value of the <see cref="F:System.Runtime.InteropServices.SafeHandle.handle" /> field. If the handle has been marked invalid with <see cref="M:System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid" />, this method still returns the original handle value, which can be a stale value.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Puede utilizar este método para recuperar el valor del identificador real de una instancia de la <xref:System.Runtime.InteropServices.SafeHandle> clase derivada. Este método es necesaria para hacia atrás compatibilidad porque muchas propiedades de .NET Framework devuelven `IntPtr` controlar tipos. `IntPtr` los tipos de identificador son tipos de específico de la plataforma usados para representar un puntero o un identificador.  
+ Puede usar este método para recuperar el valor del identificador real de una instancia de la <xref:System.Runtime.InteropServices.SafeHandle> clase derivada. Este método es necesaria para hacia atrás compatibilidad porque muchas propiedades de .NET Framework devuelven `IntPtr` controlar tipos. `IntPtr` tipos de identificador son tipos específicos de la plataforma utilizados para representar un puntero o un identificador.  
   
 > [!CAUTION]
->  Mediante el <xref:System.Runtime.InteropServices.SafeHandle.DangerousGetHandle%2A> método puede suponer riesgos de seguridad porque, si el identificador se ha marcado como no válido con <xref:System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid%2A>, <xref:System.Runtime.InteropServices.SafeHandle.DangerousGetHandle%2A> todavía devuelve el valor de identificador potencialmente obsoleto original. El identificador devuelto también se puede reciclar en cualquier momento. En el mejor, esto significa que el identificador de repente podría dejar de funcionar. En el peor de los casos, si el identificador o el recurso que representa el identificador se expone al código de confianza, esto puede provocar un ataque de seguridad reciclaje en el identificador reutilizado o devuelto. Por ejemplo, un autor de llamada no es de confianza puede consultar los datos en el identificador simplemente devueltos y recibir información para un recurso completamente no relacionado. Consulte la <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A> y <xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A> métodos para obtener más información sobre el uso de la <xref:System.Runtime.InteropServices.SafeHandle.DangerousGetHandle%2A> methodsafely.  
+>  Mediante el <xref:System.Runtime.InteropServices.SafeHandle.DangerousGetHandle%2A> método puede suponer riesgos de seguridad porque, si se ha marcado como no válido con el identificador <xref:System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid%2A>, <xref:System.Runtime.InteropServices.SafeHandle.DangerousGetHandle%2A> sigue devolviendo el valor del identificador original, potencialmente obsoletos. También se puede reciclar en cualquier momento el identificador devuelto. En el mejor, esto significa que el identificador, de repente, es posible que dejen de funcionar. En el peor, si el identificador o el recurso que representa el identificador se expone al código de confianza, esto puede provocar un ataque de seguridad de reciclaje en el identificador reutilizado o devuelto. Por ejemplo, un llamador de confianza puede consultar datos en el controlador simplemente devueltos y recibir información para un recurso completamente no relacionado. Consulte la <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A> y <xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A> métodos para obtener más información sobre el uso de la <xref:System.Runtime.InteropServices.SafeHandle.DangerousGetHandle%2A> methodsafely.  
   
  ]]></format>
         </remarks>
@@ -377,6 +383,7 @@
       <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.SafeHandle.DangerousRelease" />
       <MemberSignature Language="VB.NET" Value="Public Sub DangerousRelease ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void DangerousRelease();" />
+      <MemberSignature Language="F#" Value="member this.DangerousRelease : unit -&gt; unit" Usage="safeHandle.DangerousRelease " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Handles</AssemblyName>
@@ -384,6 +391,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -411,15 +419,15 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Disminuye manualmente el contador de referencia de la instancia <see cref="T:System.Runtime.InteropServices.SafeHandle" />.</summary>
+        <summary>Manually decrements the reference counter on a <see cref="T:System.Runtime.InteropServices.SafeHandle" /> instance.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A> método es el equivalente a <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>. Siempre debe coincidir con una llamada a la <xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A> método con una llamada correcta a <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>.  
+ El <xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A> método es el equivalente a <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>. Siempre debe coincidir con una llamada a la <xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A> método con una llamada correcta al <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>.  
   
 > [!CAUTION]
->  Este método está diseñado para usuarios avanzados y siempre debe utilizarse con cuidado. Para evitar la pérdida de recursos de identificador, siempre llame a este método dentro de una región de ejecución restringida (CER), donde una anulación del subproceso no puede interrumpir el procesamiento. En la misma forma que no coincidentes <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A> llamadas pueden provocar pérdidas de recursos, no coincidentes <xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A> llamadas pueden provocar que los Estados de identificador no válido se hacen visibles para otros subprocesos. No exponga <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A> o <xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A> llamadas a código no seguro.  
+>  Este método está pensado para usuarios avanzados y siempre debe utilizarse con cuidado. Para evitar la pérdida de los recursos de controlador, llame siempre a este método dentro de una región de ejecución restringida (CER), donde una anulación de subproceso no puede interrumpir el procesamiento. En la misma manera que no coincidentes <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A> llamadas pueden producir pérdidas de recursos, sin parangón <xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A> llamadas pueden hacer que sea visible para otros subprocesos los Estados de identificador no válido. No exponga <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A> o <xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A> las llamadas a código no seguro.  
   
  ]]></format>
         </remarks>
@@ -433,7 +441,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Libera los recursos que usa la clase <see cref="T:System.Runtime.InteropServices.SafeHandle" />.</summary>
+        <summary>Releases the resources used by the <see cref="T:System.Runtime.InteropServices.SafeHandle" /> class.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="Dispose">
@@ -442,6 +450,7 @@
       <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.SafeHandle.Dispose" />
       <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
+      <MemberSignature Language="F#" Value="abstract member Dispose : unit -&gt; unit&#xA;override this.Dispose : unit -&gt; unit" Usage="safeHandle.Dispose " />
       <MemberType>Method</MemberType>
       <Implements>
         <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
@@ -452,6 +461,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -482,14 +492,14 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Libera todos los recursos que utiliza la clase <see cref="T:System.Runtime.InteropServices.SafeHandle" />.</summary>
+        <summary>Releases all resources used by the <see cref="T:System.Runtime.InteropServices.SafeHandle" /> class.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Llamar a la <xref:System.Runtime.InteropServices.SafeHandle.Close%2A> o <xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A> método permite que se liberen los recursos. Esto podría no reflejarse inmediatamente si otros subprocesos utilizan la misma instancia de controlador seguro, pero se realizará tan pronto como ya no es el caso. Aunque más clases con <xref:System.Runtime.InteropServices.SafeHandle> no es necesario proporcionar un finalizador, esto a veces es necesario (por ejemplo, para vaciar los búferes de archivos o algunos datos para volver a escribir en la memoria). En este caso, puede proporcionar un finalizador que se garantiza la ejecución antes de la <xref:System.Runtime.InteropServices.SafeHandle> ejecute finalizador crítico.  
+ Una llamada a la <xref:System.Runtime.InteropServices.SafeHandle.Close%2A> o <xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A> método permite que se liberen los recursos. Esto podría no reflejarse inmediatamente si otros subprocesos utilizan la misma instancia del controlador seguro, pero se realizará en cuanto ya no es así. Aunque más clases con <xref:System.Runtime.InteropServices.SafeHandle> no es necesario proporcionar un finalizador, esto a veces es necesario (por ejemplo, para vaciar los búferes de archivo o para escribir algunos datos en memoria). En este caso, puede proporcionar un finalizador que garantiza la ejecución antes de la <xref:System.Runtime.InteropServices.SafeHandle> ejecute finalizador crítico.  
   
- Llame a la <xref:System.Runtime.InteropServices.SafeHandle.Close%2A> o <xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A> método cuando haya terminado con el <xref:System.Runtime.InteropServices.SafeHandle> objeto. El <xref:System.Runtime.InteropServices.SafeHandle.Close%2A> método deja la <xref:System.Runtime.InteropServices.SafeHandle> objeto en un estado no utilizable.  
+ Llame a la <xref:System.Runtime.InteropServices.SafeHandle.Close%2A> o <xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A> método cuando haya terminado con el <xref:System.Runtime.InteropServices.SafeHandle> objeto. El <xref:System.Runtime.InteropServices.SafeHandle.Close%2A> método deja la <xref:System.Runtime.InteropServices.SafeHandle> objeto en un estado inutilizable.  
   
 > [!NOTE]
 >  Llame siempre a la <xref:System.Runtime.InteropServices.SafeHandle.Close%2A> o <xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A> método antes de liberar la última referencia a la <xref:System.Runtime.InteropServices.SafeHandle> objeto. En caso contrario, los recursos que está usando no se liberarán hasta que el recolector de elementos no utilizados llame al método <xref:System.Runtime.InteropServices.SafeHandle> del objeto <xref:System.Runtime.InteropServices.SafeHandle.Finalize%2A>.  
@@ -505,6 +515,7 @@
       <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.SafeHandle.Dispose(System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Protected Overridable Sub Dispose (disposing As Boolean)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void Dispose(bool disposing);" />
+      <MemberSignature Language="F#" Value="abstract member Dispose : bool -&gt; unit&#xA;override this.Dispose : bool -&gt; unit" Usage="safeHandle.Dispose disposing" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Handles</AssemblyName>
@@ -512,6 +523,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -545,13 +557,13 @@
       </Parameters>
       <Docs>
         <param name="disposing">
-          <see langword="true" /> para una operación de desecho normal; <see langword="false" /> para finalizar el identificador.</param>
-        <summary>Libera los recursos no administrados usados por la clase <see cref="T:System.Runtime.InteropServices.SafeHandle" /> especificando si se lleva a cabo una operación de eliminación normal.</summary>
+          <see langword="true" /> for a normal dispose operation; <see langword="false" /> to finalize the handle.</param>
+        <summary>Releases the unmanaged resources used by the <see cref="T:System.Runtime.InteropServices.SafeHandle" /> class specifying whether to perform a normal dispose operation.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nunca debería llamar explícitamente la <xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A> método con el `disposing` parámetro establecido en `false`.  
+ Se debe llamar nunca explícitamente la <xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A> método con el `disposing` parámetro establecido en `false`.  
   
  ]]></format>
         </remarks>
@@ -564,6 +576,7 @@
       <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.SafeHandle.Finalize" />
       <MemberSignature Language="VB.NET" Value="Finalize ()" />
       <MemberSignature Language="C++ CLI" Value="!SafeHandle ()" />
+      <MemberSignature Language="F#" Value="override this.Finalize : unit -&gt; unit" Usage="safeHandle.Finalize " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Handles</AssemblyName>
@@ -571,6 +584,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -598,7 +612,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Libera todos los recursos asociados al identificador.</summary>
+        <summary>Frees all resources associated with the handle.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -617,6 +631,7 @@
       <MemberSignature Language="DocId" Value="F:System.Runtime.InteropServices.SafeHandle.handle" />
       <MemberSignature Language="VB.NET" Value="Protected handle As IntPtr " />
       <MemberSignature Language="C++ CLI" Value="protected: IntPtr handle;" />
+      <MemberSignature Language="F#" Value="val mutable handle : nativeint" Usage="System.Runtime.InteropServices.SafeHandle.handle" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Handles</AssemblyName>
@@ -624,6 +639,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -645,7 +661,7 @@
         <ReturnType>System.IntPtr</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Especifica el identificador que se va a ajustar.</summary>
+        <summary>Specifies the handle to be wrapped.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -662,6 +678,7 @@
       <MemberSignature Language="DocId" Value="P:System.Runtime.InteropServices.SafeHandle.IsClosed" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsClosed As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsClosed { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.IsClosed : bool" Usage="System.Runtime.InteropServices.SafeHandle.IsClosed" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Handles</AssemblyName>
@@ -669,6 +686,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -695,18 +713,18 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtiene un valor que indica si el identificador está cerrado.</summary>
+        <summary>Gets a value indicating whether the handle is closed.</summary>
         <value>
           <see langword="true" /> si el identificador está cerrado; en caso contrario, <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Runtime.InteropServices.SafeHandle.IsClosed%2A> método devuelve un valor que indica si la <xref:System.Runtime.InteropServices.SafeHandle> identificador del objeto ya no está asociado a un recurso nativo. Esto difiere de la definición de la <xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A> propiedad, que calcula si un identificador determinado siempre se considera no válido. El <xref:System.Runtime.InteropServices.SafeHandle.IsClosed%2A> método devuelve un `true` valor en los casos siguientes:  
+ El <xref:System.Runtime.InteropServices.SafeHandle.IsClosed%2A> método devuelve un valor que indica si el <xref:System.Runtime.InteropServices.SafeHandle> identificador del objeto ya no está asociado con un recurso nativo. Esto difiere de la definición de la <xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A> propiedad, que calcula si un identificador determinado siempre se considera no válido. El <xref:System.Runtime.InteropServices.SafeHandle.IsClosed%2A> método devuelve un `true` valor en los casos siguientes:  
   
--   El <xref:System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid%2A> método se llamó.  
+-   El <xref:System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid%2A> se llamó al método.  
   
--   El <xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A> método o <xref:System.Runtime.InteropServices.SafeHandle.Close%2A> método se llamó y no hay ninguna referencia a la <xref:System.Runtime.InteropServices.SafeHandle> objeto en otros subprocesos.  
+-   El <xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A> método o <xref:System.Runtime.InteropServices.SafeHandle.Close%2A> se llamó al método y no hay ninguna referencia a la <xref:System.Runtime.InteropServices.SafeHandle> objeto en otros subprocesos.  
   
  ]]></format>
         </remarks>
@@ -719,6 +737,7 @@
       <MemberSignature Language="DocId" Value="P:System.Runtime.InteropServices.SafeHandle.IsInvalid" />
       <MemberSignature Language="VB.NET" Value="Public MustOverride ReadOnly Property IsInvalid As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract property bool IsInvalid { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.IsInvalid : bool" Usage="System.Runtime.InteropServices.SafeHandle.IsInvalid" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Handles</AssemblyName>
@@ -726,6 +745,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -752,21 +772,21 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Cuando se invalida en una clase derivada, obtiene un valor que indica si este identificador es no válido.</summary>
+        <summary>When overridden in a derived class, gets a value indicating whether the handle value is invalid.</summary>
         <value>
           <see langword="true" /> si el valor del identificador no es válido; en caso contrario, <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Las clases derivadas deben implementar la <xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A> propiedad para que common language runtime puede determinar si se requiere la finalización crítica. Las clases derivadas deben proporcionar una implementación que se ajuste al tipo general de identificador que admiten (0 ó -1 no es válido). Estas clases, a continuación, se pueden derivar de tipos de identificadores seguros concretos.  
+ Las clases derivadas deben implementar la <xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A> propiedad para que common language runtime pueda determinar si se requiere la finalización crítica. Las clases derivadas deben proporcionar una implementación que se ajuste al tipo de identificador que admiten general (0 o -1 no es válido). Estas clases, a continuación, se pueden derivar para tipos específicos de controlador seguro.  
   
- A diferencia de la <xref:System.Runtime.InteropServices.SafeHandle.IsClosed%2A> propiedad, que informa de si la <xref:System.Runtime.InteropServices.SafeHandle> objeto ha finalizado con el identificador subyacente, la <xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A> propiedad calcula si el valor de identificador especificado siempre se considera no válido. Por lo tanto, la <xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A> propiedad siempre devuelve el mismo valor para cualquier valor de identificador.  
+ A diferencia de la <xref:System.Runtime.InteropServices.SafeHandle.IsClosed%2A> propiedad, que informa de si el <xref:System.Runtime.InteropServices.SafeHandle> objeto ha finalizado con el identificador subyacente, la <xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A> propiedad calcula si el valor de identificador determinado siempre se considera no válido. Por lo tanto, el <xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A> propiedad siempre devuelve el mismo valor para cualquier valor de identificador.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se comprueba si un archivo se abrió correctamente. Este ejemplo de código forma parte de un ejemplo mayor proporcionado para el <xref:System.Runtime.InteropServices.SafeHandle> clase.  
+ El ejemplo siguiente comprueba si un archivo se abrió correctamente. Este ejemplo de código forma parte de un ejemplo más extenso proporcionado para el <xref:System.Runtime.InteropServices.SafeHandle> clase.  
   
  [!code-csharp[SafeHandle#2](~/samples/snippets/csharp/VS_Snippets_CLR/SafeHandle/CS/program.cs#2)]  
   
@@ -781,6 +801,7 @@
       <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.SafeHandle.ReleaseHandle" />
       <MemberSignature Language="VB.NET" Value="Protected MustOverride Function ReleaseHandle () As Boolean" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; abstract bool ReleaseHandle();" />
+      <MemberSignature Language="F#" Value="abstract member ReleaseHandle : unit -&gt; bool" Usage="safeHandle.ReleaseHandle " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Handles</AssemblyName>
@@ -788,6 +809,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -815,25 +837,25 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Cuando se invalida en una clase derivada, ejecuta el código necesario para liberar el identificador.</summary>
+        <summary>When overridden in a derived class, executes the code required to free the handle.</summary>
         <returns>
-          <see langword="true" /> si el identificador se libera correctamente; en caso contrario, si se produce un error grave, <see langword="false" />. En este caso, genera un Asistente para depuración administrada [releaseHandleFailed](~/docs/framework/debug-trace-profile/releasehandlefailed-mda.md).</returns>
+          <see langword="true" /> if the handle is released successfully; otherwise, in the event of a catastrophic failure, <see langword="false" />. In this case, it generates a [releaseHandleFailed](~/docs/framework/debug-trace-profile/releasehandlefailed-mda.md) Managed Debugging Assistant.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A> se garantiza que el método se llama solo una vez y solo si el identificador no es válido de acuerdo con la <xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A> propiedad. Implemente este método en su <xref:System.Runtime.InteropServices.SafeHandle> sus clases derivadas para ejecutar cualquier código que es necesario para liberar el identificador. Dado que una de las funciones de <xref:System.Runtime.InteropServices.SafeHandle> es garantizar la prevención de pérdidas de recursos, el código en la implementación de <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A> nunca debe producir un error. El recolector de elementos no utilizados llame <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A> después de que se han ejecutado los finalizadores normales para objetos que se han recopilado al mismo tiempo. El recolector de elementos no utilizados garantiza que los recursos para invocar este método y el método no se interrumpirá mientras está en curso. Este método se prepararán como una región de ejecución restringida (CER) en el momento de construcción de la instancia (junto con todos los métodos en su gráfico de llamadas determinable estáticamente). Aunque esto evita las interrupciones de anulación de subproceso, aún debe procurar no introducir las rutas de acceso de error en su invalidado <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A> método. En particular, aplique el <xref:System.Runtime.ConstrainedExecution.ReliabilityContractAttribute> atributo de cualquier método que se llame desde <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A>. En la mayoría de los casos este código debería ser:  
+ El <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A> se garantiza que el método se llama solo una vez y solo si el identificador es válido según se define en el <xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A> propiedad. Implemente este método en su <xref:System.Runtime.InteropServices.SafeHandle> sus clases derivadas para ejecutar cualquier código necesario para liberar el identificador. Dado que una de las funciones de <xref:System.Runtime.InteropServices.SafeHandle> es garantizar la prevención de pérdidas de recursos, el código en la implementación de <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A> nunca debe producir un error. El recolector de elementos no utilizados llame al <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A> después de que se han ejecutado los finalizadores normales para los objetos que se recolectan al mismo tiempo. El recolector de elementos no utilizados garantiza que los recursos para invocar este método y el método no se interrumpirán mientras está en curso. Este método se preparará como una región de ejecución restringida (CER) en tiempo de construcción de la instancia (junto con todos los métodos en su gráfico de llamadas determinarse de forma estática). Aunque esto evita las interrupciones de anulación de subproceso, aún debe procurar no introducir las rutas de acceso de cualquier error en anulado <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A> método. En particular, aplique el <xref:System.Runtime.ConstrainedExecution.ReliabilityContractAttribute> atribuir a los métodos que llama desde <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A>. En la mayoría de los casos, este código debe ser:  
   
  `ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)`  
   
- Además, para la limpieza sencilla (por ejemplo, al llamar a la API de Win32 `CloseHandle` en un identificador de archivo) puede comprobar el valor devuelto de la llamada de invocación de plataforma única. Para la limpieza compleja, habrá una gran cantidad de lógica del programa y muchas llamadas a métodos, algunos de los cuales pueden producir un error. Debe asegurarse de que la lógica del programa con código de reserva para cada uno de los casos.  
+ Además, para la limpieza sencilla (por ejemplo, al llamar a la API Win32 `CloseHandle` en un identificador de archivo) puede comprobar el valor devuelto de la llamada de invocación de plataforma única. Para la limpieza compleja, es posible que tiene mucha lógica del programa y muchas llamadas a métodos, algunos de los cuales pueden producir un error. Debe asegurarse de que la lógica del programa tiene código de reserva para cada uno de los casos.  
   
- Si <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A> devuelve `false` por cualquier motivo, genera un [releaseHandleFailed](~/docs/framework/debug-trace-profile/releasehandlefailed-mda.md) Ayudante de depuración administrada.  Esto ayuda a detectar los casos donde se produce un error en el intento de liberar recursos.  
+ Si <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A> devuelve `false` por cualquier motivo, genera un [releaseHandleFailed](~/docs/framework/debug-trace-profile/releasehandlefailed-mda.md) Asistente para depuración administrada.  Esto ayuda a detectar los casos donde se produce un error en el intento de liberar los recursos.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se libera el identificador y forma parte de un ejemplo mayor proporcionado para el <xref:System.Runtime.InteropServices.SafeHandle> clase.  
+ En el ejemplo de código siguiente se libera el identificador y forma parte de un ejemplo más extenso proporcionado para el <xref:System.Runtime.InteropServices.SafeHandle> clase.  
   
  [!code-csharp[SafeHandle#3](~/samples/snippets/csharp/VS_Snippets_CLR/SafeHandle/CS/program.cs#3)]  
   
@@ -848,6 +870,7 @@
       <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.SafeHandle.SetHandle(System.IntPtr)" />
       <MemberSignature Language="VB.NET" Value="Protected Sub SetHandle (handle As IntPtr)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; void SetHandle(IntPtr handle);" />
+      <MemberSignature Language="F#" Value="member this.SetHandle : nativeint -&gt; unit" Usage="safeHandle.SetHandle handle" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Handles</AssemblyName>
@@ -855,6 +878,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -884,13 +908,13 @@
         <Parameter Name="handle" Type="System.IntPtr" />
       </Parameters>
       <Docs>
-        <param name="handle">El identificador preexistente que se va a utilizar.</param>
-        <summary>Establece el identificador en el identificador preexistente.</summary>
+        <param name="handle">The pre-existing handle to use.</param>
+        <summary>Sets the handle to the specified pre-existing handle.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Use la <xref:System.Runtime.InteropServices.SafeHandle.SetHandle%2A> identificadores en una estructura de salida de método sólo si tiene que proporcionar compatibilidad con un identificador preexistente (por ejemplo, si se devuelve el identificador en una estructura) dado que la infraestructura de interoperabilidad COM de .NET Framework no admite la serialización.  
+ Use el <xref:System.Runtime.InteropServices.SafeHandle.SetHandle%2A> identificadores en una estructura de salida del método solo si tiene que proporcionar compatibilidad con un identificador ya existente (por ejemplo, si se devuelve el identificador en una estructura) porque la infraestructura de interoperabilidad COM de .NET Framework no admite el cálculo de referencias.  
   
  ]]></format>
         </remarks>
@@ -903,6 +927,7 @@
       <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid" />
       <MemberSignature Language="VB.NET" Value="Public Sub SetHandleAsInvalid ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetHandleAsInvalid();" />
+      <MemberSignature Language="F#" Value="member this.SetHandleAsInvalid : unit -&gt; unit" Usage="safeHandle.SetHandleAsInvalid " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Handles</AssemblyName>
@@ -910,6 +935,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -937,14 +963,14 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Marca un identificador para indicar que ya no se utiliza.</summary>
+        <summary>Marks a handle as no longer used.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Llame a la <xref:System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid%2A> método solo cuando sepa que el identificador ya no hace referencia a un recurso. Si lo hace, no cambia el valor de la <xref:System.Runtime.InteropServices.SafeHandle.handle> campo; solo marca el identificador como cerrado. El identificador podría contener entonces un valor potencialmente obsoleto. El efecto de esta llamada es que se realiza ningún intento para liberar los recursos.  
+ Llame a la <xref:System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid%2A> método solo cuando sepa que el identificador ya no hace referencia a un recurso. Si lo hace, no cambia el valor de la <xref:System.Runtime.InteropServices.SafeHandle.handle> campo; solo marca el identificador como cerrado. El identificador puede contener, a continuación, un valor potencialmente obsoleto. El efecto de esta llamada es que se realiza ningún intento para liberar los recursos.  
   
- Al igual que con la <xref:System.Runtime.InteropServices.SafeHandle.SetHandle%2A> método, use <xref:System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid%2A> sólo si tiene que proporcionar compatibilidad con un identificador preexistente.  
+ Igual que con el <xref:System.Runtime.InteropServices.SafeHandle.SetHandle%2A> método, use <xref:System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid%2A> solo si tiene que proporcionar compatibilidad con un identificador preexistente.  
   
  ]]></format>
         </remarks>
