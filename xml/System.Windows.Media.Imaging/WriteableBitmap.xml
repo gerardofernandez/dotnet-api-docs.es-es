@@ -1,11 +1,11 @@
 <Type Name="WriteableBitmap" FullName="System.Windows.Media.Imaging.WriteableBitmap">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="56ccd799e4018d937a1aeed6d58defeddd74a9b0" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="ac4acb7f03696779f85e7f9c250f874558f86840" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36493562" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37555824" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class WriteableBitmap : System.Windows.Media.Imaging.BitmapSource" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit WriteableBitmap extends System.Windows.Media.Imaging.BitmapSource" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type WriteableBitmap = class&#xA;    inherit BitmapSource" />
   <AssemblyInfo>
     <AssemblyName>PresentationCore</AssemblyName>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -29,19 +30,19 @@
 ## Remarks  
  Use la <xref:System.Windows.Media.Imaging.WriteableBitmap> clase para actualizar y representar un mapa de bits en un fotograma a fotograma. Esto es útil para generar contenido algorítmico, como una imagen fractal y para la visualización de datos, como un visualizador de música.  
   
- La <xref:System.Windows.Media.Imaging.WriteableBitmap> clase usa dos búferes. El *búfer de reserva* se asigna en la memoria del sistema y acumula el contenido que no se muestra actualmente. El *búfer frontal* se asigna en la memoria del sistema y contiene el contenido que se muestra actualmente. El sistema de representación copia el búfer frontal en memoria de vídeo para su presentación.  
+ La <xref:System.Windows.Media.Imaging.WriteableBitmap> clase usa dos búferes. El *búfer de reserva* asignado en memoria del sistema y acumula el contenido que no se muestra actualmente. El *búfer frontal* está asignada en memoria del sistema e incluye el contenido que se muestra actualmente. El sistema de representación copia el búfer frontal en memoria de vídeo para su presentación.  
   
- Dos subprocesos usan estos búferes. El *subproceso de interfaz de usuario* genera la interfaz de usuario pero no presentes en la pantalla. El subproceso de interfaz de usuario responde a proporcionados por el usuario, temporizadores y otros eventos. Una aplicación puede tener varios subprocesos de interfaz de usuario. El *subproceso de representación* crea y representa los cambios desde el subproceso de interfaz de usuario. Hay representación solo un subproceso por cada aplicación.  
+ Dos subprocesos usan estos búferes. El *subproceso de interfaz de usuario* genera la interfaz de usuario pero no presentes en la pantalla. El subproceso de interfaz de usuario responde a la entrada del usuario, temporizadores y otros eventos. Una aplicación puede tener varios subprocesos de interfaz de usuario. El *subproceso de representación* crea y procesa los cambios desde el subproceso de interfaz de usuario. Hay representación sólo un subproceso por cada aplicación.  
   
- El subproceso de interfaz de usuario escribe contenido en el búfer de reserva. El subproceso de representación lee el contenido del búfer frontal y lo copia en memoria de vídeo. Se realiza el seguimiento de cambios en el búfer de reserva con zonas rectangulares modificadas.  
+ El subproceso de UI escribe contenido en el búfer de reserva. El subproceso de representación lee el contenido del búfer frontal y lo copia en memoria de vídeo. Se realiza un seguimiento de cambios en el búfer de reserva con regiones rectangulares modificadas.  
   
  Llame a uno de los <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> sobrecargas para actualizar y mostrar automáticamente el contenido en el búfer de reserva.  
   
- Obtener un mayor control sobre las actualizaciones y para el acceso multiproceso al búfer de reserva, use el siguiente flujo de trabajo.  
+ Para un mayor control sobre las actualizaciones y para el acceso multiproceso al búfer de reserva, use el siguiente flujo de trabajo.  
   
 1.  Llame a la <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> método para reservar el búfer de reserva para las actualizaciones.  
   
-2.  Obtener un puntero al búfer de reserva, obtenga acceso a la <xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A> propiedad.  
+2.  Obtener un puntero al búfer de reserva mediante el acceso a la <xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A> propiedad.  
   
 3.  Escribir cambios en el búfer de reserva. Otros subprocesos pueden escribir cambios en la parte posterior del búfer cuando el <xref:System.Windows.Media.Imaging.WriteableBitmap> está bloqueado.  
   
@@ -49,12 +50,12 @@
   
 5.  Llame a la <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> método para liberar el búfer de reserva y permitir la presentación en la pantalla.  
   
- Cuando las actualizaciones se envían al subproceso de representación, el subproceso de representación copia los rectángulos modificados desde el búfer de reserva en el búfer frontal. El sistema de representación controla este intercambio para evitar los interbloqueos y volver a dibujar los artefactos, como "Anular".  
+ Cuando las actualizaciones se envían al subproceso de representación, el subproceso de representación copia los rectángulos modificados desde el búfer de reserva en el búfer frontal. El sistema de representación controla este intercambio para evitar interbloqueos y volver a dibujar los artefactos, como "despedazamiento".  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo un <xref:System.Windows.Media.Imaging.WriteableBitmap> puede utilizarse como el origen de un <xref:System.Windows.Controls.Image> para dibujar píxeles cuando se mueve el mouse.  
+ En el ejemplo siguiente se muestra cómo un <xref:System.Windows.Media.Imaging.WriteableBitmap> puede usarse como origen de un <xref:System.Windows.Controls.Image> para dibujar píxeles cuando se mueve el mouse.  
   
  [!code-csharp[WriteableBitmap2#WriteableBitmapFullPage](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#writeablebitmapfullpage)]  
   
@@ -82,6 +83,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -99,13 +101,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Windows.Media.Imaging.WriteableBitmap.%23ctor%28System.Int32%2CSystem.Int32%2CSystem.Double%2CSystem.Double%2CSystem.Windows.Media.PixelFormat%2CSystem.Windows.Media.Imaging.BitmapPalette%29> constructor es preferible utilizar este constructor.  
+ El <xref:System.Windows.Media.Imaging.WriteableBitmap.%23ctor%28System.Int32%2CSystem.Int32%2CSystem.Double%2CSystem.Double%2CSystem.Windows.Media.PixelFormat%2CSystem.Windows.Media.Imaging.BitmapPalette%29> constructor es preferible a utilizar este constructor.  
   
- Si `source` no usa un formato de mapa de bits compatible de forma nativa, las conversiones se aplican para cada actualización de trama, lo que reduce el rendimiento de formato.  
+ Si `source` no utiliza un formato de mapa de bits admitidos, se aplican las conversiones para cada actualización de fotograma, lo que reduce el rendimiento de formato.  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">Para obtener acceso a los recursos no administrados. Acción de seguridad: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">Para obtener acceso a recursos no administrados. Acción de seguridad: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -117,6 +119,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -144,11 +147,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Los valores preferidos para `pixelFormat` son <xref:System.Windows.Media.PixelFormats.Bgr32%2A> y <xref:System.Windows.Media.PixelFormats.Pbgra32%2A>. Estos formatos se admiten de forma nativa y no requieren una conversión de formato. Otros `pixelFormat` valores requieren una conversión de formato para cada actualización de trama, lo que reduce el rendimiento.  
+ Los valores preferidos para `pixelFormat` son <xref:System.Windows.Media.PixelFormats.Bgr32%2A> y <xref:System.Windows.Media.PixelFormats.Pbgra32%2A>. Estos formatos se admiten de forma nativa y no requieren una conversión de formato. Otros `pixelFormat` valores requieren una conversión de formato para cada actualización de fotograma, lo que reduce el rendimiento.  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">Para obtener acceso a los recursos no administrados. Acción de seguridad: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">Para obtener acceso a recursos no administrados. Acción de seguridad: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
       </Docs>
     </Member>
     <Member MemberName="AddDirtyRect">
@@ -161,6 +164,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -183,14 +187,14 @@
 ## Remarks  
  Llame a la <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> método para indicar modificaciones realizadas por el código en el búfer de reserva.  
   
- Cuando se llama a este método varias veces, las áreas cambiadas se acumulan en una representación suficiente, pero no necesariamente mínima. Para mejorar la eficacia, se garantiza que sólo las áreas que están marcadas como modificados se copian en el búfer frontal. Sin embargo, cualquier parte del mapa de bits se puede copiar al día, por lo que debe asegurarse de que el búfer de reserva todo siempre es válido.  
+ Cuando se llama a este método varias veces, las áreas cambiadas se acumulan en una representación suficiente, pero no necesariamente mínima. Para mejorar la eficacia, se garantiza que sólo las áreas que se marcan como modificados se copian en el búfer frontal. Sin embargo, cualquier parte del mapa de bits puede copiarse al día, por lo que debe asegurarse de que todo el búfer de reserva siempre es válido.  
   
- Llame a la <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> método sólo entre las llamadas a la <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> y <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> métodos, como se describe en la <xref:System.Windows.Media.Imaging.WriteableBitmap> clase comentarios.  
+ Llame a la <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> método sólo entre las llamadas a la <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> y <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> métodos, como se describe en el <xref:System.Windows.Media.Imaging.WriteableBitmap> clase comentarios.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo especificar el área de la parte posterior del búfer que se cambia utilizando la <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> método.  
+ El ejemplo de código siguiente muestra cómo especificar el área de la parte posterior del búfer que se puede cambiar mediante el uso de la <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> método.  
   
  [!code-csharp[WriteableBitmap2#2](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#2)]  
   
@@ -199,7 +203,7 @@
         <exception cref="T:System.InvalidOperationException">The bitmap has not been locked by a call to the <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" /> or <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)" /> methods.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="dirtyRect" /> falls outside the bounds of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">Para obtener acceso a los recursos no administrados. Acción de seguridad: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">Para obtener acceso a recursos no administrados. Acción de seguridad: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
       </Docs>
     </Member>
     <Member MemberName="BackBuffer">
@@ -212,6 +216,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -234,12 +239,12 @@
 ## Remarks  
  El búfer de reserva incluye el contenido de mapa de bits en el formato de píxel solicitado por el usuario.  
   
- Actualizar el búfer de reserva sólo entre las llamadas a la <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> y <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> métodos. Si no sigue el flujo de trabajo de bloquear/desbloquear se describe en el <xref:System.Windows.Media.Imaging.WriteableBitmap> comentarios de la clase, sin definir comportamientos, como anular, pueden producirse.  
+ Actualizar el búfer de reserva sólo entre las llamadas a la <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> y <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> métodos. Si no sigue el flujo de trabajo de bloqueo/desbloqueo se describe en el <xref:System.Windows.Media.Imaging.WriteableBitmap> comentarios de la clase, sin definir comportamientos, como el desgarro, pueden producirse.  
   
- La dirección del búfer de reserva no cambia.  
+ No cambie la dirección del búfer de reserva.  
   
 ## <a name="thread-safety"></a>Seguridad para subprocesos  
- Puede pasar el <xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A> puntero a componentes externos y otros subprocesos para su procesamiento, pero si lo hace, se debe proporcionar propia coordinación de subprocesos. En concreto, debe asegurarse de que el subproceso de interfaz de usuario especifica las áreas cambiadas mediante una llamada a la <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> método y que el subproceso de interfaz de usuario desbloquea el búfer mediante una llamada a la <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> método.  
+ Puede pasar el <xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A> puntero a los componentes externos y otros subprocesos para su procesamiento, pero si lo hace, se debe proporcionar propia coordinación de subprocesos. En concreto, debe asegurarse de que el subproceso de interfaz de usuario especifica áreas que se modifican mediante una llamada a la <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> método y que el subproceso de interfaz de usuario desbloquea el búfer mediante una llamada a la <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> método.  
   
  ]]></format>
         </remarks>
@@ -255,6 +260,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -276,6 +282,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -289,7 +296,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método se usa para generar copias modificables de inmovilizado <xref:System.Windows.Freezable> objetos (o cualquier <xref:System.Windows.Freezable> objeto). Para mayor comodidad, este método prevalece sobre la versión heredada mediante una implementación fuertemente tipada.  
+ Este método se usa para producir copias modificables de inmovilizado <xref:System.Windows.Freezable> objetos (o cualquier <xref:System.Windows.Freezable> objeto). Para mayor comodidad, este método prevalece sobre la versión heredada con una implementación fuertemente tipada.  
   
  Para obtener más información, consulta <xref:System.Windows.Freezable.Clone%2A?displayProperty=nameWithType>.  
   
@@ -307,6 +314,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -339,6 +347,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -352,7 +361,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método se usa para generar copias modificables de inmovilizado <xref:System.Windows.Freezable> objetos (o cualquier <xref:System.Windows.Freezable> objeto). Para mayor comodidad, este método prevalece sobre la versión heredada mediante una implementación fuertemente tipada.  
+ Este método se usa para producir copias modificables de inmovilizado <xref:System.Windows.Freezable> objetos (o cualquier <xref:System.Windows.Freezable> objeto). Para mayor comodidad, este método prevalece sobre la versión heredada con una implementación fuertemente tipada.  
   
  Para obtener más información, consulta <xref:System.Windows.Freezable.CloneCurrentValue%2A?displayProperty=nameWithType>.  
   
@@ -370,6 +379,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -402,6 +412,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -424,6 +435,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -457,6 +469,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -489,6 +502,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -521,6 +535,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -533,16 +548,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> método incrementa el recuento de bloqueos. Cuando un <xref:System.Windows.Media.Imaging.WriteableBitmap> está bloqueado, el sistema de representación no envía las actualizaciones hasta la <xref:System.Windows.Media.Imaging.WriteableBitmap> se desbloquee totalmente mediante llamadas a la <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> método.  
+ El <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> método incrementa el recuento de bloqueos. Cuando un <xref:System.Windows.Media.Imaging.WriteableBitmap> está bloqueado, el sistema de representación no envía las actualizaciones hasta la <xref:System.Windows.Media.Imaging.WriteableBitmap> totalmente se desbloquea mediante llamadas a la <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> método.  
   
- Puede usar el <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> método para admitir las implementaciones multiproceso. En estos casos, el subproceso de interfaz de usuario bloquea el mapa de bits y expone el búfer de reserva a otros subprocesos. Cuando el subproceso de trabajo ha finalizado con una trama, el subproceso de interfaz de usuario agrega los rectángulos modificados y desbloquea el búfer.  
+ Puede usar el <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> método para admitir implementaciones de multiproceso. En estos casos, el subproceso de interfaz de usuario bloquea el mapa de bits y expone el búfer de reserva a otros subprocesos. Cuando el subproceso de trabajo ha terminado un marco, el subproceso de interfaz de usuario agrega los rectángulos modificados y desbloquea el búfer.  
   
- Puede bloquear el subproceso de interfaz de usuario cuando el subproceso de representación adquiere un bloqueo en el búfer de reserva para copiarlo al día en el búfer frontal. Si la latencia de este bloqueo es demasiado larga, use el <xref:System.Windows.Media.Imaging.WriteableBitmap.TryLock%2A> método espere unos instantes y, a continuación, desbloquear el subproceso de interfaz de usuario para llevar a cabo otras tareas mientras se bloquea el búfer de reserva.  
+ Puede bloquear el subproceso de interfaz de usuario cuando el subproceso de representación adquiere un bloqueo en el búfer de reserva para copiarlo en el búfer frontal. Si la latencia de este bloqueo es demasiado larga, use el <xref:System.Windows.Media.Imaging.WriteableBitmap.TryLock%2A> método para esperar durante un breve tiempo y, a continuación, desbloquear el subproceso de interfaz de usuario para llevar a cabo otras tareas mientras se bloquea el búfer de reserva.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo reservar el búfer de reserva mediante la <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> método.  
+ El ejemplo de código siguiente muestra cómo reservar el búfer de reserva usando el <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> método.  
   
  [!code-csharp[WriteableBitmap2#2](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#2)]  
   
@@ -562,6 +577,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -590,7 +606,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="timeout" /> is set to <see cref="P:System.Windows.Duration.Automatic" />.</exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">Para obtener acceso a los recursos no administrados. Acción de seguridad: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">Para obtener acceso a recursos no administrados. Acción de seguridad: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
         <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" />
         <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.Unlock" />
       </Docs>
@@ -605,6 +621,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -622,19 +639,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> método disminuye el recuento de bloqueos. Cuando el recuento de bloqueos llegue a 0, se solicita un paso de representación si el <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> ha llamado al método.  
+ El <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> método disminuye el recuento de bloqueos. Cuando el recuento de bloqueos alcanza el 0, se solicita una fase de representación si el <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> ha llamado al método.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo liberar el búfer de reserva usando el <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> método.  
+ El ejemplo de código siguiente muestra cómo liberar el búfer de reserva mediante la <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> método.  
   
  [!code-csharp[WriteableBitmap2#2](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#2)]  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.InvalidOperationException">The bitmap has not been locked by a call to the <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" /> or <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)" /> methods.</exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">Para obtener acceso a los recursos no administrados. Acción de seguridad: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">Para obtener acceso a recursos no administrados. Acción de seguridad: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
         <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" />
         <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)" />
       </Docs>
@@ -658,6 +675,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -687,12 +705,12 @@
  El <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> y <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.IntPtr%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> sobrecargas son preferibles a utilizar este método.  
   
 > [!NOTE]
->  En confianza parcial, use el <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> sobrecarga.  
+>  En confianza parcial, use el <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> sobrecargar.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se muestra cómo actualizar un píxel en el búfer de reserva usando el <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> método.  
+ El ejemplo de código siguiente muestra cómo actualizar un píxel en el búfer de reserva con el <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> método.  
   
  [!code-csharp[WriteableBitmap2#3](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#3)]  
   
@@ -707,7 +725,7 @@
           <paramref name="pixels" /> is <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException">
           <paramref name="pixels" /> has a rank other than 1 or 2, or its length is less than or equal to 0.</exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">Para obtener acceso a los recursos no administrados. Acción de seguridad: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">Para obtener acceso a recursos no administrados. Acción de seguridad: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
       </Docs>
     </Member>
     <Member MemberName="WritePixels">
@@ -720,6 +738,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -749,7 +768,7 @@
  El <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> y <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.IntPtr%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> sobrecargas son preferibles a utilizar este método.  
   
 > [!NOTE]
->  En confianza parcial, use el <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> sobrecarga.  
+>  En confianza parcial, use el <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> sobrecargar.  
   
  ]]></format>
         </remarks>
@@ -760,7 +779,7 @@
  <paramref name="bufferSize" /> &lt; 1  <paramref name="stride" /> &lt; 1</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="buffer" /> is <see langword="null" />.</exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">Para obtener acceso a los recursos no administrados. Acción de seguridad: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">Para obtener acceso a recursos no administrados. Acción de seguridad: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
       </Docs>
     </Member>
     <Member MemberName="WritePixels">
@@ -773,6 +792,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -801,7 +821,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Llame a la <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> método para actualizar la <xref:System.Windows.Media.Imaging.WriteableBitmap> automáticamente con el contenido de `sourceBuffer`. Llamar a este método es el equivalente del uso de la <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> y <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> flujo de trabajo se describe en la <xref:System.Windows.Media.Imaging.WriteableBitmap> clase comentarios.  
+ Llame a la <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> método para actualizar la <xref:System.Windows.Media.Imaging.WriteableBitmap> automáticamente con el contenido de `sourceBuffer`. Llamar a este método es equivalente a usar el <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> y <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> flujo de trabajo se describe en el <xref:System.Windows.Media.Imaging.WriteableBitmap> clase comentarios.  
   
 > [!NOTE]
 >  Utilice esta sobrecarga en confianza parcial.  
@@ -819,7 +839,7 @@
           <paramref name="sourceBuffer" /> is <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException">
           <paramref name="sourceBuffer" /> has a rank other than 1 or 2, or its length is less than or equal to 0.</exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">Para obtener acceso a los recursos no administrados. Acción de seguridad: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">Para obtener acceso a recursos no administrados. Acción de seguridad: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
         <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)" />
       </Docs>
     </Member>
@@ -833,6 +853,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -863,10 +884,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Llame a la <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> método para actualizar la <xref:System.Windows.Media.Imaging.WriteableBitmap> automáticamente con el contenido de `sourceBuffer`. Llamar a este método es el equivalente del uso de la <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> y <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> flujo de trabajo se describe en la <xref:System.Windows.Media.Imaging.WriteableBitmap> clase comentarios.  
+ Llame a la <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> método para actualizar la <xref:System.Windows.Media.Imaging.WriteableBitmap> automáticamente con el contenido de `sourceBuffer`. Llamar a este método es equivalente a usar el <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> y <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> flujo de trabajo se describe en el <xref:System.Windows.Media.Imaging.WriteableBitmap> clase comentarios.  
   
 > [!NOTE]
->  En confianza parcial, use el <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> sobrecarga.  
+>  En confianza parcial, use el <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> sobrecargar.  
   
  ]]></format>
         </remarks>
@@ -879,7 +900,7 @@
  <paramref name="sourceBufferSize" /> &lt; 1  <paramref name="sourceBufferStride" /> &lt; 1</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="sourceBuffer" /> is <see langword="null" />.</exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">Para obtener acceso a los recursos no administrados. Acción de seguridad: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">Para obtener acceso a recursos no administrados. Acción de seguridad: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
         <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)" />
       </Docs>
     </Member>

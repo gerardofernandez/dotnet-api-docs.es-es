@@ -1,11 +1,11 @@
 <Type Name="GC" FullName="System.GC">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="c8c0e69634df9ae33ac5d21d72ad8ca2edd45573" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="df6c8515f979bac3eb8e948b4bb6025a6577640e" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36431734" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37481431" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class GC" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit GC extends System.Object" />
@@ -24,6 +24,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -41,54 +43,54 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El recolector de elementos no utilizados es un componente de common language runtime que controla la asignación y liberación de memoria administrada. Influir en los métodos de esta clase cuando se realiza la recolección de elementos no utilizados en un objeto y, cuando se liberan los recursos asignados por un objeto. Propiedades de esta clase proporcionan información acerca de la cantidad total de memoria disponible en el sistema y la categoría de edad o la generación de memoria asignada a un objeto.  
+ El recolector de elementos no utilizados es un componente de common language runtime que controla la asignación y liberación de memoria administrada. Influir en los métodos de esta clase cuando se realiza la recolección de elementos en un objeto y, cuando se liberan los recursos asignados por un objeto. Propiedades de esta clase proporcionan información acerca de la cantidad total de memoria disponible en el sistema y la categoría de edad o la generación de memoria asignada a un objeto.  
   
- El recolector de elementos no utilizados realiza un seguimiento y recupera los objetos asignados en la memoria administrada. El recolector de elementos no utilizados realiza periódicamente, colección de elementos no utilizados para reclamar la memoria asignada a objetos para los que no hay ninguna referencia válida. Colección de elementos no utilizados se produce automáticamente cuando no se puede satisfacer una solicitud de memoria utilizando la memoria libre disponible. O bien, una aplicación puede forzar la colección de elementos no utilizados mediante la <xref:System.GC.Collect%2A> método.  
+ El recolector de elementos no utilizados realiza un seguimiento y reclama los objetos asignados en memoria administrada. Periódicamente, el recolector de elementos no utilizados realiza la recolección para liberar memoria asignada a objetos para los que no hay ninguna referencia válida. Colección de elementos no utilizados se produce automáticamente cuando no se puede satisfacer una solicitud de memoria utilizando la memoria libre disponible. O bien, una aplicación puede forzar la colección de elementos no utilizados mediante la <xref:System.GC.Collect%2A> método.  
   
- Colección de elementos no utilizados consta de los siguientes pasos:  
+ Recolección de elementos consta de los pasos siguientes:  
   
-1.  El recolector de elementos no utilizados busca objetos administrados a los que se hace referencia en código administrado.  
+1.  El recolector de elementos no utilizados busca los objetos administrados que se hace referencia en código administrado.  
   
 2.  El recolector de elementos no utilizados intenta finalizar los objetos que no se hace referencia.  
   
-3.  El recolector de elementos no utilizados libera los objetos que no se hace referencia y recupera su memoria.  
+3.  El recolector de elementos no utilizados libera los objetos que no se hace referencia y reclama su memoria.  
   
  En este tema, se incluyen las siguientes secciones:  
   
  [El recolector de elementos no utilizados y los recursos no administrados](#unmanaged)   
- [Generaciones y edad de los objetos](#generations)   
+ [Generaciones y caducidad de objetos](#generations)   
  [Impedir la recolección de elementos](#NoGCRegion)  
   
 <a name="unmanaged"></a>   
 ## <a name="the-garbage-collector-and-unmanaged-resources"></a>El recolector de elementos no utilizados y los recursos no administrados  
- Durante una recolección, el recolector de elementos no utilizados no liberar un objeto si encuentra una o varias referencias al objeto en el código administrado. Sin embargo, el recolector de elementos no utilizados no reconoce las referencias a un objeto de código no administrado y puede liberar objetos que se utilizan exclusivamente en código no administrado, a menos que se impide explícitamente hacerlo. El <xref:System.GC.KeepAlive%2A> método proporciona un mecanismo que impide que el recolector de elementos no utilizados recoja objetos que aún estén en uso en código no administrado.  
+ Durante una recolección, el recolector de elementos no utilizados no liberar un objeto si encuentra una o varias referencias al objeto en el código administrado. Sin embargo, el recolector de elementos no utilizados no reconoce las referencias a un objeto desde código no administrado y puede liberar objetos que se utilizan exclusivamente en código no administrado, a menos que explícitamente no hacerlo. El <xref:System.GC.KeepAlive%2A> método proporciona un mecanismo que impide que el recolector de elementos de recopilación de objetos que están en uso en código no administrado.  
   
- Además de las asignaciones de memoria administrada, las implementaciones del recolector de elementos no utilizados no mantienen información acerca de los recursos mantenidos por un objeto, como los identificadores de archivo o las conexiones de base de datos. Cuando un tipo utiliza recursos no administrados que deben liberarse antes de que se reclaman instancias del tipo, el tipo puede implementar un finalizador.  
+ Aparte de las asignaciones de memoria administrada, las implementaciones del recolector de elementos no utilizados no mantienen información acerca de los recursos mantenidos por un objeto, como identificadores de archivos o las conexiones de base de datos. Cuando un tipo utiliza recursos no administrados que deben liberarse antes de que se recuperan instancias del tipo, el tipo puede implementar un finalizador.  
   
- En la mayoría de los casos, los finalizadores se implementan reemplazando el <xref:System.Object.Finalize%2A?displayProperty=nameWithType> método; sin embargo, los tipos escritos en C# o C++ implementan destructores, que los compiladores convierten en un reemplazo del <xref:System.Object.Finalize%2A?displayProperty=nameWithType>. En la mayoría de los casos, si un objeto tiene un finalizador, el recolector de elementos no utilizados lo llama antes de liberar el objeto. Sin embargo, el recolector de elementos no utilizados no es necesario llamar a los finalizadores en todas las situaciones; Por ejemplo, el <xref:System.GC.SuppressFinalize%2A> método explícitamente impide que un finalizador del objeto que se va a llamar. Además, el recolector de elementos no utilizados no tiene que utilizar un subproceso concreto para finalizar los objetos o garantiza el orden en el que se llama a los finalizadores para los objetos que hacen referencia entre sí, pero están disponibles para la recolección.  
+ En la mayoría de los casos, los finalizadores se implementan mediante la invalidación de la <xref:System.Object.Finalize%2A?displayProperty=nameWithType> método; sin embargo, los tipos escritos en C# o C++ implementan destructores, que los compiladores se convierten en un reemplazo de <xref:System.Object.Finalize%2A?displayProperty=nameWithType>. En la mayoría de los casos, si un objeto tiene un finalizador, el recolector de elementos no utilizados lo llama antes de liberar el objeto. Sin embargo, el recolector de elementos no utilizados no es necesario para llamar a los finalizadores en todas las situaciones; Por ejemplo, el <xref:System.GC.SuppressFinalize%2A> método explícitamente impide que un finalizador del objeto que se llama. Además, el recolector de elementos no utilizados no tiene que usar un subproceso específico para finalizar los objetos o garantiza el orden en el que se llama a los finalizadores para objetos que hacen referencia entre sí, pero están disponibles para la recolección.  
   
- En escenarios donde se deben liberar los recursos en un momento determinado, las clases pueden implementar la <xref:System.IDisposable> interfaz, que contiene el <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> método que realiza tareas de administración y limpieza de recursos. Las clases que implementan <xref:System.IDisposable.Dispose%2A> especifique, como parte de su contrato de clase, si y cuando los consumidores de la clase llama al método para limpiar el objeto. El recolector de elementos no utilizados no es así, de forma predeterminada, llame a la <xref:System.IDisposable.Dispose%2A> método; sin embargo, las implementaciones de la <xref:System.IDisposable.Dispose%2A> método puede llamar a métodos la <xref:System.GC> clase para personalizar el comportamiento de finalización del recolector de elementos no utilizados.  
+ En escenarios donde se deben liberar los recursos en un momento determinado, las clases pueden implementar la <xref:System.IDisposable> interfaz, que contiene el <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> método que realiza las tareas de administración y limpieza de recursos. Las clases que implementan <xref:System.IDisposable.Dispose%2A> especifique, como parte de su contrato de clase, cuando los consumidores de la clase llama al método para limpiar el objeto. El recolector de elementos no utilizados no, de forma predeterminada, llama a la <xref:System.IDisposable.Dispose%2A> método; sin embargo, las implementaciones de la <xref:System.IDisposable.Dispose%2A> método puede llamar a métodos el <xref:System.GC> clase para personalizar el comportamiento de finalización del recolector de elementos no utilizados.  
   
  Para obtener más información sobre la finalización del objeto y el patrón de dispose, vea [limpiar recursos no administrados](~/docs/standard/garbage-collection/unmanaged.md).  
   
 <a name="generations"></a>   
-## <a name="object-aging-and-generations"></a>Generaciones y edad de los objetos  
- El recolector de elementos no utilizados de common language runtime admite la edad de los objetos mediante las generaciones. Una generación es una unidad de medida de la antigüedad relativa de los objetos en la memoria. El número de generación o la edad de un objeto indica la generación a la que pertenece un objeto. Objetos creados más recientemente forman parte de las generaciones más recientes y tienen los números más bajos de generación de ciclo de objetos creados anteriormente en la vida de las aplicaciones. Objetos de la generación más reciente están en la generación 0. Esta implementación del recolector de elementos no utilizados admite tres generaciones de objetos, las generaciones 0, 1 y 2. Puede recuperar el valor de la <xref:System.GC.MaxGeneration%2A> propiedad para determinar el número de generación máximo admitido por el sistema.  
+## <a name="object-aging-and-generations"></a>Generaciones y caducidad de objetos  
+ El recolector de elementos no utilizados de common language runtime admite la edad de los objetos mediante las generaciones. Una generación es una unidad de medida de la antigüedad relativa de los objetos en memoria. El número de generación o la edad de un objeto indica la generación a la que pertenece un objeto. Los objetos creados más recientemente forman parte de las generaciones más recientes y tienen los números más bajos de generación de ciclo de los objetos creados anteriormente en la vida de la aplicación. Son objetos de la generación más reciente en la generación 0. Esta implementación del recolector de elementos no utilizados admite tres generaciones de objetos, las generaciones 0, 1 y 2. Puede recuperar el valor de la <xref:System.GC.MaxGeneration%2A> propiedad para determinar el número de generación máximo admitido por el sistema.  
   
- Caducidad de objetos permite a las aplicaciones dirijan la recolección en un conjunto específico de generaciones en lugar de requerir el recolector de elementos no utilizados evaluar todas las generaciones. Sobrecargas de la <xref:System.GC.Collect%2A> método que incluyen un `generation` parámetro le permiten especificar la generación más antigua se recolecte.  
+ Caducidad de objetos permite que las aplicaciones dirijan la recolección en un conjunto específico de generaciones en lugar de requerir el recolector de elementos no utilizados evaluar todas las generaciones. Las sobrecargas de los <xref:System.GC.Collect%2A> método que incluyen un `generation` parámetro le permiten especificar la generación más antigua se recolecte.  
   
 <a name="NoGCRegion"></a>   
 ## <a name="disallowing-garbage-collection"></a>Impedir la recolección de elementos  
- A partir de la [!INCLUDE[net_v46](~/includes/net-v46-md.md)], el recolector de elementos no utilizados no admite un GC región modo de latencia que se puede usar durante la ejecución de las rutas de acceso críticas en los elementos no utilizados colección puede afectar negativamente el rendimiento de una aplicación. El modo de latencia ninguna región de GC requiere que especifique una cantidad de memoria que puede asignar sin interferencias del recolector de elementos no utilizados. Si el tiempo de ejecución puede asignar esa memoria, el runtime no realizará una colección de elementos no utilizados mientras se está ejecutando código en la ruta crítica.  
+ A partir de la [!INCLUDE[net_v46](~/includes/net-v46-md.md)], el recolector de elementos no utilizados es compatible con un GC región modo de no latencia que se puede usar durante la ejecución de las rutas críticas en qué elementos no utilizados colección puede afectar al rendimiento de una aplicación. El modo de latencia ninguna región de GC requiere que especifique una cantidad de memoria que se puede asignar sin interferencias del recolector de elementos no utilizados. Si el tiempo de ejecución puede asignar memoria, el tiempo de ejecución no realizará una colección de elementos no utilizados mientras se está ejecutando código en la ruta crítica.  
   
  Definir el principio de la ruta crítica de la región de GC no mediante una llamada a una de las sobrecargas de los <xref:System.GC.TryStartNoGCRegion%2A>. Especifique el final de su ruta de acceso crítica mediante una llamada a la <xref:System.GC.EndNoGCRegion%2A> método.  
   
- No se pueden anidar las llamadas a la <xref:System.GC.TryStartNoGCRegion%2A> método y se debería llamar a la <xref:System.GC.EndNoGCRegion%2A> método si el tiempo de ejecución está actualmente en modo de no latencia de la región de GC. En otras palabras, no debe llamar <xref:System.GC.TryStartNoGCRegion%2A> varias veces (después de la primera llamada de método, las llamadas subsiguientes no surtirán efecto), y no deben esperar que las llamadas a <xref:System.GC.EndNoGCRegion%2A> sea correcta sólo porque la primera llamada a <xref:System.GC.TryStartNoGCRegion%2A> se realizó correctamente.  
+ No se pueden anidar las llamadas a la <xref:System.GC.TryStartNoGCRegion%2A> solo debe llamar al método y el <xref:System.GC.EndNoGCRegion%2A> método si el tiempo de ejecución está actualmente en modo de no latencia de la región de GC. En otras palabras, no debería llamar <xref:System.GC.TryStartNoGCRegion%2A> varias veces (después de la primera llamada de método, las llamadas subsiguientes no surtirán efecto), y no debe esperar que las llamadas a <xref:System.GC.EndNoGCRegion%2A> sea correcta sólo porque la primera llamada a <xref:System.GC.TryStartNoGCRegion%2A> se realizó correctamente.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se usa varios métodos de GC para obtener información de memoria sobre un bloque de objetos no utilizados y la generación e imprimirlo en la consola. Los objetos no utilizados, a continuación, se recopilan y se muestran los totales de memoria resultantes.  
+ El ejemplo siguiente usa varios métodos de GC para obtener información de memoria sobre un bloque de objetos no utilizados y la generación e imprimirlo en la consola. Los objetos no utilizados, a continuación, se recopilan y se muestran los totales de memoria resultantes.  
   
  [!code-cpp[System.GC.Collect Int Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.gc.collect int example/CPP/class1.cpp#1)]
  [!code-csharp[System.GC.Collect Int Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.gc.collect int example/CS/class1.cs#1)]
@@ -118,6 +120,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -143,21 +146,21 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Para determinar cuándo se debe programar la recopilación de elementos no utilizados, el tiempo de ejecución tiene en cuenta la cantidad de memoria administrada se asigna. Si un objeto administrado pequeño asigna una gran cantidad de memoria no administrada, el tiempo de ejecución tiene en cuenta sólo la memoria administrada y, por tanto, subestima la urgencia de programar la recolección. El <xref:System.GC.AddMemoryPressure%2A> método informa el tiempo de ejecución de esta necesidad adicional de memoria del sistema.  
+ Para determinar cuándo se debe programar la recopilación de elementos no utilizados, el tiempo de ejecución tiene en cuenta la cantidad de memoria administrada está asignada. Si un objeto administrado pequeño asigna una gran cantidad de memoria no administrada, el tiempo de ejecución tiene en cuenta que sólo la memoria administrada y, por tanto, subestima la urgencia de programar la recolección. El <xref:System.GC.AddMemoryPressure%2A> método informa el tiempo de ejecución de esta necesidad adicional de memoria del sistema.  
   
- En el patrón de uso más simple, un objeto administrado asigna la memoria no administrada en el constructor y lo libera de la `Dispose` o `Finalize` método. Llame a la <xref:System.GC.AddMemoryPressure%2A> método después de asignar la memoria no administrada y llamar a la <xref:System.GC.RemoveMemoryPressure%2A> método después de liberarla.  
+ En el patrón de uso más simple, un objeto administrado asigna memoria no administrada en el constructor y lo libera en la `Dispose` o `Finalize` método. Llame a la <xref:System.GC.AddMemoryPressure%2A> método después de asignar la memoria no administrada y llamar a la <xref:System.GC.RemoveMemoryPressure%2A> método después de liberarla.  
   
- En escenarios más complicados, donde la asignación de memoria no administrada cambia substancialmente durante la duración del objeto administrado, puede llamar a la <xref:System.GC.AddMemoryPressure%2A> y <xref:System.GC.RemoveMemoryPressure%2A> métodos para comunicar estos cambios incrementales en el tiempo de ejecución.  
+ En escenarios más complicados, donde la asignación de memoria no administrada cambia considerablemente durante la vigencia del objeto administrado, puede llamar a la <xref:System.GC.AddMemoryPressure%2A> y <xref:System.GC.RemoveMemoryPressure%2A> métodos de comunicación de estos cambios incrementales en el tiempo de ejecución.  
   
 > [!CAUTION]
->  Debe asegurarse de que quita exactamente la cantidad de memoria que agrega. Si no lo puede afectar negativamente el rendimiento del sistema en las aplicaciones que se ejecutan durante largos períodos de tiempo.  
+>  Debe asegurarse de que quita exactamente la cantidad de presión que agrega. Si no lo puede afectar negativamente el rendimiento del sistema en las aplicaciones que se ejecutan durante largos períodos de tiempo.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="bytesAllocated" /> is less than or equal to 0.  -or-  On a 32-bit computer, <paramref name="bytesAllocated" /> is larger than <see cref="F:System.Int32.MaxValue" />.</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">Para poder llamar a código no administrado al manipular la prioridad de la colección de elementos no utilizados. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Requiere plena confianza para el llamador inmediato. Este miembro no puede usarse por código de confianza parcial o transparente.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no se puede usar código de confianza parcial o transparente.</permission>
       </Docs>
     </Member>
     <Member MemberName="CancelFullGCNotification">
@@ -170,6 +173,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -197,12 +201,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método cancela una notificación de la colección de elementos no utilizados que se registró mediante el <xref:System.GC.RegisterForFullGCNotification%2A> método. No es necesario llamar a este método antes de ajustar los valores de parámetro de umbral en llamadas posteriores a la <xref:System.GC.RegisterForFullGCNotification%2A> método.  
+ Este método cancela una notificación de recolección que se ha registrado mediante el <xref:System.GC.RegisterForFullGCNotification%2A> método. No es necesario llamar a este método antes de ajustar los valores de parámetro de umbral en llamadas posteriores a la <xref:System.GC.RegisterForFullGCNotification%2A> método.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se cancela un registro de la colección de elementos no utilizados. Este ejemplo forma parte de un ejemplo mayor proporcionado para el [notificaciones de la colección de elementos no utilizados](~/docs/standard/garbage-collection/notifications.md) tema.  
+ El ejemplo siguiente cancela un registro de la colección de elementos no utilizados. Este ejemplo forma parte de un ejemplo más extenso proporcionado para el [notificaciones de recolección de elementos no utilizados](~/docs/standard/garbage-collection/notifications.md) tema.  
   
  [!code-cpp[GCNotification#7](~/samples/snippets/cpp/VS_Snippets_CLR/GCNotification/cpp/program.cpp#7)]
  [!code-csharp[GCNotification#7](~/samples/snippets/csharp/VS_Snippets_CLR/GCNotification/cs/Program.cs#7)]
@@ -211,8 +215,8 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.InvalidOperationException">This member is not available when concurrent garbage collection is enabled. See the [&lt;gcConcurrent&gt;](~/docs/framework/configure-apps/file-schema/runtime/gcconcurrent-element.md) runtime setting for information about how to disable concurrent garbage collection.</exception>
-        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">de plena confianza para el llamador inmediato. Un código de confianza parcial no puede utilizar este miembro.</permission>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Requiere plena confianza para el llamador inmediato. Este miembro no puede usarse por código de confianza parcial o transparente.</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">para plena confianza para el llamador inmediato. Un código de confianza parcial no puede utilizar este miembro.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no se puede usar código de confianza parcial o transparente.</permission>
       </Docs>
     </Member>
     <MemberGroup MemberName="Collect">
@@ -247,6 +251,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -271,9 +277,9 @@
 ## Remarks  
  Utilice este método para intentar reclamar toda la memoria que no es accesible. Realiza una recolección de elementos no utilizados de bloqueo de todas las generaciones.  
   
- Todos los objetos, independientemente de cuánto tiempo llevan en memoria, se consideran para la colección; Sin embargo, no se recopilan los objetos que se hace referencia en código administrado. Utilice este método para forzar el sistema para intentar obtener la máxima cantidad de memoria disponible.  
+ Todos los objetos, independientemente de cuánto tiempo llevan en memoria, se consideran para la colección; Sin embargo, no se recopilan los objetos que se hace referencia en código administrado. Utilice este método para forzar al sistema para intentar reclamar la cantidad máxima de memoria disponible.  
   
- A partir de la [!INCLUDE[net_v451](~/includes/net-v451-md.md)], también puede compactar el montón de objetos grandes (LOH) estableciendo el <xref:System.Runtime.GCSettings.LargeObjectHeapCompactionMode%2A?displayProperty=nameWithType> propiedad a <xref:System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce?displayProperty=nameWithType> antes de llamar a la <xref:System.GC.Collect%2A> método, como en el ejemplo siguiente se muestra.  
+ A partir de la [!INCLUDE[net_v451](~/includes/net-v451-md.md)], puede compactar el montón de objetos grandes (LOH) estableciendo el <xref:System.Runtime.GCSettings.LargeObjectHeapCompactionMode%2A?displayProperty=nameWithType> propiedad <xref:System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce?displayProperty=nameWithType> antes de llamar a la <xref:System.GC.Collect%2A> método, como en el ejemplo siguiente se muestra.  
   
  [!code-csharp[System.Runtime.GCSettings#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.runtime.gcsettings/cs/lohcompactionmode1.cs#1)]
  [!code-vb[System.Runtime.GCSettings#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.runtime.gcsettings/vb/lohcompactionmode1.vb#1)]  
@@ -281,7 +287,7 @@
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el <xref:System.GC.Collect%2A> método para realizar una recolección en todas las generaciones de memoria. El código genera un número de objetos no utilizados y, a continuación, llama a la <xref:System.GC.Collect%2A> método para limpiarlos de la memoria.  
+ En el ejemplo siguiente se muestra cómo usar el <xref:System.GC.Collect%2A> método para realizar una recolección en todas las generaciones de memoria. El código genera un número de objetos no utilizados y, a continuación, llama a la <xref:System.GC.Collect%2A> método para limpiarlos de la memoria.  
   
  [!code-cpp[System.GC.Collect Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.GC.Collect Example/CPP/class1.cpp#1)]
  [!code-csharp[System.GC.Collect Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.GC.Collect Example/CS/class1.cs#1)]
@@ -310,6 +316,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -330,18 +338,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilice este método para intentar reclamar la memoria que no es accesible. Sin embargo, con este método no garantiza que se reclame toda la memoria puede tener acceso en la generación especificada.  
+ Utilice este método para intentar reclamar la memoria que no es accesible. Sin embargo, con este método no garantiza que se reclame toda la memoria accesible en la generación especificada.  
   
- Si se implementa la edad de los objetos, el recolector de elementos no utilizados no recoge objetos con un número de generación que es mayor que la generación especificada. Si no se implementa la edad de los objetos, el recolector de elementos no utilizados considera que todos los objetos durante la recolección.  
+ Si se implementa la edad de los objetos, el recolector de elementos no utilizados no recopila los objetos con un número de generación que es mayor que la generación especificada. Si no se implementa la edad de los objetos, el recolector de elementos no utilizados considera que todos los objetos durante la recolección.  
   
  Use la <xref:System.GC.MaxGeneration%2A> propiedad para determinar el máximo valor válido de la `generation` parámetro.  
   
- Para que el recolector de elementos no utilizados tenga en cuenta todos los objetos independientemente de su generación, utilice la versión de este método que no toma ningún parámetro. Para que el recolector de elementos no utilizados recupera los objetos en función de un <xref:System.GCCollectionMode> configuración, use la <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%29?displayProperty=nameWithType> sobrecarga del método.  
+ Para que el recolector de elementos no utilizados que considere la posibilidad de todos los objetos independientemente de su generación, utilice la versión de este método que no toma ningún parámetro. Para que el recolector de elementos reclamar objetos en función de un <xref:System.GCCollectionMode> establecer, use el <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%29?displayProperty=nameWithType> sobrecarga del método.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el <xref:System.GC.Collect%2A> método para realizar una recolección en capas individuales de memoria. El código genera un número de objetos no utilizados y, a continuación, llama a la <xref:System.GC.Collect%2A> método para limpiarlos de la memoria.  
+ En el ejemplo siguiente se muestra cómo usar el <xref:System.GC.Collect%2A> método para realizar una recolección en capas individuales de memoria. El código genera un número de objetos no utilizados y, a continuación, llama a la <xref:System.GC.Collect%2A> método para limpiarlos de la memoria.  
   
  [!code-cpp[System.GC.Collect Int Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.gc.collect int example/CPP/class1.cpp#1)]
  [!code-csharp[System.GC.Collect Int Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.gc.collect int example/CS/class1.cs#1)]
@@ -372,6 +380,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -399,20 +408,20 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Use el `mode` para especificar si la colección de elementos no utilizados debería producirse inmediatamente o solo si la hora es adecuada para reclamar objetos. Con este método no garantiza que se reclame toda la memoria puede tener acceso en la generación especificada.  
+ Use el `mode` parámetro para especificar si la colección de elementos no utilizados debería producirse inmediatamente o solo si el tiempo es adecuado para reclamar objetos. Con este método no garantiza que se reclame toda la memoria accesible en la generación especificada.  
   
- Para ajustar la tendencia a la intrusión de la recolección durante los períodos críticos en la aplicación, establezca el <xref:System.Runtime.GCSettings.LatencyMode%2A> propiedad.  
+ Para ajustar la tendencia a la intrusión de elementos no utilizados durante los períodos críticos en la aplicación, establezca el <xref:System.Runtime.GCSettings.LatencyMode%2A> propiedad.  
   
- El recolector de elementos no utilizados no recoge objetos con un número de generación superior al especificado en el `generation` parámetro. Use la <xref:System.GC.MaxGeneration%2A> propiedad para determinar el máximo valor válido de `generation`.  
+ El recolector de elementos no utilizados no recopila los objetos con un número de generación superior al especificado por el `generation` parámetro. Use la <xref:System.GC.MaxGeneration%2A> propiedad para determinar el máximo valor válido de `generation`.  
   
- Para que el recolector de elementos no utilizados tenga en cuenta todos los objetos independientemente de su generación, utilice la versión de este método que no toma ningún parámetro.  
+ Para que el recolector de elementos no utilizados que considere la posibilidad de todos los objetos independientemente de su generación, utilice la versión de este método que no toma ningún parámetro.  
   
- Para que el recolector de elementos no utilizados recupera los objetos hasta una generación especificada de objetos, siga el <xref:System.GC.Collect%28System.Int32%29?displayProperty=nameWithType> sobrecarga del método. Al especificar la generación máxima, se recopilan todos los objetos.  
+ Para que el recolector de elementos no utilizados recupera los objetos hasta una generación especificada de objetos, use el <xref:System.GC.Collect%28System.Int32%29?displayProperty=nameWithType> sobrecarga del método. Al especificar la generación máxima, se recopilan todos los objetos.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se fuerza una recolección de elementos no utilizados para los objetos de generación 2 con el <xref:System.GCCollectionMode.Optimized> configuración.  
+ En el ejemplo siguiente se fuerza una recolección de elementos para los objetos de generación 2 con la <xref:System.GCCollectionMode.Optimized> configuración.  
   
  [!code-csharp[System.GC.GCCollectionMode#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.GC.GCCollectionMode/cs/Program.cs#1)]
  [!code-vb[System.GC.GCCollectionMode#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.GC.GCCollectionMode/vb/program.vb#1)]  
@@ -476,10 +485,10 @@
   
 |`mode`|`blocking` es `true`|`blocking` es `false`|  
 |-|-|-|  
-|<xref:System.GCCollectionMode.Forced> o <xref:System.GCCollectionMode.Default>|Se realiza una recolección de bloqueo lo antes posible. Si una recolección en segundo plano está en curso y `generation` es 0 o 1, el <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%29> método desencadena una recolección de bloqueo inmediatamente y vuelve cuando finaliza la colección. Si una recolección en segundo plano está en curso y `generation` es 2, el método espera hasta que la recolección en segundo plano finalice, desencadena una recolección de generación 2 de bloqueo y, a continuación, se devuelve.|Se realiza una recolección lo antes posible. El método <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%29> solicita una colección en segundo plano, pero esto no se garantiza; puede que aún se realice una colección de bloqueo, dependiendo de las circunstancias. Si una colección en segundo plano ya está en curso, el método vuelve inmediatamente.|  
+|<xref:System.GCCollectionMode.Forced> o <xref:System.GCCollectionMode.Default>|Se realiza una recolección de bloqueo lo antes posible. Si una recolección en segundo plano está en curso y `generation` es 0 o 1, el <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%29> método inmediatamente desencadena una recolección de bloqueo y vuelve cuando finaliza la colección. Si una recolección en segundo plano está en curso y `generation` es 2, el método espera hasta que finalice la recolección en segundo plano, desencadena una recolección de generación 2 de bloqueo y, a continuación, se devuelve.|Se realiza una recolección lo antes posible. El método <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%29> solicita una colección en segundo plano, pero esto no se garantiza; puede que aún se realice una colección de bloqueo, dependiendo de las circunstancias. Si una colección en segundo plano ya está en curso, el método vuelve inmediatamente.|  
 |<xref:System.GCCollectionMode.Optimized>|Se puede realizar una recolección de bloqueo, dependiendo del estado del recolector de elementos no utilizados y del parámetro `generation`. El recolector de elementos no utilizados intenta proporcionar un rendimiento óptimo.|Se puede realizar una recolección, según el estado del recolector de elementos no utilizados. El método <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%29> solicita una colección en segundo plano, pero esto no se garantiza; puede que aún se realice una colección de bloqueo, dependiendo de las circunstancias. El recolector de elementos no utilizados intenta proporcionar un rendimiento óptimo. Si una colección en segundo plano ya está en curso, el método vuelve inmediatamente.|  
   
- Si una llamada a la <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%29> método realiza una recolección de elementos no utilizados de bloqueo completa, también puede compactar el montón de objetos grandes si establece la <xref:System.Runtime.GCSettings.LargeObjectHeapCompactionMode%2A?displayProperty=nameWithType> propiedad <xref:System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce?displayProperty=nameWithType> antes de llamar a la <xref:System.GC.Collect%2A> método.  
+ Si una llamada a la <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%29> método realiza una recolección de elementos no utilizados de bloqueo completa, también puede compactar el montón de objeto grande estableciendo la <xref:System.Runtime.GCSettings.LargeObjectHeapCompactionMode%2A?displayProperty=nameWithType> propiedad <xref:System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce?displayProperty=nameWithType> antes de llamar a la <xref:System.GC.Collect%2A> método.  
   
  ]]></format>
         </remarks>
@@ -535,16 +544,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si `blocking` es `false`, el catálogo global decide si se debe realizar una recolección de elementos no utilizados de bloqueo o de un fondo. Si `compacting` es `true`, que realiza una recolección de elementos no utilizados de bloqueo.  
+ Si `blocking` es `false`, el GC decide si debe realizar una recolección de elementos no utilizados de bloqueo o de un fondo. Si `compacting` es `true`, realiza una recolección de elementos no utilizados de bloqueo.  
   
- Si `compacting` es `true`, el tiempo de ejecución compacta el montón de objetos pequeños (SOH). No se compacta el montón de objetos grandes (LOH) a menos que la <xref:System.Runtime.GCSettings.LargeObjectHeapCompactionMode%2A?displayProperty=nameWithType> propiedad está establecida en <xref:System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce?displayProperty=nameWithType>. Tenga en cuenta que esto incluye todos los elementos no utilizados colecciones de bloqueo, no solo completas colecciones de elementos no utilizados de bloqueo.  
+ Si `compacting` es `true`, el tiempo de ejecución compacta el montón de objetos pequeños (SOH). No se compacta el montón de objetos grandes (LOH) a menos que el <xref:System.Runtime.GCSettings.LargeObjectHeapCompactionMode%2A?displayProperty=nameWithType> propiedad está establecida en <xref:System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce?displayProperty=nameWithType>. Tenga en cuenta que esto incluye todos los elementos no utilizados colecciones de bloqueo, no solo de forma completa las colecciones de elementos no utilizados de bloqueo.  
   
- Puede llamar a la <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%2CSystem.Boolean%29> método para reducir el montón administrado a las posibles de tamaño más pequeña, como se muestra en el siguiente fragmento de código.  
+ Puede llamar a la <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%2CSystem.Boolean%29> método para reducir el montón administrado para el menor tamaño posible, como se muestra en el siguiente fragmento de código.  
   
  [!code-csharp[System.GC.Collect#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.gc.collect/cs/collect4.cs#1)]
  [!code-vb[System.GC.Collect#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.gc.collect/vb/collect4.vb#1)]  
   
- Especificar `true` para el `compacting` argumento garantiza una recolección de elementos no utilizados de bloqueo compactación, completa. Establecer el <xref:System.Runtime.GCSettings.LargeObjectHeapCompactionMode%2A?displayProperty=nameWithType> propiedad <xref:System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce?displayProperty=nameWithType> garantiza que se compactan el montón de objeto grande y el SOH.  
+ Especificar `true` para el `compacting` argumento garantiza una recolección de elementos no utilizados de bloqueo completa, con compactación. Establecer el <xref:System.Runtime.GCSettings.LargeObjectHeapCompactionMode%2A?displayProperty=nameWithType> propiedad <xref:System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce?displayProperty=nameWithType> garantiza que el montón de objeto grande y el SOH se compactan.  
   
  ]]></format>
         </remarks>
@@ -569,6 +578,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -598,7 +608,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si implementa su propia administración de recursos, deberá forzar la recolección periódicamente mediante una llamada a la <xref:System.GC.Collect%2A> método. Dado que se trata de una operación costosa, puede mejorar el rendimiento evitando la llamada cuando se ha producido recientemente a una colección de elementos no utilizados. Guarde el valor devuelto por <xref:System.GC.CollectionCount%2A> inmediatamente después de llamar a <xref:System.GC.Collect%2A>. La próxima vez que se debe llamar a <xref:System.GC.Collect%2A>, compare el valor actual devuelto por <xref:System.GC.CollectionCount%2A> en el valor guardado. Si los dos valores son iguales, no se ha producido ninguna colección en la versión preliminar y es razonable llamar a <xref:System.GC.Collect%2A> nuevo.  
+ Si implementa su propia administración de recursos, es posible que deba forzar la recolección periódicamente mediante una llamada a la <xref:System.GC.Collect%2A> método. Se trata de una operación costosa, puede mejorar el rendimiento omitiendo la llamada cuando se ha producido recientemente a una colección de elementos no utilizados. Guarde el valor devuelto por <xref:System.GC.CollectionCount%2A> inmediatamente después de llamar a <xref:System.GC.Collect%2A>. La próxima vez que se debe llamar a <xref:System.GC.Collect%2A>, compare el valor actual devuelto por <xref:System.GC.CollectionCount%2A> en el valor guardado. Si los dos valores son iguales, no se ha producido ninguna recolección provisional y resulta razonable llamar a <xref:System.GC.Collect%2A> nuevo.  
   
  ]]></format>
         </remarks>
@@ -645,13 +655,13 @@
 ## Remarks  
  El <xref:System.GC.EndNoGCRegion%2A> método produce una <xref:System.InvalidOperationException> si el recolector de elementos no utilizados no está en modo de no latencia de la región de GC. Esto se produce en cualquiera de las condiciones siguientes:  
   
--   El <xref:System.GC.TryStartNoGCRegion%2A> método no se llamó anteriormente.  
+-   El <xref:System.GC.TryStartNoGCRegion%2A> no llamó al método anteriormente.  
   
--   La llamada a la <xref:System.GC.TryStartNoGCRegion%2A> el método devolvió `false`.  
+-   La llamada a la <xref:System.GC.TryStartNoGCRegion%2A> devuelto del método `false`.  
   
--   La llamada a la <xref:System.GC.TryStartNoGCRegion%2A> método produjo una excepción.  
+-   La llamada a la <xref:System.GC.TryStartNoGCRegion%2A> método producía una excepción.  
   
- Puede evitar una excepción por alguno de estos motivos mediante código como el siguiente:  
+ Puede evitar una excepción para cualquiera de estos motivos mediante código como el siguiente:  
   
  [!code-csharp[System.GC.EndNoGCRegion#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.gc.endnogcregion/cs/endnogcregion1.cs#1)]
  [!code-vb[System.GC.EndNoGCRegion#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.gc.endnogcregion/vb/endnogcregion1.vb#1)]  
@@ -714,6 +724,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -740,12 +752,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilice este método para determinar la edad de un objeto y, a continuación, utilizar esa información con el <xref:System.GC.Collect%2A> método para forzar que el recolector de elementos no utilizados para recopilar los objetos de la misma generación. Por ejemplo, use este método cuando tiene un conjunto de objetos que se crean como un grupo y que dejan de estar accesibles al mismo tiempo.  
+ Use este método para determinar la edad de un objeto y, a continuación, usar esa información con el <xref:System.GC.Collect%2A> método para obligar al recolector de elementos no utilizados para recopilar objetos de la misma generación. Por ejemplo, puede usar este método cuando tenga un conjunto de objetos que se crean como un grupo y que dejan de estar accesibles al mismo tiempo.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el <xref:System.GC.GetGeneration%2A> método para determinar la antigüedad de un objeto. En el ejemplo, a continuación, realiza recolecciones de elementos no utilizados para limpiar la memoria y comparar el anterior y registrar los totales de memoria de colección en la consola.  
+ En el ejemplo siguiente se muestra cómo usar el <xref:System.GC.GetGeneration%2A> método para determinar la edad de un objeto. El ejemplo, a continuación, realiza recolecciones de elementos para limpiar la memoria y comparar el pre y post colección totales de memoria en la consola de.  
   
  [!code-cpp[System.GC.Collect Int Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.gc.collect int example/CPP/class1.cpp#1)]
  [!code-csharp[System.GC.Collect Int Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.gc.collect int example/CS/class1.cs#1)]
@@ -766,6 +778,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -797,7 +811,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- En el ejemplo siguiente se muestra el uso de la <xref:System.GC.GetGeneration%2A> método para determinar la antigüedad de un objeto de referencia débil.  
+ En el ejemplo siguiente se muestra el uso de la <xref:System.GC.GetGeneration%2A> método para determinar la edad de un objeto de referencia débil.  
   
  [!code-cpp[System.GC.GetGenerationWeak Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.GC.GetGenerationWeak Example/CPP/systemgcgetgenerationweak.cpp#1)]
  [!code-csharp[System.GC.GetGenerationWeak Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.GC.GetGenerationWeak Example/CS/systemgcgetgenerationweak.cs#1)]
@@ -828,6 +842,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -850,12 +866,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si el `forceFullCollection` parámetro es `true`, este método espera un breve intervalo antes de devolver mientras el sistema recopila elementos no utilizados y finaliza los objetos. La duración del intervalo es un límite especificado internamente determinado por el número de ciclos de la colección de elementos no utilizados completa y el cambio en la cantidad de memoria recuperada entre los ciclos. El recolector de elementos no utilizados no garantiza que se recopila toda la memoria inaccesible.  
+ Si el `forceFullCollection` parámetro es `true`, este método espera un breve intervalo antes de devolver mientras el sistema recopila elementos no utilizados y finaliza los objetos. La duración del intervalo es un límite especificado internamente determinado por el número de ciclos de colección de elementos no utilizados completa y el cambio en la cantidad de memoria recuperada entre los ciclos. El recolector de elementos no utilizados no garantiza que se recopila toda la memoria accesible.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el <xref:System.GC.GetTotalMemory%2A> método para obtener y mostrar el número de bytes actualmente asignados en la memoria administrada.  
+ En el ejemplo siguiente se muestra cómo usar el <xref:System.GC.GetTotalMemory%2A> método para obtener y mostrar el número de bytes actualmente asignados en memoria administrada.  
   
  [!code-cpp[System.GC.Collect Int Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.gc.collect int example/CPP/class1.cpp#1)]
  [!code-csharp[System.GC.Collect Int Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.gc.collect int example/CS/class1.cs#1)]
@@ -884,6 +900,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -909,16 +927,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El propósito de la <xref:System.GC.KeepAlive%2A> método consiste en asegurarse de la existencia de una referencia a un objeto que tenga probabilidades de ser reclamado prematuramente por el recolector de elementos no utilizados. Un escenario común donde esto puede ocurrir es cuando no hay ninguna referencia al objeto en código administrado o datos, pero el objeto aún está en uso en código no administrado, como las API de Win32, archivos DLL no administrados, o métodos que utilizan COM.  
+ El propósito de la <xref:System.GC.KeepAlive%2A> método consiste en garantizar la existencia de una referencia a un objeto que está en riesgo de ser reclamado prematuramente por el recolector de elementos no utilizados. Un escenario común donde esto puede ocurrir es cuando no hay ninguna referencia al objeto en código administrado o datos, pero el objeto todavía está en uso en código no administrado, como las API de Win32, archivos DLL no administrados, o métodos que utilizan COM.  
   
- Este método hace referencia el `obj` parámetro, convirtiéndolo ese objeto elegible para la recolección de elementos desde el principio de la rutina hasta el punto, en orden de ejecución, que se llama a este método. Este método al final, y no al principio del intervalo de instrucciones de código donde `obj` deben estar disponibles.  
+ Este método hace referencia a la `obj` parámetro, convirtiéndolo ese objeto no válido para la recolección de elementos desde el principio de la rutina hasta el punto en el orden de ejecución, donde se llama a este método. Este método al final, no al principio del intervalo de instrucciones de código donde `obj` deben estar disponibles.  
   
- El <xref:System.GC.KeepAlive%2A> método no realiza ninguna operación ni no produce ningún efecto secundario aparte de ampliar la duración del objeto pasado como un parámetro.  
+ El <xref:System.GC.KeepAlive%2A> método no realiza ninguna operación y no produce efectos aparte de ampliar la duración del objeto pasado como un parámetro.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se crea un objeto al principio de su `Main` método y no hace referencia al objeto nuevo hasta el final, cuando el <xref:System.GC.KeepAlive%2A> se llama al método. El objeto persiste durante 30 segundos de la `Main` método, a pesar de las llamadas a la <xref:System.GC.Collect%2A> y <xref:System.GC.WaitForPendingFinalizers%2A> métodos.  
+ En el ejemplo de código siguiente se crea un objeto al principio de su `Main` método y no hace referencia al objeto nuevamente hasta el final, cuando el <xref:System.GC.KeepAlive%2A> se llama al método. El objeto se mantiene durante 30 segundos de la `Main` método, a pesar de las llamadas a la <xref:System.GC.Collect%2A> y <xref:System.GC.WaitForPendingFinalizers%2A> métodos.  
   
  [!code-cpp[System.GC.KeepAlive Example2#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.GC.KeepAlive Example2/CPP/gckeepalive.cpp#1)]
  [!code-csharp[System.GC.KeepAlive Example2#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.GC.KeepAlive Example2/CS/gckeepalive.cs#1)]
@@ -947,6 +965,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -969,16 +989,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El número de generación o la edad de un objeto es una medida relativa de tiempo de vida de un objeto definido por la implementación. Son los objetos creados más recientemente en la generación 0 y los objetos más antiguos pertenecen a una generación menor o igual a la generación devuelta por la <xref:System.GC.MaxGeneration%2A> propiedad.  
+ El número de generación o la edad de un objeto es una medida relativa de la duración de un objeto definido por la implementación. Son los objetos creados más recientemente en la generación 0 y los objetos más antiguos están en una generación menor o igual a la generación devuelta por la <xref:System.GC.MaxGeneration%2A> propiedad.  
   
- El recolector de elementos no utilizados se da por supuesto que es más probable que sea apto para la recolección de elementos no utilizados de memoria anterior memoria más reciente. Por lo tanto, el recolector de elementos no utilizados mejora su rendimiento ajustando los números de generación cada vez que recupera de la memoria, y el <xref:System.GC.MaxGeneration%2A> puede alcanzar el valor de la propiedad con el tiempo.  
+ El recolector de elementos no utilizados se da por supuesto que la memoria más reciente es más probable que sea apto para la recolección de memoria anterior. Por lo tanto, el recolector de elementos no utilizados mejora su rendimiento ajustando los números de generación cada vez que reclama memoria, y el <xref:System.GC.MaxGeneration%2A> puede alcanzar el valor de propiedad con el tiempo.  
   
- Si se implementa la edad de los objetos, la <xref:System.GC.MaxGeneration%2A> propiedad devuelve el número de generación máximo utilizado por el sistema; en caso contrario, esta propiedad devuelve cero.  
+ Si se implementa la edad de los objetos, el <xref:System.GC.MaxGeneration%2A> propiedad devuelve el número de generación máximo utilizado por el sistema; en caso contrario, esta propiedad devuelve cero.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo usar la propiedad MaxGeneration para mostrar el mayor número de generación que está actualmente en uso.  
+ El ejemplo siguiente muestra cómo usar la propiedad MaxGeneration para mostrar el mayor número de generación actualmente en uso.  
   
  [!code-cpp[System.GC.Collect Int Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.gc.collect int example/CPP/class1.cpp#1)]
  [!code-csharp[System.GC.Collect Int Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.gc.collect int example/CS/class1.cs#1)]
@@ -987,7 +1007,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Para esta implementación, el valor devuelto por el <see cref="P:System.GC.MaxGeneration" /> se garantiza que la propiedad permanece constante para la duración de una aplicación en ejecución.  Use la <see cref="P:System.GC.MaxGeneration" /> propiedad para determinar el valor máximo que puede especificar cuando se llama a la <see cref="M:System.GC.Collect(System.Int32)" /> método que toma un parámetro de generación.</para>
+          <para>Para esta implementación, el valor devuelto por la <see cref="P:System.GC.MaxGeneration" /> se garantiza que la propiedad permanece constante para la duración de una aplicación en ejecución.  Use la <see cref="P:System.GC.MaxGeneration" /> propiedad para determinar el valor máximo que puede especificar cuando se llama a la <see cref="M:System.GC.Collect(System.Int32)" /> método que toma un parámetro de generación.</para>
         </block>
         <altmember cref="M:System.GC.GetGeneration(System.Object)" />
       </Docs>
@@ -1002,6 +1022,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1034,34 +1055,34 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Por cada generación, el recolector de elementos no utilizados establece un umbral para las asignaciones en esa generación. Cuando el tamaño de las asignaciones de supera este umbral, se desencadena una recolección en esa generación. De ejemplo, si el umbral de generación 2 es 20MB (lo que significa que 20MB sobrevive a las recolecciones de generación 1 y se promueven a la generación 2) y más de 20MB ha sobrevivido a la generación 1 y se solicita a la generación 2, se intentará la próxima recolección como una recolección de generación 2. De forma similar, si el montón de objetos grandes (LOH) Value de umbral es de 20MB y la aplicación ha asignado más de 20MB de objetos grandes, la siguiente recolección también se tratará como una recolección de generación 2 (ya que solo se recopila el montón de objeto grande en colecciones de elementos no utilizados de gen2).  
+ Por cada generación, el recolector de elementos no utilizados establece un umbral para las asignaciones en dicha generación. Cuando el tamaño de las asignaciones supera este umbral, se desencadena una recolección en dicha generación. De ejemplo, si el umbral de generación 2 es 20MB (lo que significa que 20MB sobrevive a las recolecciones de generación 1 y se promueven a la generación 2) y más de 20MB sobrevivió a la generación 1 y se pide a la generación 2, se volverá a intentar la siguiente recolección de elementos no utilizados como una recolección de generación 2. De forma similar, si el montón de objetos grandes (LOH) Value de umbral es de 20MB y la aplicación ha asignado más de 20MB de objetos grandes, la siguiente recolección de elementos no utilizados también se volverá a intentar como una recolección de generación 2 (ya que el montón de objeto grande solo se recopila en las colecciones de elementos no utilizados de gen2).  
   
- El `maxGenerationThreshold` y `largeObjectHeapThreshold` umbrales de controlan la cantidad de antemano se le notifique antes de que se produce una recolección completa. Cuanto mayor sea el umbral, las asignaciones más que se pueden producir entre la notificación y la recolección de elementos no utilizados completa siguiente.  
+ El `maxGenerationThreshold` y `largeObjectHeapThreshold` umbrales controlan cuánto de antemano se le notificará antes de que se produce una colección de elementos no utilizados completa. Cuanto mayor sea el umbral, las asignaciones más que pueden producirse entre la notificación y la siguiente recolección de elementos no utilizados completa.  
   
- Si tiene situaciones en que una colección de elementos no utilizados completa por common language runtime negativamente afectaría al rendimiento de la aplicación, puede pedir que se le notifique cuando el tiempo de ejecución está a punto de realizar una recolección completa y eludir esa recolección por induce una colección usted mismo (mediante el <xref:System.GC.Collect%2A> método) cuando las condiciones todavía sean favorables. Además de cambiar la programación de la colección de elementos no utilizados, notificación de GC completo es útil en los escenarios siguientes:  
+ Si dispone de las situaciones en que una colección de elementos no utilizados completa por common language runtime negativamente afectaría al rendimiento de la aplicación, puede pedir que se le notifique cuando el tiempo de ejecución se va a realizar una recolección de elementos no utilizados completa y eludir esa recolección por inducción de una colección por su cuenta (mediante el <xref:System.GC.Collect%2A> método) cuando las condiciones son todavía favorables. Además de cambiar la programación de la colección de elementos no utilizados, notificación de GC completo es útil en los escenarios siguientes:  
   
--   Supervisar para el enfoque de una colección de elementos no utilizados completa y, cuando se le notifique que se acerca uno, reducir el tamaño de los datos en directo (por ejemplo, al liberar algunas entradas de caché). Como resultado, cuando la recolección de elementos no utilizados se produce, es capaz de recuperar más memoria.  
+-   Supervisión de la estrategia de una colección de elementos no utilizados completa y, cuando se le notifique que uno se aproxima, reducir el tamaño de los datos en directo (por ejemplo, al liberar algunas entradas de caché). Como resultado, cuando se produce la recolección de elementos, es capaz de liberar más memoria.  
   
--   Supervisar la finalización de una colección de elementos no utilizados completa para que pueda recopilar estadísticas.  Por ejemplo, puede medir el tamaño del montón al término de catálogo global para que sepa el tamaño de los datos en directo. (Después de un GC completo, el montón tiene en su tamaño más pequeño).  
+-   Supervisar la finalización de una colección de elementos no utilizados completa para que pueda recopilar algunas estadísticas.  Por ejemplo, es posible que desee medir el tamaño del montón al finalizar el GC para que sepa el tamaño de los datos en directo. (Después de un GC completo, el montón es con su tamaño más pequeño).  
   
- Para obtener más información sobre lo que representa una colección de elementos no utilizados completa, consulte [notificaciones de la colección de elementos no utilizados](~/docs/standard/garbage-collection/notifications.md).  
+ Para obtener más información sobre lo que representa una colección de elementos no utilizados completa, consulte [notificaciones de recolección de elementos no utilizados](~/docs/standard/garbage-collection/notifications.md).  
   
- Al registrarse para una notificación de recolección, puede recibir una notificación cuando una recolección de elementos no utilizados completa está próxima y cuando se completan. Este patrón es similar a cómo se supervisa el sistema operativo para notificaciones de memoria insuficiente.  
+ Cuando se registra para una notificación de recolección, puede recibir notificaciones cuando una recolección de elementos no utilizados completa está próxima y cuando se complete. Este patrón es similar a cómo se supervisa el sistema operativo para las notificaciones de memoria baja.  
   
  Utilice las instrucciones siguientes para especificar el `maxGenerationThreshold` y `largeObjectHeapThreshold` parámetros:  
   
--   Cuanto mayor sea el valor de umbral, se producen más asignaciones entre la notificación y la colección de elementos no utilizados completa.  
+-   Cuanto mayor sea el valor de umbral, se producen la más asignaciones entre la notificación y la colección de elementos no utilizados completa.  
   
-     Un valor de umbral mayor proporciona más oportunidades para el tiempo de ejecución comprobar si una recolección próxima. Esto aumenta la probabilidad de que se le notificará. Sin embargo, no debería establecer el umbral demasiado alto, ya tiene como resultado en una asignaciones más antes de que el tiempo de ejecución induce la recolección siguiente.  
+     Un valor de umbral mayor proporciona más oportunidades para el tiempo de ejecución comprobar si una recolección próxima. Esto aumenta la probabilidad de que se le notificará. Sin embargo, no debe establecer el umbral demasiado alto, ya da lugar a una más asignaciones antes de que el tiempo de ejecución induce la recolección siguiente.  
   
-     Cuando induce la recolección usted mismo tras la notificación mediante un valor de umbral alta, menos objetos se reclaman que podría ser reclamado por la recolección siguiente del runtime.  
+     Cuando se induce una recolección tras la notificación con un valor de umbral alto, menos objetos se reclaman que reclamarían colección siguiente del tiempo de ejecución.  
   
 -   Cuanto menor sea el valor de umbral, menos las asignaciones entre la notificación y la colección de elementos no utilizados completa.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo registrar una notificación de recolección e iniciar un subproceso para supervisar el estado de la notificación de la colección de elementos no utilizados. Este ejemplo de código forma parte de un ejemplo más extenso de [notificaciones de la colección de elementos no utilizados](~/docs/standard/garbage-collection/notifications.md) tema.  
+ El ejemplo siguiente muestra cómo registrar una notificación de recolección e iniciar un subproceso para supervisar el estado de la notificación de recolección. Este ejemplo de código forma parte de un ejemplo más extenso de [notificaciones de recolección de elementos no utilizados](~/docs/standard/garbage-collection/notifications.md) tema.  
   
  [!code-cpp[GCNotification#2](~/samples/snippets/cpp/VS_Snippets_CLR/GCNotification/cpp/program.cpp#2)]
  [!code-csharp[GCNotification#2](~/samples/snippets/csharp/VS_Snippets_CLR/GCNotification/cs/Program.cs#2)]
@@ -1071,8 +1092,8 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="maxGenerationThreshold" /> or <paramref name="largeObjectHeapThreshold" /> is not between 1 and 99.</exception>
-        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">de plena confianza para el llamador inmediato. Un código de confianza parcial no puede utilizar este miembro.</permission>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Requiere plena confianza para el llamador inmediato. Este miembro no puede usarse por código de confianza parcial o transparente.</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">para plena confianza para el llamador inmediato. Un código de confianza parcial no puede utilizar este miembro.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no se puede usar código de confianza parcial o transparente.</permission>
       </Docs>
     </Member>
     <Member MemberName="RemoveMemoryPressure">
@@ -1094,6 +1115,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1119,21 +1141,21 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Para determinar cuándo se debe programar la recopilación de elementos no utilizados, el tiempo de ejecución tiene en cuenta la cantidad de memoria administrada se asigna. Si un objeto administrado pequeño asigna una gran cantidad de memoria no administrada, el tiempo de ejecución tiene en cuenta sólo la memoria administrada y, por tanto, subestima la urgencia de programar la recolección. El <xref:System.GC.AddMemoryPressure%2A> método informa el tiempo de ejecución de esta necesidad adicional de memoria del sistema y el <xref:System.GC.RemoveMemoryPressure%2A> método informa que el tiempo de ejecución que se ha liberado la presión adicional.  
+ Para determinar cuándo se debe programar la recopilación de elementos no utilizados, el tiempo de ejecución tiene en cuenta la cantidad de memoria administrada está asignada. Si un objeto administrado pequeño asigna una gran cantidad de memoria no administrada, el tiempo de ejecución tiene en cuenta que sólo la memoria administrada y, por tanto, subestima la urgencia de programar la recolección. El <xref:System.GC.AddMemoryPressure%2A> método informa el tiempo de ejecución de esta necesidad adicional de memoria del sistema y el <xref:System.GC.RemoveMemoryPressure%2A> método informa al tiempo de ejecución que se ha liberado la presión adicional.  
   
- En el patrón de uso más simple, un objeto administrado asigna la memoria no administrada en el constructor y lo libera de la `Dispose` o `Finalize` método. Llame a la <xref:System.GC.AddMemoryPressure%2A> método después de asignar la memoria no administrada y llamar a la <xref:System.GC.RemoveMemoryPressure%2A> método después de liberarla.  
+ En el patrón de uso más simple, un objeto administrado asigna memoria no administrada en el constructor y lo libera en la `Dispose` o `Finalize` método. Llame a la <xref:System.GC.AddMemoryPressure%2A> método después de asignar la memoria no administrada y llamar a la <xref:System.GC.RemoveMemoryPressure%2A> método después de liberarla.  
   
- En escenarios más complicados, donde la asignación de memoria no administrada cambia substancialmente durante la duración del objeto administrado, puede llamar a la <xref:System.GC.AddMemoryPressure%2A> y <xref:System.GC.RemoveMemoryPressure%2A> métodos para comunicar estos cambios incrementales en el tiempo de ejecución.  
+ En escenarios más complicados, donde la asignación de memoria no administrada cambia considerablemente durante la vigencia del objeto administrado, puede llamar a la <xref:System.GC.AddMemoryPressure%2A> y <xref:System.GC.RemoveMemoryPressure%2A> métodos de comunicación de estos cambios incrementales en el tiempo de ejecución.  
   
 > [!CAUTION]
->  Debe asegurarse de que quita exactamente la cantidad de memoria que agrega. Si no lo puede afectar negativamente el rendimiento del sistema en las aplicaciones que se ejecutan durante largos períodos de tiempo.  
+>  Debe asegurarse de que quita exactamente la cantidad de presión que agrega. Si no lo puede afectar negativamente el rendimiento del sistema en las aplicaciones que se ejecutan durante largos períodos de tiempo.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="bytesAllocated" /> is less than or equal to 0.  -or-  On a 32-bit computer, <paramref name="bytesAllocated" /> is larger than <see cref="F:System.Int32.MaxValue" />.</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">Para poder llamar a código no administrado al manipular la prioridad de la colección de elementos no utilizados. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Requiere plena confianza para el llamador inmediato. Este miembro no puede usarse por código de confianza parcial o transparente.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no se puede usar código de confianza parcial o transparente.</permission>
       </Docs>
     </Member>
     <Member MemberName="ReRegisterForFinalize">
@@ -1155,6 +1177,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1180,18 +1204,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.GC.ReRegisterForFinalize%2A> método agrega la `obj` parámetro a la lista de objetos que solicitan una finalización antes de que el recolector de elementos no utilizados libera el objeto. El `obj` parámetro debe ser el llamador de este método.  
+ El <xref:System.GC.ReRegisterForFinalize%2A> método agrega el `obj` parámetro a la lista de objetos que solicitan una finalización antes de que el recolector de elementos no utilizados libere el objeto. El `obj` parámetro debe ser el llamador de este método.  
   
- Llamar a la <xref:System.GC.ReRegisterForFinalize%2A> método no garantiza que el recolector de elementos no utilizados llame al finalizador de un objeto.  
+ Una llamada a la <xref:System.GC.ReRegisterForFinalize%2A> método no garantiza que el recolector de elementos no utilizados llame al finalizador de un objeto.  
   
- De forma predeterminada, todos los objetos que implementan los finalizadores se agregan a la lista de objetos que requieren finalización; Sin embargo, un objeto podría ya ha finalizado o que haya deshabilitado la finalización mediante una llamada a la <xref:System.GC.SuppressFinalize%2A> método.  
+ De forma predeterminada, todos los objetos que implementan los finalizadores se agregan a la lista de objetos que requieren la finalización; Sin embargo, es posible que ya ha finalizado o es posible que haya deshabilitado la finalización mediante una llamada a un objeto el <xref:System.GC.SuppressFinalize%2A> método.  
   
- Un finalizador puede utilizar este método para restablecerse consigo mismo ni con un objeto que hace referencia.  
+ Un finalizador puede usar este método a resucitar a sí mismo o a un objeto que hace referencia.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el método ReRegisterForFinalize para finalizar un objeto una segunda vez después de la recolección de elementos.  
+ En el ejemplo siguiente se muestra cómo usar el método ReRegisterForFinalize para finalizar un objeto una segunda vez después de la recolección de elementos.  
   
  [!code-cpp[System.GC.ReregisterForFinalize Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.GC.ReRegisterForFinalize Example/CPP/class1.cpp#1)]
  [!code-csharp[System.GC.ReregisterForFinalize Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.GC.ReRegisterForFinalize Example/CS/class1.cs#1)]
@@ -1223,6 +1247,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1251,14 +1277,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método establece un bit en el encabezado del objeto de `obj`, lo que el tiempo de ejecución comprueba cuando se llama a los finalizadores. Un finalizador, que se representa mediante el <xref:System.Object.Finalize%2A?displayProperty=nameWithType> método, se utiliza para liberar recursos no administrados antes de que un objeto se recopilan de elementos no utilizados. Si `obj` no tiene un finalizador, la llamada a la <xref:System.GC.SuppressFinalize%2A> método no tiene ningún efecto.  
+ Este método establece un bit en el encabezado del objeto de `obj`, lo que el tiempo de ejecución comprueba cuando se llama a los finalizadores. Un finalizador, que viene representado por la <xref:System.Object.Finalize%2A?displayProperty=nameWithType> método, se usa para liberar recursos no administrados antes de que un objeto se recopila de elementos no utilizados. Si `obj` no tiene un finalizador, la llamada a la <xref:System.GC.SuppressFinalize%2A> método no tiene ningún efecto.  
   
- Objetos que implementan la <xref:System.IDisposable> interfaz puede llamar a este método desde el objeto <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> implementación para evitar que el recolector de elementos no utilizados que realiza la llamada <xref:System.Object.Finalize%2A?displayProperty=nameWithType> en un objeto que no la necesita. Normalmente, esto se hace para evitar que el finalizador de liberar recursos no administrados que ya se ha liberado mediante el <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> implementación.  
+ Los objetos que implementan la <xref:System.IDisposable> interfaz puede llamar a este método desde el objeto <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> implementación para evitar que el recolector de elementos no utilizados que realiza la llamada <xref:System.Object.Finalize%2A?displayProperty=nameWithType> en un objeto que no la necesita. Normalmente, esto se hace para evitar que el finalizador de liberar recursos no administrados que ya se han liberado por el <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> implementación.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el <xref:System.GC.SuppressFinalize%2A> método en una clase de recurso para evitar una redundancia de recolección de elementos que se la llame. El ejemplo se utiliza la [patrón de dispose](~/docs/standard/design-guidelines/dispose-pattern.md) liberar tanto recursos administrados (es decir, los objetos que implementan <xref:System.IDisposable>) y los recursos no administrados.  
+ En el ejemplo siguiente se muestra cómo usar el <xref:System.GC.SuppressFinalize%2A> método en una clase de recurso para evitar que una recolección redundantes desde que se llama. El ejemplo se usa el [patrón de dispose](~/docs/standard/design-guidelines/dispose-pattern.md) liberar tanto recursos administrados (es decir, los objetos que implementan <xref:System.IDisposable>) y los recursos no administrados.  
   
  [!code-csharp[System.GC.SuppressFinalize#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.gc.suppressfinalize/cs/suppressfinalize1.cs#1)]
  [!code-vb[System.GC.SuppressFinalize#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.gc.suppressfinalize/vb/suppressfinalize1.vb#1)]  
@@ -1285,7 +1311,7 @@
 ## Remarks  
   
 > [!IMPORTANT]
->  No se pueden anidar las llamadas a la <xref:System.GC.TryStartNoGCRegion%2A> método y se debería llamar a la <xref:System.GC.EndNoGCRegion%2A> método si el tiempo de ejecución está actualmente en modo de no latencia de la región de GC. En otras palabras, no debe llamar <xref:System.GC.TryStartNoGCRegion%2A> varias veces (después de la primera llamada de método, las llamadas subsiguientes no surtirán efecto), y no deben esperar que las llamadas a <xref:System.GC.EndNoGCRegion%2A> sea correcta sólo porque la primera llamada a <xref:System.GC.TryStartNoGCRegion%2A> se realizó correctamente.  
+>  No se pueden anidar las llamadas a la <xref:System.GC.TryStartNoGCRegion%2A> solo debe llamar al método y el <xref:System.GC.EndNoGCRegion%2A> método si el tiempo de ejecución está actualmente en modo de no latencia de la región de GC. En otras palabras, no debería llamar <xref:System.GC.TryStartNoGCRegion%2A> varias veces (después de la primera llamada de método, las llamadas subsiguientes no surtirán efecto), y no debe esperar que las llamadas a <xref:System.GC.EndNoGCRegion%2A> sea correcta sólo porque la primera llamada a <xref:System.GC.TryStartNoGCRegion%2A> se realizó correctamente.  
   
  ]]></format>
         </remarks>
@@ -1334,14 +1360,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.GC.TryStartNoGCRegion%28System.Int64%29> método intenta colocar el recolector de elementos no utilizados en ningún modo de latencia de región de GC, que no permite la recopilación de elementos no utilizados mientras que una aplicación ejecuta una región crítica del código.  Si el tiempo de ejecución no puede asignar inicialmente la cantidad de memoria solicitada, el recolector de elementos no utilizados realiza una recolección de elementos no utilizados de bloqueo completa en un intento de liberar memoria adicional. El recolector de elementos no utilizados entra en modo de no latencia de la región de GC si es capaz de asignar la cantidad necesaria de memoria, lo que en este caso es realmente 2 * `totalSize` bytes (intenta asignar `totalSize` bytes para el montón de objetos pequeños y `totalSize` bytes para el montón de objetos grandes).  
+ El <xref:System.GC.TryStartNoGCRegion%28System.Int64%29> método intenta poner el recolector de elementos no utilizados en ningún modo de latencia de región de GC, lo que impide la recolección de elementos mientras una región crítica del código ejecuta una aplicación.  Si el tiempo de ejecución no puede asignar inicialmente la cantidad de memoria solicitada, el recolector de elementos no utilizados realiza una recolección de elementos no utilizados de bloqueo completa en un intento para liberar memoria adicional. El recolector de elementos no utilizados entra en modo de no latencia de la región de GC si es capaz de asignar la cantidad necesaria de memoria, lo que en este caso es realmente 2 * `totalSize` bytes (intenta asignar `totalSize` bytes para el montón de objetos pequeños y `totalSize` bytes para el montón de objetos grandes).  
   
- `totalSize` debe ser lo suficientemente grande como para controlar todas las asignaciones de memoria que se producen en la ruta crítica. Esto incluye las asignaciones de la aplicación, así como las asignaciones que hace que el tiempo de ejecución en nombre de la aplicación.  
+ `totalSize` debe ser lo suficientemente grande como para controlar todas las asignaciones de memoria que se producen en la ruta crítica. Esto incluye las asignaciones por la aplicación, así como las asignaciones que el tiempo de ejecución se realiza en nombre de la aplicación.  
   
 > [!IMPORTANT]
->  No se pueden anidar las llamadas a la <xref:System.GC.TryStartNoGCRegion%2A> método y se debería llamar a la <xref:System.GC.EndNoGCRegion%2A> método si el tiempo de ejecución está actualmente en modo de no latencia de la región de GC. En otras palabras, no debe llamar <xref:System.GC.TryStartNoGCRegion%2A> varias veces (después de la primera llamada de método, las llamadas subsiguientes no surtirán efecto), y no deben esperar que las llamadas a <xref:System.GC.EndNoGCRegion%2A> sea correcta sólo porque la primera llamada a <xref:System.GC.TryStartNoGCRegion%2A> se realizó correctamente.  
+>  No se pueden anidar las llamadas a la <xref:System.GC.TryStartNoGCRegion%2A> solo debe llamar al método y el <xref:System.GC.EndNoGCRegion%2A> método si el tiempo de ejecución está actualmente en modo de no latencia de la región de GC. En otras palabras, no debería llamar <xref:System.GC.TryStartNoGCRegion%2A> varias veces (después de la primera llamada de método, las llamadas subsiguientes no surtirán efecto), y no debe esperar que las llamadas a <xref:System.GC.EndNoGCRegion%2A> sea correcta sólo porque la primera llamada a <xref:System.GC.TryStartNoGCRegion%2A> se realizó correctamente.  
   
- No salir del modo de latencia región de GC mediante una llamada a la <xref:System.GC.EndNoGCRegion%2A> método.  
+ No salir del modo de latencia región de GC llamando el <xref:System.GC.EndNoGCRegion%2A> método.  
   
  ]]></format>
         </remarks>
@@ -1396,16 +1422,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Boolean%29> método intenta colocar el recolector de elementos no utilizados en ningún modo de latencia de región de GC, que no permite la recopilación de elementos no utilizados mientras que una aplicación ejecuta una región crítica del código.  Si el tiempo de ejecución es no se puede asignar inicialmente la cantidad de memoria solicitada y la `disallowFullBlockingGC` argumento es `false`, el recolector de elementos no utilizados realiza una recolección de elementos no utilizados de bloqueo completa en un intento de liberar memoria adicional; en caso contrario, la asignación se produce un error y el método devuelve `false`. El recolector de elementos no utilizados entra en modo de no latencia de la región de GC si es capaz de asignar la cantidad necesaria de memoria, lo que en este caso es realmente 2 * `totalSize` (intenta asignar `totalSize` para el montón de objetos pequeños y `totalSize` para el objeto grande montón).  
+ El <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Boolean%29> método intenta poner el recolector de elementos no utilizados en ningún modo de latencia de región de GC, lo que impide la recolección de elementos mientras una región crítica del código ejecuta una aplicación.  Si el tiempo de ejecución no puede asignar inicialmente la cantidad de memoria solicitada y la `disallowFullBlockingGC` argumento es `false`, el recolector de elementos no utilizados realiza una recolección de elementos no utilizados de bloqueo completa en un intento para liberar memoria adicional; de lo contrario, la asignación se produce un error y el método devuelve `false`. El recolector de elementos no utilizados entra en modo de no latencia de la región de GC si es capaz de asignar la cantidad necesaria de memoria, lo que en este caso es realmente 2 * `totalSize` (intenta asignar `totalSize` para el montón de objetos pequeños y `totalSize` para el objeto grande montón).  
   
- `totalSize` debe ser lo suficientemente grande como para controlar todas las asignaciones de memoria que se producen en la ruta crítica. Esto incluye las asignaciones de la aplicación, así como las asignaciones que hace que el tiempo de ejecución en nombre de la aplicación.  
+ `totalSize` debe ser lo suficientemente grande como para controlar todas las asignaciones de memoria que se producen en la ruta crítica. Esto incluye las asignaciones por la aplicación, así como las asignaciones que el tiempo de ejecución se realiza en nombre de la aplicación.  
   
- Establecer `disallowFullBlockingGC` a `true` para evitar un elementos no utilizados bloqueo completa colección si no hay suficiente memoria disponible inicialmente resulta muy útil en escenarios de equilibrio de carga: un sistema puede llamar a este método y se presenta como listo para aceptar las solicitudes si devuelve `true`, y permitir que el equilibrador de carga se redirija las solicitudes a otros sistemas si devuelve `false`. A continuación, puede realizar una recolección de elementos no utilizados de bloqueo completa cuando no está controlando las solicitudes mediante una llamada a la <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%2CSystem.Boolean%29> método.  
+ Establecer `disallowFullBlockingGC` a `true` para evitar un elementos no utilizados bloqueo completa colección si no hay suficiente memoria disponible inicialmente es muy útil en escenarios de equilibrio de carga: puede llamar a este método y se presenta como listo para aceptar las solicitudes si devuelve un sistema `true`, y tiene el equilibrador de carga redirigir las solicitudes a otros sistemas si devuelve `false`. A continuación, hacer una recolección de elementos no utilizados de bloqueo completa cuando no está controlando las solicitudes mediante una llamada a la <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%2CSystem.Boolean%29> método.  
   
 > [!IMPORTANT]
->  No se pueden anidar las llamadas a la <xref:System.GC.TryStartNoGCRegion%2A> método y se debería llamar a la <xref:System.GC.EndNoGCRegion%2A> método si el tiempo de ejecución está actualmente en modo de no latencia de la región de GC. En otras palabras, no debe llamar <xref:System.GC.TryStartNoGCRegion%2A> varias veces (después de la primera llamada de método, las llamadas subsiguientes no surtirán efecto), y no deben esperar que las llamadas a <xref:System.GC.EndNoGCRegion%2A> sea correcta sólo porque la primera llamada a <xref:System.GC.TryStartNoGCRegion%2A> se realizó correctamente.  
+>  No se pueden anidar las llamadas a la <xref:System.GC.TryStartNoGCRegion%2A> solo debe llamar al método y el <xref:System.GC.EndNoGCRegion%2A> método si el tiempo de ejecución está actualmente en modo de no latencia de la región de GC. En otras palabras, no debería llamar <xref:System.GC.TryStartNoGCRegion%2A> varias veces (después de la primera llamada de método, las llamadas subsiguientes no surtirán efecto), y no debe esperar que las llamadas a <xref:System.GC.EndNoGCRegion%2A> sea correcta sólo porque la primera llamada a <xref:System.GC.TryStartNoGCRegion%2A> se realizó correctamente.  
   
- No salir del modo de latencia región de GC mediante una llamada a la <xref:System.GC.EndNoGCRegion%2A> método.  
+ No salir del modo de latencia región de GC llamando el <xref:System.GC.EndNoGCRegion%2A> método.  
   
  ]]></format>
         </remarks>
@@ -1459,14 +1485,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Int64%29> método intenta colocar el recolector de elementos no utilizados en ningún modo de latencia de región de GC, que no permite la recopilación de elementos no utilizados mientras que una aplicación ejecuta una región crítica del código.  Si el tiempo de ejecución no puede asignar inicialmente la cantidad de memoria solicitada, el recolector de elementos no utilizados realiza una recolección de elementos no utilizados de bloqueo completa en un intento de liberar memoria adicional. El recolector de elementos no utilizados entra en modo de no latencia de la región de GC si es capaz de asignar `lohSize` para el montón de objeto grande y `totalSize` : `lohSize` para el montón de objetos pequeños (SOH).  
+ El <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Int64%29> método intenta poner el recolector de elementos no utilizados en ningún modo de latencia de región de GC, lo que impide la recolección de elementos mientras una región crítica del código ejecuta una aplicación.  Si el tiempo de ejecución no puede asignar inicialmente la cantidad de memoria solicitada, el recolector de elementos no utilizados realiza una recolección de elementos no utilizados de bloqueo completa en un intento para liberar memoria adicional. El recolector de elementos no utilizados entra en modo de no latencia de la región de GC si es capaz de asignar `lohSize` para el montón de objeto grande y `totalSize` – `lohSize` para el montón de objetos pequeños (SOH).  
   
- `lohSize` debe ser lo suficientemente grande como para controlar todas las asignaciones de memoria que se producen en la ruta crítica para el montón de objeto grande, y `totalSize` : `lohSize` debe ser lo suficientemente grande como para controlar todas las asignaciones de memoria que se producen en la ruta crítica para el SOH. Esto incluye las asignaciones de la aplicación, así como las asignaciones que hace que el tiempo de ejecución en nombre de la aplicación.  
+ `lohSize` debe ser lo suficientemente grande como para controlar todas las asignaciones de memoria que se producen en la ruta crítica para el montón de objeto grande y `totalSize` – `lohSize` debe ser lo suficientemente grande como para controlar todas las asignaciones de memoria que se producen en la ruta crítica para el informe de mantenimiento. Esto incluye las asignaciones por la aplicación, así como las asignaciones que el tiempo de ejecución se realiza en nombre de la aplicación.  
   
 > [!IMPORTANT]
->  No se pueden anidar las llamadas a la <xref:System.GC.TryStartNoGCRegion%2A> método y se debería llamar a la <xref:System.GC.EndNoGCRegion%2A> método si el tiempo de ejecución está actualmente en modo de no latencia de la región de GC. En otras palabras, no debe llamar <xref:System.GC.TryStartNoGCRegion%2A> varias veces (después de la primera llamada de método, las llamadas subsiguientes no surtirán efecto), y no deben esperar que las llamadas a <xref:System.GC.EndNoGCRegion%2A> sea correcta sólo porque la primera llamada a <xref:System.GC.TryStartNoGCRegion%2A> se realizó correctamente.  
+>  No se pueden anidar las llamadas a la <xref:System.GC.TryStartNoGCRegion%2A> solo debe llamar al método y el <xref:System.GC.EndNoGCRegion%2A> método si el tiempo de ejecución está actualmente en modo de no latencia de la región de GC. En otras palabras, no debería llamar <xref:System.GC.TryStartNoGCRegion%2A> varias veces (después de la primera llamada de método, las llamadas subsiguientes no surtirán efecto), y no debe esperar que las llamadas a <xref:System.GC.EndNoGCRegion%2A> sea correcta sólo porque la primera llamada a <xref:System.GC.TryStartNoGCRegion%2A> se realizó correctamente.  
   
- No salir del modo de latencia región de GC mediante una llamada a la <xref:System.GC.EndNoGCRegion%2A> método.  
+ No salir del modo de latencia región de GC llamando el <xref:System.GC.EndNoGCRegion%2A> método.  
   
  ]]></format>
         </remarks>
@@ -1523,16 +1549,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Int64%2CSystem.Boolean%29> método intenta colocar el recolector de elementos no utilizados en ningún modo de latencia de región de GC, que no permite la recopilación de elementos no utilizados mientras que una aplicación ejecuta una región crítica del código.  Si el tiempo de ejecución es no se puede asignar inicialmente la cantidad de memoria solicitada y la `disallowFullBlockingGC` argumento es `false`, el recolector de elementos no utilizados realiza una recolección de elementos no utilizados de bloqueo completa en un intento de liberar memoria adicional; en caso contrario, la asignación se produce un error y el método devuelve `false`. El recolector de elementos no utilizados entra en modo de no latencia de la región de GC si es capaz de asignar `lohSize` para el montón de objeto grande y `totalSize` : `lohSize` para el montón de objetos pequeños (SOH).  
+ El <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Int64%2CSystem.Boolean%29> método intenta poner el recolector de elementos no utilizados en ningún modo de latencia de región de GC, lo que impide la recolección de elementos mientras una región crítica del código ejecuta una aplicación.  Si el tiempo de ejecución no puede asignar inicialmente la cantidad de memoria solicitada y la `disallowFullBlockingGC` argumento es `false`, el recolector de elementos no utilizados realiza una recolección de elementos no utilizados de bloqueo completa en un intento para liberar memoria adicional; de lo contrario, la asignación se produce un error y el método devuelve `false`. El recolector de elementos no utilizados entra en modo de no latencia de la región de GC si es capaz de asignar `lohSize` para el montón de objeto grande y `totalSize` – `lohSize` para el montón de objetos pequeños (SOH).  
   
- `lohSize` debe ser lo suficientemente grande como para controlar todas las asignaciones de memoria que se producen en la ruta crítica para el montón de objeto grande, y `totalSize` : `lohSize` debe ser lo suficientemente grande como para controlar todas las asignaciones de memoria que se producen en la ruta crítica para el SOH. Esto incluye las asignaciones de la aplicación, así como las asignaciones que hace que el tiempo de ejecución en nombre de la aplicación.  
+ `lohSize` debe ser lo suficientemente grande como para controlar todas las asignaciones de memoria que se producen en la ruta crítica para el montón de objeto grande y `totalSize` – `lohSize` debe ser lo suficientemente grande como para controlar todas las asignaciones de memoria que se producen en la ruta crítica para el informe de mantenimiento. Esto incluye las asignaciones por la aplicación, así como las asignaciones que el tiempo de ejecución se realiza en nombre de la aplicación.  
   
- Establecer `disallowFullBlockingGC` a `true` para evitar un elementos no utilizados bloqueo completa colección si no hay suficiente memoria disponible inicialmente resulta muy útil en escenarios de equilibrio de carga: un sistema puede llamar a este método y se presenta como listo para aceptar las solicitudes si devuelve `true`, y permitir que el equilibrador de carga se redirija las solicitudes a otros sistemas si devuelve `false`. A continuación, puede realizar una recolección de elementos no utilizados de bloqueo completa cuando no está controlando las solicitudes mediante una llamada a la <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%2CSystem.Boolean%29> método.  
+ Establecer `disallowFullBlockingGC` a `true` para evitar un elementos no utilizados bloqueo completa colección si no hay suficiente memoria disponible inicialmente es muy útil en escenarios de equilibrio de carga: puede llamar a este método y se presenta como listo para aceptar las solicitudes si devuelve un sistema `true`, y tiene el equilibrador de carga redirigir las solicitudes a otros sistemas si devuelve `false`. A continuación, hacer una recolección de elementos no utilizados de bloqueo completa cuando no está controlando las solicitudes mediante una llamada a la <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%2CSystem.Boolean%29> método.  
   
 > [!IMPORTANT]
->  No se pueden anidar las llamadas a la <xref:System.GC.TryStartNoGCRegion%2A> método y se debería llamar a la <xref:System.GC.EndNoGCRegion%2A> método si el tiempo de ejecución está actualmente en modo de no latencia de la región de GC. En otras palabras, no debe llamar <xref:System.GC.TryStartNoGCRegion%2A> varias veces (después de la primera llamada de método, las llamadas subsiguientes no surtirán efecto), y no deben esperar que las llamadas a <xref:System.GC.EndNoGCRegion%2A> sea correcta sólo porque la primera llamada a <xref:System.GC.TryStartNoGCRegion%2A> se realizó correctamente.  
+>  No se pueden anidar las llamadas a la <xref:System.GC.TryStartNoGCRegion%2A> solo debe llamar al método y el <xref:System.GC.EndNoGCRegion%2A> método si el tiempo de ejecución está actualmente en modo de no latencia de la región de GC. En otras palabras, no debería llamar <xref:System.GC.TryStartNoGCRegion%2A> varias veces (después de la primera llamada de método, las llamadas subsiguientes no surtirán efecto), y no debe esperar que las llamadas a <xref:System.GC.EndNoGCRegion%2A> sea correcta sólo porque la primera llamada a <xref:System.GC.TryStartNoGCRegion%2A> se realizó correctamente.  
   
- No salir del modo de latencia región de GC mediante una llamada a la <xref:System.GC.EndNoGCRegion%2A> método.  
+ No salir del modo de latencia región de GC llamando el <xref:System.GC.EndNoGCRegion%2A> método.  
   
  ]]></format>
         </remarks>
@@ -1562,6 +1588,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1590,18 +1617,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Use la <xref:System.GCNotificationStatus> enumeración devuelto por este método para determinar el estado de la notificación actual de colección de elementos no utilizados que se registró mediante el <xref:System.GC.RegisterForFullGCNotification%2A> método. También puede usar el <xref:System.GC.WaitForFullGCComplete%2A> método para determinar si se ha completado la recolección de elementos no utilizados completa.  
+ Use la <xref:System.GCNotificationStatus> enumeración devuelta por este método para determinar el estado de la notificación de recolección actual que se ha registrado mediante el <xref:System.GC.RegisterForFullGCNotification%2A> método. También puede usar el <xref:System.GC.WaitForFullGCComplete%2A> método para determinar si se ha completado la colección de elementos no utilizados completa.  
   
- Cuando se devuelve la enumeración <xref:System.GCNotificationStatus.Succeeded>, puede realizar tareas como evitar que objetos adicionales que se va a asignar e induce una colección con el <xref:System.GC.Collect%2A> método. Tenga en cuenta que la notificación no garantiza que una colección de elementos no utilizados completa se produzca, solo que las condiciones han alcanzado el umbral que son favorables para una colección de elementos no utilizados completa que se produzca.  
+ Cuando se devuelve la enumeración <xref:System.GCNotificationStatus.Succeeded>, puede hacer tareas como impide que los objetos adicionales que se asigna y provocar una colección con el <xref:System.GC.Collect%2A> método. Tenga en cuenta que la notificación no garantiza que una colección de elementos no utilizados completa se produzca, sólo que condiciones han alcanzado el umbral de favorable para una colección de elementos no utilizados completa que se produzca.  
   
- Este método espera indefinidamente una notificación de recolección va a obtener. Si desea especificar un período de tiempo de espera para el método devolver si no se puede obtener la notificación, utilice el <xref:System.GC.WaitForFullGCApproach%28System.Int32%29?displayProperty=nameWithType> sobrecarga del método. Si se llama a este método sin especificar un tiempo de espera, puede llamar a la <xref:System.GC.CancelFullGCNotification%2A> método si se esperan más preferido.  
+ Este método espera indefinidamente para que obtener una notificación de recolección. Si desea especificar un período de tiempo de espera para el método devolver si no se puede obtener la notificación, utilice el <xref:System.GC.WaitForFullGCApproach%28System.Int32%29?displayProperty=nameWithType> sobrecarga del método. Si se llama a este método sin especificar un tiempo de espera, puede llamar a la <xref:System.GC.CancelFullGCNotification%2A> método si se esperan más de preferido.  
   
  Debe seguir este método con una llamada a la <xref:System.GC.WaitForFullGCComplete%2A> método para asegurarse de que haya tenido una colección de elementos no utilizados completa. Si solo llama a este método, pueden producirse resultados indeterminados.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar este método para determinar si una recolección completa de bloqueo elementos no utilizados se está agotando. Cada vez que el estado de la notificación es <xref:System.GCNotificationStatus.Succeeded>, el método de usuario `OnFullGCApproachNotify` se llama para realizar acciones en respuesta a la recolección próxima. Este ejemplo de código forma parte de un ejemplo más extenso de [notificaciones de la colección de elementos no utilizados](~/docs/standard/garbage-collection/notifications.md) tema.  
+ En el ejemplo siguiente se muestra cómo usar este método para determinar si se está agotando un completo, la recolección de elementos no utilizados de bloqueo. Cada vez que el estado de la notificación es <xref:System.GCNotificationStatus.Succeeded>, el método de usuario `OnFullGCApproachNotify` se llama para realizar acciones en respuesta a la colección de proximidad. Este ejemplo de código forma parte de un ejemplo más extenso de [notificaciones de recolección de elementos no utilizados](~/docs/standard/garbage-collection/notifications.md) tema.  
   
  [!code-cpp[GCNotification#3](~/samples/snippets/cpp/VS_Snippets_CLR/GCNotification/cpp/program.cpp#3)]
  [!code-csharp[GCNotification#3](~/samples/snippets/csharp/VS_Snippets_CLR/GCNotification/cs/Program.cs#3)]
@@ -1609,8 +1636,8 @@
   
  ]]></format>
         </remarks>
-        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">de plena confianza para el llamador inmediato. Un código de confianza parcial no puede utilizar este miembro.</permission>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Requiere plena confianza para el llamador inmediato. Este miembro no puede usarse por código de confianza parcial o transparente.</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">para plena confianza para el llamador inmediato. Un código de confianza parcial no puede utilizar este miembro.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no se puede usar código de confianza parcial o transparente.</permission>
       </Docs>
     </Member>
     <Member MemberName="WaitForFullGCApproach">
@@ -1623,6 +1650,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1654,13 +1682,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Use la <xref:System.GCNotificationStatus> enumeración devuelto por este método para determinar el estado de la notificación actual de colección de elementos no utilizados que se registró mediante el <xref:System.GC.RegisterForFullGCNotification%2A> método. También puede usar el <xref:System.GC.WaitForFullGCComplete%2A> método para determinar si se ha completado la recolección de elementos no utilizados completa.  
+ Use la <xref:System.GCNotificationStatus> enumeración devuelta por este método para determinar el estado de la notificación de recolección actual que se ha registrado mediante el <xref:System.GC.RegisterForFullGCNotification%2A> método. También puede usar el <xref:System.GC.WaitForFullGCComplete%2A> método para determinar si se ha completado la colección de elementos no utilizados completa.  
   
- Tenga en cuenta que este método devuelve un valor inmediatamente siempre que se obtiene un estado de notificación de la recolección de elementos no utilizados, independientemente del valor especificado por `millisecondsTimeout`. Si no se obtiene un estado de notificación de la recolección de elementos no utilizados antes de `millisecondsTimeout` horas, este método devuelve <xref:System.GCNotificationStatus.NotApplicable>.  
+ Tenga en cuenta que este método devuelve un valor inmediatamente cada vez que se obtiene un estado de notificación de la colección de elementos no utilizados, independientemente del valor especificado por `millisecondsTimeout`. Si no se consigue un estado de notificación de la colección de elementos no utilizados antes de `millisecondsTimeout` veces, este método devuelve <xref:System.GCNotificationStatus.NotApplicable>.  
   
- Cuando se devuelve la enumeración <xref:System.GCNotificationStatus.Succeeded>, puede realizar tareas como evitar que objetos adicionales que se va a asignar e induce una colección con el <xref:System.GC.Collect%2A> método. Tenga en cuenta que la notificación no garantiza que una colección de elementos no utilizados completa se produzca, solo que las condiciones han alcanzado el umbral que son favorables para una colección de elementos no utilizados completa que se produzca.  
+ Cuando se devuelve la enumeración <xref:System.GCNotificationStatus.Succeeded>, puede hacer tareas como impide que los objetos adicionales que se asigna y provocar una colección con el <xref:System.GC.Collect%2A> método. Tenga en cuenta que la notificación no garantiza que una colección de elementos no utilizados completa se produzca, sólo que condiciones han alcanzado el umbral de favorable para una colección de elementos no utilizados completa que se produzca.  
   
- Puede llamar a la <xref:System.GC.CancelFullGCNotification%2A> método cuando no puede esperar a que transcurra el período de tiempo de espera.  
+ Puede llamar a la <xref:System.GC.CancelFullGCNotification%2A> método cuando no puede esperar a que transcurra el tiempo de espera.  
   
  Debe seguir este método con una llamada a la <xref:System.GC.WaitForFullGCComplete%2A> método para asegurarse de que haya tenido una colección de elementos no utilizados completa. Si solo llama a este método, pueden producirse resultados indeterminados.  
   
@@ -1668,8 +1696,8 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="millisecondsTimeout" /> must be either non-negative or less than or equal to <see cref="F:System.Int32.MaxValue" /> or -1.</exception>
-        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">de plena confianza para el llamador inmediato. Un código de confianza parcial no puede utilizar este miembro.</permission>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Requiere plena confianza para el llamador inmediato. Este miembro no puede usarse por código de confianza parcial o transparente.</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">para plena confianza para el llamador inmediato. Un código de confianza parcial no puede utilizar este miembro.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no se puede usar código de confianza parcial o transparente.</permission>
       </Docs>
     </Member>
     <MemberGroup MemberName="WaitForFullGCComplete">
@@ -1692,6 +1720,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1720,18 +1749,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Use la <xref:System.GCNotificationStatus> enumeración devuelto por este método para determinar el estado de la notificación actual de colección de elementos no utilizados que se registró mediante el <xref:System.GC.RegisterForFullGCNotification%2A> método. También puede usar el <xref:System.GC.WaitForFullGCApproach%2A> método para determinar si es inminente una recolección completa.  
+ Use la <xref:System.GCNotificationStatus> enumeración devuelta por este método para determinar el estado de la notificación de recolección actual que se ha registrado mediante el <xref:System.GC.RegisterForFullGCNotification%2A> método. También puede usar el <xref:System.GC.WaitForFullGCApproach%2A> método para determinar si es inminente una recolección completa.  
   
- Cuando se devuelve la enumeración <xref:System.GCNotificationStatus.Succeeded>, puede realizar tareas como reanudar el trabajo y obtener un recuento de la colección con el <xref:System.GC.CollectionCount%2A> propiedad.  
+ Cuando se devuelve la enumeración <xref:System.GCNotificationStatus.Succeeded>, puede hacer tareas como reanudar el trabajo y obtener un recuento de la colección con el <xref:System.GC.CollectionCount%2A> propiedad.  
   
- Este método espera indefinidamente una notificación de recolección va a obtener. Si desea especificar un período de tiempo de espera para el método devolver si no se puede obtener la notificación, utilice el <xref:System.GC.WaitForFullGCApproach%28System.Int32%29?displayProperty=nameWithType> sobrecarga del método. Si se llama a este método sin especificar un tiempo de espera, puede llamar a la <xref:System.GC.CancelFullGCNotification%2A> método si se esperan más preferido.  
+ Este método espera indefinidamente para que obtener una notificación de recolección. Si desea especificar un período de tiempo de espera para el método devolver si no se puede obtener la notificación, utilice el <xref:System.GC.WaitForFullGCApproach%28System.Int32%29?displayProperty=nameWithType> sobrecarga del método. Si se llama a este método sin especificar un tiempo de espera, puede llamar a la <xref:System.GC.CancelFullGCNotification%2A> método si se esperan más de preferido.  
   
- Esta llamada al método debe ir precedida por una llamada a la <xref:System.GC.WaitForFullGCApproach%2A> método para asegurarse de que haya tenido una colección de elementos no utilizados completa. Si solo llama a este método, puede producirse resultados indeterminados.  
+ Esta llamada al método debe ir precedida por una llamada a la <xref:System.GC.WaitForFullGCApproach%2A> método para asegurarse de que haya tenido una colección de elementos no utilizados completa. Llamar a este método solo puede producir resultados indeterminados.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar este método para determinar si se ha completado una recolección completa. Cada vez que el estado de la notificación es <xref:System.GCNotificationStatus.Succeeded>, el método de usuario `OnFullGCCompletedNotify` se llama para realizar acciones en respuesta a la colección completa. Este ejemplo de código forma parte de un ejemplo más extenso de [notificaciones de la colección de elementos no utilizados](~/docs/standard/garbage-collection/notifications.md) tema.  
+ El ejemplo siguiente muestra cómo usar este método para determinar si se ha completado una recolección completa. Cada vez que el estado de la notificación es <xref:System.GCNotificationStatus.Succeeded>, el método de usuario `OnFullGCCompletedNotify` se llama para realizar acciones en respuesta a la colección completa. Este ejemplo de código forma parte de un ejemplo más extenso de [notificaciones de recolección de elementos no utilizados](~/docs/standard/garbage-collection/notifications.md) tema.  
   
  [!code-cpp[GCNotification#4](~/samples/snippets/cpp/VS_Snippets_CLR/GCNotification/cpp/program.cpp#4)]
  [!code-csharp[GCNotification#4](~/samples/snippets/csharp/VS_Snippets_CLR/GCNotification/cs/Program.cs#4)]
@@ -1739,8 +1768,8 @@
   
  ]]></format>
         </remarks>
-        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">de plena confianza para el llamador inmediato. Un código de confianza parcial no puede utilizar este miembro.</permission>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Requiere plena confianza para el llamador inmediato. Este miembro no puede usarse por código de confianza parcial o transparente.</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">para plena confianza para el llamador inmediato. Un código de confianza parcial no puede utilizar este miembro.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no se puede usar código de confianza parcial o transparente.</permission>
       </Docs>
     </Member>
     <Member MemberName="WaitForFullGCComplete">
@@ -1753,6 +1782,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1784,22 +1814,22 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Use la <xref:System.GCNotificationStatus> enumeración devuelto por este método para determinar el estado de la notificación actual de colección de elementos no utilizados que se registró mediante el <xref:System.GC.RegisterForFullGCNotification%2A> método. También puede usar el <xref:System.GC.WaitForFullGCApproach%2A> método para determinar si es inminente una recolección completa.  
+ Use la <xref:System.GCNotificationStatus> enumeración devuelta por este método para determinar el estado de la notificación de recolección actual que se ha registrado mediante el <xref:System.GC.RegisterForFullGCNotification%2A> método. También puede usar el <xref:System.GC.WaitForFullGCApproach%2A> método para determinar si es inminente una recolección completa.  
   
- Tenga en cuenta que este método devuelve un valor inmediatamente siempre que se obtiene un estado de notificación de la recolección de elementos no utilizados, independientemente del valor especificado por `millisecondsTimeout`. Si no se obtiene un estado de notificación de la recolección de elementos no utilizados antes de `millisecondsTimeout` horas, este método devuelve <xref:System.GCNotificationStatus.NotApplicable>.  
+ Tenga en cuenta que este método devuelve un valor inmediatamente cada vez que se obtiene un estado de notificación de la colección de elementos no utilizados, independientemente del valor especificado por `millisecondsTimeout`. Si no se consigue un estado de notificación de la colección de elementos no utilizados antes de `millisecondsTimeout` veces, este método devuelve <xref:System.GCNotificationStatus.NotApplicable>.  
   
- Cuando se devuelve la enumeración <xref:System.GCNotificationStatus.Succeeded>, puede realizar tareas como reanudar el trabajo y obtener un recuento de la colección con el <xref:System.GC.CollectionCount%2A> propiedad.  
+ Cuando se devuelve la enumeración <xref:System.GCNotificationStatus.Succeeded>, puede hacer tareas como reanudar el trabajo y obtener un recuento de la colección con el <xref:System.GC.CollectionCount%2A> propiedad.  
   
- Puede llamar a la <xref:System.GC.CancelFullGCNotification%2A> método cuando no puede esperar a que transcurra el período de tiempo de espera.  
+ Puede llamar a la <xref:System.GC.CancelFullGCNotification%2A> método cuando no puede esperar a que transcurra el tiempo de espera.  
   
- Esta llamada al método debe ir precedida por una llamada a la <xref:System.GC.WaitForFullGCApproach%2A> método para asegurarse de que haya tenido una colección de elementos no utilizados completa. Si solo llama a este método, puede producirse resultados indeterminados.  
+ Esta llamada al método debe ir precedida por una llamada a la <xref:System.GC.WaitForFullGCApproach%2A> método para asegurarse de que haya tenido una colección de elementos no utilizados completa. Llamar a este método solo puede producir resultados indeterminados.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.InvalidOperationException">
           <paramref name="millisecondsTimeout" /> must be either non-negative or less than or equal to <see cref="F:System.Int32.MaxValue" /> or -1.</exception>
-        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">de plena confianza para el llamador inmediato. Un código de confianza parcial no puede utilizar este miembro.</permission>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Requiere plena confianza para el llamador inmediato. Este miembro no puede usarse por código de confianza parcial o transparente.</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">para plena confianza para el llamador inmediato. Un código de confianza parcial no puede utilizar este miembro.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no se puede usar código de confianza parcial o transparente.</permission>
       </Docs>
     </Member>
     <Member MemberName="WaitForPendingFinalizers">
@@ -1821,6 +1851,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1838,14 +1870,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cuando el recolector de elementos no utilizados encuentra objetos que se pueden reclamar, comprueba cada objeto para determinar los requisitos de la finalización del objeto. Si un objeto implementa un finalizador y no se ha deshabilitado la finalización mediante una llamada a <xref:System.GC.SuppressFinalize%2A>, el objeto se coloca en una lista de objetos que están marcados como listos para la finalización. El recolector de elementos no utilizados llame el <xref:System.Object.Finalize%2A> métodos para los objetos de esta lista y quita las entradas de la lista. Este método se bloquea hasta que todos los finalizadores se ejecuta hasta completarse.  
+ Cuando el recolector de elementos no utilizados detecta los objetos que se pueden reclamar, comprueba cada objeto para determinar los requisitos de finalización del objeto. Si un objeto implementa un finalizador y no se ha deshabilitado la finalización mediante una llamada a <xref:System.GC.SuppressFinalize%2A>, el objeto se coloca en una lista de objetos que se marcan como listos para la finalización. El recolector de elementos no utilizados llame al <xref:System.Object.Finalize%2A> métodos para los objetos de esta lista y quita las entradas de la lista. Este método se bloquea hasta que todos los finalizadores se ha ejecutado hasta su finalización.  
   
- El subproceso en el que se ejecutan los finalizadores no está especificado, así que no hay ninguna garantía de que este método se cerrará. Sin embargo, este subproceso puede ser interrumpido por otro subproceso mientras el <xref:System.GC.WaitForPendingFinalizers%2A> método está en curso. Por ejemplo, puede iniciar otro subproceso que espera durante un período de tiempo y, a continuación, interrumpa el primer subproceso si sigue suspendido.  
+ El subproceso en el que se ejecutan los finalizadores no se especifica, por lo que no hay ninguna garantía de que este método se cerrará. Sin embargo, este subproceso puede ser interrumpido por otro subproceso mientras el <xref:System.GC.WaitForPendingFinalizers%2A> método está en curso. Por ejemplo, puede iniciar otro subproceso que espera durante un período de tiempo y, a continuación, interrumpe este subproceso si sigue suspendido este subproceso.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el <xref:System.GC.WaitForPendingFinalizers%2A> método para suspender el subproceso actual hasta que se complete la finalización de todos los objetos recopilados.  
+ En el ejemplo siguiente se muestra cómo usar el <xref:System.GC.WaitForPendingFinalizers%2A> método para suspender el subproceso actual hasta que se complete la finalización de todos los objetos recopilados.  
   
  [!code-cpp[System.GC.WaitForPendingFinalizers Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.GC.WaitForPendingFinalizers Example/CPP/class1.cpp#1)]
  [!code-csharp[System.GC.WaitForPendingFinalizers Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.GC.WaitForPendingFinalizers Example/CS/class1.cs#1)]
