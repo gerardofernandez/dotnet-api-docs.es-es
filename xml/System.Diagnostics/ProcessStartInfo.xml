@@ -1,11 +1,11 @@
 <Type Name="ProcessStartInfo" FullName="System.Diagnostics.ProcessStartInfo">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="b0154ce9ad247845f5780ce1f16c79963a4297c5" />
-    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
+    <Meta Name="ms.openlocfilehash" Value="c8f1ccd8bea734c57d532d5c8554d083d648c4f1" />
+    <Meta Name="ms.sourcegitcommit" Value="22c9818dc4a11ae279d13a36bc98a3c6852e9316" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
-    <Meta Name="ms.locfileid" Value="37663327" />
+    <Meta Name="ms.lasthandoff" Value="07/20/2018" />
+    <Meta Name="ms.locfileid" Value="39169335" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class ProcessStartInfo" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit ProcessStartInfo extends System.Object" />
@@ -71,7 +71,7 @@
   
  ]]></format>
     </remarks>
-    <permission cref="T:System.Security.Permissions.SecurityPermission">para llamar a los miembros de <see cref="T:System.Diagnostics.ProcessStartInfo" />. Valor de petición: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; [NIB: conjuntos de permisos con nombre] (http://msdn.microsoft.com/library/08250d67-c99d-4ab0-8d2b-b0e12019f6e3): <see langword="FullTrust" />.</permission>
+    <permission cref="T:System.Security.Permissions.SecurityPermission">para llamar a los miembros de <see cref="T:System.Diagnostics.ProcessStartInfo" />. Valor de petición: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; [NIB: conjuntos de permisos con nombre](http://msdn.microsoft.com/library/08250d67-c99d-4ab0-8d2b-b0e12019f6e3): <see langword="FullTrust" />.</permission>
     <altmember cref="T:System.Diagnostics.Process" />
   </Docs>
   <Members>
@@ -288,7 +288,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- El primer ejemplo siguiente crea una pequeña aplicación (argsecho.exe) que lo transmite de sus argumentos a la consola. Por ejemplo, el "" verbo imprime un documento especificado mediante el uso de .  
+ El primer ejemplo siguiente crea una pequeña aplicación (argsecho.exe) que lo transmite de sus argumentos a la consola. El segundo ejemplo crea una aplicación que invoca argsecho.exe para demostrar las distintas variaciones de la propiedad de Arguments.  
   
  [!code-cpp[Process.Start_static#3](~/samples/snippets/cpp/VS_Snippets_CLR/Process.Start_static/CPP/processstartstatic.cpp#3)]
  [!code-csharp[Process.Start_static#3](~/samples/snippets/csharp/VS_Snippets_CLR/Process.Start_static/CS/processstartstatic.cs#3)]
@@ -348,9 +348,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El verbo predeterminado puede especificarse mediante una cadena vacía ("").  
+ Si el <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> propiedad es `true` o <xref:System.Diagnostics.ProcessStartInfo.UserName%2A> y <xref:System.Diagnostics.ProcessStartInfo.Password%2A> propiedades no son `null`, el <xref:System.Diagnostics.ProcessStartInfo.CreateNoWindow%2A> se omite el valor de propiedad y se crea una nueva ventana.  
 
- Ejemplos de verbos son "Editar", "Abierto", "OpenAsReadOnly", "Print" y "Printto". Debe usar solo los verbos que aparecen en el conjunto de verbos devuelta por la  propiedad.
+ .NET core no admite crear ventanas directamente en las plataformas similares a Unix, incluidos macOS y Linux. Esta propiedad se omite en estas plataformas.
   
    
   
@@ -398,7 +398,7 @@
       <Docs>
         <summary>Obtiene o establece un valor que identifica el dominio que se va a usar al iniciarse el proceso. Si este valor es <see langword="null" />, la propiedad <see cref="P:System.Diagnostics.ProcessStartInfo.UserName" /> debe especificarse en formato UPN.</summary>
         <value>Dominio de Active Directory que se va a usar al iniciarse el proceso. Si este valor es <see langword="null" />, la propiedad <see cref="P:System.Diagnostics.ProcessStartInfo.UserName" /> debe especificarse en formato UPN.</value>
-        <remarks>Cuando se usa el  propiedad, debe incluir la extensión de nombre de archivo al establecer el valor de la  propiedad.</remarks>
+        <remarks>Esta propiedad es principalmente de interés para los usuarios en entornos empresariales que usan Active Directory.</remarks>
       </Docs>
     </Member>
     <Member MemberName="Environment">
@@ -445,9 +445,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El nombre de archivo no debe tener una extensión si especifica manualmente un valor para el  propiedad. El ejemplo de código siguiente inicia un nuevo proceso mediante el verbo especificado y el nombre de archivo. El `myProcess.StartInfo.Environment.Add("TempPath", "C:\\Temp")` propiedad le permite determinar los verbos que se pueden usar con el archivo especificado por el  propiedad.  Puede establecer el <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> en el valor de cualquier verbo en el conjunto. La extensión de nombre de archivo determina el conjunto de verbos posibles.  
+ Las variables de entorno contienen rutas de búsqueda para archivos, directorios para archivos temporales, opciones específicas de la aplicación y otra información similar. Aunque no se puede establecer directamente la <xref:System.Diagnostics.ProcessStartInfo.Environment%2A> propiedad, puede modificar el diccionario genérico devuelto por la propiedad. Por ejemplo, el código siguiente agrega una variable de entorno TempPath: `myProcess.StartInfo.Environment.Add("TempPath", "C:\\Temp")`.  Debe establecer el <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> propiedad `false` para iniciar el proceso después de cambiar el <xref:System.Diagnostics.ProcessStartInfo.Environment%2A> propiedad. Si <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> es `true`, un <xref:System.InvalidOperationException> se produce cuando el <xref:System.Diagnostics.Process.Start%2A> se llama al método.  
   
- El ejemplo de código siguiente muestra los verbos definidos para el nombre de archivo elegido.  
+ En las aplicaciones de .NET Framework, utilizando el <xref:System.Diagnostics.ProcessStartInfo.Environment%2A> propiedad es lo mismo que usar el <xref:System.Diagnostics.ProcessStartInfo.EnvironmentVariables%2A> propiedad.  
   
  ]]></format>
         </remarks>
@@ -507,7 +507,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si el usuario selecciona uno de los verbos definidos, el ejemplo inicia un nuevo proceso mediante el verbo seleccionado y el nombre de archivo de entrada. El `myProcess.StartInfo.EnvironmentVariables.Add("TempPath", "C:\\Temp")` propiedad le permite determinar los verbos que se pueden usar con el archivo especificado por el  propiedad.  Puede establecer el <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> en el valor de cualquier verbo en el conjunto. La extensión de nombre de archivo determina el conjunto de verbos posibles.  
+ Aunque no se puede establecer el <xref:System.Diagnostics.ProcessStartInfo.EnvironmentVariables%2A> propiedad, puede modificar el <xref:System.Collections.Specialized.StringDictionary> devuelta por la propiedad. Por ejemplo, el código siguiente agrega una variable de entorno TempPath: `myProcess.StartInfo.EnvironmentVariables.Add("TempPath", "C:\\Temp")`.  Debe establecer el <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> propiedad `false` para iniciar el proceso después de cambiar el <xref:System.Diagnostics.ProcessStartInfo.EnvironmentVariables%2A> propiedad. Si <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> es `true`, un <xref:System.InvalidOperationException> se produce cuando el <xref:System.Diagnostics.Process.Start%2A> se llama al método.  
   
  ]]></format>
         </remarks>
@@ -560,7 +560,7 @@
 ## Remarks  
   
 > [!NOTE]
->  <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> El estilo de ventana no es uno de los <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> miembros de la enumeración.  
+>  <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> debe ser `true` si desea establecer <xref:System.Diagnostics.ProcessStartInfo.ErrorDialog%2A> a `true`.  
   
  ]]></format>
         </remarks>
@@ -608,7 +608,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si el directorio ya forma parte de la variable de ruta de acceso del sistema, no es necesario repetir la ubicación del directorio en esta propiedad. El  propiedad tiene un comportamiento diferente cuando  es  que cuando  es .  
+ Si <xref:System.Diagnostics.ProcessStartInfo.ErrorDialog%2A> es `true`, el <xref:System.Diagnostics.ProcessStartInfo.ErrorDialogParentHandle%2A> propiedad especifica la ventana primaria para el cuadro de diálogo que se muestra. Es útil especificar un elemento primario para mantener el cuadro de diálogo delante de la aplicación.  
   
  ]]></format>
         </remarks>
@@ -669,9 +669,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Debe establecer al menos el <xref:System.Diagnostics.ProcessStartInfo.FileName%2A> propiedad antes de iniciar el proceso. El nombre de archivo es cualquier aplicación o documento. Si  es una cadena vacía, se entiende el directorio actual para que contenga el archivo ejecutable. Puede ver los tipos de archivo registrados y las aplicaciones asociadas para su equipo mediante el **opciones de carpeta** cuadro de diálogo, que está disponible a través del sistema operativo. El **avanzadas** botón conduce a un cuadro de diálogo que muestra si hay una acción abierta asociada a un tipo de archivo registrado específico.  
+ Debe establecer al menos el <xref:System.Diagnostics.ProcessStartInfo.FileName%2A> propiedad antes de iniciar el proceso. El nombre de archivo es cualquier aplicación o documento. Un documento se define para cualquier tipo de archivo que tiene abierto o predeterminada de la acción asociada con él. Puede ver los tipos de archivo registrados y las aplicaciones asociadas para su equipo mediante el **opciones de carpeta** cuadro de diálogo, que está disponible a través del sistema operativo. El **avanzadas** botón conduce a un cuadro de diálogo que muestra si hay una acción abierta asociada a un tipo de archivo registrado específico.  
   
- Cuando <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> es , el directorio de trabajo de la aplicación que inicia el archivo ejecutable es también el directorio de trabajo del archivo ejecutable. En su lugar, su valor se aplica al proceso que se inicia y solo tiene un significado en el contexto del nuevo proceso. Cuando <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> es `false`, puede iniciar archivos ejecutables con el <xref:System.Diagnostics.Process> componente.  
+ El conjunto de tipos de archivo disponibles depende en parte del valor de la <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> propiedad. Si <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> es `true`, puede iniciar cualquier documento y realizar operaciones en el archivo, como la impresión, con el <xref:System.Diagnostics.Process> componente. Cuando <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> es `false`, puede iniciar archivos ejecutables con el <xref:System.Diagnostics.Process> componente.  
   
  Iniciar una aplicación ClickOnce se puede establecer el <xref:System.Diagnostics.ProcessStartInfo.FileName%2A> propiedad a la ubicación (por ejemplo, una dirección Web) desde el que instaló originalmente la aplicación. No inicie una aplicación ClickOnce especificando su ubicación de instalación en el disco duro.  
   
@@ -1310,31 +1310,31 @@ p.WaitForExit();
         <value>
           <see langword="true" /> si el shell se debe usar al iniciar el proceso; <see langword="false" /> si el proceso debería crearse directamente desde el archivo ejecutable. El valor predeterminado es <see langword="true" /> en aplicaciones de .NET Framework y <see langword="false" /> en aplicaciones de .NET Core.</value>
         <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Establecer esta propiedad en `false` permite redirigir flujos de entrada, salida y error.  
-  
+          <format type="text/markdown"><![CDATA[## Remarks
+
+Establecer esta propiedad en `false` permite redirigir flujos de entrada, salida y error.
+
 > [!NOTE]
->  <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> debe ser `false` si el <xref:System.Diagnostics.ProcessStartInfo.UserName%2A> propiedad no es `null` o una cadena vacía, o un <xref:System.InvalidOperationException> se iniciará cuando el <xref:System.Diagnostics.Process.Start%28System.Diagnostics.ProcessStartInfo%29?displayProperty=nameWithType> se llama al método.  
-  
- Al usar el shell del sistema operativo para iniciar procesos, puede iniciar cualquier documento (que es cualquier tipo de archivo registrado asociado con un archivo ejecutable que tiene una acción de apertura predeterminada) y realizar operaciones en el archivo, como impresión, usando la <xref:System.Diagnostics.Process> objeto. Cuando <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> es `false`, puede iniciar archivos ejecutables mediante la <xref:System.Diagnostics.Process> objeto.  
-  
+> <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute> debe ser `false` si el <xref:System.Diagnostics.ProcessStartInfo.UserName> propiedad no es `null` o una cadena vacía, o un <xref:System.InvalidOperationException> se iniciará cuando el <xref:System.Diagnostics.Process.Start(System.Diagnostics.ProcessStartInfo)?displayProperty=nameWithType> se llama al método.
+
+Al usar el shell del sistema operativo para iniciar procesos, puede iniciar cualquier documento (que es cualquier tipo de archivo registrado asociado con un archivo ejecutable que tiene una acción de apertura predeterminada) y realizar operaciones en el archivo, como impresión, usando la <xref:System.Diagnostics.Process> objeto. Cuando <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute> es `false`, puede iniciar archivos ejecutables mediante la <xref:System.Diagnostics.Process> objeto.
+
 > [!NOTE]
->  <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> debe ser `true` si establece la <xref:System.Diagnostics.ProcessStartInfo.ErrorDialog%2A> propiedad `true`.  
-  
- El <xref:System.Diagnostics.ProcessStartInfo.WorkingDirectory%2A> propiedad tiene un comportamiento diferente según el valor de la <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> propiedad. Cuando <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> es `true`, el <xref:System.Diagnostics.ProcessStartInfo.WorkingDirectory%2A> propiedad especifica la ubicación del archivo ejecutable. Si <xref:System.Diagnostics.ProcessStartInfo.WorkingDirectory%2A> es una cadena vacía, se supone que el directorio actual contiene el archivo ejecutable.  
-  
- Cuando <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> es `false`, el <xref:System.Diagnostics.ProcessStartInfo.WorkingDirectory%2A> propiedad no se usa para encontrar el archivo ejecutable. En su lugar, se usa solo durante el proceso que se inicia y tiene un significado solo dentro del contexto del nuevo proceso. Cuando <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> es `false`, el <xref:System.Diagnostics.ProcessStartInfo.FileName%2A> propiedad puede ser una ruta de acceso completa al archivo ejecutable, o bien un nombre de ejecutable simple que el sistema intentará encontrar dentro de las carpetas especificadas por la variable de entorno PATH.  
-  
-   
-  
-## Examples  
- [!code-cpp[ProcessOneStream#1](~/samples/snippets/cpp/VS_Snippets_CLR/ProcessOneStream/CPP/stdstr.cpp#1)]
- [!code-csharp[ProcessOneStream#1](~/samples/snippets/csharp/VS_Snippets_CLR/ProcessOneStream/CS/stdstr.cs#1)]
- [!code-vb[ProcessOneStream#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/ProcessOneStream/VB/stdstr.vb#1)]  
-  
- ]]></format>
+> <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute> debe ser `true` si establece la <xref:System.Diagnostics.ProcessStartInfo.ErrorDialog> propiedad `true`.
+
+Si establece la <xref:System.Diagnostics.ProcessStartInfo.WindowStyle> a <xref:System.Diagnostics.ProcessWindowStyle.Hidden?displayProperty=nameWithType>, <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute> debe establecerse en `true`.
+
+### <a name="workingdirectory"></a>WorkingDirectory
+
+El <xref:System.Diagnostics.ProcessStartInfo.WorkingDirectory> propiedad tiene un comportamiento diferente según el valor de la <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute> propiedad. Cuando <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute> es `true`, el <xref:System.Diagnostics.ProcessStartInfo.WorkingDirectory> propiedad especifica la ubicación del archivo ejecutable. Si <xref:System.Diagnostics.ProcessStartInfo.WorkingDirectory*> es una cadena vacía, se supone que el directorio actual contiene el archivo ejecutable.
+
+Cuando <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute> es `false`, el <xref:System.Diagnostics.ProcessStartInfo.WorkingDirectory> propiedad no se usa para encontrar el archivo ejecutable. En su lugar, se usa solo durante el proceso que se inicia y tiene un significado solo dentro del contexto del nuevo proceso. Cuando <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute> es `false`, el <xref:System.Diagnostics.ProcessStartInfo.FileName> propiedad puede ser una ruta de acceso completa al archivo ejecutable, o bien un nombre de ejecutable simple que el sistema intentará encontrar dentro de las carpetas especificadas por la variable de entorno PATH.
+
+## Examples
+
+[!code-cpp[ProcessOneStream#1](~/samples/snippets/cpp/VS_Snippets_CLR/ProcessOneStream/CPP/stdstr.cpp#1)]
+[!code-csharp[ProcessOneStream#1](~/samples/snippets/csharp/VS_Snippets_CLR/ProcessOneStream/CS/stdstr.cs#1)]
+[!code-vb[ProcessOneStream#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/ProcessOneStream/VB/stdstr.vb#1)]]]></format>
         </remarks>
         <exception cref="T:System.PlatformNotSupportedException">Se produce un intento de establecer el valor en <see langword="true" /> en aplicaciones de la Plataforma Universal de Windows (UWP).</exception>
         <altmember cref="P:System.Diagnostics.ProcessStartInfo.RedirectStandardInput" />

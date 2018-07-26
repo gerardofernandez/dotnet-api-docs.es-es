@@ -1,11 +1,11 @@
 <Type Name="XslTransform" FullName="System.Xml.Xsl.XslTransform">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="bde6eef3e191bd0a25d4c462afa81d1cbfd131ba" />
-    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
+    <Meta Name="ms.openlocfilehash" Value="90f9aaa4f98d650b51fb98e9ae2d19d691591587" />
+    <Meta Name="ms.sourcegitcommit" Value="102d07546033d7818b72aa66d7a26c70235baedd" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
-    <Meta Name="ms.locfileid" Value="37733120" />
+    <Meta Name="ms.lasthandoff" Value="07/23/2018" />
+    <Meta Name="ms.locfileid" Value="39202250" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class XslTransform" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit XslTransform extends System.Object" />
@@ -741,8 +741,14 @@
   
  Hay diferentes formas de proporcionar evidencia. En la tabla siguiente se describe qué tipo de evidencia que se va a proporcionar para escenarios comunes de usuario.  
   
-    
+|Escenario|Tipo de evidencia que debe proporcionarse|  
+|--------------|---------------------------------|  
+|La hoja de estilos XSLT es independiente entre sí o proviene de una base de código que confíe.|Use la evidencia desde el ensamblado.<br /><br /> <pre><code class="lang-csharp">XsltTransform xslt = new XslTransform(); &#13;&#10;xslt.Load(xslReader, resolver, this.GetType().Assembly.Evidence);</code></pre>|  
+|La hoja de estilos XSLT proviene de un código fuente exterior. Se conoce el origen del origen, y hay una dirección URL que se pueda comprobar.|Cree la evidencia utilizando la dirección URL.<br /><br /> <pre><code class="lang-csharp">XsltTransform xslt = new XslTransform();&#13;&#10; Evidence evidence = XmlSecureResolver.CreateEvidenceForUrl(stylesheetURL); &#13;&#10;xslt.Load(xslReader,resolver,evidence);</code></pre>|  
+|La hoja de estilos XSLT proviene de un código fuente exterior. Se desconoce el origen del código fuente.|Establezca la evidencia en `null`. No se procesan los bloques de scripts, no se admite la función `document()` de XSLT y no están permitidos los objetos de extensión privilegiada.<br /><br /> Además, también puede establecer el `resolver` parámetro `null`. Esto garantiza que `xsl:import` y `xsl:include` no se procesan los elementos.|  
+|La hoja de estilos XSLT proviene de un código fuente exterior. Se desconoce el origen del código fuente, pero es necesaria la compatibilidad con los scripts.|Solicite la evidencia al llamador. La API del llamador debe proporcionar una manera de proporcionar evidencia, normalmente la <xref:System.Security.Policy.Evidence> clase.|  
   
+     
 ## Examples  
  En el ejemplo siguiente se realiza una transformación XSLT donde `xsltReader` es un <xref:System.Xml.XmlReader> que contiene una hoja de estilos y `secureURL` es una dirección URL de confianza que se puede usar para crear <xref:System.Security.Policy.Evidence>. El <xref:System.Xml.XmlSecureResolver.CreateEvidenceForUrl%2A?displayProperty=nameWithType> método se usa para crear <xref:System.Security.Policy.Evidence> que se aplica a la hoja de estilos.  
   
@@ -806,7 +812,14 @@
   
  Hay diferentes formas de proporcionar evidencia. En la tabla siguiente se describe qué tipo de evidencia que se va a proporcionar para escenarios comunes de usuario.  
   
-  ]]></format>
+|Escenario|Tipo de evidencia que debe proporcionarse|  
+|--------------|---------------------------------|  
+|La hoja de estilos XSLT es independiente entre sí o proviene de una base de código que confíe.|Use la evidencia desde el ensamblado.<br /><br /> <pre><code class="lang-csharp">XsltTransform xslt = new XslTransform(); &#13;&#10;xslt.Load(style sheet, resolver, this.GetType().Assembly.Evidence);</code></pre>|  
+|La hoja de estilos XSLT proviene de un código fuente exterior. Se conoce el origen del origen, y hay una dirección URL que se pueda comprobar.|Cree la evidencia utilizando la dirección URL.<br /><br /> <pre><code class="lang-csharp">XsltTransform xslt = new XslTransform(); &#13;&#10;Evidence evidence = XmlSecureResolver.CreateEvidenceForUrl(style sheetURL); &#13;&#10;xslt.Load(style sheet,resolver,evidence);</code></pre>|  
+|La hoja de estilos XSLT proviene de un código fuente exterior. Se desconoce el origen del código fuente.|Establezca la evidencia en `null`. No se procesan los bloques de scripts, no se admite la función `document()` de XSLT y no están permitidos los objetos de extensión privilegiada.<br /><br /> Además, también puede establecer el `resolver` parámetro `null`. Esto garantiza que `xsl:import` y `xsl:include` no se procesan los elementos.|  
+|La hoja de estilos XSLT proviene de un código fuente exterior. Se desconoce el origen del código fuente, pero es necesaria la compatibilidad con los scripts.|Solicite la evidencia al llamador. La API del llamador debe proporcionar una manera de proporcionar evidencia, normalmente la <xref:System.Security.Policy.Evidence> clase.|  
+  
+ ]]></format>
         </remarks>
         <exception cref="T:System.Xml.Xsl.XsltCompileException">El recurso cargado no es una hoja de estilos válida.</exception>
         <exception cref="T:System.Security.SecurityException">La hoja de estilos a la que se hace referencia requiere una funcionalidad no permitida por la evidencia proporcionada.  El llamador intenta proporcionar la evidencia, pero no dispone de un permiso <see langword="ControlEvidence" />.</exception>
@@ -864,11 +877,18 @@
   
  Hay diferentes formas de proporcionar evidencia. En la tabla siguiente se describe qué tipo de evidencia que se va a proporcionar para escenarios comunes de usuario.  
   
-    
+|Escenario|Tipo de evidencia que debe proporcionarse|  
+|--------------|---------------------------------|  
+|La hoja de estilos XSLT es independiente entre sí o proviene de una base de código que confíe.|Use la evidencia desde el ensamblado.<br /><br /> <pre><code class="lang-csharp">XsltTransform xslt = new XslTransform(); &#13;&#10;xslt.Load(xslNav, resolver, this.GetType().Assembly.Evidence);</code></pre>|  
+|La hoja de estilos XSLT proviene de un código fuente exterior. Se conoce el origen del origen, y hay una dirección URL que se pueda comprobar.|Cree la evidencia utilizando la dirección URL.<br /><br /> <pre><code class="lang-csharp">XsltTransform xslt = new XslTransform(); &#13;&#10;Evidence evidence = XmlSecureResolver.CreateEvidenceForUrl(style sheetURL); &#13;&#10;xslt.Load(xslNav,resolver,evidence);</code></pre>|  
+|La hoja de estilos XSLT proviene de un código fuente exterior. Se desconoce el origen del código fuente.|Establezca la evidencia en `null`. No se procesan los bloques de scripts, no se admite la función `document()` de XSLT y no están permitidos los objetos de extensión privilegiada.<br /><br /> Además, también puede establecer el `resolver` parámetro `null`. Esto garantiza que `xsl:import` y `xsl:include` no se procesan los elementos.|  
+|La hoja de estilos XSLT proviene de un código fuente exterior. Se desconoce el origen del código fuente, pero es necesaria la compatibilidad con los scripts.|Solicite la evidencia al llamador. La API del llamador debe proporcionar una manera de proporcionar evidencia, normalmente la `Evidence` clase.|  
+  
+   
   
 ## Examples  
  El ejemplo siguiente realiza una transformación XSLT utilizando una hoja de estilos de un origen externo. Dado que la hoja de estilos provenga de un origen de confianza, el `resolver` y `evidence` parámetros están establecidos en `null`.  
-  
+ 
  [!code-csharp[XslTransform.Load5#1](~/samples/snippets/csharp/VS_Snippets_Data/XslTransform.Load5/CS/trans_noev.cs#1)]
  [!code-vb[XslTransform.Load5#1](~/samples/snippets/visualbasic/VS_Snippets_Data/XslTransform.Load5/VB/trans_noev.vb#1)]  
   
