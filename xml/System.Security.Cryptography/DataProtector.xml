@@ -1,10 +1,10 @@
 <Type Name="DataProtector" FullName="System.Security.Cryptography.DataProtector">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="d4e4bce52f8586be414a74c5308080a771fe7937" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="d0bb31ec8354fa58c62c2a646057eec11d3e2150" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/17/2018" />
     <Meta Name="ms.locfileid" Value="36625349" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class DataProtector" />
@@ -27,14 +27,14 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta clase protege los datos almacenados de visualización y manipulación. El acceso a los datos protegidos se obtiene mediante la creación de una instancia de esta clase y utilizando las cadenas de propósito exactas que se usaron para proteger los datos.  El llamador no necesita una clave para proteger o desproteger los datos. La clave se proporciona mediante el algoritmo de cifrado.  
+ Esta clase protege los datos almacenados de visualización y manipulación. El acceso a los datos protegidos se obtiene mediante la creación de una instancia de esta clase y el uso de las cadenas de propósito exacto que se usaron para proteger los datos.  El llamador no necesita una clave para proteger o desproteger los datos. La clave se proporciona mediante el algoritmo de cifrado.  
   
- Las clases derivadas deben invalidar el <xref:System.Security.Cryptography.DataProtector.ProviderProtect%2A> y <xref:System.Security.Cryptography.DataProtector.Unprotect%2A> métodos, que la <xref:System.Security.Cryptography.DataProtector> base clase devoluciones de llamadas en. También deben invalidar el <xref:System.Security.Cryptography.DataProtector.IsReprotectRequired%2A> método, que siempre puede volver `true` con una posible pérdida pequeña de eficacia cuando las aplicaciones actualización su base de datos de texto cifrado almacenado. Las clases derivadas deben proporcionar un constructor que llama al constructor de clase base, que establece el <xref:System.Security.Cryptography.DataProtector.ApplicationName%2A>, <xref:System.Security.Cryptography.DataProtector.SpecificPurposes%2A>, y <xref:System.Security.Cryptography.DataProtector.PrimaryPurpose%2A> propiedades.  
+ Las clases derivadas deben invalidar el <xref:System.Security.Cryptography.DataProtector.ProviderProtect%2A> y <xref:System.Security.Cryptography.DataProtector.Unprotect%2A> métodos, que el <xref:System.Security.Cryptography.DataProtector> base clase devoluciones de llamadas en. También debe reemplazar el <xref:System.Security.Cryptography.DataProtector.IsReprotectRequired%2A> método, que siempre puede volver `true` con una posible pérdida de pequeña de eficacia cuando las aplicaciones actualización su base de datos de texto cifrado almacenados. Las clases derivadas deben proporcionar un constructor que llame al constructor de clase base, que establece el <xref:System.Security.Cryptography.DataProtector.ApplicationName%2A>, <xref:System.Security.Cryptography.DataProtector.SpecificPurposes%2A>, y <xref:System.Security.Cryptography.DataProtector.PrimaryPurpose%2A> propiedades.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo crear un tipo de datos protector que usa una clase de protección con una opción para entropía adicional. De forma predeterminada, la <xref:System.Security.Cryptography.DataProtector> clase antepone el hash de las propiedades de propósito a los datos se cifren. Puede desactivar esta funcionalidad y usar el propósito con hash como entropía adicional al llamar a un protector de datos con una opción de entropía adicional.  
+ El ejemplo siguiente muestra cómo crear datos de un protector que usa una clase de protección con una opción para entropía adicional. De forma predeterminada, el <xref:System.Security.Cryptography.DataProtector> clase antepone el hash de las propiedades de uso a los datos que se cifren. Puede desactivar esa funcionalidad y usar el propósito con hash como entropía adicional al llamar a un protector de datos con una opción de entropía adicional.  
   
  [!code-csharp[Cryptography.DataProtector#1](~/samples/snippets/csharp/VS_Snippets_CLR/cryptography.dataprotector/cs/class1.cs#1)]
  [!code-vb[Cryptography.DataProtector#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/cryptography.dataprotector/vb/class1.vb#1)]  
@@ -66,7 +66,7 @@
         <Parameter Name="specificPurposes" Type="System.String[]" />
       </Parameters>
       <Docs>
-        <param name="applicationName">Nombre de la aplicación.</param>
+        <param name="applicationName">El nombre de la aplicación.</param>
         <param name="primaryPurpose">El propósito principal de los datos protegidos.</param>
         <param name="specificPurposes">Los propósitos específicos para los datos protegidos.</param>
         <summary>Crea una nueva instancia de la clase <see cref="T:System.Security.Cryptography.DataProtector" /> utilizando el nombre de aplicación, el propósito principal y los propósitos concretos proporcionados.</summary>
@@ -74,12 +74,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este constructor establece la <xref:System.Security.Cryptography.DataProtector.ApplicationName%2A>, <xref:System.Security.Cryptography.DataProtector.PrimaryPurpose%2A>, y <xref:System.Security.Cryptography.DataProtector.SpecificPurposes%2A> propiedades. La combinación de estas tres propiedades debe identificar de forma exclusiva los datos que se va a proteger. Si los datos no se identifican de forma exclusiva, sin darse cuenta podría leer los datos incorrectos o pueden sustituirse otros datos para su aplicación. Ejemplos de pares de propósito específico y principal son "factura" y facturación número, "tarjeta regalo" y número de tarjeta regalo, "password" y cadena de dirección URL.  
+ Este constructor establece la <xref:System.Security.Cryptography.DataProtector.ApplicationName%2A>, <xref:System.Security.Cryptography.DataProtector.PrimaryPurpose%2A>, y <xref:System.Security.Cryptography.DataProtector.SpecificPurposes%2A> propiedades. La combinación de estas tres propiedades debe identificar exclusivamente los datos que se va a proteger. Si los datos no tiene una identificación exclusiva, sin darse cuenta podría leer los datos incorrectos u otros datos pueden sustituirse por el suyo. Ejemplos de pares principales y específicos de uso son "factura" y número, "de regalo" y el número de tarjeta de regalo, "password" y cadena de dirección URL de la factura.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="applicationName" /> es una cadena vacía o <see langword="null" />.  -o bien- <paramref name="primaryPurpose" /> es una cadena vacía o <see langword="null" />.  -o bien- <paramref name="specificPurposes" /> contiene una cadena vacía o <see langword="null" />.</exception>
+          <paramref name="applicationName" /> es una cadena vacía o <see langword="null" />.  
+  
+O bien 
+ <paramref name="primaryPurpose" /> es una cadena vacía o <see langword="null" />.  
+  
+O bien 
+ <paramref name="specificPurposes" /> contiene una cadena vacía o <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="ApplicationName">
@@ -99,7 +105,7 @@
       </ReturnValue>
       <Docs>
         <summary>Obtiene el nombre de la aplicación.</summary>
-        <value>Nombre de la aplicación.</value>
+        <value>El nombre de la aplicación.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -132,7 +138,7 @@
       </Parameters>
       <Docs>
         <param name="providerClass">Nombre de clase del protector de datos.</param>
-        <param name="applicationName">Nombre de la aplicación.</param>
+        <param name="applicationName">El nombre de la aplicación.</param>
         <param name="primaryPurpose">El propósito principal de los datos protegidos.</param>
         <param name="specificPurposes">Los propósitos específicos para los datos protegidos.</param>
         <summary>Crea una instancia de una implementación de protector de datos utilizando el nombre de clase del protector de datos, el nombre de la aplicación, el propósito principal y los propósitos concretos especificados.</summary>
@@ -165,12 +171,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Security.Cryptography.DataProtector.GetHashedPurpose%2A> calcula el hash del nombre de la aplicación y el propósito completo.  El propósito completo es una concatenación de todos los <xref:System.Security.Cryptography.DataProtector.PrimaryPurpose%2A> y <xref:System.Security.Cryptography.DataProtector.SpecificPurposes%2A> propiedades.  Cada una de las tres partes se prologa con su longitud, por lo que se puede invertir el hash.  
+ <xref:System.Security.Cryptography.DataProtector.GetHashedPurpose%2A> calcula el hash de nombre de la aplicación y el propósito completo.  El propósito completo es una concatenación de todos los <xref:System.Security.Cryptography.DataProtector.PrimaryPurpose%2A> y <xref:System.Security.Cryptography.DataProtector.SpecificPurposes%2A> propiedades.  Cada una de las tres partes se prologa con su longitud, por lo que se puede invertir el hash.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el <xref:System.Security.Cryptography.DataProtector.GetHashedPurpose%2A> método a las propiedades de propósito para su uso como entropía adicional de hash.  Forma parte de un ejemplo más extenso de código para el <xref:System.Security.Cryptography.DataProtector> clase.  
+ El ejemplo siguiente muestra cómo usar el <xref:System.Security.Cryptography.DataProtector.GetHashedPurpose%2A> método a las propiedades de propósito para su uso como entropía adicional de hash.  Forma parte de un ejemplo más extenso de código para el <xref:System.Security.Cryptography.DataProtector> clase.  
   
  [!code-csharp[Cryptography.DataProtector#3](~/samples/snippets/csharp/VS_Snippets_CLR/cryptography.dataprotector/cs/class1.cs#3)]
  [!code-vb[Cryptography.DataProtector#3](~/samples/snippets/visualbasic/VS_Snippets_CLR/cryptography.dataprotector/vb/class1.vb#3)]  
@@ -227,7 +233,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- De forma predeterminada, se supone que las clases derivadas antepondrá el hash de la <xref:System.Security.Cryptography.DataProtector.ApplicationName%2A>, <xref:System.Security.Cryptography.DataProtector.PrimaryPurpose%2A>, y <xref:System.Security.Cryptography.DataProtector.SpecificPurposes%2A> propiedades para el texto sin formato antes de cifrado y se compruebe y el hash durante el descifrado.  Si desea que una clase derivada especificar los datos antepuestos por sí mismo (por ejemplo, como un valor de entropía opcional), esta propiedad puede sustituirse y se establece para devolver `false`.  Si <xref:System.Security.Cryptography.DataProtector.PrependHashedPurposeToPlaintext%2A> es `false`, <xref:System.Security.Cryptography.DataProtector.Protect%2A> y <xref:System.Security.Cryptography.DataProtector.Unprotect%2A> pasa directamente a la <xref:System.Security.Cryptography.DataProtector.ProviderProtect%2A> y <xref:System.Security.Cryptography.DataProtector.ProviderUnprotect%2A> invalida sin modificar la matriz de bytes.  
+ De forma predeterminada, se supone que las clases derivadas antepondrá el hash de la <xref:System.Security.Cryptography.DataProtector.ApplicationName%2A>, <xref:System.Security.Cryptography.DataProtector.PrimaryPurpose%2A>, y <xref:System.Security.Cryptography.DataProtector.SpecificPurposes%2A> propiedades para el texto sin formato antes de cifrado y se compruebe y comprobar el hash durante el descifrado.  Si desea implementar una clase derivada especificar los datos antepuestos por sí mismo (por ejemplo, como un valor de entropía opcional), esta propiedad puede reemplazar y se establece para devolver `false`.  Si <xref:System.Security.Cryptography.DataProtector.PrependHashedPurposeToPlaintext%2A> es `false`, <xref:System.Security.Cryptography.DataProtector.Protect%2A> y <xref:System.Security.Cryptography.DataProtector.Unprotect%2A> pasa directamente a la <xref:System.Security.Cryptography.DataProtector.ProviderProtect%2A> y <xref:System.Security.Cryptography.DataProtector.ProviderUnprotect%2A> invalida sin alterar la matriz de bytes.  
   
  ]]></format>
         </remarks>
@@ -337,7 +343,7 @@
       <Docs>
         <param name="encryptedData">Datos que se van a descifrar.</param>
         <summary>Especifica el método delegado de la clase derivada a la que el método <see cref="M:System.Security.Cryptography.DataProtector.Unprotect(System.Byte[])" /> de la clase base devuelve la llamada.</summary>
-        <returns>Datos cifrados.</returns>
+        <returns>Datos sin cifrar...</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
