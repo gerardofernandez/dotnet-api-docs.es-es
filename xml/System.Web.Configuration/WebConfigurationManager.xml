@@ -1,11 +1,11 @@
 <Type Name="WebConfigurationManager" FullName="System.Web.Configuration.WebConfigurationManager">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="1af8442a1ece4915051892e55e5e07bc526a57d7" />
-    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
+    <Meta Name="ms.openlocfilehash" Value="d9ab080ea3fe401f7c07df9c2940aec399075652" />
+    <Meta Name="ms.sourcegitcommit" Value="d877ae76e9e11799bf919379507239e2c4072742" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
-    <Meta Name="ms.locfileid" Value="37752439" />
+    <Meta Name="ms.lasthandoff" Value="08/09/2018" />
+    <Meta Name="ms.locfileid" Value="39989966" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class WebConfigurationManager" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit WebConfigurationManager extends System.Object" />
@@ -302,7 +302,7 @@
  Podría llamar a <xref:System.Web.Configuration.WebConfigurationManager.GetWebApplicationSection%2A> desde dentro de una aplicación cliente. En este caso, obtiene la sección predeterminada del archivo de configuración seleccionado por el sistema según la jerarquía de configuración de cliente. Normalmente, esto es el archivo Machine.config, a menos que tenga una configuración asignada en su lugar. Para asignar los archivos de configuración, consulte los métodos de asignación que se describe a continuación.  
   
 > [!NOTE]
->  Abre el archivo de configuración de aplicación Web especificado como un <xref:System.Web.Configuration.WebConfigurationManager.GetWebApplicationSection%2A> mediante la asignación de archivos especificada, la ruta de acceso virtual y el nombre de sitio para permitir la lectura o las operaciones de escritura de objeto. Abre el archivo de configuración de aplicación Web especificado como un <xref:System.Configuration.Configuration.GetSection%2A> mediante la asignación de archivos especificada, ruta de acceso virtual, el nombre de sitio y ubicación para permitir la lectura o las operaciones de escritura de objeto.  
+>  El <xref:System.Web.Configuration.WebConfigurationManager.GetWebApplicationSection%2A> método es una operación de tiempo de ejecución que actúa en la sección del archivo de configuración de aplicación ubicado en el nivel actual. El <xref:System.Configuration.Configuration.GetSection%2A> método, sin embargo, no es una operación de tiempo de ejecución, pero actúa en la sección especificada que se obtiene a través de uno de los métodos para abrir los archivos de configuración.  
   
    
   
@@ -310,7 +310,7 @@
  El ejemplo siguiente muestra cómo obtener acceso a información de configuración con el <xref:System.Web.Configuration.WebConfigurationManager.GetWebApplicationSection%2A> método.  
   
 > [!NOTE]
->  Abre el archivo de configuración de aplicación Web como un <xref:System.Web.Configuration.WebConfigurationManager.GetWebApplicationSection%2A> objeto.  
+>  Este ejemplo muestra cómo usar el <xref:System.Web.Configuration.WebConfigurationManager.GetWebApplicationSection%2A> método para obtener un <xref:System.Configuration.ConfigurationSection> objeto desde el archivo de configuración predeterminado.  
   
  [!code-csharp[System.Web.Configuration.WebConfigurationManager#6](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Configuration.WebConfigurationManager/CS/WebConfigurationManager.cs#6)]
  [!code-vb[System.Web.Configuration.WebConfigurationManager#6](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Configuration.WebConfigurationManager/VB/WebConfigurationManager.vb#6)]  
@@ -358,7 +358,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Abre el archivo de configuración de aplicación Web como un <xref:System.Configuration.ConfigurationManager.OpenMachineConfiguration%2A> con el nombre de sitio y la ruta de acceso virtual especificado para permitir la lectura o las operaciones de escritura de objeto. Abre el archivo de configuración de aplicación Web como un  mediante la ruta de acceso virtual especificada, el nombre del sitio y la ubicación para permitir la lectura o las operaciones de escritura de objeto.  
+ El <xref:System.Configuration.ConfigurationManager.OpenMachineConfiguration%2A> método abre el archivo de configuración del equipo en el equipo donde se ejecuta la aplicación. Este archivo se encuentra en la compilación estándar directorio % windir%\Microsoft.NET\Framework\version\config.  
   
    
   
@@ -401,7 +401,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Abre el archivo de configuración de aplicación Web como un `locationSubPath` mediante la ruta de acceso virtual especificada, el nombre de sitio, la ubicación y el servidor para permitir la lectura o las operaciones de escritura de objeto.  
+ Este método abre el archivo de configuración del equipo que se aplica al directorio especificado por el `locationSubPath` parámetro.  
   
    
   
@@ -446,7 +446,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El ejemplo siguiente muestra cómo usar el `locationSubPath` método para acceder a información de configuración.  
+ Este método abre el archivo de configuración del equipo que se encuentra en el directorio especificado por el `locationSubPath` parámetro y en el equipo especificado por el `server` parámetro.  
   
    
   
@@ -475,6 +475,11 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Configuration.Configuration</ReturnType>
       </ReturnValue>
@@ -493,10 +498,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- No se pudo cargar un archivo de configuración válido.  
+ Este método se utiliza para tener acceso a un archivo de configuración mediante la suplantación.  
   
 > [!NOTE]
->  Es posible que deba ejecutar el <xref:System.Security.Principal.WindowsIdentity>herramienta de registro de IIS de ASP.NET (Aspnet_regiis.exe)`LogonUser` con el  opción para habilitar el acceso a los archivos de configuración en el equipo remoto. No se pudo cargar un archivo de configuración válido.  
+>  Normalmente, se recupera el token de cuenta de una instancia de la <xref:System.Security.Principal.WindowsIdentity> clase o a través de una llamada a código no administrado, como una llamada a la API Win32 `LogonUser`. Para obtener más información acerca de las llamadas a código no administrado, consulte [consumir funciones de DLL no administradas](~/docs/framework/interop/consuming-unmanaged-dll-functions.md).  
   
    
   
@@ -547,7 +552,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- No se pudo cargar un archivo de configuración válido.  
+ Este método se utiliza para tener acceso a un archivo de configuración mediante la suplantación.  
   
    
   
@@ -1025,6 +1030,11 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Configuration.Configuration</ReturnType>
       </ReturnValue>
@@ -1047,10 +1057,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- No se pudo cargar un archivo de configuración válido.  
+ Este método se utiliza para tener acceso a un archivo de configuración mediante la suplantación.  
   
 > [!NOTE]
->  Es posible que deba ejecutar el <xref:System.Security.Principal.WindowsIdentity>herramienta de registro de IIS de ASP.NET (Aspnet_regiis.exe)`LogonUser` con el  opción para habilitar el acceso a los archivos de configuración en el equipo remoto. No se pudo cargar un archivo de configuración válido.  
+>  Normalmente, se recupera el token de cuenta de una instancia de la <xref:System.Security.Principal.WindowsIdentity> clase o a través de una llamada a código no administrado, como una llamada a la API Win32 `LogonUser`. Para obtener más información acerca de las llamadas a código no administrado, consulte [consumir funciones de DLL no administradas](~/docs/framework/interop/consuming-unmanaged-dll-functions.md).  
   
  Para obtener el <xref:System.Configuration.Configuration> de objeto para un recurso remoto, el código debe tener privilegios administrativos en el equipo remoto.  
   
@@ -1107,7 +1117,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- No se pudo cargar un archivo de configuración válido.  
+ Este método se utiliza para tener acceso a un archivo de configuración mediante la suplantación.  
   
  Para obtener el <xref:System.Configuration.Configuration> de objeto para un recurso remoto, el código debe tener privilegios administrativos en el equipo remoto.  
   
