@@ -1,10 +1,10 @@
 <Type Name="IArgumentProvider" FullName="System.Linq.Expressions.IArgumentProvider">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="c1987bffe3d2cba01471534c9b3fac3e0c152c07" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="36555653" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IArgumentProvider" />
@@ -31,7 +31,17 @@
   </AssemblyInfo>
   <Interfaces />
   <Docs>
-    <summary>Proporciona una interfaz interna para acceder a los argumentos de varios nodos de árbol (DynamicExpression, ElementInit, MethodCallExpression, InvocationExpression, NewExpression e InexExpression).  No se debe usar esta API.  Solo es pública debido a la refactorización de la DLL y existe únicamente para optimizaciones de rendimiento interno.  Esto permite dos optimizaciones que reducen el tamaño de los árboles de expresiones.  La primera permite a los nodos de árbol utilizar una interfaz IList&lt;T&gt; en lugar de ReadOnlyCollection.  IList&lt;T&gt; ahorra el costo de asignar ReadOnlyCollection a cada nodo.  La segunda permite crear subclases especializadas que utilizan un número específico de argumentos (por ejemplo, Block2, Block3, Block4).  Por lo tanto, estos nodos evitan asignar ReadOnlyCollection y una matriz para almacenar sus elementos, lo que permite ahorrar 32 bytes por nodo.  Los nodos de los árbol de expresiones siguen exponiendo las propiedades LINQ originales de ReadOnlyCollections.  Para ello, los nodos vuelven a usar un campo para almacenar la matriz o un elemento que normalmente se almacenaría en la matriz.  En el caso de la matriz, se asigna a la colección el tipo IList&lt;T&gt; en lugar de ReadOnlyCollection&lt;T&gt;.  Cuando el nodo se construye inicialmente es una matriz.  Cuando el compilador accede a los miembros usa esta interfaz.  Cuando se accede a los elementos de la matriz, la matriz se promueve a ReadOnlyCollection.  En el caso del objeto, el primer argumento se almacena en un campo con tipo de objeto.  Cuando el nodo se construye inicialmente, el campo contiene la expresión.  El compilador accede a los argumentos a través de esta interfaz, y el descriptor de acceso del primer argumento usa Expression.ReturnObject para devolver el objeto que controla el caso de la expresión o ReadOnlyCollection.  Cuando el usuario accede a ReadOnlyCollection, se actualiza el campo de objeto para que utilice directamente ReadOnlyCollection.  Es importante que las expresiones devuelvan constantemente la misma ReadOnlyCollection.  En caso contrario, se interrumpirá el rastreador del árbol del sistema de reescritura.  Es un cambio importante con respecto a LINQ v1 devolver diferentes ReadOnlyCollections a partir del mismo nodo de expresión.  Actualmente los usuarios pueden confiar en la identidad del objeto para saber si el nodo cambió.  Si se almacena ReadOnlyCollection en un campo sobrecargado, se reduce el uso de memoria y se mantiene la compatibilidad con la API pública.</summary>
+    <summary>Proporciona una interfaz interna para acceder a los argumentos de varios nodos de árbol (DynamicExpression, ElementInit, MethodCallExpression, InvocationExpression, NewExpression e InexExpression).  No se debe usar esta API.  Solo es pública debido a la refactorización de la DLL y existe únicamente para optimizaciones de rendimiento interno.  
+  
+Esto permite dos optimizaciones que reducen el tamaño de los árboles de expresiones.  La primera permite a los nodos de árbol utilizar una interfaz IList&lt;T&gt; en lugar de ReadOnlyCollection.  IList&lt;T&gt; ahorra el costo de asignar ReadOnlyCollection a cada nodo.  La segunda permite crear subclases especializadas que utilizan un número específico de argumentos (por ejemplo, Block2, Block3, Block4).  Por lo tanto, estos nodos evitan asignar ReadOnlyCollection y una matriz para almacenar sus elementos, lo que permite ahorrar 32 bytes por nodo.  
+  
+Los nodos de los árbol de expresiones siguen exponiendo las propiedades LINQ originales de ReadOnlyCollections.  Para ello, los nodos vuelven a usar un campo para almacenar la matriz o un elemento que normalmente se almacenaría en la matriz.  
+  
+En el caso de la matriz, se asigna a la colección el tipo IList&lt;T&gt; en lugar de ReadOnlyCollection&lt;T&gt;.  Cuando el nodo se construye inicialmente es una matriz.  Cuando el compilador accede a los miembros usa esta interfaz.  Cuando se accede a los elementos de la matriz, la matriz se promueve a ReadOnlyCollection.  
+  
+En el caso del objeto, el primer argumento se almacena en un campo con tipo de objeto.  Cuando el nodo se construye inicialmente, el campo contiene la expresión.  El compilador accede a los argumentos a través de esta interfaz, y el descriptor de acceso del primer argumento usa Expression.ReturnObject para devolver el objeto que controla el caso de la expresión o ReadOnlyCollection.  Cuando el usuario accede a ReadOnlyCollection, se actualiza el campo de objeto para que utilice directamente ReadOnlyCollection.  
+  
+Es importante que las expresiones devuelvan constantemente la misma ReadOnlyCollection.  En caso contrario, se interrumpirá el rastreador del árbol del sistema de reescritura.  Es un cambio importante con respecto a LINQ v1 devolver diferentes ReadOnlyCollections a partir del mismo nodo de expresión.  Actualmente los usuarios pueden confiar en la identidad del objeto para saber si el nodo cambió.  Si se almacena ReadOnlyCollection en un campo sobrecargado, se reduce el uso de memoria y se mantiene la compatibilidad con la API pública.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
