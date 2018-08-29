@@ -1,10 +1,10 @@
 <Type Name="IObservable&lt;T&gt;" FullName="System.IObservable&lt;T&gt;">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="273ff4990891b6ccd268f3e0d66f89a6f1fa9839" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="36430265" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IObservable&lt;out T&gt;" />
@@ -46,46 +46,46 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.IObserver%601> y <xref:System.IObservable%601> interfaces proporcionan un mecanismo generalizado para recibir notificaciones basadas en inserción, también conocido como el modelo de diseño de observador. El <xref:System.IObservable%601> interfaz representa la clase que envía notificaciones (el proveedor); el <xref:System.IObserver%601> interfaz representa la clase que recibe de ellos (el observador). `T` representa la clase que proporciona la información de notificación. En algunas notificaciones basadas en inserción, la <xref:System.IObserver%601> implementación y `T` puede representar el mismo tipo.  
+ El <xref:System.IObserver%601> y <xref:System.IObservable%601> interfaces proporcionan un mecanismo para recibir notificaciones basadas en inserción, también conocido como el patrón de diseño de observador generalizado. El <xref:System.IObservable%601> interfaz representa la clase que envía notificaciones (proveedor); el <xref:System.IObserver%601> interfaz representa la clase que recibe (el observador). `T` representa la clase que proporciona la información de notificación. En algunas notificaciones basadas en inserción, el <xref:System.IObserver%601> implementación y `T` puede representar el mismo tipo.  
   
- El proveedor debe implementar un único método, <xref:System.IObservable%601.Subscribe%2A>, que indica que un observador desea recibir notificaciones basadas en inserción. Los autores de llamadas al método de pasan una instancia del observador. El método devuelve un <xref:System.IDisposable> implementación que permite a los observadores cancelar las notificaciones en cualquier momento antes de que el proveedor ha dejado de enviarlos.  
+ El proveedor debe implementar un único método, <xref:System.IObservable%601.Subscribe%2A>, que indica que un observador desea recibir notificaciones basadas en inserción. Los autores de llamadas al método pasan una instancia del observador. El método devuelve un <xref:System.IDisposable> implementación que permite a los observadores Cancelar notificaciones en cualquier momento antes de que el proveedor ha dejado de enviarlos.  
   
- En un momento dado, un proveedor determinado puede tener cero, uno o varios observadores. El proveedor es responsable de almacenar las referencias a los observadores y asegurarse de que son válidos antes de enviar notificaciones. El <xref:System.IObservable%601> interfaz no hacer ninguna suposición sobre el número de observadores o el orden en el que se envían las notificaciones.  
+ En un momento dado, un proveedor determinado puede tener cero, uno o varios observadores. El proveedor es responsable de almacenar referencias a los observadores y asegurarse de que son válidos antes de enviar notificaciones. El <xref:System.IObservable%601> interfaz no realizar ninguna suposición sobre el número de observadores o el orden en que se envían las notificaciones.  
   
  El proveedor envía los siguientes tres tipos de notificaciones al observador llamando <xref:System.IObserver%601> métodos:  
   
--   Los datos actuales. El proveedor puede llamar a la <xref:System.IObserver%601.OnNext%2A?displayProperty=nameWithType> método para pasar al observador un `T` objeto que tiene datos actuales, datos cambiados o datos nuevos.  
+-   Los datos actuales. El proveedor puede llamar el <xref:System.IObserver%601.OnNext%2A?displayProperty=nameWithType> método para pasar al observador un `T` objeto con datos actuales, datos cambiados o datos nuevos.  
   
--   Una condición de error. El proveedor puede llamar a la <xref:System.IObserver%601.OnError%2A?displayProperty=nameWithType> método para notificar al observador que se ha producido alguna condición de error.  
+-   Una condición de error. El proveedor puede llamar el <xref:System.IObserver%601.OnError%2A?displayProperty=nameWithType> método para notificar al observador que se ha producido alguna condición de error.  
   
--   No hay más datos. El proveedor puede llamar a la <xref:System.IObserver%601.OnCompleted%2A?displayProperty=nameWithType> método para notificar al observador que ha terminado de enviar notificaciones.  
+-   No hay más datos. El proveedor puede llamar el <xref:System.IObserver%601.OnCompleted%2A?displayProperty=nameWithType> método para notificar al observador que ha finalizado el envío de notificaciones.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra el patrón de diseño de observador. Define un `Location` clase que contiene información de latitud y longitud.  
+ El ejemplo siguiente muestra el patrón de diseño de observador. Define un `Location` clase que contiene información de latitud y longitud.  
   
  [!code-csharp[System.IObserver.Class#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.iobserver.class/cs/provider.cs#5)]
  [!code-vb[System.IObserver.Class#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.iobserver.class/vb/provider.vb#5)]  
   
- El `LocationTracker` clase proporciona el <xref:System.IObservable%601> implementación. Su `TrackLocation` método se pasa un que aceptan valores NULL `Location` objeto que contiene los datos de latitud y longitud. Si el `Location` valor no es `null`, `TrackLocation` llamadas al método el <xref:System.IObserver%601.OnNext%2A> método de cada observador.  
+ El `LocationTracker` clase proporciona el <xref:System.IObservable%601> implementación. Su `TrackLocation` método se pasa una que acepta valores NULL `Location` objeto que contiene los datos de latitud y longitud. Si el `Location` valor no es `null`, el `TrackLocation` llamadas al método el <xref:System.IObserver%601.OnNext%2A> método de cada observador.  
   
  [!code-csharp[System.IObserver.Class#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.iobserver.class/cs/provider.cs#6)]
  [!code-vb[System.IObserver.Class#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.iobserver.class/vb/provider.vb#6)]  
   
- Si el `Location` valor es `null`, `TrackLocation` crea una instancia de método un `LocationUnknownException` objeto, que se muestra en el ejemplo siguiente. A continuación, llama a cada observador <xref:System.IObserver%601.OnError%2A> método y le pasa el `LocationUnknownException` objeto. Tenga en cuenta que `LocationUnknownException` deriva de <xref:System.Exception>, pero no se agregan los nuevos miembros.  
+ Si el `Location` valor es `null`, `TrackLocation` crea una instancia de método un `LocationUnknownException` objeto, que se muestra en el ejemplo siguiente. A continuación, llama a cada observador <xref:System.IObserver%601.OnError%2A> método y le pasa el `LocationUnknownException` objeto. Tenga en cuenta que `LocationUnknownException` deriva <xref:System.Exception>, pero no los agrega todos los miembros nuevos.  
   
  [!code-csharp[System.IObserver.Class#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.iobserver.class/cs/provider.cs#7)]
  [!code-vb[System.IObserver.Class#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.iobserver.class/vb/provider.vb#7)]  
   
- Los observadores se registran para recibir notificaciones desde un `TrackLocation` objeto mediante una llamada a su <xref:System.IObservable%601.Subscribe%2A?displayProperty=nameWithType> método, que asigna una referencia al objeto observador a una interfaz privada genérica <xref:System.Collections.Generic.List%601> objeto. El método devuelve un `Unsubscriber` objeto, que es un <xref:System.IDisposable> implementación que permite a los observadores dejar de recibir notificaciones. El `LocationTracker` clase también incluye un `EndTransmission` método. Cuando no hay más datos de ubicación están disponibles, el método llama a cada observador <xref:System.IObserver%601.OnCompleted%2A> método y, a continuación, borra la lista interna de observadores.  
+ Los observadores se registran para recibir notificaciones desde un `TrackLocation` objeto mediante una llamada a su <xref:System.IObservable%601.Subscribe%2A?displayProperty=nameWithType> método, que asigna una referencia al objeto observador a un tipo genérico privado <xref:System.Collections.Generic.List%601> objeto. El método devuelve un `Unsubscriber` objeto, que es un <xref:System.IDisposable> implementación que permite a los observadores dejar de recibir notificaciones. El `LocationTracker` clase también incluye un `EndTransmission` método. Cuando no hay más datos de ubicación están disponibles, el método llama a cada observador <xref:System.IObserver%601.OnCompleted%2A> método y, a continuación, borra la lista interna de observadores.  
   
- En este ejemplo, el `LocationReporter` clase proporciona el <xref:System.IObserver%601> implementación. Muestra información acerca de la ubicación actual en la consola. Su constructor incluye un `name` parámetro, lo que permite el `LocationReporter` instancia para identificarse en la salida de cadena. También incluye una `Subscribe` método, que contiene una llamada al proveedor <xref:System.IObservable%601.Subscribe%2A> método. Esto permite que el método asignar el valor devuelto <xref:System.IDisposable> referencia a una variable privada. El `LocationReporter` clase también incluye una `Unsubscribe` método, que llama a la <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> método del objeto devuelto por la <xref:System.IObservable%601.Subscribe%2A?displayProperty=nameWithType> método. El código siguiente define el `LocationReporter` clase.  
+ En este ejemplo, el `LocationReporter` clase proporciona el <xref:System.IObserver%601> implementación. Muestra información acerca de la ubicación actual en la consola. Su constructor incluye un `name` parámetro, que permite el `LocationReporter` instancia para identificarse en la salida de cadena. También incluye un `Subscribe` método, que contiene una llamada para el proveedor <xref:System.IObservable%601.Subscribe%2A> método. Esto permite que el método asignar el valor devuelto <xref:System.IDisposable> referencia a una variable privada. El `LocationReporter` clase también incluye un `Unsubscribe` método que llama el <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> método del objeto devuelto por la <xref:System.IObservable%601.Subscribe%2A?displayProperty=nameWithType> método. El código siguiente define el `LocationReporter` clase.  
   
  [!code-csharp[System.IObserver.Class#8](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.iobserver.class/cs/observer.cs#8)]
  [!code-vb[System.IObserver.Class#8](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.iobserver.class/vb/observer.vb#8)]  
   
- El código siguiente se crean instancias del proveedor y el observador.  
+ El código siguiente, a continuación, crea una instancia del proveedor y el observador.  
   
  [!code-csharp[System.IObserver.Class#9](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.iobserver.class/cs/program.cs#9)]
  [!code-vb[System.IObserver.Class#9](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.iobserver.class/vb/module1.vb#9)]  
@@ -139,14 +139,14 @@
   
 -   Almacena una referencia al observador en un objeto de colección, como un <xref:System.Collections.Generic.List%601> objeto.  
   
--   Devuelve una referencia a un <xref:System.IDisposable> interfaz. Esto permite a los observadores anular la suscripción (es decir, para dejar de recibir notificaciones) antes de que el proveedor ha terminado de enviarlas y llama del suscriptor <xref:System.IObserver%601.OnCompleted%2A> método.  
+-   Devuelve una referencia a un <xref:System.IDisposable> interfaz. Esto permite a los observadores cancelar la suscripción (es decir, para dejar de recibir notificaciones) antes de que el proveedor ha terminado de enviarlas y llama el suscriptor <xref:System.IObserver%601.OnCompleted%2A> método.  
   
- En cualquier momento dado, una instancia determinada de un <xref:System.IObservable%601> implementación es responsable de controlar todas las suscripciones y notificar a todos los suscriptores. A menos que la documentación para un determinado <xref:System.IObservable%601> implementación indica lo contrario, observadores deben hacer ninguna suposición sobre el <xref:System.IObservable%601> implementación, como el orden de las notificaciones que va a recibir varios observadores.  
+ En cualquier momento, una instancia determinada de un <xref:System.IObservable%601> implementación es responsable de controlar todas las suscripciones y notificar a todos los suscriptores. A menos que la documentación para un determinado <xref:System.IObservable%601> implementación indica lo contrario, los observadores deben hacer ninguna suposición sobre la <xref:System.IObservable%601> implementación, como el orden de las notificaciones que se va a recibir varios observadores.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra el <xref:System.IObservable%601.Subscribe%2A> método para una aplicación que contiene información de latitud y longitud. Define un <xref:System.Collections.Generic.IList%601> objeto de colección que almacena las referencias a todos los observadores. También devuelve una clase privada denominada `Unsubscriber` que implementa el <xref:System.IDisposable> de interfaz y permite a los suscriptores dejar de recibir notificaciones de eventos.  Vea la sección ejemplo de la <xref:System.IObservable%601> tema para obtener un ejemplo completo.  
+ El ejemplo siguiente ilustra la <xref:System.IObservable%601.Subscribe%2A> método para una aplicación que contiene información de latitud y longitud. Define un <xref:System.Collections.Generic.IList%601> objeto de colección que almacena las referencias a todos los observadores. También devuelve una clase privada denominada `Unsubscriber` que implementa el <xref:System.IDisposable> interfaz y permite a los suscriptores dejar de recibir notificaciones de eventos.  Consulte la sección ejemplo de la <xref:System.IObservable%601> tema para obtener un ejemplo completo.  
   
  [!code-csharp[System.IObserver.Class#13](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.iobserver.class/cs/provider.cs#13)]
  [!code-vb[System.IObserver.Class#13](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.iobserver.class/vb/provider.vb#13)]  
