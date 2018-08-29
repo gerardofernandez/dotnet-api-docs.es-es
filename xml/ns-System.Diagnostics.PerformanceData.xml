@@ -1,10 +1,10 @@
 <Namespace Name="System.Diagnostics.PerformanceData">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="8813c8ce03149b4c97305ad0ee10d1cdd88ce604" />
-    <Meta Name="ms.sourcegitcommit" Value="3907f9a5780957d9c85af2e54c0a5bc2a5bf19ab" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/14/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="34173742" />
   </Metadata>
   <Docs>
@@ -13,47 +13,47 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Las clases de este espacio de nombres admiten la nueva arquitectura (versión 2.0) para los contadores de rendimiento que se introdujo en Windows Vista. En la nueva arquitectura, el proveedor ya no responde a las solicitudes de consumidor directamente, pero en su lugar, simplemente mantiene los datos del contador. El sistema inserta un subproceso en el proceso del proveedor cuando el proveedor crea una instancia del conjunto de contadores; el subproceso es responsable de controlar las solicitudes de consumidor.  
+ Las clases de este espacio de nombres admiten la nueva arquitectura (versión 2.0) para los contadores de rendimiento que se introdujo en Windows Vista. En la nueva arquitectura, el proveedor ya no responde a las solicitudes de consumidor directamente, pero en su lugar, simplemente mantiene los datos del contador. El sistema inserta un subproceso en el proceso del proveedor cuando el proveedor crea una instancia de conjunto de contadores; el subproceso es responsable de controlar las solicitudes de consumidor.  
   
- Los pasos siguientes muestran el proceso de escritura de un proveedor de contadores.  
+ Los pasos siguientes muestran el proceso para escribir un proveedor de contadores.  
   
-1.  Los contadores proporcionados por el proveedor se define en un manifiesto basado en XML. Los contadores se agrupan lógicamente en conjuntos de contadores. Los contadores dentro de un conjunto de contadores se identifican mediante un identificador numérico que es único en el conjunto de contadores. Un proveedor puede definir uno o varios conjuntos de contadores. Un conjunto de contadores se identifica mediante un Guid que es único para un proveedor. Tenga en cuenta si utiliza estas clases para escribir su proveedor:  
+1.  Los contadores que proporciona el proveedor se define en un manifiesto basado en XML. Los contadores se agrupan lógicamente en conjuntos de contadores. Los contadores dentro de un conjunto de contadores se identifican mediante un identificador numérico que es único en el conjunto de contadores. Un proveedor puede definir uno o varios conjuntos de contadores. Un conjunto de contadores se identifica mediante un Guid que es único para un proveedor. Tenga en cuenta que si usa estas clases para escribir un proveedor:  
   
     -   Se omite el atributo de devolución de llamada del elemento del proveedor.  
   
     -   Se omite el valor de referencia para el atributo name del elemento counterAttribute.  
   
-     Para obtener más información sobre cómo escribir el manifiesto, consulte [esquema de contadores de rendimiento](https://msdn.microsoft.com/library/windows/desktop/aa373092\(v=vs.85\).aspx).  
+     Para obtener más información sobre cómo escribir el manifiesto, consulte [esquema de los contadores de rendimiento](https://msdn.microsoft.com/library/windows/desktop/aa373092\(v=vs.85\).aspx).  
   
-2.  Después de escribir su manifiesto, use la [CTRPP](https://msdn.microsoft.com/library/windows/desktop/aa372128\(v=vs.85\).aspx) herramienta para compilar el manifiesto (ctrpp provider.man). La herramienta genera cuatro archivos:. h,. c, .rc y * _r.h. Puede omitir los archivos .h y .c. El archivo .rc contiene las cadenas adaptadas definidas en el manifiesto. Utilice los archivos .rc y * _r.h para crear el archivo de recursos compilado (. res) que incluye en el proyecto. La llamada siguiente muestra cómo se compila el archivo de recursos:  
+2.  Después de escribir su manifiesto, use el [CTRPP](https://msdn.microsoft.com/library/windows/desktop/aa372128\(v=vs.85\).aspx) herramienta para compilar el manifiesto (ctrpp provider.man). La herramienta genera cuatro archivos:. h, .c, .rc y * _r.h. Puede omitir los archivos .h y .c. El archivo .rc contiene las cadenas localizadas definidas en el manifiesto. Utilice los archivos .rc y * _r.h para crear el archivo de recursos compilado (. res) que incluye en el proyecto. La llamada siguiente muestra cómo se compila el archivo de recursos:  
   
     ```console  
     rc /r /i "c:\Program Files\Microsoft SDKs\Windows\v6.0\Include" provider.rc  
     ```  
   
-     Si se produce un error que hace referencia a sal.h, copie el archivo sal.h desde el Microsoft Visual Studio, Visual C incluir el directorio en el directorio especificado para el conmutador / i.  
+     Si se produce un error que hace referencia a sal.h, copie el archivo sal.h de Microsoft Visual Studio, Visual C se incluyen al directorio que especifique para el modificador/i.  
   
-     Agregue una ruta de acceso al archivo de recursos compilado (. res) en la página de propiedades de aplicación del proyecto.  
+     Agregar una ruta de acceso al archivo de recursos compilado (. res) a la página de propiedades de aplicación del proyecto.  
   
-3.  Escriba su proveedor. Los pasos siguientes muestran las llamadas realizadas por un proveedor:  
+3.  Escribir un proveedor. Los pasos siguientes muestran las llamadas realizadas por un proveedor:  
   
-    1.  Llame a la <xref:System.Diagnostics.PerformanceData.CounterSet.%23ctor%2A?displayProperty=nameWithType> constructor para definir el conjunto de contadores. Llamar a este método para cada conjunto de contadores definido en el manifiesto.  
+    1.  Llame a la <xref:System.Diagnostics.PerformanceData.CounterSet.%23ctor%2A?displayProperty=nameWithType> constructor para definir el conjunto de contadores. Llame a este método para cada conjunto de contadores definido en el manifiesto.  
   
-    2.  Para cada conjunto de contadores, llame a uno de los <xref:System.Diagnostics.PerformanceData.CounterSet.AddCounter%2A?displayProperty=nameWithType> métodos para agregar los contadores para el conjunto. Llamar a este método para cada contador definido en el conjunto de contadores.  
+    2.  Para cada conjunto de contadores, llame a uno de los <xref:System.Diagnostics.PerformanceData.CounterSet.AddCounter%2A?displayProperty=nameWithType> métodos para agregar los contadores al conjunto. Llame a este método para cada contador definido en el conjunto de contadores.  
   
-    3.  Llame a la <xref:System.Diagnostics.PerformanceData.CounterSet.CreateCounterSetInstance%2A?displayProperty=nameWithType> método para crear una instancia del conjunto de contadores (una instancia contiene los datos del contador). Para conjuntos de contadores de instancia única, llame a este método una vez. Para varios conjuntos de contadores de instancia, llame a este método para cada instancia para la que necesita proporcionar datos del contador (utilice un nombre único para cada instancia).  
+    3.  Llame a la <xref:System.Diagnostics.PerformanceData.CounterSet.CreateCounterSetInstance%2A?displayProperty=nameWithType> método para crear una instancia de conjunto de contadores (una instancia contiene los datos del contador). Para conjuntos de contadores de instancia única, llame a este método una vez. Para varios conjuntos de contadores de instancia, llame a este método para cada instancia para el que se necesita proporcionar datos del contador (usar un nombre único para cada instancia).  
   
-    4.  Use la <xref:System.Diagnostics.PerformanceData.CounterSetInstance.Counters%2A?displayProperty=nameWithType> propiedad acceder y establecer los datos del contador para el contador.  
+    4.  Use el <xref:System.Diagnostics.PerformanceData.CounterSetInstance.Counters%2A?displayProperty=nameWithType> propiedad para tener acceso a y establecer los datos del contador del contador.  
   
-4.  Cuando termine de su proveedor, utilice la herramienta LodCtr para registrar los contadores en el equipo. Por ejemplo,  
+4.  Cuando termine de su proveedor, use la herramienta LodCtr para registrar los contadores en el equipo. Por ejemplo,  
   
     ```console  
     lodctr /m:provider.man  
     ```  
   
-     El ejemplo supone que el manifiesto y archivo ejecutable que se encuentran en el directorio actual. Para obtener información detallada sobre cómo usar el programa LodCtr, vea [Microsoft Technet](Http://Go.Microsoft.Com/FWLink/?LinkId=84000).  
+     El ejemplo supone que el manifiesto y archivo ejecutable que se encuentran en el directorio actual. Para obtener información detallada sobre el uso de LodCtr, consulte [Microsoft Technet](Http://Go.Microsoft.Com/FWLink/?LinkId=84000).  
   
- Puede utilizar las clases en este espacio de nombres en equipos que ejecutan Windows Vista y sistemas operativos posteriores.  
+ Puede usar las clases en este espacio de nombres en equipos que ejecutan el Windows Vista y sistemas operativos posteriores.  
   
    
   
@@ -160,7 +160,7 @@
 </instrumentationManifest>  
 ```  
   
- A continuación muestra una implementación sencilla del proveedor para el manifiesto:  
+ La continuación muestra una implementación sencilla del proveedor para el manifiesto:  
   
 ```cs  
 using System.Diagnostics.PerformanceData;  

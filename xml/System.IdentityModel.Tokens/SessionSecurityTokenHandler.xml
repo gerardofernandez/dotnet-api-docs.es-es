@@ -1,10 +1,10 @@
 <Type Name="SessionSecurityTokenHandler" FullName="System.IdentityModel.Tokens.SessionSecurityTokenHandler">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="698670494d510916b922e88a119093c8c15bf740" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="36480120" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class SessionSecurityTokenHandler : System.IdentityModel.Tokens.SecurityTokenHandler" />
@@ -28,33 +28,33 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> clase serializa, deserializa y valida los tokens de la sesión. Los tokens de sesión son tokens de tipo <xref:System.IdentityModel.Tokens.SessionSecurityToken>. La <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> clase serializa los tokens a y desde el formato de la cookie. De forma predeterminada, la clase serializa tokens en WS-Secure Conversation Feb2005 o WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` elementos. Tokens de sesión son usados por la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule> (WSFAM) y la <xref:System.IdentityModel.Services.SessionAuthenticationModule> (SAM) para almacenar información sobre una sesión, se trata principalmente la <xref:System.Security.Claims.ClaimsPrincipal> asociada al usuario autenticado y las horas de inicio y finalización de sesión.  
+ La <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> clase se serializa, deserializa y valida los tokens de sesión. Los tokens de sesión son tokens de tipo <xref:System.IdentityModel.Tokens.SessionSecurityToken>. La <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> clase serializa los tokens a y desde el formato de la cookie. De forma predeterminada, la clase serializa los tokens en WS-Secure Conversation Feb2005 o WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` elementos. Usan tokens de sesión el <xref:System.IdentityModel.Services.WSFederationAuthenticationModule> (WSFAM) y el <xref:System.IdentityModel.Services.SessionAuthenticationModule> (SAM) para almacenar información sobre una sesión, se trata principalmente la <xref:System.Security.Claims.ClaimsPrincipal> asociada con el usuario autenticado y las horas de inicio y caducidad de la sesión.  
   
- En escenarios pasivos, el <xref:System.IdentityModel.Services.WSFederationAuthenticationModule> llama a la <xref:System.IdentityModel.Services.SessionAuthenticationModule> (SAM) de la canalización de autenticación para crear un token de sesión desde el <xref:System.Security.Claims.ClaimsPrincipal> que representa al usuario autenticado. El SAM usa su configurado <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> para crear el token y para serializar en una cookie (y para deserializar el token de una cookie de sesión en las solicitudes subsiguientes). El SAM usa una instancia de su configurado <xref:System.IdentityModel.Services.CookieHandler> clase volver a escribir la cookie en la respuesta HTTP. Esta cookie, a continuación, se devuelve al cliente y en las solicitudes subsiguientes puede presentar al cliente la cookie en lugar de realizar un de ida y vuelta hacia el proveedor de identidades para volver a obtener un token de seguridad. Para obtener más información sobre el funcionan de las sesiones con WIF, consulte [administración de sesiones de WIF](~/docs/framework/security/wif-session-management.md).  
+ En escenarios pasivos, el <xref:System.IdentityModel.Services.WSFederationAuthenticationModule> llama a la <xref:System.IdentityModel.Services.SessionAuthenticationModule> (SAM) de la canalización de autenticación para crear un token de sesión desde el <xref:System.Security.Claims.ClaimsPrincipal> que representa al usuario autenticado. El SAM usa su configurado <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> para crear el token y serializarlo en una cookie (y para deserializar el token de una cookie en solicitudes posteriores). El SAM utiliza una instancia de su configurado <xref:System.IdentityModel.Services.CookieHandler> clase volver a escribir la cookie en la respuesta HTTP. Esta cookie, a continuación, se devuelve al cliente y en las solicitudes subsiguientes, el cliente puede presentar la cookie en lugar de realizar un recorrido de ida y vuelta en el proveedor de identidades para volver a obtener un token de seguridad. Para obtener más información acerca de cómo funcionan las sesiones con WIF, consulte [administración de sesiones de WIF](~/docs/framework/security/wif-session-management.md).  
   
 > [!NOTE]
->  El \<securityTokenHandlers > elemento de configuración se puede usar para especificar un <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> que tiene la responsabilidad de proteger las sesiones de la aplicación. Los desarrolladores deben tener cuidado al cambiar esta opción de configuración, como un sistema mal configurado podría poner en peligro de aplicación. Por ejemplo, si se especifica un hipervínculo derivado "http://msdn.microsoft.com/library/hh193426%28v=vs.110%29.aspx" \t "_blank" <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> y pasar una colección vacía de transformaciones (CookieTransform) a la base, daría lugar a la identidad de los usuarios que se está serializando en una cookie que no se ha protegido. Esto podría permitir que un atacante modifique la identidad y, por tanto, cambie los privilegios de acceso.  
+>  El \<securityTokenHandlers > elemento de configuración se puede usar para especificar un <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> que tiene la responsabilidad de proteger las sesiones de la aplicación. Los desarrolladores deben tener cuidado al cambiar esta opción de configuración, como un sistema mal configurado podría poner en peligro de la aplicación. Por ejemplo, especificar un hipervínculo derivado "http://msdn.microsoft.com/library/hh193426%28v=vs.110%29.aspx" \t "_blank" <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> y pasar una colección vacía de transformaciones (CookieTransform) a la base, daría lugar a la identidad de los usuarios que se va a serializar en una cookie que no se ha protegido. Esto podría permitir que un atacante modifique la identidad y, por tanto, cambie los privilegios de acceso.  
   
- Si el token de sesión está en modo de referencia, es decir, su <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propiedad es `true`, la sesión de controlador de token sólo serializa las propiedades del token de sesión que son necesarios para volver a generar su clave en el <xref:System.IdentityModel.Tokens.SessionSecurityTokenCache>. En el caso predeterminado, el <xref:System.IdentityModel.Tokens.SessionSecurityTokenCacheKey> clase se usa para representar las claves de caché y el controlador de token escribe el <xref:System.IdentityModel.Tokens.SessionSecurityToken.ContextId%2A?displayProperty=nameWithType> y <xref:System.IdentityModel.Tokens.SessionSecurityToken.KeyGeneration%2A?displayProperty=nameWithType> propiedades del token. Si el token de sesión no está en modo de referencia, es decir, el <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propiedad es `false`, a continuación, además de las propiedades que se ha mencionado anteriormente, se invoca el controlador de la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> método en una matriz de bytes que se serializa en el símbolo (token) y almacena el valor resultante en la cookie así. Para obtener más información acerca de cómo se serializa el token, consulte el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%28System.Xml.XmlWriter%2CSystem.IdentityModel.Tokens.SecurityToken%29?displayProperty=nameWithType> método.  
+ Si el token de sesión está en modo de referencia, es decir, su <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propiedad es `true`, la sesión de controlador de token sólo serializa las propiedades del token de sesión que son necesarios para volver a generar su clave en el <xref:System.IdentityModel.Tokens.SessionSecurityTokenCache>. En el caso predeterminado, el <xref:System.IdentityModel.Tokens.SessionSecurityTokenCacheKey> clase se usa para representar las claves de caché, y escribe el controlador de token el <xref:System.IdentityModel.Tokens.SessionSecurityToken.ContextId%2A?displayProperty=nameWithType> y <xref:System.IdentityModel.Tokens.SessionSecurityToken.KeyGeneration%2A?displayProperty=nameWithType> propiedades del token. Si el token de sesión no está en modo de referencia, es decir, el <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propiedad es `false`, a continuación, además de las propiedades que se ha mencionado anteriormente, invoca el controlador de la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> método en una matriz de bytes que se serializó el token y almacenes de la valor resultante en la cookie también. Para obtener más información acerca de cómo se serializa el token, consulte el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%28System.Xml.XmlWriter%2CSystem.IdentityModel.Tokens.SecurityToken%29?displayProperty=nameWithType> método.  
   
- El <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.Transforms%2A> propiedad obtiene la lista de transformaciones que se aplican a la sesión de símbolo (token) en el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> método. Todas las transformaciones que se derivan de la <xref:System.IdentityModel.CookieTransform> clase. En el caso predeterminado el <xref:System.IdentityModel.DeflateCookieTransform> y <xref:System.IdentityModel.ProtectedDataCookieTransform> se aplican. El <xref:System.IdentityModel.ProtectedDataCookieTransform> usa la API de protección de datos (DPAPI) para proteger el material de cookie. DPAPI utiliza una clave específica para el equipo en el que se está ejecutando en sus algoritmos de protección. Por este motivo, el controlador de token de sesión predeterminada no es utilizable en escenarios de granja de servidores Web porque, en estos escenarios, los tokens que se escriben en un equipo que necesite leerse en otro equipo. Puede usar muchas estrategias para evitar este problema. Por ejemplo, se puede:  
+ El <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.Transforms%2A> propiedad obtiene la lista de transformaciones que se aplican a la sesión de símbolo (token) en el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> método. Todas las transformaciones que se derivan de la <xref:System.IdentityModel.CookieTransform> clase. En el caso predeterminado el <xref:System.IdentityModel.DeflateCookieTransform> y <xref:System.IdentityModel.ProtectedDataCookieTransform> se aplican. El <xref:System.IdentityModel.ProtectedDataCookieTransform> usa la API de protección de datos (DPAPI) para proteger el material de la cookie. DPAPI utiliza una clave específica en el equipo en el que se está ejecutando en los algoritmos de su protección. Por este motivo, el controlador de token de sesión predeterminada no es se puede usar en escenarios de granja de servidores Web porque, en estos escenarios, los tokens que se escribe en un equipo que deba leer en otro equipo. Puede usar muchas estrategias para evitar este problema. Por ejemplo, se puede:  
   
 -   Reemplace el valor predeterminado <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> con el <xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler>. El <xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler> le permite especificar las claves de firma y cifrado en ASP.NET `<machineKey>` elemento en el archivo de configuración.  
   
--   Proporciona un controlador para el <xref:System.IdentityModel.Services.FederatedAuthentication.FederationConfigurationCreated?displayProperty=nameWithType> eventos en el archivo global.asax.cs y reemplazar la sesión predeterminada del controlador con una instancia de token <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> que tiene una lista de transformaciones que incluye el <xref:System.IdentityModel.RsaSignatureCookieTransform> y <xref:System.IdentityModel.RsaEncryptionCookieTransform>. Puede crear la nueva instancia mediante la invocación de uno de los constructores que toma una lista de transformaciones.  
+-   Proporcionar un controlador para el <xref:System.IdentityModel.Services.FederatedAuthentication.FederationConfigurationCreated?displayProperty=nameWithType> eventos en el archivo global.asax.cs y reemplace la sesión predeterminada del controlador con una instancia de token <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> que tiene una lista de transformaciones que incluye el <xref:System.IdentityModel.RsaSignatureCookieTransform> y <xref:System.IdentityModel.RsaEncryptionCookieTransform>. Puede crear la nueva instancia mediante la invocación de uno de los constructores que toma una lista de transformaciones.  
   
--   Derivar una transformación personalizada desde el <xref:System.IdentityModel.CookieTransform> clase base y utilizar el método anterior para incluirlo en la lista de transformaciones que se deben aplicar.  
+-   Derivar una transformación personalizada desde el <xref:System.IdentityModel.CookieTransform> clase base y usar el método anterior para incluirlo en la lista de transformaciones que se aplican.  
   
--   Derivar un controlador de token personalizado de <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> e implementar su propio mecanismo.  
+-   Derivar un controlador personalizado de token de <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> e implementar su propio mecanismo.  
   
- Para obtener más información acerca del uso de sesiones en los escenarios de granja de servidores Web, consulte [WIF y granjas de servidores Web](~/docs/framework/security/wif-and-web-farms.md).  
+ Para obtener más información sobre el uso de las sesiones en escenarios de granja de servidores Web, consulte [WIF y granjas de servidores Web](~/docs/framework/security/wif-and-web-farms.md).  
   
- El <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> se incluye en la colección de controlador de token predeterminada; sin embargo, puede reemplazarlo con un controlador de token de sesión personalizada si especifica primero una [ &lt;quitar&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/remove.md) elemento bajo el [ &lt;securityTokenHandlers&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/securitytokenhandlers.md) elemento que se va a quitar el controlador predeterminado de la colección y, a continuación, agregar el controlador de token personalizado usando el [ &lt;agregar&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/add.md) elemento. De forma predeterminada, puede especificar la duración del token predeterminado mediante la inclusión de la [ &lt;sessionTokenRequirement&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/sessiontokenrequirement.md) elemento bajo el `<add>` elemento. Puede diseñar un controlador de token personalizado tomar elementos de configuración personalizados en el `<add>` elemento invalidando el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.LoadCustomConfiguration%2A> método para proporcionar la lógica para procesarlos.  
+ El <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> se incluye en la colección de controladores de token de forma predeterminada; sin embargo, puede reemplazarlo con un controlador de token de sesión personalizada si especifica primero una [ &lt;quitar&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/remove.md) elemento bajo el [ &lt;securityTokenHandlers&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/securitytokenhandlers.md) elemento que se va a quitar del controlador predeterminado de la colección y, a continuación, agregar el controlador de tokens personalizado utilizando el [ &lt;agregar&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/add.md) elemento. De forma predeterminada, puede especificar la duración del token predeterminado mediante la inclusión de la [ &lt;sessionTokenRequirement&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/sessiontokenrequirement.md) elemento bajo el `<add>` elemento. Puede diseñar un controlador personalizado de token a tomar elementos de configuración personalizada en el `<add>` elemento invalidando el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.LoadCustomConfiguration%2A> método para proporcionar la lógica para procesarlos.  
   
    
   
 ## Examples  
- El siguiente XML muestra cómo reemplazar el controlador de token predeterminado sesión seguridad en una colección de controlador de token con una instancia de la <xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler> clase en la configuración.  
+ El siguiente XML muestra cómo reemplazar el controlador de token predeterminado sesión seguridad en una colección de controladores de token con una instancia de la <xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler> clase en la configuración.  
   
 ```xml  
 <securityTokenHandlers>  
@@ -98,7 +98,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.TokenLifetime%2A> y <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.Transforms%2A> propiedades se inicializan en <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.DefaultLifetime> y <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.DefaultCookieTransforms>.  
+ El <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.TokenLifetime%2A> y <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.Transforms%2A> propiedades se inicializan con <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.DefaultLifetime> y <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.DefaultCookieTransforms>.  
   
  ]]></format>
         </remarks>
@@ -190,9 +190,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cuando se transforma la codificación de una cookie se aplican en el orden en que aparecen en la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.Transforms%2A> propiedad. Al descodificar una cookie, estas se aplican en el orden inverso.  
+ Cuando se transforma la codificación de una cookie se aplican en el orden en que aparecen en la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.Transforms%2A> propiedad. Cuando se descodifica una cookie, se aplican en orden inverso.  
   
- Llamar desde el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%2A> y <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ReadToken%2A> métodos para codificar y descodificar el material de cookie.  
+ Se llama desde el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%2A> y <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ReadToken%2A> métodos para codificar y descodificar el material de la cookie.  
   
  ]]></format>
         </remarks>
@@ -289,12 +289,12 @@
       </ReturnValue>
       <Docs>
         <summary>Obtiene el nombre del elemento de la cookie.</summary>
-        <value>Nombre para mostrar de la cookie. El nombre de elemento predeterminado es "Cookie".</value>
+        <value>Nombre para mostrar de la cookie. El nombre del elemento predeterminado es "Cookie".</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta propiedad se utiliza en el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%2A> y <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ReadToken%2A> métodos para determinar el elemento en la que se debe escribir o leer el material codificado de símbolo (token).  
+ Esta propiedad se utiliza en el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%2A> y <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ReadToken%2A> métodos para determinar el elemento en la que el material codificado de token debe ser leer o escribir.  
   
  ]]></format>
         </remarks>
@@ -325,7 +325,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta propiedad se utiliza en el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%2A> y <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ReadToken%2A> métodos para determinar el espacio de nombres del elemento en la que se debe escribir o leer el material codificado de símbolo (token).  
+ Esta propiedad se utiliza en el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%2A> y <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ReadToken%2A> métodos para determinar el espacio de nombres del elemento en la que el material codificado de token debe ser leer o escribir.  
   
  ]]></format>
         </remarks>
@@ -396,7 +396,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Crea y devuelve un token de seguridad de la sesión mediante el uso de las siguientes propiedades del descriptor del token: <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Subject%2A?displayProperty=nameWithType>, y <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Lifetime%2A?displayProperty=nameWithType>. Si el <xref:System.IdentityModel.Tokens.SecurityTokenHandlerConfiguration.SaveBootstrapContext%2A?displayProperty=nameWithType> se establece la propiedad `true` en la configuración del controlador de token especificada por el <xref:System.IdentityModel.Tokens.SecurityTokenHandler.Configuration%2A> propiedad, se crea el contexto de arranque desde el <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Token%2A?displayProperty=nameWithType> propiedad y se guarda en el token de sesión.  
+ Crea y devuelve un token de seguridad de sesión mediante el uso de las siguientes propiedades en el descriptor de token: <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Subject%2A?displayProperty=nameWithType>, y <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Lifetime%2A?displayProperty=nameWithType>. Si el <xref:System.IdentityModel.Tokens.SecurityTokenHandlerConfiguration.SaveBootstrapContext%2A?displayProperty=nameWithType> se establece la propiedad `true` en la configuración del controlador de token especificada por el <xref:System.IdentityModel.Tokens.SecurityTokenHandler.Configuration%2A> propiedad, se crea el contexto de arranque desde el <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Token%2A?displayProperty=nameWithType> propiedad y se guarda en el token de sesión.  
   
  ]]></format>
         </remarks>
@@ -489,7 +489,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se admiten los URI de tipo siguiente: "http://schemas.microsoft.com/ws/2006/05/servicemodel/tokens/SecureConversation","http://docs.oasis-open.org/ws-sx/ws-secureconversation/200512/sct", y "http://schemas.xmlsoap.org/ws/2005/02/sc/sct".  
+ Se admiten los siguiente URI de tipo: "http://schemas.microsoft.com/ws/2006/05/servicemodel/tokens/SecureConversation","http://docs.oasis-open.org/ws-sx/ws-secureconversation/200512/sct", y "http://schemas.xmlsoap.org/ws/2005/02/sc/sct".  
   
  ]]></format>
         </remarks>
@@ -520,7 +520,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Llamado por la infraestructura de configuración para inicializar la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> instancia. Inicializa el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.TokenLifetime%2A> propiedad desde el `lifetime` atributo de la [ &lt;sessionTokenRequirement&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/sessiontokenrequirement.md) elemento en el archivo de configuración.  
+ Llamado por la infraestructura de configuración para inicializar el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> instancia. Inicializa el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.TokenLifetime%2A> propiedad desde la `lifetime` atributo de la [ &lt;sessionTokenRequirement&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/sessiontokenrequirement.md) elemento en el archivo de configuración.  
   
  ]]></format>
         </remarks>
@@ -540,7 +540,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La implementación predeterminada deserializa el token de WS-Secure Conversation Feb2005 o de WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` elemento.  
+ La implementación predeterminada deserializa el token de WS-Secure Conversation Feb2005 o WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` elemento.  
   
  ]]></format>
         </remarks>
@@ -573,9 +573,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El lector debe estar situado en una conversación WS-Secure, Feb2005 o un WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` elemento.  
+ El lector debe colocarse en una conversación WS-Secure, Feb2005 o un WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` elemento.  
   
- La implementación predeterminada, se invoca el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ReadToken%28System.Xml.XmlReader%2CSystem.IdentityModel.Selectors.SecurityTokenResolver%29?displayProperty=nameWithType> método con una resolución de tokens de forma predeterminada.  
+ La implementación predeterminada invoca la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ReadToken%28System.Xml.XmlReader%2CSystem.IdentityModel.Selectors.SecurityTokenResolver%29?displayProperty=nameWithType> método con una resolución de tokens predeterminada.  
   
  ]]></format>
         </remarks>
@@ -649,16 +649,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El lector debe estar situado en una conversación WS-Secure, Feb2005 o un WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` elemento.  
+ El lector debe colocarse en una conversación WS-Secure, Feb2005 o un WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` elemento.  
   
- Si el material de símbolo (token) se almacena en caché, se lee desde la caché de tokens, que es una instancia de la <xref:System.IdentityModel.Tokens.SessionSecurityTokenCache> clase. En caso contrario, el material de token se lee desde el elemento secundario de la `<wsc:SecurityContextToken>` elemento especificado por la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CookieElementName%2A> y <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CookieNamespace%2A> propiedades y <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> método se invoca para descodificar la cookie.  
+ Si el material de token se almacena en caché, se leen de la caché de tokens, que es una instancia de la <xref:System.IdentityModel.Tokens.SessionSecurityTokenCache> clase. En caso contrario, el material de token es de lectura desde el elemento secundario de la `<wsc:SecurityContextToken>` elemento especificado por el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CookieElementName%2A> y <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CookieNamespace%2A> propiedades y el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> se invoca el método para descodificar la cookie.  
   
- Para obtener más información acerca de cómo se serializan los símbolos de sesión en un `<SecurityContextToken` elemento, vea la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%28System.Xml.XmlWriter%2CSystem.IdentityModel.Tokens.SecurityToken%29?displayProperty=nameWithType> método.  
+ Para obtener más información acerca de cómo se serializan los tokens de sesión en un `<SecurityContextToken` elemento, vea el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%28System.Xml.XmlWriter%2CSystem.IdentityModel.Tokens.SecurityToken%29?displayProperty=nameWithType> método.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="reader" /> es <see langword="null" />.  -o bien- <paramref name="tokenResolver" /> es <see langword="null" />.</exception>
+          <paramref name="reader" /> es <see langword="null" />.  
+  
+O bien 
+ <paramref name="tokenResolver" /> es <see langword="null" />.</exception>
         <exception cref="T:System.IdentityModel.Tokens.SecurityTokenException">El lector no está situado en un <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" /> o <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" /> no se puede leer.</exception>
       </Docs>
     </Member>
@@ -687,7 +690,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Establece la lista de transformaciones devuelto por la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.Transforms%2A> propiedad. Las transformaciones se aplicarán en el orden en que aparecen en la lista al codificar una cookie y en el orden inverso al descodificar una cookie.  
+ Establece la lista de transformaciones devuelto por la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.Transforms%2A> propiedad. Las transformaciones se aplicará en el orden en que aparecen en la lista al codificar una cookie y en el orden inverso al descodificar una cookie.  
   
 > [!WARNING]
 >  Si el `transforms` parámetro es `null`, se producirá una excepción desde el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> método cuando se llama a codificar o descodificar la cookie.  
@@ -718,7 +721,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- De forma predeterminada, si la [ &lt;sessionTokenRequirement&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/sessiontokenrequirement.md) se especifica en el archivo de configuración, la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.TokenLifetime%2A> propiedad se inicializa en el valor de la `lifetime` atributo por el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.LoadCustomConfiguration%2A> método.  
+ De forma predeterminada, si la [ &lt;sessionTokenRequirement&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/sessiontokenrequirement.md) elemento se especifica en el archivo de configuración, el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.TokenLifetime%2A> propiedad se inicializa en el valor de la `lifetime` atributo por el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.LoadCustomConfiguration%2A> método.  
   
  ]]></format>
         </remarks>
@@ -800,9 +803,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El token no es válido si su <xref:System.IdentityModel.Tokens.SecurityToken.ValidFrom%2A> propiedad está establecida en un valor que se produce después de <xref:System.DateTime.UtcNow%2A>, o si su <xref:System.IdentityModel.Tokens.SecurityToken.ValidTo%2A> propiedad está establecida en un valor que se produce anteriores a <xref:System.DateTime.UtcNow%2A>.  
+ El token no es válido si su <xref:System.IdentityModel.Tokens.SecurityToken.ValidFrom%2A> propiedad está establecida en un valor que aparece más adelante que <xref:System.DateTime.UtcNow%2A>, o si su <xref:System.IdentityModel.Tokens.SecurityToken.ValidTo%2A> propiedad está establecida en un valor que se produce anteriores a <xref:System.DateTime.UtcNow%2A>.  
   
- Llamar desde el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ValidateToken%2A> métodos para validar la sesión.  
+ Se llama desde el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ValidateToken%2A> métodos para validar la sesión.  
   
  ]]></format>
         </remarks>
@@ -849,7 +852,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se invoca el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ValidateSession%2A> método para validar el token.  
+ Invoca el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ValidateSession%2A> método para validar el token.  
   
  ]]></format>
         </remarks>
@@ -889,15 +892,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Realiza una comprobación para asegurarse de que el token especificado tiene un ámbito para el identificador de punto de conexión especificada y, si es así, se invoca el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ValidateToken%28System.IdentityModel.Tokens.SecurityToken%29?displayProperty=nameWithType> método; de lo contrario, produce una <xref:System.IdentityModel.Tokens.SecurityTokenException>.  
+ Realiza una comprobación para asegurarse de que el token especificado tiene un ámbito para el identificador de punto de conexión especificado y, si es así, invoca el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ValidateToken%28System.IdentityModel.Tokens.SecurityToken%29?displayProperty=nameWithType> método; de lo contrario, produce una <xref:System.IdentityModel.Tokens.SecurityTokenException>.  
   
 > [!IMPORTANT]
->  Símbolos de sesión que tienen un <xref:System.IdentityModel.Tokens.SessionSecurityToken.EndpointId%2A> propiedad `null` o vacíos se consideran para ser un ámbito global. Esto presenta riesgos de seguridad. Por este motivo debe asegurarse de que el <xref:System.IdentityModel.Tokens.SessionSecurityToken.EndpointId%2A> propiedad se establece en sus tokens de sesión.  
+>  Los tokens de sesión que tienen un <xref:System.IdentityModel.Tokens.SessionSecurityToken.EndpointId%2A> propiedad `null` o vacío están restringidas al ámbito global. Esto presenta un riesgo de seguridad. Por este motivo debe asegurarse de que el <xref:System.IdentityModel.Tokens.SessionSecurityToken.EndpointId%2A> propiedad está establecida en los tokens de sesión.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="token" /> es <see langword="null" />.  -o bien- <paramref name="endpointId" /> es <see langword="null" />.</exception>
+          <paramref name="token" /> es <see langword="null" />.  
+  
+O bien 
+ <paramref name="endpointId" /> es <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">
           <paramref name="token" /> no es asignable desde <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" />.</exception>
         <exception cref="T:System.IdentityModel.Tokens.SecurityTokenException">La propiedad <see cref="P:System.IdentityModel.Tokens.SessionSecurityToken.EndpointId" /> del token especificado no es <see langword="null" /> o no está vacía y su valor es diferente al que especifica el parámetro <paramref name="endpointId" /> .</exception>
@@ -915,7 +921,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La implementación predeterminada, el token serializa en un WS-Secure Conversation Feb2005 o WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` elemento.  
+ La implementación predeterminada serializa el token en WS-Secure Conversation Feb2005 o WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` elemento.  
   
  ]]></format>
         </remarks>
@@ -948,7 +954,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Serializa el token especificado mediante la creación y el sistema de escritura XML sobre un <xref:System.IO.MemoryStream> e invocando el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%28System.Xml.XmlWriter%2CSystem.IdentityModel.Tokens.SecurityToken%29?displayProperty=nameWithType> método. Consulte esa sobrecarga para obtener más detalles.  
+ Serializa el token especificado mediante la creación y el sistema de escritura XML a través de un <xref:System.IO.MemoryStream> e invocar el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%28System.Xml.XmlWriter%2CSystem.IdentityModel.Tokens.SecurityToken%29?displayProperty=nameWithType> método. Ver esa sobrecarga para obtener más detalles.  
   
  ]]></format>
         </remarks>
@@ -984,14 +990,20 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La implementación predeterminada, el token especificado serializa como WS-Secure Conversation Feb2005 o WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` elemento, dependiendo del valor de la <xref:System.IdentityModel.Tokens.SessionSecurityToken.SecureConversationVersion%2A?displayProperty=nameWithType> propiedad. El <xref:System.IdentityModel.Tokens.SessionSecurityToken.Id%2A?displayProperty=nameWithType> propiedad se serializa como el `Id` atributo. El <xref:System.IdentityModel.Tokens.SessionSecurityToken.ContextId%2A?displayProperty=nameWithType> propiedad se serializa como el `<Identifier>` elemento secundario. Si no `null` el <xref:System.IdentityModel.Tokens.SessionSecurityToken.KeyGeneration%2A?displayProperty=nameWithType> propiedad se serializa como un `<Instance>` elemento. Por último, si la <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propiedad es `false`, todo el token se serializa en una matriz binaria que se pasa a la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> método que se desea codificar. El token codificado, a continuación, se escribe como un valor codificado en base64 en el elemento y el espacio de nombres especificado por el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CookieElementName%2A> y <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CookieNamespace%2A> propiedades. Si el <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propiedad es `true`, no se serializa el token.  
+ La implementación predeterminada, el token especificado serializa como WS-Secure Conversation Feb2005 o WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` elemento, dependiendo del valor de la <xref:System.IdentityModel.Tokens.SessionSecurityToken.SecureConversationVersion%2A?displayProperty=nameWithType> propiedad. El <xref:System.IdentityModel.Tokens.SessionSecurityToken.Id%2A?displayProperty=nameWithType> propiedad se serializa como el `Id` atributo. El <xref:System.IdentityModel.Tokens.SessionSecurityToken.ContextId%2A?displayProperty=nameWithType> propiedad se serializa como el `<Identifier>` elemento secundario. Si no `null` el <xref:System.IdentityModel.Tokens.SessionSecurityToken.KeyGeneration%2A?displayProperty=nameWithType> propiedad se serializa como un `<Instance>` elemento. Por último, si la <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propiedad es `false`, todo el token se serializa en una matriz binaria que se pasa a la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> método que se desea codificar. El token codificado, a continuación, se escribe como un valor codificado en base 64 para el elemento y espacio de nombres especificado por el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CookieElementName%2A> y <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CookieNamespace%2A> propiedades. Si el <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propiedad es `true`, no se serializa el token.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="writer" /> es <see langword="null" />.  -o bien- <paramref name="token" /> es <see langword="null" />.</exception>
+          <paramref name="writer" /> es <see langword="null" />.  
+  
+O bien 
+ <paramref name="token" /> es <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">
-          <paramref name="token" /> no es asignable desde <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" />.  -o bien- La propiedad <see cref="P:System.IdentityModel.Tokens.SessionSecurityToken.SecureConversationVersion" /> del token especifica una versión de WS- Secure Conversation que no admite el controlador.</exception>
+          <paramref name="token" /> no es asignable desde <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" />.  
+  
+O bien 
+La propiedad <see cref="P:System.IdentityModel.Tokens.SessionSecurityToken.SecureConversationVersion" /> del token especifica una versión de WS- Secure Conversation que no admite el controlador.</exception>
         <altmember cref="P:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CanWriteToken" />
       </Docs>
     </Member>
