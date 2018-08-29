@@ -1,10 +1,10 @@
 <Type Name="MuxLogger" FullName="Microsoft.Build.Utilities.MuxLogger">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="a7f638e1c6b08a849c703c09d7ece293bb979d2a" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="36732751" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class MuxLogger : Microsoft.Build.Framework.INodeLogger" />
@@ -26,44 +26,46 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <summary>Representa un registrador de multiplexación. El propósito de este registrador es registrar y anular el registro de varios registradores durante la compilación. Admite el escenario del IDE de Visual Studio donde los registradores se registran y se anula su registro para la solicitud de compilación de cada sistema del proyecto. Una compilación física puede tener varias compilaciones lógicas, cada una con su propio conjunto de registradores.  <see langword="MuxLogger" /> se registra a sí mismo con el administrador de compilación como un registrador central normal de estilo /l. Recibe mensajes del administrador de compilación y los enruta al registrador correcto, basándose en la compilación lógica de la que procede el mensaje.</summary>
+    <summary>Representa un registrador de multiplexación. El propósito de este registrador es registrar y anular el registro de varios registradores durante la compilación. Admite el escenario del IDE de Visual Studio donde los registradores se registran y se anula su registro para la solicitud de compilación de cada sistema del proyecto. Una compilación física puede tener varias compilaciones lógicas, cada una con su propio conjunto de registradores.  
+  
+<see langword="MuxLogger" /> se registra a sí mismo con el administrador de compilación como un registrador central normal de estilo /l. Recibe mensajes del administrador de compilación y los enruta al registrador correcto, basándose en la compilación lógica de la que procede el mensaje.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
  El `MuxLogger` generalmente funciona como se indica a continuación:  
   
--   El `MuxLogger` está registrado en el principio de compilación de inicio del Administrador de compilación.  
+-   El `MuxLogger` se registra al principio de la compilación de inicio del Administrador de compilación.  
   
-     Los registradores registrados antes de la compilación iniciará el Administrador de compilación obtengan el evento de compilación iniciada al mismo tiempo que la `MuxLogger`.  
+     Los registradores registrados antes de que el Administrador de compilación inicia la compilación obtienen el evento de compilación iniciada al mismo tiempo que el `MuxLogger`.  
   
-     Los registradores registrados después de la compilación iniciará el Administrador de compilación obtienen un evento de compilación iniciada sintetizado. El evento no puede almacenarse en memoria caché porque la marca de tiempo del evento de compilación iniciada se determina cuando se crea el evento y almacenamiento en caché el evento proporcionaría los tiempos de compilación incorrecta de los registradores registrados en el `MuxLogger`.  
+     Los registradores registrados después de que el Administrador de compilación inicia la compilación obtención un evento de compilación iniciada sintetizado. No se puede almacenar en caché el evento porque la marca de tiempo del evento de compilación iniciada se determina cuando se crea el evento y el almacenamiento en caché el evento daría a tiempos de compilación incorrectos en los registradores registrados en el `MuxLogger`.  
   
--   El `MuxLogger` se inicializa con el Administrador de compilación  
+-   El `MuxLogger` se inicializa mediante el Administrador de compilación  
   
-     El `MuxLogger` escucha a todos los eventos en el origen de eventos desde el Administrador de compilación y enruta correctamente los eventos a los registradores registrados.  
+     El `MuxLogger` escucha a todos los eventos en el origen de eventos desde el Administrador de compilación y enruta los eventos correctamente en los registradores registrados.  
   
--   El `MuxLogger` está apagado cuando finaliza la compilación en la compilación de finalización. En este momento, anula el registro de los registradores asociados a él.  
+-   El `MuxLogger` está apagada cuando finaliza la compilación en la compilación final. En este momento, anula el registro de los registradores conectados a ella.  
   
--   El `MuxLogger` registra el evento terminado de compilación cuando se ve el evento proyecto finalizado para el primer evento iniciada por el proyecto para cada uno de ellos.  
+-   El `MuxLogger` registra el evento terminado de compilación cuando se ve el evento proyecto finalizado para el primer evento iniciado por el proyecto para cada registrador.  
   
  El `MuxLogger` registra registradores de la manera siguiente:  
   
-1.  El registrador se pasa a la `MuxLogger.RegisterLogger` método con un identificador de envío que se usa para enrutar un mensaje a dicho registrador.  
+1.  El registrador se pasa a la `MuxLogger.RegisterLogger` método con un identificador de envío que se usa para enrutar un mensaje a ese registrador.  
   
 2.  El `MuxLogger` registra el registrador para el `MuxLogger` origen del evento.  
   
-3.  Si ya se haya registrado el evento de compilación iniciada, la `MuxLogger` crea un nuevo evento de compilación iniciada y lo envía al origen de eventos del registrador.  
+3.  Si ya ha iniciado el evento de compilación iniciada, la `MuxLogger` crea un nuevo evento de compilación iniciada y lo envía al origen de eventos del registrador.  
   
  El `MuxLogger` anula el registro de los registradores de la manera siguiente:  
   
-1.  Cuando se completa el envío de una compilación, la `MuxLogger.UnregisterLogger` método se llama con el identificador de envío para el registrador.  
+1.  Cuando se completa un envío de compilación, el `MuxLogger.UnregisterLogger` se llama al método con el identificador de envío para el registrador.  
   
-2.  El `MuxLogger` busca el estado correcto del evento proyecto finalizado para el identificador de envío y registra un evento terminado de compilación en el registrador.  
+2.  El `MuxLogger` busca el estado correcto del evento proyecto finalizado para el identificador de envío y registra un evento de compilación terminado en el registrador.  
   
 3.  El `MuxLogger` limpia el origen del evento.  
   
-     Tenga en cuenta que la anulación del registro procede de un subproceso distinto del subproceso de registro y un problema de sincronización puede producirse si se llama a anular el registro mientras se están registrando los eventos.  
+     Tenga en cuenta que anular el registro proviene de un subproceso distinto del subproceso de registro y podría producirse un problema de sincronización si se llama a anular el registro mientras se están registrando los eventos.  
   
  ]]></format>
     </remarks>

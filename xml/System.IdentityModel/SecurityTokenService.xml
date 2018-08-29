@@ -1,10 +1,10 @@
 <Type Name="SecurityTokenService" FullName="System.IdentityModel.SecurityTokenService">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="b5c8d93b898d628b70967d33278c8cd9f33a66bf" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="36479613" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class SecurityTokenService" />
@@ -27,25 +27,25 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Para crear un STS debe derivarse de la <xref:System.IdentityModel.SecurityTokenService> clase. En la clase personalizada debe, como mínimo, invalida el <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> y <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> métodos. Con estas invalidaciones, el STS creado mediante la implementación predeterminada de todos los demás métodos definidos en la clase es capaz de emitir tokens de seguridad en respuesta a la seguridad de las solicitudes de token (RST). Es decir, se implementa el enlace de problema definido en la especificación de WS-Trust. Este enlace se implementa en el <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método. Ninguno de los otros enlaces de WS-Trust (renovar, Cancelar y validar) se implementan en el caso predeterminado y se devuelve un error adecuado al llamador si se encuentra un RST que corresponde a uno de estos enlaces. Por supuesto, puede invalidar los métodos adecuados (<xref:System.IdentityModel.SecurityTokenService.Renew%2A>, <xref:System.IdentityModel.SecurityTokenService.Cancel%2A>, y <xref:System.IdentityModel.SecurityTokenService.Validate%2A>) para implementar estos enlaces en los STS.  
+ Para crear un STS debe derivar de la <xref:System.IdentityModel.SecurityTokenService> clase. En la clase personalizada debe, como mínimo, invalida la <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> y <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> métodos. Con estas invalidaciones, el STS creado mediante la implementación predeterminada de todos los demás métodos definidos en la clase es capaz de emitir tokens de seguridad en respuesta a la seguridad de las solicitudes de token (RST). Es decir, se implementa el enlace Issue definido en la especificación WS-Trust. Este enlace se implementa en el <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método. Ninguno de los otros enlaces de WS-Trust (renovar, Cancelar y validar) se implementan en el caso predeterminado y se devuelve un error adecuado al llamador si se encuentra una RST que corresponde a uno de estos enlaces. Por supuesto, puede invalidar los métodos adecuados (<xref:System.IdentityModel.SecurityTokenService.Renew%2A>, <xref:System.IdentityModel.SecurityTokenService.Cancel%2A>, y <xref:System.IdentityModel.SecurityTokenService.Validate%2A>) para implementar estos enlaces en los STS.  
   
 > [!IMPORTANT]
->  Implementación de un STS para entornos de producción implica una cuidadosa planeación y recursos considerable para mitigar los posibles riesgos de seguridad inherentes a exponer este tipo de servicio. La mayoría de los desarrolladores que utilizan Windows Identity Foundation (WIF) se pueden desarrollar aplicaciones que externalizar la administración de identidades a un STS, en lugar de desarrollar a un STS propio. WIF proporciona una extensión de Visual Studio, la herramienta identidad y acceso para Visual Studio 2012, para ayudar a los desarrolladores probar soluciones en el entorno de desarrollo. Esta herramienta incluye un STS, `LocalSTS`, que se pueden configurar para dar servicio a las notificaciones específicas a la aplicación que está desarrollando. Para obtener más información acerca de la herramienta de identidad y acceso, consulte [Identity and Access Tool para Visual Studio 2012](~/docs/framework/security/identity-and-access-tool-for-vs.md). En algunos escenarios, `LocalSTS` no se puede proporcionar la funcionalidad necesaria para probar la aplicación de forma adecuada; por ejemplo, en un escenario que implica desarrollar un controlador de token personalizado para su uso por una aplicación. En estos casos, puede derivar de <xref:System.IdentityModel.SecurityTokenService> para crear uno o más STS simples que se pueden implementar en el entorno de desarrollo y que se puede utilizar para probar las características de la aplicación. El resto de esta sección se centra en los métodos expuestos por la <xref:System.IdentityModel.SecurityTokenService> clase que le permiten implementar un STS simple y ampliar la canalización de emisión de tokens.  
+>  Implementación de un STS para entornos de producción implica una cuidadosa planeación y recursos considerable para mitigar los posibles riesgos de seguridad inherentes a exponer este tipo de servicio. Mayoría de los desarrolladores mediante Windows Identity Foundation (WIF) se pueden desarrollar aplicaciones que externalizar la administración de identidad a un STS, en lugar de desarrollar a un STS de sí mismo. WIF proporciona una extensión de Visual Studio, la herramienta identidad y acceso para Visual Studio 2012, para ayudar a los desarrolladores probar soluciones en el entorno de desarrollo. Esta herramienta incluye un STS, `LocalSTS`, que se pueden configurar para dar servicio a las notificaciones específicas de la aplicación que está desarrollando. Para obtener más información acerca de la herramienta identidad y acceso, consulte [Identity and Access Tool para Visual Studio 2012](~/docs/framework/security/identity-and-access-tool-for-vs.md). En algunos escenarios, `LocalSTS` no se puede proporcionar la funcionalidad necesaria para probar la aplicación de forma adecuada; por ejemplo, en un escenario que implica desarrollar un controlador de token personalizado para su uso por una aplicación. En estos casos, puede derivar de <xref:System.IdentityModel.SecurityTokenService> para crear uno o más STS simple que se pueden implementar en el entorno de desarrollo y que se puede utilizar para probar estas características en la aplicación. El resto de esta sección se centra en los métodos expuestos por el <xref:System.IdentityModel.SecurityTokenService> clase que le permiten implementar un STS simple y ampliar la canalización de emisión de tokens.  
   
- En la lista siguiente proporciona una breve descripción de los métodos de importancia principal para el desarrollador para su uso en un entorno de prueba o desarrollo.  
+ En la lista siguiente proporciona una breve descripción de los métodos de importancia primordial al desarrollador para su uso en un entorno de desarrollo o prueba.  
   
--   Método <xref:System.IdentityModel.SecurityTokenService.GetScope%2A>. Este método devuelve un <xref:System.IdentityModel.Scope> objeto que contiene información sobre el punto de reunión. Este objeto se usa en el resto de la canalización de emisión de tokens e incluye información sobre la firma y cifrado de credenciales que usa en la respuesta, así como el `AppliesTo` y `ReplyTo` (si es necesario) las direcciones. Debe reemplazar este método.  
+-   Método <xref:System.IdentityModel.SecurityTokenService.GetScope%2A>. Este método devuelve un <xref:System.IdentityModel.Scope> objeto que contiene información sobre el RP. Este objeto se usa en el resto de la canalización de emisión de tokens e incluye información sobre la firma y cifrado de credenciales para usarlos en la respuesta, así como el `AppliesTo` y `ReplyTo` (si es necesario) las direcciones. Debe invalidar este método.  
   
--   Método <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A>. Este método devuelve un <xref:System.Security.Claims.ClaimsIdentity> objeto que contiene las notificaciones para volver a RP. Debe reemplazar este método.  
+-   Método <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A>. Este método devuelve un <xref:System.Security.Claims.ClaimsIdentity> objeto que contiene las notificaciones para devolver al RP. Debe invalidar este método.  
   
--   Método <xref:System.IdentityModel.SecurityTokenService.Issue%2A>. Este método implementa la canalización de solicitud de token, que procesa una solicitud de token de seguridad de entrada (RST) y devuelve una respuesta (RSTR) para el llamador que contiene un símbolo (token) que puede usarse para autenticar con un punto de reunión. Muchos de los otros métodos definidos en el <xref:System.IdentityModel.SecurityTokenService> clase se llaman desde este método, incluidos los <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> y <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> métodos. No es necesario invalidar este método, pero una descripción de la canalización de solicitud de token implementa pueden serle de ayuda.  
+-   Método <xref:System.IdentityModel.SecurityTokenService.Issue%2A>. Este método implementa la canalización de solicitud de token, que procesa una solicitud de token de seguridad de entrada (RST) y devuelve una respuesta (RSTR) para el llamador que contiene un token que se puede usar para autenticar con un punto de reunión. Muchos de los otros métodos definidos en el <xref:System.IdentityModel.SecurityTokenService> clase se llaman desde este método, incluidos el <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> y <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> métodos. No es necesario invalidar este método, pero una descripción de la canalización de solicitud de token que implementa pueden serle de ayuda.  
   
- Un STS se configura a través de la <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration> clase.  
+ Un STS se configura mediante la <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration> clase.  
   
    
   
 ## Examples  
- Los ejemplos de código que se usan en el <xref:System.IdentityModel.SecurityTokenService> temas se toman de la `Custom Token` ejemplo. Este ejemplo proporciona las clases personalizadas que permitan realizar el procesamiento de Simple Web Tokens (SWT) e incluye una implementación de un STS pasivo que es capaz de ofrecer servicio a un token SWT. Para obtener un ejemplo de cómo implementar un STS activo, puede ver el `Federation Metadata` ejemplo. Para obtener información acerca de estos ejemplos y otros ejemplos disponibles para WIF y sobre dónde descargarlos, consulte [índice de ejemplo de código WIF](~/docs/framework/security/wif-code-sample-index.md). El código siguiente muestra la implementación de un STS pasivo con el <xref:System.IdentityModel.SecurityTokenService> clase.  
+ Los ejemplos de código que se usan en el <xref:System.IdentityModel.SecurityTokenService> temas se toman de la `Custom Token` ejemplo. Este ejemplo proporciona las clases personalizadas que permiten el procesamiento de Simple Web Tokens (SWT) e incluye una implementación de un STS pasivo que es capaz de atender un token de SWT. Para obtener un ejemplo de cómo implementar un STS activo, puede ver el `Federation Metadata` ejemplo. Para obtener información acerca de estos ejemplos y otros ejemplos disponibles para WIF y dónde descargarlas, consulte [índice de ejemplo de código WIF](~/docs/framework/security/wif-code-sample-index.md). El código siguiente muestra la implementación de un STS pasivo mediante el <xref:System.IdentityModel.SecurityTokenService> clase.  
   
  [!code-csharp[WIFCustomTokenSTS#3](~/samples/snippets/csharp/VS_Snippets_Misc/wifcustomtokensts/cs/passivests/customsecuritytokenservice.cs#3)]  
   
@@ -56,7 +56,7 @@
  ]]></format>
     </remarks>
     <block subset="none" type="overrides">
-      <para>Es necesario reemplazar ambos el <see cref="M:System.IdentityModel.SecurityTokenService.GetScope(System.Security.Claims.ClaimsPrincipal,System.IdentityModel.Protocols.WSTrust.RequestSecurityToken)" /> y <see cref="M:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity(System.Security.Claims.ClaimsPrincipal,System.IdentityModel.Protocols.WSTrust.RequestSecurityToken,System.IdentityModel.Scope)" /> métodos.</para>
+      <para>Debe reemplazar ambos el <see cref="M:System.IdentityModel.SecurityTokenService.GetScope(System.Security.Claims.ClaimsPrincipal,System.IdentityModel.Protocols.WSTrust.RequestSecurityToken)" /> y <see cref="M:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity(System.Security.Claims.ClaimsPrincipal,System.IdentityModel.Protocols.WSTrust.RequestSecurityToken,System.IdentityModel.Scope)" /> métodos.</para>
     </block>
     <altmember cref="T:System.IdentityModel.Scope" />
     <altmember cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" />
@@ -409,7 +409,10 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="request" /> es <see langword="null" />.  -o bien- <paramref name="scope" /> es <see langword="null" />.</exception>
+          <paramref name="request" /> es <see langword="null" />.  
+  
+O bien 
+ <paramref name="scope" /> es <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="EndCancel">
@@ -635,9 +638,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método se llama desde el valor predeterminado que se implementa de canalización de emisión de tokens en el <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método.  
+ Este método se llama desde el valor predeterminado la canalización de emisión de tokens se implementa en el <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método.  
   
- La implementación predeterminada devuelve el <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A> propiedad de configuración que se obtiene acceso a través del <xref:System.IdentityModel.SecurityTokenService.SecurityTokenServiceConfiguration%2A> propiedad.  
+ La implementación predeterminada devuelve el <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A> propiedad de configuración que se tiene acceso a través del <xref:System.IdentityModel.SecurityTokenService.SecurityTokenServiceConfiguration%2A> propiedad.  
   
  ]]></format>
         </remarks>
@@ -677,23 +680,23 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> método se llama desde la canalización de emisión de tokens, que se implementa mediante el <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método. Devuelve un <xref:System.Security.Claims.ClaimsIdentity> que contiene las notificaciones que se incluirán en el token de seguridad emitido tomando como base el solicitante del token (el `principal` parámetro), el RST entrante (el `request` parámetro), y el usuario de confianza para el que el token es diseñada () el `scope` parámetro). La lógica en este método se ocupa principalmente con responder a las siguientes preguntas:  
+ El <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> método se llama desde la canalización de emisión de tokens, que se implementa mediante el <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método. Devuelve un <xref:System.Security.Claims.ClaimsIdentity> que contiene las notificaciones que se va a incluir en el token de seguridad emitido según el solicitante del token (la `principal` parámetro), el RST entrante (el `request` parámetro), y de confianza para el que el token está pensado () el `scope` parámetro). La lógica en este método se ocupa principalmente contestar las preguntas siguientes:  
   
--   **¿Los tipos de notificación que deben incluirse en la respuesta según el RP para el que se diseñó?** Normalmente esto se decide en una base por RP de las listas de tipos de notificación necesarios para cada punto de reunión o en cada solicitud examinando el <xref:System.IdentityModel.Protocols.WSTrust.RequestSecurityToken.Claims%2A> propiedad de la solicitud. Sin embargo, la lógica y los detalles para determinar las notificaciones que se incluirán en la respuesta depende por completo la implementación.  
+-   **¿Tipos de notificación que deben incluirse en la respuesta según el punto de reunión que se dirige?** Normalmente, esto se decide por RP de listas de tipos de notificación necesarios para cada usuario de confianza o por solicitud examinando el <xref:System.IdentityModel.Protocols.WSTrust.RequestSecurityToken.Claims%2A> propiedad de la solicitud. Sin embargo, la lógica y los detalles para determinar las notificaciones que se va a incluir en la respuesta es completamente hasta su implementación.  
   
--   **¿Valores de notificación que deben asignarse a las notificaciones en la respuesta?** Para un proveedor de identidad (IP-STS) normalmente significa usando una o más notificaciones en el solicitante <xref:System.Security.Claims.ClaimsPrincipal> (proporcionada por el `principal` parámetro) para tener acceso a un almacén (u otra entidad) para devolver valores para los tipos de notificación requeridos. Para un proveedor de federación (R-STS) normalmente significa realizar algún tipo de procesamiento de las notificaciones entrantes del solicitante para satisfacer la solicitud; Quizá para realizar el filtrado o transformación en algunas notificaciones presentadas por el solicitante, al pasar a otras personas a través sin modificar. Por supuesto, como en el caso de decidir qué notificaciones que se incluirán en la respuesta, los detalles y la lógica de cómo determinar los valores de estas notificaciones depende de su implementación.  
+-   **¿Valores de notificación que se deben asignar a las notificaciones en la respuesta?** Para un proveedor de identidades (IP-STS) Esto significa normalmente utilizando una o más notificaciones en el solicitante <xref:System.Security.Claims.ClaimsPrincipal> (proporcionado por el `principal` parámetro) para tener acceso a un almacén (u otra entidad) para devolver valores de los tipos de notificación requeridos. Para un proveedor de federación (R-STS) Esto normalmente significa realizar algún tipo de procesamiento en las notificaciones entrantes del solicitante para satisfacer la solicitud; Quizá para realizar el filtrado o transformación en algunas notificaciones presentadas por el solicitante, mientras pasa a otras personas a través sin modificar. Por supuesto, como se muestra en el caso de decidir qué notificaciones se incluyen en la respuesta, los detalles y la lógica de cómo determinar los valores de estas notificaciones es hasta su implementación.  
   
    
   
 ## Examples  
- El ejemplo de código que se utiliza en este tema se realiza desde la `Custom Token` ejemplo. Este ejemplo proporciona las clases personalizadas que permitan realizar el procesamiento de Simple Web Tokens (SWT) e incluye una implementación de un STS pasivo que es capaz de ofrecer servicio a un token SWT. Para obtener un ejemplo de cómo implementar un STS activo, puede ver el `Federation Metadata` ejemplo. Para obtener información acerca de estos ejemplos y otros ejemplos disponibles para WIF y sobre dónde descargarlos, consulte [índice de ejemplo de código WIF](~/docs/framework/security/wif-code-sample-index.md). El código siguiente muestra cómo invalidar el <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> método devuelva un valor de notificaciones para tu STS. En este ejemplo, se pasa por alto el mensaje de seguridad de solicitud de Token (RST) y se devuelve una colección de notificaciones basadas en el usuario autenticado en el STS.  
+ El ejemplo de código que se usa en este tema se toma de la `Custom Token` ejemplo. Este ejemplo proporciona las clases personalizadas que permiten el procesamiento de Simple Web Tokens (SWT) e incluye una implementación de un STS pasivo que es capaz de atender un token de SWT. Para obtener un ejemplo de cómo implementar un STS activo, puede ver el `Federation Metadata` ejemplo. Para obtener información acerca de estos ejemplos y otros ejemplos disponibles para WIF y dónde descargarlas, consulte [índice de ejemplo de código WIF](~/docs/framework/security/wif-code-sample-index.md). El código siguiente muestra cómo invalidar el <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> método para devolver las notificaciones para su STS. En este ejemplo, se omite el mensaje de Token de seguridad de solicitud (RST) y se devuelve una colección de notificaciones en función del usuario autenticado en el STS.  
   
  [!code-csharp[WIFCustomTokenSTS#6](~/samples/snippets/csharp/VS_Snippets_Misc/wifcustomtokensts/cs/passivests/customsecuritytokenservice.cs#6)]  
   
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Debe reemplazar este método en la implementación de la <see cref="T:System.IdentityModel.SecurityTokenService" /> clase.</para>
+          <para>Debe invalidar este método en la implementación de la <see cref="T:System.IdentityModel.SecurityTokenService" /> clase.</para>
         </block>
         <altmember cref="T:System.IdentityModel.Scope" />
         <altmember cref="M:System.IdentityModel.SecurityTokenService.Issue(System.Security.Claims.ClaimsPrincipal,System.IdentityModel.Protocols.WSTrust.RequestSecurityToken)" />
@@ -728,14 +731,17 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método se llama desde el valor predeterminado que se implementa de canalización de emisión de tokens en el <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método.  
+ Este método se llama desde el valor predeterminado la canalización de emisión de tokens se implementa en el <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método.  
   
- La implementación predeterminada devuelve un descriptor de prueba o inicia una excepción adecuada.  
+ La implementación predeterminada devuelve un descriptor de prueba o produce una excepción adecuada.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="request" /> es <see langword="null" />.  -o bien- <paramref name="scope" /> es <see langword="null" />.</exception>
+          <paramref name="request" /> es <see langword="null" />.  
+  
+O bien 
+ <paramref name="scope" /> es <see langword="null" />.</exception>
         <altmember cref="M:System.IdentityModel.SecurityTokenService.Issue(System.Security.Claims.ClaimsPrincipal,System.IdentityModel.Protocols.WSTrust.RequestSecurityToken)" />
       </Docs>
     </Member>
@@ -768,7 +774,7 @@
 ## Remarks  
  Este método se llama desde el <xref:System.IdentityModel.SecurityTokenService.GetProofToken%2A> método.  
   
- La implementación predeterminada no hace lo siguiente. Devuelve `null` si no hay ningún token de cifrado especificado en la solicitud (el <xref:System.IdentityModel.Protocols.WSTrust.RequestSecurityToken.ProofEncryption%2A?displayProperty=nameWithType> propiedad es `null`). En caso contrario, si puede obtener el token como un <xref:System.IdentityModel.Tokens.X509SecurityToken>, devuelve credenciales basadas en ese token. Si no se puede resolver el token como un <xref:System.IdentityModel.Tokens.X509SecurityToken>, un <xref:System.IdentityModel.RequestFailedException> se produce.  
+ La implementación predeterminada hace lo siguiente. Devuelve `null` si no hay ningún token de cifrado especificado en la solicitud (el <xref:System.IdentityModel.Protocols.WSTrust.RequestSecurityToken.ProofEncryption%2A?displayProperty=nameWithType> propiedad es `null`). En caso contrario, si puede obtener el token como un <xref:System.IdentityModel.Tokens.X509SecurityToken>, devuelve las credenciales según ese token. Si no se puede resolver el token como un <xref:System.IdentityModel.Tokens.X509SecurityToken>, un <xref:System.IdentityModel.RequestFailedException> se produce.  
   
  ]]></format>
         </remarks>
@@ -804,9 +810,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.IdentityModel.SecurityTokenService.GetResponse%2A> método se llama como el último paso de la canalización de emisión de tokens, que se implementa mediante el <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método. Crea y devuelve la respuesta (RSTR) mediante el uso de la solicitud de entrada original (RST) y el descriptor de token que creó en los pasos anteriores en la canalización de emisión de tokens.  
+ El <xref:System.IdentityModel.SecurityTokenService.GetResponse%2A> método se llama como último paso desde la canalización de emisión de tokens, que se implementa mediante el <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método. Crea y devuelve la respuesta (RSTR) mediante el uso de la solicitud entrante original (RST) y el descriptor de token que creó en los pasos anteriores en la canalización de emisión de tokens.  
   
- La implementación predeterminada crea el RSTR pasando el RST especificado en el parámetro de solicitud a la <xref:System.IdentityModel.Protocols.WSTrust.RequestSecurityTokenResponse.%23ctor%28System.IdentityModel.Protocols.WSTrust.WSTrustMessage%29?displayProperty=nameWithType> constructor, invocar el <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.ApplyTo%2A?displayProperty=nameWithType> método en el descriptor de token se pasa en <xref:System.IdentityModel.SecurityTokenService.GetResponse%2A> para aplicar sus propiedades para el recién crea RSTR, establecer el <xref:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.AppliesTo%2A> propiedad en el RSTR mediante el uso de la <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.AppliesToAddress%2A> propiedad en el descriptor del token y por último, estableciendo el <xref:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.ReplyTo%2A> propiedad en el RSTR según la tabla siguiente:  
+ La implementación predeterminada crea el RSTR al pasar el RST especificado en el parámetro de solicitud a la <xref:System.IdentityModel.Protocols.WSTrust.RequestSecurityTokenResponse.%23ctor%28System.IdentityModel.Protocols.WSTrust.WSTrustMessage%29?displayProperty=nameWithType> constructor, invocar el <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.ApplyTo%2A?displayProperty=nameWithType> pasó el método de descriptor de token <xref:System.IdentityModel.SecurityTokenService.GetResponse%2A> para aplicar sus propiedades para el recién crea RSTR, establecer el <xref:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.AppliesTo%2A> propiedad en el RSTR mediante el uso de la <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.AppliesToAddress%2A> propiedad en el descriptor de token y, por último, estableciendo el <xref:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.ReplyTo%2A> propiedad en el RSTR según la tabla siguiente:  
   
 |Propiedad `RST.ReplyTo`|Propiedad <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.AppliesToAddress%2A?displayProperty=nameWithType>.|Propiedad `RSTR.ReplyTo`|  
 |----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------|  
@@ -851,25 +857,25 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> método se llama desde la canalización de emisión de tokens después de la <xref:System.IdentityModel.SecurityTokenService.ValidateRequest%2A> método y debe devolver un <xref:System.IdentityModel.Scope> objeto configurado para la solicitud entrante. (La canalización de emisión de tokens se implementa en el <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método.) La <xref:System.IdentityModel.Scope> objeto encapsula información sobre el RP asociado a la solicitud de token de seguridad (RST). Esto incluye información acerca de las credenciales de firmas y cifradas que se usará con el punto de reunión y si desea cifrar todos los tokens emitidos y las claves simétricas de la respuesta o no. Algunas tareas habituales que se realizan en el <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> método son:  
+ El <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> se llama al método de la canalización de emisión de tokens después de la <xref:System.IdentityModel.SecurityTokenService.ValidateRequest%2A> método y debe devolver un <xref:System.IdentityModel.Scope> objeto configurado para la solicitud entrante. (La canalización de emisión de tokens se implementa en el <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método.) La <xref:System.IdentityModel.Scope> objeto encapsula información sobre el RP asociado con la solicitud de token de seguridad (RST). Esto incluye información acerca de las credenciales de firmas y cifradas que se usará con el RP y si se deben cifrar todos los tokens emitidos y las claves simétricas de la respuesta. Algunas tareas habituales realizadas en el <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> método son:  
   
--   Determinar si el punto de reunión para los que está dirigido el token es un RP reconocido. Cómo esto se lleva a cabo depende de su implementación. Si el RP previsto no es un punto de reunión válido para este STS, el método debe producir una <xref:System.IdentityModel.Protocols.WSTrust.InvalidRequestException>.  
+-   Determinar si el RP que va dirigido el token es un usuario de confianza reconocida. Cómo se consigue depende de su implementación. Si el RP previsto no es un usuario de confianza válido para este STS, entonces el método debe producir una <xref:System.IdentityModel.Protocols.WSTrust.InvalidRequestException>.  
   
--   Determinar la firma de credenciales que se utiliza en la respuesta (RSTR) y establece el <xref:System.IdentityModel.Scope.SigningCredentials%2A> propiedad según corresponda.  
+-   Determinar la firma de credenciales para usarse en la respuesta (RSTR) y establezca el <xref:System.IdentityModel.Scope.SigningCredentials%2A> propiedad según corresponda.  
   
--   Determinar si se deben cifrar la respuesta o cualquier incluye claves simétricas y las credenciales que se usará para el cifrado. Establecer el <xref:System.IdentityModel.Scope.TokenEncryptionRequired%2A>, <xref:System.IdentityModel.Scope.SymmetricKeyEncryptionRequired%2A>, y <xref:System.IdentityModel.Scope.EncryptingCredentials%2A> propiedades según corresponda.  
+-   Determinar si se deben cifrar la respuesta o las claves simétricas incluye y las credenciales que se usará para el cifrado. Establecer el <xref:System.IdentityModel.Scope.TokenEncryptionRequired%2A>, <xref:System.IdentityModel.Scope.SymmetricKeyEncryptionRequired%2A>, y <xref:System.IdentityModel.Scope.EncryptingCredentials%2A> propiedades según corresponda.  
   
     > [!IMPORTANT]
-    >  De forma predeterminada, el <xref:System.IdentityModel.Scope.TokenEncryptionRequired%2A> y <xref:System.IdentityModel.Scope.SymmetricKeyEncryptionRequired%2A> se establecen propiedades `true` para evitar que el STS de emisión de tokens que no son seguros. Se recomienda no establecer estas propiedades en `false` en un entorno de producción.  
+    >  De forma predeterminada, el <xref:System.IdentityModel.Scope.TokenEncryptionRequired%2A> y <xref:System.IdentityModel.Scope.SymmetricKeyEncryptionRequired%2A> se establecen propiedades `true` para evitar que el STS de emisión de tokens que no son seguros. Se recomienda que nunca se establecer estas propiedades en `false` en un entorno de producción.  
   
--   Determinar la dirección para el que se debe devolver la respuesta. Establece el <xref:System.IdentityModel.Scope.AppliesToAddress%2A> o <xref:System.IdentityModel.Scope.ReplyToAddress%2A> propiedad según corresponda.  
+-   Determinar la dirección a la que se debe devolver la respuesta. Establecer el <xref:System.IdentityModel.Scope.AppliesToAddress%2A> o <xref:System.IdentityModel.Scope.ReplyToAddress%2A> propiedad según corresponda.  
   
    
   
 ## Examples  
- El ejemplo de código que se utiliza en este tema se realiza desde la `Custom Token` ejemplo. Este ejemplo proporciona las clases personalizadas que permitan realizar el procesamiento de Simple Web Tokens (SWT) e incluye una implementación de un STS pasivo que es capaz de ofrecer servicio a un token SWT. Para obtener un ejemplo de cómo implementar un STS activo, puede ver el `Federation Metadata` ejemplo. Para obtener información acerca de estos ejemplos y otros ejemplos disponibles para WIF y sobre dónde descargarlos, consulte [índice de ejemplo de código WIF](~/docs/framework/security/wif-code-sample-index.md).  
+ El ejemplo de código que se usa en este tema se toma de la `Custom Token` ejemplo. Este ejemplo proporciona las clases personalizadas que permiten el procesamiento de Simple Web Tokens (SWT) e incluye una implementación de un STS pasivo que es capaz de atender un token de SWT. Para obtener un ejemplo de cómo implementar un STS activo, puede ver el `Federation Metadata` ejemplo. Para obtener información acerca de estos ejemplos y otros ejemplos disponibles para WIF y dónde descargarlas, consulte [índice de ejemplo de código WIF](~/docs/framework/security/wif-code-sample-index.md).  
   
- En el siguiente ejemplo de código se muestra la implementación del método <xref:System.IdentityModel.SecurityTokenService.GetScope%2A>. Esta implementación comprueba que el punto de reunión se reconoce por el STS, valida el <xref:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.ReplyTo%2A> dirección en la solicitud y establece el <xref:System.IdentityModel.Scope.ReplyToAddress%2A?displayProperty=nameWithType> propiedad según corresponda, y conjuntos de la firma y cifrado de credenciales para usar con RP basados en certificados que están codificados de forma rígida en el archivo.  
+ En el siguiente ejemplo de código se muestra la implementación del método <xref:System.IdentityModel.SecurityTokenService.GetScope%2A>. Esta implementación comprueba que el RP se reconoce el STS, valida el <xref:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.ReplyTo%2A> dirección en la solicitud y establece el <xref:System.IdentityModel.Scope.ReplyToAddress%2A?displayProperty=nameWithType> propiedad según corresponda, y los conjuntos de la firma y cifrado de credenciales para usar con el punto de reunión basadas en certificados que están codificados de forma rígida en el archivo.  
   
  [!code-csharp[WIFCustomTokenSTS#4](~/samples/snippets/csharp/VS_Snippets_Misc/wifcustomtokensts/cs/passivests/customsecuritytokenservice.cs#4)]  
 [!code-csharp[WIFCustomTokenSTS#5](~/samples/snippets/csharp/VS_Snippets_Misc/wifcustomtokensts/cs/passivests/customsecuritytokenservice.cs#5)]  
@@ -878,7 +884,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Debe reemplazar este método en la implementación de la <see cref="T:System.IdentityModel.SecurityTokenService" /> clase.</para>
+          <para>Debe invalidar este método en la implementación de la <see cref="T:System.IdentityModel.SecurityTokenService" /> clase.</para>
         </block>
         <altmember cref="T:System.IdentityModel.Scope" />
         <altmember cref="M:System.IdentityModel.SecurityTokenService.Issue(System.Security.Claims.ClaimsPrincipal,System.IdentityModel.Protocols.WSTrust.RequestSecurityToken)" />
@@ -911,9 +917,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- En la implementación predeterminada si `requestedTokenType` es `null` o una cadena vacía, el valor predeterminado se utiliza el tipo de token de configuración. Esto se especifica mediante la <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultTokenType%2A> propiedad del objeto de configuración de STS tiene acceso a través del <xref:System.IdentityModel.SecurityTokenService.SecurityTokenServiceConfiguration%2A> propiedad.  
+ En la implementación predeterminada si `requestedTokenType` es `null` o una cadena vacía, el valor predeterminado se usa el tipo de token de configuración. Esto se especifica mediante el <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultTokenType%2A> propiedad del objeto de configuración de STS tiene acceso a través del <xref:System.IdentityModel.SecurityTokenService.SecurityTokenServiceConfiguration%2A> propiedad.  
   
- Este método se llama desde el valor predeterminado que se implementa de canalización de emisión de tokens en el <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método.  
+ Este método se llama desde el valor predeterminado la canalización de emisión de tokens se implementa en el <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método.  
   
  ]]></format>
         </remarks>
@@ -947,16 +953,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Normalmente se llama a este método con la duración que han llegado en el RST. En la implementación predeterminada, la duración del token se calcula según la tabla siguiente.  
+ Normalmente se llama a este método con la duración que llegaron en el RST. En la implementación predeterminada, la duración del token se calcula según la tabla siguiente.  
   
-|Crear (de entrada)|Expira (de entrada)|Crear (de entrada)|Expira (out)|  
+|Creado (en)|Expira (in)|Creado (en)|Expira (out)|  
 |--------------------|--------------------|--------------------|---------------------|  
 |`null`|`null`|<xref:System.DateTime.UtcNow%2A?displayProperty=nameWithType>|<xref:System.DateTime.UtcNow%2A?displayProperty=nameWithType> + <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultTokenLifetime%2A?displayProperty=nameWithType>|  
 |C|`null`|C|C + <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultTokenLifetime%2A?displayProperty=nameWithType>|  
 |`null`|E|<xref:System.DateTime.UtcNow%2A?displayProperty=nameWithType>|E|  
 |C|E|C|E|  
   
- Este método se llama desde el valor predeterminado que se implementa de canalización de emisión de tokens en el <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método.  
+ Este método se llama desde el valor predeterminado la canalización de emisión de tokens se implementa en el <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método.  
   
  ]]></format>
         </remarks>
@@ -994,27 +1000,27 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método implementa el enlace de problema definido en la especificación de WS-Trust. La implementación predeterminada de la <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método procesa la solicitud entrante (RST) a través de una canalización de emisión de tokens (emisión de notificaciones) y devuelve una respuesta (RSTR) que contiene un token de seguridad con las notificaciones adecuadas para autenticar el solicitante con el punto de reunión o una excepción adecuada. La canalización de emisión de tokens en la implementación predeterminada consta de las llamadas a los métodos siguientes (de la <xref:System.IdentityModel.SecurityTokenService> clase).  
+ Este método implementa el enlace Issue definido en la especificación WS-Trust. La implementación predeterminada de la <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método procesa la solicitud entrante (RST) a través de una canalización de emisión de token (emisión de notificaciones) y devuelve una respuesta (RSTR) que contiene un token de seguridad con las notificaciones adecuadas para autenticar el solicitante con el punto de reunión o una excepción adecuada. La canalización de emisión de tokens en la implementación predeterminada consta de las llamadas a los métodos siguientes (de la <xref:System.IdentityModel.SecurityTokenService> clase).  
   
 1.  El <xref:System.IdentityModel.SecurityTokenService.ValidateRequest%2A> método para validar la solicitud (RST).  
   
-2.  El <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> método para obtener un <xref:System.IdentityModel.Scope> objeto que contiene información sobre el usuario de confianza (RP) asociado a la solicitud. Debe reemplazar este método. Si <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> devuelve `null`, un <xref:System.InvalidOperationException> se produce.  
+2.  El <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> método para obtener un <xref:System.IdentityModel.Scope> objeto que contiene información sobre el usuario de confianza (RP) asociado a la solicitud. Debe invalidar este método. Si <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> devuelve `null`, un <xref:System.InvalidOperationException> se produce.  
   
-3.  El <xref:System.IdentityModel.SecurityTokenService.CreateSecurityTokenDescriptor%2A> método para devolver un descriptor de token de seguridad basada en el RST y <xref:System.IdentityModel.Scope> objeto devuelto en el paso anterior. El descriptor de token de seguridad (<xref:System.IdentityModel.Tokens.SecurityTokenDescriptor>) contiene información sobre la solicitud en un formulario que puede usarse en un controlador de token. El <xref:System.IdentityModel.SecurityTokenService.SecurityTokenDescriptor%2A?displayProperty=nameWithType> propiedad está establecida en el descriptor de devuelto por la llamada. Si `null` se devuelve o si la <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.SigningCredentials%2A> es propiedad del descriptor `null`, un <xref:System.InvalidOperationException> se produce. La excepción también se produce si el <xref:System.IdentityModel.Scope.TokenEncryptionRequired%2A?displayProperty=nameWithType> propiedad es `true` pero la <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.EncryptingCredentials%2A> la propiedad en el descriptor de devuelta es `null`.  
+3.  El <xref:System.IdentityModel.SecurityTokenService.CreateSecurityTokenDescriptor%2A> método para devolver un descriptor de token de seguridad basada en el RST y <xref:System.IdentityModel.Scope> devuelve el objeto en el paso anterior. El descriptor de token de seguridad (<xref:System.IdentityModel.Tokens.SecurityTokenDescriptor>) contiene información sobre la solicitud en un formulario que puede usarse en un controlador de token. El <xref:System.IdentityModel.SecurityTokenService.SecurityTokenDescriptor%2A?displayProperty=nameWithType> propiedad está establecida en el descriptor de devuelto por la llamada. Si `null` se devuelve o si el <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.SigningCredentials%2A> es propiedad del descriptor `null`, un <xref:System.InvalidOperationException> se produce. La excepción también se produce si el <xref:System.IdentityModel.Scope.TokenEncryptionRequired%2A?displayProperty=nameWithType> propiedad es `true` pero la <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.EncryptingCredentials%2A> propiedad en el descriptor devuelto es `null`.  
   
 4.  El <xref:System.IdentityModel.SecurityTokenService.GetSecurityTokenHandler%2A> método para obtener el controlador de token adecuado en función del tipo de token solicitado. Si `null` se devuelve, un <xref:System.NotImplementedException> se produce.  
   
-5.  El <xref:System.IdentityModel.SecurityTokenService.GetIssuerName%2A> método para obtener el nombre del emisor del token. Produce una <xref:System.InvalidOperationException> si el nombre es `null` o vacía; en caso contrario, Establece el <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.TokenIssuerName%2A> el descriptor de propiedad.  
+5.  El <xref:System.IdentityModel.SecurityTokenService.GetIssuerName%2A> método para obtener el nombre del emisor del token. Produce una <xref:System.InvalidOperationException> si el nombre es `null` o está vacío; en caso contrario, Establece el <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.TokenIssuerName%2A> el descriptor de propiedad.  
   
 6.  El <xref:System.IdentityModel.SecurityTokenService.GetTokenLifetime%2A> método para obtener la duración para el símbolo (token) y establece el <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Lifetime%2A> el descriptor de propiedad.  
   
-7.  El <xref:System.IdentityModel.SecurityTokenService.GetProofToken%2A> método para obtener el token de prueba para incluir en el token emitido y establece el <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Proof%2A> el descriptor de propiedad.  
+7.  El <xref:System.IdentityModel.SecurityTokenService.GetProofToken%2A> método para obtener el token de prueba debe incluir en el token emitido y establece el <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Proof%2A> el descriptor de propiedad.  
   
-8.  El <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> método para obtener las notificaciones que se incluirán en el token emitido y establece el <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Subject%2A> el descriptor de propiedad. Debe reemplazar este método.  
+8.  El <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> método para obtener las notificaciones que se va a incluir en el token emitido y establece el <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Subject%2A> el descriptor de propiedad. Debe invalidar este método.  
   
 9. El <xref:System.IdentityModel.SecurityTokenService.GetResponse%2A> método para crear una respuesta (RSTR) que contiene el token emitido.  
   
- Puede invalidar la <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método para implementar una canalización de emisión de tokens personalizado; sin embargo esto normalmente no es necesario en los entornos de desarrollo y pruebas para las implementaciones más personalizadas de la <xref:System.IdentityModel.SecurityTokenService> clase pretenden. En muchos de estos casos invalida la <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> y <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> métodos y, opcionalmente, invalide el <xref:System.IdentityModel.SecurityTokenService.ValidateRequest%2A> método para proporcionar un STS reparables por para su entorno. Si aún más la personalización se necesita a menudo puede proporcionar invalidando los métodos que implementan cada fase de la predeterminada de canalización de emisión de tokens enumerada anteriormente.  
+ Puede invalidar el <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método para implementar una canalización de emisión de tokens personalizado; sin embargo esto normalmente no es necesario en los entornos de desarrollo y pruebas para las implementaciones más personalizadas de la <xref:System.IdentityModel.SecurityTokenService> pretenden clase. En muchos de estos casos es reemplazar el <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> y <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> métodos y, opcionalmente, invalide el <xref:System.IdentityModel.SecurityTokenService.ValidateRequest%2A> método para proporcionar un STS reparables por el entorno. Si aún más la personalización es necesaria a menudo puede proporcionar invalidando los métodos que implementan cada fase de la predeterminada de canalización de emisión de tokens enumerado anteriormente.  
   
  ]]></format>
         </remarks>
@@ -1227,14 +1233,23 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.IdentityModel.SecurityTokenService.ValidateRequest%2A> método se llama desde la canalización de emisión de tokens (el <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método) para validar el RST entrante. El RST se valida con respecto a los requisitos (directiva) del STS y se produce una excepción adecuada si no es válido.  
+ El <xref:System.IdentityModel.SecurityTokenService.ValidateRequest%2A> se llama al método de la canalización de emisión de tokens (el <xref:System.IdentityModel.SecurityTokenService.Issue%2A> método) para validar el RST entrante. El RST se valida comparándola con los requisitos (directiva) de STS y se produce una excepción adecuada si no es válido.  
   
- La implementación predeterminada de la <xref:System.IdentityModel.SecurityTokenService> clase admite el patrón de RST RSTR y solo el enlace de problema de la especificación de WS-Trust (la <xref:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.RequestType%2A> propiedad de la solicitud debe establecerse en <xref:System.IdentityModel.Protocols.WSTrust.RequestTypes.Issue?displayProperty=nameWithType>). La implementación predeterminada de este método aplica estos requisitos (y otros usuarios incluidos en la sección de excepciones). Puede invalidar este método si se deben aplicar requisitos de validación diferente para tu STS personalizados.  
+ La implementación predeterminada de la <xref:System.IdentityModel.SecurityTokenService> clase admite solo el patrón de RST y RSTR y solo el enlace Issue de la especificación WS-Trust (el <xref:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.RequestType%2A> debe establecerse la propiedad de la solicitud <xref:System.IdentityModel.Protocols.WSTrust.RequestTypes.Issue?displayProperty=nameWithType>). La implementación predeterminada de este método aplica estos requisitos (y otros se indican en la sección excepciones). Puede invalidar este método si se deben aplicar los requisitos de validación diferente para el STS personalizado.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.IdentityModel.Protocols.WSTrust.InvalidRequestException">
-          <paramref name="request" /> es <see langword="null" />.  -o bien- La propiedad <see cref="P:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.RequestType" /> de la solicitud no está establecida en <see cref="F:System.IdentityModel.Protocols.WSTrust.RequestTypes.Issue" />.  -o bien- La propiedad <see cref="P:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.KeyType" /> de la solicitud no es <see langword="null" /> o una de las constantes definidas en la clase <see cref="T:System.IdentityModel.Protocols.WSTrust.KeyTypes" />.  -o bien- El <see cref="P:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.KeyType" /> de la solicitud es <see cref="F:System.IdentityModel.Protocols.WSTrust.KeyTypes.Bearer" /> y el elemento <see langword="KeySize" /> está presente, pero su valor no es igual a cero.</exception>
+          <paramref name="request" /> es <see langword="null" />.  
+  
+O bien 
+La propiedad <see cref="P:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.RequestType" /> de la solicitud no está establecida en <see cref="F:System.IdentityModel.Protocols.WSTrust.RequestTypes.Issue" />.  
+  
+O bien 
+La propiedad <see cref="P:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.KeyType" /> de la solicitud no es <see langword="null" /> o una de las constantes definidas en la clase <see cref="T:System.IdentityModel.Protocols.WSTrust.KeyTypes" />.  
+  
+O bien 
+El <see cref="P:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.KeyType" /> de la solicitud es <see cref="F:System.IdentityModel.Protocols.WSTrust.KeyTypes.Bearer" /> y el elemento <see langword="KeySize" /> está presente, pero su valor no es igual a cero.</exception>
         <exception cref="T:System.IdentityModel.UnsupportedTokenTypeBadRequestException">El STS no admite el tipo de token de solicitud (según el valor de la propiedad <see cref="P:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.TokenType" /> de la solicitud).</exception>
         <altmember cref="M:System.IdentityModel.SecurityTokenService.Issue(System.Security.Claims.ClaimsPrincipal,System.IdentityModel.Protocols.WSTrust.RequestSecurityToken)" />
       </Docs>

@@ -1,10 +1,10 @@
 <Type Name="PeekCompletedEventArgs" FullName="System.Messaging.PeekCompletedEventArgs">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="5e93e78784f2c1cdb403ada064dd3d53cfe13cfa" />
-    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="37646775" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class PeekCompletedEventArgs : EventArgs" />
@@ -29,16 +29,16 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cuando se usa notificación de eventos a los mensajes de peek (lectura sin quitar) asincrónicamente desde la cola, debe crear un método que controla el procesamiento del mensaje. El código debe llamar a <xref:System.Messaging.MessageQueue.BeginPeek%2A> para comenzar el procesamiento asincrónico. Cuando se obtiene un mensaje, se notifica a la aplicación a través de la <xref:System.Messaging.MessageQueue.PeekCompleted> eventos. Una instancia de <xref:System.Messaging.PeekCompletedEventArgs> se pasa al delegado de eventos que llama al controlador de eventos. Los datos asociados con el <xref:System.Messaging.MessageQueue.PeekCompleted> eventos se encuentra en el delegado <xref:System.Messaging.ReceiveCompletedEventArgs.AsyncResult%2A> parámetro.  
+ Cuando utiliza notificación de eventos para mensajes peek (leerlos sin quitarlos) asincrónicamente en la cola, debe crear un método que controla el procesamiento del mensaje. El código debe llamar a <xref:System.Messaging.MessageQueue.BeginPeek%2A> para comenzar el procesamiento asincrónico. Cuando se lee un mensaje, se envía notificación a la aplicación a través de la <xref:System.Messaging.MessageQueue.PeekCompleted> evento. Una instancia de <xref:System.Messaging.PeekCompletedEventArgs> se pasa al delegado de eventos que llama al controlador de eventos. Los datos asociados con el <xref:System.Messaging.MessageQueue.PeekCompleted> evento está contenido en el delegado <xref:System.Messaging.ReceiveCompletedEventArgs.AsyncResult%2A> parámetro.  
   
- Hay dos maneras de proporcionar una notificación de finalización del evento: notificación de eventos y devoluciones de llamada. <xref:System.Messaging.PeekCompletedEventArgs> solo se usa con notificación de eventos. Para obtener información de comparación de las devoluciones de llamada y notificación de eventos, vea "comparación de eventos. Devoluciones de llamada"en MSDN.  
+ Hay dos formas de proporcionar notificaciones de finalización de eventos: notificación de eventos y devoluciones de llamada. <xref:System.Messaging.PeekCompletedEventArgs> se utiliza sólo con la notificación de eventos. Para obtener información comparativa sobre las devoluciones de llamada y la notificación de eventos, vea "Events vs. Devoluciones de llamada"en MSDN.  
   
- <xref:System.Messaging.PeekCompletedEventArgs> proporciona acceso al mensaje que inició la finalización de la operación de búsqueda peek asincrónica a través de la <xref:System.Messaging.PeekCompletedEventArgs.Message%2A> miembro. Esto es una alternativa de acceso al mensaje y se comporta igual que una llamada a <xref:System.Messaging.MessageQueue.EndPeek%2A?displayProperty=nameWithType>.  
+ <xref:System.Messaging.PeekCompletedEventArgs> proporciona acceso al mensaje que inició la finalización de la operación de búsqueda peek asincrónica, a través de los <xref:System.Messaging.PeekCompletedEventArgs.Message%2A> miembros. Esto es una alternativa de acceso al mensaje y se comporta prácticamente de la misma como una llamada a <xref:System.Messaging.MessageQueue.EndPeek%2A?displayProperty=nameWithType>.  
   
    
   
 ## Examples  
- En el ejemplo de código siguiente se crea un controlador de eventos para el <xref:System.Messaging.MessageQueue.PeekCompleted> eventos y asocia el evento delegado utilizando el <xref:System.Messaging.PeekCompletedEventHandler>. El controlador de eventos, `MyPeekCompleted`, inspecciona un mensaje y escribe su etiqueta en la pantalla.  
+ En el ejemplo de código siguiente se crea un controlador de eventos para el <xref:System.Messaging.MessageQueue.PeekCompleted> evento y asocia el evento delegado utilizando el <xref:System.Messaging.PeekCompletedEventHandler>. El controlador de eventos `MyPeekCompleted`, lee un mensaje y escribe su etiqueta en la pantalla.  
   
  [!code-cpp[MessageQueue.BeginPeek_noparms#1](~/samples/snippets/cpp/VS_Snippets_Remoting/MessageQueue.BeginPeek_noparms/CPP/mqbeginpeek_noparms.cpp#1)]
  [!code-csharp[MessageQueue.BeginPeek_noparms#1](~/samples/snippets/csharp/VS_Snippets_Remoting/MessageQueue.BeginPeek_noparms/CS/mqbeginpeek_noparms.cs#1)]
@@ -78,9 +78,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Messaging.PeekCompletedEventArgs.AsyncResult%2A> identifica las operaciones asincrónicas en curso o finalizadas. La propiedad contiene datos que ayudan a determinar cuál de varias posibles operaciones asincrónicas en completarse, y cuando se pasa al controlador de eventos, permite <xref:System.Messaging.MessageQueue.EndPeek%2A> para tener acceso al mensaje asociado a la operación completada.  
+ <xref:System.Messaging.PeekCompletedEventArgs.AsyncResult%2A> identifica las operaciones asincrónicas completadas o en curso. La propiedad contiene datos que ayudan a determinar cuál de varias posibles operaciones asincrónicas para completar, y cuando se pasa al controlador de eventos, permite <xref:System.Messaging.MessageQueue.EndPeek%2A> para tener acceso al mensaje asociado a la operación completada.  
   
- Cuando se llama a <xref:System.Messaging.MessageQueue.BeginPeek%2A>, un <xref:System.IAsyncResult> se devuelve inmediatamente, aunque un mensaje, si existe, no ha recuperado porque no se complete la operación. El <xref:System.Messaging.PeekCompletedEventArgs.AsyncResult%2A> indica el estado de la operación asincrónica. <xref:System.Messaging.MessageQueue.BeginPeek%2A> crea el objeto, que se modifica durante la operación hasta que <xref:System.Messaging.MessageQueue.EndPeek%2A> la completa.  
+ Cuando se llama a <xref:System.Messaging.MessageQueue.BeginPeek%2A>, un <xref:System.IAsyncResult> se devuelve inmediatamente, incluso aunque un mensaje, si existe alguno, ha no se ha recuperado porque la operación no se completa. La <xref:System.Messaging.PeekCompletedEventArgs.AsyncResult%2A> indica el estado de la operación asincrónica. <xref:System.Messaging.MessageQueue.BeginPeek%2A> crea el objeto, que se modifica en el transcurso de la operación hasta <xref:System.Messaging.MessageQueue.EndPeek%2A> completa.  
   
  ]]></format>
         </remarks>
@@ -114,9 +114,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.Messaging.PeekCompletedEventArgs.Message%2A> propiedad proporciona un medio para recuperar el mensaje que inició la finalización de la operación de búsqueda peek asincrónica.  
+ El <xref:System.Messaging.PeekCompletedEventArgs.Message%2A> propiedad proporciona una forma de recuperar el mensaje que inició la finalización de la operación de búsqueda peek asincrónica.  
   
- <xref:System.Messaging.MessageQueue.EndPeek%2A?displayProperty=nameWithType> se llama a la primera vez el <xref:System.Messaging.PeekCompletedEventArgs.Message%2A> propiedad es de lectura, por lo que no es necesario llamar a <xref:System.Messaging.MessageQueue.EndPeek%2A> antes de obtener el valor de esta propiedad.  
+ <xref:System.Messaging.MessageQueue.EndPeek%2A?displayProperty=nameWithType> se llama la primera vez que la <xref:System.Messaging.PeekCompletedEventArgs.Message%2A> propiedad es de lectura, por lo que no es necesario llamar a <xref:System.Messaging.MessageQueue.EndPeek%2A> antes de obtener el valor de esta propiedad.  
   
  ]]></format>
         </remarks>
