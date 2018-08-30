@@ -1,11 +1,11 @@
 <Type Name="CultureInfo" FullName="System.Globalization.CultureInfo">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="9e00ffe6223da97fd3677a3865b90c930932a526" />
-    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
+    <Meta Name="ms.openlocfilehash" Value="f41d34a76ee6091d59feeb2c0f8c972e70435c99" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
-    <Meta Name="ms.locfileid" Value="37656525" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39726348" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class CultureInfo : ICloneable, IFormatProvider" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi serializable beforefieldinit CultureInfo extends System.Object implements class System.ICloneable, class System.IFormatProvider" />
@@ -46,7 +46,7 @@
     </Interface>
   </Interfaces>
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
       <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
     </Attribute>
   </Attributes>
@@ -141,30 +141,30 @@
   
 -   Las referencias culturales personalizadas pueden tener valores que superen los intervalos de las referencias culturales predefinidos. Por ejemplo, algunas referencias culturales tienen nombres de mes largos, fecha inesperado o formatos de hora u otros datos inusuales.  
   
--   En aplicaciones UWP, la referencia cultural actual se asigna a la Windows.ApplicationModel.Resources.Core.ResourceManager.DefaultContext.Languages colección, que es una configuración global.  
+-   Cuando muestra datos específicos de la referencia cultural en la interfaz de usuario, debe respetar las personalizaciones del usuario; Por ejemplo, el usuario podría desear un reloj de 24 horas o un formato de fecha AAAAMMDD.  
   
--   Establecer el  o  propiedad cambia la referencia cultural de la aplicación completa; no se puede establecer la referencia cultural en una base por subproceso. El ejemplo siguiente muestra cómo crear un  objeto para el idioma de español (España) con la ordenación internacional y otro  objeto con la ordenación tradicional. Identificadores de referencias culturales predefinidos se incluyen en el referencia de National Language Support (NLS) API en el centro de desarrolladores Go Global. En la mayoría de los casos, el  parámetro se asigna a la correspondiente identificador de configuración regional de National Language Support (NLS).  
+-   Recuerde que las referencias culturales personalizadas invalidan los valores de forma predeterminada. Por tanto, no se puede considerar los datos de referencia cultural que sean estables. Nombres de los países, formatos de número y fecha y ortografías pueden cambiar en el futuro. Si desea serializar los datos de la referencia cultural como cadenas de fecha y hora en que se pasarán a la fecha y hora de funciones de análisis, debe usar la referencia cultural invariable o una específica.  
   
- El valor de la <xref:System.Globalization.CultureInfo.CultureTypes%2A> parámetro se convierte en el valor de la <xref:System.Globalization.CultureTypes?displayProperty=nameWithType> propiedad del nuevo <xref:System.Globalization.CultureInfo.LCID%2A>. Se recomienda que llame al constructor de la configuración regional , porque los nombres de configuración regional son preferibles a los LCID.  
+ El <xref:System.Globalization.CultureInfo.CultureTypes%2A> incluye el valor de propiedad de las referencias culturales personalizadas instalado en un sistema el <xref:System.Globalization.CultureTypes?displayProperty=nameWithType> marca y las referencias culturales personalizadas se asignan una <xref:System.Globalization.CultureInfo.LCID%2A> el valor de propiedad `LOCALE_CUSTOM_UNSPECIFIED` (0 x 1000 o 4096). Tenga en cuenta que, a partir de Windows 10, este valor también está asignado a referencias culturales definidas por el sistema que no tienen datos de referencia culturales completo.  
   
 <a name="Dynamic"></a>   
 ## <a name="dynamic-culture-data"></a>Datos de referencia cultural dinámico  
- Para las configuraciones regionales personalizadas, se requiere un nombre de la configuración regional. Si el identificador de referencia cultural especificada coincide con el identificador de referencia cultural de la referencia cultural actual de Windows, este constructor crea un  que utiliza las nuevas, incluida la configuración de usuario para las propiedades de la  instancia devuelta por la  propiedad y las propiedades de la  instancia devuelta por la  propiedad. Si la configuración de usuario no es compatible con la referencia cultural asociada con el  (por ejemplo, si el calendario seleccionado no es uno de los ) los resultados de los métodos y los valores de las propiedades no están definidos.  Si el identificador de referencia cultural especificada no coincide con el identificador de la referencia cultural actual de Windows, este constructor crea un  que usa los valores predeterminados para la referencia cultural especificada. El  propiedad siempre está establecida en . Por ejemplo, suponga que árabe (Arabia Saudí) es la referencia cultural actual de Windows y el usuario ha cambiado el calendario en Hijri a gregoriano.  
+ Excepto la referencia cultural, los datos de referencia cultural están dinámicos. Esto es verdad incluso para las referencias culturales predefinidas. Por ejemplo, los países o regiones adoptan nuevas monedas, cambian la ortografía de sus palabras o cambiar su calendario preferido y cambiarán las definiciones de la referencia cultural para realizar un seguimiento de esto.  Las referencias culturales personalizadas están sujetos a cambios sin previo aviso y cualquier referencia cultural específica puede ser reemplazada por una referencia cultural personalizada. Además, como se describe a continuación, un usuario individual puede invalidar las preferencias culturales. Las aplicaciones siempre deben obtener los datos de referencia cultural en tiempo de ejecución.  
   
 > [!CAUTION]
->  Con  (referencia cultural ar-SA de nombre),  está establecido en  (que es la configuración de usuario) y  está establecido en . Con  (referencia cultural nombre th-TH),  está establecido en  (que es el calendario predeterminado para th-TH) y  está establecido en .  
+>  Al guardar los datos, la aplicación debe usar la referencia cultural invariable, un formato binario o un formato independiente de la referencia cultural específico. Datos guardados según los valores actuales asociados con una referencia cultural determinada, que no sea la referencia cultural invariable, es posible que no sea legible o podrían cambiar en significado si esa referencia cultural cambia.  
   
 <a name="Current"></a>   
 ## <a name="the-current-culture-and-current-ui-culture"></a>La referencia cultural actual y la referencia cultural de interfaz de usuario actual  
- Las referencias culturales que utilizan el euro, .NET Framework y Windows XP establecen la moneda predeterminada euro como. Sin embargo, las versiones anteriores de Windows no lo hacen. Por lo tanto, si el usuario de una versión anterior de Windows no ha cambiado el valor de moneda a través de la parte de opciones de configuración regional y de idioma del Panel de Control, la moneda podría ser incorrecta.  
+ Todos los subprocesos en una aplicación de .NET Framework tienen una referencia cultural actual y una referencia cultural de interfaz de usuario actual. La referencia cultural determina las convenciones de formato de fechas, horas, números y los valores de moneda, el criterio de ordenación de texto, las convenciones de mayúsculas y minúsculas y las maneras en que se comparan cadenas. La referencia cultural de interfaz de usuario actual se usa para recuperar recursos específicos de referencias culturales en tiempo de ejecución.  
   
 > [!NOTE]
->  Para usar la configuración predeterminada de .NET Framework para la moneda, la aplicación debe utilizar un [ sobrecarga del constructor que acepta un ](#Threads) parámetro y establézcalo en . Para hacia atrás compatibilidad, una referencia cultural que se construye utilizando un [ parámetro de 0 x 0004 o 0x7c04 tendrá un ](#AppDomain) propiedad de zh-CHS o zh-CHT, respectivamente. En su lugar, es preferible construir la referencia cultural mediante los nombres de referencia cultural estándar actual de zh-Hans o zh-Hant, a menos que tenga una razón para usar los nombres antiguos.  
+>  Para obtener información sobre cómo se determina la referencia cultural de interfaz de usuario actual y actual por subproceso, vea el [referencia cultural y los subprocesos](#Threads) sección. Para obtener información sobre cómo se determina la referencia cultural de interfaz de usuario actual y actual de subprocesos en ejecución en un nuevo dominio de aplicación y en los subprocesos que cruzan los límites del dominio de aplicación, vea el [referencia cultural y los dominios de aplicación](#AppDomain) sección. Para obtener información sobre cómo se determina el actual y actual de subprocesos que realizan operaciones asincrónicas basadas en tareas, consulte el [referencia cultural y operaciones asincrónicas basadas en tareas](#Async) sección.  
   
- no es un identificador de referencia cultural válido. El [! INCLUDE[net_v35_long](~/includes/NET-v35-Long-MD.MD)] y versiones anteriores a producir un  si  no es un identificador de referencia cultural válido.  
+ Para obtener más información sobre la referencia cultural actual, consulte el <xref:System.Globalization.CultureInfo.CurrentCulture%2A?displayProperty=nameWithType> tema de la propiedad. Para obtener más información sobre la referencia cultural de interfaz de usuario actual, consulte el <xref:System.Globalization.CultureInfo.CurrentUICulture%2A?displayProperty=nameWithType> tema de la propiedad.  
   
-### <a name="retrieving-the-current-and-current-ui-cultures"></a>A partir de la [! INCLUDE[net_v40_long](~/includes/NET-V40-Long-MD.MD)], el constructor produce una .  
- A partir de las aplicaciones que se ejecutan en el [! INCLUDE[net_v40_long](~/includes/NET-V40-Long-MD.MD)] o posterior en Windows 7 o versiones posteriores, el método intenta recuperar un  objeto cuyo identificador es  desde el sistema operativo; si el sistema operativo no admite esa referencia cultural , el método produce una  excepción.  
+### <a name="retrieving-the-current-and-current-ui-cultures"></a>Recuperando las referencias culturales de interfaz de usuario actuales y actuales  
+ Puede obtener un <xref:System.Globalization.CultureInfo> objeto que representa la referencia cultural actual de dos maneras:  
   
 -   Recuperando el valor de la <xref:System.Globalization.CultureInfo.CurrentCulture%2A?displayProperty=nameWithType> propiedad.  
   
@@ -414,7 +414,7 @@ En las aplicaciones de .NET Framework y .NET Core, la referencia cultural actual
         <exception cref="T:System.Globalization.CultureNotFoundException">
           <paramref name="culture" /> no es un identificador de referencia cultural válido. Vea la sección Notas para los llamadores para obtener más información.</exception>
         <block subset="none" type="usage">
-          <para>El [! INCLUDE[net_v35_long](~/includes/NET-v35-Long-MD.MD)] y versiones anteriores a producir un <see cref="T:System.ArgumentException" /> si <paramref name="culture" /> no es un identificador de referencia cultural válido. A partir de la [! INCLUDE[net_v40_long](~/includes/NET-V40-Long-MD.MD)], el constructor produce una <see cref="T:System.Globalization.CultureNotFoundException" />. A partir de las aplicaciones que se ejecutan en el [! INCLUDE[net_v40_long](~/includes/NET-V40-Long-MD.MD)] o posterior en Windows 7 o versiones posteriores, el método intenta recuperar un <see cref="T:System.Globalization.CultureInfo" /> objeto cuyo identificador es <paramref name="culture" /> desde el sistema operativo; si el sistema operativo no admite esa referencia cultural , el método produce una <see cref="T:System.Globalization.CultureNotFoundException" /> excepción.</para>
+          <para>El [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] y versiones anteriores a producir un <see cref="T:System.ArgumentException" /> si <paramref name="culture" /> no es un identificador de referencia cultural válido. A partir de la [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], el constructor produce una <see cref="T:System.Globalization.CultureNotFoundException" />. A partir de las aplicaciones que se ejecutan en el [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] o posterior en Windows 7 o versiones posteriores, el método intenta recuperar un <see cref="T:System.Globalization.CultureInfo" /> objeto cuyo identificador es <paramref name="culture" /> desde el sistema operativo; si el sistema operativo no admite esa referencia cultural, el método produce una <see cref="T:System.Globalization.CultureNotFoundException" /> excepción.</para>
         </block>
         <altmember cref="P:System.Globalization.CultureInfo.LCID" />
         <altmember cref="P:System.Globalization.CultureInfo.UseUserOverride" />
@@ -449,6 +449,14 @@ En las aplicaciones de .NET Framework y .NET Core, la referencia cultural actual
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="name" Type="System.String" />
       </Parameters>
@@ -494,7 +502,7 @@ En las aplicaciones de .NET Framework y .NET Core, la referencia cultural actual
         <exception cref="T:System.Globalization.CultureNotFoundException">
           <paramref name="name" /> no es un nombre de referencia cultural válido. Para obtener más información, consulte la sección Notas para los autores de llamada.</exception>
         <block subset="none" type="usage">
-          <para>El [! INCLUDE[net_v35_long](~/includes/NET-v35-Long-MD.MD)] y versiones anteriores a producir un <see cref="T:System.ArgumentException" /> si <paramref name="name" /> no es un nombre de referencia cultural válido. A partir de la [! INCLUDE[net_v40_long](~/includes/NET-V40-Long-MD.MD)], el constructor produce una <see cref="T:System.Globalization.CultureNotFoundException" />. A partir de las aplicaciones que se ejecutan en el [! INCLUDE[net_v40_long](~/includes/NET-V40-Long-MD.MD)] o posterior en Windows 7 o versiones posteriores, el método intenta recuperar un <see cref="T:System.Globalization.CultureInfo" /> objeto cuyo identificador es <paramref name="name" /> desde el sistema operativo; si el sistema operativo no admite esa referencia cultural y si <paramref name="name" /> no es el nombre de una referencia cultural complementaria o de reemplazo, el método inicia una <see cref="T:System.Globalization.CultureNotFoundException" /> excepción.</para>
+          <para>El [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] y versiones anteriores a producir un <see cref="T:System.ArgumentException" /> si <paramref name="name" /> no es un nombre de referencia cultural válido. A partir de la [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], el constructor produce una <see cref="T:System.Globalization.CultureNotFoundException" />. A partir de las aplicaciones que se ejecutan en el [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] o posterior en Windows 7 o versiones posteriores, el método intenta recuperar un <see cref="T:System.Globalization.CultureInfo" /> objeto cuyo identificador es <paramref name="name" /> desde el sistema operativo; si el sistema operativo no admite esa referencia cultural y si <paramref name="name" /> no es el nombre de una referencia cultural complementaria o de reemplazo, el método inicia una <see cref="T:System.Globalization.CultureNotFoundException" /> excepción.</para>
         </block>
         <altmember cref="P:System.Globalization.CultureInfo.LCID" />
         <altmember cref="P:System.Globalization.CultureInfo.UseUserOverride" />
@@ -575,7 +583,7 @@ En las aplicaciones de .NET Framework y .NET Core, la referencia cultural actual
         <exception cref="T:System.Globalization.CultureNotFoundException">
           <paramref name="culture" /> no es un identificador de referencia cultural válido. Vea la sección Notas para los llamadores para obtener más información.</exception>
         <block subset="none" type="usage">
-          <para>El [! INCLUDE[net_v35_long](~/includes/NET-v35-Long-MD.MD)] y versiones anteriores a producir un <see cref="T:System.ArgumentException" /> si <paramref name="culture" /> no es un identificador de referencia cultural válido. A partir de la [! INCLUDE[net_v40_long](~/includes/NET-V40-Long-MD.MD)], el constructor produce una <see cref="T:System.Globalization.CultureNotFoundException" />. A partir de las aplicaciones que se ejecutan en el [! INCLUDE[net_v40_long](~/includes/NET-V40-Long-MD.MD)] o posterior en Windows 7 o versiones posteriores, el método intenta recuperar un <see cref="T:System.Globalization.CultureInfo" /> objeto cuyo identificador es <paramref name="culture" /> desde el sistema operativo; si el sistema operativo no admite esa referencia cultural , el método produce una <see cref="T:System.Globalization.CultureNotFoundException" /> excepción.</para>
+          <para>El [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] y versiones anteriores a producir un <see cref="T:System.ArgumentException" /> si <paramref name="culture" /> no es un identificador de referencia cultural válido. A partir de la [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], el constructor produce una <see cref="T:System.Globalization.CultureNotFoundException" />. A partir de las aplicaciones que se ejecutan en el [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] o posterior en Windows 7 o versiones posteriores, el método intenta recuperar un <see cref="T:System.Globalization.CultureInfo" /> objeto cuyo identificador es <paramref name="culture" /> desde el sistema operativo; si el sistema operativo no admite esa referencia cultural, el método produce una <see cref="T:System.Globalization.CultureNotFoundException" /> excepción.</para>
         </block>
         <altmember cref="P:System.Globalization.CultureInfo.LCID" />
         <altmember cref="P:System.Globalization.CultureInfo.UseUserOverride" />
@@ -652,7 +660,7 @@ En las aplicaciones de .NET Framework y .NET Core, la referencia cultural actual
         <exception cref="T:System.Globalization.CultureNotFoundException">
           <paramref name="name" /> no es un nombre de referencia cultural válido. Vea la sección Notas para los llamadores para obtener más información.</exception>
         <block subset="none" type="usage">
-          <para>El [! INCLUDE[net_v35_long](~/includes/NET-v35-Long-MD.MD)] y versiones anteriores a producir un <see cref="T:System.ArgumentException" /> si <paramref name="name" /> no es un nombre de referencia cultural válido. A partir de la [! INCLUDE[net_v40_long](~/includes/NET-V40-Long-MD.MD)], el constructor produce una <see cref="T:System.Globalization.CultureNotFoundException" />. A partir de las aplicaciones que se ejecutan en el [! INCLUDE[net_v40_long](~/includes/NET-V40-Long-MD.MD)] o posterior en Windows 7 o versiones posteriores, el método intenta recuperar un <see cref="T:System.Globalization.CultureInfo" /> objeto cuyo identificador es <paramref name="name" /> desde el sistema operativo; si el sistema operativo no admite esa referencia cultural y si <paramref name="name" /> no es el nombre de una referencia cultural complementaria o de reemplazo, el método inicia una <see cref="T:System.Globalization.CultureNotFoundException" /> excepción.</para>
+          <para>El [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] y versiones anteriores a producir un <see cref="T:System.ArgumentException" /> si <paramref name="name" /> no es un nombre de referencia cultural válido. A partir de la [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], el constructor produce una <see cref="T:System.Globalization.CultureNotFoundException" />. A partir de las aplicaciones que se ejecutan en el [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] o posterior en Windows 7 o versiones posteriores, el método intenta recuperar un <see cref="T:System.Globalization.CultureInfo" /> objeto cuyo identificador es <paramref name="name" /> desde el sistema operativo; si el sistema operativo no admite esa referencia cultural y si <paramref name="name" /> no es el nombre de una referencia cultural complementaria o de reemplazo, el método inicia una <see cref="T:System.Globalization.CultureNotFoundException" /> excepción.</para>
         </block>
         <altmember cref="P:System.Globalization.CultureInfo.LCID" />
         <altmember cref="P:System.Globalization.CultureInfo.UseUserOverride" />
@@ -688,6 +696,11 @@ En las aplicaciones de .NET Framework y .NET Core, la referencia cultural actual
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Globalization.Calendar</ReturnType>
       </ReturnValue>
@@ -790,6 +803,11 @@ En las aplicaciones de .NET Framework y .NET Core, la referencia cultural actual
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Object</ReturnType>
       </ReturnValue>
@@ -914,7 +932,14 @@ En las aplicaciones de .NET Framework y .NET Core, la referencia cultural actual
       <Docs>
         <param name="name">Nombre <see cref="T:System.Globalization.CultureInfo" /> predefinido o el nombre de un objeto <see cref="T:System.Globalization.CultureInfo" /> existente. <c>name</c> no distingue mayúsculas de minúsculas.</param>
         <summary>Crea un objeto <see cref="T:System.Globalization.CultureInfo" /> que representa la referencia cultural específica asociada al nombre especificado.</summary>
-        <returns>Un objeto <see cref="T:System.Globalization.CultureInfo" /> que representa: La referencia cultural invariable, si <paramref name="name" /> es una cadena vacía ("").  -o bien- La referencia cultural específica asociada a <paramref name="name" />, si <paramref name="name" /> es una referencia cultural neutra.  -o bien- La referencia cultural especificada por <paramref name="name" />, si <paramref name="name" /> ya es una referencia cultural específica.</returns>
+        <returns>Objeto <see cref="T:System.Globalization.CultureInfo" /> que representa: 
+La referencia cultural invariable, si <paramref name="name" /> es una cadena vacía ("").  
+  
+O bien 
+La referencia cultural específica asociada a <paramref name="name" />, si <paramref name="name" /> es una referencia cultural neutra.  
+  
+O bien 
+La referencia cultural especificada por <paramref name="name" />, si <paramref name="name" /> ya es una referencia cultural específica.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -946,11 +971,14 @@ En las aplicaciones de .NET Framework y .NET Core, la referencia cultural actual
  ]]></format>
         </remarks>
         <exception cref="T:System.Globalization.CultureNotFoundException">
-          <paramref name="name" /> no es un nombre de referencia cultural válido.  -o bien- La referencia cultural especificada por <paramref name="name" /> no tiene una referencia cultural específica asociada.</exception>
+          <paramref name="name" /> no es un nombre de referencia cultural válido.  
+  
+O bien 
+La referencia cultural especificada por <paramref name="name" /> no tiene una referencia cultural específica asociada.</exception>
         <exception cref="T:System.NullReferenceException">
           <paramref name="name" /> es null.</exception>
         <block subset="none" type="usage">
-          <para>El [! INCLUDE[net_v35_long](~/includes/NET-v35-Long-MD.MD)] y versiones anteriores a producir un <see cref="T:System.ArgumentException" /> si <paramref name="name" /> no es un nombre de referencia cultural válido. A partir de la [! INCLUDE[net_v40_long](~/includes/NET-V40-Long-MD.MD)], este método produce una <see cref="T:System.Globalization.CultureNotFoundException" />.</para>
+          <para>El [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] y versiones anteriores a producir un <see cref="T:System.ArgumentException" /> si <paramref name="name" /> no es un nombre de referencia cultural válido. A partir de la [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], este método produce una <see cref="T:System.Globalization.CultureNotFoundException" />.</para>
         </block>
         <altmember cref="Overload:System.Globalization.CultureInfo.#ctor" />
         <altmember cref="P:System.Globalization.CultureInfo.Parent" />
@@ -980,7 +1008,7 @@ En las aplicaciones de .NET Framework y .NET Core, la referencia cultural actual
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -1034,6 +1062,11 @@ En las aplicaciones de .NET Framework y .NET Core, la referencia cultural actual
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Globalization.CultureInfo</ReturnType>
       </ReturnValue>
@@ -1181,6 +1214,11 @@ En las aplicaciones de .NET Framework y .NET Core, la referencia cultural actual
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Globalization.CultureInfo</ReturnType>
       </ReturnValue>
@@ -1312,6 +1350,11 @@ En las aplicaciones de .NET Framework y .NET Core, la referencia cultural de int
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Globalization.DateTimeFormatInfo</ReturnType>
       </ReturnValue>
@@ -1379,6 +1422,11 @@ En las aplicaciones de .NET Framework y .NET Core, la referencia cultural de int
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2">
+          <AttributeName>set: System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Globalization.CultureInfo</ReturnType>
       </ReturnValue>
@@ -1448,6 +1496,11 @@ En las aplicaciones de .NET Framework y .NET Core, la referencia cultural de int
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2">
+          <AttributeName>set: System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Globalization.CultureInfo</ReturnType>
       </ReturnValue>
@@ -1568,12 +1621,17 @@ csc /resource:GreetingStrings.resources Example1.cs
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2">
+          <AttributeName>get: System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
         <summary>Obtiene el nombre de referencia cultural localizado completo.</summary>
-        <value>El nombre de referencia cultural localizado completo en el formato * languagefull * [* country / regionfull *], donde * languagefull * es el nombre completo del idioma y * country / regionfull * es el nombre completo del país o región.</value>
+        <value>El nombre de referencia cultural localizado completo en el formato *languagefull* [*country/regionfull*], donde *languagefull* es el nombre completo del idioma y * Country/regionfull* es el nombre completo del país o región.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1635,12 +1693,17 @@ csc /resource:GreetingStrings.resources Example1.cs
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2">
+          <AttributeName>get: System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
         <summary>Obtiene el nombre de la referencia cultural en el formato *languagefull* [*country/regionfull*] en inglés.</summary>
-        <value>El nombre de referencia cultural en el formato * languagefull * [* country / regionfull *] en inglés, donde * languagefull * es el nombre completo del idioma y * country / regionfull * es el nombre completo del país o región.</value>
+        <value>El nombre de referencia cultural en el formato *languagefull* [*country/regionfull*] en inglés, donde *languagefull* es el nombre completo del idioma y *país / regionfull* es el nombre completo del país o región.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1748,8 +1811,11 @@ csc /resource:GreetingStrings.resources Example1.cs
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -1928,7 +1994,7 @@ csc /resource:GreetingStrings.resources Example1.cs
         <exception cref="T:System.Globalization.CultureNotFoundException">
           <paramref name="culture" /> especifica una referencia cultural que no se admite. Para obtener más información, vea la sección Notas para los autores de llamada.</exception>
         <block subset="none" type="usage">
-          <para>El [! INCLUDE[net_v35_long](~/includes/NET-v35-Long-MD.MD)] y versiones anteriores a producir un <see cref="T:System.ArgumentException" /> si <paramref name="culture" /> no es un identificador de referencia cultural válido. A partir de la [! INCLUDE[net_v40_long](~/includes/NET-V40-Long-MD.MD)], este método produce una <see cref="T:System.Globalization.CultureNotFoundException" />. A partir de las aplicaciones que se ejecutan en el [! INCLUDE[net_v40_long](~/includes/NET-V40-Long-MD.MD)] o posterior en Windows 7 o versiones posteriores, el método intenta recuperar un <see cref="T:System.Globalization.CultureInfo" /> objeto cuyo identificador es <paramref name="culture" /> desde el sistema operativo; si el sistema operativo no admite esa referencia cultural , el método produce una <see cref="T:System.Globalization.CultureNotFoundException" />.</para>
+          <para>El [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] y versiones anteriores a producir un <see cref="T:System.ArgumentException" /> si <paramref name="culture" /> no es un identificador de referencia cultural válido. A partir de la [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], este método produce una <see cref="T:System.Globalization.CultureNotFoundException" />. A partir de las aplicaciones que se ejecutan en el [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] o posterior en Windows 7 o versiones posteriores, el método intenta recuperar un <see cref="T:System.Globalization.CultureInfo" /> objeto cuyo identificador es <paramref name="culture" /> desde el sistema operativo; si el sistema operativo no admite esa referencia cultural, el método produce una <see cref="T:System.Globalization.CultureNotFoundException" />.</para>
         </block>
         <altmember cref="P:System.Globalization.CultureInfo.LCID" />
         <altmember cref="M:System.Globalization.CultureInfo.ClearCachedData" />
@@ -1986,7 +2052,7 @@ csc /resource:GreetingStrings.resources Example1.cs
         <exception cref="T:System.Globalization.CultureNotFoundException">
           <paramref name="name" /> especifica una referencia cultural que no se admite. Vea la sección Notas para los llamadores para obtener más información.</exception>
         <block subset="none" type="usage">
-          <para>El [! INCLUDE[net_v35_long](~/includes/NET-v35-Long-MD.MD)] y versiones anteriores a producir un <see cref="T:System.ArgumentException" /> si <paramref name="name" /> no es un nombre de referencia cultural válido. A partir de la [! INCLUDE[net_v40_long](~/includes/NET-V40-Long-MD.MD)], este método produce una <see cref="T:System.Globalization.CultureNotFoundException" />. A partir de las aplicaciones que se ejecutan en el [! INCLUDE[net_v40_long](~/includes/NET-V40-Long-MD.MD)] o posterior en Windows 7 o versiones posteriores, el método intenta recuperar un <see cref="T:System.Globalization.CultureInfo" /> objeto cuyo identificador es <paramref name="name" /> desde el sistema operativo; si el sistema operativo no admite esa referencia cultural y si <paramref name="name" /> no es el nombre de una referencia cultural complementaria o de reemplazo, el método inicia una <see cref="T:System.Globalization.CultureNotFoundException" />.</para>
+          <para>El [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] y versiones anteriores a producir un <see cref="T:System.ArgumentException" /> si <paramref name="name" /> no es un nombre de referencia cultural válido. A partir de la [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], este método produce una <see cref="T:System.Globalization.CultureNotFoundException" />. A partir de las aplicaciones que se ejecutan en el [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] o posterior en Windows 7 o versiones posteriores, el método intenta recuperar un <see cref="T:System.Globalization.CultureInfo" /> objeto cuyo identificador es <paramref name="name" /> desde el sistema operativo; si el sistema operativo no admite esa referencia cultural y si <paramref name="name" /> no es el nombre de una referencia cultural complementaria o de reemplazo, el método inicia una <see cref="T:System.Globalization.CultureNotFoundException" />.</para>
         </block>
         <altmember cref="P:System.Globalization.CultureInfo.Name" />
       </Docs>
@@ -2043,7 +2109,7 @@ csc /resource:GreetingStrings.resources Example1.cs
         <exception cref="T:System.Globalization.CultureNotFoundException">
           <paramref name="name" /> o <paramref name="altName" /> especifica una referencia cultural que no se admite. Vea la sección Notas para los llamadores para obtener más información.</exception>
         <block subset="none" type="usage">
-          <para>El [! INCLUDE[net_v35_long](~/includes/NET-v35-Long-MD.MD)] y versiones anteriores a producir un <see cref="T:System.ArgumentException" /> si <paramref name="name" /> o <paramref name="altName" /> no es un nombre de referencia cultural válido. A partir de la [! INCLUDE[net_v40_long](~/includes/NET-V40-Long-MD.MD)], este método produce una <see cref="T:System.Globalization.CultureNotFoundException" />. A partir de las aplicaciones que se ejecutan en el [! INCLUDE[net_v40_long](~/includes/NET-V40-Long-MD.MD)] o posterior en Windows 7 o versiones posteriores, el método intenta recuperar un <see cref="T:System.Globalization.CultureInfo" /> objeto cuyo identificador es <paramref name="name" /> desde el sistema operativo; si el sistema operativo no admite esa referencia cultural y si <paramref name="name" /> no es el nombre de una referencia cultural complementaria o de reemplazo, el método inicia una <see cref="T:System.Globalization.CultureNotFoundException" /> excepción. A partir de las aplicaciones que se ejecutan en el [! INCLUDE[net_v40_long](~/includes/NET-V40-Long-MD.MD)] o posterior en Windows 7 o versiones posteriores, el método intenta recuperar un <see cref="T:System.Globalization.CultureInfo" /> objeto cuyo identificador es <paramref name="name" /> desde el sistema operativo; si el sistema operativo no admite esa referencia cultural y si <paramref name="name" /> no es el nombre de una referencia cultural complementaria o de reemplazo, el método inicia una <see cref="T:System.Globalization.CultureNotFoundException" /> excepción.</para>
+          <para>El [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] y versiones anteriores a producir un <see cref="T:System.ArgumentException" /> si <paramref name="name" /> o <paramref name="altName" /> no es un nombre de referencia cultural válido. A partir de la [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], este método produce una <see cref="T:System.Globalization.CultureNotFoundException" />. A partir de las aplicaciones que se ejecutan en el [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] o posterior en Windows 7 o versiones posteriores, el método intenta recuperar un <see cref="T:System.Globalization.CultureInfo" /> objeto cuyo identificador es <paramref name="name" /> desde el sistema operativo; si el sistema operativo no admite esa referencia cultural y si <paramref name="name" /> no es el nombre de una referencia cultural complementaria o de reemplazo, el método inicia una <see cref="T:System.Globalization.CultureNotFoundException" /> excepción. A partir de las aplicaciones que se ejecutan en el [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] o posterior en Windows 7 o versiones posteriores, el método intenta recuperar un <see cref="T:System.Globalization.CultureInfo" /> objeto cuyo identificador es <paramref name="name" /> desde el sistema operativo; si el sistema operativo no admite esa referencia cultural y si <paramref name="name" /> no es el nombre de una referencia cultural complementaria o de reemplazo, el método inicia una <see cref="T:System.Globalization.CultureNotFoundException" /> excepción.</para>
         </block>
         <altmember cref="P:System.Globalization.CultureInfo.Name" />
         <altmember cref="M:System.Globalization.CultureInfo.ClearCachedData" />
@@ -2105,7 +2171,7 @@ csc /resource:GreetingStrings.resources Example1.cs
         <exception cref="T:System.Globalization.CultureNotFoundException">
           <paramref name="name" /> no corresponde a una referencia cultural admitida.</exception>
         <block subset="none" type="usage">
-          <para>El [! INCLUDE[net_v35_long](~/includes/NET-v35-Long-MD.MD)] y versiones anteriores a producir un <see cref="T:System.ArgumentException" /> si <paramref name="name" /> no se corresponde con el nombre de una referencia cultural admitida. A partir de la [! INCLUDE[net_v40_long](~/includes/NET-V40-Long-MD.MD)], este método produce una <see cref="T:System.Globalization.CultureNotFoundException" />.</para>
+          <para>El [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] y versiones anteriores a producir un <see cref="T:System.ArgumentException" /> si <paramref name="name" /> no se corresponde con el nombre de una referencia cultural admitida. A partir de la [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], este método produce una <see cref="T:System.Globalization.CultureNotFoundException" />.</para>
         </block>
         <altmember cref="P:System.Globalization.CultureInfo.TextInfo" />
         <altmember cref="T:System.Globalization.CultureAndRegionInfoBuilder" />
@@ -2214,6 +2280,11 @@ csc /resource:GreetingStrings.resources Example1.cs
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Object</ReturnType>
       </ReturnValue>
@@ -2224,7 +2295,13 @@ csc /resource:GreetingStrings.resources Example1.cs
         <param name="formatType">
           <see cref="T:System.Type" /> para el que se va a obtener un objeto de aplicación de formato. Este método solo admite los tipos <see cref="T:System.Globalization.NumberFormatInfo" /> y <see cref="T:System.Globalization.DateTimeFormatInfo" />.</param>
         <summary>Obtiene un objeto que define cómo se aplica el formato al tipo especificado.</summary>
-        <returns>Valor de la propiedad <see cref="P:System.Globalization.CultureInfo.NumberFormat" />, que es una clase <see cref="T:System.Globalization.NumberFormatInfo" /> que contiene información sobre el formato predeterminado de número para la clase <see cref="T:System.Globalization.CultureInfo" /> actual, si <paramref name="formatType" /> es el objeto <see cref="T:System.Type" /> de la clase <see cref="T:System.Globalization.NumberFormatInfo" />.  -o bien- Valor de la propiedad <see cref="P:System.Globalization.CultureInfo.DateTimeFormat" />, que es un elemento <see cref="T:System.Globalization.DateTimeFormatInfo" /> que contiene información de formato predeterminada de fecha y hora para el elemento <see cref="T:System.Globalization.CultureInfo" /> actual, si <paramref name="formatType" /> es el objeto <see cref="T:System.Type" /> de la clase <see cref="T:System.Globalization.DateTimeFormatInfo" />.  -o bien- null, si <paramref name="formatType" /> es cualquier otro objeto.</returns>
+        <returns>Valor de la propiedad <see cref="P:System.Globalization.CultureInfo.NumberFormat" />, que es una clase <see cref="T:System.Globalization.NumberFormatInfo" /> que contiene información sobre el formato predeterminado de número para la clase <see cref="T:System.Globalization.CultureInfo" /> actual, si <paramref name="formatType" /> es el objeto <see cref="T:System.Type" /> de la clase <see cref="T:System.Globalization.NumberFormatInfo" />.  
+  
+O bien 
+Valor de la propiedad <see cref="P:System.Globalization.CultureInfo.DateTimeFormat" />, que es una clase <see cref="T:System.Globalization.DateTimeFormatInfo" /> que contiene información sobre el formato predeterminado de fecha y hora para la clase <see cref="T:System.Globalization.CultureInfo" /> actual, si <paramref name="formatType" /> es el objeto <see cref="T:System.Type" /> de la clase <see cref="T:System.Globalization.DateTimeFormatInfo" />.  
+  
+O bien 
+null, si <paramref name="formatType" /> es cualquier otro objeto.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2271,6 +2348,11 @@ csc /resource:GreetingStrings.resources Example1.cs
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
@@ -2317,7 +2399,7 @@ csc /resource:GreetingStrings.resources Example1.cs
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -2422,6 +2504,11 @@ csc /resource:GreetingStrings.resources Example1.cs
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Globalization.CultureInfo</ReturnType>
       </ReturnValue>
@@ -2602,7 +2689,7 @@ csc /resource:GreetingStrings.resources Example1.cs
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -2646,6 +2733,11 @@ csc /resource:GreetingStrings.resources Example1.cs
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
@@ -2707,7 +2799,7 @@ csc /resource:GreetingStrings.resources Example1.cs
       </ReturnValue>
       <Docs>
         <summary>Obtiene el nombre de la referencia cultural en el formato *languagecode2*-*country/regioncode2*.</summary>
-        <value>El nombre de referencia cultural en el formato * languagecode2 *-* country / regioncode2 *. * languagecode2 * es un código de dos letras en minúsculas derivado de ISO 639-1. * country / regioncode2 * se deriva de ISO 3166 y suele estar compuesto por dos letras mayúsculas o una etiqueta de idioma BCP-47.</value>
+        <value>El nombre de referencia cultural en el formato *languagecode2*-*códigopaís/Región2*. *códigoidioma2* es un código de dos letras en minúsculas derivado de ISO 639-1. *códigopaís/Región2* se deriva de ISO 3166 y suele estar compuesto por dos letras mayúsculas o una etiqueta de idioma BCP-47.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2769,6 +2861,11 @@ csc /resource:GreetingStrings.resources Example1.cs
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2">
+          <AttributeName>get: System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
@@ -2820,6 +2917,11 @@ csc /resource:GreetingStrings.resources Example1.cs
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Globalization.NumberFormatInfo</ReturnType>
       </ReturnValue>
@@ -2886,6 +2988,11 @@ csc /resource:GreetingStrings.resources Example1.cs
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Globalization.Calendar[]</ReturnType>
       </ReturnValue>
@@ -2943,6 +3050,11 @@ csc /resource:GreetingStrings.resources Example1.cs
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2">
+          <AttributeName>get: System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Globalization.CultureInfo</ReturnType>
       </ReturnValue>
@@ -3009,6 +3121,11 @@ csc /resource:GreetingStrings.resources Example1.cs
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Globalization.CultureInfo</ReturnType>
       </ReturnValue>
@@ -3121,6 +3238,11 @@ csc /resource:GreetingStrings.resources Example1.cs
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>get: System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
@@ -3182,6 +3304,11 @@ csc /resource:GreetingStrings.resources Example1.cs
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>get: System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
@@ -3298,6 +3425,11 @@ csc /resource:GreetingStrings.resources Example1.cs
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2">
+          <AttributeName>get: System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
