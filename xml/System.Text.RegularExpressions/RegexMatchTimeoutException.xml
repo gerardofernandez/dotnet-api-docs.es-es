@@ -1,10 +1,10 @@
 <Type Name="RegexMatchTimeoutException" FullName="System.Text.RegularExpressions.RegexMatchTimeoutException">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="984e61b60982f83fdaa94395a0420d24261cdb21" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="36607497" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class RegexMatchTimeoutException : TimeoutException" />
@@ -45,20 +45,20 @@
   
 -   El motor de expresiones regulares es excesivamente el retroceso como intenta hacer coincidir el texto de entrada para el patrón de expresión regular.  
   
--   El intervalo de tiempo de espera se ha establecido demasiado bajo, especialmente dada carga alta del equipo.  
+-   El intervalo de tiempo de espera se estableció demasiado bajo, especialmente con carga alta del equipo.  
   
  La manera en que un controlador de excepciones controla una excepción depende de la causa de la excepción:  
   
--   Si hace que el tiempo de espera de retroceso excesivo, el controlador de excepciones debe abandonar el intento de coincidir con la entrada e informar al usuario que se ha producido un tiempo de espera en el método de coincidencia de patrón de expresión regular. Si es posible, información sobre el patrón de expresión regular, que está disponible en la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.Pattern%2A> propiedad y la entrada que ha causado un retroceso excesivo, que está disponible en el <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.Input%2A> se deben registrar la propiedad, por lo que puede ser el problema investigar y modifica el patrón de expresión regular. Los tiempos de espera debido a un retroceso excesivo siempre son reproducibles.  
+-   Si se produce el tiempo de espera de retroceso excesivo, el controlador de excepciones debe abandonar el intento de coincidencia con la entrada e informar al usuario que se ha producido un tiempo de espera en el método de coincidencia de patrón de expresión regular. Si es posible, información sobre el patrón de expresión regular, que está disponible en el <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.Pattern%2A> propiedad y la entrada que provocó un retroceso excesivo, que está disponible en el <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.Input%2A> se debe registrar la propiedad, por lo que puede ser el problema investigar y modifica el patrón de expresión regular. Los tiempos de espera debido a un retroceso excesivo siempre son reproducibles.  
   
--   Si el tiempo de espera da como resultado de establecer el umbral de tiempo de espera demasiado bajo, puede aumentar el intervalo de tiempo de espera y vuelva a intentar la operación de coincidencia. El intervalo de tiempo de espera actual está disponible en la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.MatchTimeout%2A> propiedad. Cuando un <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> se produce la excepción, el motor de expresiones regulares mantiene su estado para que las futuras llamadas devuelven el mismo resultado, como si no se produjo la excepción. El patrón recomendado consiste en esperar durante un intervalo de tiempo breve y aleatorio después de la excepción se produce antes de llamar al método correspondiente de nuevo. Esto se puede repetir varias veces. Sin embargo, el número de repeticiones debe ser pequeño en caso de que el tiempo de espera está provocado por un retroceso excesivo.  
+-   Si el tiempo de espera de resultado de establecer el umbral de tiempo de espera demasiado bajo, puede aumentar el intervalo de tiempo de espera y vuelva a intentar la operación de coincidencia. El intervalo de tiempo de espera actual está disponible desde el <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.MatchTimeout%2A> propiedad. Cuando un <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> excepción, el motor de expresiones regulares mantiene su estado para que las futuras llamadas devuelven el mismo resultado, como si no se produjo la excepción. El patrón recomendado es esperar durante un intervalo de tiempo breve, aleatorio después de la excepción se produce antes de llamar al método coincidente de nuevo. Esto se puede repetir varias veces. Sin embargo, el número de repeticiones debe ser pequeño en caso de que el tiempo de espera está provocado por un retroceso excesivo.  
   
- El ejemplo en la sección siguiente muestra dos técnicas para el control de un <xref:System.Text.RegularExpressions.RegexMatchTimeoutException>.  
+ El ejemplo en la sección siguiente muestra ambas técnicas para controlar un <xref:System.Text.RegularExpressions.RegexMatchTimeoutException>.  
   
    
   
 ## Examples  
- El siguiente ejemplo ilustra dos métodos posibles para el control de la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> excepción. Una constante cuyo valor es de dos segundos define el intervalo de tiempo de espera máximo. El <xref:System.Text.RegularExpressions.Regex.IsMatch%28System.String%2CSystem.String%2CSystem.Text.RegularExpressions.RegexOptions%2CSystem.TimeSpan%29?displayProperty=nameWithType> inicialmente se llama el método con un intervalo de tiempo de espera de un segundo. Cada <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> excepción hace que el intervalo de tiempo de espera puede aumentarse en un segundo y los resultados en otra llamada a la <xref:System.Text.RegularExpressions.Regex.IsMatch%2A?displayProperty=nameWithType> método si el intervalo de tiempo de espera actual es menor que el intervalo de tiempo de espera máximo. Sin embargo, si el intervalo de tiempo de espera actual supera el intervalo de tiempo de espera máximo, el controlador de excepciones escribe información en el registro de eventos y abandona el procesamiento de la expresión regular.  
+ El ejemplo siguiente muestra dos posibles enfoques para el control de la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> excepción. Una constante cuyo valor es de dos segundos define el intervalo de tiempo de espera máximo. El <xref:System.Text.RegularExpressions.Regex.IsMatch%28System.String%2CSystem.String%2CSystem.Text.RegularExpressions.RegexOptions%2CSystem.TimeSpan%29?displayProperty=nameWithType> inicialmente se llama al método con un intervalo de tiempo de espera de un segundo. Cada <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> excepción hace que el intervalo de tiempo de espera se aumente en un segundo y los resultados en otra llamada a la <xref:System.Text.RegularExpressions.Regex.IsMatch%2A?displayProperty=nameWithType> método si el intervalo de tiempo de espera actual es menor que el intervalo de tiempo de espera máximo. Sin embargo, si el intervalo de tiempo de espera actual supera el intervalo de tiempo de espera máximo, el controlador de excepciones escribe información en el registro de eventos y abandona el procesamiento de la expresión regular.  
   
  [!code-csharp[System.Text.RegularExpressions.RegexMatchTimeoutException#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.regularexpressions.regexmatchtimeoutexception/cs/class1.cs#1)]
  [!code-vb[System.Text.RegularExpressions.RegexMatchTimeoutException#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.regularexpressions.regexmatchtimeoutexception/vb/class1.vb#1)]  
@@ -112,7 +112,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Éste es el constructor predeterminado de la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> clase. Este constructor inicializa la propiedad <xref:System.Exception.Message%2A> de una nueva instancia en un mensaje proporcionado por el sistema que describe el error. Este mensaje se adapta a la referencia cultural del sistema actual.  
+ Éste es el constructor predeterminado de la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> clase. Este constructor inicializa la propiedad <xref:System.Exception.Message%2A> de una nueva instancia en un mensaje proporcionado por el sistema que describe el error. Este mensaje se adapta a la referencia cultural actual del sistema.  
   
  ]]></format>
         </remarks>
@@ -154,7 +154,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El `message` cadena se asigna a la <xref:System.Exception.Message%2A?displayProperty=nameWithType> propiedad. La cadena debe ser adaptada para la referencia cultural actual.  
+ El `message` cadena se asigna a la <xref:System.Exception.Message%2A?displayProperty=nameWithType> propiedad. La cadena se debe localizar la referencia cultural actual.  
   
  ]]></format>
         </remarks>
@@ -194,7 +194,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- No se llama a este constructor directamente por el código para crear una instancia de la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> objeto. En su lugar, se llama a la <xref:System.Runtime.Serialization.IFormatter.Deserialize%2A?displayProperty=nameWithType> método al deserializar el <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> objeto desde una secuencia.  
+ No se llama a este constructor directamente por el código para crear instancias de la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> objeto. En su lugar, se llama mediante el <xref:System.Runtime.Serialization.IFormatter.Deserialize%2A?displayProperty=nameWithType> método al deserializar el <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> objeto desde una secuencia.  
   
  ]]></format>
         </remarks>
@@ -238,9 +238,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Por lo general, utilice esta sobrecarga para controlar una excepción en un `try/catch` bloque. El `innerException` parámetro debe ser una referencia al objeto de excepción que se controla en el `catch` bloque, o puede ser `null`. Este valor, a continuación, se asigna a la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> del objeto <xref:System.Exception.InnerException%2A?displayProperty=nameWithType> propiedad.  
+ Por lo general, utilice esta sobrecarga para controlar una excepción en un `try/catch` bloque. El `innerException` parámetro debe ser una referencia al objeto de excepción administrado en el `catch` bloque, o bien puede ser `null`. Este valor, a continuación, se asigna a la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> del objeto <xref:System.Exception.InnerException%2A?displayProperty=nameWithType> propiedad.  
   
- El `message` cadena se asigna a la <xref:System.Exception.Message%2A?displayProperty=nameWithType> propiedad. La cadena debe ser adaptada para la referencia cultural actual.  
+ El `message` cadena se asigna a la <xref:System.Exception.Message%2A?displayProperty=nameWithType> propiedad. La cadena se debe localizar la referencia cultural actual.  
   
  ]]></format>
         </remarks>
@@ -286,7 +286,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El `regexInput`, `regexPattern`, y `matchTimeout` valores se asignan a la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.Input%2A>, <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.Pattern%2A>, y <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.MatchTimeout%2A> propiedades de la nueva <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> objeto.  
+ El `regexInput`, `regexPattern`, y `matchTimeout` valores se asignan a la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.Input%2A>, <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.Pattern%2A>, y <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.MatchTimeout%2A> las propiedades del nuevo <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> objeto.  
   
  ]]></format>
         </remarks>
@@ -328,9 +328,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta propiedad refleja el valor de la `regexInput` parámetro de la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.%23ctor%28System.String%2CSystem.String%2CSystem.TimeSpan%29> constructor. Si este parámetro no se inicializa explícitamente en una llamada de constructor, su valor es <xref:System.String.Empty?displayProperty=nameWithType>.  
+ Esta propiedad refleja el valor de la `regexInput` parámetro de la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.%23ctor%28System.String%2CSystem.String%2CSystem.TimeSpan%29> constructor. Si este parámetro no se inicializa explícitamente en una llamada al constructor, su valor es <xref:System.String.Empty?displayProperty=nameWithType>.  
   
- Cuando se produce la excepción con la expresión regular del motor, el valor de la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.Input%2A> propiedad refleja toda la cadena de entrada se pasa al motor de expresiones regulares. No refleja una cadena parcial, como la subcadena que el motor busca en la llamada a un método como <xref:System.Text.RegularExpressions.Regex.Match%28System.String%2CSystem.Int32%29?displayProperty=nameWithType>.  
+ Cuando se produce la excepción por la expresión regular del motor, el valor de la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.Input%2A> propiedad refleja toda la cadena de entrada se pasa al motor de expresiones regulares. No refleja una cadena parcial, como la subcadena que el motor busca en la llamada a un método como <xref:System.Text.RegularExpressions.Regex.Match%28System.String%2CSystem.Int32%29?displayProperty=nameWithType>.  
   
  ]]></format>
         </remarks>
@@ -372,9 +372,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta propiedad refleja el valor de la `matchTimeout` parámetro de la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.%23ctor%28System.String%2CSystem.String%2CSystem.TimeSpan%29> constructor. Si el parámetro no se inicializó correctamente en una llamada de constructor, su valor es `Timespan.FromTicks(-1)`.  
+ Esta propiedad refleja el valor de la `matchTimeout` parámetro de la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.%23ctor%28System.String%2CSystem.String%2CSystem.TimeSpan%29> constructor. Si el parámetro no se ha inicializado correctamente en una llamada al constructor, su valor es `Timespan.FromTicks(-1)`.  
   
- El valor de esta propiedad refleja el intervalo de tiempo de espera establecido en la llamada a la <xref:System.Text.RegularExpressions.Regex> constructor o método estático. No refleja el intervalo exacto que ha transcurrido desde el principio de la llamada de método a la hora que se produce la excepción.  
+ El valor de esta propiedad refleja el intervalo de tiempo de espera establecido en la llamada a la <xref:System.Text.RegularExpressions.Regex> constructor o método estático. No refleja el intervalo exacto que ha transcurrido desde el principio de la llamada de método a la hora de que la excepción.  
   
  ]]></format>
         </remarks>
@@ -416,7 +416,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta propiedad refleja el valor de la `regexPattern` parámetro de la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.%23ctor%28System.String%2CSystem.String%2CSystem.TimeSpan%29> constructor. Si el parámetro no se inicializó correctamente en una llamada de constructor, su valor es <xref:System.String.Empty?displayProperty=nameWithType>.  
+ Esta propiedad refleja el valor de la `regexPattern` parámetro de la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.%23ctor%28System.String%2CSystem.String%2CSystem.TimeSpan%29> constructor. Si el parámetro no se ha inicializado correctamente en una llamada al constructor, su valor es <xref:System.String.Empty?displayProperty=nameWithType>.  
   
  ]]></format>
         </remarks>
@@ -461,9 +461,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este miembro es una implementación explícita de un miembro de interfaz. Se puede utilizar solo cuando la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> instancia se convierte en un <xref:System.Runtime.Serialization.ISerializable> objeto de interfaz.  
+ Este miembro es una implementación explícita de un miembro de interfaz. Puede usarse solo cuando la <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> instancia se convierte en un <xref:System.Runtime.Serialization.ISerializable> objeto de interfaz.  
   
- Los objetos que se incluyen en el <xref:System.Runtime.Serialization.SerializationInfo> objeto automáticamente se realiza el seguimiento y serializar el formateador.  
+ Todos los objetos que se incluyen en el <xref:System.Runtime.Serialization.SerializationInfo> objeto automáticamente se realiza un seguimiento y serializan el formateador.  
   
  ]]></format>
         </remarks>
