@@ -1,11 +1,11 @@
 <Type Name="XamlXmlWriter" FullName="System.Xaml.XamlXmlWriter">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="5db12b0b313c0c2b62fbd959982afe9fc1ab4266" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="ce096a6a9bab68a836a7072d0a6ebf12e48bac45" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36443853" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39796957" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class XamlXmlWriter : System.Xaml.XamlWriter" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit XamlXmlWriter extends System.Xaml.XamlWriter" />
@@ -30,17 +30,17 @@
  Esta clase se utiliza normalmente en escenarios de serialización.  
   
 ## <a name="how-to-use-xamlxmlwriter"></a>Cómo usar XamlXmlWriter  
- El <xref:System.Xaml.XamlWriter> API tiene varios métodos que escriben tipos diferentes de nodos XAML. Colectivamente, estos se conocen en la documentación como el `Write` métodos de un <xref:System.Xaml.XamlWriter>. <xref:System.Xaml.XamlXmlWriter> usa varias clases de estado interno para determinar qué hacer cuando uno de sus `Write` se llama a las implementaciones. Un `Write` llamada utiliza los Estados para determinar si se puede escribir el elemento solicitado, atributo o valor, o si se produce una excepción. Por ejemplo, si se llama a <xref:System.Xaml.XamlXmlWriter.WriteEndObject%2A> y el estado de la <xref:System.Xaml.XamlXmlWriter> posición del nodo actual es un valor o dentro de un miembro, se produce una excepción. Por lo general, los llamadores de la <xref:System.Xaml.XamlXmlWriter> API debe tener en cuenta el tipo de nodo XAML actual que procede el lector XAML y el flujo de nodo XAML. Según este conocimiento, los autores de llamadas deben evitar llamar a `Write` API que no son pertinentes para el tipo del nodo actual.  
+ El <xref:System.Xaml.XamlWriter> API tiene varios métodos que escriben distintos tipos de nodos XAML. De forma colectiva, estos se conocen en documentación como el `Write` métodos de un <xref:System.Xaml.XamlWriter>. <xref:System.Xaml.XamlXmlWriter> varias clases de estado interno se utiliza para determinar qué hacer cuando uno de sus `Write` se llama a las implementaciones. Un `Write` llamada utiliza los Estados para determinar si se puede escribir el elemento solicitado, atributo o valor, o si se produce una excepción. Por ejemplo, si se llama a <xref:System.Xaml.XamlXmlWriter.WriteEndObject%2A> y el estado de la <xref:System.Xaml.XamlXmlWriter> posición del nodo actual es un valor o dentro de un miembro, se produce una excepción. Normalmente, los llamadores de la <xref:System.Xaml.XamlXmlWriter> API debe tener en cuenta el tipo de nodo XAML actual que procede el lector XAML y el flujo de nodo XAML. Según este conocimiento, los autores de llamadas deben evitar llamar a `Write` API que no son relevantes para el tipo del nodo actual.  
   
 ## <a name="xaml-namespaces-and-xamlxmlwriter"></a>XamlXmlWriter y espacios de nombres XAML  
- El espacio de nombres XAML escribir el comportamiento de <xref:System.Xaml.XamlXmlWriter> es compleja y no se limita a llamadas explícitas a <xref:System.Xaml.XamlXmlWriter.WriteNamespace%2A>. En su lugar, otros `Write` llamadas, como <xref:System.Xaml.XamlXmlWriter.WriteStartObject%2A>, pueden requerir que la declaración de espacio de nombres se escriba en determinados puntos en la estructura del nodo. El escritor de XAML genera un prefijo según su propia lógica, o usa información de la <xref:System.Xaml.INamespacePrefixLookup> service para determinar un prefijo preferido. Además, explícita <xref:System.Xaml.XamlXmlWriter.WriteNamespace%2A> llamadas podrían diferir o no devolver nada si la declaración de espacio de nombres XAML ya es aplicable y se declara en otra parte.  
+ El espacio de nombres XAML que escribir el comportamiento de <xref:System.Xaml.XamlXmlWriter> es complejo y no se limita a las llamadas explícitas a <xref:System.Xaml.XamlXmlWriter.WriteNamespace%2A>. En su lugar, otros `Write` las llamadas, como <xref:System.Xaml.XamlXmlWriter.WriteStartObject%2A>, pueden requerir que la declaración de espacio de nombres se escriben en momentos concretos de la estructura de nodo. El sistema de escritura XAML genera un prefijo según su propia lógica o utiliza información desde el <xref:System.Xaml.INamespacePrefixLookup> servicio para determinar un prefijo preferido. Además, explícita <xref:System.Xaml.XamlXmlWriter.WriteNamespace%2A> llamadas podrían diferir o no devolver nada si la declaración de espacio de nombres XAML ya es aplicable y se declara en otra parte.  
   
 ## <a name="write-method-exceptions"></a>Excepciones del método Write  
  Las excepciones producidas por la <xref:System.Xaml.XamlXmlWriter> `Write` métodos son normalmente <xref:System.InvalidOperationException> o <xref:System.Xaml.XamlXmlWriterException>.  
   
- Un <xref:System.InvalidOperationException> a menudo indica que un lector de XAML pasó una estructura de nodo no válido en el flujo de nodo XAML. En este caso la estructura del nodo no es válida por motivos que no están relacionadas con la validación de un esquema XAML o un contexto de esquema XAML. En su lugar, el flujo de nodo no es válido en su forma básica. Por ejemplo, si una implementación de lector XAML defectuosa genera un flujo de nodo XAML que contenía dos consecutivos `StartObject` nodos, el intento de llamar a la segunda <xref:System.Xaml.XamlXmlWriter.WriteStartObject%2A> produciría un <xref:System.InvalidOperationException>. Todos los escritores de XAML considerar este tipo de operación no es válida. Otro ejemplo de un <xref:System.InvalidOperationException> es cuando la información del espacio de nombres XAML que no está disponible a través del contexto de esquema XAML que se aplica a la posición actual del flujo de nodo.  
+ Un <xref:System.InvalidOperationException> a menudo indica que un lector XAML pasa una estructura de nodo no válido en el flujo de nodo XAML. En este caso la estructura de nodo no es válida por motivos que no están relacionadas con la validación de un esquema XAML o un contexto de esquema XAML. En su lugar, el flujo de nodo no es válido en su forma más básica. Por ejemplo, si una implementación de lector XAML defectuosa genera una secuencia de nodos XAML que contenía dos consecutivos `StartObject` nodos, el intento de llamar a la segunda <xref:System.Xaml.XamlXmlWriter.WriteStartObject%2A> generaría un <xref:System.InvalidOperationException>. Todos los escritores de XAML consideraría este tipo de operación no es válido. Otro ejemplo de un <xref:System.InvalidOperationException> es cuando la información de espacio de nombres XAML no está disponible a través del contexto de esquema XAML que se aplica a la posición actual del flujo de nodo.  
   
- Un <xref:System.Xaml.XamlXmlWriterException> indica una excepción donde elige esta implementación de sistema de escritura XAML determinada se producirá una excepción en función de su funcionalidad prevista. A <xref:System.Xaml.XamlXmlWriterException> puede indicar los casos concretos donde un <xref:System.Xaml.XamlXmlWriter> infringe su propio estado o configuración. Por ejemplo, un <xref:System.Xaml.XamlXmlWriterException> podría dar lugar a la de los intentos de escribir información de espacio de nombres XAML en una posición que la <xref:System.Xaml.XamlXmlWriter> y su formato de serialización no soporte técnico o escribir miembros duplicados cuando la instancia <xref:System.Xaml.XamlXmlWriterSettings> lo prohíbe.  
+ Un <xref:System.Xaml.XamlXmlWriterException> indica una excepción donde elige esta implementación de sistema de escritura XAML concreto para producir una excepción en función de su funcionalidad prevista. Un <xref:System.Xaml.XamlXmlWriterException> puede indicar a casos específicos donde un <xref:System.Xaml.XamlXmlWriter> infringe su propio estado o configuración. Por ejemplo, un <xref:System.Xaml.XamlXmlWriterException> puede ser resultado de intentos de escribir información de espacio de nombres XAML en una posición que el <xref:System.Xaml.XamlXmlWriter> y su formato de serialización no soporte técnico o escribir miembros duplicados cuando la instancia <xref:System.Xaml.XamlXmlWriterSettings> lo prohíba.  
   
  ]]></format>
     </remarks>
@@ -67,6 +67,11 @@
         <AssemblyName>System.Xaml</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="stream" Type="System.IO.Stream" />
         <Parameter Name="schemaContext" Type="System.Xaml.XamlSchemaContext" />
@@ -77,7 +82,10 @@
         <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Xaml.XamlXmlWriter" /> a partir de una secuencia.</summary>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="stream" /> es <see langword="null" />.  -o bien- <paramref name="schemaContext" /> es <see langword="null" />.</exception>
+          <paramref name="stream" /> es <see langword="null" />.  
+  
+O bien 
+ <paramref name="schemaContext" /> es <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -91,6 +99,11 @@
         <AssemblyName>System.Xaml</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="textWriter" Type="System.IO.TextWriter" />
         <Parameter Name="schemaContext" Type="System.Xaml.XamlSchemaContext" />
@@ -115,6 +128,11 @@
         <AssemblyName>System.Xaml</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="xmlWriter" Type="System.Xml.XmlWriter" />
         <Parameter Name="schemaContext" Type="System.Xaml.XamlSchemaContext" />
@@ -153,7 +171,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- No cambie los valores de la `settings` objeto después de la <xref:System.Xaml.XamlXmlWriter> se construye la instancia. <xref:System.Xaml.XamlXmlWriter> no se puede actualizar sus valores internos basados en valores de configuración que son mutables en tiempo de ejecución. Le proporcionará la configuración para la inicialización solo. Puede combinar la configuración de un sistema de escritura XAML activo mediante uno de los <xref:System.Xaml.XamlXmlWriterSettings> firmas de constructor; sin embargo, a continuación, debe aplicar esta configuración a una nueva instancia de objeto de escritura XAML en lugar de intentar ajustar el ya existente.  
+ No cambie los valores de la `settings` objeto después de la <xref:System.Xaml.XamlXmlWriter> se construye la instancia. <xref:System.Xaml.XamlXmlWriter> no se puede actualizar su configuración interna según los valores de configuración que son mutables en tiempo de ejecución. Para la inicialización solo se debe proporcionar la configuración. Puede combinar la configuración de un sistema de escritura XAML activo mediante uno de los <xref:System.Xaml.XamlXmlWriterSettings> firmas de constructor; sin embargo, a continuación, debe aplicar esta configuración a una nueva instancia de sistema de escritura XAML en lugar de intentar ajustar uno existente.  
   
  ]]></format>
         </remarks>
@@ -187,7 +205,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- No cambie los valores de la `settings` objeto después de la <xref:System.Xaml.XamlXmlWriter> se construye la instancia. <xref:System.Xaml.XamlXmlWriter> no se puede actualizar sus valores internos basados en valores de configuración que son mutables en tiempo de ejecución. Le proporcionará la configuración para la inicialización solo. Puede combinar la configuración de un sistema de escritura XAML activo mediante uno de los <xref:System.Xaml.XamlXmlWriterSettings> firmas de constructor; sin embargo, a continuación, debe aplicar esta configuración a una nueva instancia de objeto de escritura XAML en lugar de intentar ajustar el ya existente.  
+ No cambie los valores de la `settings` objeto después de la <xref:System.Xaml.XamlXmlWriter> se construye la instancia. <xref:System.Xaml.XamlXmlWriter> no se puede actualizar su configuración interna según los valores de configuración que son mutables en tiempo de ejecución. Para la inicialización solo se debe proporcionar la configuración. Puede combinar la configuración de un sistema de escritura XAML activo mediante uno de los <xref:System.Xaml.XamlXmlWriterSettings> firmas de constructor; sin embargo, a continuación, debe aplicar esta configuración a una nueva instancia de sistema de escritura XAML en lugar de intentar ajustar uno existente.  
   
  ]]></format>
         </remarks>
@@ -220,7 +238,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- No cambie los valores de la `settings` objeto después de la <xref:System.Xaml.XamlXmlWriter> se construye la instancia. <xref:System.Xaml.XamlXmlWriter> no se puede actualizar sus valores internos basados en valores de configuración que son mutables en tiempo de ejecución. Le proporcionará la configuración para la inicialización solo. Puede combinar la configuración de un sistema de escritura XAML activo mediante uno de los <xref:System.Xaml.XamlXmlWriterSettings> firmas de constructor; sin embargo, a continuación, debe aplicar esta configuración a una nueva instancia de objeto de escritura XAML en lugar de intentar ajustar el ya existente.  
+ No cambie los valores de la `settings` objeto después de la <xref:System.Xaml.XamlXmlWriter> se construye la instancia. <xref:System.Xaml.XamlXmlWriter> no se puede actualizar su configuración interna según los valores de configuración que son mutables en tiempo de ejecución. Para la inicialización solo se debe proporcionar la configuración. Puede combinar la configuración de un sistema de escritura XAML activo mediante uno de los <xref:System.Xaml.XamlXmlWriterSettings> firmas de constructor; sin embargo, a continuación, debe aplicar esta configuración a una nueva instancia de sistema de escritura XAML en lugar de intentar ajustar uno existente.  
   
  ]]></format>
         </remarks>
@@ -252,7 +270,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta implementación llama `Close` en subyacente <xref:System.Xml.XmlWriter> o <xref:System.IO.TextWriter> para los casos donde <xref:System.Xaml.XamlXmlWriterSettings.CloseOutput%2A> es `true` en cualquier proporcionado <xref:System.Xaml.XamlXmlWriterSettings>. En caso contrario, llama a <xref:System.Xaml.XamlXmlWriter.Flush%2A>.  
+ Esta implementación llama `Close` en subyacente <xref:System.Xml.XmlWriter> o <xref:System.IO.TextWriter> para los casos donde <xref:System.Xaml.XamlXmlWriterSettings.CloseOutput%2A> es `true` en cualquier proporcionado <xref:System.Xaml.XamlXmlWriterSettings>. De lo contrario, llama a <xref:System.Xaml.XamlXmlWriter.Flush%2A>.  
   
  ]]></format>
         </remarks>
@@ -280,7 +298,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El `Dispose` comportamiento de un <xref:System.Xaml.XamlXmlWriter> pueden verse influidos por su configuración de sistema de escritura, especialmente por <xref:System.Xaml.XamlXmlWriterSettings.CloseOutput%2A?displayProperty=nameWithType>.  
+ El `Dispose` comportamiento para un <xref:System.Xaml.XamlXmlWriter> pueden verse influidos por su configuración del escritor, especialmente por <xref:System.Xaml.XamlXmlWriterSettings.CloseOutput%2A?displayProperty=nameWithType>.  
   
  ]]></format>
         </remarks>
@@ -298,6 +316,11 @@
         <AssemblyName>System.Xaml</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Xaml.XamlSchemaContext</ReturnType>
       </ReturnValue>
@@ -308,7 +331,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un escritor de XAML normalmente obtiene su contexto de esquema XAML del lector de XAML asociado que está proporcionando el flujo de nodo XAML.  
+ Normalmente, un escritor XAML obtiene su contexto de esquema XAML del lector de XAML asociado que suministra el flujo de nodo XAML.  
   
  ]]></format>
         </remarks>
@@ -336,7 +359,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El valor que se obtiene de esta propiedad es una copia y no una referencia. Cambiar valores de propiedad en la configuración no afecta a activos <xref:System.Xaml.XamlXmlWriter>.  
+ El valor que se obtiene de esta propiedad es una copia y no una referencia. Cambiar valores de propiedad en la configuración no afecta a activo <xref:System.Xaml.XamlXmlWriter>.  
   
  ]]></format>
         </remarks>
@@ -387,9 +410,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- En representaciones de marcado y texto de XAML, un objeto final es una etiqueta de cierre.  
+ En representaciones de texto y marcado de XAML, un objeto final es una etiqueta de cierre.  
   
- La más común caso where <xref:System.InvalidOperationException> producida por <xref:System.Xaml.XamlXmlWriter.WriteEndObject%2A> es cuando la posición actual de la secuencia de nodo XAML está aún dentro de un miembro, y <xref:System.Xaml.XamlXmlWriter.WriteEndObject%2A> se llama.  
+ La más común caso where <xref:System.InvalidOperationException> produce <xref:System.Xaml.XamlXmlWriter.WriteEndObject%2A> es cuando la posición actual del flujo de nodo XAML está aún dentro de un miembro, y <xref:System.Xaml.XamlXmlWriter.WriteEndObject%2A> se llama.  
   
  ]]></format>
         </remarks>
@@ -471,9 +494,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La lógica predeterminada interna en el <xref:System.Xaml.XamlXmlWriter> primero intenta escribir el miembro en forma de atributo. Si no hay ningún formulario de atributo se admite porque la propiedad o su valor no admite la sintaxis de texto, un elemento de propiedad se escribe en su lugar. Si la propiedad es una propiedad de contenido de XAML, un `GetObject` caso, o una propiedad implícita, pueden escribirse otras formas XAML, como texto interno o un elemento secundario de objeto que no tiene ningún miembro intermedio.  
+ La lógica predeterminada interna en el <xref:System.Xaml.XamlXmlWriter> primero intenta escribir el miembro en forma de atributo. Si no hay ningún formulario de atributo se admite porque la propiedad o su valor no admite la sintaxis de texto, un elemento de propiedad se escribe en su lugar. Si la propiedad es una propiedad de contenido XAML, un `GetObject` caso o una propiedad implícita, se pueden escribir otras formas XAML, como texto interno o un elemento secundario de objeto que no tiene ningún miembro que intervengan.  
   
- Nunca se produce la excepción de miembro duplicada si <xref:System.Xaml.XamlXmlWriterSettings.AssumeValidInput%2A> es `true` en el <xref:System.Xaml.XamlXmlWriterSettings> objeto que se usó para la configuración para esta <xref:System.Xaml.XamlXmlWriter>.  
+ Nunca se produce la excepción de miembro duplicado si <xref:System.Xaml.XamlXmlWriterSettings.AssumeValidInput%2A> es `true` en el <xref:System.Xaml.XamlXmlWriterSettings> objeto que se usó para la configuración para esta <xref:System.Xaml.XamlXmlWriter>.  
   
  ]]></format>
         </remarks>
@@ -482,7 +505,10 @@
         <exception cref="T:System.ArgumentException">
           <paramref name="property" /> no es un <see cref="T:System.Xaml.XamlMember" /> válido.</exception>
         <exception cref="T:System.InvalidOperationException">La posición actual de la secuencia de nodo XAML no es válida para escribir un miembro de inicio.</exception>
-        <exception cref="T:System.Xaml.XamlXmlWriterException">El estado del sistema de escritura no es válido para escribir a un miembro de inicio.  -o bien- El sistema de escritura XAML intentó escribir en un miembro duplicado. Esta excepción puede tener una excepción interna más precisa.</exception>
+        <exception cref="T:System.Xaml.XamlXmlWriterException">El estado del sistema de escritura no es válido para escribir a un miembro de inicio.  
+  
+O bien 
+El sistema de escritura XAML intentó escribir a un miembro duplicado. Esta excepción puede tener una excepción interna más precisa.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteStartObject">
