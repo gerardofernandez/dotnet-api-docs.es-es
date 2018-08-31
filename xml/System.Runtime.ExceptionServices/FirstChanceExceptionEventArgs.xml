@@ -1,11 +1,11 @@
 <Type Name="FirstChanceExceptionEventArgs" FullName="System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="2030e55041a262d9e02246639317d0ba84021bfc" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="bc000b362500be8011240d0d707c1d0845fb913c" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36635496" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39993659" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class FirstChanceExceptionEventArgs : EventArgs" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit FirstChanceExceptionEventArgs extends System.EventArgs" />
@@ -42,16 +42,16 @@
    
   
 ## Examples  
- En el ejemplo siguiente se crea una serie de dominios de aplicación denominado `Child_0` a través de `Child_3`, con un `Worker` objeto en cada dominio de aplicación. Cada `Worker` objeto tiene una referencia a la `Worker` objeto en el siguiente dominio de aplicación, excepto el `Worker` en el último dominio de aplicación. El <xref:System.AppDomain.FirstChanceException> evento está controlado en todos los dominios de aplicación excepto `Child_1`.  
+ En el ejemplo siguiente se crea una serie de dominios de aplicación denominada `Child_0` a través de `Child_3`, con un `Worker` objeto en cada dominio de aplicación. Cada `Worker` objeto tiene una referencia a la `Worker` objeto en el siguiente dominio de aplicación, excepto para el `Worker` en el último dominio de aplicación. El <xref:System.AppDomain.FirstChanceException> evento se controla en todos los dominios de aplicación, excepto `Child_1`.  
   
- Cuando se hayan creado los dominios de aplicación, el dominio de aplicación predeterminado llama el `TestException` método para el primer dominio de aplicación secundario. Cada `Worker` objeto llama el `TestException` método durante los próximos, hasta el último `Worker` produce una excepción que es controlada o no. Por lo tanto, el subproceso actual se pasa a través de todos los dominios de aplicación, y `TestException` se agrega a la pila en cada dominio de aplicación.  
+ Cuando se han creado los dominios de aplicación, el dominio de aplicación predeterminado llama el `TestException` método para el primer dominio de aplicación secundario. Cada `Worker` de objeto llama el `TestException` método durante los próximos, hasta el último `Worker` produce una excepción que es controlada o no. Por lo tanto, el subproceso actual se pasa a través de todos los dominios de aplicación, y `TestException` se agrega a la pila en cada dominio de aplicación.  
   
  Cuando el último `Worker` objeto controla la excepción, el <xref:System.AppDomain.FirstChanceException> evento se produce solo en el último dominio de aplicación. Los demás dominios de aplicación nunca tienen la oportunidad para controlar la excepción, por lo que no se genera el evento.  
   
- Cuando el último `Worker` objeto no controla la excepción, el <xref:System.AppDomain.FirstChanceException> evento se produce en cada dominio de aplicación que tiene un controlador de eventos. Una vez finalizada cada controlador de eventos, la pila continúa desenredar hasta que se detecta la excepción por dominio de aplicación predeterminado.  
+ Cuando el último `Worker` objeto no controla la excepción, el <xref:System.AppDomain.FirstChanceException> evento se genera en cada dominio de aplicación que tiene un controlador de eventos. Una vez terminada cada controlador de eventos, la pila continúa desenredar hasta que la excepción ha sido detectada por el dominio de aplicación predeterminado.  
   
 > [!NOTE]
->  Para ver cómo la presentación de la pila crece tal y como se genera el evento más cercano y cuanto más se acerque al dominio de aplicación predeterminado, cambie `e.Exception.Message` a `e.Exception` en el `FirstChanceHandler` controladores de eventos. Tenga en cuenta que, cuando `TestException` se llama a través de los límites del dominio de aplicación, este aparece dos veces: una vez para el proxy y otra para el código auxiliar.  
+>  Para ver cómo la presentación de la pila crece a medida que se genera el evento más cercanos y cuanto más se acerque al dominio de aplicación predeterminado, cambie `e.Exception.Message` a `e.Exception` en el `FirstChanceHandler` controladores de eventos. Tenga en cuenta que, cuando `TestException` se llama a través de los límites del dominio de aplicación, aparece dos veces: una vez para el proxy y otra para el código auxiliar.  
   
  [!code-csharp[System.AppDomain.FirstChanceException#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.appdomain.firstchanceexception/cs/example.cs#1)]
  [!code-vb[System.AppDomain.FirstChanceException#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.appdomain.firstchanceexception/vb/example.vb#1)]  
@@ -92,7 +92,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Common language runtime llama a este constructor no por código de aplicación.  
+ Este constructor llama a common language runtime, no por el código de aplicación.  
   
  ]]></format>
         </remarks>
@@ -121,7 +121,7 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>get: System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
         </Attribute>
       </Attributes>
@@ -135,7 +135,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El método que controla el <xref:System.AppDomain.UnhandledException?displayProperty=nameWithType> pueden examinar la excepción y realizar el registro adecuado u otros servicios de notificación de eventos.  
+ El método que controla el <xref:System.AppDomain.UnhandledException?displayProperty=nameWithType> evento puede examinar la excepción y realizar el registro adecuado u otros servicios de notificación.  
   
  Para obtener código de ejemplo, vea <xref:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs>.  
   
