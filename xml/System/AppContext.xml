@@ -1,11 +1,11 @@
 <Type Name="AppContext" FullName="System.AppContext">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="482d52e5b69288b9a8240a5a41deef259168aace" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="22baeef40fafd807844df877ee179199629f82f1" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36433580" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39909635" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class AppContext" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit AppContext extends System.Object" />
@@ -42,34 +42,34 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La <xref:System.AppContext> clase permite a los autores de bibliotecas proporcionar un mecanismo uniforme para cancelar la participación con nueva funcionalidad para sus usuarios. Establece un contrato flexible entre los componentes para poder comunicar una solicitud de cancelación de la participación. Esta capacidad normalmente es importante cuando se realiza un cambio en la funcionalidad existente. Por el contrario, la nueva funcionalidad participa de forma implícita.  
+ La <xref:System.AppContext> clase permite a los autores de bibliotecas proporcionar un mecanismo de desactivación uniforme para la nueva funcionalidad para sus usuarios. Establece un contrato flexible entre los componentes para poder comunicar una solicitud de cancelación de la participación. Esta capacidad normalmente es importante cuando se realiza un cambio en la funcionalidad existente. Por el contrario, la nueva funcionalidad participa de forma implícita.  
   
 ## <a name="appcontext-for-library-developers"></a>AppContext para los desarrolladores de bibliotecas  
- Bibliotecas usan el <xref:System.AppContext> conmutadores de clase para definir y exponer la compatibilidad, mientras que los usuarios de la biblioteca pueden configurar dichos modificadores para que afecten al comportamiento de la biblioteca. De forma predeterminada, las bibliotecas proporcionan la nueva funcionalidad y solo la modifican (es decir, ofrecen la funcionalidad anterior) si el modificador está establecido.  Esto permite que las bibliotecas dar nuevo comportamiento de una API existente sigue siendo compatible con los llamadores que dependen del comportamiento anterior.  
+ Las bibliotecas usan el <xref:System.AppContext> conmutadores de clase para definir y exponer la compatibilidad, mientras que los usuarios de la biblioteca pueden configurar dichos modificadores para afectar al comportamiento de la biblioteca. De forma predeterminada, las bibliotecas proporcionan la nueva funcionalidad y solo la modifican (es decir, ofrecen la funcionalidad anterior) si el modificador está establecido.  Esto permite que las bibliotecas para proporcionar el nuevo comportamiento de una API existente mientras se continúa admitiendo los llamadores que dependen del comportamiento anterior.  
   
 ### <a name="defining-the-switch-name"></a>Definir el nombre del conmutador  
- La manera más común para permitir que los consumidores de la biblioteca rechazar un cambio de comportamiento es definir un modificador con nombre.  Su `value` elemento es un par de nombre/valor que se compone del nombre de un conmutador y su <xref:System.Boolean> valor.  De forma predeterminada, el modificador siempre es implícitamente `false`, que proporciona el nuevo comportamiento (y hace que el nuevo comportamiento participar de forma predeterminada). Cuando el modificador se establece `true` lo habilita, que proporciona el comportamiento heredado. El modificador se establece explícitamente en `false` también proporciona el nuevo comportamiento.  
+ La manera más común para permitir que los consumidores de la biblioteca rechazar un cambio de comportamiento es definir un modificador con nombre.  Su `value` elemento es un par de nombre-valor que consta del nombre de un conmutador y su <xref:System.Boolean> valor.  De forma predeterminada, el modificador siempre es implícitamente `false`, que proporciona el nuevo comportamiento (y hace que el nuevo comportamiento participar de forma predeterminada). Si el modificador se establece en `true` permite, que proporciona el comportamiento heredado. El modificador se establece explícitamente en `false` también proporciona el nuevo comportamiento.  
   
- Es conveniente usar un formato coherente para los nombres de conmutador, ya que son un contrato formal que expone una biblioteca. Las siguientes son dos formatos obvios.  
+ Es conveniente usar un formato coherente para los nombres de conmutador, que forman un contrato formal que expone una biblioteca. Las siguientes son dos formatos obvios.  
   
 -   *Modificador*.*espacio de nombres*.*nombre del modificador*  
   
 -   *Modificador*.*biblioteca*.*nombre del modificador*  
   
- Una vez que se define y documentar el conmutador, los autores de llamada pueden usar con el registro, mediante la adición de un [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) elemento a su archivo de configuración de aplicación, o mediante una llamada a la <xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType> método mediante programación. Consulte la [AppContext para los consumidores de la biblioteca](#ForConsumers) sección para obtener más información sobre cómo los autores de llamadas y establezca el valor de <xref:System.AppContext> modificadores de configuración.  
+ Una vez que defina y documente el conmutador, los llamadores pueden utilizar con el registro, agregando un [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) elemento a su archivo de configuración de aplicación, o mediante una llamada a la <xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType> método mediante programación. Consulte la [AppContext para los consumidores de la biblioteca](#ForConsumers) sección para obtener más información sobre cómo los autores de llamadas y establezca el valor de <xref:System.AppContext> modificadores de configuración.  
   
- Cuando common language runtime ejecuta una aplicación, automáticamente lee la configuración de compatibilidad del registro y carga el archivo de configuración de aplicación con el fin de rellenar la aplicación <xref:System.AppContext> instancia. Dado que la <xref:System.AppContext> instancia se rellena mediante programación por el llamador o en tiempo de ejecución, no es necesario realizar ninguna acción, como la llamada a la <xref:System.AppContext.SetSwitch%2A> método, para configurar el <xref:System.AppContext> instancia.  
+ Cuando common language runtime ejecuta una aplicación, automáticamente lee la configuración de compatibilidad del registro y carga el archivo de configuración de aplicación con el fin de rellenar la aplicación <xref:System.AppContext> instancia. Dado que el <xref:System.AppContext> instancia se rellena mediante programación, el autor de llamada o el tiempo de ejecución, no es necesario realizar ninguna acción, como la llamada a la <xref:System.AppContext.SetSwitch%2A> método para configurar el <xref:System.AppContext> instancia.  
   
-### <a name="checking-the-setting"></a>Comprobación de la configuración  
- A continuación, puede comprobar si un consumidor declaró el valor del conmutador y act adecuadamente mediante una llamada a la <xref:System.AppContext.TryGetSwitch%2A?displayProperty=nameWithType> método. El método devuelve `true` si la `switchName` argumento se encuentra y, cuando el método devuelve, sus `isEnabled` argumento indica el valor del modificador.  De lo contrario, el método devuelve `false`.  
+### <a name="checking-the-setting"></a>Comprobando la configuración  
+ A continuación, puede comprobar si un consumidor declaró el valor del conmutador y act correctamente al llamar a la <xref:System.AppContext.TryGetSwitch%2A?displayProperty=nameWithType> método. El método devuelve `true` si el `switchName` argumento se encuentra y, cuando el método devuelve, sus `isEnabled` argumento indica el valor del modificador.  De lo contrario, el método devuelve `false`.  
   
 ### <a name="an-example"></a>Un ejemplo  
- En el ejemplo siguiente se muestra el uso de la <xref:System.AppContext> clase para permitir que el cliente elija el comportamiento de un método de biblioteca original.   La siguiente es la versión 1.0 de una biblioteca denominada `StringLibrary`. Define un `SubstringStartsAt` método que realiza una comparación de ordinales para determinar el índice inicial de una subcadena en una cadena mayor.  
+ El ejemplo siguiente muestra el uso de la <xref:System.AppContext> clase para permitir que el cliente elegir el comportamiento original de un método de biblioteca.   La siguiente es la versión 1.0 de una biblioteca denominada `StringLibrary`. Define un `SubstringStartsAt` método que realiza una comparación ordinal para determinar el índice inicial de una subcadena dentro de una cadena mayor.  
   
  [!code-csharp[System.AppContext.Class#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/Example4.cs#4)]
  [!code-vb[System.AppContext.Class#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/Example4.vb#4)]  
   
- A continuación, en el ejemplo siguiente se utiliza la biblioteca para buscar el índice inicial de la subcadena "archæ" en "El archaeologist". Dado que el método realiza una comparación ordinal, no se encuentra la subcadena.  
+ En el siguiente ejemplo, a continuación, usa la biblioteca para encontrar el índice inicial de la subcadena "archæ" en "El archaeologist". Dado que el método realiza una comparación ordinal, no se encuentra la subcadena.  
   
  [!code-csharp[System.AppContext.Class#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/Example4.cs#5)]
  [!code-vb[System.AppContext.Class#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/Example4.vb#5)]  
@@ -79,17 +79,17 @@
  [!code-csharp[System.AppContext.Class#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/Example6.cs#6)]
  [!code-vb[System.AppContext.Class#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/Example6.vb#6)]  
   
- Cuando se vuelve a compilar la aplicación para ejecutarla en la nueva versión de la biblioteca, ahora informa que la subcadena "archæ" se encuentra en el índice 4 en "El archaeologist".  
+ Cuando se vuelve a compilar la aplicación para ejecutarla en la nueva versión de la biblioteca, ahora informa que no se encuentra la subcadena "archæ" en el índice 4 en "El archaeologist".  
   
  [!code-csharp[System.AppContext.Class#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/Example6.cs#7)]
  [!code-vb[System.AppContext.Class#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/Example6.vb#7)]  
   
- Este cambio se puede evitar interrumpir las aplicaciones que dependen del comportamiento original mediante la definición de un [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) cambiar. En este caso, el modificador se denomina `StringLibrary.DoNotUseCultureSensitiveComparison`. Su valor predeterminado, `false`, indica que la biblioteca debe realizar su comparación de cuenta de la referencia cultural de la versión 2.0. `true` indica que la biblioteca debe realizar la comparación ordinal de la versión 1.0.  Una pequeña modificación del código anterior, el consumidor de biblioteca puede configurar el conmutador para determinar el tipo de comparación que se realiza el método.  
+ Este cambio se puede evitar interrumpir las aplicaciones que dependen del comportamiento original mediante la definición de un [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) cambie. En este caso, el modificador se denomina `StringLibrary.DoNotUseCultureSensitiveComparison`. Su valor predeterminado, `false`, indica que la biblioteca debe realizar su comparación de la referencia cultural de la versión 2.0. `true` indica que la biblioteca debe realizar la comparación ordinal de la versión 1.0.  Una pequeña modificación del código anterior permite al consumidor de la biblioteca establecer el modificador para determinar el tipo de comparación que realiza el método.  
   
  [!code-csharp[System.AppContext.Class#8](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/Example8.cs#8)]
  [!code-vb[System.AppContext.Class#8](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/Example8.vb#8)]  
   
- Si la aplicación, a continuación, puede utilizar el siguiente archivo de configuración para restaurar el comportamiento de la versión 1.0.  
+ Si la aplicación, a continuación, puede usar el siguiente archivo de configuración para restaurar el comportamiento de la versión 1.0.  
   
 ```xml  
   
@@ -101,7 +101,7 @@
   
 ```  
   
- Cuando la aplicación se ejecuta con el archivo de configuración está presente, produce el siguiente resultado:  
+ Cuando se ejecuta la aplicación con el archivo de configuración está presente, genera el resultado siguiente:  
   
 ```  
 'archæ' not found in 'The archaeologist'  
@@ -109,17 +109,17 @@
   
 <a name="ForConsumers"></a>   
 ## <a name="appcontext-for-library-consumers"></a>AppContext para los consumidores de la biblioteca  
- Si es que el consumidor de una biblioteca, el <xref:System.AppContext> clase le permite aprovechar las ventajas de una biblioteca o mecanismo de desactivación del método de la biblioteca para la nueva funcionalidad.   Los métodos individuales de la biblioteca de clases que se está llamando a definen determinados modificadores que habilitan o deshabilitan un nuevo comportamiento. El valor del modificador es un valor booleano. Si es `false`, que normalmente es el valor predeterminado, el nuevo comportamiento está habilitado; si es `true`, el nuevo comportamiento está deshabilitado y el miembro se comporta tal y como lo hacía anteriormente.  
+ Si es que el consumidor de una biblioteca, el <xref:System.AppContext> clase le permite aprovechar las ventajas de una biblioteca o mecanismo la participación con nueva funcionalidad del método de biblioteca.   Los métodos individuales de la biblioteca de clases que se está llamando a definen determinados modificadores que habilitan o deshabilitan un nuevo comportamiento. El valor del modificador es un valor booleano. Si es `false`, que normalmente es el valor predeterminado, el nuevo comportamiento está habilitado; si es `true`, el nuevo comportamiento está deshabilitado y el miembro se comporta como lo hacía anteriormente.  
   
  Puede establecer el valor de un conmutador en uno de tres maneras:  
   
--   Mediante una llamada a la <xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType> método en el código.  El `switchName` argumento define el nombre del conmutador y el `isEnabled` propiedad define el valor del modificador. Dado que <xref:System.AppContext> es una clase estática, está disponible en forma de dominio por aplicación.  
+-   Mediante una llamada a la <xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType> método en el código.  El `switchName` argumento define el nombre del conmutador y el `isEnabled` propiedad define el valor del modificador. Dado que <xref:System.AppContext> es una clase estática, está disponible en una base por dominio de aplicación.  
   
-     Llamar a la <xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType> tiene ámbito de aplicación; es decir, afecta a solo la aplicación.  
+     Una llamada a la <xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType> tiene ámbito de aplicación; es decir, afecta a solo la aplicación.  
   
--   Mediante la adición de un `<AppContextSwitchOverrides>` elemento a la [ \<en tiempo de ejecución >](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) sección del archivo app.config. El conmutador tiene un único atributo, `value`, cuyo valor es una cadena que representa un par de clave/valor que contiene el nombre del conmutador y su valor.  
+-   Agregando un `<AppContextSwitchOverrides>` elemento a la [ \<en tiempo de ejecución >](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) sección del archivo app.config. El conmutador tiene un atributo único, `value`, cuyo valor es una cadena que representa un par clave/valor que contiene el nombre del conmutador y su valor.  
   
-     Para definir varios conmutadores, separe el par de clave/valor de cada conmutador en la [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) del elemento `value` atributo con un punto y coma. En ese caso, el `<AppContextSwitchOverrides>` elemento tiene el formato siguiente:  
+     Para definir varios conmutadores, separe el par de clave/valor de cada modificador en el [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) del elemento `value` atributo con un punto y coma. En ese caso, el `<AppContextSwitchOverrides>` elemento tiene el formato siguiente:  
   
     ```xml  
     <AppContextSwitchOverrides value="switchName1=value1;switchName2=value2" />  
@@ -128,26 +128,26 @@
      Mediante el `<AppContextSwitchOverrides>` elemento para definir un valor de configuración tiene ámbito de aplicación; es decir, afecta a solo la aplicación.  
 
     > [!NOTE]    
-    > Para obtener información sobre los modificadores definidos por .NET Framework, vea la [ \<AppContextSwitchOverrides > elemento](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md).
+    > Para obtener información sobre los modificadores definidos por .NET Framework, vea el [ \<AppContextSwitchOverrides > elemento](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md).
 
--   Mediante la adición de un valor de cadena cuyo nombre es el nombre del conmutador para la `HKLM\SOFTWARE\Microsoft\.NETFramework\AppContext` clave en el registro. Su valor debe ser la representación de cadena de un <xref:System.Boolean> que pueda analizar la <xref:System.Boolean.Parse%2A?displayProperty=nameWithType> método; es decir, debe ser "True", "true", "False" o "false". Si el tiempo de ejecución encuentra cualquier otro valor, omite el conmutador.  
+-   Mediante la adición de un valor de cadena cuyo nombre es el nombre del conmutador para la `HKLM\SOFTWARE\Microsoft\.NETFramework\AppContext` clave en el registro. Su valor debe ser la representación de cadena de un <xref:System.Boolean> que pueda analizar la <xref:System.Boolean.Parse%2A?displayProperty=nameWithType> método; es decir, debe ser "True", "true", "False" o "false". Si el tiempo de ejecución encuentra cualquier otro valor, omite el modificador.  
   
-     Utilizar el registro para definir un <xref:System.AppContext> conmutador tiene ámbito de máquina; es decir, afecta a cada aplicación que se ejecuta en el equipo.  
+     Mediante el registro para definir un <xref:System.AppContext> conmutador tiene ámbito de equipo; es decir, afecta a todas las aplicaciones que se ejecutan en la máquina.  
   
- Si establece el mismo conmutador en más de una forma, el orden de prioridad para determinar qué configuración invalida los demás es:  
+ Si establece el mismo conmutador en más de una forma, es el orden de prioridad para determinar qué configuración invalida los demás:  
   
 1.  La configuración mediante programación.  
   
-2.  La configuración en el archivo de configuración de aplicación.  
+2.  La configuración en el archivo app.config.  
   
 3.  La configuración del registro.  
   
- La siguiente es una aplicación simple que pasa un URI de archivo para el <xref:System.IO.Path.GetDirectoryName%2A?displayProperty=nameWithType> método.  Cuando se ejecutan en .NET Framework 4.6, se produce un <xref:System.ArgumentException> porque `file://` ya no es una parte de una ruta de acceso de archivo válida.  
+ La siguiente es una aplicación sencilla que pasa un URI de archivo para el <xref:System.IO.Path.GetDirectoryName%2A?displayProperty=nameWithType> método.  Cuando se ejecutan en .NET Framework 4.6, produce un <xref:System.ArgumentException> porque `file://` ya no es una parte de una ruta de acceso de archivo válida.  
   
  [!code-csharp[System.AppContext.Class#10](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/ForConsumers1.cs#10)]
  [!code-vb[System.AppContext.Class#10](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/ForConsumers1.vb#10)]  
   
- Para restaurar el comportamiento anterior del método y evitar la excepción, puede agregar el `Switch.System.IO.UseLegacyPathHandling` cambiar en el archivo de configuración de aplicación para el ejemplo:  
+ Para restaurar el comportamiento del método anterior y evitar la excepción, puede agregar el `Switch.System.IO.UseLegacyPathHandling` modificador al archivo de configuración de aplicación para el ejemplo:  
   
 ```xml  
 <configuration>  
@@ -157,7 +157,7 @@
 </configuration>  
 ```  
 ## <a name="see-also"></a>Vea también
-[Conmutador AppContext](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md)
+[Modificador de AppContext](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md)
 
  ]]></format>
     </remarks>
@@ -232,6 +232,11 @@
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netstandard-2.0">
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Object</ReturnType>
       </ReturnValue>
@@ -287,19 +292,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La <xref:System.AppContext> clase permite a los autores de bibliotecas proporcionar un mecanismo uniforme para cancelar la participación con nueva funcionalidad para sus usuarios. Establece un contrato flexible entre los componentes para poder comunicar una solicitud de cancelación de la participación. Esta capacidad normalmente es importante cuando se realiza un cambio en la funcionalidad existente. Por el contrario, la nueva funcionalidad participa de forma implícita.  
+ La <xref:System.AppContext> clase permite a los autores de bibliotecas proporcionar un mecanismo de desactivación uniforme para la nueva funcionalidad para sus usuarios. Establece un contrato flexible entre los componentes para poder comunicar una solicitud de cancelación de la participación. Esta capacidad normalmente es importante cuando se realiza un cambio en la funcionalidad existente. Por el contrario, la nueva funcionalidad participa de forma implícita.  
   
- El <xref:System.AppContext.SetSwitch%2A> método llama a una aplicación (o una biblioteca) para declarar el valor de un modificador (que es siempre un <xref:System.Boolean> valor) que define una biblioteca dependiente. El modificador siempre es implícitamente `false`, que proporciona el nuevo comportamiento. Cuando el modificador se establece `true` lo habilita, que proporciona el comportamiento heredado. El modificador se establece explícitamente en `false` también proporciona el nuevo comportamiento. La biblioteca dependiente, a continuación, puede comprobar el valor del conmutador mediante una llamada a la <xref:System.AppContext.TryGetSwitch%2A> método.  
+ El <xref:System.AppContext.SetSwitch%2A> se llama al método mediante una aplicación (o una biblioteca) para declarar el valor de un modificador (que es siempre un <xref:System.Boolean> valor) que define una biblioteca dependiente. El modificador siempre es implícitamente `false`, que proporciona el nuevo comportamiento. Si el modificador se establece en `true` permite, que proporciona el comportamiento heredado. El modificador se establece explícitamente en `false` también proporciona el nuevo comportamiento. La biblioteca dependiente, a continuación, puede comprobar el valor del conmutador mediante una llamada a la <xref:System.AppContext.TryGetSwitch%2A> método.  
   
 > [!NOTE]
->  Es conveniente usar un formato coherente para los nombres de conmutador, ya que son un contrato formal que expone una biblioteca. Las siguientes son dos formatos obvios.  
+>  Es conveniente usar un formato coherente para los nombres de conmutador, que forman un contrato formal que expone una biblioteca. Las siguientes son dos formatos obvios.  
 >   
 >  -   *Modificador*.*espacio de nombres*.*nombre del modificador*  
 > -   *Modificador*.*biblioteca*.*nombre del modificador*  
   
- Para aplicaciones que se ejecutan en .NET Framework, además de establecer el valor de un conmutador mediante programación, también puede establecer:  
+ Para las aplicaciones que se ejecutan en .NET Framework, además de establecer mediante programación, el valor de un modificador también se puede establecer:  
   
--   Agregando el nombre del conmutador y el valor para el [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) elemento en el [ \<en tiempo de ejecución >](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) sección de un archivo de configuración de aplicación. Por ejemplo, la siguiente define un conmutador denominado `Libraries.FPLibrary.UseExactFloatingPointComparison` cuyo valor es `False`.  
+-   Agregando el nombre del conmutador y el valor para el [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) elemento en el [ \<en tiempo de ejecución >](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) sección de un archivo de configuración de la aplicación. Por ejemplo, el código siguiente define un conmutador denominado `Libraries.FPLibrary.UseExactFloatingPointComparison` cuyo valor es `False`.  
   
     ```xml  
   
@@ -313,18 +318,18 @@
   
 -   Mediante la adición de un valor de cadena cuyo nombre es el nombre del conmutador para la `HKLM\SOFTWARE\Microsoft\.NETFramework\AppContext` clave en el registro. Su valor debe ser la representación de cadena de un <xref:System.Boolean> que pueda analizar la <xref:System.Boolean.Parse%2A?displayProperty=nameWithType> método; es decir, debe ser "True", "true", "False" o "false".  
   
- Si `switchName` ya existe, su valor lo sobrescribe el `isEnabled` argumento.  Es decir, la llamada más reciente a la <xref:System.AppContext.SetSwitch%2A> método invalida el valor definido en el registro, en un archivo de configuración de la aplicación o por las llamadas anteriores a la <xref:System.AppContext.SetSwitch%2A> método.  
+ Si `switchName` ya existe, su valor lo sobrescribe el `isEnabled` argumento.  Es decir, la llamada más reciente a la <xref:System.AppContext.SetSwitch%2A> método invalida el valor definido en el registro, en un archivo de configuración de la aplicación o por llamadas anteriores a la <xref:System.AppContext.SetSwitch%2A> método.  
  
  ### <a name="appcontextsetswitch-and-net-core"></a>AppContext.SetSwitch y .NET Core
 
-.NET core es compatible con llamadas mediante programación con el <xref:System.AppContext.SetSwitch%2A> método únicamente. Se admiten los siguientes modificadores:
+.NET core es compatible con las llamadas mediante programación con el <xref:System.AppContext.SetSwitch%2A> solo método. Se admiten los siguientes modificadores:
 
 |Modificador|Valores|Descripción|
 |--|--|--|
-|`System.Net.Http.useSocketsHttpHandler` |`true`|`false`|Determina si el alto nivel las API de red como <xref:System.Net.Http.HttpClient> usar <xref:System.Net.Http.SocketsHttpHandler?displayProperty=nameWithType> (`true`) o <xref:System.Net.Http.HttpClientHandler?displayProperty=nameWithType> (`false`).|   
+|`System.Net.Http.useSocketsHttpHandler` |`true`|`false`|Determina si el alto nivel las API de red, como <xref:System.Net.Http.HttpClient> usar <xref:System.Net.Http.SocketsHttpHandler?displayProperty=nameWithType> (`true`) o <xref:System.Net.Http.HttpClientHandler?displayProperty=nameWithType> (`false`).|   
   
 ## Examples  
- La siguiente línea de código establece un conmutador denominado `Switch.AmazingLib.ThrowOnException` a `true`, lo que permite un comportamiento heredado. La biblioteca, a continuación, puede comprobar si un consumidor de la biblioteca estableció el valor del conmutador mediante una llamada a la <xref:System.AppContext.TryGetSwitch%2A> método.  
+ La siguiente línea de código establece un modificador denominado `Switch.AmazingLib.ThrowOnException` a `true`, lo que permite un comportamiento heredado. La biblioteca, a continuación, puede comprobar si un consumidor de la biblioteca estableció el valor del conmutador mediante una llamada a la <xref:System.AppContext.TryGetSwitch%2A> método.  
   
  [!code-csharp[System.AppContext.Class#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/TestValue1.cs#1)]
  [!code-vb[System.AppContext.Class#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/TestValue1.vb#1)]  
@@ -364,6 +369,11 @@
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netstandard-2.0">
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
@@ -374,7 +384,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El nombre de la versión de framework de destino se corresponde con el valor de la <xref:System.Runtime.Versioning.TargetFrameworkAttribute.FrameworkName%2A?displayProperty=nameWithType> propiedad. Para obtener una lista de nombres de framework de destino para .NET Framework, vea la [ &lt;supportedRuntime&gt; elemento](~/docs/framework/configure-apps/file-schema/startup/supportedruntime-element.md) elemento.  
+ El nombre de la versión de framework de destino se corresponde con el valor de la <xref:System.Runtime.Versioning.TargetFrameworkAttribute.FrameworkName%2A?displayProperty=nameWithType> propiedad. Para obtener una lista de nombres de framework de destino para .NET Framework, vea el [ &lt;supportedRuntime&gt; elemento](~/docs/framework/configure-apps/file-schema/startup/supportedruntime-element.md) elemento.  
   
  ]]></format>
         </remarks>
@@ -414,7 +424,7 @@
       </ReturnValue>
       <Parameters>
         <Parameter Name="switchName" Type="System.String" />
-        <Parameter Name="isEnabled" Type="System.Boolean&amp;" RefType="out" />
+        <Parameter Name="isEnabled" Type="System.Boolean" RefType="out" />
       </Parameters>
       <Docs>
         <param name="switchName">Nombre del conmutador.</param>
@@ -426,16 +436,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La <xref:System.AppContext> clase permite a los autores de bibliotecas proporcionar un mecanismo uniforme para cancelar la participación con nueva funcionalidad para sus usuarios. Establece un contrato flexible entre los componentes para poder comunicar una solicitud de cancelación de la participación. Esta capacidad normalmente es importante cuando se realiza un cambio en la funcionalidad existente. Por el contrario, la nueva funcionalidad participa de forma implícita.  
+ La <xref:System.AppContext> clase permite a los autores de bibliotecas proporcionar un mecanismo de desactivación uniforme para la nueva funcionalidad para sus usuarios. Establece un contrato flexible entre los componentes para poder comunicar una solicitud de cancelación de la participación. Esta capacidad normalmente es importante cuando se realiza un cambio en la funcionalidad existente. Por el contrario, la nueva funcionalidad participa de forma implícita.  
   
- Common language runtime rellena automáticamente los modificadores que se asigna a un <xref:System.AppContext> instancia al leer el registro y archivo de configuración de la aplicación. A continuación, se puede reemplazar el valor de estos modificadores y agregan nuevos modificadores, mediante una llamada a la <xref:System.AppContext.SetSwitch%2A> método.  
+ Common language runtime rellena automáticamente los modificadores que se asigna a un <xref:System.AppContext> instancia al leer el registro y archivo de configuración de la aplicación. A continuación, se puede invalidar el valor de estos modificadores y agregan nuevos modificadores, mediante una llamada a la <xref:System.AppContext.SetSwitch%2A> método.  
   
- Llama a una biblioteca de la <xref:System.AppContext.TryGetSwitch%2A> método para comprobar si sus consumidores han declarado el valor del conmutador y, a continuación, actúen debidamente en él.  De forma predeterminada, si el conmutador no está definido, la nueva funcionalidad está habilitada... Si el modificador está definido y su valor es `false`, también se habilita la funcionalidad nueva. Si su valor es `true`, el comportamiento heredado está habilitado.  
+ Llama una biblioteca de la <xref:System.AppContext.TryGetSwitch%2A> método para comprobar si sus consumidores han declarado el valor del conmutador y, a continuación, actúen debidamente en él.  De forma predeterminada, si el conmutador no está definido, la nueva funcionalidad está habilitada... Si se define el modificador y su valor es `false`, también se habilita la nueva funcionalidad. Si su valor es `true`, se habilita el comportamiento heredado.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se determina si un consumidor de la biblioteca estableció un conmutador denominado `Switch.AmazingLib.ThrowOnException`.  
+ El ejemplo siguiente determina si un consumidor de la biblioteca estableció un conmutador denominado `Switch.AmazingLib.ThrowOnException`.  
   
  [!code-csharp[System.AppContext.Class#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/TestValue1.cs#2)]
  [!code-vb[System.AppContext.Class#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/TestValue1.vb#2)]  
