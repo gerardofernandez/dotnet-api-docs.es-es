@@ -1,11 +1,11 @@
 <Type Name="ProfileOptimization" FullName="System.Runtime.ProfileOptimization">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="858f0245329b150023b79f4536c24c775356f272" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="080972883de9a24a3ad924070590e7903719dc51" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36532968" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39954809" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class ProfileOptimization" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit ProfileOptimization extends System.Object" />
@@ -29,17 +29,17 @@
 ## Remarks  
   
 > [!IMPORTANT]
->  Optimización de perfil requiere un equipo con varios núcleos. Los métodos se omiten en otros equipos.  
+>  Optimización por perfiles requiere un equipo con varios núcleos. Los métodos se omiten en otros equipos.  
   
- Cada vez que inicie la optimización de perfiles en un dominio de aplicación, se lee el perfil que se creó durante el uso anterior. La información del perfil se utiliza para guiar la compilación en segundo plano mediante la identificación de los métodos que son más posibilidades de ejecutarse durante el inicio. En los equipos con varios núcleos, esto aumenta las posibilidades de que un método está compilado en el momento en que se necesita para que el subproceso de aplicación principal no tiene que llamar el compilador JIT.  
+ Cada vez que se inicia la optimización de perfil en un dominio de aplicación, se lee el perfil que se creó durante el uso anterior. La información en el perfil se usa para guiar la compilación en segundo plano mediante la identificación de los métodos que es más probables que se ejecutará durante el inicio. En equipos con varios núcleos, esto aumenta las posibilidades de que un método está compilado en el momento en que se necesita para que el subproceso principal de la aplicación no tiene que llamar el compilador JIT.  
   
- Se sobrescribe el archivo de perfil en cada uso, por lo que siempre contiene la información más reciente sobre qué métodos se usan durante el inicio.  
+ El archivo de perfil se sobrescribe en cada uso, por lo que siempre contiene la información más reciente sobre qué métodos se usan durante el inicio.  
   
- Perfiles de optimización no se restringen el inicio del dominio de aplicación. Se puede usar para cualquier actividad que requiera un uso intensivo del compilador JIT. Puede mantener varios perfiles para un dominio de aplicación para que cada dicha actividad tiene su propio perfil.  
+ Perfiles de optimización no están restringidos al inicio del dominio de aplicación. Se puede usar para cualquier actividad que requerirá un uso intensivo del compilador JIT. Puede mantener varios perfiles para un dominio de aplicación para que cada dicha actividad tiene su propio perfil.  
   
- Para usar perfiles de optimización en un dominio de aplicación, se debe llamar a la <xref:System.Runtime.ProfileOptimization.SetProfileRoot%2A> método y especifique la carpeta donde se almacenan los perfiles. La carpeta ya debe existir. Para empezar a usar un perfil, llame a la <xref:System.Runtime.ProfileOptimization.StartProfile%2A> método y especifique el nombre de archivo del perfil. Si el archivo no se había grabado anteriormente, se crea por primera vez. No hay ningún tiempo de la primera ventaja de rendimiento se crea un perfil.  
+ Para usar perfiles de optimización en un dominio de aplicación, debe llamar a la <xref:System.Runtime.ProfileOptimization.SetProfileRoot%2A> método y especifique la carpeta donde se almacenan los perfiles. Ya debe existir la carpeta. Para empezar a usar un perfil, llame a la <xref:System.Runtime.ProfileOptimization.StartProfile%2A> método y especifique el nombre de archivo del perfil. Si el archivo no se había grabado anteriormente, se crea en el primer uso. No hay ningún tiempo de la primera ventaja de rendimiento se crea un perfil.  
   
- Optimización de perfil no cambia el orden en que se ejecutan métodos. Métodos no se ejecutan en el subproceso en segundo plano; Si se compila pero nunca llama a un método, simplemente no sirve. Si un archivo de perfil está dañado o no se puede escribir en la carpeta especificada (por ejemplo, porque la carpeta no existe), la ejecución del programa continúa sin optimización de generación de perfiles.  
+ Optimización por perfiles no cambia el orden en que se ejecutan los métodos. Los métodos no se ejecutan en el subproceso en segundo plano; Si un método se compila, pero nunca se llama, simplemente no sirve. Si un archivo de perfil está dañado o no se puede escribir en la carpeta especificada (por ejemplo, porque la carpeta no existe), la ejecución del programa continúa sin optimización de generación de perfiles.  
   
  ]]></format>
     </remarks>
@@ -58,7 +58,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
           <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -75,15 +75,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Debe llamar a este método antes de llamar a la <xref:System.Runtime.ProfileOptimization.StartProfile%2A> método por primera vez en el dominio de aplicación actual. Si se llama a <xref:System.Runtime.ProfileOptimization.SetProfileRoot%2A> más de una vez en el mismo dominio de aplicación, se omiten todas las llamadas después del primero.  
+ Debe llamar a este método antes de llamar a la <xref:System.Runtime.ProfileOptimization.StartProfile%2A> método por primera vez en el dominio de aplicación actual. Si se llama a <xref:System.Runtime.ProfileOptimization.SetProfileRoot%2A> más de una vez en el mismo dominio de aplicación, se omiten todas las llamadas después de la primera.  
   
- La carpeta especificada ya debe existir. Si no existe, llamar a este método no crearlo, y no de generación de perfiles se produce.  
+ Ya debe existir la carpeta especificada. Si no existe, llamar a este método no lo crea y no de generación de perfiles se produce.  
   
- En los equipos que no tienen varios núcleos, se omite este método.  
+ En los equipos que no tienen varios núcleos, este método se omite.  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Requiere plena confianza para el llamador inmediato. Este miembro no puede usarse por código de confianza parcial o transparente.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no se puede usar código de confianza parcial o transparente.</permission>
       </Docs>
     </Member>
     <Member MemberName="StartProfile">
@@ -99,7 +99,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
           <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -116,17 +116,17 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si el perfil especificado no existe en la carpeta especificada por el <xref:System.Runtime.ProfileOptimization.SetProfileRoot%2A> método, la información que contiene se utiliza para determinar el orden en el que se compilan los métodos en el subproceso en segundo plano. El <xref:System.Runtime.ProfileOptimization.StartProfile%2A> método crea el perfil si se aún no existe y se inicia la grabación de los métodos que utilizan.  
+ Si el perfil especificado no existe en la carpeta especificada por el <xref:System.Runtime.ProfileOptimization.SetProfileRoot%2A> método, la información que contiene se utiliza para determinar el orden en que los métodos se compilan en el subproceso en segundo plano. El <xref:System.Runtime.ProfileOptimization.StartProfile%2A> método crea el perfil si aún no existe y se inicia la grabación de uso del método.  
   
- Solo los métodos que realmente se denominan se registran, independientemente de si se compilaron en el subproceso en segundo plano o en el subproceso de aplicación principal. Si es necesario llamarlo antes de que el subproceso en segundo plano ha compilado la aplicación, se compila un método en el subproceso de aplicación principal.  
+ Solo los métodos que se llaman realmente se registran, independientemente de si se compilaron en el subproceso en segundo plano o en el subproceso principal de la aplicación. Si la aplicación debe llamar antes de que ha compilado el subproceso en segundo plano, se compila un método en el subproceso principal de la aplicación.  
   
- El código que realiza la grabación realiza un seguimiento de la velocidad a la que se compilan métodos, incluidos los métodos que se compilan en el subproceso de fondo y en el subproceso principal. Cuando la velocidad cae por debajo de un nivel predeterminado, grabación se detiene. Grabación también se detiene si la velocidad de la compilación JIT supera un límite superior predeterminado.  
+ El código que realiza la grabación realiza un seguimiento de la velocidad a la que se compilan los métodos, incluidos los métodos que se compilan en ambos el subproceso en segundo plano y en el subproceso principal. Cuando la velocidad cae por debajo de un nivel predeterminado, grabación se detiene. Grabación también se detendrá si la velocidad de compilación JIT supera un límite superior predeterminado.  
   
  Si el <xref:System.Runtime.ProfileOptimization.SetProfileRoot%2A> no se ha llamado al método para el dominio de aplicación actual, o si el equipo no dispone de varios núcleos, el <xref:System.Runtime.ProfileOptimization.StartProfile%2A> método no tiene ningún efecto.  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Requiere plena confianza para el llamador inmediato. Este miembro no puede usarse por código de confianza parcial o transparente.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">requiere plena confianza para el llamador inmediato. Este miembro no se puede usar código de confianza parcial o transparente.</permission>
       </Docs>
     </Member>
   </Members>
