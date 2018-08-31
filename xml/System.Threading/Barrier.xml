@@ -1,11 +1,11 @@
 <Type Name="Barrier" FullName="System.Threading.Barrier">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="d271267ac0284159a3b1b51c2d7ecb5e4260d584" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="719976617af141ff2c2b5fa4cf1717f2e6def395" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36606337" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39998748" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class Barrier : IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit Barrier extends System.Object implements class System.IDisposable" />
@@ -38,32 +38,32 @@
     </Interface>
   </Interfaces>
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
       <AttributeName>System.Diagnostics.DebuggerDisplay("Participant Count={ParticipantCount},Participants Remaining={ParticipantsRemaining}")</AttributeName>
     </Attribute>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
       <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>Habilita varias tareas para que cooperen en un algoritmo en paralelo a través de varias fases.</summary>
+    <summary>Habilita varias tareas para que colaboren en un algoritmo en paralelo en varias fases.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un grupo de tareas coopera pasando por una serie de fases, donde cada uno en el grupo indica ha llegado a la <xref:System.Threading.Barrier> en una fase determinada e implícitamente esperará a que todos los demás a que llegue. El mismo <xref:System.Threading.Barrier> puede usarse para varias fases.  
+ Un grupo de tareas cooperan moviendo a través de una serie de fases, donde cada uno en el grupo señala ha llegado a la <xref:System.Threading.Barrier> en una fase determinada e implícita espera a que todos los demás a que llegue. El mismo <xref:System.Threading.Barrier> puede usarse para varias fases.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar una barrera:  
+ En el ejemplo siguiente se muestra cómo usar una barrera:  
   
  [!code-csharp[System.Threading.Barrier#01](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.barrier/cs/barrier.cs#01)]
  [!code-vb[System.Threading.Barrier#01](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.barrier/vb/barrier.vb#01)]  
   
  ]]></format>
     </remarks>
-    <threadsafe>Todos los miembros públicos y protegidos de <see cref="T:System.Threading.Barrier" /> son seguras para subprocesos y se pueden usar simultáneamente en varios subprocesos, con la excepción de Dispose, que solo debe ser utiliza cuando todas las demás operaciones en el <see cref="T:System.Threading.Barrier" /> ha completado.</threadsafe>
+    <threadsafe>Todos los miembros públicos y protegidos de <see cref="T:System.Threading.Barrier" /> son seguros para subprocesos y puede usarse simultáneamente desde varios subprocesos, con la excepción de Dispose, que debe ser de solo se usa cuando todas las operaciones en el <see cref="T:System.Threading.Barrier" /> ha completado.</threadsafe>
   </Docs>
   <Members>
     <MemberGroup MemberName=".ctor">
@@ -101,6 +101,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="participantCount" Type="System.Int32" />
       </Parameters>
@@ -148,7 +153,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El `postPhaseAction` delegado se ejecutará después de que todos los participantes han llegado a la barrera en una fase. Los participantes no se publicará con la fase siguiente hasta que el delegado de postPhaseAction haya completado su ejecución.  
+ El `postPhaseAction` delegado se ejecutará después de que todos los participantes han llegado a la barrera en una fase. No se liberarán los participantes en la fase siguiente hasta que el delegado de postPhaseAction ha completado su ejecución.  
   
  ]]></format>
         </remarks>
@@ -191,12 +196,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si se está ejecutando actualmente una acción posterior a la fase la barrera, esta llamada se bloquea hasta que finaliza la acción posterior a la fase y la barrera pase a la siguiente fase.  
+ Si se está ejecutando actualmente una acción posterior a la fase la barrera, esta llamada se bloquea hasta que finalice la acción posterior a la fase y la barrera haya pasado a la siguiente fase.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ObjectDisposedException">La instancia actual ya se ha eliminado.</exception>
-        <exception cref="T:System.InvalidOperationException">Agregar un participante haría que el recuento de participantes de la barrera superase los 32.767.  -o bien- El método se invocó desde dentro de una acción posterior a la fase.</exception>
+        <exception cref="T:System.ObjectDisposedException">Ya se ha eliminado la instancia actual.</exception>
+        <exception cref="T:System.InvalidOperationException">Agregar un participante haría que el recuento de participantes de la barrera superase los 32.767.  
+  
+O bien 
+El método se invocó desde dentro de una acción posterior a la fase.</exception>
       </Docs>
     </Member>
     <Member MemberName="AddParticipants">
@@ -237,13 +245,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si se está ejecutando actualmente una acción posterior a la fase la barrera, esta llamada se bloquea hasta que finaliza la acción posterior a la fase y la barrera pase a la siguiente fase.  
+ Si se está ejecutando actualmente una acción posterior a la fase la barrera, esta llamada se bloquea hasta que finalice la acción posterior a la fase y la barrera haya pasado a la siguiente fase.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ObjectDisposedException">La instancia actual ya se ha eliminado.</exception>
+        <exception cref="T:System.ObjectDisposedException">Ya se ha eliminado la instancia actual.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="participantCount" /> es menor que 0.  -o bien- Agregar <paramref name="participantCount" /> haría que el recuento de participantes de la barrera superase los 32.767.</exception>
+          <paramref name="participantCount" /> es menor que 0.  
+  
+O bien 
+Agregar <paramref name="participantCount" /> haría que el recuento de participantes de la barrera superase los 32.767.</exception>
         <exception cref="T:System.InvalidOperationException">El método se invocó desde dentro de una acción posterior a la fase.</exception>
       </Docs>
     </Member>
@@ -271,6 +282,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
@@ -288,7 +304,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Libera los recursos usados por la instancia actual de la clase <see cref="T:System.Threading.Barrier" />.</summary>
+        <summary>Libera los recursos que usa la instancia actual de la clase <see cref="T:System.Threading.Barrier" />.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="Dispose">
@@ -328,9 +344,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Llame a `Dispose` cuando haya terminado de usar <xref:System.Threading.Barrier>. El método `Dispose` deja el <xref:System.Threading.Barrier> en un estado no utilizable. Después de llamar a `Dispose`, debe liberar todas las referencias a la <xref:System.Threading.Barrier> para que el recolector de elementos no utilizados pueda reclamar la memoria que el <xref:System.Threading.Barrier> estaba ocupando.  
+ Llame a `Dispose` cuando haya terminado de usar <xref:System.Threading.Barrier>. El método `Dispose` deja el <xref:System.Threading.Barrier> en un estado no utilizable. Después de llamar a `Dispose`, debe liberar todas las referencias a la <xref:System.Threading.Barrier> por lo que el recolector de elementos no utilizados pueda reclamar la memoria que el <xref:System.Threading.Barrier> estaba ocupando.  
   
- Para obtener más información, consulte [limpiar recursos no administrados](~/docs/standard/garbage-collection/unmanaged.md) y [implementa un método Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).  
+ Para obtener más información, consulte [limpiar recursos no administrados](~/docs/standard/garbage-collection/unmanaged.md) y [implementar un método Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).  
   
 > [!NOTE]
 >  Realice siempre una llamada a `Dispose` antes de liberar la última referencia al objeto <xref:System.Threading.Barrier>. En caso contrario, los recursos que está usando no se liberarán hasta que el recolector de elementos no utilizados llame al método <xref:System.Threading.Barrier> del objeto `Finalize`.  
@@ -371,7 +387,7 @@
         <Parameter Name="disposing" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="disposing">Es true para liberar tanto los recursos administrados como los no administrados; es false para liberar únicamente los recursos no administrados.</param>
+        <param name="disposing">true para liberar tanto los recursos administrados como los no administrados; false para liberar únicamente los recursos no administrados.</param>
         <summary>Libera los recursos no administrados utilizados por el objeto <see cref="T:System.Threading.Barrier" /> y, de forma opcional, libera los recursos administrados.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -480,6 +496,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -487,8 +508,11 @@
       <Docs>
         <summary>Notifica a <see cref="T:System.Threading.Barrier" /> que va a haber un participante menos.</summary>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.ObjectDisposedException">La instancia actual ya se ha eliminado.</exception>
-        <exception cref="T:System.InvalidOperationException">La barrera ya tiene 0 participantes.  -o bien- El método se invocó desde dentro de una acción posterior a la fase.</exception>
+        <exception cref="T:System.ObjectDisposedException">Ya se ha eliminado la instancia actual.</exception>
+        <exception cref="T:System.InvalidOperationException">La barrera ya tiene 0 participantes.  
+  
+O bien 
+El método se invocó desde dentro de una acción posterior a la fase.</exception>
       </Docs>
     </Member>
     <Member MemberName="RemoveParticipants">
@@ -528,13 +552,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si `participantCount` participantes ya están esperando en la barrera, esta eliminación cumple la barrera, se ejecuta la acción posterior a la fase y todos los participantes se hayan activado como si este participante del que se quita correctamente había alcanzado la barrera.  
+ Si `participantCount` participantes ya estén esperando en la barrera, esta eliminación cumple la barrera, se ejecuta la acción posterior a la fase y todos los participantes se hayan activado como si este participante se quita correctamente había alcanzado la barrera.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ObjectDisposedException">La instancia actual ya se ha eliminado.</exception>
+        <exception cref="T:System.ObjectDisposedException">Ya se ha eliminado la instancia actual.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">El total de participantes es menor que el <paramref name="participantCount" /> especificado.</exception>
-        <exception cref="T:System.InvalidOperationException">La barrera ya tiene 0 participantes.  -o bien- El método se invocó desde dentro de una acción posterior a la fase.  -o bien- El recuento de participantes actual es menor que el valor participantCount especificado.</exception>
+        <exception cref="T:System.InvalidOperationException">La barrera ya tiene 0 participantes.  
+  
+O bien 
+El método se invocó desde dentro de una acción posterior a la fase.  
+  
+O bien 
+el recuento del participante actual es menor que el participantCount especificado</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="SignalAndWait">
@@ -579,7 +609,7 @@
       <Docs>
         <summary>Señala que un participante ha alcanzado la barrera y espera a que todos los demás participantes alcancen también la barrera.</summary>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.ObjectDisposedException">La instancia actual ya se ha eliminado.</exception>
+        <exception cref="T:System.ObjectDisposedException">Ya se ha eliminado la instancia actual.</exception>
         <exception cref="T:System.InvalidOperationException">El método se invocó desde dentro de una acción posterior a la fase, la barrera tiene actualmente 0 participantes, o la barrera la señalan más subprocesos de los que están registrados como participantes.</exception>
         <exception cref="T:System.Threading.BarrierPostPhaseException">Si una excepción se produce de la acción de fase de envío de una barrera después de todos los subprocesos hayan llamado a SignalAndWait, la excepción se ajustará en una BarrierPostPhaseException y se producirá en todos los subprocesos que participan.</exception>
       </Docs>
@@ -619,9 +649,9 @@
         <summary>Señala que un participante ha alcanzado la barrera y espera a que todos los demás participantes alcancen también la barrera usando un entero de 32 bits con signo para medir el tiempo de espera.</summary>
         <returns>si todos los participantes alcanzaron la barrera dentro del tiempo especificado; de lo contrario, es false.</returns>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.ObjectDisposedException">La instancia actual ya se ha eliminado.</exception>
+        <exception cref="T:System.ObjectDisposedException">Ya se ha eliminado la instancia actual.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="millisecondsTimeout" /> es un número negativo distinto de -1 que representa un tiempo de espera infinito.</exception>
+          <paramref name="millisecondsTimeout" /> es un número negativo distinto de-1, que representa un tiempo de espera infinito.</exception>
         <exception cref="T:System.InvalidOperationException">El método se invocó desde dentro de una acción posterior a la fase, la barrera tiene actualmente 0 participantes, o la barrera la señalan más subprocesos de los que están registrados como participantes.</exception>
         <exception cref="T:System.Threading.BarrierPostPhaseException">Si una excepción se produce de la acción de fase de envío de una barrera después de todos los subprocesos hayan llamado a SignalAndWait, la excepción se ajustará en una BarrierPostPhaseException y se producirá en todos los subprocesos que participan.</exception>
       </Docs>
@@ -661,7 +691,7 @@
         <summary>Señala que un participante ha alcanzado la barrera y espera a que todos los demás participantes alcancen la barrera mientras se observa un token de cancelación.</summary>
         <remarks>To be added.</remarks>
         <exception cref="T:System.OperationCanceledException">Se ha cancelado <paramref name="cancellationToken" />.</exception>
-        <exception cref="T:System.ObjectDisposedException">La instancia actual ya se ha eliminado.</exception>
+        <exception cref="T:System.ObjectDisposedException">Ya se ha eliminado la instancia actual.</exception>
         <exception cref="T:System.InvalidOperationException">El método se invocó desde dentro de una acción posterior a la fase, la barrera tiene actualmente 0 participantes, o la barrera la señalan más subprocesos de los que están registrados como participantes.</exception>
       </Docs>
     </Member>
@@ -700,7 +730,7 @@
         <summary>Señala que un participante ha alcanzado la barrera y espera a que todos los demás participantes alcancen también la barrera usando un objeto <see cref="T:System.TimeSpan" /> para medir el intervalo de tiempo.</summary>
         <returns>Es true si todos los demás participantes alcanzaron la barrera; de lo contrario, es false.</returns>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.ObjectDisposedException">La instancia actual ya se ha eliminado.</exception>
+        <exception cref="T:System.ObjectDisposedException">Ya se ha eliminado la instancia actual.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="timeout" /> es un número negativo distinto de -1 milisegundo, que representa un tiempo de espera infinito, o es mayor de 32 767.</exception>
         <exception cref="T:System.InvalidOperationException">El método se invocó desde dentro de una acción posterior a la fase, la barrera tiene actualmente 0 participantes, o la barrera la señalan más subprocesos de los que están registrados como participantes.</exception>
@@ -746,14 +776,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si el `cancellationToken` se canceló antes de las señales surta efecto, un <xref:System.OperationCanceledException> se produce y la <xref:System.Threading.Barrier.ParticipantsRemaining%2A> valor no se reduce. Si el `cancellationToken` no se ha cancelado o se cancela después de la señal surte efecto, a continuación, <xref:System.Threading.Barrier.ParticipantsRemaining%2A> se reduce y no <xref:System.OperationCanceledException> se produce.  
+ Si el `cancellationToken` se canceló antes de las señales surta efecto, una <xref:System.OperationCanceledException> se produce y la <xref:System.Threading.Barrier.ParticipantsRemaining%2A> no disminuye el valor. Si el `cancellationToken` no se ha cancelado o se cancela después de la señal surte efecto, a continuación, <xref:System.Threading.Barrier.ParticipantsRemaining%2A> se reduce y no <xref:System.OperationCanceledException> se produce.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.OperationCanceledException">Se ha cancelado <paramref name="cancellationToken" />.</exception>
-        <exception cref="T:System.ObjectDisposedException">La instancia actual ya se ha eliminado.</exception>
+        <exception cref="T:System.ObjectDisposedException">Ya se ha eliminado la instancia actual.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="millisecondsTimeout" /> es un número negativo distinto de -1 que representa un tiempo de espera infinito.</exception>
+          <paramref name="millisecondsTimeout" /> es un número negativo distinto de-1, que representa un tiempo de espera infinito.</exception>
         <exception cref="T:System.InvalidOperationException">El método se invocó desde dentro de una acción posterior a la fase, la barrera tiene actualmente 0 participantes, o la barrera la señalan más subprocesos de los que están registrados como participantes.</exception>
       </Docs>
     </Member>
@@ -795,9 +825,9 @@
         <returns>Es true si todos los demás participantes alcanzaron la barrera; de lo contrario, es false.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.OperationCanceledException">Se ha cancelado <paramref name="cancellationToken" />.</exception>
-        <exception cref="T:System.ObjectDisposedException">La instancia actual ya se ha eliminado.</exception>
+        <exception cref="T:System.ObjectDisposedException">Ya se ha eliminado la instancia actual.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="timeout" /> es un número negativo distinto de -1 milisegundo que representa un tiempo de espera infinito.</exception>
+          <paramref name="timeout" /> es un número negativo distinto de -1 milisegundos, que representa un tiempo de espera infinito.</exception>
         <exception cref="T:System.InvalidOperationException">El método se invocó desde dentro de una acción posterior a la fase, la barrera tiene actualmente 0 participantes, o la barrera la señalan más subprocesos de los que están registrados como participantes.</exception>
       </Docs>
     </Member>
