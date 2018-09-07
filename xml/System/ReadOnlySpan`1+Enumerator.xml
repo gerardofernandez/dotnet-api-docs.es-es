@@ -1,11 +1,11 @@
 <Type Name="ReadOnlySpan&lt;T&gt;+Enumerator" FullName="System.ReadOnlySpan&lt;T&gt;+Enumerator">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="fc94437a20ca5897c34c2c6b72bd98d0b1ad88ab" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="86d7d7a33e1ae9a6e4873c250f5677c8774d3826" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36428467" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39944046" />
   </Metadata>
   <TypeSignature Language="C#" Value="public struct ReadOnlySpan&lt;T&gt;.Enumerator" />
   <TypeSignature Language="ILAsm" Value=".class nested public sequential ansi sealed beforefieldinit ReadOnlySpan`1/Enumerator&lt;T&gt; extends System.ValueType" />
@@ -25,18 +25,34 @@
   </Base>
   <Interfaces />
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="netcore-2.1">
       <AttributeName>System.Runtime.CompilerServices.IsByRefLike</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Proporciona un enumerador para los elementos de <see cref="T:System.ReadOnlySpan`1" />.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[C# [foreach](~/docs/csharp/language-reference/keywords/foreach-in.md) del lenguaje C# y el [For Each... Siguiente](~/docs/visual-basic/language-reference/statements/for-each-next-statement.md) construcción en Visual Basic oculta la complejidad de los enumeradores. En lugar de manipular directamente el enumerador mediante `foreach` o `For Each...Next` se recomienda. 
+
+Inicialmente, el enumerador se coloca antes del primer elemento en el <xref:System.ReadOnlySpan`1>. En esta posición, el valor de propiedad <xref:System.ReadOnlySpan`1.Enumerator.Current> está sin definir. Debe llamar a <xref:System.ReadOnlySpan`1.Enumerator.MoveNext%2A> para avanzar el enumerador hasta el primer elemento de la <xref:System.ReadOnlySpan`1> antes de leer el valor de <xref:System.ReadOnlySpan`1.Enumerator.Current>.
+
+<xref:System.ReadOnlySpan`1.Enumerator.Current> Devuelve el mismo valor hasta <xref:System.ReadOnlySpan`1.Enumerator.MoveNext%2A> se llama. <xref:System.ReadOnlySpan`1.Enumerator.MoveNext%2A> establece <xref:System.ReadOnlySpan`1.Enumerator.Current> al elemento siguiente en el <xref:System.ReadOnlySpan`1>.
+
+Si <xref:System.ReadOnlySpan`1.Enumerator.MoveNext%2A> pasa el final de la <xref:System.ReadOnlySpan`1>, <xref:System.ReadOnlySpan`1.Enumerator.MoveNext%2A> devuelve `false`. Cuando el enumerador está en este estado, las llamadas subsiguientes a <xref:System.ReadOnlySpan`1.Enumerator.MoveNext%2A> también devolver `false` y <xref:System.ReadOnlySpan`1.Enumerator.Current> es indefinido. No puede establecer <xref:System.ReadOnlySpan`1.Enumerator.Current> al primer elemento en el <xref:System.ReadOnlySpan`1> , debe crear una nueva instancia de enumerador en su lugar. 
+
+Aunque el <xref:System.ReadOnlySpan`1> en la pila, los datos subyacentes en el que se asigna el <xref:System.ReadOnlySpan`1> puntos, no puede ser. Por lo tanto, enumerar a través de un <xref:System.ReadOnlySpan`1> no es intrínsecamente un procedimiento seguro para subprocesos. Para garantizar la seguridad para subprocesos durante la enumeración, debe implementar su propia sincronización.
+
+A diferencia de algunas otras estructuras de enumerador en. NET, el <xref:System.ReadOnlySpan`1.Enumerator>:
+
+- No implementa la <xref:System.Collections.IEnumerator> o <xref:System.Collections.Generic.IEnumerator`1> interfaz. Esto es porque <xref:System.ReadOnlySpan`1.Enumerator> es un [ref struct](~/docs/csharp/reference-semantics-with-value-types.md#ref-struct-type) y no se puede realizar la conversión boxing.
+
+- No incluye un `Reset` método, que puede establecer el enumerador en su posición inicial delante del primer elemento del intervalo. (El <xref:System.Collections.IEnumerator.Reset?displayProperty=nameWithType> método debe implementarse como parte de la interfaz, pero la mayoría de los implementadores producirán una excepción o no proporcionan ninguna implementación.)]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="Current">
       <MemberSignature Language="C#" Value="public T&amp; Current { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.T&amp; modreq(System.Runtime.InteropServices.InAttribute) Current" />
+      <MemberSignature Language="ILAsm" Value=".property instance T&amp; modreq(System.Runtime.InteropServices.InAttribute) Current" />
       <MemberSignature Language="DocId" Value="P:System.ReadOnlySpan`1.Enumerator.Current" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Current As T&amp;" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property T&amp; ^ Current { T&amp; ^ get(); };" />
@@ -47,17 +63,25 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.1">
           <AttributeName>System.Runtime.CompilerServices.IsReadOnly</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
-        <ReturnType>System.T&amp;</ReturnType>
+        <ReturnType>T&amp;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtiene una referencia al elemento en la posición actual del enumerador.</summary>
+        <value>Elemento de <see cref="T:System.ReadOnlySpan`1" /> en la posición actual del enumerador.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[`Current` no está definida en cualquiera de las condiciones siguientes: 
+
+- Inmediatamente después de crea el enumerador, el enumerador se coloca antes del primer elemento del intervalo. <xref:System.ReadOnlySpan`1.Enumerator.MoveNext*> debe llamarse para hacer avanzar el enumerador al primer elemento del intervalo antes de leer el valor de `Current`.
+
+- La última llamada a <xref:System.ReadOnlySpan`1.Enumerator.MoveNext*> devuelve `false`, lo que indica el final del intervalo. 
+
+`Current` Devuelve el mismo valor hasta <xref:System.ReadOnlySpan`1.Enumerator.MoveNext*> se llama. <xref:System.ReadOnlySpan`1.Enumerator.MoveNext*> establece `Current` al siguiente elemento del intervalo.]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MoveNext">
@@ -77,9 +101,13 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Desplaza el enumerador al siguiente elemento de <see cref="System.ReadOnlySpan`1" />.</summary>
+        <returns>`true` si el enumerador se ha desplazado correctamente al elemento siguiente; `false` si se ha pasado el final del intervalo.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Después de crea un enumerador, se coloca antes del primer elemento en el intervalo y la primera llamada a `MoveNext` desplaza el enumerador al primer elemento del intervalo. 
+
+Si `MoveNext` pasa el final del intervalo, `MoveNext` devuelve `false`. Cuando el enumerador está en este estado, las llamadas subsiguientes a `MoveNext` también devolver `false`.]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

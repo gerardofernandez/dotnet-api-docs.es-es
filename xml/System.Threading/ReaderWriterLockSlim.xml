@@ -1,11 +1,11 @@
 <Type Name="ReaderWriterLockSlim" FullName="System.Threading.ReaderWriterLockSlim">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="c054992aa5b458c405c83dbc79a506889a9ffc87" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="48493860686ba3e73ed0b66dc031975b80866a90" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36407193" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="42709136" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class ReaderWriterLockSlim : IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ReaderWriterLockSlim extends System.Object implements class System.IDisposable" />
@@ -23,6 +23,7 @@
   <AssemblyInfo>
     <AssemblyName>System.Core</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>3.5.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <AssemblyInfo>
@@ -38,130 +39,130 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <summary>Represents a lock that is used to manage access to a resource, allowing multiple threads for reading or exclusive access for writing.</summary>
+    <summary>Representa un bloqueo que se usa para administrar el acceso a un recurso y que permite que varios subprocesos lean o tengan acceso exclusivo a escritura.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Use <xref:System.Threading.ReaderWriterLockSlim> para proteger un recurso que se leen varios subprocesos y escribiendo en un subproceso a la vez. <xref:System.Threading.ReaderWriterLockSlim> permite que varios subprocesos en modo de lectura, permite que un subproceso esté en modo de escritura con propiedad exclusiva del bloqueo y permite que un subproceso que tiene acceso de lectura a estar en modo de lectura actualizable, desde el que puede actualizar el subproceso para el modo de escritura sin tener que abandonarlo s el acceso de lectura al recurso.  
+ Use <xref:System.Threading.ReaderWriterLockSlim> para proteger un recurso que es por varios subprocesos que lee y escribe en un subproceso a la vez. <xref:System.Threading.ReaderWriterLockSlim> permite que varios subprocesos en modo de lectura, permite que un subproceso esté en modo de escritura con propiedad exclusiva del bloqueo y permite que un subproceso que tiene acceso de lectura a estar en modo de lectura actualizable desde el que el subproceso puede actualizar a modo de escritura sin tener que abandonar s acceso de lectura al recurso.  
   
 > [!NOTE]
 >  <xref:System.Threading.ReaderWriterLockSlim> es similar a <xref:System.Threading.ReaderWriterLock>, pero se han simplificado las reglas para la recursividad y para actualizar y degradar el estado de bloqueo. <xref:System.Threading.ReaderWriterLockSlim> evita muchos casos de interbloqueo potencial. Además, el rendimiento de <xref:System.Threading.ReaderWriterLockSlim> es significativamente mayor que <xref:System.Threading.ReaderWriterLock>. <xref:System.Threading.ReaderWriterLockSlim> se recomienda para todos los nuevos desarrollos.  
   
- De forma predeterminada, las nuevas instancias de <xref:System.Threading.ReaderWriterLockSlim> se crean con el <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> marca y no permiten la recursividad. Esta directiva predeterminada se recomienda para todos los nuevos desarrollos, porque la recursividad presenta complicaciones innecesarias y hace que el código sea más susceptible a los interbloqueos. Para simplificar la migración desde existente los proyectos que utilizan <xref:System.Threading.Monitor> o <xref:System.Threading.ReaderWriterLock>, puede usar el <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType> marca para crear instancias de <xref:System.Threading.ReaderWriterLockSlim> que permiten la recursividad.  
+ De forma predeterminada, las nuevas instancias de <xref:System.Threading.ReaderWriterLockSlim> se crean con el <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> marca y no permiten la recursividad. Se recomienda esta directiva predeterminada para todo el desarrollo nuevo, porque la recursividad introduce una complicación innecesaria y hace que el código sea más susceptible a los interbloqueos. Para simplificar la migración a partir de existente, los proyectos que utilizan <xref:System.Threading.Monitor> o <xref:System.Threading.ReaderWriterLock>, puede usar el <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType> marca para crear instancias de <xref:System.Threading.ReaderWriterLockSlim> que permiten la recursividad.  
   
- Un subproceso puede entrar en el bloqueo en tres modos: modo, en modo de escritura y en modo de lectura de lectura. (En el resto de este tema, "modo de lectura actualizable" se conoce como "en modo de actualización" y la frase "escriba `x` modo" se usa con preferencia a la frase más larga "entrar en el bloqueo en `x` modo".)  
+ Un subproceso puede entrar en el bloqueo en tres modos: modo de lectura actualizable, modo de escritura y modo de lectura. (En el resto de este tema, "modo de lectura actualizable" se denomina "modo de actualización" y la frase "escriba `x` modo" se usa con preferencia a las frases más largas "entrar en el bloqueo en `x` modo".)  
   
- Independientemente de la directiva de recursividad, sólo un subproceso puede estar en modo de escritura en cualquier momento. Cuando un subproceso está en modo de escritura, ningún otro subproceso puede entrar en el bloqueo en cualquier modo. Solo un subproceso puede estar en modo de actualización en cualquier momento. Puede ser cualquier número de subprocesos en modo de lectura, y puede haber un subproceso en modo de actualización mientras otros subprocesos están en modo de lectura.  
+ Independientemente de la directiva de recursividad, sólo un subproceso puede estar en modo de escritura en cualquier momento. Cuando un subproceso está en modo de escritura, ningún otro subproceso puede entrar en el bloqueo en cualquier modo. Puede ser solo un subproceso en modo de actualización en cualquier momento. Puede ser cualquier número de subprocesos en modo de lectura y puede haber un subproceso en modo de actualización mientras otros subprocesos están en modo de lectura.  
   
 > [!IMPORTANT]
->  Este tipo implementa la <xref:System.IDisposable> interfaz. Cuando haya terminado de utilizar el tipo, debe eliminar del mismo directa o indirectamente. Para deshacerse del tipo directamente, llame a su <xref:System.IDisposable.Dispose%2A> método en un `try` / `catch` bloque. Para deshacerse de él indirectamente, use una construcción de lenguaje como `using` (en C#) o `Using` (en Visual Basic). Para obtener más información, vea la sección "Uso de un objeto que implementa IDisposable" en el <xref:System.IDisposable> tema de la interfaz.  
+>  Este tipo implementa la <xref:System.IDisposable> interfaz. Cuando haya terminado de utilizar el tipo, debe deshacerse de él directa o indirectamente. Para deshacerse del tipo directamente, llame a su <xref:System.IDisposable.Dispose%2A> método en un `try` / `catch` bloque. Para deshacerse de él, indirectamente, usar una construcción de lenguaje, como `using` (en C#) o `Using` (en Visual Basic). Para obtener más información, vea la sección "Uso de un objeto que implementa IDisposable" en el <xref:System.IDisposable> tema de la interfaz.  
   
- <xref:System.Threading.ReaderWriterLockSlim> se administra la afinidad de subprocesos; es decir, cada uno de ellos <xref:System.Threading.Thread> objeto debe realizar sus propia llamadas de método al entrar y salir de los modos de bloqueo. No hay ningún subproceso puede cambiar el modo de otro subproceso.  
+ <xref:System.Threading.ReaderWriterLockSlim> ha logrado la afinidad de subprocesos; es decir, cada uno de ellos <xref:System.Threading.Thread> objeto debe realizar sus propias llamadas de método para activar y desactivar los modos de bloqueo. No hay ningún subproceso puede cambiar el modo de otro subproceso.  
   
- Si un <xref:System.Threading.ReaderWriterLockSlim> no permite la recursividad, un subproceso que intenta entrar en el bloqueo se puede bloquear por varias razones:  
+ Si un <xref:System.Threading.ReaderWriterLockSlim> no permite la recursividad, un subproceso que intenta entrar en el bloqueo puede bloquear por varias razones:  
   
--   Un subproceso que intenta entrar en modo de lectura se bloquea si hay subprocesos a la espera de entrar en modo de escritura o si hay un solo subproceso en modo de escritura.  
+-   Un subproceso intenta entrar en modo de lectura se bloquea si hay subprocesos a la espera de entrar en modo de escritura o si hay un solo subproceso en modo de escritura.  
   
     > [!NOTE]
-    >  Cuando se ponen en cola los escritores de bloqueo nuevos lectores es una directiva de equidad de bloqueo que favorece a escritores. La directiva de equidad actual equilibra la equidad para lectores y escritores, para mejorar el rendimiento en los escenarios más comunes. Las versiones futuras de la [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] pueden introducir nuevas directivas de equidad.  
+    >  Cuando se ponen en cola los escritores de bloqueo nuevos lectores es una directiva de equidad de bloqueo que favorece a escritores. La directiva de equidad actual equilibra la equidad para lectores y escritores, para mejorar el rendimiento en los escenarios más comunes. Las versiones futuras de la [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] puede introducir nuevas directivas de equidad.  
   
--   Un subproceso que intenta entrar en modo de actualización se bloquea si ya hay un subproceso en modo de actualización, si hay subprocesos a la espera de entrar en modo de escritura, o si hay un solo subproceso en modo de escritura.  
+-   Un subproceso intenta entrar en modo de actualización se bloquea si ya hay un subproceso en modo de actualización, si no hay subprocesos en espera de entrar en modo de escritura, o si hay un solo subproceso en modo de escritura.  
   
--   Un subproceso que intenta entrar en modo de escritura se bloquea si hay un subproceso en cualquiera de los tres modos.  
+-   Un subproceso intenta entrar en modo de escritura se bloquea si hay un subproceso en cualquiera de los tres modos.  
   
 ## <a name="upgrading-and-downgrading-locks"></a>Actualizar y degradar bloqueos  
- En modo de actualización está pensado para los casos donde un subproceso normalmente lee el recurso protegido, pero que tenga que escribir en ella si se cumple alguna condición. Un subproceso que ha entrado en un <xref:System.Threading.ReaderWriterLockSlim> en modo de actualización tiene acceso de lectura al recurso protegido y puede actualizarse al modo de escritura mediante una llamada a la <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> o <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> métodos. Porque puede haber solo un subproceso en modo de actualización a la vez, no se puede actualizar a modo de escritura deadlock cuando no se permite la recursividad, que es la directiva predeterminada.  
+ Modo de actualización está pensado para los casos donde un subproceso normalmente lee desde el recurso protegido, pero es posible que deba escribir en él, si se cumple alguna condición. Un subproceso ha entrado en un <xref:System.Threading.ReaderWriterLockSlim> en modo de actualización tiene acceso de lectura al recurso protegido y puede actualizar a modo de escritura mediante una llamada a la <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> o <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> métodos. Porque puede haber solo un subproceso en modo de actualización a la vez, no se puede actualizar a modo de escritura interbloqueo cuando no se permite la recursividad, que es la directiva predeterminada.  
   
 > [!IMPORTANT]
->  Independientemente de la directiva de recursividad, un subproceso que entró inicialmente lee modo no se admite para actualizar a modo de actualización o en modo de escritura, porque ese modelo genera una gran probabilidad de interbloqueos. Por ejemplo, si dos subprocesos en modo de lectura intentan entrar en modo de escritura, interbloquee. En modo de actualización está diseñado para evitar estos interbloqueos.  
+>  Independientemente de la directiva de recursividad, un subproceso que entró inicialmente en lectura no se permite el modo para actualizar a modo de actualización o en modo de escritura, porque ese modelo genera una gran probabilidad de interbloqueos. Por ejemplo, si dos subprocesos en modo de lectura intentan entrar en modo de escritura, producirán el interbloqueo. Modo de actualización está diseñado para evitar estos interbloqueos.  
   
- Si hay otros subprocesos en modo de lectura, el subproceso que está actualizando se bloquea. Mientras el subproceso está bloqueado, se bloquean otros subprocesos que intenten entrar en modo de lectura. Cuando todos los subprocesos han salido del modo de lectura, el subproceso actualizable bloqueado entra en modo de escritura. Si hay otros subprocesos a la espera de entrar en modo de escritura, siguen bloqueados, porque el subproceso que está en modo de actualización evita que obtengan acceso exclusivo al recurso.  
+ Si hay otros subprocesos en modo de lectura, el subproceso que está actualizando se bloquea. Mientras el subproceso está bloqueado, se bloquean otros subprocesos que intentan entrar en modo de lectura. Cuando todos los subprocesos han salido del modo de lectura, el subproceso actualizable bloqueado entra en modo de escritura. Si hay otros subprocesos en espera de entrar en modo de escritura, siguen bloqueados, porque el subproceso que está en modo de actualización evita que obtengan acceso exclusivo al recurso.  
   
- Cuando el subproceso en modo de actualización sale del modo de escritura, otros subprocesos que están a la espera de entrar en modo de lectura pueden hacer por lo tanto, a menos que haya subprocesos espera de entrar en modo de escritura. El subproceso en modo de actualización puede actualizar y degradar indefinidamente, siempre y cuando sea el único subproceso que escribe en el recurso protegido.  
+ Cuando el subproceso en modo de actualización sale del modo de escritura, pueden hacer otros subprocesos que están esperando para entrar en modo de lectura, por lo tanto, a menos que haya subprocesos esperando para entrar en modo de escritura. El subproceso en modo de actualización puede actualizar y degradar indefinidamente, siempre y cuando sea el único subproceso que escribe en el recurso protegido.  
   
 > [!IMPORTANT]
->  Si permite que varios subprocesos entren en modo de escritura o en modo de actualización, que no debe permitir un subproceso monopolice en modo de actualización. En caso contrario, los subprocesos que intenten entrar escriben modo directamente se bloqueará indefinidamente, y mientras estén bloqueados, otros subprocesos no podrá entrar en modo de lectura.  
+>  Si permite que varios subprocesos entren en modo de escritura o en modo de actualización, no debe permitir que un subproceso monopolice el modo de actualización. En caso contrario, los subprocesos que intentan escribir escriben modo directamente se bloquearán indefinidamente y, mientras estén bloqueados, otros subprocesos no podrá entrar en modo de lectura.  
   
- Un subproceso en modo de actualización puede producir una degradación para modo de lectura llamando primero la <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> método y, a continuación, llamar a la <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> método. Este modelo de degradación se permite para todas las directivas de recursividad de bloqueo, incluso <xref:System.Threading.LockRecursionPolicy.NoRecursion>.  
+ Puede degradar un subproceso en modo de actualización para el modo de lectura llamar primero a la <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> método y, a continuación, llamar a la <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> método. Este modelo de degradación se permite para todas las directivas de recursividad de bloqueo, incluso <xref:System.Threading.LockRecursionPolicy.NoRecursion>.  
   
- Después de degradar para el modo de lectura, un subproceso no puede volver a escribir en modo de actualización hasta que se ha salido del modo de lectura.  
+ Después de cambiar el modo de lectura, un subproceso no puede volver a escribir en modo de actualización hasta que ha salido del modo de lectura.  
   
-## <a name="entering-the-lock-recursively"></a>Especificar el bloqueo de forma recursiva  
+## <a name="entering-the-lock-recursively"></a>Escribir el bloqueo de forma recursiva  
  Puede crear un <xref:System.Threading.ReaderWriterLockSlim> que admite la entrada de bloqueo recursiva mediante el <xref:System.Threading.ReaderWriterLockSlim.%23ctor%28System.Threading.LockRecursionPolicy%29> constructor que especifica la directiva de bloqueo y especificando <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType>.  
   
 > [!NOTE]
->  El uso de la recursividad no se recomienda para nuevo desarrollo, porque presenta complicaciones innecesarias y hace que el código sea más susceptible a los interbloqueos.  
+>  No se recomienda el uso de la recursividad para el desarrollo nuevo, ya que introduce una complicación innecesaria y hace que el código sea más susceptible a los interbloqueos.  
   
  Para un <xref:System.Threading.ReaderWriterLockSlim> que permite la recursividad, se puede decir lo siguiente acerca de los modos de un subproceso puede entrar:  
   
--   Un subproceso en modo de lectura puede entrar de forma recursiva de modo de lectura, pero no puede entrar en modo de escritura o en modo de actualización. Si intenta hacerlo, un <xref:System.Threading.LockRecursionException> se produce. Escribir lee modo y, a continuación, escriba en modo de escritura o en modo de actualización es un modelo con muchas probabilidades de interbloqueos, por lo que no está permitido. Como se indicó anteriormente, en modo de actualización se proporciona para los casos donde es necesario actualizar un bloqueo.  
+-   Un subproceso en modo de lectura puede especificar el modo de lectura de forma recursiva, pero no puede entrar en modo de escritura o en modo de actualización. Si intenta hacerlo, un <xref:System.Threading.LockRecursionException> se produce. Escribir lee modo y, a continuación, escribir en modo de escritura o en modo de actualización es un modelo con muchas probabilidades de interbloqueos, por lo que no está permitido. Como se explicó anteriormente, en modo de actualización se proporciona para los casos donde es necesario actualizar un bloqueo.  
   
--   Un subproceso en modo de actualización puede entrar en modo de escritura y/o modo de lectura y puede especificar cualquiera de la tres modos de forma recursiva. Sin embargo, se intenta escribir escribir bloques de modo si hay otros subprocesos en modo de lectura.  
+-   Un subproceso en modo de actualización puede especificar el modo de lectura o modo de escritura y puede especificar cualquiera de los tres modos de forma recursiva. Sin embargo, se intenta escribir escribir bloques de modo si hay otros subprocesos en modo de lectura.  
   
--   Un subproceso en modo de escritura puede entrar en modo de lectura y/o en modo de actualización y puede especificar cualquiera de la tres modos de forma recursiva.  
+-   Puede especificar el modo de lectura o en modo de un subproceso en modo de escritura y puede especificar cualquiera de los tres modos de forma recursiva.  
   
 -   Un subproceso que no ha entrado en el bloqueo puede entrar en cualquier modo. Este intento puede bloquear por las mismas razones como un intento de entrar en un bloqueo no recursivo.  
   
- Un subproceso puede salir de los modos que ha entrado en cualquier orden, siempre y cuando sale del modo de cada exactamente como tantas veces como entró en ese modo. Si un subproceso intenta salir de un modo demasiadas veces, o para salir de un modo no entró, un <xref:System.Threading.SynchronizationLockException> se produce.  
+ Un subproceso puede salir de los modos que ha entrado en cualquier orden, siempre y cuando sale de cada modo exactamente como tantas veces como entró en ese modo. Si un subproceso intenta salir de un modo demasiadas veces, o para salir de un modo no ha entrado, un <xref:System.Threading.SynchronizationLockException> se produce.  
   
 ## <a name="lock-states"></a>Estados de bloqueo  
- Puede que le resulte útil pensar en el bloqueo en términos de sus Estados. Un <xref:System.Threading.ReaderWriterLockSlim> puede estar en uno de cuatro estados: no se especifica, leer, actualizar y escribir.  
+ Le resultará útil considerar el bloqueo en términos de sus Estados. Un <xref:System.Threading.ReaderWriterLockSlim> puede estar en uno de los cuatro estados: no se especifica, leer, actualizar y escribir.  
   
--   No se especificó: en este estado, no hay ningún subproceso ha entrado en el bloqueo (o todos los subprocesos han salido el bloqueo).  
+-   No se especificó: en este estado, no hay ningún subproceso ha entrado en el bloqueo (o todos los subprocesos salgan del bloqueo).  
   
--   Lectura: En este estado, uno o más subprocesos han entrado en el bloqueo para el acceso de lectura al recurso protegido.  
+-   Lectura: En este estado, uno o varios subprocesos han entrado en el bloqueo para el acceso de lectura al recurso protegido.  
   
     > [!NOTE]
-    >  Un subproceso puede entrar en el bloqueo en modo de lectura mediante el uso de la <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> o <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> métodos, o degradar en modo de actualización.  
+    >  Un subproceso puede entrar en el bloqueo en modo de lectura mediante el uso de la <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> o <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> métodos, o mediante la degradación del modo de actualización.  
   
--   Actualización: En este estado, un subproceso ha entrado en el bloqueo para el acceso de lectura con la opción de actualización para acceso de escritura (es decir, en modo de actualización), y cero o más subprocesos han entrado en el bloqueo para el acceso de lectura. No más de un subproceso a la vez puede entrar en el bloqueo con la opción de actualización; se bloquean los subprocesos adicionales que intenten entrar en modo de actualización.  
+-   Actualización: En este estado, un subproceso ha entrado en el bloqueo para el acceso de lectura con la opción de actualización para el acceso de escritura (es decir, en modo de actualización), y cero o más subprocesos han entrado en el bloqueo de acceso de lectura. No más de un subproceso a la vez puede entrar en el bloqueo con la opción de actualización; se bloquean los subprocesos adicionales que intenta entrar en modo.  
   
--   Escritura: En este estado, un subproceso ha entrado en el bloqueo para el acceso de escritura al recurso protegido. Ese subproceso tiene posesión exclusiva del bloqueo. Ningún otro subproceso que intenta entrar en el bloqueo por cualquier razón está bloqueado.  
+-   Escritura: En este estado, un subproceso ha entrado el bloqueo para el acceso de escritura al recurso protegido. Ese subproceso tiene posesión exclusiva del bloqueo. Se bloquea a ningún otro subproceso que intenta entrar en el bloqueo por cualquier motivo.  
   
- La tabla siguiente describen las transiciones entre Estados de bloqueo, para los bloqueos que no permiten la recursividad, cuando un subproceso `t` toma la acción descrita en la columna izquierda. En el momento en toma las medidas, `t` no tiene ningún modo. (El caso especial donde `t` está en modo de actualización se describe en las notas al pie de tabla.) La fila superior describe el estado inicial del bloqueo. Las celdas describen lo que ocurre al subproceso y mostrar los cambios en el estado de bloqueo entre paréntesis.  
+ La tabla siguiente describen las transiciones entre Estados de bloqueo, los bloqueos que no permiten la recursividad, cuando un subproceso `t` toma la acción descrita en la columna izquierda. En el momento en toma las medidas, `t` no tiene ningún modo. (El caso especial donde `t` está en modo de actualización se describe en las notas al pie de tabla.) La fila superior describe el estado inicial del bloqueo. Las celdas describen lo que ocurre en el subproceso y mostrar los cambios realizados en el estado de bloqueo entre paréntesis.  
   
 ||No se ha introducido (N)|Read (R)|Actualización (U)|Escritura (W)|  
 |-|-----------------------|----------------|-------------------|-----------------|  
-|`t` entra en modo de lectura|`t` entra en (R).|`t` se bloquea si hay subprocesos en espera para el modo de escritura; en caso contrario, `t` entra en.|`t` se bloquea si hay subprocesos en espera para el modo de escritura; en caso contrario, `t` entra.<sup> 1</sup>|`t` se bloquea.|  
-|`t` entra en modo de actualización|`t` entra en (A).|`t` se bloquea si hay subprocesos esperan a modo de escritura o modo de actualización; en caso contrario, `t` entra en (A).|`t` se bloquea.|`t` se bloquea.|  
-|`t` entra en modo de escritura|`t` entra en (W).|`t` se bloquea.|`t` se bloquea. <sup>2</sup>|`t` se bloquea.|  
+|`t` entra en modo de lectura|`t` entra en (R).|`t` se bloquea si los subprocesos están esperando a modo de escritura; en caso contrario, `t` entra en.|`t` se bloquea si los subprocesos están esperando a modo de escritura; en caso contrario, `t` entra.<sup> 1</sup>|`t` se bloquea.|  
+|`t` entra en modo de actualización|`t` entra (A).|`t` se bloquea si los subprocesos están esperando modo de escritura o el modo de actualización; en caso contrario, `t` entra (A).|`t` se bloquea.|`t` se bloquea.|  
+|`t` entra en modo de escritura|`t` escribe (W).|`t` se bloquea.|`t` se bloquea. <sup>2</sup>|`t` se bloquea.|  
   
- <sup>1</sup> si `t` inicia alejar en modo de actualización, entra en modo de lectura. Esta acción nunca se bloquea. No cambia el estado de bloqueo. (El subproceso, a continuación, puede completar una degradación a modo de lectura y sale de en modo de actualización.)  
+ <sup>1</sup> si `t` inicia alejar en modo de actualización, entra en modo de lectura. Esta acción nunca se bloquea. No cambia el estado de bloqueo. (El subproceso, a continuación, puede completar una degradación de modo de lectura al salir de modo de actualización.)  
   
- <sup>2</sup> si `t` empieza en modo de actualización, se bloquea si hay subprocesos en modo de lectura. En caso contrario, actualiza a modo de escritura. Los cambios de estado de bloqueo de escritura (W). Si `t` se bloquea porque hay subprocesos en modo de lectura, entra en modo de escritura en cuanto el último subproceso sale del modo de lectura, incluso si no hay subprocesos espera de entrar en modo de escritura.  
+ <sup>2</sup> si `t` empieza en modo de actualización, se bloquea si hay subprocesos en modo de lectura. En caso contrario, actualiza a modo de escritura. Los cambios de estado de bloqueo de escritura (W). Si `t` bloquea porque hay subprocesos en modo de lectura, entra en modo de escritura tan pronto como el último subproceso sale del modo de lectura, incluso si no hay subprocesos esperando para entrar en modo de escritura.  
   
- Cuando se produce un cambio de estado porque un subproceso sale del bloqueo, el siguiente subproceso que debe activarse se selecciona como sigue:  
+ Cuando se produce un cambio de estado porque un subproceso cierra el bloqueo, el subproceso siguiente que debe activarse se selecciona como sigue:  
   
 -   En primer lugar, un subproceso que está esperando en modo de escritura y ya está en modo de actualización (puede haber a lo sumo un subproceso de este tipo).  
   
--   Si no es posible, un subproceso que está esperando para el modo de escritura.  
+-   Si no es posible, un subproceso que está esperando a modo de escritura.  
   
--   Si no es posible, un subproceso que espera en modo de actualización.  
+-   Si no es posible, un subproceso que está esperando a modo de actualización.  
   
 -   Si no es posible, todos los subprocesos que están esperando a modo de lectura.  
   
- El estado posterior del bloqueo siempre es escritura (W) en los dos primeros casos y actualización (U) en el tercer caso, independientemente del estado del bloqueo cuando el subproceso que sale activa el cambio de estado. En este último caso, el estado del bloqueo es actualización (A) si hay un subproceso en modo de actualización después del cambio de estado y Read (R) en caso contrario, con independencia del estado anterior.  
+ El estado del bloqueo posteriores siempre es de escritura (W) en los primeros dos casos y actualización (A) en el tercer caso, independientemente del estado del bloqueo cuando el subproceso que sale desencadena el cambio de estado. En el último caso, el estado del bloqueo es actualización (A) si hay un subproceso en modo de actualización después del cambio de estado y Read (R) en caso contrario, independientemente del estado anterior.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra una memoria caché sincronizada simple que contiene cadenas con claves de enteros. Una instancia de <xref:System.Threading.ReaderWriterLockSlim> se utiliza para sincronizar el acceso a la <xref:System.Collections.Generic.Dictionary%602> que actúa como la memoria caché interna.  
+ El ejemplo siguiente muestra una memoria caché sincronizada simple que contiene cadenas con claves de enteros. Una instancia de <xref:System.Threading.ReaderWriterLockSlim> se utiliza para sincronizar el acceso a la <xref:System.Collections.Generic.Dictionary%602> que actúa como la memoria caché interna.  
   
- En el ejemplo se incluye métodos simples para agregar a la caché, elimine de la memoria caché y de lectura de la memoria caché. Para mostrar los tiempos de espera, el ejemplo incluye un método que agrega a la memoria caché solo si puede hacerlo dentro de un tiempo de espera especificado.  
+ El ejemplo incluye métodos sencillos para agregar a la memoria caché, eliminar de la caché y leer desde la memoria caché. Para mostrar los tiempos de espera, el ejemplo incluye un método que agrega a la memoria caché solo si puede hacerlo dentro de un tiempo de espera especificado.  
   
- Para mostrar en modo de actualización, el ejemplo incluye un método que recupera el valor asociado a una clave y lo compara con un nuevo valor. Si el valor se ha modificado, el método devuelve un estado que indica ningún cambio. Se encuentra ningún valor para la clave, se inserta el par clave/valor. Si ha cambiado el valor, se actualiza. En modo de actualización permite al subproceso de actualización de acceso de lectura a acceso de escritura según sea necesario, sin el riesgo de interbloqueos.  
+ Para demostrar el modo de actualización, el ejemplo incluye un método que recupera el valor asociado a una clave y lo compara con un nuevo valor. Si el valor se ha modificado, el método devuelve un estado que indica ningún cambio. Si se encuentra ningún valor para la clave, se inserta el par clave/valor. Si ha cambiado el valor, se actualiza. Modo de actualización permite que el subproceso actualizar de acceso de lectura a acceso de escritura según sea necesario, sin el riesgo de interbloqueos.  
   
  El ejemplo incluye una enumeración anidada que especifica los valores devueltos del método que se muestra en modo de actualización.  
   
- En el ejemplo se usa el constructor predeterminado para crear el bloqueo, por lo que no se permite la recursividad. Programar la <xref:System.Threading.ReaderWriterLockSlim> es más sencillo y menos propenso a errores cuando el bloqueo no permite la recursividad.  
+ El ejemplo utiliza el constructor predeterminado para crear el bloqueo, por lo que no se permite la recursividad. Programar la <xref:System.Threading.ReaderWriterLockSlim> es más sencillo y menos propenso a errores cuando el bloqueo no permite la recursividad.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#11)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#11)]  
 [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#12](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#12)]
 [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#12](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#12)]  
   
- El siguiente código a continuación, utiliza el `SynchronizedCache` objeto para almacenar un diccionario de nombres vegetales. Crea tres tareas. La primera escribe los nombres de verduras almacenados en una matriz a un `SynchronizedCache` instancia. La tarea de segunda y tercer mostrar los nombres de las verduras, el primero en orden ascendente (de bajo índice de índice más alto), el segundo en orden descendente. La tarea final busca la cadena "vino" y, cuando lo encuentra, llama a la <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> método sustituir la cadena "bean verde".  
+ El siguiente código a continuación, utiliza el `SynchronizedCache` objeto para almacenar un diccionario de nombres verduras. Crea tres tareas. El primero escribe los nombres de verduras almacenados en una matriz a un `SynchronizedCache` instancia. La segunda y tercera tarea mostrar los nombres de las verduras, el primero en orden ascendente (de bajo índice de índice más alto), el segundo en orden descendente. La tarea final busca la cadena "cucumber" y, cuando lo encuentra, se llama a la <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> método sustituir la cadena "bean verde".  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#11)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#11)]  
@@ -181,7 +182,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Initializes a new instance of the <see cref="T:System.Threading.ReaderWriterLockSlim" /> class.</summary>
+        <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Threading.ReaderWriterLockSlim" />.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName=".ctor">
@@ -201,42 +202,48 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters />
       <Docs>
-        <summary>Initializes a new instance of the <see cref="T:System.Threading.ReaderWriterLockSlim" /> class with default property values.</summary>
+        <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Threading.ReaderWriterLockSlim" /> con los valores de propiedad predeterminados.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
  Un <xref:System.Threading.ReaderWriterLockSlim> que se inicializa con este constructor no permite la recursividad. Es decir, la propiedad <xref:System.Threading.ReaderWriterLockSlim.RecursionPolicy%2A> devuelve <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType>.  
   
- Para obtener más información acerca de la directiva de recursividad y sus efectos, consulte la <xref:System.Threading.LockRecursionPolicy> enumeración y <xref:System.Threading.ReaderWriterLockSlim> clase.  
+ Para obtener más información acerca de la directiva de recursividad y sus efectos, vea el <xref:System.Threading.LockRecursionPolicy> enumeración y <xref:System.Threading.ReaderWriterLockSlim> clase.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra una memoria caché sincronizada simple que contiene cadenas con claves de enteros. Una instancia de <xref:System.Threading.ReaderWriterLockSlim> se utiliza para sincronizar el acceso a la <xref:System.Collections.Generic.Dictionary%602> que actúa como la memoria caché interna. El constructor sin parámetros se utiliza para crear el bloqueo.  
+ El ejemplo siguiente muestra una memoria caché sincronizada simple que contiene cadenas con claves de enteros. Una instancia de <xref:System.Threading.ReaderWriterLockSlim> se utiliza para sincronizar el acceso a la <xref:System.Collections.Generic.Dictionary%602> que actúa como la memoria caché interna. El constructor sin parámetros se utiliza para crear el bloqueo.  
   
- En el ejemplo se incluye métodos simples para agregar a la caché, elimine de la memoria caché y de lectura de la memoria caché. Para mostrar los tiempos de espera, el ejemplo incluye un método que agrega a la memoria caché solo si puede hacerlo dentro de un tiempo de espera especificado.  
+ El ejemplo incluye métodos sencillos para agregar a la memoria caché, eliminar de la caché y leer desde la memoria caché. Para mostrar los tiempos de espera, el ejemplo incluye un método que agrega a la memoria caché solo si puede hacerlo dentro de un tiempo de espera especificado.  
   
- Para mostrar en modo de actualización, el ejemplo incluye un método que recupera el valor asociado a una clave y lo compara con un nuevo valor. Si el valor se ha modificado, el método devuelve un estado que indica ningún cambio. Se encuentra ningún valor para la clave, se inserta el par clave/valor. Si ha cambiado el valor, se actualiza. En modo de actualización permite al subproceso de actualización de acceso de lectura a acceso de escritura según sea necesario, sin el riesgo de interbloqueos.  
+ Para demostrar el modo de actualización, el ejemplo incluye un método que recupera el valor asociado a una clave y lo compara con un nuevo valor. Si el valor se ha modificado, el método devuelve un estado que indica ningún cambio. Se encuentra ningún valor para la clave, se inserta el par clave/valor. Si ha cambiado el valor, se actualiza. Modo de actualización permite que el subproceso actualizar de acceso de lectura a acceso de escritura según sea necesario, sin el riesgo de interbloqueos.  
   
  El ejemplo incluye una enumeración anidada que especifica los valores devueltos del método que se muestra en modo de actualización.  
   
- En el ejemplo se usa el constructor predeterminado para crear el bloqueo, por lo que no se permite la recursividad. Programar la <xref:System.Threading.ReaderWriterLockSlim> es más sencillo y menos propenso a errores cuando el bloqueo no permite la recursividad.  
+ El ejemplo utiliza el constructor predeterminado para crear el bloqueo, por lo que no se permite la recursividad. Programar la <xref:System.Threading.ReaderWriterLockSlim> es más sencillo y menos propenso a errores cuando el bloqueo no permite la recursividad.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#11)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#11)]  
 [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#12](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#12)]
 [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#12](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#12)]  
   
- El siguiente código a continuación, utiliza el `SynchronizedCache` objeto para almacenar un diccionario de nombres vegetales. Crea tres tareas. La primera escribe los nombres de verduras almacenados en una matriz a un `SynchronizedCache` instancia. La tarea de segunda y tercer mostrar los nombres de las verduras, el primero en orden ascendente (de bajo índice de índice más alto), el segundo en orden descendente. La tarea final busca la cadena "vino" y, cuando lo encuentra, llama a la <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> método sustituir la cadena "bean verde".  
+ El siguiente código a continuación, utiliza el `SynchronizedCache` objeto para almacenar un diccionario de nombres verduras. Crea tres tareas. El primero escribe los nombres de verduras almacenados en una matriz a un `SynchronizedCache` instancia. La segunda y tercera tarea mostrar los nombres de las verduras, el primero en orden ascendente (de bajo índice de índice más alto), el segundo en orden descendente. La tarea final busca la cadena "cucumber" y, cuando lo encuentra, se llama a la <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> método sustituir la cadena "bean verde".  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#11)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#11)]  
@@ -266,6 +273,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -276,27 +284,27 @@
         <Parameter Name="recursionPolicy" Type="System.Threading.LockRecursionPolicy" />
       </Parameters>
       <Docs>
-        <param name="recursionPolicy">One of the enumeration values that specifies the lock recursion policy.</param>
-        <summary>Initializes a new instance of the <see cref="T:System.Threading.ReaderWriterLockSlim" /> class, specifying the lock recursion policy.</summary>
+        <param name="recursionPolicy">Uno de los valores de enumeración que especifica la directiva de recursividad de bloqueo.</param>
+        <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Threading.ReaderWriterLockSlim" /> especificando la directiva de recursividad de bloqueo.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La directiva de recursividad determina las restricciones en los subprocesos que entran en el bloqueo más de una vez. Por ejemplo, si se ha creado un bloqueo con <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> y un subproceso ha entrado en el bloqueo en modo de lectura, <xref:System.Threading.LockRecursionException> se produce si el subproceso intenta volver a escribir el bloqueo en modo de lectura. De forma similar, si un subproceso ha entrado en el bloqueo en modo de escritura, <xref:System.Threading.LockRecursionException> se produce si el subproceso intenta volver a escribir el bloqueo en cualquier modo.  
+ La directiva de recursividad determina las restricciones en los subprocesos que entrar en más de una vez el bloqueo. Por ejemplo, si se ha creado un bloqueo con <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> y un subproceso ha entrado en modo de lectura, el bloqueo <xref:System.Threading.LockRecursionException> se produce si el subproceso intenta volver a escribir el bloqueo en modo de lectura. De forma similar, si un subproceso ha entrado en modo de escritura, el bloqueo <xref:System.Threading.LockRecursionException> se produce si el subproceso intenta volver a escribir el bloqueo en cualquier modo.  
   
 > [!NOTE]
->  Un subproceso en modo de actualización puede actualizarse a modo de escritura o degradación modo independientemente de la configuración de directiva de recursividad de bloqueo de lectura.  
+>  Un subproceso en modo de actualización puede actualizar a modo de escritura o degradar modo independientemente de la configuración de directiva de recursividad de bloqueo de lectura.  
   
- Independientemente de la directiva de recursividad, un subproceso que entró inicialmente lee modo no se admite para actualizar a modo de actualización o en modo de escritura, porque ese modelo genera una gran probabilidad de interbloqueos.  
+ Independientemente de la directiva de recursividad, un subproceso que entró inicialmente en lectura no se permite el modo para actualizar a modo de actualización o en modo de escritura, porque ese modelo genera una gran probabilidad de interbloqueos.  
   
- Para obtener más información acerca de la directiva de recursividad y sus efectos, consulte la <xref:System.Threading.LockRecursionPolicy> enumeración y <xref:System.Threading.ReaderWriterLockSlim> clase.  
+ Para obtener más información acerca de la directiva de recursividad y sus efectos, vea el <xref:System.Threading.LockRecursionPolicy> enumeración y <xref:System.Threading.ReaderWriterLockSlim> clase.  
   
    
   
 ## Examples  
- El ejemplo siguiente muestra dos escenarios de excepción, uno que depende el <xref:System.Threading.LockRecursionPolicy> configuración y otro que no lo hace.  
+ El ejemplo siguiente muestra dos escenarios de excepción, que depende el <xref:System.Threading.LockRecursionPolicy> configuración y otro que no lo hace.  
   
- En el primer escenario, el subproceso entra en modo de lectura y, a continuación, intenta entrar en modo de lectura de forma recursiva. Si el <xref:System.Threading.ReaderWriterLockSlim> se crea mediante el constructor predeterminado, que establece la directiva de recursividad en <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType>, se produce una excepción. Si <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType> se utiliza para crear el <xref:System.Threading.ReaderWriterLockSlim>, se inicia ninguna excepción.  
+ En el primer escenario, el subproceso entra en modo de lectura y, a continuación, intenta entrar en modo de lectura de forma recursiva. Si el <xref:System.Threading.ReaderWriterLockSlim> se crea mediante el constructor predeterminado, lo que establece la directiva de recursividad <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType>, se produce una excepción. Si <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType> se usa para crear el <xref:System.Threading.ReaderWriterLockSlim>, se produce ninguna excepción.  
   
  En el segundo escenario, el subproceso entra en modo de lectura y, a continuación, intenta entrar en modo de escritura. <xref:System.Threading.LockRecursionException> se produce independientemente de la directiva de recursividad de bloqueo.  
   
@@ -305,7 +313,7 @@
 [!code-csharp[System.Threading.LockRecursionPolicy#12](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/cs/ClassExample1.cs#12)] 
 [!code-vb[System.Threading.LockRecursionPolicy#12](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/vb/ClassExample1.vb#12)]  
   
- El siguiente código a continuación, utiliza el `SynchronizedCache` objeto para almacenar un diccionario de nombres vegetales. Crea tres tareas. La primera escribe los nombres de verduras almacenados en una matriz a un `SynchronizedCache` instancia. La tarea de segunda y tercer mostrar los nombres de las verduras, el primero en orden ascendente (de bajo índice de índice más alto), el segundo en orden descendente. La tarea final busca la cadena "vino" y, cuando lo encuentra, llama a la <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> método sustituir la cadena "bean verde".  
+ El siguiente código a continuación, utiliza el `SynchronizedCache` objeto para almacenar un diccionario de nombres verduras. Crea tres tareas. El primero escribe los nombres de verduras almacenados en una matriz a un `SynchronizedCache` instancia. La segunda y tercera tarea mostrar los nombres de las verduras, el primero en orden ascendente (de bajo índice de índice más alto), el segundo en orden descendente. La tarea final busca la cadena "cucumber" y, cuando lo encuentra, se llama a la <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> método sustituir la cadena "bean verde".  
   
 [!code-csharp[System.Threading.LockRecursionPolicy#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/cs/ClassExample1.cs#11)] 
 [!code-vb[System.Threading.LockRecursionPolicy#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/vb/ClassExample1.vb#11)]   
@@ -336,6 +344,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -346,7 +355,7 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets the total number of unique threads that have entered the lock in read mode.</summary>
+        <summary>Obtiene el número total de subprocesos únicos que han entrado en el bloqueo en modo de lectura.</summary>
         <value>Número de subprocesos únicos que han entrado en el bloqueo en modo de lectura.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -354,12 +363,12 @@
 ## Remarks  
  Un subproceso se cuenta una sola vez, incluso si el bloqueo permite la recursividad y el subproceso ha entrado en modo de lectura varias veces.  
   
- Utilice esta propiedad solo para depurar, de generación de perfiles y con fines de registro y no para controlar el comportamiento de un algoritmo. Los resultados pueden cambiar en cuanto se hayan calculado. Por lo tanto, no es seguro tomar decisiones basadas en esta propiedad.  
+ Utilice esta propiedad únicamente para la depuración, generación de perfiles y con fines de registro y no para controlar el comportamiento de un algoritmo. Pueden cambiar los resultados en cuanto se hayan calculado. Por lo tanto, no es seguro tomar decisiones basadas en esta propiedad.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el <xref:System.Threading.ReaderWriterLockSlim.CurrentReadCount%2A> propiedad que se va a generar una entrada de registro de eventos si el número de subprocesos en modo de lectura supera un umbral.  
+ El ejemplo siguiente muestra cómo usar el <xref:System.Threading.ReaderWriterLockSlim.CurrentReadCount%2A> propiedad para generar una entrada de registro de eventos si el número de subprocesos en modo de lectura supera un umbral.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
@@ -393,23 +402,29 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Releases all resources used by the current instance of the <see cref="T:System.Threading.ReaderWriterLockSlim" /> class.</summary>
+        <summary>Libera todos los recursos usados por la instancia actual de la clase <see cref="T:System.Threading.ReaderWriterLockSlim" />.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Llame a <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> cuando haya terminado de usar <xref:System.Threading.ReaderWriterLockSlim>. El método <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> deja el <xref:System.Threading.ReaderWriterLockSlim> en un estado no utilizable. Después de llamar a <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A>, debe liberar todas las referencias a la <xref:System.Threading.ReaderWriterLockSlim> para que el recolector de elementos no utilizados pueda reclamar la memoria que el <xref:System.Threading.ReaderWriterLockSlim> estaba ocupando. Para obtener más información, consulte [limpiar recursos no administrados](~/docs/standard/garbage-collection/unmanaged.md) y [implementa un método Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).  
+ Llame a <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> cuando haya terminado de usar <xref:System.Threading.ReaderWriterLockSlim>. El método <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> deja el <xref:System.Threading.ReaderWriterLockSlim> en un estado no utilizable. Después de llamar a <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A>, debe liberar todas las referencias a la <xref:System.Threading.ReaderWriterLockSlim> por lo que el recolector de elementos no utilizados pueda reclamar la memoria que el <xref:System.Threading.ReaderWriterLockSlim> estaba ocupando. Para obtener más información, consulte [limpiar recursos no administrados](~/docs/standard/garbage-collection/unmanaged.md) y [implementar un método Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).  
   
 > [!NOTE]
 >  Llame siempre a <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> antes de liberar la última referencia a la <xref:System.Threading.ReaderWriterLockSlim> objeto.  
@@ -417,7 +432,13 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.Threading.SynchronizationLockException">
-          <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingReadCount" /> is greater than zero.  -or-  <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount" /> is greater than zero.  -or-  <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingWriteCount" /> is greater than zero.</exception>
+          <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingReadCount" /> es mayor que cero.  
+  
+O bien 
+ <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount" /> es mayor que cero.  
+  
+O bien 
+ <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingWriteCount" /> es mayor que cero.</exception>
       </Docs>
     </Member>
     <Member MemberName="EnterReadLock">
@@ -438,6 +459,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -449,28 +471,28 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Tries to enter the lock in read mode.</summary>
+        <summary>Intenta entrar en el bloqueo en modo de lectura.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método se bloquea hasta que el subproceso que realiza la llamada entra en el bloqueo y, por lo tanto, es posible que nunca se devuelve. Use la <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> método bloquear durante un intervalo especificado y, a continuación, regrese si el subproceso que realiza la llamada no ha entrado en modo lectura durante ese intervalo.  
+ Devuelve este método se bloquea hasta que el subproceso que realiza la llamada entra en el bloqueo y, por lo tanto, es posible que nunca. Use el <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> método se bloquea durante un intervalo especificado y, a continuación, devolver si no ha entrado en el subproceso de llamada de modo de lectura durante ese intervalo.  
   
  Varios subprocesos pueden entrar en modo de lectura al mismo tiempo.  
   
- Si uno o varios subprocesos en espera de entrar en modo de escritura, un subproceso que llama el <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> método se bloquea hasta que esos subprocesos agotó el tiempo o entró en modo de escritura y, a continuación, sale de ella.  
+ Si uno o varios subprocesos están esperando para entrar en modo de escritura, un subproceso que llama el <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> agotó el tiempo de método se bloquea hasta que esos subprocesos o entró en modo de escritura y, a continuación, sale de ella.  
   
 > [!NOTE]
->  Si un bloqueo permite la recursividad, un subproceso que ha entrado en el bloqueo en modo de lectura puede entrar recursivamente de modo de lectura, aun cuando otros subprocesos están a la espera de entrar en modo de escritura.  
+>  Si un bloqueo permite la recursividad, un subproceso que ha entrado en el bloqueo en modo de lectura puede especificar el modo de lectura de forma recursiva, incluso si otros subprocesos están esperando para entrar en modo de escritura.  
   
- A lo sumo un subproceso puede estar en modo de actualización mientras otros subprocesos están en modo de lectura. Si los subprocesos adicionales se esperan de entrar en modo de actualización y no hay ningún subproceso esperando para entrar en el modo de escritura, los subprocesos que llaman los <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> método entrar en modo de lectura inmediatamente y no se bloquean.  
+ Puede ser a lo sumo un subproceso en modo de actualización mientras otros subprocesos están en modo de lectura. Si otros subprocesos están esperando para entrar en modo de y no hay ningún subproceso en espera de entrar en modo de escritura, los subprocesos que llaman a la <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> método entrar en modo de lectura inmediatamente y no se bloquean.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> método para entrar en el bloqueo en modo de lectura. El método mostrado en el ejemplo recupera el valor asociado a una clave. Si la clave no se encuentra, la excepción producida por interna <xref:System.Collections.Generic.Dictionary%602> puede finalizar el método. A `finally` bloque se usa para ejecutar el <xref:System.Threading.ReaderWriterLockSlim.ExitReadLock%2A> método, lo que garantiza que el llamador sale del modo de lectura.  
+ El ejemplo siguiente muestra cómo usar el <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> método para entrar en el bloqueo en modo de lectura. El método que se muestra en el ejemplo recupera el valor asociado a una clave. Si la clave no se encuentra, la excepción producida por interno <xref:System.Collections.Generic.Dictionary%602> puede finalizar el método. Un `finally` bloque se usa para ejecutar el <xref:System.Threading.ReaderWriterLockSlim.ExitReadLock%2A> método, lo que garantiza que el llamador sale del modo de lectura.  
   
- Este código forma parte de un ejemplo mayor proporcionado para el <xref:System.Threading.ReaderWriterLockSlim> clase.  
+ Este código forma parte de un ejemplo más extenso proporcionado para el <xref:System.Threading.ReaderWriterLockSlim> clase.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
@@ -479,8 +501,14 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">The current thread cannot acquire the write lock when it holds the read lock.  -or-  The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" />, and the current thread has attempted to acquire the read lock when it already holds the read lock.  -or-  The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" />, and the current thread has attempted to acquire the read lock when it already holds the write lock.  -or-  The recursion number would exceed the capacity of the counter. This limit is so large that applications should never encounter this exception.</exception>
-        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">La propiedad <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> es <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> y el subproceso actual intentó adquirir el bloqueo de lectura cuando ya tenía el bloqueo de lectura.  
+  
+O bien 
+La propiedad <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> es <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> y el subproceso actual intentó adquirir el bloqueo de lectura cuando ya tenía el bloqueo de escritura.  
+  
+O bien 
+El número de recursividad superaría la capacidad del contador. Este límite es tan grande que en las aplicaciones no debe aparecer nunca esta excepción.</exception>
+        <exception cref="T:System.ObjectDisposedException">Se eliminó el objeto <see cref="T:System.Threading.ReaderWriterLockSlim" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="EnterUpgradeableReadLock">
@@ -501,6 +529,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -512,32 +541,32 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Tries to enter the lock in upgradeable mode.</summary>
+        <summary>Intenta entrar en el bloqueo en modo de actualización.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método se bloquea hasta que el subproceso que realiza la llamada entra en el bloqueo y, por lo tanto, es posible que nunca se devuelve. Use la <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> método bloquear durante un intervalo especificado y, a continuación, regrese si el subproceso que realiza la llamada no ha entrado en modo de actualización durante ese intervalo.  
+ Devuelve este método se bloquea hasta que el subproceso que realiza la llamada entra en el bloqueo y, por lo tanto, es posible que nunca. Use el <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> método se bloquea durante un intervalo especificado y, a continuación, devolver si el subproceso de llamada no ha entrado en modo durante ese intervalo.  
   
- Use en modo de actualización cuando un subproceso suele tener acceso al recurso que está protegido por el <xref:System.Threading.ReaderWriterLockSlim> en el modo de lectura, pero que necesite escribir el modo de escritura si se cumplen determinadas condiciones. Un subproceso en modo de actualización puede cambiar para el modo de lectura o actualizar a modo de escritura.  
+ Use el modo puede actualizarse cuando un subproceso normalmente obtiene acceso al recurso protegido por el <xref:System.Threading.ReaderWriterLockSlim> en modo de lectura, pero es posible que necesite entrar en modo de escritura si se cumplen ciertas condiciones. Un subproceso en modo de actualización puede cambiar el modo de lectura o actualizar a modo de escritura.  
   
- Sólo un subproceso puede entrar en modo de actualización en un momento dado. Si un subproceso está en modo de actualización y no hay ningún subproceso esperando para entrar en el modo de escritura, cualquier número de otros subprocesos puede entrar en modo de lectura, incluso si hay subprocesos a la espera de entrar en modo de actualización.  
+ Solo un subproceso puede entrar en modo en un momento dado. Si un subproceso está en modo de actualización y no hay ningún subproceso en espera de entrar en modo de escritura, cualquier número de otros subprocesos puede entrar en modo de lectura, incluso si no hay subprocesos en espera de entrar en modo.  
   
- Si uno o varios subprocesos en espera de entrar en modo de escritura, un subproceso que llama el <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> método se bloquea hasta que esos subprocesos agotó el tiempo o entró en modo de escritura y, a continuación, sale de ella.  
+ Si uno o varios subprocesos están esperando para entrar en modo de escritura, un subproceso que llama el <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> agotó el tiempo de método se bloquea hasta que esos subprocesos o entró en modo de escritura y, a continuación, sale de ella.  
   
 > [!NOTE]
->  Si un bloqueo permite la recursividad, un subproceso que ha entrado en el bloqueo en modo de actualización puede entrar en modo de actualización de forma recursiva, aun cuando otros subprocesos están a la espera de entrar en modo de escritura.  
+>  Si un bloqueo permite la recursividad, un subproceso que ha entrado en el bloqueo en modo de actualización puede entrar en modo de actualización de forma recursiva, incluso si otros subprocesos están esperando para entrar en modo de escritura.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> método para entrar en el bloqueo en modo de actualización. A `finally` bloque se usa para ejecutar el <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> método, lo que garantiza que el llamador sale del modo de actualización.  
+ El ejemplo siguiente muestra cómo usar el <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> método para entrar en el bloqueo en modo de actualización. Un `finally` bloque se usa para ejecutar el <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> método, lo que garantiza que el llamador sale del modo de actualización.  
   
- El método mostrado en el ejemplo recupera el valor asociado a una clave y lo compara con un nuevo valor. Si el valor se ha modificado, el método devuelve un estado que indica ningún cambio. Se encuentra ningún valor para la clave, se inserta el par clave/valor. Si ha cambiado el valor, se actualiza. En modo de actualización permite al subproceso actualizar el bloqueo de lectura según sea necesario, sin riesgo de interbloqueos.  
+ El método que se muestra en el ejemplo recupera el valor asociado a una clave y lo compara con un nuevo valor. Si el valor se ha modificado, el método devuelve un estado que indica ningún cambio. Se encuentra ningún valor para la clave, se inserta el par clave/valor. Si ha cambiado el valor, se actualiza. Modo de actualización permite que el subproceso actualizar el bloqueo de lectura según sea necesario, sin riesgo de interbloqueos.  
   
- En el ejemplo se usa el constructor predeterminado para crear el bloqueo, por lo que no se permite la recursividad. Programar la <xref:System.Threading.ReaderWriterLockSlim> es más sencillo y menos propenso a errores cuando el bloqueo no permite la recursividad.  
+ El ejemplo utiliza el constructor predeterminado para crear el bloqueo, por lo que no se permite la recursividad. Programar la <xref:System.Threading.ReaderWriterLockSlim> es más sencillo y menos propenso a errores cuando el bloqueo no permite la recursividad.  
   
- Este código forma parte de un ejemplo mayor proporcionado para el <xref:System.Threading.ReaderWriterLockSlim> clase.  
+ Este código forma parte de un ejemplo más extenso proporcionado para el <xref:System.Threading.ReaderWriterLockSlim> clase.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
@@ -548,8 +577,14 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock in any mode.  -or-  The current thread has entered read mode, so trying to enter upgradeable mode would create the possibility of a deadlock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
-        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">La propiedad <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> es <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> y el subproceso actual ya ha entrado en el bloqueo en cualquier modo.  
+  
+O bien 
+El subproceso actual ha entrado en modo de lectura, por lo que, al intentar entrar en modo de actualización, existiría la posibilidad de interbloqueo.  
+  
+O bien 
+El número de recursividad superaría la capacidad del contador. El límite es tan amplio que las aplicaciones nunca deben alcanzarlo.</exception>
+        <exception cref="T:System.ObjectDisposedException">Se eliminó el objeto <see cref="T:System.Threading.ReaderWriterLockSlim" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="EnterWriteLock">
@@ -570,6 +605,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -581,24 +617,24 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Tries to enter the lock in write mode.</summary>
+        <summary>Intenta entrar en el bloqueo en modo de escritura.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método se bloquea hasta que el subproceso que realiza la llamada entra en el bloqueo y, por lo tanto, es posible que nunca se devuelve. Use la <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> método bloquear durante un intervalo especificado y, a continuación, devolver si el subproceso que realiza la llamada no ha entrado en modo de escritura durante ese intervalo.  
+ Devuelve este método se bloquea hasta que el subproceso que realiza la llamada entra en el bloqueo y, por lo tanto, es posible que nunca. Use el <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> método se bloquea durante un intervalo especificado y, a continuación, devolver si el subproceso de llamada no ha entrado en modo de escritura durante ese intervalo.  
   
- Si otros subprocesos han entrado en el bloqueo en modo de lectura, un subproceso que llama el <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> método se bloquea hasta que los subprocesos han salido del modo de lectura. Cuando hay subprocesos a la espera de entrar en modo de escritura, otros subprocesos que intenten entrar en modo de lectura o de bloque en modo de actualización hasta que todos los subprocesos en espera de entrar en modo de escritura agotó el tiempo o entró en modo de escritura y, a continuación, salgan de ella.  
+ Si otros subprocesos han entrado en el bloqueo en modo de lectura, un subproceso que llama el <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> método se bloquea hasta que los subprocesos han salido del modo de lectura. Cuando hay subprocesos en espera de entrar en modo de escritura, subprocesos adicionales que intenta entrar en modo de lectura o bloque de modo de actualización hasta que todos los subprocesos en espera de entrar en modo de escritura tienen agotó el tiempo o entró en modo de escritura y, a continuación, salgan de ella.  
   
 > [!NOTE]
->  Si un bloqueo permite la recursividad, un subproceso que ha entrado en el bloqueo en modo de escritura puede entrar recursivamente de modo de escritura, aun cuando otros subprocesos están a la espera de entrar en modo de escritura.  
+>  Si un bloqueo permite la recursividad, un subproceso que ha entrado en el bloqueo en modo de escritura puede escribir recursivamente de modo de escritura, incluso si otros subprocesos están esperando para entrar en modo de escritura.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> método para entrar en el bloqueo en modo de escritura. El método mostrado en el ejemplo agrega un nuevo par clave/valor en la memoria caché sincronizada. Si la clave ya está en la memoria caché, la excepción producida por interna <xref:System.Collections.Generic.Dictionary%602> puede finalizar el método. A `finally` bloque se usa para ejecutar el <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> método, lo que garantiza que el llamador sale del modo de escritura.  
+ El ejemplo siguiente muestra cómo usar el <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> método para entrar en el bloqueo en modo de escritura. El método que se muestra en el ejemplo agrega un nuevo par clave-valor a la memoria caché sincronizada. Si la clave ya está en la memoria caché, la excepción producida por interno <xref:System.Collections.Generic.Dictionary%602> puede finalizar el método. Un `finally` bloque se usa para ejecutar el <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> método, lo que garantiza que el llamador sale del modo de escritura.  
   
- Este código forma parte de un ejemplo mayor proporcionado para el <xref:System.Threading.ReaderWriterLockSlim> clase.  
+ Este código forma parte de un ejemplo más extenso proporcionado para el <xref:System.Threading.ReaderWriterLockSlim> clase.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
@@ -607,8 +643,14 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock in any mode.  -or-  The current thread has entered read mode, so trying to enter the lock in write mode would create the possibility of a deadlock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
-        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">La propiedad <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> es <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> y el subproceso actual ya ha entrado en el bloqueo en cualquier modo.  
+  
+O bien 
+El subproceso actual ha entrado en modo de lectura y ya no posee un bloqueo de escritura, por lo que, si se intenta entrar en el bloqueo en modo de escritura, existiría la posibilidad de un interbloqueo.  
+  
+O bien 
+El número de recursividad superaría la capacidad del contador. El límite es tan amplio que las aplicaciones nunca deben alcanzarlo.</exception>
+        <exception cref="T:System.ObjectDisposedException">Se eliminó el objeto <see cref="T:System.Threading.ReaderWriterLockSlim" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="ExitReadLock">
@@ -629,6 +671,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -640,21 +683,21 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Reduces the recursion count for read mode, and exits read mode if the resulting count is 0 (zero).</summary>
+        <summary>Reduce el recuento de recursividad para el modo de lectura y sale del modo de lectura si el recuento resultante es 0 (cero).</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método no es sensible al orden de recursividad. Por ejemplo, si un subproceso entra en un bloqueo en modo de actualización y, a continuación, entra en el bloqueo en modo de lectura, no importa el orden en el que el subproceso sale de los dos modos. Si un bloqueo permite la recursividad, un subproceso puede entrar en el bloqueo en modo de escritura y, a continuación, escríbala de forma recursiva en modo de lectura; el orden en que el subproceso sale del modo de lectura y no importa el modo de escritura.  
+ Este método no es susceptible al orden de recursividad. Por ejemplo, si un subproceso entra en un bloqueo en modo de actualización y, a continuación, entra en el bloqueo en modo de lectura, no importa el orden en el que el subproceso sale de los dos modos. Si un bloqueo permite la recursividad, un subproceso puede entrar en el bloqueo en modo de escritura y a continuación, escríbala de forma recursiva en modo de lectura; el orden en que el subproceso sale del modo de lectura y no importa el modo de escritura.  
   
- Al salir del bloqueo, podría señalar otros subprocesos en espera.  
+ Salir del bloqueo puede señalar otros subprocesos en espera.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar un `finally` bloque para ejecutar el <xref:System.Threading.ReaderWriterLockSlim.ExitReadLock%2A> método, lo que garantiza que el llamador sale del modo de lectura. El método mostrado en el ejemplo recupera el valor asociado a una clave. Si la clave no se encuentra, la excepción producida por interna <xref:System.Collections.Generic.Dictionary%602> puede finalizar el método. El <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> método se usa para entrar en modo de lectura.  
+ El ejemplo siguiente muestra cómo usar un `finally` bloque para ejecutar el <xref:System.Threading.ReaderWriterLockSlim.ExitReadLock%2A> método, lo que garantiza que el llamador sale del modo de lectura. El método que se muestra en el ejemplo recupera el valor asociado a una clave. Si la clave no se encuentra, la excepción producida por interno <xref:System.Collections.Generic.Dictionary%602> puede finalizar el método. El <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> método se utiliza para entrar en modo de lectura.  
   
- Este código forma parte de un ejemplo mayor proporcionado para el <xref:System.Threading.ReaderWriterLockSlim> clase.  
+ Este código forma parte de un ejemplo más extenso proporcionado para el <xref:System.Threading.ReaderWriterLockSlim> clase.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
@@ -663,7 +706,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.SynchronizationLockException">The current thread has not entered the lock in read mode.</exception>
+        <exception cref="T:System.Threading.SynchronizationLockException">El subproceso actual no ha entrado en el bloqueo en modo de lectura.</exception>
       </Docs>
     </Member>
     <Member MemberName="ExitUpgradeableReadLock">
@@ -684,6 +727,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -695,25 +739,25 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Reduces the recursion count for upgradeable mode, and exits upgradeable mode if the resulting count is 0 (zero).</summary>
+        <summary>Reduce el recuento de recursividad para el modo de actualización y sale del modo de actualización si el recuento resultante es 0 (cero).</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método no es sensible al orden de recursividad. Por ejemplo, si un subproceso entra en un bloqueo en modo de actualización y, a continuación, entra en el bloqueo en modo de escritura, no importa el orden en el que el subproceso sale de los dos modos. Si un bloqueo permite la recursividad, un subproceso puede entrar en el bloqueo en modo de escritura y, a continuación, escríbala de forma recursiva en modo de actualización; No importa el orden en el que el subproceso sale en modo de modo de escritura.  
+ Este método no es susceptible al orden de recursividad. Por ejemplo, si un subproceso entra en un bloqueo en modo de actualización y, a continuación, entra en el bloqueo en modo de escritura, no importa el orden en el que el subproceso sale de los dos modos. Si un bloqueo permite la recursividad, un subproceso puede entrar en el bloqueo en modo de escritura y a continuación, escríbala de forma recursiva en modo de actualización; No importa el orden en que el subproceso sale en modo de modo de escritura.  
   
- Al salir del bloqueo, podría señalar otros subprocesos en espera.  
+ Salir del bloqueo puede señalar otros subprocesos en espera.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar un `finally` bloque para ejecutar el <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> método, lo que garantiza que el llamador sale del modo de actualización.  
+ El ejemplo siguiente muestra cómo usar un `finally` bloque para ejecutar el <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> método, lo que garantiza que el llamador sale del modo de actualización.  
   
- El método mostrado en el ejemplo recupera el valor asociado a una clave y lo compara con un nuevo valor. Si el valor se ha modificado, el método devuelve un estado que indica ningún cambio. Se encuentra ningún valor para la clave, se inserta el par clave/valor. Si ha cambiado el valor, se actualiza. En modo de actualización permite al subproceso actualizar el bloqueo de lectura según sea necesario, sin riesgo de interbloqueos.  
+ El método que se muestra en el ejemplo recupera el valor asociado a una clave y lo compara con un nuevo valor. Si el valor se ha modificado, el método devuelve un estado que indica ningún cambio. Se encuentra ningún valor para la clave, se inserta el par clave/valor. Si ha cambiado el valor, se actualiza. Modo de actualización permite que el subproceso actualizar el bloqueo de lectura según sea necesario, sin riesgo de interbloqueos.  
   
- En el ejemplo se usa el constructor predeterminado para crear el bloqueo, por lo que no se permite la recursividad. Programar la <xref:System.Threading.ReaderWriterLockSlim> es más sencillo y menos propenso a errores cuando el bloqueo no permite la recursividad.  
+ El ejemplo utiliza el constructor predeterminado para crear el bloqueo, por lo que no se permite la recursividad. Programar la <xref:System.Threading.ReaderWriterLockSlim> es más sencillo y menos propenso a errores cuando el bloqueo no permite la recursividad.  
   
- Este código forma parte de un ejemplo mayor proporcionado para el <xref:System.Threading.ReaderWriterLockSlim> clase.  
+ Este código forma parte de un ejemplo más extenso proporcionado para el <xref:System.Threading.ReaderWriterLockSlim> clase.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
@@ -724,7 +768,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.SynchronizationLockException">The current thread has not entered the lock in upgradeable mode.</exception>
+        <exception cref="T:System.Threading.SynchronizationLockException">El subproceso actual no ha entrado en el bloqueo en modo de actualización.</exception>
       </Docs>
     </Member>
     <Member MemberName="ExitWriteLock">
@@ -745,6 +789,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -756,21 +801,21 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Reduces the recursion count for write mode, and exits write mode if the resulting count is 0 (zero).</summary>
+        <summary>Reduce el recuento de recursividad para el modo de escritura y sale del modo de escritura si el recuento resultante es 0 (cero).</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Este método no es sensible al orden de recursividad. Por ejemplo, si un subproceso entra en un bloqueo en modo de actualización y, a continuación, entra en el bloqueo en modo de escritura, no importa el orden en el que el subproceso sale de los dos modos. Si un bloqueo permite la recursividad, un subproceso puede entrar en el bloqueo en modo de escritura y, a continuación, escríbala de forma recursiva en modo de lectura; el orden en que el subproceso sale del modo de lectura y no importa el modo de escritura.  
+ Este método no es susceptible al orden de recursividad. Por ejemplo, si un subproceso entra en un bloqueo en modo de actualización y, a continuación, entra en el bloqueo en modo de escritura, no importa el orden en el que el subproceso sale de los dos modos. Si un bloqueo permite la recursividad, un subproceso puede entrar en el bloqueo en modo de escritura y a continuación, escríbala de forma recursiva en modo de lectura; el orden en que el subproceso sale del modo de lectura y no importa el modo de escritura.  
   
- Al salir del bloqueo, podría señalar otros subprocesos en espera.  
+ Salir del bloqueo puede señalar otros subprocesos en espera.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar un `finally` bloque para ejecutar el <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> método, lo que garantiza que el llamador sale del modo de escritura. El método mostrado en el ejemplo agrega un nuevo par clave/valor en la memoria caché sincronizada. Si la clave ya está en la memoria caché, la excepción producida por interna <xref:System.Collections.Generic.Dictionary%602> puede finalizar el método. El <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> método se usa para entrar en el bloqueo en modo de escritura.  
+ El ejemplo siguiente muestra cómo usar un `finally` bloque para ejecutar el <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> método, lo que garantiza que el llamador sale del modo de escritura. El método que se muestra en el ejemplo agrega un nuevo par clave-valor a la memoria caché sincronizada. Si la clave ya está en la memoria caché, la excepción producida por interno <xref:System.Collections.Generic.Dictionary%602> puede finalizar el método. El <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> método se utiliza para entrar en el bloqueo en modo de escritura.  
   
- Este código forma parte de un ejemplo mayor proporcionado para el <xref:System.Threading.ReaderWriterLockSlim> clase.  
+ Este código forma parte de un ejemplo más extenso proporcionado para el <xref:System.Threading.ReaderWriterLockSlim> clase.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
@@ -779,7 +824,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.SynchronizationLockException">The current thread has not entered the lock in write mode.</exception>
+        <exception cref="T:System.Threading.SynchronizationLockException">El subproceso actual no ha entrado en el bloqueo en modo de escritura.</exception>
       </Docs>
     </Member>
     <Member MemberName="IsReadLockHeld">
@@ -800,6 +845,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -810,19 +856,19 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets a value that indicates whether the current thread has entered the lock in read mode.</summary>
+        <summary>Obtiene un valor que indica si el subproceso actual ha entrado en el bloqueo en modo de lectura.</summary>
         <value>
           <see langword="true" /> si el subproceso actual entró en modo Lectura; en caso contrario, <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta propiedad está pensada para uso en las aserciones o para otros propósitos de depuración. No debe usarse para controlar el flujo de ejecución del programa.  
+ Esta propiedad está pensada para uso en las aserciones o para otros propósitos de depuración. No lo utilice para controlar el flujo de ejecución del programa.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el <xref:System.Threading.ReaderWriterLockSlim.IsReadLockHeld%2A> propiedad que se va a generar una aserción si el subproceso actual ha entrado en modo de lectura de forma inesperada.  
+ El ejemplo siguiente muestra cómo usar el <xref:System.Threading.ReaderWriterLockSlim.IsReadLockHeld%2A> propiedad para generar una aserción si el subproceso actual ha entrado en modo de lectura inesperadamente.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
@@ -851,6 +897,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -861,19 +908,19 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets a value that indicates whether the current thread has entered the lock in upgradeable mode.</summary>
+        <summary>Obtiene un valor que indica si el subproceso actual entró en el bloqueo en modo de actualización.</summary>
         <value>
-          <see langword="true" /> si el subproceso actual entró en modo de actualización; en caso contrario, <see langword="false" />.</value>
+          <see langword="true" /> si el subproceso actual ha entrado en modo de actualización; de lo contrario, <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta propiedad está pensada para uso en las aserciones o para otros propósitos de depuración. No debe usarse para controlar el flujo de ejecución del programa.  
+ Esta propiedad está pensada para uso en las aserciones o para otros propósitos de depuración. No lo utilice para controlar el flujo de ejecución del programa.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el <xref:System.Threading.ReaderWriterLockSlim.IsUpgradeableReadLockHeld%2A> propiedad que se va a generar una aserción si el subproceso actual entró en modo de forma inesperada.  
+ El ejemplo siguiente muestra cómo usar el <xref:System.Threading.ReaderWriterLockSlim.IsUpgradeableReadLockHeld%2A> propiedad para generar una aserción si el subproceso actual ha entrado en modo de forma inesperada.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
@@ -902,6 +949,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -912,19 +960,19 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets a value that indicates whether the current thread has entered the lock in write mode.</summary>
+        <summary>Obtiene un valor que indica si el subproceso actual ha entrado en el bloqueo en modo de escritura.</summary>
         <value>
           <see langword="true" /> si el subproceso actual entró en modo de escritura; en caso contrario, <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Esta propiedad está pensada para uso en las aserciones o para otros propósitos de depuración. No debe usarse para controlar el flujo de ejecución del programa.  
+ Esta propiedad está pensada para uso en las aserciones o para otros propósitos de depuración. No lo utilice para controlar el flujo de ejecución del programa.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el <xref:System.Threading.ReaderWriterLockSlim.IsWriteLockHeld%2A> propiedad que se va a generar una aserción si el subproceso actual ha entrado en modo de escritura inesperadamente.  
+ El ejemplo siguiente muestra cómo usar el <xref:System.Threading.ReaderWriterLockSlim.IsWriteLockHeld%2A> propiedad para generar una aserción si el subproceso actual ha entrado en modo de escritura inesperadamente.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
@@ -953,6 +1001,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -963,20 +1012,20 @@
         <ReturnType>System.Threading.LockRecursionPolicy</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets a value that indicates the recursion policy for the current <see cref="T:System.Threading.ReaderWriterLockSlim" /> object.</summary>
+        <summary>Obtiene un valor que indica la directiva de recursividad del objeto <see cref="T:System.Threading.ReaderWriterLockSlim" /> actual.</summary>
         <value>Uno de los valores de enumeración que especifica la directiva de recursividad de bloqueo.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La directiva de recursividad determina las restricciones en los subprocesos que entran en el bloqueo más de una vez. Por ejemplo, si se ha creado un bloqueo con <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> y un subproceso ha entrado en el bloqueo en modo de lectura, <xref:System.Threading.LockRecursionException> se produce si el subproceso intenta volver a escribir el bloqueo en modo de lectura.  
+ La directiva de recursividad determina las restricciones en los subprocesos que entrar en más de una vez el bloqueo. Por ejemplo, si se ha creado un bloqueo con <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> y un subproceso ha entrado en modo de lectura, el bloqueo <xref:System.Threading.LockRecursionException> se produce si el subproceso intenta volver a escribir el bloqueo en modo de lectura.  
   
 > [!NOTE]
->  Un subproceso en modo de actualización puede actualizarse a modo de escritura o degradación modo independientemente de la configuración de directiva de recursividad de bloqueo de lectura.  
+>  Un subproceso en modo de actualización puede actualizar a modo de escritura o degradar modo independientemente de la configuración de directiva de recursividad de bloqueo de lectura.  
   
- Independientemente de la directiva de recursividad, un subproceso que entró inicialmente lee modo no se admite para actualizar a modo de actualización o en modo de escritura, porque ese modelo genera una gran probabilidad de interbloqueos.  
+ Independientemente de la directiva de recursividad, un subproceso que entró inicialmente en lectura no se permite el modo para actualizar a modo de actualización o en modo de escritura, porque ese modelo genera una gran probabilidad de interbloqueos.  
   
- Para obtener más información acerca de la directiva de recursividad y sus efectos, consulte la <xref:System.Threading.LockRecursionPolicy> enumeración y <xref:System.Threading.ReaderWriterLockSlim> clase.  
+ Para obtener más información acerca de la directiva de recursividad y sus efectos, vea el <xref:System.Threading.LockRecursionPolicy> enumeración y <xref:System.Threading.ReaderWriterLockSlim> clase.  
   
  ]]></format>
         </remarks>
@@ -1001,6 +1050,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1011,13 +1061,13 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets the number of times the current thread has entered the lock in read mode, as an indication of recursion.</summary>
-        <value>0 (cero) si el subproceso actual no entró en modo lectura, 1 si el subproceso ha entrado en modo lectura pero no lo hizo de forma recursiva o * n * si el subproceso ha entrado en el bloqueo de forma recursiva * n * - 1 veces.</value>
+        <summary>Obtiene el número de veces que el subproceso actual ha entrado en el bloqueo en modo de lectura, como una indicación de recursividad.</summary>
+        <value>0 (cero) si el subproceso actual no ha entrado en modo de lectura, 1 si el subproceso ha entrado en modo de lectura pero no lo hizo de forma recursiva o *n* si el subproceso ha entrado de forma recursiva el bloqueo *n* - 1 veces.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilice esta propiedad solo para depurar, de generación de perfiles y con fines de registro y no para controlar el comportamiento de un algoritmo. Los resultados pueden cambiar en cuanto se hayan calculado. Por lo tanto, no es seguro tomar decisiones basadas en esta propiedad.  
+ Utilice esta propiedad únicamente para la depuración, generación de perfiles y con fines de registro y no para controlar el comportamiento de un algoritmo. Pueden cambiar los resultados en cuanto se hayan calculado. Por lo tanto, no es seguro tomar decisiones basadas en esta propiedad.  
   
  ]]></format>
         </remarks>
@@ -1041,6 +1091,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1051,13 +1102,13 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets the number of times the current thread has entered the lock in upgradeable mode, as an indication of recursion.</summary>
-        <value>0 si el subproceso actual no entró en modo de actualización, 1 si el subproceso entró en modo pero no lo ha hecho, de forma recursiva o * n * si el subproceso ha entrado en modo de actualización de forma recursiva * n * - 1 veces.</value>
+        <summary>Obtiene el número de veces que el subproceso actual ha entrado en el bloqueo en modo de actualización, como una indicación de recursividad.</summary>
+        <value>0 si el subproceso actual no ha entrado en modo de actualización, 1 si el subproceso ha entrado en modo pero no lo ha hecho de forma recursiva o *n* si el subproceso ha entrado en modo de actualización de forma recursiva *n* - 1 veces.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilice esta propiedad solo para depurar, de generación de perfiles y con fines de registro y no para controlar el comportamiento de un algoritmo. Los resultados pueden cambiar en cuanto se hayan calculado. Por lo tanto, no es seguro tomar decisiones basadas en esta propiedad.  
+ Utilice esta propiedad únicamente para la depuración, generación de perfiles y con fines de registro y no para controlar el comportamiento de un algoritmo. Pueden cambiar los resultados en cuanto se hayan calculado. Por lo tanto, no es seguro tomar decisiones basadas en esta propiedad.  
   
  ]]></format>
         </remarks>
@@ -1081,6 +1132,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1091,13 +1143,13 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets the number of times the current thread has entered the lock in write mode, as an indication of recursion.</summary>
-        <value>0 si el subproceso actual no ha entrado en modo de escritura, 1 si el subproceso ha entrado en modo de escritura pero no se hizo de forma recursiva o * n * si el subproceso ha entrado en modo de escritura de forma recursiva * n * - 1 veces.</value>
+        <summary>Obtiene el número de veces que el subproceso actual ha entrado en el bloqueo en modo de escritura, como una indicación de recursividad.</summary>
+        <value>0 si el subproceso actual no ha entrado en modo de escritura, 1 si el subproceso ha entrado en modo de escritura pero no especificó el hecho de forma recursiva o *n* si el subproceso ha entrado en modo de escritura de forma recursiva *n* - 1 veces.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilice esta propiedad solo para depurar, de generación de perfiles y con fines de registro y no para controlar el comportamiento de un algoritmo. Los resultados pueden cambiar en cuanto se hayan calculado. Por lo tanto, no es seguro tomar decisiones basadas en esta propiedad.  
+ Utilice esta propiedad únicamente para la depuración, generación de perfiles y con fines de registro y no para controlar el comportamiento de un algoritmo. Pueden cambiar los resultados en cuanto se hayan calculado. Por lo tanto, no es seguro tomar decisiones basadas en esta propiedad.  
   
  ]]></format>
         </remarks>
@@ -1111,7 +1163,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Tries to enter the lock in read mode, with an optional time-out.</summary>
+        <summary>Intenta entrar en el bloqueo en modo de lectura, con tiempo de espera opcional.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="TryEnterReadLock">
@@ -1132,6 +1184,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1145,10 +1198,10 @@
         <Parameter Name="millisecondsTimeout" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="millisecondsTimeout">The number of milliseconds to wait, or -1 (<see cref="F:System.Threading.Timeout.Infinite" />) to wait indefinitely.</param>
-        <summary>Tries to enter the lock in read mode, with an optional integer time-out.</summary>
+        <param name="millisecondsTimeout">Número de milisegundos de espera o -1 (<see cref="F:System.Threading.Timeout.Infinite" />) para esperar indefinidamente.</param>
+        <summary>Intenta entrar en el bloqueo en modo de lectura, con un tiempo de espera entero opcional.</summary>
         <returns>
-          <see langword="true" /> if the calling thread entered read mode, otherwise, <see langword="false" />.</returns>
+          <see langword="true" /> si el subproceso que realiza la llamada entró en modo Lectura; en caso contrario, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1157,18 +1210,21 @@
   
  Varios subprocesos pueden entrar en modo de lectura al mismo tiempo.  
   
- Si uno o varios subprocesos en espera de entrar en modo de escritura, un subproceso que llama el <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> método se bloquea hasta que esos subprocesos tengan marcas agotó el tiempo o entró en modo de escritura y, a continuación, sale de él, o hasta que expire el intervalo de tiempo de espera de subproceso de llamada propio.  
+ Si uno o varios subprocesos están esperando para entrar en modo de escritura, un subproceso que llama el <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> método se bloquea hasta que esos subprocesos tengan bien agotó el tiempo o entró en modo de escritura y, a continuación, sale de él, o hasta que expire el intervalo de tiempo de espera del subproceso de llamada propia.  
   
 > [!NOTE]
->  Si un bloqueo permite la recursividad, un subproceso que ha entrado en el bloqueo en modo de lectura puede entrar recursivamente de modo de lectura, aun cuando otros subprocesos están a la espera de entrar en modo de escritura.  
+>  Si un bloqueo permite la recursividad, un subproceso que ha entrado en el bloqueo en modo de lectura puede especificar el modo de lectura de forma recursiva, incluso si otros subprocesos están esperando para entrar en modo de escritura.  
   
- Un subproceso puede estar en modo de actualización mientras otros subprocesos están en modo de lectura. Si los subprocesos adicionales se esperan de entrar en modo de actualización y no hay ningún subproceso esperando para entrar en el modo de escritura, los subprocesos que llaman los <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> método entrar en modo de lectura inmediatamente y no se bloquean.  
+ Un subproceso puede estar en modo de actualización mientras otros subprocesos están en modo de lectura. Si otros subprocesos están esperando para entrar en modo de y no hay ningún subproceso en espera de entrar en modo de escritura, los subprocesos que llaman a la <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> método entrar en modo de lectura inmediatamente y no se bloquean.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">The value of <paramref name="millisecondsTimeout" /> is negative, but it is not equal to <see cref="F:System.Threading.Timeout.Infinite" /> (-1), which is the only negative value allowed.</exception>
-        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">La propiedad <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> es <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> y el subproceso actual ya ha entrado en el bloqueo.  
+  
+O bien 
+El número de recursividad superaría la capacidad del contador. El límite es tan amplio que las aplicaciones nunca deben alcanzarlo.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">El valor de <paramref name="millisecondsTimeout" /> es negativo, pero no es igual que <see cref="F:System.Threading.Timeout.Infinite" /> (-1), que es el único valor negativo permitido.</exception>
+        <exception cref="T:System.ObjectDisposedException">Se eliminó el objeto <see cref="T:System.Threading.ReaderWriterLockSlim" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="TryEnterReadLock">
@@ -1189,6 +1245,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1202,10 +1259,10 @@
         <Parameter Name="timeout" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="timeout">The interval to wait, or -1 milliseconds to wait indefinitely.</param>
-        <summary>Tries to enter the lock in read mode, with an optional time-out.</summary>
+        <param name="timeout">Intervalo de espera, o -1 milisegundo para esperar indefinidamente.</param>
+        <summary>Intenta entrar en el bloqueo en modo de lectura, con tiempo de espera opcional.</summary>
         <returns>
-          <see langword="true" /> if the calling thread entered read mode, otherwise, <see langword="false" />.</returns>
+          <see langword="true" /> si el subproceso que realiza la llamada entró en modo Lectura; en caso contrario, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1214,18 +1271,24 @@
   
  Varios subprocesos pueden entrar en el bloqueo en modo de lectura al mismo tiempo.  
   
- Si uno o varios subprocesos están en cola para entrar en modo de escritura, un subproceso que llama el <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> método se bloquea hasta que esos subprocesos tengan marcas agotó el tiempo o entró en modo de escritura y, a continuación, sale de él, o hasta que expire el intervalo de tiempo de espera de subproceso de llamada propio.  
+ Si uno o varios subprocesos están en cola para entrar en modo de escritura, un subproceso que llama el <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> método se bloquea hasta que esos subprocesos tengan bien agotó el tiempo o entró en modo de escritura y, a continuación, sale de él, o hasta que expire el intervalo de tiempo de espera del subproceso de llamada propia.  
   
 > [!NOTE]
->  Si un bloqueo permite la recursividad, un subproceso que ha entrado en el bloqueo en modo de lectura puede entrar recursivamente de modo de lectura, aun cuando otros subprocesos están a la espera de entrar en modo de escritura.  
+>  Si un bloqueo permite la recursividad, un subproceso que ha entrado en el bloqueo en modo de lectura puede especificar el modo de lectura de forma recursiva, incluso si otros subprocesos están esperando para entrar en modo de escritura.  
   
- Un subproceso puede estar en modo de actualización mientras otros subprocesos están en modo de lectura. Si los subprocesos adicionales se esperan de entrar en modo de actualización y no hay ningún subproceso esperando para entrar en el modo de escritura, los subprocesos que llaman los <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> método entrar en modo de lectura inmediatamente y no se bloquean.  
+ Un subproceso puede estar en modo de actualización mientras otros subprocesos están en modo de lectura. Si otros subprocesos están esperando para entrar en modo de y no hay ningún subproceso en espera de entrar en modo de escritura, los subprocesos que llaman a la <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> método entrar en modo de lectura inmediatamente y no se bloquean.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">The value of <paramref name="timeout" /> is negative, but it is not equal to -1 milliseconds, which is the only negative value allowed.  -or-  The value of <paramref name="timeout" /> is greater than <see cref="F:System.Int32.MaxValue" /> milliseconds.</exception>
-        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">La propiedad <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> es <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> y el subproceso actual ya ha entrado en el bloqueo.  
+  
+O bien 
+El número de recursividad superaría la capacidad del contador. El límite es tan amplio que las aplicaciones nunca deben alcanzarlo.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">El valor de <paramref name="timeout" /> es negativo, pero no es igual a -1 milisegundo, que es el único valor negativo permitido.  
+  
+O bien 
+El valor de <paramref name="timeout" /> es mayor que <see cref="F:System.Int32.MaxValue" /> milisegundos.</exception>
+        <exception cref="T:System.ObjectDisposedException">Se eliminó el objeto <see cref="T:System.Threading.ReaderWriterLockSlim" />.</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="TryEnterUpgradeableReadLock">
@@ -1236,7 +1299,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Tries to enter the lock in upgradeable mode, with an optional time-out.</summary>
+        <summary>Intenta entrar en el bloqueo en modo de actualización, con tiempo de espera opcional.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="TryEnterUpgradeableReadLock">
@@ -1257,6 +1320,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1270,30 +1334,36 @@
         <Parameter Name="millisecondsTimeout" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="millisecondsTimeout">The number of milliseconds to wait, or -1 (<see cref="F:System.Threading.Timeout.Infinite" />) to wait indefinitely.</param>
-        <summary>Tries to enter the lock in upgradeable mode, with an optional time-out.</summary>
+        <param name="millisecondsTimeout">Número de milisegundos de espera o -1 (<see cref="F:System.Threading.Timeout.Infinite" />) para esperar indefinidamente.</param>
+        <summary>Intenta entrar en el bloqueo en modo de actualización, con tiempo de espera opcional.</summary>
         <returns>
-          <see langword="true" /> if the calling thread entered upgradeable mode, otherwise, <see langword="false" />.</returns>
+          <see langword="true" /> si el subproceso que realiza la llamada entró en modo de actualización; en caso contrario, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
  Si `millisecondsTimeout` es 0 (cero), este método comprueba el estado de bloqueo y devuelve `false` inmediatamente si el estado deseado no está disponible.  
   
- Use en modo de actualización cuando un subproceso suele tener acceso al recurso que está protegido por el <xref:System.Threading.ReaderWriterLockSlim> en el modo de lectura, pero que necesite escribir el modo de escritura si se cumplen determinadas condiciones. Un subproceso en modo de actualización puede actualizarse a modo de escritura o degradarse al modo de lectura.  
+ Use el modo puede actualizarse cuando un subproceso normalmente obtiene acceso al recurso protegido por el <xref:System.Threading.ReaderWriterLockSlim> en modo de lectura, pero es posible que necesite entrar en modo de escritura si se cumplen ciertas condiciones. Un subproceso en modo de actualización puede actualizarse a modo de escritura o degradación a modo de lectura.  
   
- Solo un subproceso puede entrar en un bloqueo en modo de actualización en un momento dado. Si un subproceso está en modo de actualización y no hay ningún subproceso esperando para entrar en el modo de escritura, cualquier número de otros subprocesos puede entrar en modo de lectura, incluso si hay subprocesos a la espera de entrar en modo de actualización.  
+ Solo un subproceso puede entrar en un bloqueo en modo de actualización en un momento dado. Si un subproceso está en modo de actualización y no hay ningún subproceso en espera de entrar en modo de escritura, cualquier número de otros subprocesos puede entrar en modo de lectura, incluso si no hay subprocesos en espera de entrar en modo.  
   
- Si uno o varios subprocesos en espera de entrar en modo de escritura, un subproceso que llama el <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> método se bloquea hasta que esos subprocesos tengan marcas agotó el tiempo o entró en modo de escritura y, a continuación, sale de él, o hasta que expire el intervalo de tiempo de espera de subproceso de llamada propio.  
+ Si uno o varios subprocesos están esperando para entrar en modo de escritura, un subproceso que llama el <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> método se bloquea hasta que esos subprocesos tengan bien agotó el tiempo o entró en modo de escritura y, a continuación, sale de él, o hasta que expire el intervalo de tiempo de espera del subproceso de llamada propia.  
   
 > [!NOTE]
->  Si un bloqueo permite la recursividad, un subproceso que ha entrado en el bloqueo en modo de actualización puede entrar en modo de actualización de forma recursiva, aun cuando otros subprocesos están a la espera de entrar en modo de escritura.  
+>  Si un bloqueo permite la recursividad, un subproceso que ha entrado en el bloqueo en modo de actualización puede entrar en modo de actualización de forma recursiva, incluso si otros subprocesos están esperando para entrar en modo de escritura.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.  -or-  The current thread initially entered the lock in read mode, and therefore trying to enter upgradeable mode would create the possibility of a deadlock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">The value of <paramref name="millisecondsTimeout" /> is negative, but it is not equal to <see cref="F:System.Threading.Timeout.Infinite" /> (-1), which is the only negative value allowed.</exception>
-        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">La propiedad <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> es <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> y el subproceso actual ya ha entrado en el bloqueo.  
+  
+O bien 
+El subproceso actual entró inicialmente en el bloqueo en modo de lectura y, por lo tanto, al intentar entrar en modo de actualización, existiría la posibilidad de un interbloqueo.  
+  
+O bien 
+El número de recursividad superaría la capacidad del contador. El límite es tan amplio que las aplicaciones nunca deben alcanzarlo.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">El valor de <paramref name="millisecondsTimeout" /> es negativo, pero no es igual que <see cref="F:System.Threading.Timeout.Infinite" /> (-1), que es el único valor negativo permitido.</exception>
+        <exception cref="T:System.ObjectDisposedException">Se eliminó el objeto <see cref="T:System.Threading.ReaderWriterLockSlim" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="TryEnterUpgradeableReadLock">
@@ -1314,6 +1384,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1327,30 +1398,39 @@
         <Parameter Name="timeout" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="timeout">The interval to wait, or -1 milliseconds to wait indefinitely.</param>
-        <summary>Tries to enter the lock in upgradeable mode, with an optional time-out.</summary>
+        <param name="timeout">Intervalo de espera, o -1 milisegundo para esperar indefinidamente.</param>
+        <summary>Intenta entrar en el bloqueo en modo de actualización, con tiempo de espera opcional.</summary>
         <returns>
-          <see langword="true" /> if the calling thread entered upgradeable mode, otherwise, <see langword="false" />.</returns>
+          <see langword="true" /> si el subproceso que realiza la llamada entró en modo de actualización; en caso contrario, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
  Si `timeout` es 0 (cero), este método comprueba el estado de bloqueo y devuelve `false` inmediatamente si el estado deseado no está disponible.  
   
- Use en modo de actualización cuando un subproceso suele tener acceso al recurso protegido por el <xref:System.Threading.ReaderWriterLockSlim> en el modo de lectura, pero que necesite escribir el modo de escritura si se cumplen determinadas condiciones. Un subproceso en modo de actualización puede actualizarse a modo de escritura o degradarse al modo de lectura.  
+ Use el modo puede actualizarse cuando un subproceso suele tener acceso al recurso protegido por el <xref:System.Threading.ReaderWriterLockSlim> en modo de lectura, pero es posible que necesite entrar en modo de escritura si se cumplen ciertas condiciones. Un subproceso en modo de actualización puede actualizarse a modo de escritura o degradación a modo de lectura.  
   
- Solo un subproceso puede entrar en un bloqueo en modo de actualización en un momento dado. Si un subproceso está en modo de actualización y no hay ningún subproceso esperando para entrar en el modo de escritura, cualquier número de otros subprocesos puede entrar en modo de lectura, incluso si hay subprocesos a la espera de entrar en modo de actualización.  
+ Solo un subproceso puede entrar en un bloqueo en modo de actualización en un momento dado. Si un subproceso está en modo de actualización y no hay ningún subproceso en espera de entrar en modo de escritura, cualquier número de otros subprocesos puede entrar en modo de lectura, incluso si no hay subprocesos en espera de entrar en modo.  
   
- Si uno o varios subprocesos en espera de entrar en modo de escritura, un subproceso que llama el <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> método se bloquea hasta que esos subprocesos tengan marcas agotó el tiempo o entró en modo de escritura y, a continuación, sale de él, o hasta que expire el intervalo de tiempo de espera de subproceso de llamada propio.  
+ Si uno o varios subprocesos están esperando para entrar en modo de escritura, un subproceso que llama el <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> método se bloquea hasta que esos subprocesos tengan bien agotó el tiempo o entró en modo de escritura y, a continuación, sale de él, o hasta que expire el intervalo de tiempo de espera del subproceso de llamada propia.  
   
 > [!NOTE]
->  Si un bloqueo permite la recursividad, un subproceso que ha entrado en el bloqueo en modo de actualización puede entrar en modo de actualización de forma recursiva, aun cuando otros subprocesos están a la espera de entrar en modo de escritura.  
+>  Si un bloqueo permite la recursividad, un subproceso que ha entrado en el bloqueo en modo de actualización puede entrar en modo de actualización de forma recursiva, incluso si otros subprocesos están esperando para entrar en modo de escritura.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.  -or-  The current thread initially entered the lock in read mode, and therefore trying to enter upgradeable mode would create the possibility of a deadlock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">The value of <paramref name="timeout" /> is negative, but it is not equal to -1 milliseconds, which is the only negative value allowed.  -or-  The value of <paramref name="timeout" /> is greater than <see cref="F:System.Int32.MaxValue" /> milliseconds.</exception>
-        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">La propiedad <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> es <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> y el subproceso actual ya ha entrado en el bloqueo.  
+  
+O bien 
+El subproceso actual entró inicialmente en el bloqueo en modo de lectura y, por lo tanto, al intentar entrar en modo de actualización, existiría la posibilidad de un interbloqueo.  
+  
+O bien 
+El número de recursividad superaría la capacidad del contador. El límite es tan amplio que las aplicaciones nunca deben alcanzarlo.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">El valor de <paramref name="timeout" /> es negativo, pero no es igual a -1 milisegundo, que es el único valor negativo permitido.  
+  
+O bien 
+El valor de <paramref name="timeout" /> es mayor que <see cref="F:System.Int32.MaxValue" /> milisegundos.</exception>
+        <exception cref="T:System.ObjectDisposedException">Se eliminó el objeto <see cref="T:System.Threading.ReaderWriterLockSlim" />.</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="TryEnterWriteLock">
@@ -1361,7 +1441,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Tries to enter the lock in write mode, with an optional time-out.</summary>
+        <summary>Intenta entrar en el bloqueo en modo de escritura, con tiempo de espera opcional.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="TryEnterWriteLock">
@@ -1382,6 +1462,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1395,29 +1476,29 @@
         <Parameter Name="millisecondsTimeout" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="millisecondsTimeout">The number of milliseconds to wait, or -1 (<see cref="F:System.Threading.Timeout.Infinite" />) to wait indefinitely.</param>
-        <summary>Tries to enter the lock in write mode, with an optional time-out.</summary>
+        <param name="millisecondsTimeout">Número de milisegundos de espera o -1 (<see cref="F:System.Threading.Timeout.Infinite" />) para esperar indefinidamente.</param>
+        <summary>Intenta entrar en el bloqueo en modo de escritura, con tiempo de espera opcional.</summary>
         <returns>
-          <see langword="true" /> if the calling thread entered write mode, otherwise, <see langword="false" />.</returns>
+          <see langword="true" /> si el subproceso que realiza la llamada entró en modo de escritura, de lo contrario, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
  Si `millisecondsTimeout` es 0 (cero), este método comprueba el estado de bloqueo y devuelve `false` inmediatamente si el estado deseado no está disponible.  
   
- Si otros subprocesos han entrado en el bloqueo en modo de lectura, un subproceso que llama el <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> método se bloquea hasta que esos subprocesos han salido del modo de lectura o hasta que haya transcurrido el intervalo de tiempo de espera. Mientras los subprocesos se bloquean en espera de entrar en modo de escritura, otros subprocesos que intenten entrar en modo de lectura o en modo de actualización se bloquean hasta que todos los subprocesos en espera de entrar en modo de escritura tengan cualquiera agotó el tiempo o entró en modo de escritura y, a continuación, sale de ella.  
+ Si otros subprocesos han entrado en el bloqueo en modo de lectura, un subproceso que llama el <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> método se bloquea hasta que esos subprocesos han salido del modo de lectura o hasta que haya transcurrido el intervalo de tiempo de espera. Mientras los subprocesos se bloquean a la espera de entrar en modo de escritura, subprocesos adicionales que intenta entrar en modo de lectura o en modo de actualización se bloquearán hasta que todos los subprocesos en espera de entrar en modo de escritura tengan cualquiera agotó el tiempo o entró en modo de escritura y, a continuación, sale de ella.  
   
 > [!NOTE]
->  Si un bloqueo permite la recursividad, un subproceso que ha entrado en el bloqueo en modo de escritura puede entrar recursivamente de modo de escritura, aun cuando otros subprocesos están a la espera de entrar en modo de escritura.  
+>  Si un bloqueo permite la recursividad, un subproceso que ha entrado en el bloqueo en modo de escritura puede escribir recursivamente de modo de escritura, incluso si otros subprocesos están esperando para entrar en modo de escritura.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> método para entrar en el bloqueo en modo de escritura, con un tiempo de espera. El método mostrado en el ejemplo agrega un nuevo par clave/valor en la memoria caché sincronizada. Si transcurre el intervalo de tiempo de espera especificado antes de que el subproceso entra en el bloqueo, el método devuelve `false`. El método devuelve `true` si se agrega el par clave/valor.  
+ El ejemplo siguiente muestra cómo usar el <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> método para entrar en el bloqueo en modo de escritura, con un tiempo de espera. El método que se muestra en el ejemplo agrega un nuevo par clave-valor a la memoria caché sincronizada. Si transcurre el intervalo de tiempo de espera especificado antes de que el subproceso entra en el bloqueo, el método devuelve `false`. El método devuelve `true` si se agrega el par clave/valor.  
   
- Si la clave ya está en la memoria caché, la excepción producida por interna <xref:System.Collections.Generic.Dictionary%602> puede finalizar el método. A `finally` bloque se usa para ejecutar el <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> método, lo que garantiza que el llamador sale del bloqueo.  
+ Si la clave ya está en la memoria caché, la excepción producida por interno <xref:System.Collections.Generic.Dictionary%602> puede finalizar el método. Un `finally` bloque se usa para ejecutar el <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> método, lo que garantiza que el llamador sale el bloqueo.  
   
- Este código forma parte de un ejemplo mayor proporcionado para el <xref:System.Threading.ReaderWriterLockSlim> clase.  
+ Este código forma parte de un ejemplo más extenso proporcionado para el <xref:System.Threading.ReaderWriterLockSlim> clase.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
@@ -1426,9 +1507,15 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.  -or-  The current thread initially entered the lock in read mode, and therefore trying to enter write mode would create the possibility of a deadlock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">The value of <paramref name="millisecondsTimeout" /> is negative, but it is not equal to <see cref="F:System.Threading.Timeout.Infinite" /> (-1), which is the only negative value allowed.</exception>
-        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">La propiedad <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> es <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> y el subproceso actual ya ha entrado en el bloqueo.  
+  
+O bien 
+El subproceso actual entró inicialmente en el bloqueo en modo de lectura y, por lo tanto, al intentar entrar en modo de escritura, existiría la posibilidad de un interbloqueo.  
+  
+O bien 
+El número de recursividad superaría la capacidad del contador. El límite es tan amplio que las aplicaciones nunca deben alcanzarlo.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">El valor de <paramref name="millisecondsTimeout" /> es negativo, pero no es igual que <see cref="F:System.Threading.Timeout.Infinite" /> (-1), que es el único valor negativo permitido.</exception>
+        <exception cref="T:System.ObjectDisposedException">Se eliminó el objeto <see cref="T:System.Threading.ReaderWriterLockSlim" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="TryEnterWriteLock">
@@ -1449,6 +1536,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1462,26 +1550,35 @@
         <Parameter Name="timeout" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="timeout">The interval to wait, or -1 milliseconds to wait indefinitely.</param>
-        <summary>Tries to enter the lock in write mode, with an optional time-out.</summary>
+        <param name="timeout">Intervalo de espera, o -1 milisegundo para esperar indefinidamente.</param>
+        <summary>Intenta entrar en el bloqueo en modo de escritura, con tiempo de espera opcional.</summary>
         <returns>
-          <see langword="true" /> if the calling thread entered write mode, otherwise, <see langword="false" />.</returns>
+          <see langword="true" /> si el subproceso que realiza la llamada entró en modo de escritura, de lo contrario, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
  Si `timeout` es 0 (cero), este método comprueba el estado de bloqueo y devuelve `false` inmediatamente si el estado deseado no está disponible.  
   
- Si otros subprocesos han entrado en el bloqueo en modo de lectura, un subproceso que llama el <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> método se bloquea hasta que esos subprocesos han salido del modo de lectura o hasta que haya transcurrido el intervalo de tiempo de espera. Mientras los subprocesos se bloquean en espera de entrar en modo de escritura, otros subprocesos que intenten entrar en modo de lectura o en modo de actualización se bloquean hasta que todos los subprocesos en espera de entrar en modo de escritura tengan cualquiera agotó el tiempo o entró en modo de escritura y, a continuación, sale de ella.  
+ Si otros subprocesos han entrado en el bloqueo en modo de lectura, un subproceso que llama el <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> método se bloquea hasta que esos subprocesos han salido del modo de lectura o hasta que haya transcurrido el intervalo de tiempo de espera. Mientras los subprocesos se bloquean a la espera de entrar en modo de escritura, subprocesos adicionales que intenta entrar en modo de lectura o en modo de actualización se bloquearán hasta que todos los subprocesos en espera de entrar en modo de escritura tengan cualquiera agotó el tiempo o entró en modo de escritura y, a continuación, sale de ella.  
   
 > [!NOTE]
->  Si un bloqueo permite la recursividad, un subproceso que ha entrado en el bloqueo en modo de escritura puede entrar recursivamente de modo de escritura, aun cuando otros subprocesos están a la espera de entrar en modo de escritura.  
+>  Si un bloqueo permite la recursividad, un subproceso que ha entrado en el bloqueo en modo de escritura puede escribir recursivamente de modo de escritura, incluso si otros subprocesos están esperando para entrar en modo de escritura.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.  -or-  The current thread initially entered the lock in read mode, and therefore trying to enter write mode would create the possibility of a deadlock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">The value of <paramref name="timeout" /> is negative, but it is not equal to -1 milliseconds, which is the only negative value allowed.  -or-  The value of <paramref name="timeout" /> is greater than <see cref="F:System.Int32.MaxValue" /> milliseconds.</exception>
-        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">La propiedad <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> es <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> y el subproceso actual ya ha entrado en el bloqueo.  
+  
+O bien 
+El subproceso actual entró inicialmente en el bloqueo en modo de lectura y, por lo tanto, al intentar entrar en modo de escritura, existiría la posibilidad de un interbloqueo.  
+  
+O bien 
+El número de recursividad superaría la capacidad del contador. El límite es tan amplio que las aplicaciones nunca deben alcanzarlo.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">El valor de <paramref name="timeout" /> es negativo, pero no es igual a -1 milisegundo, que es el único valor negativo permitido.  
+  
+O bien 
+El valor de <paramref name="timeout" /> es mayor que <see cref="F:System.Int32.MaxValue" /> milisegundos.</exception>
+        <exception cref="T:System.ObjectDisposedException">Se eliminó el objeto <see cref="T:System.Threading.ReaderWriterLockSlim" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="WaitingReadCount">
@@ -1502,28 +1599,34 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets the total number of threads that are waiting to enter the lock in read mode.</summary>
+        <summary>Obtiene el número total de subprocesos que están a la espera de entrar en el bloqueo en modo de lectura.</summary>
         <value>Número total de subprocesos que están a la espera de entrar en modo de lectura.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilice esta propiedad solo para depurar, de generación de perfiles y con fines de registro y no para controlar el comportamiento de un algoritmo. Los resultados pueden cambiar en cuanto se hayan calculado. Por lo tanto, no es seguro tomar decisiones basadas en esta propiedad.  
+ Utilice esta propiedad únicamente para la depuración, generación de perfiles y con fines de registro y no para controlar el comportamiento de un algoritmo. Pueden cambiar los resultados en cuanto se hayan calculado. Por lo tanto, no es seguro tomar decisiones basadas en esta propiedad.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el <xref:System.Threading.ReaderWriterLockSlim.WaitingReadCount%2A> propiedad que se va a generar una entrada de registro de eventos si el número de subprocesos que se bloquean, a la espera de entrar en modo de lectura, supera un umbral.  
+ El ejemplo siguiente muestra cómo usar el <xref:System.Threading.ReaderWriterLockSlim.WaitingReadCount%2A> propiedad para generar una entrada de registro de eventos si el número de subprocesos que están bloqueados, a la espera de entrar en modo de lectura, supera un umbral.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
@@ -1552,28 +1655,34 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets the total number of threads that are waiting to enter the lock in upgradeable mode.</summary>
+        <summary>Obtiene el número total de subprocesos que están a la espera de entrar en el bloqueo en modo de actualización.</summary>
         <value>Número total de subprocesos que están a la espera de entrar en modo de actualización.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilice esta propiedad solo para depurar, de generación de perfiles y con fines de registro y no para controlar el comportamiento de un algoritmo. Los resultados pueden cambiar en cuanto se hayan calculado. Por lo tanto, no es seguro tomar decisiones basadas en esta propiedad.  
+ Utilice esta propiedad únicamente para la depuración, generación de perfiles y con fines de registro y no para controlar el comportamiento de un algoritmo. Pueden cambiar los resultados en cuanto se hayan calculado. Por lo tanto, no es seguro tomar decisiones basadas en esta propiedad.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el <xref:System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount%2A> propiedad que se va a generar una entrada de registro de eventos si el número de subprocesos que se bloquean, a la espera de entrar en modo de actualización, supera un umbral.  
+ El ejemplo siguiente muestra cómo usar el <xref:System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount%2A> propiedad para generar una entrada de registro de eventos si el número de subprocesos que se bloquean, espera entrar en modo supera un umbral.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
@@ -1602,28 +1711,34 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets the total number of threads that are waiting to enter the lock in write mode.</summary>
+        <summary>Obtiene el número total de subprocesos que están a la espera de entrar en el bloqueo en modo de escritura.</summary>
         <value>Número total de subprocesos que están a la espera de entrar en modo de escritura.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilice esta propiedad solo para depurar, de generación de perfiles y con fines de registro y no para controlar el comportamiento de un algoritmo. Los resultados pueden cambiar en cuanto se hayan calculado. Por lo tanto, no es seguro tomar decisiones basadas en esta propiedad.  
+ Utilice esta propiedad únicamente para la depuración, generación de perfiles y con fines de registro y no para controlar el comportamiento de un algoritmo. Pueden cambiar los resultados en cuanto se hayan calculado. Por lo tanto, no es seguro tomar decisiones basadas en esta propiedad.  
   
    
   
 ## Examples  
- En el ejemplo siguiente se muestra cómo utilizar el <xref:System.Threading.ReaderWriterLockSlim.WaitingWriteCount%2A> propiedad que se va a generar una entrada de registro de eventos si el número de subprocesos que se bloquean, a la espera de entrar en modo de escritura, supera un umbral.  
+ El ejemplo siguiente muestra cómo usar el <xref:System.Threading.ReaderWriterLockSlim.WaitingWriteCount%2A> propiedad para generar una entrada de registro de eventos si el número de subprocesos que están bloqueados, a la espera de entrar en modo de escritura supera un umbral.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
