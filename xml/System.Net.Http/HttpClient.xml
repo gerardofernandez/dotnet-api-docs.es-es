@@ -1,11 +1,11 @@
 <Type Name="HttpClient" FullName="System.Net.Http.HttpClient">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="293f37daee8fffe2b290b14746ec3af85db7d76c" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="e5eec269a5b6b2dd2306a26615bf7156cdc95518" />
+    <Meta Name="ms.sourcegitcommit" Value="1699faabfa691bcec226e9c5879fdae10a86b548" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39871457" />
+    <Meta Name="ms.lasthandoff" Value="09/26/2018" />
+    <Meta Name="ms.locfileid" Value="47189086" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class HttpClient : System.Net.Http.HttpMessageInvoker" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit HttpClient extends System.Net.Http.HttpMessageInvoker" />
@@ -39,7 +39,7 @@
   
  El <xref:System.Net.Http.HttpClient> también actúa como clase base para los clientes más específicos de HTTP. Un ejemplo sería un FacebookHttpClient proporcionar métodos adicionales específicos de un servicio web de Facebook (un método GetFriends, por ejemplo). Las clases derivadas no deben invalidar los métodos virtuales en la clase. En su lugar, use una sobrecarga del constructor que acepta <xref:System.Net.Http.HttpMessageHandler> para configurar cualquier previas y posteriores a la solicitud de procesamiento en su lugar.
   
- De forma predeterminada, <xref:System.Net.HttpWebRequest> se usará para enviar solicitudes al servidor. Este comportamiento puede modificarse mediante la especificación de un canal diferente en una de las sobrecargas de constructor que toma un <xref:System.Net.Http.HttpMessageHandler> instancia como parámetro. Si se requieren, características como la autenticación o almacenamiento en caché <xref:System.Net.Http.WebRequestHandler> se puede usar para configurar las opciones y la instancia puede pasarse al constructor. El controlador devuelto se puede pasar a una de las sobrecargas de constructor que toma un <xref:System.Net.Http.HttpMessageHandler> parámetro.  
+ De forma predeterminada en .NET Framework y Mono, <xref:System.Net.HttpWebRequest> se usa para enviar solicitudes al servidor. Este comportamiento puede modificarse mediante la especificación de un canal diferente en una de las sobrecargas de constructor que toma un <xref:System.Net.Http.HttpMessageHandler> instancia como parámetro. Si se requieren, características como la autenticación o almacenamiento en caché <xref:System.Net.Http.WebRequestHandler> se puede usar para configurar las opciones y la instancia puede pasarse al constructor. El controlador devuelto se puede pasar a una de las sobrecargas de constructor que toma un <xref:System.Net.Http.HttpMessageHandler> parámetro.  
   
  Si una aplicación con <xref:System.Net.Http.HttpClient> y clases relacionadas del <xref:System.Net.Http> tiene la intención de espacio de nombres descargar grandes cantidades de datos (50 megabytes o más) y, después, la aplicación debe transmitir esas descargas y no usar el almacenamiento en búfer de forma predeterminada. Si se usa el almacenamiento en búfer de forma predeterminada el uso de memoria de cliente obtendrá muy grande, lo que puede producir esencialmente una reducción del rendimiento.  
   
@@ -65,18 +65,17 @@
   
  <xref:System.Net.Http.HttpClient> está pensado para que se crea una instancia y volver a usar durante la vida de una aplicación. Crear una instancia de una clase HttpClient para cada solicitud agotará al número de sockets disponibles con cargas pesadas. Esto provocará errores SocketException. A continuación es un ejemplo de uso de HttpClient correctamente.  
   
-```csharp  
-public class GoodController : ApiController  
-{  
-    // OK  
-    private static readonly HttpClient HttpClient;  
-  
-    static GoodController()  
-    {  
-        HttpClient = new HttpClient();  
-    }  
-}  
-  
+```csharp
+public class GoodController : ApiController
+{
+    // OK
+    private static readonly HttpClient HttpClient;
+
+    static GoodController()
+    {
+        HttpClient = new HttpClient();
+    }
+}
 ```  
   
 El <xref:System.Net.Http.HttpClient> es una API de alto nivel que encapsula la funcionalidad de nivel inferior disponible en cada plataforma donde se ejecuta.
@@ -106,6 +105,7 @@ A partir de .NET Core 2.1, la <xref:System.Net.Http.SocketsHttpHandler?displayPr
 ```csharp
 AppContext.SetSwitch("System.Net.Http.useSocketsHttpHandler", false);
 ```
+
 ```vb
 AppContext.SetSwitch("System.Net.Http.useSocketsHttpHandler", False)
 ``` 
@@ -117,6 +117,11 @@ AppContext.SetSwitch("System.Net.Http.useSocketsHttpHandler", False)
  
  ]]></format>
     </remarks>
+    <related type="ExternalDocumentation" href="http://go.microsoft.com/fwlink/?LinkID=245696">Conectarse a un servicio web</related>
+    <related type="ExternalDocumentation" href="http://go.microsoft.com/fwlink/?LinkId=245697">Inicio rápido: Conectarse mediante HttpClient</related>
+    <related type="ExternalDocumentation" href="http://go.microsoft.com/fwlink/?LinkId=245699">Cómo usar controladores HttpClient</related>
+    <related type="ExternalDocumentation" href="http://go.microsoft.com/fwlink/?LinkId=245698">Cómo proteger conexiones HttpClient</related>
+    <related type="ExternalDocumentation" href="http://go.microsoft.com/fwlink/?LinkId=242550">Ejemplo de HttpClient</related>
   </Docs>
   <Members>
     <MemberGroup MemberName=".ctor">
@@ -1341,6 +1346,9 @@ public class GoodController : ApiController
         <AssemblyName>System.Net.Http</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Threading.Tasks.Task&lt;System.Net.Http.HttpResponseMessage&gt;</ReturnType>
       </ReturnValue>
@@ -1368,6 +1376,9 @@ public class GoodController : ApiController
         <AssemblyName>System.Net.Http</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Threading.Tasks.Task&lt;System.Net.Http.HttpResponseMessage&gt;</ReturnType>
       </ReturnValue>
@@ -1393,6 +1404,9 @@ public class GoodController : ApiController
       <AssemblyInfo>
         <AssemblyName>System.Net.Http</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Threading.Tasks.Task&lt;System.Net.Http.HttpResponseMessage&gt;</ReturnType>
@@ -1421,6 +1435,9 @@ public class GoodController : ApiController
       <AssemblyInfo>
         <AssemblyName>System.Net.Http</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Threading.Tasks.Task&lt;System.Net.Http.HttpResponseMessage&gt;</ReturnType>
