@@ -1,11 +1,11 @@
 <Type Name="SessionSecurityTokenHandler" FullName="System.IdentityModel.Tokens.SessionSecurityTokenHandler">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="698670494d510916b922e88a119093c8c15bf740" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="2372ab648b3f4174fc0d2bb8b513e61cc8147200" />
+    <Meta Name="ms.sourcegitcommit" Value="9dda17222b9f7d3edf130133bfb1370d5b410a4b" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
-    <Meta Name="ms.locfileid" Value="36480120" />
+    <Meta Name="ms.lasthandoff" Value="09/22/2018" />
+    <Meta Name="ms.locfileid" Value="46646690" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class SessionSecurityTokenHandler : System.IdentityModel.Tokens.SecurityTokenHandler" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit SessionSecurityTokenHandler extends System.IdentityModel.Tokens.SecurityTokenHandler" />
@@ -37,7 +37,7 @@
   
  Si el token de sesión está en modo de referencia, es decir, su <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propiedad es `true`, la sesión de controlador de token sólo serializa las propiedades del token de sesión que son necesarios para volver a generar su clave en el <xref:System.IdentityModel.Tokens.SessionSecurityTokenCache>. En el caso predeterminado, el <xref:System.IdentityModel.Tokens.SessionSecurityTokenCacheKey> clase se usa para representar las claves de caché, y escribe el controlador de token el <xref:System.IdentityModel.Tokens.SessionSecurityToken.ContextId%2A?displayProperty=nameWithType> y <xref:System.IdentityModel.Tokens.SessionSecurityToken.KeyGeneration%2A?displayProperty=nameWithType> propiedades del token. Si el token de sesión no está en modo de referencia, es decir, el <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propiedad es `false`, a continuación, además de las propiedades que se ha mencionado anteriormente, invoca el controlador de la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> método en una matriz de bytes que se serializó el token y almacenes de la valor resultante en la cookie también. Para obtener más información acerca de cómo se serializa el token, consulte el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%28System.Xml.XmlWriter%2CSystem.IdentityModel.Tokens.SecurityToken%29?displayProperty=nameWithType> método.  
   
- El <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.Transforms%2A> propiedad obtiene la lista de transformaciones que se aplican a la sesión de símbolo (token) en el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> método. Todas las transformaciones que se derivan de la <xref:System.IdentityModel.CookieTransform> clase. En el caso predeterminado el <xref:System.IdentityModel.DeflateCookieTransform> y <xref:System.IdentityModel.ProtectedDataCookieTransform> se aplican. El <xref:System.IdentityModel.ProtectedDataCookieTransform> usa la API de protección de datos (DPAPI) para proteger el material de la cookie. DPAPI utiliza una clave específica en el equipo en el que se está ejecutando en los algoritmos de su protección. Por este motivo, el controlador de token de sesión predeterminada no es se puede usar en escenarios de granja de servidores Web porque, en estos escenarios, los tokens que se escribe en un equipo que deba leer en otro equipo. Puede usar muchas estrategias para evitar este problema. Por ejemplo, se puede:  
+ El <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.Transforms%2A> propiedad obtiene la lista de transformaciones que se aplican a la sesión de símbolo (token) en el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> método. Todas las transformaciones que se derivan de la <xref:System.IdentityModel.CookieTransform> clase. En el caso predeterminado el <xref:System.IdentityModel.DeflateCookieTransform> y <xref:System.IdentityModel.ProtectedDataCookieTransform> se aplican. El <xref:System.IdentityModel.ProtectedDataCookieTransform> usa la API de protección de datos (DPAPI) para proteger el material de la cookie. DPAPI utiliza una clave específica en el equipo en el que se está ejecutando en los algoritmos de su protección. Por este motivo, el controlador de token de sesión predeterminada no es se puede usar en escenarios de granja de servidores Web porque, en estos escenarios, los tokens que se escribe en un equipo que deba leer en otro equipo. Puede usar muchas estrategias para evitar este problema. Por ejemplo, puede:  
   
 -   Reemplace el valor predeterminado <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> con el <xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler>. El <xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler> le permite especificar las claves de firma y cifrado en ASP.NET `<machineKey>` elemento en el archivo de configuración.  
   
@@ -69,6 +69,9 @@
     <altmember cref="T:System.IdentityModel.Tokens.SessionSecurityToken" />
     <altmember cref="T:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler" />
     <altmember cref="T:System.IdentityModel.CookieTransform" />
+    <related type="Article" href="http://msdn.microsoft.com/library/496a1735-cbb7-49d5-a6aa-dd5550462073">&lt;sessionTokenRequirement&gt;</related>
+    <related type="Article" href="http://msdn.microsoft.com/library/fc3cd7fa-2b45-4614-a44f-8fa9b9d15284">WIF y granjas de servidores web</related>
+    <related type="Article" href="http://msdn.microsoft.com/library/98bce126-18a9-401b-b20d-67ee462a5f8a">Administración de sesiones de WIF</related>
   </Docs>
   <Members>
     <MemberGroup MemberName=".ctor">
@@ -527,6 +530,7 @@
         <exception cref="T:System.ArgumentNullException">
           <paramref name="customConfigElements" /> es <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">La configuración especificada por la <paramref name="customConfigElements" /> no es válida. Por ejemplo, no contiene un elemento de <see langword="&lt;sessionTokenRequirement&gt;" />, contiene más de un elemento de <see langword="&lt;sessionTokenRequirement&gt;" />, un valor válido de <see cref="T:System.TimeSpan" /> no se puede leer en el atributo de <see langword="lifetime" /> o el atributo de <see langword="lifetime" /> especifica un valor inferior a <see cref="F:System.TimeSpan.Zero" />.</exception>
+        <related type="Article" href="http://msdn.microsoft.com/library/496a1735-cbb7-49d5-a6aa-dd5550462073">&lt;sessionTokenRequirement&gt;</related>
       </Docs>
     </Member>
     <MemberGroup MemberName="ReadToken">
@@ -539,7 +543,10 @@
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
-## Remarks  
+## Remarks
+
+[!INCLUDE [untrusted-data-method-note](~/includes/untrusted-data-method-note.md)]
+
  La implementación predeterminada deserializa el token de WS-Secure Conversation Feb2005 o WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` elemento.  
   
  ]]></format>
@@ -572,7 +579,10 @@
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
-## Remarks  
+## Remarks
+
+[!INCLUDE [untrusted-data-method-note](~/includes/untrusted-data-method-note.md)]
+
  El lector debe colocarse en una conversación WS-Secure, Feb2005 o un WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` elemento.  
   
  La implementación predeterminada invoca la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ReadToken%28System.Xml.XmlReader%2CSystem.IdentityModel.Selectors.SecurityTokenResolver%29?displayProperty=nameWithType> método con una resolución de tokens predeterminada.  
@@ -612,7 +622,10 @@
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
-## Remarks  
+## Remarks
+
+[!INCLUDE [untrusted-data-method-note](~/includes/untrusted-data-method-note.md)]
+
  La implementación predeterminada crea un <xref:System.Xml.XmlDictionaryReader> sobre el token e invoca el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ReadToken%28System.Xml.XmlReader%2CSystem.IdentityModel.Selectors.SecurityTokenResolver%29?displayProperty=nameWithType> método.  
   
  ]]></format>
@@ -648,7 +661,10 @@
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
-## Remarks  
+## Remarks
+
+[!INCLUDE [untrusted-data-method-note](~/includes/untrusted-data-method-note.md)]
+
  El lector debe colocarse en una conversación WS-Secure, Feb2005 o un WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` elemento.  
   
  Si el material de token se almacena en caché, se leen de la caché de tokens, que es una instancia de la <xref:System.IdentityModel.Tokens.SessionSecurityTokenCache> clase. En caso contrario, el material de token es de lectura desde el elemento secundario de la `<wsc:SecurityContextToken>` elemento especificado por el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CookieElementName%2A> y <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CookieNamespace%2A> propiedades y el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> se invoca el método para descodificar la cookie.  
@@ -726,6 +742,7 @@ O bien
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">Se produce un intento de establecer un el intervalo de tiempo menor o igual que cero.</exception>
+        <related type="Article" href="http://msdn.microsoft.com/library/496a1735-cbb7-49d5-a6aa-dd5550462073">&lt;sessionTokenRequirement&gt;</related>
       </Docs>
     </Member>
     <Member MemberName="TokenType">
@@ -847,7 +864,7 @@ O bien
       <Docs>
         <param name="token">Token que se va a validar. Debe poder asignarse desde <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" />.</param>
         <summary>Valida el token especificado y devuelve sus notificaciones.</summary>
-        <returns>Las identidades que se encuentran en el token.</returns>
+        <returns>Identidades contenidas en el token.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -887,7 +904,7 @@ O bien
         <param name="token">Token que se va a validar. Debe poder asignarse desde <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" />.</param>
         <param name="endpointId">Identificador del extremo que es el ámbito del token.</param>
         <summary>Valida el token de sesión especificado y devuelve sus notificaciones.</summary>
-        <returns>Las identidades que se encuentran en el token.</returns>
+        <returns>Identidades contenidas en el token.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -984,7 +1001,7 @@ O bien
       </Parameters>
       <Docs>
         <param name="writer">Sistema de escritura de XML para serializar el token.</param>
-        <param name="token">Token que se va a serializar. Instancia de <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" />.</param>
+        <param name="token">Token que se va a serializar. Una instancia de <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" />.</param>
         <summary>Serializa el token especificado mediante el sistema de escritura especificado XML.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
