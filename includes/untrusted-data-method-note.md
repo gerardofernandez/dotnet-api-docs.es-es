@@ -1,0 +1,2 @@
+> [!IMPORTANT]
+> Llamar a este método con datos que no son de confianza supone un riesgo de seguridad. Llame a este método solo con datos de confianza. Para obtener más información, vea [Data Validation](https://www.owasp.org/index.php/Data_Validation) (Validación de datos).
