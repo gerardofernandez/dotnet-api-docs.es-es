@@ -1,11 +1,11 @@
 <Type Name="EntityCollection&lt;TEntity&gt;" FullName="System.Data.Objects.DataClasses.EntityCollection&lt;TEntity&gt;">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="f0f106464bcfccb822ba2efca33de10265341d46" />
-    <Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" />
+    <Meta Name="ms.openlocfilehash" Value="2dd8ddd964f507b643a81c33e1f593274b2880c4" />
+    <Meta Name="ms.sourcegitcommit" Value="723b8a6d92667ba86fcda96190bad3b4a03283b3" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="10/04/2018" />
-    <Meta Name="ms.locfileid" Value="48768415" />
+    <Meta Name="ms.lasthandoff" Value="11/09/2018" />
+    <Meta Name="ms.locfileid" Value="51304950" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class EntityCollection&lt;TEntity&gt; : System.Data.Objects.DataClasses.RelatedEnd, System.Collections.Generic.ICollection&lt;TEntity&gt;, System.Collections.Generic.IEnumerable&lt;TEntity&gt;, System.ComponentModel.IListSource where TEntity : class" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable sealed beforefieldinit EntityCollection`1&lt;class TEntity&gt; extends System.Data.Objects.DataClasses.RelatedEnd implements class System.Collections.Generic.ICollection`1&lt;!TEntity&gt;, class System.Collections.Generic.IEnumerable`1&lt;!TEntity&gt;, class System.Collections.IEnumerable, class System.ComponentModel.IListSource" />
@@ -33,7 +33,13 @@
       <InterfaceName>System.Collections.Generic.ICollection&lt;TEntity&gt;</InterfaceName>
     </Interface>
     <Interface>
+      <InterfaceName>System.Collections.Generic.IEnumerable&lt;T&gt;</InterfaceName>
+    </Interface>
+    <Interface>
       <InterfaceName>System.Collections.Generic.IEnumerable&lt;TEntity&gt;</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Collections.IEnumerable</InterfaceName>
     </Interface>
     <Interface>
       <InterfaceName>System.ComponentModel.IListSource</InterfaceName>
@@ -68,7 +74,7 @@
   
 1.  Se crean dos nuevas entidades `SalesOrderHeader` y se agregan a la entidad `Contact`.  
   
-2.  Se obtienen todos los extremos relacionados del <xref:System.Data.Objects.DataClasses.RelationshipManager> que está asociado a la entidad `Contact`.  
+2.  Se obtienen todos los puntos de conexión relacionados del <xref:System.Data.Objects.DataClasses.RelationshipManager> que está asociado a la entidad `Contact`.  
   
 3.  Se recorre en iteración la colección de <xref:System.Data.Objects.DataClasses.IRelatedEnd>.  
   
@@ -142,7 +148,7 @@
         <Parameter Name="entity" Type="TEntity" />
       </Parameters>
       <Docs>
-        <param name="entity">Un objeto que se va a agregar a la colección. <c>entity</c> debe implementar <see cref="T:System.Data.Objects.DataClasses.IEntityWithRelationships" />.</param>
+        <param name="entity">Objeto que se va a agregar a la colección. <c>entity</c> debe implementar <see cref="T:System.Data.Objects.DataClasses.IEntityWithRelationships" />.</param>
         <summary>Agrega un objeto a la colección.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -164,8 +170,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <paramref name="entity" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="entity" /> es <see langword="null" />.</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="Attach">
@@ -174,7 +179,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Define una relación entre dos objetos adjuntos en un contexto del objeto.</summary>
+        <summary>Define una relación entre dos objetos asociados del contexto del objeto.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="Attach">
@@ -238,8 +243,8 @@ La relación no se puede definir en función de los metadatos de EDM. Esto puede
         <Parameter Name="entity" Type="TEntity" />
       </Parameters>
       <Docs>
-        <param name="entity">Objeto que se va a adjuntar.</param>
-        <summary>Define una relación entre dos objetos adjuntos en un contexto del objeto.</summary>
+        <param name="entity">Objeto que se va a asociar.</param>
+        <summary>Define una relación entre dos objetos asociados del contexto del objeto.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -338,7 +343,8 @@ Cuando un objeto es <see langword="null" /> o no está en un estado <see cref="F
       <Docs>
         <param name="entity">Objeto que se va a buscar en <see cref="T:System.Data.Objects.DataClasses.EntityCollection`1" />.</param>
         <summary>Determina si un objeto concreto existe en la colección.</summary>
-        <returns>Es <see langword="true" /> si el objeto se encuentra en <see cref="T:System.Data.Objects.DataClasses.EntityCollection`1" />; en caso contrario, es <see langword="false" />.</returns>
+        <returns>
+          <see langword="true" /> si el objeto se encuentra en <see cref="T:System.Data.Objects.DataClasses.EntityCollection`1" />; en caso contrario, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -420,7 +426,7 @@ Cuando un objeto es <see langword="null" /> o no está en un estado <see cref="F
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtiene el número de objetos que contiene la colección.</summary>
+        <summary>Obtiene el número de objetos existentes en la colección.</summary>
         <value>Número de elementos existentes en la <see cref="T:System.Data.Objects.DataClasses.EntityCollection`1" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -499,9 +505,9 @@ Cuando el objeto se encuentra en un estado <see cref="F:System.Data.EntityState.
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Devuelve un enumerador que se usa para iterar por los objetos de la colección.</summary>
+        <summary>Devuelve un enumerador que se usa para recorrer en iteración los objetos de la colección.</summary>
         <returns>
-          <see cref="T:System.Collections.IEnumerator" /> que recorre en iteración el conjunto de valores almacenados en caché por <see cref="T:System.Data.Objects.DataClasses.EntityCollection`1" />.</returns>
+          <see cref="T:System.Collections.IEnumerator" /> que recorre en iteración el conjunto de valores que <see cref="T:System.Data.Objects.DataClasses.EntityCollection`1" /> ha almacenado en caché.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -549,8 +555,8 @@ Cuando el objeto se encuentra en un estado <see cref="F:System.Data.EntityState.
         <Parameter Name="mergeOption" Type="System.Data.Objects.MergeOption" />
       </Parameters>
       <Docs>
-        <param name="mergeOption">Especifica cómo se deben combinar los objetos de esta colección con los objetos devueltos de consultas anteriores realizadas en el mismo objeto <see cref="T:System.Data.Objects.ObjectContext" />.</param>
-        <summary>Carga los objetos relacionados en la colección con la opción de combinación especificada.</summary>
+        <param name="mergeOption">Especifica cómo se deben combinar los objetos de esta colección con los objetos devueltos de consultas anteriores realizadas en el mismo <see cref="T:System.Data.Objects.ObjectContext" />.</param>
+        <summary>Carga los objetos relacionados en la colección con la opción de fusión mediante combinación especificada.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -617,7 +623,7 @@ Este método llama a interno `RelatedEnd.ValidateLoad` método antes de cargar l
         <Parameter Name="context" Type="System.Runtime.Serialization.StreamingContext" />
       </Parameters>
       <Docs>
-        <param name="context">Contexto de secuencia.</param>
+        <param name="context">Contexto de transmisión por secuencias.</param>
         <summary>Se usa internamente para deserializar los objetos entidad.</summary>
         <remarks>To be added.</remarks>
       </Docs>
@@ -652,7 +658,7 @@ Este método llama a interno `RelatedEnd.ValidateLoad` método antes de cargar l
         <Parameter Name="context" Type="System.Runtime.Serialization.StreamingContext" />
       </Parameters>
       <Docs>
-        <param name="context">Contexto de secuencia.</param>
+        <param name="context">Contexto de transmisión por secuencias.</param>
         <summary>Se usa internamente para serializar los objetos entidad.</summary>
         <remarks>To be added.</remarks>
       </Docs>
@@ -680,8 +686,8 @@ Este método llama a interno `RelatedEnd.ValidateLoad` método antes de cargar l
         <Parameter Name="entity" Type="TEntity" />
       </Parameters>
       <Docs>
-        <param name="entity">Objeto que se va a quitar de la colección.</param>
-        <summary>Quita un objeto de la colección y marca la relación para su eliminación.</summary>
+        <param name="entity">Objeto que se quitará de la colección.</param>
+        <summary>Quita un objeto de la colección y marca la relación para eliminación.</summary>
         <returns>Es <see langword="true" /> si el elemento se quitó correctamente; de lo contrario, es <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -730,9 +736,9 @@ El objeto <paramref name="entity" /> no tiene un administrador de relaciones vá
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Devuelve un enumerador que se usa para iterar por el conjunto de valores que <see cref="T:System.Data.Objects.DataClasses.EntityCollection`1" /> ha almacenado en memoria caché.</summary>
+        <summary>Devuelve un enumerador que se usa para recorrer en iteración el conjunto de valores que <see cref="T:System.Data.Objects.DataClasses.EntityCollection`1" /> ha almacenado en caché.</summary>
         <returns>
-          <see cref="T:System.Collections.IEnumerator" /> que recorre en iteración el conjunto de valores almacenados en caché por <see cref="T:System.Data.Objects.DataClasses.EntityCollection`1" />.</returns>
+          <see cref="T:System.Collections.IEnumerator" /> que recorre en iteración el conjunto de valores que <see cref="T:System.Data.Objects.DataClasses.EntityCollection`1" /> ha almacenado en caché.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -782,8 +788,9 @@ El objeto <paramref name="entity" /> no tiene un administrador de relaciones vá
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Devuelve la colección como una interfaz <see cref="T:System.Collections.IList" /> usada para el enlace de datos.</summary>
-        <returns>Una interfaz <see cref="T:System.Collections.IList" /> de objetos entidad.</returns>
+        <summary>Devuelve la colección como una <see cref="T:System.Collections.IList" /> usada para el enlace de datos.</summary>
+        <returns>
+          <see cref="T:System.Collections.IList" /> de objetos entidad.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
