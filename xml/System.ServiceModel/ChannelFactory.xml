@@ -1,11 +1,11 @@
 <Type Name="ChannelFactory" FullName="System.ServiceModel.ChannelFactory">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="07373be89aee6c4aa8d7fba6e4e5581bbece1e89" />
-    <Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" />
+    <Meta Name="ms.openlocfilehash" Value="5100859d56ce12fecbbb6bcd854ea9ba826419fc" />
+    <Meta Name="ms.sourcegitcommit" Value="723b8a6d92667ba86fcda96190bad3b4a03283b3" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="10/04/2018" />
-    <Meta Name="ms.locfileid" Value="48732314" />
+    <Meta Name="ms.lasthandoff" Value="11/09/2018" />
+    <Meta Name="ms.locfileid" Value="51309109" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class ChannelFactory : System.ServiceModel.Channels.CommunicationObject, IDisposable, System.ServiceModel.Channels.IChannelFactory" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit ChannelFactory extends System.ServiceModel.Channels.CommunicationObject implements class System.IDisposable, class System.ServiceModel.Channels.IChannelFactory, class System.ServiceModel.ICommunicationObject" />
@@ -35,6 +35,9 @@
     <Interface>
       <InterfaceName>System.ServiceModel.Channels.IChannelFactory</InterfaceName>
     </Interface>
+    <Interface>
+      <InterfaceName>System.ServiceModel.ICommunicationObject</InterfaceName>
+    </Interface>
   </Interfaces>
   <Docs>
     <summary>Crea y administra los canales que son utilizados por los clientes para enviar mensajes a los extremos de servicio.</summary>
@@ -44,7 +47,7 @@
 ## Remarks  
  Los iniciadores de un modelo de la comunicación utilizan generalmente los generadores de canales que implementan la interfaz <xref:System.ServiceModel.Channels.IChannelFactory> y sus canales asociados. Los generadores de agente de escucha que implementan la interfaz <xref:System.ServiceModel.Channels.IChannelListener> y sus agentes de escucha asociados proporcionan los mecanismos con los que se aceptan canales para las comunicaciones.  
   
- Esta clase no forma parte del modelo del canal, sino del modelo del servicio. El método <xref:System.ServiceModel.ChannelFactory.CreateFactory%2A> proporciona los recursos para crear <xref:System.ServiceModel.Channels.IChannelFactory> para un extremo de servicio. Utilícelo para construir un cliente que enlaza hasta un contrato de interfaz en el servicio sin utilizar metadatos ni directiva.  
+ Esta clase no forma parte del modelo del canal, sino del modelo del servicio. El método <xref:System.ServiceModel.ChannelFactory.CreateFactory%2A> proporciona los recursos para crear <xref:System.ServiceModel.Channels.IChannelFactory> para un punto de conexión de servicio. Utilícelo para construir un cliente que enlaza hasta un contrato de interfaz en el servicio sin utilizar metadatos ni directiva.  
   
 > [!NOTE]
 >  Establecer `ChannelFactory.Credentials.Windows.AllowedImpersonationLevel` en `TokenImpersonationLevel.Anonymous` siempre produce un inicio de sesión anónimo independientemente del nivel de suplantación.  
@@ -136,7 +139,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si `configurationName` es `null`, se cargan sólo los comportamientos especificados en el extremo de servicio. Si se utiliza el carácter comodín, "*", se utiliza cualquier configuración del extremo en el archivo de configuración del cliente, pero solo si hay precisamente uno. De lo contrario, se produce una excepción. Cualquier otro valor para `configurationName`, incluso la cadena vacía" ", coincide con la configuración del extremo con el mismo nombre. Consulte la [configuración de cliente WCF](~/docs/framework/wcf/feature-details/client-configuration.md) tema para obtener una explicación de la configuración del cliente.  
+ Si `configurationName` es `null`, se cargan sólo los comportamientos especificados en el punto de conexión de servicio. Si se utiliza el carácter comodín, "*", se utiliza cualquier configuración del extremo en el archivo de configuración del cliente, pero solo si hay precisamente uno. De lo contrario, se produce una excepción. Cualquier otro valor para `configurationName`, incluso la cadena vacía" ", coincide con la configuración del punto de conexión con el mismo nombre. Consulte la [configuración de cliente WCF](~/docs/framework/wcf/feature-details/client-configuration.md) tema para obtener una explicación de la configuración del cliente.  
   
  ]]></format>
         </remarks>
@@ -237,7 +240,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El objeto <xref:System.ServiceModel.Description.ClientCredentials> está almacenado como tipo de comportamiento del extremo y se puede acceder a través de la propiedad <xref:System.ServiceModel.Description.ServiceEndpoint.Behaviors%2A>.  
+ El objeto <xref:System.ServiceModel.Description.ClientCredentials> está almacenado como tipo de comportamiento del punto de conexión y se puede acceder a través de la propiedad <xref:System.ServiceModel.Description.ServiceEndpoint.Behaviors%2A>.  
   
  El método <xref:System.ServiceModel.ChannelFactory.OnOpened%2A> inicializa una copia de solo lectura del objeto <xref:System.ServiceModel.Description.ClientCredentials> para el generador.  
   
@@ -500,8 +503,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <paramref name="endpoint" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="endpoint" /> es <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="InitializeEndpoint">
@@ -545,10 +547,10 @@
       </Docs>
     </Member>
     <Member MemberName="InitializeEndpoint">
-      <MemberSignature Language="C#" Value="protected void InitializeEndpoint (string configurationName, System.ServiceModel.EndpointAddress address);" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.8" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void InitializeEndpoint(string configurationName, class System.ServiceModel.EndpointAddress address) cil managed" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.8" />
-      <MemberSignature Language="VB.NET" Value="Protected Sub InitializeEndpoint (configurationName As String, address As EndpointAddress)" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.8" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; void InitializeEndpoint(System::String ^ configurationName, System::ServiceModel::EndpointAddress ^ address);" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.8" />
+      <MemberSignature Language="C#" Value="protected void InitializeEndpoint (string configurationName, System.ServiceModel.EndpointAddress address);" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.8;dotnet-plat-ext-2.1" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void InitializeEndpoint(string configurationName, class System.ServiceModel.EndpointAddress address) cil managed" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.8;dotnet-plat-ext-2.1" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub InitializeEndpoint (configurationName As String, address As EndpointAddress)" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.8;dotnet-plat-ext-2.1" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; void InitializeEndpoint(System::String ^ configurationName, System::ServiceModel::EndpointAddress ^ address);" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.8;dotnet-plat-ext-2.1" />
       <MemberSignature Language="C#" Value="protected void InitializeEndpoint (string configurationName, System.ServiceModel.EndpointAddress remoteAddress);" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void InitializeEndpoint(string configurationName, class System.ServiceModel.EndpointAddress remoteAddress) cil managed" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory.InitializeEndpoint(System.String,System.ServiceModel.EndpointAddress)" FrameworkAlternate="xamarinandroid-7.1;netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinios-10.8;xamarinmac-3.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.8" />
@@ -573,7 +575,7 @@
       </ReturnValue>
       <Parameters>
         <Parameter Name="configurationName" Type="System.String" Index="0" />
-        <Parameter Name="address" Type="System.ServiceModel.EndpointAddress" Index="1" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.8" />
+        <Parameter Name="address" Type="System.ServiceModel.EndpointAddress" Index="1" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.8;dotnet-plat-ext-2.1" />
         <Parameter Name="remoteAddress" Type="System.ServiceModel.EndpointAddress" Index="1" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
@@ -879,7 +881,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Invalida e invoca el método <xref:System.ServiceModel.Channels.CommunicationObject.OnOpened%2A>, al que se llama durante la transición de un objeto en el estado abierto. El objeto <xref:System.ServiceModel.Description.ClientCredentials> está almacenado como tipo de comportamiento del extremo y se puede acceder a través de la propiedad <xref:System.ServiceModel.Description.ServiceEndpoint.Behaviors%2A>.  
+ Invalida e invoca el método <xref:System.ServiceModel.Channels.CommunicationObject.OnOpened%2A>, al que se llama durante la transición de un objeto en el estado abierto. El objeto <xref:System.ServiceModel.Description.ClientCredentials> está almacenado como tipo de comportamiento del punto de conexión y se puede acceder a través de la propiedad <xref:System.ServiceModel.Description.ServiceEndpoint.Behaviors%2A>.  
   
  ]]></format>
         </remarks>
