@@ -1,11 +1,11 @@
 <Type Name="OleDbDataAdapter" FullName="System.Data.OleDb.OleDbDataAdapter">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="996476df324e991b051442bee9d7e127f6324409" />
-    <Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" />
+    <Meta Name="ms.openlocfilehash" Value="35896151b709cffa216c5d12367557589066e427" />
+    <Meta Name="ms.sourcegitcommit" Value="723b8a6d92667ba86fcda96190bad3b4a03283b3" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="10/04/2018" />
-    <Meta Name="ms.locfileid" Value="48744170" />
+    <Meta Name="ms.lasthandoff" Value="11/09/2018" />
+    <Meta Name="ms.locfileid" Value="51307381" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class OleDbDataAdapter : System.Data.Common.DbDataAdapter, ICloneable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit OleDbDataAdapter extends System.Data.Common.DbDataAdapter implements class System.Data.IDataAdapter, class System.Data.IDbDataAdapter, class System.ICloneable" />
@@ -23,6 +23,12 @@
     <BaseTypeName>System.Data.Common.DbDataAdapter</BaseTypeName>
   </Base>
   <Interfaces>
+    <Interface>
+      <InterfaceName>System.Data.IDataAdapter</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Data.IDbDataAdapter</InterfaceName>
+    </Interface>
     <Interface>
       <InterfaceName>System.ICloneable</InterfaceName>
     </Interface>
@@ -57,7 +63,7 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>Representa un conjunto de comandos de datos y una conexión de base de datos que se utilizan para rellenar <see cref="T:System.Data.DataSet" /> y actualizar el origen de datos.</summary>
+    <summary>Representa un conjunto de comandos de datos y una conexión a una base de datos que se usan para rellenar <see cref="T:System.Data.DataSet" /> y actualizar el origen de datos.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
@@ -257,7 +263,7 @@
       </Parameters>
       <Docs>
         <param name="selectCommandText">Cadena que es una instrucción SQL SELECT o un procedimiento almacenado que debe utilizar la propiedad <see cref="P:System.Data.OleDb.OleDbDataAdapter.SelectCommand" /> de <see cref="T:System.Data.OleDb.OleDbDataAdapter" />.</param>
-        <param name="selectConnectionString">Cadena de conexión.</param>
+        <param name="selectConnectionString">La cadena de conexión.</param>
         <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Data.OleDb.OleDbDataAdapter" /> con la propiedad <see cref="P:System.Data.OleDb.OleDbDataAdapter.SelectCommand" />.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -487,7 +493,7 @@
   
  Puede usar el <xref:System.Data.OleDb.OleDbDataAdapter.Fill%2A> método varias veces en el mismo <xref:System.Data.DataTable>. Si existe una clave principal, las filas entrantes se combinan con las filas coincidentes que ya existen. Si no existe ninguna clave principal, las filas entrantes se anexan a la <xref:System.Data.DataTable>. Si está presente la información de clave principal, las filas duplicadas se reconcilian y solo aparecen una vez en el <xref:System.Data.DataTable> que corresponde a la <xref:System.Data.DataSet>. Información de clave principal puede establecerse a través de <xref:System.Data.Common.DbDataAdapter.FillSchema%2A>, especificando el <xref:System.Data.DataTable.PrimaryKey%2A> propiedad de la <xref:System.Data.DataTable>, o estableciendo la <xref:System.Data.Common.DataAdapter.MissingSchemaAction%2A> propiedad `AddWithKey`.  
   
- Si <xref:System.Data.OleDb.OleDbDataAdapter.SelectCommand%2A> devuelve los resultados de OUTER JOIN, `DataAdapter` no establece un valor <xref:System.Data.DataTable.PrimaryKey%2A> para el objeto <xref:System.Data.DataTable> resultante. Debe definir explícitamente la clave principal para asegurarse de que las filas duplicadas se resuelven correctamente. Para obtener más información, consulte [definir claves principales](~/docs/framework/data/adonet/dataset-datatable-dataview/defining-primary-keys.md).  
+ Si <xref:System.Data.OleDb.OleDbDataAdapter.SelectCommand%2A> devuelve los resultados de OUTER JOIN, `DataAdapter` no establece un valor <xref:System.Data.DataTable.PrimaryKey%2A> para el objeto <xref:System.Data.DataTable>resultante. Debe definir explícitamente la clave principal para asegurarse de que las filas duplicadas se resuelven correctamente. Para obtener más información, consulte [definir claves principales](~/docs/framework/data/adonet/dataset-datatable-dataview/defining-primary-keys.md).  
   
  Para que funcione correctamente con el proveedor de datos de .NET Framework para OLE DB, `AddWithKey` requiere que el proveedor OLE DB nativo obtenga la información de clave principal necesaria estableciendo la propiedad DBPROP_UNIQUEROWS y, a continuación, determina qué columnas son de clave principal las columnas mediante el examen de DBCOLUMN_KEYCOLUMN en el `IColumnsRowset`. O bien el usuario puede establecer explícitamente las restricciones de clave principales en cada <xref:System.Data.DataTable>. Esto garantiza que se actualizan los registros entrantes que coincidan con los registros existentes en lugar de anexar.  
   
@@ -592,7 +598,7 @@ OleDbDataAdapter custDA = new OleDbDataAdapter();
   
  Para que funcione correctamente con el proveedor de datos de .NET Framework para OLE DB, `AddWithKey` requiere que el proveedor OLE DB nativo obtener información de clave principal necesaria estableciendo la propiedad DBPROP_UNIQUEROWS y, a continuación, determine qué columnas son de clave principal las columnas mediante el examen de DBCOLUMN_KEYCOLUMN en el **IColumnsRowset**. O bien el usuario puede establecer explícitamente las restricciones de clave principales en cada <xref:System.Data.DataTable>. De este modo se garantiza que los registros entrantes que coincidan con los ya existentes se actualicen en lugar de agregarse.  
   
- Si <xref:System.Data.OleDb.OleDbDataAdapter.SelectCommand%2A> devuelve los resultados de OUTER JOIN, `DataAdapter` no establece un valor <xref:System.Data.DataTable.PrimaryKey%2A> para el objeto <xref:System.Data.DataTable> resultante. Debe definir explícitamente la clave principal para asegurarse de que las filas duplicadas se resuelven correctamente. Para obtener más información, consulte [definir claves principales](~/docs/framework/data/adonet/dataset-datatable-dataview/defining-primary-keys.md).  
+ Si <xref:System.Data.OleDb.OleDbDataAdapter.SelectCommand%2A> devuelve los resultados de OUTER JOIN, `DataAdapter` no establece un valor <xref:System.Data.DataTable.PrimaryKey%2A> para el objeto <xref:System.Data.DataTable>resultante. Debe definir explícitamente la clave principal para asegurarse de que las filas duplicadas se resuelven correctamente. Para obtener más información, consulte [definir claves principales](~/docs/framework/data/adonet/dataset-datatable-dataview/defining-primary-keys.md).  
   
  Si el `Recordset` está cerrado antes del comienzo de la <xref:System.Data.OleDb.OleDbDataAdapter.Fill%2A> operación, se produce ningún error. Esto es necesario para el control de varios resultados, porque las consultas que no devuelven filas se indican mediante un cerrado `Recordset`. El <xref:System.Data.OleDb.OleDbDataAdapter> simplemente llama a `NextRecordset` en cerrado `Recordset` y continúa el procesamiento.  
   
@@ -677,7 +683,7 @@ OleDbDataAdapter custDA = new OleDbDataAdapter();
         <ReturnType>System.Data.OleDb.OleDbCommand</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtiene o establece la instrucción SQL o el procedimiento almacenado utilizado para insertar nuevos registros en el origen de datos.</summary>
+        <summary>Obtiene o establece una instrucción SQL o procedimiento almacenado utilizado para insertar nuevos registros en el origen de datos.</summary>
         <value>
           <see cref="T:System.Data.OleDb.OleDbCommand" /> utilizado durante <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> para insertar registros en el origen de datos que se corresponde con las filas nuevas de <see cref="T:System.Data.DataSet" />.</value>
         <remarks>
@@ -952,7 +958,7 @@ OleDbDataAdapter custDA = new OleDbDataAdapter();
         <ReturnType>System.Data.IDbCommand</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Para obtener una descripción de este miembro, vea <see cref="M:System.Data.IDbDataAdapter.DeleteCommand" />.</summary>
+        <summary>Para una descripción de este miembro, vea <see cref="M:System.Data.IDbDataAdapter.DeleteCommand" />.</summary>
         <value>Una interfaz <see cref="T:System.Data.IDbCommand" /> que se usa durante una actualización para eliminar los registros del origen de datos para las filas eliminadas en el conjunto de datos.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -984,7 +990,7 @@ OleDbDataAdapter custDA = new OleDbDataAdapter();
         <ReturnType>System.Data.IDbCommand</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Para obtener una descripción de este miembro, vea <see cref="M:System.Data.IDbDataAdapter.InsertCommand" />.</summary>
+        <summary>Para una descripción de este miembro, vea <see cref="M:System.Data.IDbDataAdapter.InsertCommand" />.</summary>
         <value>Una interfaz <see cref="T:System.Data.IDbCommand" /> que se usa durante una actualización para insertar los registros de un origen de datos para su colocación en el conjunto de datos.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1016,7 +1022,7 @@ OleDbDataAdapter custDA = new OleDbDataAdapter();
         <ReturnType>System.Data.IDbCommand</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Para obtener una descripción de este miembro, vea <see cref="M:System.Data.IDbDataAdapter.SelectCommand" />.</summary>
+        <summary>Para una descripción de este miembro, vea <see cref="M:System.Data.IDbDataAdapter.SelectCommand" />.</summary>
         <value>Una interfaz <see cref="T:System.Data.IDbCommand" /> que se usa durante una actualización para seleccionar los registros de un origen de datos para su colocación en el conjunto de datos.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1048,7 +1054,7 @@ OleDbDataAdapter custDA = new OleDbDataAdapter();
         <ReturnType>System.Data.IDbCommand</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Para obtener una descripción de este miembro, vea <see cref="M:System.Data.IDbDataAdapter.UpdateCommand" />.</summary>
+        <summary>Para una descripción de este miembro, vea <see cref="M:System.Data.IDbDataAdapter.UpdateCommand" />.</summary>
         <value>Una interfaz <see cref="T:System.Data.IDbCommand" /> que se usa durante una actualización para actualizar los registros del origen de datos para las filas modificadas del conjunto de datos.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1081,7 +1087,7 @@ OleDbDataAdapter custDA = new OleDbDataAdapter();
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Para obtener una descripción de este miembro, vea <see cref="M:System.ICloneable.Clone" />.</summary>
+        <summary>Para una descripción de este miembro, vea <see cref="M:System.ICloneable.Clone" />.</summary>
         <returns>Un nuevo objeto <see cref="T:System.Object" /> que es una copia de esta instancia.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1131,9 +1137,9 @@ OleDbDataAdapter custDA = new OleDbDataAdapter();
         <ReturnType>System.Data.OleDb.OleDbCommand</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtiene o establece la instrucción SQL o el procedimiento almacenado utilizado para actualizar registros del origen de datos.</summary>
+        <summary>Obtiene o establece una instrucción SQL o procedimiento almacenado utilizado para actualizar registros en el origen de datos.</summary>
         <value>
-          <see cref="T:System.Data.OleDb.OleDbCommand" /> utilizado durante <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> para actualizar registros del origen de datos que se corresponden con las filas modificadas de <see cref="T:System.Data.DataSet" />.</value>
+          <see cref="T:System.Data.OleDb.OleDbCommand" /> utilizado durante <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> para actualizar registros en el origen de datos que corresponden a las filas modificadas en el <see cref="T:System.Data.DataSet" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   

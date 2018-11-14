@@ -1,11 +1,11 @@
 <Type Name="TransactionScope" FullName="System.Transactions.TransactionScope">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="a82d108607f3f18ca21c7c9b6212a340a2a97bc3" />
-    <Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" />
+    <Meta Name="ms.openlocfilehash" Value="45dd699021cf8a33b96b1b8974ed6335d84a9f52" />
+    <Meta Name="ms.sourcegitcommit" Value="610a413147ca5b230ff99a6df778612e165a6cdf" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="10/04/2018" />
-    <Meta Name="ms.locfileid" Value="48705999" />
+    <Meta Name="ms.lasthandoff" Value="11/10/2018" />
+    <Meta Name="ms.locfileid" Value="51506179" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class TransactionScope : IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit TransactionScope extends System.Object implements class System.IDisposable" />
@@ -763,11 +763,11 @@ Cuando se usa el `transactionOptions` parámetro para especificar un <xref:Syste
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Llamar a este método marca el final del ámbito de transacción. Si el <xref:System.Transactions.TransactionScope> objeto creó la transacción y <xref:System.Transactions.TransactionScope.Complete%2A> se ha llamado en el ámbito, el <xref:System.Transactions.TransactionScope> objeto intenta confirmar la transacción cuando se llama a este método.  
+ Llamar a este método marca el final del ámbito de transacción. Si el <xref:System.Transactions.TransactionScope> objeto creó la transacción y <xref:System.Transactions.TransactionScope.Complete%2A> se ha llamado en el ámbito, el <xref:System.Transactions.TransactionScope> objeto intenta confirmar la transacción cuando se llama a este método. En este caso, este método se bloquea hasta que la primera fase del procesamiento de transacciones está completa. La primera fase finaliza después de todos los administradores de recursos y las inscripciones en la transacción han votado en el resultado de la transacción y el <xref:System.Transactions.TransactionManager> ha decidido confirmar o anular la transacción. La segunda fase de procesamiento siempre es asincrónica. Por lo tanto, no hay ninguna garantía de que haya datos confirmados justo desde dentro de una transacción determinada estarán disponibles inmediatamente después cuando no se usa otra transacción para ver los datos.  
   
  El uso de C# `using` construcción garantiza que se llama a este método incluso si se produce una excepción. Las excepciones que se producen después de llamar a este método quizá no afecten a la transacción. Este método también restaura la transacción de ambiente al mismo estado original. Un <xref:System.Transactions.TransactionAbortedException> se produce si no se confirma realmente la transacción.  
   
- Este método es sincrónico y bloquea hasta que la transacción se ha confirmado o anulado. Por este motivo, debe ser extremadamente cuidadoso al usar este método en una aplicación Windows Forms (WinForm) o puede producirse un interbloqueo. Si llama a este método dentro de un evento de WinForm Control (por ejemplo, al hacer clic en un botón) y usa sincrónico <xref:System.Windows.Forms.Control.Invoke%2A> método para dirigir el control para realizar algunas tareas de la interfaz de usuario (por ejemplo, cambiar los colores) en el medio de procesamiento de la transacción, un se producirá un interbloqueo. Esto es porque el <xref:System.Windows.Forms.Control.Invoke%2A> método es sincrónico y bloquea el subproceso de trabajo hasta que el subproceso de interfaz de usuario finaliza su trabajo. Sin embargo, en nuestro escenario, también está esperando el subproceso de interfaz de usuario para que el subproceso de trabajo confirmar la transacción. El resultado es que ninguno es capaz de continuar y el ámbito espera indefinidamente a que finalice la ejecución. Debe usar <xref:System.Windows.Forms.Control.BeginInvoke%2A> lugar <xref:System.Windows.Forms.Control.Invoke%2A> siempre que sea posible, porque es asincrónica y, por tanto, menos propenso a interbloqueo.  
+ Dado que puede producirse este método se bloquea hasta que la primera fase del procesamiento de transacciones se complete, debe ser extremadamente cuidadoso al usar este método en una aplicación de Windows Forms (WinForm) o a un interbloqueo. Si llama a este método dentro de un evento de WinForm Control (por ejemplo, al hacer clic en un botón) y usa sincrónico <xref:System.Windows.Forms.Control.Invoke%2A> método para dirigir el control para realizar algunas tareas de la interfaz de usuario (por ejemplo, cambiar los colores) en el medio de procesamiento de la transacción, un se producirá un interbloqueo. Esto es porque el <xref:System.Windows.Forms.Control.Invoke%2A> método es sincrónico y bloquea el subproceso de trabajo hasta que el subproceso de interfaz de usuario finaliza su trabajo. Sin embargo, en nuestro escenario, también está esperando el subproceso de interfaz de usuario para que el subproceso de trabajo confirmar la transacción. El resultado es que ninguno es capaz de continuar y el ámbito espera indefinidamente a que finalice la ejecución. Debe usar <xref:System.Windows.Forms.Control.BeginInvoke%2A> lugar <xref:System.Windows.Forms.Control.Invoke%2A> siempre que sea posible, porque es asincrónica y, por tanto, menos propenso a interbloqueo.  
   
  Para obtener más información sobre cómo se utiliza este método, consulte el [Implementing An implícita transacción Using transacción Scope](~/docs/framework/data/transactions/implementing-an-implicit-transaction-using-transaction-scope.md) tema.  
   

@@ -1,11 +1,11 @@
 <Type Name="Uri" FullName="System.Uri">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="bc748165070ca7c2fc35cc5a3d821923907161f7" />
-    <Meta Name="ms.sourcegitcommit" Value="41742a1055cefdeaf2f9d76364f4bad3c9f83126" />
+    <Meta Name="ms.openlocfilehash" Value="6a2e8da0423adb69adab3d2953a45d27b12eeb0c" />
+    <Meta Name="ms.sourcegitcommit" Value="dc6ea82452beeb642259a38f3c2fad756ebd3d9f" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="10/16/2018" />
-    <Meta Name="ms.locfileid" Value="48689804" />
+    <Meta Name="ms.lasthandoff" Value="11/07/2018" />
+    <Meta Name="ms.locfileid" Value="51264572" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class Uri : System.Runtime.Serialization.ISerializable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit Uri extends System.Object implements class System.Runtime.Serialization.ISerializable" />
@@ -71,7 +71,9 @@
 -   Si el nombre de host es una dirección IPv6, se usa la dirección IPv6 canónica. Se quitan ScopeId y otros datos opcionales de IPv6.  
   
 -   Quita de forma predeterminada y los números de puerto vacío.
-
+  
+-   Convierte las rutas de acceso de archivo implícito sin el esquema file:// (por ejemplo, "C:\my\file") en rutas de acceso explícita con el esquema file://.
+  
 -   Descodificación de caracteres de escape (también conocido como octetos codificados por porcentaje) que no tienen un propósito reservado (también conocido como sin escape). Estos caracteres reservados se encuentran en mayúsculas y minúsculas (% 41-% 5A y % 61-% 7), los dígitos decimales (30-% 39), guión (% 2D), el período (% 2E), un carácter de subrayado (% 5F) y tilde (% 7E).
 
 -   Canoniza la ruta de acceso para un URI jerárquico mediante la compactación de secuencias como /., / /... /, y / / (si la secuencia de escape). Tenga en cuenta que hay algunos esquemas para los que no se compactan estas secuencias.
@@ -168,6 +170,14 @@ http://myUrl/
  La clase <xref:System.GenericUriParser?displayProperty=nameWithType> también se ha ampliado para permitir la creación de un analizador personalizable que admita IRI e IDN. Para especificar el comportamiento de un objeto <xref:System.GenericUriParser?displayProperty=nameWithType>, se pasa una combinación bit a bit de los valores disponibles en la enumeración <xref:System.GenericUriParserOptions?displayProperty=nameWithType> al constructor <xref:System.GenericUriParser?displayProperty=nameWithType>. El tipo <xref:System.GenericUriParserOptions.IriParsing?displayProperty=nameWithType> indica que el analizador admite las reglas de análisis especificadas en RFC 3987 para los Identificadores de recursos internacionales (IRI). El uso de IRI viene determinado por los valores de configuración que se ha indicado anteriormente.  
   
  El tipo <xref:System.GenericUriParserOptions.Idn?displayProperty=nameWithType> indica que el analizador admite el análisis del Nombre de dominio internacionalizado (IDN) de los nombres de host. El uso de IDN viene determinado por los valores de configuración que se ha indicado anteriormente.  
+  
+## <a name="implicit-file-path-support"></a>Soporte técnico de ruta de acceso de archivo implícitas
+ <xref:System.Uri> También puede utilizarse para representar las rutas de acceso del sistema de archivos local. Estas rutas de acceso se pueden representar *explícitamente* en los URI que comienzan con el esquema file://, y *implícitamente* en identificadores URI que no tiene el esquema file://. Como ejemplo concreto, los dos URI siguientes son ambas válidas y representan la misma ruta de acceso de archivo:
+```csharp
+Uri uri1 = new Uri("C:/test/path/file.txt") // Implicit file path.
+Uri uri2 = new Uri("file:///C:/test/path/file.txt") // Explicit file path.
+```
+ Estas rutas de acceso de archivo implícitas no son compatibles con la especificación de URI y por lo tanto deberían evitarse siempre que sea posible. Cuando se usa .NET Core en sistemas basados en Unix, las rutas de acceso de archivo implícita pueden ser especialmente problemáticos, porque es una ruta de acceso absoluta del archivo implícita *distinguir* desde una ruta de acceso relativa. Cuando está presente, esta ambigüedad <xref:System.Uri> predeterminado para interpretar la ruta de acceso como un URI absoluto.
   
 ## <a name="performance-considerations"></a>Consideraciones sobre el rendimiento  
  Si usa un *Web.config * archivo que contiene los URI para inicializar el tiempo de aplicación, adicional es necesario para procesar los URI si sus identificadores de esquema son no estándares. En tal caso, inicialice las partes afectadas de la aplicación cuando se necesitan los URI, no a la hora de inicio.  
