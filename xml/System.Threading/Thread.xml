@@ -1,11 +1,11 @@
 <Type Name="Thread" FullName="System.Threading.Thread">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="7c33ebbf7fda315ea7cdcd851f00c29b10d280bd" />
-    <Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" />
+    <Meta Name="ms.openlocfilehash" Value="38eda2875476a401d6a3442e5e40cebc592a4863" />
+    <Meta Name="ms.sourcegitcommit" Value="996ba67625b61917bcf75bfefe6dcb016019c2d8" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="10/04/2018" />
-    <Meta Name="ms.locfileid" Value="48741635" />
+    <Meta Name="ms.lasthandoff" Value="11/02/2018" />
+    <Meta Name="ms.locfileid" Value="50965479" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class Thread : System.Runtime.ConstrainedExecution.CriticalFinalizerObject, System.Runtime.InteropServices._Thread" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit Thread extends System.Runtime.ConstrainedExecution.CriticalFinalizerObject implements class System.Runtime.InteropServices._Thread" />
@@ -142,7 +142,11 @@
 <a name="Culture"></a>   
 ## <a name="culture-and-threads"></a>Referencia cultural y los subprocesos  
  Cada subproceso tiene una referencia cultural, representada por el <xref:System.Threading.Thread.CurrentCulture%2A> propiedad y una referencia cultural de interfaz de usuario, representan por el <xref:System.Threading.Thread.CurrentUICulture%2A> propiedad.  La referencia cultural actual admite operaciones cultural como de análisis y formato, comparación de cadenas y ordenación y también controla el sistema de escritura y el calendario usado por un subproceso. Proporciona la referencia cultural de interfaz de usuario actual para la recuperación de la referencia cultural de recursos en archivos de recursos.  
-  
+
+> [!IMPORTANT]
+> El <xref:System.Threading.Thread.CurrentCulture> y <xref:System.Threading.Thread.CurrentUICulture> propiedades no funcionan bien cuando se usa con cualquier subproceso distinto del subproceso actual. En .NET Framework, leer estas propiedades es confiable, aunque no es establecer estas propiedades para un subproceso distinto del subproceso actual. En .NET Core, un <xref:System.InvalidOperationException> se produce si un subproceso intenta leer o escribir estas propiedades en un subproceso diferente.
+> Se recomienda que use el <xref:System.Globalization.CultureInfo.CurrentCulture?displayProperty=nameWithType> y <xref:System.Globalization.CultureInfo.CurrentUICulture?displayProperty=nameWithType> propiedades para recuperar y establecer la referencia cultural actual.
+
  Cuando se crea una instancia de un nuevo subproceso, su referencia cultural y la referencia cultural de interfaz de usuario se definen por la referencia cultural actual del sistema y la referencia cultural de interfaz de usuario y no por la referencia cultural y la referencia cultural de interfaz de usuario del subproceso desde el que se crea el nuevo subproceso. Esto significa, por ejemplo, que si la referencia cultural del sistema actual es inglés (Estados Unidos) y la referencia cultural del subproceso principal de la aplicación es francés (Francia), la referencia cultural de un nuevo subproceso creado mediante una llamada a la <xref:System.Threading.Thread.%23ctor%28System.Threading.ParameterizedThreadStart%29> constructor desde el subproceso principal es el inglés (Estados Unidos) y no francés (Francia). Para obtener más información, consulte la sección "Referencia cultural y los subprocesos" de la <xref:System.Globalization.CultureInfo> tema de la clase.  
   
 > [!IMPORTANT]
@@ -153,9 +157,9 @@
 -   Puede pasar un <xref:System.Globalization.CultureInfo> objeto que representa esa referencia cultural a la <xref:System.Threading.ParameterizedThreadStart> delegar o <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%2CSystem.Object%29?displayProperty=nameWithType> método.  
   
 -   Para las aplicaciones que se ejecutan en el [!INCLUDE[net_v45](~/includes/net-v45-md.md)] y versiones posteriores, puede definir la referencia cultural y la referencia cultural de interfaz de usuario que se asigna a todos los subprocesos creados en un dominio de aplicación estableciendo el valor de la <xref:System.Globalization.CultureInfo.DefaultThreadCurrentCulture%2A?displayProperty=nameWithType> y <xref:System.Globalization.CultureInfo.DefaultThreadCurrentUICulture%2A?displayProperty=nameWithType> propiedades. Tenga en cuenta que se trata de una configuración por dominio de aplicación.  
-  
- Para obtener más información y ejemplos, vea la sección "Referencia cultural y los subprocesos" de la <xref:System.Globalization.CultureInfo> tema de la clase.  
-  
+
+ Para obtener más información y ejemplos, vea la sección "Referencia cultural y los subprocesos" de la <xref:System.Globalization.CultureInfo> tema de la clase.
+
 <a name="Properties"></a>   
 ## <a name="getting-information-about-and-controlling-threads"></a>Obtener información sobre y el control de subprocesos  
  Puede recuperar un número de valores de propiedad que proporcionan información sobre un subproceso. En algunos casos, también puede establecer estos valores de propiedad para controlar el funcionamiento del subproceso. Estas propiedades de subproceso incluyen:  
@@ -280,8 +284,7 @@ Main thread: ThreadProc.Join has returned.  Press Enter to end program.
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <paramref name="start" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="start" /> es <see langword="null" />.</exception>
         <altmember cref="T:System.Threading.ParameterizedThreadStart" />
         <altmember cref="Overload:System.Threading.Thread.Start" />
         <altmember cref="T:System.AppDomain" />
@@ -423,8 +426,7 @@ Importante   En el caso de código de confianza parcial, se pasa por alto <c>
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <paramref name="start" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="start" /> es <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="maxStackSize" /> es menor que cero.</exception>
       </Docs>
@@ -496,8 +498,7 @@ Importante   En el caso de código de confianza parcial, se pasa por alto <c>
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <paramref name="start" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="start" /> es <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="maxStackSize" /> es menor que cero.</exception>
       </Docs>
@@ -1105,13 +1106,15 @@ Importante   En el caso de código de confianza parcial, se pasa por alto <c>
   
 ## Remarks  
  La <xref:System.Globalization.CultureInfo> objeto devuelto por esta propiedad, junto con sus objetos asociados, determinar el formato predeterminado para las fechas, horas, números, valores de moneda, el criterio de ordenación de texto, las mayúsculas y minúsculas de las convenciones y comparaciones de cadenas. Consulte la <xref:System.Globalization.CultureInfo> clase para obtener información sobre los nombres de referencia cultural y los identificadores, las diferencias entre culturas invariables, neutras y específicas, y la información de referencia cultural de manera que afecta a dominios de aplicación y subprocesos. Consulte la <xref:System.Globalization.CultureInfo.CurrentCulture%2A?displayProperty=nameWithType> propiedad para obtener información sobre cómo se determina la referencia cultural predeterminada de un subproceso y cómo los usuarios establecer información de referencia cultural para sus equipos.  
-  
+
+> [!IMPORTANT]
+> El <xref:System.Threading.Thread.CurrentCulture> propiedad no funciona de forma confiable cuando se usa con cualquier subproceso distinto del subproceso actual. En .NET Framework, la propiedad de lectura es confiable, aunque si se establece para un subproceso distinto del subproceso actual no es. En .NET Core, un <xref:System.InvalidOperationException> se produce si un subproceso intenta leer o escribir el <xref:System.Threading.Thread.CurrentCulture> propiedad en un subproceso diferente.
+> Se recomienda que use el <xref:System.Globalization.CultureInfo.CurrentCulture?displayProperty=nameWithType> propiedad para recuperar y establecer la referencia cultural actual.
+
  A partir del [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], puede establecer el <xref:System.Threading.Thread.CurrentCulture%2A> propiedad a una referencia cultural neutra. Esto es porque el comportamiento de la <xref:System.Globalization.CultureInfo> clase ha cambiado: cuando representa una referencia cultural neutra, sus valores de propiedad (en concreto, el <xref:System.Globalization.CultureInfo.Calendar%2A>, <xref:System.Globalization.CultureInfo.CompareInfo%2A>, <xref:System.Globalization.CultureInfo.DateTimeFormat%2A>, <xref:System.Globalization.CultureInfo.NumberFormat%2A>, y <xref:System.Globalization.CultureInfo.TextInfo%2A> propiedades) ahora refleja la referencia cultural específica que está asociada con la referencia cultural neutra. En versiones anteriores de .NET Framework, el <xref:System.Threading.Thread.CurrentCulture%2A> propiedad produjo una <xref:System.NotSupportedException> excepción cuando se le asignó una referencia cultural neutra.  
   
-   
-  
 ## Examples  
- El ejemplo de código siguiente muestra la instrucción de subprocesamiento que permite a la interfaz de usuario de un Windows Forms para mostrar en la referencia cultural que se establece en el Panel de Control. Se necesita código adicional.  
+ El ejemplo siguiente muestra la instrucción de subprocesamiento que permite a la interfaz de usuario de una aplicación de Windows Forms para mostrar en la referencia cultural que se establece en el Panel de Control. Se necesita código adicional.  
   
  [!code-cpp[System.Threading.Thread.Culture#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Thread.Culture/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.Thread.Culture#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Thread.Culture/CS/source.cs#1)]
@@ -1120,6 +1123,7 @@ Importante   En el caso de código de confianza parcial, se pasa por alto <c>
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">La propiedad se establece en <see langword="null" />.</exception>
+        <exception cref="T:System.InvalidOperationException">Solo .NET Core: no se admite la lectura o escritura de la referencia cultural de un subproceso desde otro subproceso.</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">Para establecer la propiedad. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" /></permission>
       </Docs>
     </Member>
@@ -1283,7 +1287,11 @@ Importante   En el caso de código de confianza parcial, se pasa por alto <c>
   
 ## Remarks  
  La referencia cultural de interfaz de usuario especifica los recursos de una aplicación debe admitir la entrada de usuario y la salida y de forma predeterminada es igual que la referencia cultural del sistema operativo. Consulte la <xref:System.Globalization.CultureInfo> clase para obtener información sobre los nombres de referencia cultural y los identificadores, las diferencias entre culturas invariables, neutras y específicas, y la información de referencia cultural de manera que afecta a dominios de aplicación y subprocesos. Consulte la <xref:System.Globalization.CultureInfo.CurrentUICulture%2A?displayProperty=nameWithType> propiedad para obtener información sobre cómo se determina la referencia cultural de interfaz de usuario de predeterminada de un subproceso.  
-  
+
+> [!IMPORTANT]
+> El <xref:System.Threading.Thread.CurrentUICulture> propiedad no funciona de forma confiable cuando se usa con cualquier subproceso distinto del subproceso actual. En .NET Framework, la propiedad de lectura es confiable, aunque si se establece para un subproceso distinto del subproceso actual no es. En .NET Core, un <xref:System.InvalidOperationException> se produce si un subproceso intenta leer o escribir el <xref:System.Threading.Thread.CurrentUICulture> propiedad en un subproceso diferente.
+> Se recomienda que use el <xref:System.Globalization.CultureInfo.CurrentUICulture?displayProperty=nameWithType> propiedad para recuperar y establecer la referencia cultural actual.
+
  El <xref:System.Globalization.CultureInfo> devuelto por esta propiedad puede ser una referencia cultural neutra. No deben usarse con métodos de formato, como las referencias culturales neutras <xref:System.String.Format%28System.IFormatProvider%2CSystem.String%2CSystem.Object%5B%5D%29?displayProperty=nameWithType>, <xref:System.DateTime.ToString%28System.String%2CSystem.IFormatProvider%29?displayProperty=nameWithType>, y <xref:System.Convert.ToString%28System.Char%2CSystem.IFormatProvider%29?displayProperty=nameWithType>. Utilice la <xref:System.Globalization.CultureInfo.CreateSpecificCulture%2A?displayProperty=nameWithType> método para obtener una referencia cultural específica, o use el <xref:System.Threading.Thread.CurrentCulture%2A> propiedad.  
   
 > [!NOTE]
@@ -1307,6 +1315,7 @@ Importante   En el caso de código de confianza parcial, se pasa por alto <c>
         </remarks>
         <exception cref="T:System.ArgumentNullException">La propiedad se establece en <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException">La propiedad se establece en un nombre de referencia cultural que no se puede usar para buscar un archivo de recursos. Los nombres de archivo de recursos deben incluir solo letras, números, guiones o caracteres de subrayado.</exception>
+        <exception cref="T:System.InvalidOperationException">Solo .NET Core: no se admite la lectura o escritura de la referencia cultural de un subproceso desde otro subproceso.</exception>
       </Docs>
     </Member>
     <Member MemberName="DisableComObjectEagerCleanup">
@@ -2140,7 +2149,7 @@ Importante   En el caso de código de confianza parcial, se pasa por alto <c>
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Security.SecurityException">El llamador no tiene el permiso <see cref="T:System.Security.Permissions.SecurityPermission" /> apropiado.</exception>
+        <exception cref="T:System.Security.SecurityException">El autor de la llamada no dispone del <see cref="T:System.Security.Permissions.SecurityPermission" /> adecuado</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">para las operaciones avanzadas en subprocesos. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" />.</permission>
         <altmember cref="T:System.Threading.ThreadState" />
         <related type="Article" href="~/docs/standard/threading/pausing-and-resuming-threads.md">Pausa e interrupción de subprocesos</related>
@@ -2740,7 +2749,7 @@ Importante   En el caso de código de confianza parcial, se pasa por alto <c>
  ]]></format>
         </remarks>
         <exception cref="T:System.Threading.ThreadStateException">El subproceso ha alcanzado un estado final, como <see cref="F:System.Threading.ThreadState.Aborted" />.</exception>
-        <exception cref="T:System.ArgumentException">El valor especificado para una operación de establecimiento no es un valor de <see cref="T:System.Threading.ThreadPriority" /> valido.</exception>
+        <exception cref="T:System.ArgumentException">El valor especificado para un operación set no es un valor <see cref="T:System.Threading.ThreadPriority" /> válido.</exception>
         <altmember cref="T:System.Threading.ThreadPriority" />
         <related type="Article" href="~/docs/standard/threading/scheduling-threads.md">Programación de subprocesos</related>
       </Docs>
@@ -2851,7 +2860,7 @@ Importante   En el caso de código de confianza parcial, se pasa por alto <c>
         </remarks>
         <exception cref="T:System.PlatformNotSupportedException">Solo .NET Core: este miembro no se admite.</exception>
         <exception cref="T:System.Threading.ThreadStateException">El subproceso no se ha iniciado, está inactivo o no está en estado suspendido.</exception>
-        <exception cref="T:System.Security.SecurityException">El llamador no tiene el permiso <see cref="T:System.Security.Permissions.SecurityPermission" /> apropiado.</exception>
+        <exception cref="T:System.Security.SecurityException">El autor de la llamada no dispone del <see cref="T:System.Security.Permissions.SecurityPermission" /> adecuado</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">para las operaciones avanzadas en subprocesos. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" /></permission>
         <related type="Article" href="~/docs/standard/threading/pausing-and-resuming-threads.md">Pausa e interrupción de subprocesos</related>
         <related type="Article" href="~/docs/standard/threading/managed-thread-states.md">Estados de subprocesos administrados</related>
@@ -2920,7 +2929,7 @@ Importante   En el caso de código de confianza parcial, se pasa por alto <c>
         </remarks>
         <exception cref="T:System.PlatformNotSupportedException">Solo .NET Core: este miembro no se admite en las plataformas macOS y Linux.</exception>
         <exception cref="T:System.ArgumentException">
-          <paramref name="state" /> no es un estado de tipo apartamento válido.</exception>
+          <paramref name="state" /> no es un estado del apartamento válido.</exception>
         <exception cref="T:System.Threading.ThreadStateException">Ya se inició el subproceso.</exception>
         <exception cref="T:System.InvalidOperationException">El estado de apartamento ya se inicializó.</exception>
       </Docs>
@@ -3445,7 +3454,7 @@ Importante   En el caso de código de confianza parcial, se pasa por alto <c>
         </remarks>
         <exception cref="T:System.PlatformNotSupportedException">Solo .NET Core: este miembro no se admite.</exception>
         <exception cref="T:System.Threading.ThreadStateException">No se ha iniciado el subproceso o está inactivo</exception>
-        <exception cref="T:System.Security.SecurityException">El llamador no tiene el permiso <see cref="T:System.Security.Permissions.SecurityPermission" /> apropiado.</exception>
+        <exception cref="T:System.Security.SecurityException">El autor de la llamada no dispone del <see cref="T:System.Security.Permissions.SecurityPermission" /> adecuado</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">para las operaciones avanzadas en subprocesos. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" />.</permission>
         <related type="Article" href="~/docs/standard/threading/pausing-and-resuming-threads.md">Pausa e interrupción de subprocesos</related>
         <related type="Article" href="~/docs/standard/threading/managed-thread-states.md">Estados de subprocesos administrados</related>
@@ -3768,7 +3777,7 @@ Importante   En el caso de código de confianza parcial, se pasa por alto <c>
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="state" /> no es un estado de tipo apartamento válido.</exception>
+          <paramref name="state" /> no es un estado del apartamento válido.</exception>
         <exception cref="T:System.Threading.ThreadStateException">Ya se inició el subproceso.</exception>
       </Docs>
     </Member>

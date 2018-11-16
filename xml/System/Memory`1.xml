@@ -1,11 +1,11 @@
 <Type Name="Memory&lt;T&gt;" FullName="System.Memory&lt;T&gt;">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="00be17c21bc4fa5326d034206ecb27336d158aee" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="acdfc981d37b8a9354e73ed0e9c1c4fc8e87d12e" />
+    <Meta Name="ms.sourcegitcommit" Value="d71cc71109ed3cbcf3406a10a3cd7ac7e30f5e0c" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39776825" />
+    <Meta Name="ms.lasthandoff" Value="11/10/2018" />
+    <Meta Name="ms.locfileid" Value="51525753" />
   </Metadata>
   <TypeSignature Language="C#" Value="public struct Memory&lt;T&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit Memory`1&lt;T&gt; extends System.ValueType" />
@@ -16,6 +16,9 @@
   <AssemblyInfo>
     <AssemblyName>System.Runtime</AssemblyName>
     <AssemblyVersion>4.2.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Memory</AssemblyName>
   </AssemblyInfo>
   <TypeParameters>
     <TypeParameter Name="T" />
@@ -30,9 +33,23 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <typeparam name="T">To be added.</typeparam>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <typeparam name="T">El tipo de elementos en el <see cref="T:System.Memory`1" />.</typeparam>
+    <summary>Representa una región de memoria contigua.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+Al igual que <xref:System.Span%601>, `Memory<T>` representa una región de memoria contigua. A diferencia de <xref:System.Span%601>, sin embargo, `Memory<T>` no es un [ref struct](~/docs/csharp/reference-semantics-with-value-types.md?view=netcore-2.1.md#ref-struct-type). Esto significa que `Memory<T>` puede colocarse en el montón administrado, mientras que <xref:System.Span%601> no. Como resultado, el `Memory<T>` estructura no tiene las mismas restricciones que una <xref:System.Span%601> instancia. En concreto:
+
+- Se puede usar como un campo en una clase.
+
+- Se puede usar a través de `await` y `yield` los límites.
+
+Además `Memory<T>`, puede usar <xref:System.ReadOnlyMemory%601?displayProperty=nameWithType> representan inmutable o memoria de sólo lectura.
+
+    ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -47,13 +64,28 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <Parameters>
         <Parameter Name="array" Type="T[]" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="array">Matriz desde la que se va a crear el objeto <see cref="T:System.Memory`1" />.</param>
+        <summary>Crea un nuevo objeto <see cref="T:System.Memory`1" /> a través de la totalidad de una matriz especificada.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+Si `array` es `null`, este constructor devuelve una <xref:System.Memory%601> objeto con un `default<T>` valor.
+
+      ]]></format>
+        </remarks>
+        <exception cref="T:System.ArrayTypeMismatchException">
+          <paramref name="T" /> es un tipo de referencia y <paramref name="array" /> no es una matriz de tipo <paramref name="T" />.
+        
+O bien
+
+La matriz es <see href="~/docs/csharp/programming-guide/concepts/covariance-contravariance/index.md">covariante.</see></exception>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -68,17 +100,32 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <Parameters>
         <Parameter Name="array" Type="T[]" />
         <Parameter Name="start" Type="System.Int32" />
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="start">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="array">Matriz de origen.</param>
+        <param name="start">Índice del primer elemento que se va a incluir en el nuevo elemento <see cref="T:System.Memory`1" />.</param>
+        <param name="length">Número de elementos que se van a incluir en el nuevo elemento <see cref="T:System.Memory`1" />.</param>
+        <summary>Crea un nuevo objeto <see cref="T:System.Memory`1" /> que incluye un número especificado de elementos de una matriz que empiezan en un índice especificado.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+Si `array` es `null`, este constructor devuelve una <xref:System.Memory%601> objeto con un `default<T>` valor.
+
+       ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <paramref name="array" /> es <see langword="null" />, pero <paramref name="start" /> o <paramref name="length" /> es distinto de cero.<p />
+O bien<p /><paramref name="start" /> está fuera de los límites de la matriz. <p />
+O bien<p /><paramref name="start" /> y <paramref name="length" /> superan el número de elementos de la matriz.</exception>
+        <exception cref="T:System.ArrayTypeMismatchException">
+          <paramref name="T" /> es un tipo de referencia y <paramref name="array" /> no es una matriz de tipo <paramref name="T" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="CopyTo">
@@ -93,6 +140,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -100,9 +150,16 @@
         <Parameter Name="destination" Type="System.Memory&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <param name="destination">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="destination">El destino.</param>
+        <summary>Copia el contenido de un objeto <see cref="T:System.Memory`1" /> en un objeto <see cref="T:System.Memory`1" /> de destino.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+Este método copia todo el contenido del elemento actual <xref:System.Memory%601> instancia a `destination` incluso si el contenido de la instancia actual y `destination` se superponen.
+
+         ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">La longitud de <paramref name="destination" /> es menor que la longitud de la instancia actual.</exception>
       </Docs>
     </Member>
     <Member MemberName="Empty">
@@ -117,12 +174,15 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Memory&lt;T&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Devuelve un objeto <see cref="T:System.Memory`1" /> vacío.</summary>
+        <value>Un objeto vacío.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -138,6 +198,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
@@ -145,10 +208,23 @@
         <Parameter Name="other" Type="System.Memory&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <param name="other">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="other">Objeto que se va a comparar con la instancia actual.</param>
+        <summary>Determina si el objeto <see cref="T:System.Memory`1" /> especificado es igual al objeto actual.</summary>
+        <returns>
+          <see langword="true" /> si la instancia actual y <paramref name="other" /> son iguales; de lo contrario, <see langword="false" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+Los dos objetos son iguales si:
+
+   - `other` es un <xref:System.Memory%601> o <xref:System.ReadOnlyMemory%601> objeto.
+   
+   - Ambos objetos apunte a la misma matriz y tienen la misma longitud.
+
+El `Equals(Memory<T>)` método realiza una prueba de igualdad de referencia; no compara los elementos de <xref:System.Memory%601> para igualdad.
+
+         ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Equals">
@@ -163,6 +239,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <Attributes>
         <Attribute FrameworkAlternate="netcore-2.1">
           <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
@@ -175,10 +254,17 @@
         <Parameter Name="obj" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="obj">Objeto que se va a comparar con la instancia actual.</param>
+        <summary>Determina si el objeto especificado es igual al objeto actual.</summary>
+        <returns>
+          <see langword="true" /> si la instancia actual y <paramref name="obj" /> son iguales; de lo contrario, <see langword="false" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+Dos <xref:System.Memory%601> objetos son iguales si ambos objetos apunte a la misma matriz y tienen la misma longitud. Tenga en cuenta que la prueba de igualdad no comprueba si el contenido es igual.
+   
+         ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetHashCode">
@@ -193,6 +279,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <Attributes>
         <Attribute FrameworkAlternate="netcore-2.1">
           <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
@@ -203,8 +292,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Devuelve el código hash de esta instancia.</summary>
+        <returns>Código hash de un entero de 32 bits con signo.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -220,13 +309,17 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Indica si la instancia actual está vacía.</summary>
+        <value>
+          <see langword="true" /> Si la instancia actual está vacía; en caso contrario, <see langword="false" />.</value>
+        <remarks>Un <see cref="T:System.Memory`1" /> objeto está vacío si su longitud es 0.</remarks>
       </Docs>
     </Member>
     <Member MemberName="Length">
@@ -241,12 +334,15 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Devuelve el número de elementos de la instancia actual.</summary>
+        <value>El número de elementos en la instancia actual.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -262,6 +358,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Memory&lt;T&gt;</ReturnType>
       </ReturnValue>
@@ -269,9 +368,9 @@
         <Parameter Name="segment" Type="System.ArraySegment&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <param name="segment">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="segment">Objeto que se va a convertir.</param>
+        <summary>Define una conversión implícita de un objeto <see cref="T:System.ArraySegment`1" /> en un objeto <see cref="T:System.Memory`1" />.</summary>
+        <returns>Objeto convertido <see cref="T:System.ArraySegment`1" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -287,6 +386,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.ReadOnlyMemory&lt;T&gt;</ReturnType>
       </ReturnValue>
@@ -294,9 +396,9 @@
         <Parameter Name="memory" Type="System.Memory&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <param name="memory">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="memory">Objeto que se va a convertir.</param>
+        <summary>Define una conversión implícita de un objeto <see cref="T:System.Memory`1" /> en un objeto <see cref="T:System.ReadOnlyMemory`1" />.</summary>
+        <returns>El objeto convertido.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -312,6 +414,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Memory&lt;T&gt;</ReturnType>
       </ReturnValue>
@@ -319,9 +424,9 @@
         <Parameter Name="array" Type="T[]" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="array">Matriz que se va a convertir.</param>
+        <summary>Define una conversión implícita de una matriz en un objeto <see cref="T:System.Memory`1" />.</summary>
+        <returns>El objeto convertido.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -337,14 +442,30 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Buffers.MemoryHandle</ReturnType>
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Crea un identificador para el objeto <see cref="T:System.Memory`1" />.</summary>
+        <returns>Controlador para el objeto <see cref="T:System.Memory`1" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+## Remarks
+
+## <a name="see-also"></a>Vea también
+
+El recolector de elementos no se moverá la memoria hasta que el valor devuelto <xref:System.Buffers.MemoryHandle> se desecha el objeto. Esto le permite recuperar y utilizar la dirección de la memoria.
+
+<xref:System.Type.IsPrimitive> 
+
+         ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">Una instancia con miembros no primitivos (que no pueden transferirse en bloque de bits) no puede anclarse.</exception>
       </Docs>
     </Member>
     <Member MemberName="Slice">
@@ -359,6 +480,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Memory&lt;T&gt;</ReturnType>
       </ReturnValue>
@@ -366,10 +490,12 @@
         <Parameter Name="start" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="start">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="start">Índice en el que va a comenzar el segmento.</param>
+        <summary>Forma un segmento fuera de la memoria actual que comienza en un índice especificado.</summary>
+        <returns>Un objeto que contiene todos los elementos de la instancia actual desde <paramref name="start" /> hasta el final de la instancia.</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentOutOfRangeExceptionException">
+          <paramref name="start" /> es menor que cero o mayor o igual a <see cref="P:System.Memory`1.Length" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="Slice">
@@ -384,6 +510,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Memory&lt;T&gt;</ReturnType>
       </ReturnValue>
@@ -392,11 +521,17 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="start">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="start">Índice en el que va a comenzar el segmento.</param>
+        <param name="length">Número de elementos que se va a incluir en el segmento.</param>
+        <summary>Forma un segmento fuera de la memoria actual a partir de un índice especificado durante una longitud determinada.</summary>
+        <returns>Un objeto que contiene <paramref name="length" /> elementos desde el inicio de instancia actual en <paramref name="start" />.</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentOutOfRangeExceptionException">
+          <paramref name="start" /> es menor que cero o mayor o igual a <see cref="P:System.Memory`1.Length" />.
+
+O bien
+
+<paramref name="length" /> es mayor que <see cref="P:System.Memory`1.Length" /> - <paramref name="start" /></exception>
       </Docs>
     </Member>
     <Member MemberName="Span">
@@ -411,12 +546,15 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Span&lt;T&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Devuelve un intervalo desde la instancia actual.</summary>
+        <value>Un intervalo que se crea a partir de la actual <see cref="T:System.Memory`1" /> objeto.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -432,14 +570,25 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>T[]</ReturnType>
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Copia el contenido de la memoria en una nueva matriz.</summary>
+        <returns>Una matriz que contiene los elementos de la memoria actual.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+Dado que una llamada al método < xref=System.Memory%601.ToArray%2A > realiza una asignación del montón, por lo general debe evitarse. Sin embargo, a veces es necesario aprovechar la funcionalidad que solo está disponible para las matrices.
+
+Cada llamada a la `ToArray` método devuelve una nueva matriz. 
+
+         ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -454,14 +603,23 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Devuelve la representación en forma de cadena de este objeto <see cref="T:System.Memory`1" />.</summary>
+        <returns>representación en forma de cadena de este objeto <see cref="T:System.Memory`1" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+Para un `Memory<Char>`, `ToString` método devuelve un <xref:System.String> que contiene los caracteres que apunta el <xref:System.Memory%601>. De lo contrario, devuelve un <xref:System.String> con el nombre del tipo y el número de elementos que el <xref:System.Memory%601> contiene.
+
+         ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TryCopyTo">
@@ -476,6 +634,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
@@ -484,9 +645,16 @@
       </Parameters>
       <Docs>
         <param name="destination">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Copia el contenido de la memoria en una instancia <see cref="T:System.Memory`1" /> de destino.</summary>
+        <returns>
+          <see langword="true" /> si la operación de copia se realiza correctamente; de lo contrario, <see langword="false" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+Este método copia todo el contenido del elemento actual <xref:System.Memory%601> instancia a `destination` incluso si el contenido de la instancia actual y `destination` se superponen.
+
+         ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

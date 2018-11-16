@@ -1,11 +1,11 @@
 <Type Name="MemoryMarshal" FullName="System.Runtime.InteropServices.MemoryMarshal">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="5a0d1a21d9569a50c48df42c8cd2be3042ccc554" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="c9bee59e8ded948e4d3f1729df63219d06920318" />
+    <Meta Name="ms.sourcegitcommit" Value="723b8a6d92667ba86fcda96190bad3b4a03283b3" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39966558" />
+    <Meta Name="ms.lasthandoff" Value="11/09/2018" />
+    <Meta Name="ms.locfileid" Value="51315206" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class MemoryMarshal" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit MemoryMarshal extends System.Object" />
@@ -23,7 +23,7 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Proporciona métodos para interoperar con <see cref="T:System.Memory`1" />, <see cref="T:System.ReadOnlyMemory`1" />, <see cref="T:System.Span`1" />, y <see cref="T:System.ReadOnlySpan`1" />.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -56,11 +56,22 @@
         <Parameter Name="span" Type="System.ReadOnlySpan&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <typeparam name="T">To be added.</typeparam>
-        <param name="span">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <typeparam name="T">El tipo de elementos en el intervalo de solo lectura.</typeparam>
+        <param name="span">El segmento de origen para convertir.</param>
+        <summary>Convierte un <see cref="T:System.ReadOnlySpan`1" /> de un tipo primitivo, <paramref name="T" />, a un <see langword="ReadOnlySpan&lt;Byte&gt;" />.</summary>
+        <returns>Un intervalo de solo lectura de tipo <see cref="T:System.Byte" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+`T` no puede contener punteros o referencias. `T` se comprueba en tiempo de ejecución con el fin de preservar la seguridad de tipos.  
+
+      ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <paramref name="T" /> contiene referencias o punteros.</exception>
+        <exception cref="T:System.OverflowException">La propiedad <see cref="P:System.ReadOnlySpan`1.Length" /> del nuevo <see cref="T:System.ReadOnlySpan`1" /> superaría <see cref="F:System.Int32.MaxValue" /></exception>
       </Docs>
     </Member>
     <Member MemberName="AsBytes&lt;T&gt;">
@@ -92,11 +103,22 @@
         <Parameter Name="span" Type="System.Span&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <typeparam name="T">To be added.</typeparam>
-        <param name="span">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <typeparam name="T">El tipo de elementos en el intervalo.</typeparam>
+        <param name="span">El segmento de origen para convertir.</param>
+        <summary>Convierte un <see cref="T:System.Span`1" /> de un tipo primitivo, <paramref name="T" />, a un <see langword="Span&lt;Byte&gt;" />.</summary>
+        <returns>Un intervalo de tipo <see cref="T:System.Byte" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+`T` no puede contener punteros o referencias. `T` se comprueba en tiempo de ejecución con el fin de preservar la seguridad de tipos.  
+
+       ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <paramref name="T" /> contiene referencias o punteros.</exception>
+        <exception cref="T:System.OverflowException">La propiedad <see cref="P:System.Span`1.Length" /> del nuevo <see cref="T:System.Span`1" /> superaría <see cref="F:System.Int32.MaxValue" /></exception>
       </Docs>
     </Member>
     <Member MemberName="AsMemory&lt;T&gt;">
@@ -122,11 +144,19 @@
         <Parameter Name="memory" Type="System.ReadOnlyMemory&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <typeparam name="T">To be added.</typeparam>
-        <param name="memory">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <typeparam name="T">El tipo de elementos en el búfer de memoria de sólo lectura.</typeparam>
+        <param name="memory">El búfer de memoria de solo lectura.</param>
+        <summary>Crea una instancia de <see cref="T:System.Memory`1" /> a partir de un <see cref="T:System.ReadOnlyMemory`1" />.</summary>
+        <returns>Un bloque de memoria que representa la misma memoria que <see cref="T:System.ReadOnlyMemory`1" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+Este método debe utilizarse con extrema precaución. <xref:System.ReadOnlyMemory%601> se utiliza para representar datos inmutables y otro que no está pensado para escribirse en memoria. <xref:System.Memory%601> las instancias creadas por este método no deben escribirse en. El propósito de este método es permitir que las variables de tipo <xref:System.Memory%601> , pero solo se utiliza para leer para almacenar un <xref:System.ReadOnlyMemory%601>. 
+
+       ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Cast&lt;TFrom,TTo&gt;">
@@ -165,12 +195,24 @@
         <Parameter Name="span" Type="System.ReadOnlySpan&lt;TFrom&gt;" />
       </Parameters>
       <Docs>
-        <typeparam name="TFrom">To be added.</typeparam>
-        <typeparam name="TTo">To be added.</typeparam>
-        <param name="span">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <typeparam name="TFrom">El tipo de intervalo de origen.</typeparam>
+        <typeparam name="TTo">El tipo de intervalo de destino.</typeparam>
+        <param name="span">El segmento de origen para convertir.</param>
+        <summary>Convierte un intervalo de solo lectura de un tipo primitivo a un intervalo de solo lectura de otro tipo primitivo.</summary>
+        <returns>El intervalo de solo lectura convertido.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+Ni `TFrom` ni `TTo` puede contener punteros o referencias. `TFrom` y `TTo` se comprueban en tiempo de ejecución con el fin de preservar la seguridad de tipos.  
+
+Este método solo se admite en plataformas que admiten el acceso de memoria no alineadas o al bloquear la memoria está alineada por otros medios.
+
+       ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <paramref name="TFrom" /> o <paramref name="TTo" /> contiene referencias o punteros.</exception>
       </Docs>
     </Member>
     <Member MemberName="Cast&lt;TFrom,TTo&gt;">
@@ -209,12 +251,26 @@
         <Parameter Name="span" Type="System.Span&lt;TFrom&gt;" />
       </Parameters>
       <Docs>
-        <typeparam name="TFrom">To be added.</typeparam>
-        <typeparam name="TTo">To be added.</typeparam>
-        <param name="span">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <typeparam name="TFrom">El tipo de intervalo de origen.</typeparam>
+        <typeparam name="TTo">El tipo de intervalo de destino.</typeparam>
+        <param name="span">El segmento de origen para convertir.</param>
+        <summary>Convierte un intervalo de un tipo primitivo a un intervalo de otro tipo primitivo.</summary>
+        <returns>El intervalo convertido.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+Ni `TFrom` ni `TTo` puede contener punteros o referencias. `TFrom` y `TTo` se comprueban en tiempo de ejecución con el fin de preservar la seguridad de tipos.  
+
+La conversión se produce en un contexto no comprobado. Si el intervalo de `TTo` es menor que el intervalo de `TFrom`, puede producirse una pérdida de datos. Por ejemplo, si `TFrom` es <xref:System.Int64>, uno de los `ReadOnlySpan<Int32>` valores es 0x100001111110F0F, y `TTo` es <xref:System.Int32>, el valor resultante es 11110F0F.
+
+Este método solo se admite en plataformas que admiten el acceso de memoria no alineadas o al bloquear la memoria está alineada por otros medios.
+
+       ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <paramref name="TFrom" /> o <paramref name="TTo" /> contiene referencias o punteros.</exception>
       </Docs>
     </Member>
     <Member MemberName="CreateFromPinnedArray&lt;T&gt;">
@@ -241,13 +297,24 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <typeparam name="T">To be added.</typeparam>
-        <param name="array">To be added.</param>
-        <param name="start">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <typeparam name="T">Tipo de matriz.</typeparam>
+        <param name="array">La matriz de origen previamente anclada.</param>
+        <param name="start">El índice de <paramref name="array" /> donde comienza el bloque de memoria.</param>
+        <param name="length">El número de elementos para incluir en el bloque de memoria.</param>
+        <summary>Crea un nuevo búfer de memoria sobre la parte de la matriz de destino anclada previamente que empieza en el índice <paramref name="start" /> y contiene <paramref name="length" /> elementos.</summary>
+        <returns>Un bloque de memoria sobre los elementos especificados de <paramref name="array" />. Si <paramref name="array" /> es <see langword="null" />, o si <paramref name="start" /> y <paramref name="length" /> son 0, el método devuelve una instancia <see cref="T:System.Memory`1" /> de <see cref="System.Memory`1.Length" /> cero.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+Ya se debe fijar la matriz antes de que se llama a este método y esa matriz no debe ser liberada mientras el <xref:System.Memory%601> búfer que devuelve todavía está en uso. Llamar a este método en una matriz desanclada podría provocar daños en la memoria.
+
+       ]]></format>
+        </remarks>
+        <exception cref="T:System.ArrayTypeMismatchException">
+          <paramref name="array" /> es covariante y el tipo de <paramref name="array" /> no es exactamente <paramref name="T[]" />.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">El <paramref name="start" /> o el índice final no está en el intervalo de 0 a <see cref="P:System.Array.Length" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="CreateReadOnlySpan&lt;T&gt;">
@@ -274,12 +341,23 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <typeparam name="T">To be added.</typeparam>
-        <param name="reference">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <typeparam name="T">El tipo de los elementos de datos.</typeparam>
+        <param name="reference">Una referencia a los datos.</param>
+        <param name="length">Número de elementos de <paramref name="T" /> que contiene <paramref name="reference" />.</param>
+        <summary>Crea un intervalo de solo lectura sobre una parte de un objeto administrado normal.</summary>
+        <returns>Un intervalo de solo lectura.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+Este método puede ser útil si parte de un objeto que representa una matriz fija. 
+
+> [!WARNING]
+> Este método debe utilizarse con precaución. Es peligroso porque el `length` argumento no está activado. Además, no se valida la duración del intervalo devuelto por motivos de seguridad por los lenguajes compatibles con el intervalo.
+
+       ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateSpan&lt;T&gt;">
@@ -306,12 +384,23 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <typeparam name="T">To be added.</typeparam>
-        <param name="reference">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <typeparam name="T">El tipo de los elementos de datos.</typeparam>
+        <param name="reference">Una referencia a los datos.</param>
+        <param name="length">Número de elementos de <paramref name="T" /> que contiene <paramref name="reference" />.</param>
+        <summary>Crea un nuevo intervalo sobre una parte de un objeto administrado normal.</summary>
+        <returns>Un intervalo.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+Este método puede ser útil si parte de un objeto que representa una matriz fija. 
+
+> [!WARNING]
+> Este método debe utilizarse con precaución. Es peligroso porque el `length` argumento no está activado. Además, no se valida la duración del intervalo devuelto por motivos de seguridad por los lenguajes compatibles con el intervalo.
+
+       ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetReference&lt;T&gt;">
@@ -336,11 +425,19 @@
         <Parameter Name="span" Type="System.ReadOnlySpan&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <typeparam name="T">To be added.</typeparam>
-        <param name="span">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <typeparam name="T">El tipo de elementos en el intervalo.</typeparam>
+        <param name="span">El intervalo de solo lectura desde el que se recupera la referencia.</param>
+        <summary>Devuelve una referencia al elemento del intervalo de solo lectura en el índice cero.</summary>
+        <returns>Una referencia al elemento en el índice 0.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+Si el intervalo de solo lectura está vacío, este método devuelve una referencia a la ubicación donde se hubieran almacenado el elemento en el índice 0. Este tipo de referencia puede o no ser `null`. La referencia devuelta puede usarse para anclar, pero nunca se debe desreferenciar.
+
+       ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetReference&lt;T&gt;">
@@ -365,11 +462,19 @@
         <Parameter Name="span" Type="System.Span&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <typeparam name="T">To be added.</typeparam>
-        <param name="span">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <typeparam name="T">El tipo de elementos en el intervalo.</typeparam>
+        <param name="span">El intervalo desde el que se recupera la referencia.</param>
+        <summary>Devuelve una referencia al elemento del intervalo en el índice 0.</summary>
+        <returns>Una referencia al elemento en el índice 0.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+Si el intervalo está vacío, este método devuelve una referencia a la ubicación donde se hubieran almacenado el elemento en el índice 0. Este tipo de referencia puede o no ser `null`. La referencia devuelta puede usarse para anclar, pero nunca se debe desreferenciar.
+
+       ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Read&lt;T&gt;">
@@ -401,11 +506,23 @@
         <Parameter Name="source" Type="System.ReadOnlySpan&lt;System.Byte&gt;" />
       </Parameters>
       <Docs>
-        <typeparam name="T">To be added.</typeparam>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <typeparam name="T">El tipo del elemento para recuperar desde el intervalo de solo lectura.</typeparam>
+        <param name="source">Un intervalo de solo lectura.</param>
+        <summary>Lee una estructura de tipo <param name="T" /> fuera de un intervalo de solo lectura de bytes.</summary>
+        <returns>La estructura recuperada del intervalo de solo lectura.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+`T` no puede contener punteros o referencias. ' Se comprueba en tiempo de ejecución con el fin de preservar la seguridad de tipos.  
+
+       ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <paramref name="T" /> contiene referencias o punteros.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <param name="source" /> es menor que <param name="T" /></exception>
       </Docs>
     </Member>
     <Member MemberName="ToEnumerable&lt;T&gt;">
@@ -431,11 +548,19 @@
         <Parameter Name="memory" Type="System.ReadOnlyMemory&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <typeparam name="T">To be added.</typeparam>
-        <param name="memory">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <typeparam name="T">El tipo de los elementos en el búfer de memoria de sólo lectura.</typeparam>
+        <param name="memory">Un búfer de memoria de solo lectura.</param>
+        <summary>Crea una vista <see cref="T:System.Collections.Generic.IEnumerable`1" /> del búfer de memoria de solo lectura especificado.</summary>
+        <returns>Una vista enumerable de <param name="memory" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+Este método permite a un búfer de memoria de sólo lectura que se usará en las API existentes que requieren un parámetro de tipo <xref:System.Collections.Generic.IEnumerable%601>. 
+
+       ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TryGetArray&lt;T&gt;">
@@ -462,11 +587,12 @@
         <Parameter Name="segment" Type="System.ArraySegment&lt;T&gt;" RefType="out" />
       </Parameters>
       <Docs>
-        <typeparam name="T">To be added.</typeparam>
-        <param name="memory">To be added.</param>
-        <param name="segment">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <typeparam name="T">El tipo de elementos en el búfer de memoria de sólo lectura.</typeparam>
+        <param name="memory">Un búfer de memoria de solo lectura.</param>
+        <param name="segment">Cuando se devuelve este método, contiene el segmento de matrices recuperado del búfer de memoria de solo lectura subyacente. Si se produce un error en el método, el método devuelve un segmento de matriz predeterminado.</param>
+        <summary>Intenta obtener un segmento de matriz desde el búfer de memoria subyacente. El valor devuelto indica si la operación se completó correctamente.</summary>
+        <returns>
+          <see langword="true" /> si la llamada al método se realiza correctamente; de lo contrario, <see langword="false" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -499,12 +625,13 @@
         <Parameter Name="manager" Type="TManager" RefType="out" />
       </Parameters>
       <Docs>
-        <typeparam name="T">To be added.</typeparam>
-        <typeparam name="TManager">To be added.</typeparam>
-        <param name="memory">To be added.</param>
-        <param name="manager">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <typeparam name="T">El tipo de los elementos en el búfer de memoria de sólo lectura.</typeparam>
+        <typeparam name="TManager">El tipo de la <see cref="T:System.Buffers.MemoryManager`1" /> para recuperar.</typeparam>
+        <param name="memory">El búfer de memoria de solo lectura para el que se va a obtener el administrador de memoria.</param>
+        <param name="manager">Cuando se devuelve el método, el administrador de <param name="memory" />.</param>
+        <summary>Intenta recuperar un <see cref="T:System.Buffers.MemoryManager`1" /> desde el búfer de memoria de solo lectura subyacente.</summary>
+        <returns>
+          <see langword="true" /> si el método recuperó el administrador de memoria; en caso contrario, <see langword="false" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -539,14 +666,14 @@
         <Parameter Name="length" Type="System.Int32" RefType="out" />
       </Parameters>
       <Docs>
-        <typeparam name="T">To be added.</typeparam>
-        <typeparam name="TManager">To be added.</typeparam>
-        <param name="memory">To be added.</param>
-        <param name="manager">To be added.</param>
-        <param name="start">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <typeparam name="T">El tipo de los elementos en el búfer de memoria de sólo lectura.</typeparam>
+        <typeparam name="TManager">El tipo de la <see cref="T:System.Buffers.MemoryManager`1" /> para recuperar.</typeparam>
+        <param name="memory">El búfer de memoria de solo lectura para el que se va a obtener el administrador de memoria.</param>
+        <param name="manager">Cuando lo devuelve el método, el administrador de <param name="memory" />.</param>
+        <param name="start">Cuando lo devuelve el método, el desplazamiento desde el principio de <param name="manager" /> que el <param name="memory" /> representa.</param>
+        <param name="length">Cuando lo devuelve el método, la longitud de <param name="manager" /> que el <param name="memory" /> representa.</param>
+        <summary>Intenta recuperar un <see cref="T:System.Buffers.MemoryManager`1" />, iniciar un índice y una longitud desde el búfer de memoria de solo lectura subyacente.</summary>
+        <returns>Es <see langword="true" /> si el método se ha ejecutado correctamente; en caso contrario, es <see langword="false" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -573,12 +700,13 @@
         <Parameter Name="length" Type="System.Int32" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="memory">To be added.</param>
-        <param name="text">To be added.</param>
-        <param name="start">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="memory">Memoria de solo lectura que contiene un bloque de caracteres.</param>
+        <param name="text">Cuando el método lo devuelve, la cadena contenida en el búfer de memoria.</param>
+        <param name="start">La ubicación de inicio en <param name="text" />.</param>
+        <param name="length">El número de caracteres en <param name="text" />.</param>
+        <summary>Intenta obtener la cadena subyacente de un <see langword="System.ReadOnlyMemory&lt;Char&gt;" />.</summary>
+        <returns>
+          <see langword="true" /> Si el método recupera correctamente la cadena subyacente; en caso contrario, <see langword="false" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -612,12 +740,23 @@
         <Parameter Name="value" Type="T" RefType="out" />
       </Parameters>
       <Docs>
-        <typeparam name="T">To be added.</typeparam>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <typeparam name="T">El tipo de la estructura para recuperar.</typeparam>
+        <param name="source">Un intervalo de bytes de solo lectura.</param>
+        <param name="value">Cuando el método lo devuelve, una instancia de <param name="T" />.</param>
+        <summary>Intenta leer una estructura de tipo <param name="T" /> desde un intervalo de bytes de solo lectura.</summary>
+        <returns>
+          <see langword="true" /> si el método recupera correctamente una instancia de la estructura; en caso contrario, <see langword="false" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+`T` no puede contener punteros o referencias. ' Se comprueba en tiempo de ejecución con el fin de preservar la seguridad de tipos.  
+
+       ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <paramref name="T" /> contiene referencias o punteros.</exception>
       </Docs>
     </Member>
     <Member MemberName="TryWrite&lt;T&gt;">
@@ -650,12 +789,23 @@
         <Parameter Name="value" Type="T" RefType="ref" />
       </Parameters>
       <Docs>
-        <typeparam name="T">To be added.</typeparam>
-        <param name="destination">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <typeparam name="T">El tipo de la estructura.</typeparam>
+        <param name="destination">El intervalo de bytes que contiene la estructura.</param>
+        <param name="value">La estructura que se escribirá en el intervalo.</param>
+        <summary>Intenta escribir una estructura de tipo <param name="T" /> en un intervalo de bytes.</summary>
+        <returns>
+          <see langword="true" /> si la operación se realiza correctamente; de lo contrario, <see langword="false" />. El método devuelve <see langword="false" /> si el intervalo es demasiado pequeño para contener <param name="T" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+`T` no puede contener punteros o referencias. ' Se comprueba en tiempo de ejecución con el fin de preservar la seguridad de tipos.  
+
+       ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <paramref name="TFrom" /> o <paramref name="TTo" /> contiene referencias o punteros.</exception>
       </Docs>
     </Member>
     <Member MemberName="Write&lt;T&gt;">
@@ -688,11 +838,23 @@
         <Parameter Name="value" Type="T" RefType="ref" />
       </Parameters>
       <Docs>
-        <typeparam name="T">To be added.</typeparam>
-        <param name="destination">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <typeparam name="T">El tipo de la estructura.</typeparam>
+        <param name="destination">El intervalo de bytes que contiene la estructura.</param>
+        <param name="value">La estructura que se escribirá en el intervalo.</param>
+        <summary>Escribe una estructura de tipo <param name="T" /> en un intervalo de bytes.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+`T` no puede contener punteros o referencias. ' Se comprueba en tiempo de ejecución con el fin de preservar la seguridad de tipos.  
+
+       ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <paramref name="T" /> contiene referencias o punteros.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <paramref name="destination" /> es demasiado pequeño para contener <paramref name="value" />.</exception>
       </Docs>
     </Member>
   </Members>
