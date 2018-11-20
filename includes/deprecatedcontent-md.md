@@ -1,1 +1,1 @@
-En esta documentación se describen los tipos y espacios de nombres que están obsoletos. Para obtener más información, vea [Tipos en desuso en Windows Workflow Foundation 4.5](http://aka.ms/wfdeprecatedtypes).
+En esta documentación se describen los tipos y espacios de nombres que están obsoletos. Para obtener más información, vea [Tipos en desuso en Windows Workflow Foundation 4.5](https://aka.ms/wfdeprecatedtypes).
