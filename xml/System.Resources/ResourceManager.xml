@@ -1,11 +1,11 @@
 <Type Name="ResourceManager" FullName="System.Resources.ResourceManager">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="fb79a80752ee9d1cf7dfab2c8cf824a1b04335f5" />
-    <Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" />
+    <Meta Name="ms.openlocfilehash" Value="a0604beca350dee3c9ad9f1eb2d9f351e0be0b67" />
+    <Meta Name="ms.sourcegitcommit" Value="16d2d159872fd213cae4b8f371d7ae9c8b027c89" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="10/04/2018" />
-    <Meta Name="ms.locfileid" Value="48711306" />
+    <Meta Name="ms.lasthandoff" Value="11/17/2018" />
+    <Meta Name="ms.locfileid" Value="51907602" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class ResourceManager" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit ResourceManager extends System.Object" />
@@ -89,7 +89,7 @@
 ### <a name="creating-resources"></a>Creación de recursos  
  Al desarrollar una aplicación basada en recursos, almacenar información de recursos en archivos de texto (archivos que tienen una extensión .txt o .restext) o archivos XML (archivos que tienen la extensión .resx). A continuación, compila el texto o archivos XML con el [generador de archivos de recursos (Resgen.exe)](~/docs/framework/tools/resgen-exe-resource-file-generator.md) para crear un archivo .resources binario. A continuación, puede incrustar el archivo .resources resultante en un archivo ejecutable o biblioteca mediante una opción del compilador, como `/resources` para los compiladores de C# y Visual Basic, o bien puede insertarlo en un ensamblado satélite mediante el. Si incluye un archivo .resx en el proyecto de Visual Studio, Visual Studio controla la compilación y la incrustación de forma predeterminada y los recursos localizados automáticamente como parte del proceso de compilación.  
   
- Idealmente, debe crear los recursos para cada idioma de la aplicación es compatible con, o al menos para un subconjunto significativo de cada idioma. Los nombres de archivo .resources binario siguen la convención de nomenclatura *basename*.* cultureName*.resources, donde *basename* es el nombre de la aplicación o el nombre de una clase, según el nivel de detalle que desee. El <xref:System.Globalization.CultureInfo.Name%2A?displayProperty=nameWithType> propiedad se utiliza para determinar *cultureName*. Un recurso para la referencia cultural predeterminada de la aplicación debe denominarse *basename*Resources.  
+ Idealmente, debe crear los recursos para cada idioma de la aplicación es compatible con, o al menos para un subconjunto significativo de cada idioma. Los nombres de archivo .resources binario siguen la convención de nomenclatura *basename*. *cultureName*.resources, donde *basename* es el nombre de la aplicación o el nombre de una clase, según el nivel de detalle que desee. El <xref:System.Globalization.CultureInfo.Name%2A?displayProperty=nameWithType> propiedad se utiliza para determinar *cultureName*. Un recurso para la referencia cultural predeterminada de la aplicación debe denominarse *basename*Resources.  
   
  Por ejemplo, supongamos que un ensamblado tiene varios recursos en un archivo de recursos que tiene el nombre base MyResources. Estos archivos de recursos deberían tener nombres como MyResources.ja JP.resources la referencia cultural japonés (Japón), MyResources.de.resources para la referencia cultural de alemán, MyResources.zh-CHS.resources la referencia cultural chino simplificado, y MyResources.fr-BE.resources para la referencia cultural de francés (Bélgica). El archivo de recursos predeterminado debe ser denominado. Normalmente, los archivos de recursos específicos de referencias culturales se empaquetan en ensamblados satélite para cada referencia cultural. El archivo de recursos predeterminado se debe incrustar en el ensamblado principal de la aplicación.  
   
@@ -207,7 +207,7 @@ al /embed:Greetings.ru-RU.resources /culture:ru-RU /out:ru-RU\Example.resources.
   
  El ejemplo requiere los archivos de recursos basado en texto aparece en la tabla siguiente. Cada uno tiene un recurso de cadena único llamado `DateStart`.  
   
-|Referencia cultural|Nombre del archivo|Nombre del recurso|Valor del recurso|  
+|culture|Nombre del archivo|Nombre del recurso|Valor del recurso|  
 |-------------|---------------|-------------------|--------------------|  
 |en-US|DateStrings.txt|`DateStart`|Hoy es|  
 |fr-FR|DateStrings.fr-FR.txt|`DateStart`|Aujourd'hui, le c'est|  
@@ -269,20 +269,20 @@ al /out:ru-RU\Showdate.resources.dll /culture:ru-RU /embed:DateStrings.ru-RU.res
  Para los archivos ejecutables que se implementan y ejecutan desde un sitio Web (archivos .exe HREF), el <xref:System.Resources.ResourceManager> objeto puede sondear los ensamblados satélite a través de la web, que puede afectar negativamente al rendimiento de la aplicación. Para eliminar el problema de rendimiento, puede limitar este sondeo de los ensamblados satélite que haya implementado con la aplicación. Para ello, se crea un `<satelliteassemblies>` nodo en el archivo de configuración de la aplicación para especificar que ha implementado un conjunto de referencias culturales específicas para la aplicación y que la <xref:System.Resources.ResourceManager> no debe intentar que el objeto de sondeo para cualquier referencia cultural que no aparece en ese nodo.  
   
 > [!NOTE]
->  La alternativa preferida a la creación de un `<satelliteassemblies>` nodo consiste en usar el [del manifiesto de implementación ClickOnce](http://msdn.microsoft.com/library/8457e615-e3b6-4990-8dcf-11bc590e4e9b) característica.  
+>  La alternativa preferida a la creación de un `<satelliteassemblies>` nodo consiste en usar el [del manifiesto de implementación ClickOnce](https://msdn.microsoft.com/library/8457e615-e3b6-4990-8dcf-11bc590e4e9b) característica.  
   
  En el archivo de configuración de la aplicación, cree una sección similar al siguiente:  
   
 ```  
 <?xml version ="1.0"?>  
 <configuration>  
-    <satelliteassemblies>  
-        <assembly name="MainAssemblyName, Version=versionNumber, Culture=neutral, PublicKeyToken=null|yourPublicKeyToken">  
-            <culture>cultureName1</culture>  
-            <culture>cultureName2</culture>  
-            <culture>cultureName3</culture>  
-        </assembly>  
-    </satelliteassemblies>  
+    <satelliteassemblies>  
+        <assembly name="MainAssemblyName, Version=versionNumber, Culture=neutral, PublicKeyToken=null|yourPublicKeyToken">  
+            <culture>cultureName1</culture>  
+            <culture>cultureName2</culture>  
+            <culture>cultureName3</culture>  
+        </assembly>  
+    </satelliteassemblies>  
 </configuration>  
 ```  
   
@@ -306,7 +306,7 @@ al /out:ru-RU\Showdate.resources.dll /culture:ru-RU /embed:DateStrings.ru-RU.res
 ## <a name="includewin8appnamelongincludeswin8-appname-long-mdmd-apps"></a>Aplicaciones de [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)]  
   
 > [!IMPORTANT]
->  Aunque el <xref:System.Resources.ResourceManager> clase es compatible en [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] las aplicaciones, no se recomienda su uso. Utilice esta clase solo cuando se desarrollan [!INCLUDE[net_portable](~/includes/net-portable-md.md)] proyectos que se pueden usar con [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones. Para recuperar recursos desde [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones, use el [Windows.ApplicationModel.Resources.ResourceLoader](http://go.microsoft.com/fwlink/p/?LinkId=238182) clase en su lugar.  
+>  Aunque el <xref:System.Resources.ResourceManager> clase es compatible en [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] las aplicaciones, no se recomienda su uso. Utilice esta clase solo cuando se desarrollan [!INCLUDE[net_portable](~/includes/net-portable-md.md)] proyectos que se pueden usar con [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones. Para recuperar recursos desde [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones, use el [Windows.ApplicationModel.Resources.ResourceLoader](https://go.microsoft.com/fwlink/p/?LinkId=238182) clase en su lugar.  
   
  Para [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones, la <xref:System.Resources.ResourceManager> clase recupera los recursos de paquete (PRI) de índice archivos de recursos. Un único archivo PRI (el archivo PRI del paquete de aplicación) contiene los recursos de la referencia cultural predeterminada y cualquier localizados de las referencias culturales. Use la utilidad MakePRI para crear un archivo PRI desde uno o varios archivos de recursos que están en formato de recursos (.resw) XML. Para obtener recursos que se incluyen en un proyecto de Visual Studio, Visual Studio controla el proceso de crear y empaquetar el archivo PRI automáticamente. A continuación, puede usar .NET Framework <xref:System.Resources.ResourceManager> clase para tener acceso a los recursos de la biblioteca o de la aplicación.  
   
@@ -384,7 +384,7 @@ al /out:ru-RU\Showdate.resources.dll /culture:ru-RU /embed:DateStrings.ru-RU.res
     <altmember cref="T:System.Globalization.CultureInfo" />
     <altmember cref="P:System.Globalization.CultureInfo.CurrentUICulture" />
     <altmember cref="T:System.Resources.SatelliteContractVersionAttribute" />
-    <related type="Article" href="http://msdn.microsoft.com/library/8ad495d4-2941-40cf-bf64-e82e85825890">Recursos de aplicaciones</related>
+    <related type="Article" href="https://msdn.microsoft.com/library/8ad495d4-2941-40cf-bf64-e82e85825890">Recursos de aplicaciones</related>
   </Docs>
   <Members>
     <MemberGroup MemberName=".ctor">
@@ -494,7 +494,7 @@ al /out:ru-RU\Showdate.resources.dll /culture:ru-RU /embed:DateStrings.ru-RU.res
 ## <a name="includewin8appnamelongincludeswin8-appname-long-mdmd-apps"></a>Aplicaciones de [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)]  
   
 > [!IMPORTANT]
->  Aunque el <xref:System.Resources.ResourceManager> clase es compatible en [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] las aplicaciones, no se recomienda su uso. Utilice esta clase solo cuando se desarrollan [!INCLUDE[net_portable](~/includes/net-portable-md.md)] proyectos que se pueden usar con [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones. Para recuperar recursos desde [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones, use el [Windows.ApplicationModel.Resources.ResourceLoader](http://go.microsoft.com/fwlink/p/?LinkId=238182) clase en su lugar.  
+>  Aunque el <xref:System.Resources.ResourceManager> clase es compatible en [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] las aplicaciones, no se recomienda su uso. Utilice esta clase solo cuando se desarrollan [!INCLUDE[net_portable](~/includes/net-portable-md.md)] proyectos que se pueden usar con [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones. Para recuperar recursos desde [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones, use el [Windows.ApplicationModel.Resources.ResourceLoader](https://go.microsoft.com/fwlink/p/?LinkId=238182) clase en su lugar.  
   
  En [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones, <xref:System.Resources.ResourceManager> usa el `resourceSource` parámetro para deducir el ensamblado, el nombre base y el espacio de nombres donde los elementos del recurso pueden ubicarse en el archivo de recursos (PRI) de índice del paquete de la aplicación. Por ejemplo, dado un tipo denominado MyCompany.MyProduct.MyType que se define en `MyAssembly`, el Administrador de recursos es para un recurso del conjunto de identificador que se denomine MyAssembly y busca un ámbito MyCompany.MyProduct.MyType dentro de ese conjunto de recursos. Busca en el Administrador de recursos para los elementos de recursos en el contexto predeterminado (referencia cultural actual, la configuración de contraste alto actual etc.) dentro de este ámbito.  
   
@@ -505,7 +505,7 @@ al /out:ru-RU\Showdate.resources.dll /culture:ru-RU /embed:DateStrings.ru-RU.res
   
  El ejemplo requiere tres archivos de recursos basado en texto, como se muestra en la tabla siguiente. Cada archivo incluye recursos de cadena denominados `Morning`, `Afternoon`, y `Evening`.  
   
-|Referencia cultural|Nombre del archivo|Nombre del recurso|Valor del recurso|  
+|culture|Nombre del archivo|Nombre del recurso|Valor del recurso|  
 |-------------|---------------|-------------------|--------------------|  
 |en-US|GreetingResources.txt|`Morning`|Buenos días|  
 |en-US|GreetingResources.txt|`Afternoon`|Buenas tardes|  
@@ -545,7 +545,7 @@ al /out:ru-RU\Greet.resources.dll /culture:ru-RU /embed: GreetingResources.ru-RU
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">El valor del parámetro <paramref name="resourceSource" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El parámetro <paramref name="resourceSource" /> es <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -582,7 +582,7 @@ al /out:ru-RU\Greet.resources.dll /culture:ru-RU /embed: GreetingResources.ru-RU
         <Parameter Name="assembly" Type="System.Reflection.Assembly" />
       </Parameters>
       <Docs>
-        <param name="baseName">El nombre de raíz del archivo de recursos sin su extensión pero incluyendo cualquier nombre de espacio de nombres completo. Por ejemplo, el nombre de raíz para el archivo de recursos denominado MyApplication.MyResource.en-US.resources" es "MyApplication.MyResource.</param>
+        <param name="baseName">Nombre de raíz del archivo de recursos sin su extensión pero con cualquier nombre de espacio de nombres completo. Por ejemplo, el nombre de raíz para el archivo de recursos denominado "MyApplication.MyResource.en-US.resources" es "MyApplication.MyResource".</param>
         <param name="assembly">Ensamblado principal de los recursos.</param>
         <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Resources.ResourceManager" /> que busca los recursos que contienen los archivos con el nombre raíz especificado, en el objeto dado.</summary>
         <remarks>
@@ -601,7 +601,7 @@ al /out:ru-RU\Greet.resources.dll /culture:ru-RU /embed: GreetingResources.ru-RU
 ## <a name="includewin8appnamelongincludeswin8-appname-long-mdmd-apps"></a>Aplicaciones de [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)]  
   
 > [!IMPORTANT]
->  Aunque el <xref:System.Resources.ResourceManager> clase es compatible en [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] las aplicaciones, no se recomienda su uso. Utilice esta clase solo cuando se desarrollan [!INCLUDE[net_portable](~/includes/net-portable-md.md)] proyectos que se pueden usar con [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones. Para recuperar recursos desde [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones, use el [Windows.ApplicationModel.Resources.ResourceLoader](http://go.microsoft.com/fwlink/p/?LinkId=238182) clase en su lugar.  
+>  Aunque el <xref:System.Resources.ResourceManager> clase es compatible en [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] las aplicaciones, no se recomienda su uso. Utilice esta clase solo cuando se desarrollan [!INCLUDE[net_portable](~/includes/net-portable-md.md)] proyectos que se pueden usar con [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones. Para recuperar recursos desde [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones, use el [Windows.ApplicationModel.Resources.ResourceLoader](https://go.microsoft.com/fwlink/p/?LinkId=238182) clase en su lugar.  
   
  En [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] apps, el Administrador de recursos usa el nombre sencillo de la `assembly` establecido para buscar un recurso coincidente en el archivo de recursos (PRI) de índice del paquete de la aplicación. El `baseName` parámetro se usa para buscar un elemento de recurso en el conjunto de recursos. Por ejemplo, el nombre de raíz para PortableLibrary1.Resource1.de-DE.resources es PortableLibrary1.Resource1.  
   
@@ -641,7 +641,7 @@ csc Example.cs /resource:ExampleResources.resources
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">El valor del parámetro <paramref name="baseName" /> o <paramref name="assembly" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El parámetro <paramref name="baseName" /> o <paramref name="assembly" /> es <see langword="null" />.</exception>
         <block subset="none" type="overrides">
           <para>Este constructor utiliza proporcionado por el sistema <see cref="T:System.Resources.ResourceSet" /> implementación. Para usar un formato de archivo de recursos personalizado, debe derivar de la <see cref="T:System.Resources.ResourceSet" /> clase, invalide el <see cref="M:System.Resources.ResourceSet.GetDefaultReader" /> y <see cref="M:System.Resources.ResourceSet.GetDefaultWriter" /> métodos y pase que escriba para la <see cref="M:System.Resources.ResourceManager.#ctor(System.String,System.Reflection.Assembly,System.Type)" /> constructor. Utiliza una <see cref="T:System.Resources.ResourceSet" /> puede ser útil para controlar recurso de la directiva de caché o que admiten el formato de archivo de recursos, pero generalmente no es necesario.</para>
         </block>
@@ -681,9 +681,9 @@ csc Example.cs /resource:ExampleResources.resources
         <Parameter Name="usingResourceSet" Type="System.Type" />
       </Parameters>
       <Docs>
-        <param name="baseName">El nombre de raíz del archivo de recursos sin su extensión pero incluyendo cualquier nombre de espacio de nombres completo. Por ejemplo, el nombre de raíz para el archivo de recursos denominado MyApplication.MyResource.en-US.resources" es "MyApplication.MyResource.</param>
+        <param name="baseName">Nombre de raíz del archivo de recursos sin su extensión pero con cualquier nombre de espacio de nombres completo. Por ejemplo, el nombre de raíz para el archivo de recursos denominado "MyApplication.MyResource.en-US.resources" es "MyApplication.MyResource".</param>
         <param name="assembly">Ensamblado principal de los recursos.</param>
-        <param name="usingResourceSet">Tipo del objeto <see cref="T:System.Resources.ResourceSet" /> personalizado que se va a usar. Si es <see langword="null" />, se utiliza el objeto predeterminado <see cref="T:System.Resources.ResourceSet" /> en tiempo de ejecución.</param>
+        <param name="usingResourceSet">Tipo del objeto <see cref="T:System.Resources.ResourceSet" /> personalizado que se va a usar. Si es <see langword="null" />, se usa el objeto predeterminado <see cref="T:System.Resources.ResourceSet" /> en tiempo de ejecución.</param>
         <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Resources.ResourceManager" /> que usa un <see cref="T:System.Resources.ResourceSet" /> especificado para buscar recursos que contenga archivos con el nombre de raíz especificado en el ensamblado determinado.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -703,7 +703,7 @@ csc Example.cs /resource:ExampleResources.resources
         </remarks>
         <exception cref="T:System.ArgumentException">
           <paramref name="usingResourceset" /> no se deriva de <see cref="T:System.Resources.ResourceSet" />.</exception>
-        <exception cref="T:System.ArgumentNullException">El valor del parámetro <paramref name="baseName" /> o <paramref name="assembly" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El parámetro <paramref name="baseName" /> o <paramref name="assembly" /> es <see langword="null" />.</exception>
         <block subset="none" type="usage">
           <para>Este constructor permite especificar un <see cref="T:System.Resources.ResourceSet" /> implementación. Si no desea que un determinado <see cref="T:System.Resources.ResourceSet" /> implementación pero desea utilizar un formato de archivo de recursos personalizado, debe derivar de la <see cref="T:System.Resources.ResourceSet" /> clase, invalide el <see cref="M:System.Resources.ResourceSet.GetDefaultReader" /> y <see cref="M:System.Resources.ResourceSet.GetDefaultWriter" /> métodos y que escriba pase a este constructor.</para>
         </block>
@@ -833,7 +833,7 @@ csc Example.cs /resource:ExampleResources.resources
       <Docs>
         <param name="baseName">Nombre raíz de los recursos. Por ejemplo, el nombre raíz del archivo de recursos denominado "MyResource.en-US.resources" es "MyResource".</param>
         <param name="resourceDir">Nombre del directorio donde se van a buscar los recursos. <c>resourceDir</c> puede ser una ruta de acceso absoluta o una ruta de acceso relativa del directorio de la aplicación.</param>
-        <param name="usingResourceSet">Tipo del objeto <see cref="T:System.Resources.ResourceSet" /> personalizado que se va a usar. Si es <see langword="null" />, se utiliza el objeto predeterminado <see cref="T:System.Resources.ResourceSet" /> en tiempo de ejecución.</param>
+        <param name="usingResourceSet">Tipo del objeto <see cref="T:System.Resources.ResourceSet" /> personalizado que se va a usar. Si es <see langword="null" />, se usa el objeto predeterminado <see cref="T:System.Resources.ResourceSet" /> en tiempo de ejecución.</param>
         <summary>Devuelve un objeto <see cref="T:System.Resources.ResourceManager" /> que busca un directorio específico en lugar de en el manifiesto del ensamblado para recursos.</summary>
         <returns>Una nueva instancia de un administrador de recursos que busca en el directorio especificado en lugar de un manifiesto del ensamblado para los recursos.</returns>
         <remarks>
@@ -849,7 +849,7 @@ csc Example.cs /resource:ExampleResources.resources
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">El valor del parámetro <paramref name="baseName" /> o <paramref name="resourceDir" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El parámetro <paramref name="baseName" /> o <paramref name="resourceDir" /> es <see langword="null" />.</exception>
         <permission cref="T:System.Security.Permissions.ReflectionPermission">Cuando se invoca en tiempo de ejecución a través de mecanismos como <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumeración asociada: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
@@ -1035,7 +1035,7 @@ GetObject.exe
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">El valor del parámetro <paramref name="name" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El parámetro <paramref name="name" /> es <see langword="null" />.</exception>
         <exception cref="T:System.Resources.MissingManifestResourceException">No se han encontrado conjuntos de recursos localizados que se puedan usar y no hay recursos para la referencia cultural predeterminada. Para obtener información sobre cómo administrar esta excepción, vea la sección "Administrar las excepciones MissingManifestResourceException y MissingSatelliteAssemblyException" en el tema de la clase <see cref="T:System.Resources.ResourceManager" />.</exception>
         <exception cref="T:System.Resources.MissingSatelliteAssemblyException">Los recursos de la referencia cultural predeterminada residen en un ensamblado satélite que no se encuentra. Para obtener información sobre cómo administrar esta excepción, vea la sección "Administrar las excepciones MissingManifestResourceException y MissingSatelliteAssemblyException" en el tema de la clase <see cref="T:System.Resources.ResourceManager" />.</exception>
         <permission cref="T:System.Security.Permissions.ReflectionPermission">Cuando se invoca en tiempo de ejecución a través de mecanismos como <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumeración asociada: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
@@ -1078,7 +1078,7 @@ GetObject.exe
         <param name="name">Nombre del recurso que se va a obtener.</param>
         <param name="culture">Referencia cultural a la que se va a adaptar el recurso. Si el recurso no se adapta para esta referencia cultural, el administrador de recursos usa reglas de reserva para buscar un recurso adecuado.  
   
-Si este valor es <see langword="null" />, el objeto <see cref="T:System.Globalization.CultureInfo" /> se obtiene mediante la propiedad <see cref="P:System.Globalization.CultureInfo.CurrentUICulture" /> de la referencia cultural.</param>
+Si este valor es <see langword="null" />, el objeto <see cref="T:System.Globalization.CultureInfo" /> se obtiene mediante la propiedad <see cref="P:System.Globalization.CultureInfo.CurrentUICulture" />.</param>
         <summary>Obtiene el valor del recurso especificado de cadena no adaptado a la referencia cultural especificada.</summary>
         <returns>Valor del recurso, adaptado a la referencia cultural especificada. Si existe un conjunto adecuado de recursos pero <paramref name="name" /> no se encuentra, el método devuelve <see langword="null" />.</returns>
         <remarks>
@@ -1144,7 +1144,7 @@ ShowNumbers.exe
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">El valor del parámetro <paramref name="name" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El parámetro <paramref name="name" /> es <see langword="null" />.</exception>
         <exception cref="T:System.Resources.MissingManifestResourceException">No se han encontrado conjuntos de recursos que se puedan utilizar y no hay recursos de la referencia cultural predeterminada. Para obtener información sobre cómo administrar esta excepción, vea la sección "Administrar las excepciones MissingManifestResourceException y MissingSatelliteAssemblyException" en el tema de la clase <see cref="T:System.Resources.ResourceManager" />.</exception>
         <exception cref="T:System.Resources.MissingSatelliteAssemblyException">Los recursos de la referencia cultural predeterminada residen en un ensamblado satélite que no se encuentra. Para obtener información sobre cómo administrar esta excepción, vea la sección "Administrar las excepciones MissingManifestResourceException y MissingSatelliteAssemblyException" en el tema de la clase <see cref="T:System.Resources.ResourceManager" />.</exception>
         <permission cref="T:System.Security.Permissions.ReflectionPermission">Cuando se invoca en tiempo de ejecución a través de mecanismos como <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumeración asociada: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
@@ -1187,7 +1187,7 @@ ShowNumbers.exe
       <Docs>
         <param name="culture">Objeto de referencia cultural para la que se va a construir el nombre del archivo de recursos.</param>
         <summary>Genera el nombre del archivo de recursos para el objeto <see cref="T:System.Globalization.CultureInfo" /> especificado.</summary>
-        <returns>Nombre que se puede utilizar para un archivo de recursos del objeto <see cref="T:System.Globalization.CultureInfo" /> especificado.</returns>
+        <returns>Nombre que se puede usar para un archivo de recursos del objeto <see cref="T:System.Globalization.CultureInfo" /> especificado.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1244,7 +1244,8 @@ ShowNumbers.exe
       </Parameters>
       <Docs>
         <param name="culture">Referencia cultural cuyos recursos se van a recuperar.</param>
-        <param name="createIfNotExists">Es <see langword="true" /> para cargar el conjunto de recursos, si aún no se han cargado; de lo contrario, es <see langword="false" />.</param>
+        <param name="createIfNotExists">
+          <see langword="true" /> para cargar el conjunto de recursos, si aún no se cargaron; de lo contrario, <see langword="false" />.</param>
         <param name="tryParents">
           <see langword="true" /> para usar la reserva de recursos para cargar un recurso adecuado si el conjunto de recursos no se puede encontrar; <see langword="false" /> para omitir el proceso de reserva de recursos.</param>
         <summary>Recupera el conjunto de recursos para una referencia cultural determinada.</summary>
@@ -1318,7 +1319,7 @@ al /out:fr-FR\ShowNumbers.resources.dll /culture:fr-FR /embed:NumberResources.fr
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">El valor del parámetro <paramref name="culture" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El parámetro <paramref name="culture" /> es <see langword="null" />.</exception>
         <exception cref="T:System.Resources.MissingManifestResourceException">
           <paramref name="tryParents" /> es <see langword="true" /> si no se han encontrado conjuntos de recursos que se puedan usar y no hay recursos de la referencia cultural predeterminada.</exception>
         <permission cref="T:System.Security.Permissions.ReflectionPermission">Cuando se invoca en tiempo de ejecución a través de mecanismos como <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumeración asociada: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
@@ -1374,8 +1375,7 @@ al /out:fr-FR\ShowNumbers.resources.dll /culture:fr-FR /embed:NumberResources.fr
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">El objeto <see cref="T:System.Version" /> encontrado en el parámetro <paramref name="a" /> del ensamblado no es válido.</exception>
-        <exception cref="T:System.ArgumentNullException">
-          <paramref name="a" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="a" /> es <see langword="null" />.</exception>
         <permission cref="T:System.Security.Permissions.ReflectionPermission">Cuando se invoca en tiempo de ejecución a través de mecanismos como <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumeración asociada: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
         <altmember cref="T:System.Resources.SatelliteContractVersionAttribute" />
       </Docs>
@@ -1470,8 +1470,7 @@ csc GetStream.cs /resource:AppResources.resources
  ]]></format>
         </remarks>
         <exception cref="T:System.InvalidOperationException">El valor del recurso especificado no es un objeto <see cref="T:System.IO.MemoryStream" />.</exception>
-        <exception cref="T:System.ArgumentNullException">
-          <paramref name="name" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="name" /> es <see langword="null" />.</exception>
         <exception cref="T:System.Resources.MissingManifestResourceException">No se han encontrado conjuntos de recursos que se puedan utilizar y no hay recursos predeterminados. Para obtener información sobre cómo administrar esta excepción, vea la sección "Administrar las excepciones MissingManifestResourceException y MissingSatelliteAssemblyException" en el tema de la clase <see cref="T:System.Resources.ResourceManager" />.</exception>
         <exception cref="T:System.Resources.MissingSatelliteAssemblyException">Los recursos de la referencia cultural predeterminada residen en un ensamblado satélite que no se encuentra. Para obtener información sobre cómo administrar esta excepción, vea la sección "Administrar las excepciones MissingManifestResourceException y MissingSatelliteAssemblyException" en el tema de la clase <see cref="T:System.Resources.ResourceManager" />.</exception>
         <permission cref="T:System.Security.Permissions.ReflectionPermission">Cuando se invoca en tiempo de ejecución a través de mecanismos como <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumeración asociada: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
@@ -1518,8 +1517,8 @@ csc GetStream.cs /resource:AppResources.resources
       <Docs>
         <param name="name">Nombre de un recurso.</param>
         <param name="culture">Objeto que especifica la referencia cultural que se debe usar para la búsqueda de recursos. Si <c>culture</c> es <see langword="null" />, se usa la referencia cultural del subproceso actual.</param>
-        <summary>Devuelve un objeto de secuencia de memoria no administrada a partir del recurso especificado, utilizando la referencia cultural especificada.</summary>
-        <returns>Un objeto de secuencia de memoria no administrada que representa un recurso.</returns>
+        <summary>Devuelve un objeto de secuencia de memoria no administrada a partir del recurso especificado, usando la referencia cultural especificada.</summary>
+        <returns>Objeto de secuencia de memoria no administrada que representa un recurso.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1533,8 +1532,7 @@ csc GetStream.cs /resource:AppResources.resources
  ]]></format>
         </remarks>
         <exception cref="T:System.InvalidOperationException">El valor del recurso especificado no es un objeto <see cref="T:System.IO.MemoryStream" />.</exception>
-        <exception cref="T:System.ArgumentNullException">
-          <paramref name="name" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="name" /> es <see langword="null" />.</exception>
         <exception cref="T:System.Resources.MissingManifestResourceException">No se han encontrado conjuntos de recursos que se puedan utilizar y no hay recursos predeterminados. Para obtener información sobre cómo administrar esta excepción, vea la sección "Administrar las excepciones MissingManifestResourceException y MissingSatelliteAssemblyException" en el tema de la clase <see cref="T:System.Resources.ResourceManager" />.</exception>
         <exception cref="T:System.Resources.MissingSatelliteAssemblyException">Los recursos de la referencia cultural predeterminada residen en un ensamblado satélite que no se encuentra. Para obtener información sobre cómo administrar esta excepción, vea la sección "Administrar las excepciones MissingManifestResourceException y MissingSatelliteAssemblyException" en el tema de la clase <see cref="T:System.Resources.ResourceManager" />.</exception>
         <permission cref="T:System.Security.Permissions.ReflectionPermission">Cuando se invoca en tiempo de ejecución a través de mecanismos como <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumeración asociada: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
@@ -1601,7 +1599,7 @@ csc GetStream.cs /resource:AppResources.resources
 ## <a name="includewin8appnamelongincludeswin8-appname-long-mdmd-apps"></a>Aplicaciones de [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)]  
   
 > [!IMPORTANT]
->  Aunque el <xref:System.Resources.ResourceManager> clase es compatible en [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] las aplicaciones, no se recomienda su uso. Utilice esta clase solo cuando se desarrollan [!INCLUDE[net_portable](~/includes/net-portable-md.md)] proyectos que se pueden usar con [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones. Para recuperar recursos desde [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones, use el [Windows.ApplicationModel.Resources.ResourceLoader](http://go.microsoft.com/fwlink/p/?LinkId=238182) clase en su lugar.  
+>  Aunque el <xref:System.Resources.ResourceManager> clase es compatible en [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] las aplicaciones, no se recomienda su uso. Utilice esta clase solo cuando se desarrollan [!INCLUDE[net_portable](~/includes/net-portable-md.md)] proyectos que se pueden usar con [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones. Para recuperar recursos desde [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones, use el [Windows.ApplicationModel.Resources.ResourceLoader](https://go.microsoft.com/fwlink/p/?LinkId=238182) clase en su lugar.  
   
  En [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones, el <xref:System.Resources.ResourceManager.GetString%28System.String%29> método devuelve el valor de la `name` cadena de recurso, adaptado a la configuración de referencia cultural de interfaz de usuario actual del llamador. La lista de referencias culturales se deriva de lista de idiomas de interfaz de usuario preferida del sistema operativo. Si no puede coincidir con el Administrador de recursos `name`, el método devuelve `null`.  
   
@@ -1610,7 +1608,7 @@ csc GetStream.cs /resource:AppResources.resources
 ## Examples  
  En el ejemplo siguiente se usa el <xref:System.Resources.ResourceManager.GetString%2A> método para recuperar recursos específicos de la referencia cultural. Consta de los recursos compilados desde archivos .txt de inglés (en), francés (Francia) (fr-FR) y ruso (Rusia) (ru-RU), las referencias culturales. El ejemplo cambia la referencia cultural actual y la referencia cultural de interfaz de usuario actual para inglés (Estados Unidos), francés (Francia), ruso (Rusia) y sueco (Suecia). A continuación, llama el <xref:System.Resources.ResourceManager.GetString%2A> método para recuperar la cadena localizada, que muestra junto con el día actual y el mes. Observe que la salida muestra la cadena localizada adecuada, excepto cuando la referencia cultural de interfaz de usuario actual es Sueco (Suecia). Dado que no están disponibles los recursos de idioma sueco, la aplicación en su lugar, usa los recursos de la referencia cultural predeterminada, que es el inglés. El ejemplo requiere los archivos de recursos basado en texto aparece en la tabla siguiente. Cada uno tiene un recurso de cadena único llamado `DateStart`.  
   
-|Referencia cultural|Nombre del archivo|Nombre del recurso|Valor del recurso|  
+|culture|Nombre del archivo|Nombre del recurso|Valor del recurso|  
 |-------------|---------------|-------------------|--------------------|  
 |en-US|DateStrings.txt|`DateStart`|Hoy es|  
 |fr-FR|DateStrings.fr-FR.txt|`DateStart`|Aujourd'hui, le c'est|  
@@ -1638,7 +1636,7 @@ al /out:ru-RU\Showdate.resources.dll /culture:ru-RU /embed:DateStrings.ru-RU.res
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">El valor del parámetro <paramref name="name" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El parámetro <paramref name="name" /> es <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">El valor del recurso especificado no es una cadena.</exception>
         <exception cref="T:System.Resources.MissingManifestResourceException">No se han encontrado conjuntos de recursos que se puedan usar y no hay recursos para la referencia cultural neutral. Para obtener información sobre cómo administrar esta excepción, vea la sección "Administrar las excepciones MissingManifestResourceException y MissingSatelliteAssemblyException" en el tema de la clase <see cref="T:System.Resources.ResourceManager" />.</exception>
         <exception cref="T:System.Resources.MissingSatelliteAssemblyException">Los recursos de la referencia cultural predeterminada residen en un ensamblado satélite que no se encuentra. Para obtener información sobre cómo administrar esta excepción, vea la sección "Administrar las excepciones MissingManifestResourceException y MissingSatelliteAssemblyException" en el tema de la clase <see cref="T:System.Resources.ResourceManager" />.</exception>
@@ -1646,7 +1644,7 @@ al /out:ru-RU\Showdate.resources.dll /culture:ru-RU /embed:DateStrings.ru-RU.res
         <threadsafe>El <see cref="M:System.Resources.ResourceManager.GetString(System.String)" /> método es seguro para subprocesos.</threadsafe>
         <altmember cref="T:System.Globalization.CultureInfo" />
         <related type="Article" href="~/docs/framework/resources/packaging-and-deploying-resources-in-desktop-apps.md">Empaquetar e implementar recursos</related>
-        <related type="Article" href="http://msdn.microsoft.com/library/eca16922-1c46-4f68-aefe-e7a12283641f">Recuperar recursos en ensamblados satélite</related>
+        <related type="Article" href="https://msdn.microsoft.com/library/eca16922-1c46-4f68-aefe-e7a12283641f">Recuperar recursos en ensamblados satélite</related>
       </Docs>
     </Member>
     <Member MemberName="GetString">
@@ -1709,7 +1707,7 @@ al /out:ru-RU\Showdate.resources.dll /culture:ru-RU /embed:DateStrings.ru-RU.res
 ## <a name="includewin8appnamelongincludeswin8-appname-long-mdmd-apps"></a>Aplicaciones de [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)]  
   
 > [!IMPORTANT]
->  Aunque el <xref:System.Resources.ResourceManager> clase es compatible en [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] las aplicaciones, no se recomienda su uso. Utilice esta clase solo cuando se desarrollan [!INCLUDE[net_portable](~/includes/net-portable-md.md)] proyectos que se pueden usar con [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones. Para recuperar recursos desde [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones, use el [Windows.ApplicationModel.Resources.ResourceLoader](http://go.microsoft.com/fwlink/p/?LinkId=238182) clase en su lugar.  
+>  Aunque el <xref:System.Resources.ResourceManager> clase es compatible en [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] las aplicaciones, no se recomienda su uso. Utilice esta clase solo cuando se desarrollan [!INCLUDE[net_portable](~/includes/net-portable-md.md)] proyectos que se pueden usar con [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones. Para recuperar recursos desde [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones, use el [Windows.ApplicationModel.Resources.ResourceLoader](https://go.microsoft.com/fwlink/p/?LinkId=238182) clase en su lugar.  
   
  En [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] aplicaciones, el <xref:System.Resources.ResourceManager.GetString%28System.String%2CSystem.Globalization.CultureInfo%29> método devuelve el valor de la `name` cadena de recurso, adaptado a la referencia cultural especificada por el `culture` parámetro. Si no se encuentra el recurso para el `culture` referencia cultural, la búsqueda utiliza toda la [!INCLUDE[win8](~/includes/win8-md.md)] lista de reserva de idioma y se detiene después de buscar en la referencia cultural predeterminada. Si no puede coincidir con el Administrador de recursos `name`, el método devuelve `null`.  
   
@@ -1720,7 +1718,7 @@ al /out:ru-RU\Showdate.resources.dll /culture:ru-RU /embed:DateStrings.ru-RU.res
   
  El ejemplo requiere los archivos de recursos basado en texto aparece en la tabla siguiente. Cada uno tiene un recurso de cadena único llamado `DateStart`.  
   
-|Referencia cultural|Nombre del archivo|Nombre del recurso|Valor del recurso|  
+|culture|Nombre del archivo|Nombre del recurso|Valor del recurso|  
 |-------------|---------------|-------------------|--------------------|  
 |en-US|DateStrings.txt|`DateStart`|Hoy es|  
 |fr-FR|DateStrings.fr-FR.txt|`DateStart`|Aujourd'hui, le c'est|  
@@ -1748,7 +1746,7 @@ al /out:ru-RU\Showdate.resources.dll /culture:ru-RU /embed:DateStrings.ru-RU.res
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">El valor del parámetro <paramref name="name" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El parámetro <paramref name="name" /> es <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">El valor del recurso especificado no es una cadena.</exception>
         <exception cref="T:System.Resources.MissingManifestResourceException">No se han encontrado conjuntos de recursos que se puedan usar y no hay recursos para una referencia cultural predeterminada. Para obtener información sobre cómo administrar esta excepción, vea la sección "Administrar las excepciones MissingManifestResourceException y MissingSatelliteAssemblyException" en el tema de la clase <see cref="T:System.Resources.ResourceManager" />.</exception>
         <exception cref="T:System.Resources.MissingSatelliteAssemblyException">Los recursos de la referencia cultural predeterminada residen en un ensamblado satélite que no se encuentra. Para obtener información sobre cómo administrar esta excepción, vea la sección "Administrar las excepciones MissingManifestResourceException y MissingSatelliteAssemblyException" en el tema de la clase <see cref="T:System.Resources.ResourceManager" />.</exception>
@@ -1875,7 +1873,8 @@ al /out:ru-RU\Showdate.resources.dll /culture:ru-RU /embed:DateStrings.ru-RU.res
       </Parameters>
       <Docs>
         <param name="culture">Objeto de referencia cultural que se va a buscar.</param>
-        <param name="createIfNotExists">Es <see langword="true" /> para cargar el conjunto de recursos, si aún no se han cargado; de lo contrario, es <see langword="false" />.</param>
+        <param name="createIfNotExists">
+          <see langword="true" /> para cargar el conjunto de recursos, si aún no se cargaron; de lo contrario, <see langword="false" />.</param>
         <param name="tryParents">
           <see langword="true" /> para comprobar objetos <see cref="T:System.Globalization.CultureInfo" /> primarios si el conjunto de recursos no se puede cargar; si no, <see langword="false" />.</param>
         <summary>Proporciona la implementación para buscar un conjunto de recursos.</summary>
@@ -1920,7 +1919,7 @@ al /out:ru-RU\Showdate.resources.dll /culture:ru-RU /embed:DateStrings.ru-RU.res
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Conserva el número utilizado para identificar los archivos de recursos.</summary>
+        <summary>Conserva el número usado para identificar los archivos de recursos.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
