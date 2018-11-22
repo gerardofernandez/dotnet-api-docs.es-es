@@ -1,11 +1,11 @@
 <Type Name="BindingOperations" FullName="System.Windows.Data.BindingOperations">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="51eef6572002081a616a5d4355aca43a61a9c451" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="4601fcaf8f086826132c17425f722a0180d270b0" />
+    <Meta Name="ms.sourcegitcommit" Value="9e06b87bcfa4347dbbaaa4b3cc36b43b93b5badb" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
-    <Meta Name="ms.locfileid" Value="37579260" />
+    <Meta Name="ms.lasthandoff" Value="11/20/2018" />
+    <Meta Name="ms.locfileid" Value="52236444" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class BindingOperations" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit BindingOperations extends System.Object" />
@@ -23,7 +23,7 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>Proporciona métodos estáticos para manipular los enlaces, como los objetos <see cref="T:System.Windows.Data.Binding" />, <see cref="T:System.Windows.Data.MultiBinding" /> y <see cref="T:System.Windows.Data.PriorityBinding" />.</summary>
+    <summary>Ofrece métodos estáticos para manipular enlaces, incluidos los objetos <see cref="T:System.Windows.Data.Binding" />, <see cref="T:System.Windows.Data.MultiBinding" /> y <see cref="T:System.Windows.Data.PriorityBinding" />.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
@@ -57,7 +57,8 @@
       <Docs>
         <param name="collection">Colección a la que se va a acceder.</param>
         <param name="accessMethod">La acción para realizar en la colección.</param>
-        <param name="writeAccess">Es <see langword="true" /> si <c>accessMethod</c> va a escribir en la colección; de lo contrario, es <see langword="false" />.</param>
+        <param name="writeAccess">
+          <see langword="true" /> si <paramref name="accessMethod" /> escribirá en la colección; si no, <see langword="false" />.</param>
         <summary>Proporciona acceso a una colección mediante el mecanismo de sincronización que la aplicación especificó al llamar a EnableCollectionSynchronization.</summary>
         <remarks>To be added.</remarks>
       </Docs>
@@ -236,12 +237,10 @@
   
 ## Remarks  
 
-Una aplicación de WPF puede mostrar una colección de datos mediante un <xref:System.Windows.Controls.ItemsControl> o uno de sus subclases (<xref:System.Windows.Controls.ListBox>, <xref:System.Windows.Controls.DataGrid>, <xref:System.Windows.Controls.TreeView>, <xref:System.Windows.Controls.ListView>, etcetera.). WPF los canales de toda su acceso a la colección a través de una subclase de <xref:System.Windows.Data.CollectionView>. Tanto el <xref:System.Windows.Controls.ItemsControl> y el <xref:System.Windows.Data.CollectionView> tiene afinidad con el subproceso donde la <xref:System.Windows.Controls.ItemsControl> se creó, lo que significa que su uso en otro subproceso está prohibido y produce una excepción. De hecho, esta restricción se aplica a la colección también.
- 
-Es posible que desee usar la colección en varios subprocesos.   Por ejemplo, desea actualizar la colección (Agregar o quitar elementos) en un subproceso "recopilación de datos", al mostrar los resultados en un subproceso de "interfaz de usuario", por lo que la interfaz de usuario sigue respondiendo mientras recopilación de datos se está realizando. En esta situación, usted es responsable de garantizar el acceso sincronizado de ("subprocesos") a la colección.   Esto se suele realizar mediante un mecanismo de bloqueo simple o un mecanismo de sincronización más elaborado, como semáforos, restablezca los eventos, etcetera. 
- 
-Aunque se debe sincronizar el acceso de la aplicación a la colección, también debe garantizar que el acceso de WPF (específicamente desde <xref:System.Windows.Data.CollectionView>) participa en el mismo mecanismo de sincronización.  Puede hacerlo llamando al método <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization%2A>.
- 
+Una aplicación de WPF puede mostrar una colección de datos mediante un <xref:System.Windows.Controls.ItemsControl> o uno de sus subclases (<xref:System.Windows.Controls.ListBox>, <xref:System.Windows.Controls.DataGrid>, <xref:System.Windows.Controls.TreeView>, <xref:System.Windows.Controls.ListView>, etcetera.). WPF los canales de toda su acceso a la colección a través de una subclase de <xref:System.Windows.Data.CollectionView>. Tanto el <xref:System.Windows.Controls.ItemsControl> y el <xref:System.Windows.Data.CollectionView> tiene afinidad con el subproceso donde la <xref:System.Windows.Controls.ItemsControl> se creó, lo que significa que su uso en otro subproceso está prohibido y produce una excepción. De hecho, esta restricción se aplica a la colección también.
+ 
+Es posible que desee usar la colección en varios subprocesos.   Por ejemplo, desea actualizar la colección (Agregar o quitar elementos) en un subproceso "recopilación de datos", al mostrar los resultados en un subproceso de "interfaz de usuario", por lo que la interfaz de usuario sigue respondiendo mientras recopilación de datos se está realizando. En esta situación, usted es responsable de garantizar el acceso sincronizado de ("subprocesos") a la colección.   Esto se suele realizar mediante un mecanismo de bloqueo simple o un mecanismo de sincronización más elaborado, como semáforos, restablezca los eventos, etcetera.   Aunque se debe sincronizar el acceso de la aplicación a la colección, también debe garantizar que el acceso de WPF (específicamente desde <xref:System.Windows.Data.CollectionView>) participa en el mismo mecanismo de sincronización.  Puede hacerlo llamando al método <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization%2A>.
+ 
 Para usar una colección en varios subprocesos, uno de los cuales es el subproceso de interfaz de usuario que posee el <xref:System.Windows.Controls.ItemsControl>, una aplicación tiene las siguientes responsabilidades:
 
 1. Elegir un mecanismo de sincronización.
@@ -256,13 +255,13 @@ Para usar una colección en varios subprocesos, uno de los cuales es el subproce
 
    - Llame a la <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization(System.Collections.IEnumerable,System.Object)> sobrecarga si usa un mecanismo de bloqueo simple; la llamada la <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization(System.Collections.IEnumerable,System.Object,System.Windows.Data.CollectionSynchronizationCallback)> sobrecarga si utiliza un mecanismo más elaborado.
 
-1. Asegúrese de que un cambio en la colección y la notificación de cambio (a través de <xref:System.Collections.Specialized.INotifyCollectionChanged>) son atómica; no puede intervenir acceso desde otros subprocesos.  (Esto es suele ser gratis. For Instance, <xref:System.Collections.ObjectModel.ObservableCollection%601> garantiza, siempre que todos los cambios están protegidos mediante la sincronización.)
+1. Asegúrese de que un cambio en la colección y la notificación de cambio (a través de <xref:System.Collections.Specialized.INotifyCollectionChanged>) son atómica; no puede intervenir acceso desde otros subprocesos.  (Esto es suele ser gratis. For Instance, <xref:System.Collections.ObjectModel.ObservableCollection%601> garantiza, siempre que todos los cambios están protegidos mediante la sincronización.)
 
-1. Si se llama a <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>, que la llamada también debe producirse en el subproceso de interfaz de usuario.
+1. Si se llama a <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>, que la llamada también debe producirse en el subproceso de interfaz de usuario.
 
 1. Si desea usar la misma colección en varios subprocesos de interfaz de usuario, debe llamar a <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization%2A> (y <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>, si es necesario) por separado en cada subproceso de interfaz de usuario.
 
-1. Evitar un interbloqueo.  Esto ya está responsabilidad de la aplicación una vez que decide utilizar la sincronización, pero también debe tener en la participación de WPF de la cuenta en la sincronización, como se describe en el párrafo siguiente.
+1. Evitar un interbloqueo.  Esto ya está responsabilidad de la aplicación una vez que decide utilizar la sincronización, pero también debe tener en la participación de WPF de la cuenta en la sincronización, como se describe en el párrafo siguiente.
 
 En cambio, WPF proporciona el comportamiento siguiente:
 
@@ -274,9 +273,9 @@ En cambio, WPF proporciona el comportamiento siguiente:
 
 - Eventos pendientes se aplican a las instantáneas de forma asincrónica en el subproceso de interfaz de usuario cuando tiene la oportunidad de hacerlo.
 
-- El <xref:System.Windows.Data.CollectionView> no utilizan directamente a cualquier otro mecanismo de sincronización visible para la aplicación. Esta es manera de WPF para ayudar a evitar un interbloqueo (consulte el artículo anterior 7).   
+- El <xref:System.Windows.Data.CollectionView> no utilizan directamente a cualquier otro mecanismo de sincronización visible para la aplicación. Esta es manera de WPF para ayudar a evitar un interbloqueo (consulte el artículo anterior 7).   
 
-El efecto neto es que puede cambiar la colección en cualquier subproceso y, finalmente, esos cambios aparecerán en el <xref:System.Windows.Controls.ItemsControl> cuando el subproceso de interfaz de usuario tiene tiempo para "detectar".  La implementación se ha ajustado para limitar la tasa de flujo de los cambios en el subproceso de interfaz de usuario para mantener en segundo plano de subprocesos de saturar el subproceso de UI y privar a la respuesta a la entrada de usuario normal.
+El efecto neto es que puede cambiar la colección en cualquier subproceso y, finalmente, esos cambios aparecerán en el <xref:System.Windows.Controls.ItemsControl> cuando el subproceso de interfaz de usuario tiene tiempo para "detectar".  La implementación se ha ajustado para limitar la tasa de flujo de los cambios en el subproceso de interfaz de usuario para mantener en segundo plano de subprocesos de saturar el subproceso de UI y privar a la respuesta a la entrada de usuario normal.
 
  ]]></format>
         </remarks>
@@ -310,10 +309,10 @@ El efecto neto es que puede cambiar la colección en cualquier subproceso y, fin
 
 ## Remarks
 
-Una aplicación de WPF puede mostrar una colección de datos mediante un <xref:System.Windows.Controls.ItemsControl> o uno de sus subclases (<xref:System.Windows.Controls.ListBox>, <xref:System.Windows.Controls.DataGrid>, <xref:System.Windows.Controls.TreeView>, <xref:System.Windows.Controls.ListView>, etcetera.). WPF los canales de toda su acceso a la colección a través de una subclase de <xref:System.Windows.Data.CollectionView>. Tanto el <xref:System.Windows.Controls.ItemsControl> y el <xref:System.Windows.Data.CollectionView> tiene afinidad con el subproceso donde la <xref:System.Windows.Controls.ItemsControl> se creó, lo que significa que su uso en otro subproceso está prohibido y produce una excepción. De hecho, esta restricción se aplica a la colección también.
- 
-Es posible que desee usar la colección en varios subprocesos.   Por ejemplo, desea actualizar la colección (Agregar o quitar elementos) en un subproceso "recopilación de datos", al mostrar los resultados en un subproceso de "interfaz de usuario", por lo que la interfaz de usuario sigue respondiendo mientras recopilación de datos se está realizando. En esta situación, es responsable de garantizar sincronizado ("") acceso seguro a la colección y para garantizar que el acceso de WPF (específicamente desde <xref:System.Windows.Data.CollectionView>) participa en el mismo mecanismo de sincronización. Mediante una llamada a la <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization(System.Collections.IEnumerable,System.Object)> método, puede hacerlo mediante un mecanismo de bloqueo simple. 
- 
+Una aplicación de WPF puede mostrar una colección de datos mediante un <xref:System.Windows.Controls.ItemsControl> o uno de sus subclases (<xref:System.Windows.Controls.ListBox>, <xref:System.Windows.Controls.DataGrid>, <xref:System.Windows.Controls.TreeView>, <xref:System.Windows.Controls.ListView>, etcetera.). WPF los canales de toda su acceso a la colección a través de una subclase de <xref:System.Windows.Data.CollectionView>. Tanto el <xref:System.Windows.Controls.ItemsControl> y el <xref:System.Windows.Data.CollectionView> tiene afinidad con el subproceso donde la <xref:System.Windows.Controls.ItemsControl> se creó, lo que significa que su uso en otro subproceso está prohibido y produce una excepción. De hecho, esta restricción se aplica a la colección también.
+ 
+Es posible que desee usar la colección en varios subprocesos.   Por ejemplo, desea actualizar la colección (Agregar o quitar elementos) en un subproceso "recopilación de datos", al mostrar los resultados en un subproceso de "interfaz de usuario", por lo que la interfaz de usuario sigue respondiendo mientras recopilación de datos se está realizando. En esta situación, es responsable de garantizar sincronizado ("") acceso seguro a la colección y para garantizar que el acceso de WPF (específicamente desde <xref:System.Windows.Data.CollectionView>) participa en el mismo mecanismo de sincronización. Mediante una llamada a la <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization(System.Collections.IEnumerable,System.Object)> método, puede hacerlo mediante un mecanismo de bloqueo simple. 
+ 
 Para usar una colección en varios subprocesos, uno de los cuales es el subproceso de interfaz de usuario que posee el <xref:System.Windows.Controls.ItemsControl>, debe hacer lo siguiente:
 
 1. Crear una instancia de un objeto para bloquear al acceder a la colección.
@@ -326,13 +325,13 @@ Para usar una colección en varios subprocesos, uno de los cuales es el subproce
 
    - La llamada debe producirse antes de usar la colección en un subproceso diferente, o antes de adjuntar la colección a la <xref:System.Windows.Controls.ItemsControl>, lo que sea posterior.
 
-1. Asegúrese de que un cambio en la colección y la notificación de cambio (a través de <xref:System.Collections.Specialized.INotifyCollectionChanged>) son atómica; no puede intervenir acceso desde otros subprocesos.  (Esto es suele ser gratis. For Instance, <xref:System.Collections.ObjectModel.ObservableCollection%601> garantiza, siempre que todos los cambios están protegidos mediante la sincronización.)
+1. Asegúrese de que un cambio en la colección y la notificación de cambio (a través de <xref:System.Collections.Specialized.INotifyCollectionChanged>) son atómica; no puede intervenir acceso desde otros subprocesos.  (Esto es suele ser gratis. For Instance, <xref:System.Collections.ObjectModel.ObservableCollection%601> garantiza, siempre que todos los cambios están protegidos mediante la sincronización.)
 
-1. Si se llama a <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>, que la llamada también debe producirse en el subproceso de interfaz de usuario.
+1. Si se llama a <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>, que la llamada también debe producirse en el subproceso de interfaz de usuario.
 
 1. Si desea usar la misma colección en varios subprocesos de interfaz de usuario, debe llamar a <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization%2A> (y <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>, si es necesario) por separado en cada subproceso de interfaz de usuario.
 
-1. Evitar un interbloqueo.  Esto ya es responsabilidad de la aplicación una vez que decide utilizar la sincronización, pero también debe tener en cuenta la participación de WPF en la sincronización. (Vea más, a continuación).
+1. Evitar un interbloqueo.  Esto ya es responsabilidad de la aplicación una vez que decide utilizar la sincronización, pero también debe tener en cuenta la participación de WPF en la sincronización. (Vea más, a continuación).
 
 En cambio, WPF proporciona el comportamiento siguiente:
 
@@ -344,9 +343,9 @@ En cambio, WPF proporciona el comportamiento siguiente:
 
 - Eventos pendientes se aplican a las instantáneas de forma asincrónica en el subproceso de interfaz de usuario cuando tiene la oportunidad de hacerlo.
 
-- El <xref:System.Windows.Data.CollectionView> directamente no usará cualquier otro mecanismo de sincronización visible para la aplicación. Esta es manera de WPF para ayudar a evitar un interbloqueo (consulte el artículo anterior 7).   
+- El <xref:System.Windows.Data.CollectionView> directamente no usará cualquier otro mecanismo de sincronización visible para la aplicación. Esta es manera de WPF para ayudar a evitar un interbloqueo (consulte el artículo anterior 7).   
 
-El efecto neto es que puede cambiar la colección en cualquier subproceso y, finalmente, esos cambios aparecerán en el <xref:System.Windows.Controls.ItemsControl> cuando el subproceso de interfaz de usuario tiene tiempo para "detectar".  La implementación se ha ajustado para limitar la tasa de flujo de los cambios en el subproceso de interfaz de usuario para mantener en segundo plano de subprocesos de saturar el subproceso de UI y privar a la respuesta a la entrada de usuario normal.
+El efecto neto es que puede cambiar la colección en cualquier subproceso y, finalmente, esos cambios aparecerán en el <xref:System.Windows.Controls.ItemsControl> cuando el subproceso de interfaz de usuario tiene tiempo para "detectar".  La implementación se ha ajustado para limitar la tasa de flujo de los cambios en el subproceso de interfaz de usuario para mantener en segundo plano de subprocesos de saturar el subproceso de UI y privar a la respuesta a la entrada de usuario normal.
   
  ]]></format>
         </remarks>
@@ -382,11 +381,9 @@ El efecto neto es que puede cambiar la colección en cualquier subproceso y, fin
   
 ## Remarks  
 
-Una aplicación de WPF puede mostrar una colección de datos mediante un <xref:System.Windows.Controls.ItemsControl> o uno de sus subclases (<xref:System.Windows.Controls.ListBox>, <xref:System.Windows.Controls.DataGrid>, <xref:System.Windows.Controls.TreeView>, <xref:System.Windows.Controls.ListView>, etcetera.). WPF los canales de toda su acceso a la colección a través de una subclase de <xref:System.Windows.Data.CollectionView>. Tanto el <xref:System.Windows.Controls.ItemsControl> y el <xref:System.Windows.Data.CollectionView> tiene afinidad con el subproceso donde la <xref:System.Windows.Controls.ItemsControl> se creó, lo que significa que su uso en otro subproceso está prohibido y produce una excepción. De hecho, esta restricción se aplica a la colección también.
- 
-Es posible que desee usar la colección en varios subprocesos.   Por ejemplo, desea actualizar la colección (Agregar o quitar elementos) en un subproceso "recopilación de datos", al mostrar los resultados en un subproceso de "interfaz de usuario", por lo que la interfaz de usuario sigue respondiendo mientras recopilación de datos se está realizando. En esta situación, es responsable de garantizar sincronizado ("") acceso seguro a la colección y para garantizar que el acceso de WPF (específicamente desde <xref:System.Windows.Data.CollectionView>) participa en el mismo mecanismo de sincronización. Mediante una llamada a la <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization(System.Collections.IEnumerable,System.Object,System.Windows.Data.CollectionSynchronizationCallback)> método, puede hacerlo mediante un mecanismo de sincronización, como un semáforos, un evento de restablecimiento, etcetera. 
- 
-Para usar una colección en varios subprocesos, uno de los cuales es el subproceso de interfaz de usuario que posee el <xref:System.Windows.Controls.ItemsControl>, debe hacer lo siguiente:
+Una aplicación de WPF puede mostrar una colección de datos mediante un <xref:System.Windows.Controls.ItemsControl> o uno de sus subclases (<xref:System.Windows.Controls.ListBox>, <xref:System.Windows.Controls.DataGrid>, <xref:System.Windows.Controls.TreeView>, <xref:System.Windows.Controls.ListView>, etcetera.). WPF los canales de toda su acceso a la colección a través de una subclase de <xref:System.Windows.Data.CollectionView>. Tanto el <xref:System.Windows.Controls.ItemsControl> y el <xref:System.Windows.Data.CollectionView> tiene afinidad con el subproceso donde la <xref:System.Windows.Controls.ItemsControl> se creó, lo que significa que su uso en otro subproceso está prohibido y produce una excepción. De hecho, esta restricción se aplica a la colección también.
+ 
+Es posible que desee usar la colección en varios subprocesos.   Por ejemplo, desea actualizar la colección (Agregar o quitar elementos) en un subproceso "recopilación de datos", al mostrar los resultados en un subproceso de "interfaz de usuario", por lo que la interfaz de usuario sigue respondiendo mientras recopilación de datos se está realizando. En esta situación, es responsable de garantizar sincronizado ("") acceso seguro a la colección y para garantizar que el acceso de WPF (específicamente desde <xref:System.Windows.Data.CollectionView>) participa en el mismo mecanismo de sincronización. Mediante una llamada a la <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization(System.Collections.IEnumerable,System.Object,System.Windows.Data.CollectionSynchronizationCallback)> método, puede hacerlo mediante un mecanismo de sincronización, como un semáforos, un evento de restablecimiento, etcetera.   Para usar una colección en varios subprocesos, uno de los cuales es el subproceso de interfaz de usuario que posee el <xref:System.Windows.Controls.ItemsControl>, debe hacer lo siguiente:
 
 1. Elegir un mecanismo de sincronización.
 
@@ -398,13 +395,13 @@ Para usar una colección en varios subprocesos, uno de los cuales es el subproce
 
    - La llamada debe producirse antes de usar la colección en un subproceso diferente, o antes de adjuntar la colección a la <xref:System.Windows.Controls.ItemsControl>, lo que sea posterior.
 
-1. Asegúrese de que un cambio en la colección y la notificación de cambio (a través de <xref:System.Collections.Specialized.INotifyCollectionChanged>) son atómica; no puede intervenir acceso desde otros subprocesos.  (Esto es suele ser gratis. For Instance, <xref:System.Collections.ObjectModel.ObservableCollection%601> garantiza, siempre que todos los cambios están protegidos mediante la sincronización.)
+1. Asegúrese de que un cambio en la colección y la notificación de cambio (a través de <xref:System.Collections.Specialized.INotifyCollectionChanged>) son atómica; no puede intervenir acceso desde otros subprocesos.  (Esto es suele ser gratis. For Instance, <xref:System.Collections.ObjectModel.ObservableCollection%601> garantiza, siempre que todos los cambios están protegidos mediante la sincronización.)
 
-1. Si se llama a <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>, que la llamada también debe producirse en el subproceso de interfaz de usuario.
+1. Si se llama a <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>, que la llamada también debe producirse en el subproceso de interfaz de usuario.
 
 1. Si desea usar la misma colección en varios subprocesos de interfaz de usuario, debe llamar a <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization%2A> (y <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>, si es necesario) por separado en cada subproceso de interfaz de usuario.
 
-1. Evitar un interbloqueo.  Esto ya es responsabilidad de la aplicación una vez que decide utilizar la sincronización, pero también debe tener en cuenta la participación de WPF en la sincronización. (Vea más, a continuación).
+1. Evitar un interbloqueo.  Esto ya es responsabilidad de la aplicación una vez que decide utilizar la sincronización, pero también debe tener en cuenta la participación de WPF en la sincronización. (Vea más, a continuación).
 
 En cambio, WPF proporciona el comportamiento siguiente:
 
@@ -423,9 +420,9 @@ En cambio, WPF proporciona el comportamiento siguiente:
 
 - Eventos pendientes se aplican a las instantáneas de forma asincrónica en el subproceso de interfaz de usuario cuando tiene la oportunidad de hacerlo.
 
-- El <xref:System.Windows.Data.CollectionView> directamente no usará cualquier otro mecanismo de sincronización visible para la aplicación. Esta es manera de WPF para ayudar a evitar un interbloqueo (consulte el artículo anterior 7).   
+- El <xref:System.Windows.Data.CollectionView> directamente no usará cualquier otro mecanismo de sincronización visible para la aplicación. Esta es manera de WPF para ayudar a evitar un interbloqueo (consulte el artículo anterior 7).   
 
-El efecto neto es que puede cambiar la colección en cualquier subproceso y, finalmente, esos cambios aparecerán en el <xref:System.Windows.Controls.ItemsControl> cuando el subproceso de interfaz de usuario tiene tiempo para "detectar".  La implementación se ha ajustado para limitar la tasa de flujo de los cambios en el subproceso de interfaz de usuario para mantener en segundo plano de subprocesos de saturar el subproceso de UI y privar a la respuesta a la entrada de usuario normal.
+El efecto neto es que puede cambiar la colección en cualquier subproceso y, finalmente, esos cambios aparecerán en el <xref:System.Windows.Controls.ItemsControl> cuando el subproceso de interfaz de usuario tiene tiempo para "detectar".  La implementación se ha ajustado para limitar la tasa de flujo de los cambios en el subproceso de interfaz de usuario para mantener en segundo plano de subprocesos de saturar el subproceso de UI y privar a la respuesta a la entrada de usuario normal.
 
  El `context` parámetro es un objeto arbitrario que se pasa a la `callback`. Puede usar para determinar el mecanismo de sincronización utilizado para controlar el acceso a `collection`. `Context` puede ser `null`.  
  
@@ -454,7 +451,7 @@ El efecto neto es que puede cambiar la colección en cualquier subproceso y, fin
         <Parameter Name="dp" Type="System.Windows.DependencyProperty" />
       </Parameters>
       <Docs>
-        <param name="target">Objeto en el que se encuentra <c>dp</c>.</param>
+        <param name="target">Objeto en el que se encuentra <paramref name="dp" />.</param>
         <param name="dp">Propiedad del destino de enlace desde la que se va a recuperar el enlace.</param>
         <summary>Recupera el objeto <see cref="T:System.Windows.Data.Binding" /> establecido en la propiedad especificada.</summary>
         <returns>Objeto <see cref="T:System.Windows.Data.Binding" /> establecido en la propiedad especificada o <see langword="null" /> si no se ha establecido ningún objeto <see cref="T:System.Windows.Data.Binding" />.</returns>
@@ -487,8 +484,8 @@ El efecto neto es que puede cambiar la colección en cualquier subproceso y, fin
         <Parameter Name="dp" Type="System.Windows.DependencyProperty" />
       </Parameters>
       <Docs>
-        <param name="target">Objeto en el que se encuentra <c>dp</c>.</param>
-        <param name="dp">Propiedad de destino de enlace a partir de la cual recuperar el objeto <see cref="T:System.Windows.Data.BindingBase" />.</param>
+        <param name="target">Objeto en el que se encuentra <paramref name="dp" />.</param>
+        <param name="dp">Propiedad de destino del enlace desde la que se recuperará el objeto <see cref="T:System.Windows.Data.BindingBase" />.</param>
         <summary>Recupera el objeto <see cref="T:System.Windows.Data.BindingBase" /> establecido en la propiedad especificada.</summary>
         <returns>Objeto <see cref="T:System.Windows.Data.BindingBase" /> establecido en la propiedad especificada o <see langword="null" /> si no se ha establecido ningún objeto de enlace.</returns>
         <remarks>
@@ -524,10 +521,10 @@ El efecto neto es que puede cambiar la colección en cualquier subproceso y, fin
         <Parameter Name="dp" Type="System.Windows.DependencyProperty" />
       </Parameters>
       <Docs>
-        <param name="target">Objeto de destino de enlace donde se encuentra <c>dp</c>.</param>
-        <param name="dp">Propiedad de destino de enlace a partir de la cual recuperar el objeto <see cref="T:System.Windows.Data.BindingExpression" />.</param>
-        <summary>Devuelve el objeto <see cref="T:System.Windows.Data.BindingExpression" /> asociado a la propiedad de destino de enlace especificada en el objeto especificado.</summary>
-        <returns>Objeto <see cref="T:System.Windows.Data.BindingExpression" /> asociado a la propiedad especificada o <see langword="null" /> si no existe ninguno. Si un objeto <see cref="T:System.Windows.Data.PriorityBindingExpression" /> se establece en la propiedad, se devuelve <see cref="P:System.Windows.Data.PriorityBindingExpression.ActiveBindingExpression" />.</returns>
+        <param name="target">Objeto de destino del enlace donde se encuentra <paramref name="dp" />.</param>
+        <param name="dp">Propiedad de destino del enlace desde la que se recuperará el objeto <see cref="T:System.Windows.Data.BindingExpression" />.</param>
+        <summary>Devuelve el objeto <see cref="T:System.Windows.Data.BindingExpression" /> asociado a la propiedad de destino del enlace especificada en el objeto especificado.</summary>
+        <returns>Objeto <see cref="T:System.Windows.Data.BindingExpression" /> asociado a la propiedad especificada o <see langword="null" /> si no existe ninguno. Si se establece un objeto <see cref="T:System.Windows.Data.PriorityBindingExpression" /> en la propiedad, se devuelve <see cref="P:System.Windows.Data.PriorityBindingExpression.ActiveBindingExpression" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -573,8 +570,8 @@ El efecto neto es que puede cambiar la colección en cualquier subproceso y, fin
         <Parameter Name="dp" Type="System.Windows.DependencyProperty" />
       </Parameters>
       <Docs>
-        <param name="target">Objeto en el que se encuentra <c>dp</c>.</param>
-        <param name="dp">Propiedad de destino de enlace a partir de la cual recuperar el objeto <see cref="T:System.Windows.Data.BindingExpressionBase" />.</param>
+        <param name="target">Objeto en el que se encuentra <paramref name="dp" />.</param>
+        <param name="dp">Propiedad de destino del enlace desde la que se recuperará el objeto <see cref="T:System.Windows.Data.BindingExpressionBase" />.</param>
         <summary>Recupera el objeto <see cref="T:System.Windows.Data.BindingExpressionBase" /> establecido en la propiedad especificada.</summary>
         <returns>Objeto <see cref="T:System.Windows.Data.BindingExpressionBase" /> establecido en la propiedad especificada o <see langword="null" /> si no se ha establecido ningún objeto de enlace.</returns>
         <remarks>
@@ -610,7 +607,7 @@ El efecto neto es que puede cambiar la colección en cualquier subproceso y, fin
         <Parameter Name="dp" Type="System.Windows.DependencyProperty" />
       </Parameters>
       <Docs>
-        <param name="target">Objeto en el que se encuentra <c>dp</c>.</param>
+        <param name="target">Objeto en el que se encuentra <paramref name="dp" />.</param>
         <param name="dp">Propiedad del destino de enlace desde la que se va a recuperar el enlace.</param>
         <summary>Recupera el objeto <see cref="T:System.Windows.Data.MultiBinding" /> establecido en la propiedad especificada.</summary>
         <returns>Objeto <see cref="T:System.Windows.Data.MultiBinding" /> establecido en la propiedad especificada o <see langword="null" /> si no se ha establecido ningún objeto <see cref="T:System.Windows.Data.MultiBinding" />.</returns>
@@ -641,9 +638,9 @@ El efecto neto es que puede cambiar la colección en cualquier subproceso y, fin
         <Parameter Name="dp" Type="System.Windows.DependencyProperty" />
       </Parameters>
       <Docs>
-        <param name="target">Objeto de destino de enlace donde se encuentra <c>dp</c>.</param>
-        <param name="dp">Propiedad de destino de enlace a partir de la cual recuperar el objeto <see cref="T:System.Windows.Data.MultiBindingExpression" />.</param>
-        <summary>Devuelve el objeto <see cref="T:System.Windows.Data.MultiBindingExpression" /> asociado a la propiedad de destino de enlace especificada en el objeto especificado.</summary>
+        <param name="target">Objeto de destino del enlace donde se encuentra <paramref name="dp" />.</param>
+        <param name="dp">Propiedad de destino del enlace desde la que se recuperará el objeto <see cref="T:System.Windows.Data.MultiBindingExpression" />.</param>
+        <summary>Devuelve el objeto <see cref="T:System.Windows.Data.MultiBindingExpression" /> asociado a la propiedad de destino del enlace especificada en el objeto especificado.</summary>
         <returns>Objeto <see cref="T:System.Windows.Data.MultiBindingExpression" /> asociado a la propiedad especificada o <see langword="null" /> si no existe ninguno.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -680,7 +677,7 @@ El efecto neto es que puede cambiar la colección en cualquier subproceso y, fin
         <Parameter Name="dp" Type="System.Windows.DependencyProperty" />
       </Parameters>
       <Docs>
-        <param name="target">Objeto en el que se encuentra <c>dp</c>.</param>
+        <param name="target">Objeto en el que se encuentra <paramref name="dp" />.</param>
         <param name="dp">Propiedad del destino de enlace desde la que se va a recuperar el enlace.</param>
         <summary>Recupera el objeto <see cref="T:System.Windows.Data.PriorityBinding" /> establecido en la propiedad especificada.</summary>
         <returns>Objeto <see cref="T:System.Windows.Data.PriorityBinding" /> establecido en la propiedad especificada o <see langword="null" /> si no se ha establecido ningún objeto <see cref="T:System.Windows.Data.PriorityBinding" />.</returns>
@@ -711,9 +708,9 @@ El efecto neto es que puede cambiar la colección en cualquier subproceso y, fin
         <Parameter Name="dp" Type="System.Windows.DependencyProperty" />
       </Parameters>
       <Docs>
-        <param name="target">Objeto de destino de enlace donde se encuentra <c>dp</c>.</param>
-        <param name="dp">Propiedad de destino de enlace a partir de la cual recuperar el objeto <see cref="T:System.Windows.Data.PriorityBindingExpression" />.</param>
-        <summary>Devuelve el objeto <see cref="T:System.Windows.Data.PriorityBindingExpression" /> asociado a la propiedad de destino de enlace especificada en el objeto especificado.</summary>
+        <param name="target">Objeto de destino del enlace donde se encuentra <paramref name="dp" />.</param>
+        <param name="dp">Propiedad de destino del enlace desde la que se recuperará el objeto <see cref="T:System.Windows.Data.PriorityBindingExpression" />.</param>
+        <summary>Devuelve el objeto <see cref="T:System.Windows.Data.PriorityBindingExpression" /> asociado a la propiedad de destino del enlace especificada en el objeto especificado.</summary>
         <returns>Objeto <see cref="T:System.Windows.Data.PriorityBindingExpression" /> asociado a la propiedad especificada o <see langword="null" /> si no existe ninguno.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentNullException">Los parámetros <paramref name="target" /> y <paramref name="dp" /> no pueden ser <see langword="null" />.</exception>
@@ -809,7 +806,7 @@ El efecto neto es que puede cambiar la colección en cualquier subproceso y, fin
         <Parameter Name="dp" Type="System.Windows.DependencyProperty" />
       </Parameters>
       <Docs>
-        <param name="target">Objeto en el que se encuentra <c>dp</c>.</param>
+        <param name="target">Objeto en el que se encuentra <paramref name="dp" />.</param>
         <param name="dp">Propiedad de dependencia que se va a comprobar.</param>
         <summary>Devuelve un valor que indica si la propiedad especificada está enlazada a datos actualmente.</summary>
         <returns>Es <see langword="true" /> si la propiedad especificada está enlazada a datos; de lo contrario, es <see langword="false" />.</returns>
@@ -843,7 +840,7 @@ El efecto neto es que puede cambiar la colección en cualquier subproceso y, fin
         <param name="dp">Propiedad de destino del enlace.</param>
         <param name="binding">Objeto <see cref="T:System.Windows.Data.BindingBase" /> que describe el enlace.</param>
         <summary>Crea y asocia una nueva instancia de <see cref="T:System.Windows.Data.BindingExpressionBase" /> con la propiedad de destino de enlace especificada.</summary>
-        <returns>Instancia de <see cref="T:System.Windows.Data.BindingExpressionBase" /> creada y asociada con la propiedad especificada. La clase <see cref="T:System.Windows.Data.BindingExpressionBase" /> es la clase base de <see cref="T:System.Windows.Data.BindingExpression" />, <see cref="T:System.Windows.Data.MultiBindingExpression" /> y <see cref="T:System.Windows.Data.PriorityBindingExpression" />.</returns>
+        <returns>Instancia de <see cref="T:System.Windows.Data.BindingExpressionBase" /> creada para la propiedad especificada y asociada con esta. La clase <see cref="T:System.Windows.Data.BindingExpressionBase" /> es la clase base de <see cref="T:System.Windows.Data.BindingExpression" />, <see cref="T:System.Windows.Data.MultiBindingExpression" /> y <see cref="T:System.Windows.Data.PriorityBindingExpression" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
