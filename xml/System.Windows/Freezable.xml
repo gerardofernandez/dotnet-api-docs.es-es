@@ -1,11 +1,11 @@
 <Type Name="Freezable" FullName="System.Windows.Freezable">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="973c346f1874ce6fbdd0454e4370d678d8bcf9de" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="97fc92af0ea25eec6f71bb4a67579fbfd994f7b4" />
+    <Meta Name="ms.sourcegitcommit" Value="9e06b87bcfa4347dbbaaa4b3cc36b43b93b5badb" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39786889" />
+    <Meta Name="ms.lasthandoff" Value="11/20/2018" />
+    <Meta Name="ms.locfileid" Value="52214110" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class Freezable : System.Windows.DependencyObject" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit Freezable extends System.Windows.DependencyObject" />
@@ -23,7 +23,7 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>Define un objeto que tiene un estado modificable y un estado de solo lectura (inmovilizado). Las clases que se derivan de <see cref="T:System.Windows.Freezable" /> proporcionan una notificación de los cambios detallados, se pueden convertir en inmutables y pueden clonarse a sí mimas.</summary>
+    <summary>Define un objeto que tiene un estado modificable y un estado de solo lectura (inmovilizado). Las clases que derivan de <see cref="T:System.Windows.Freezable" /> proporcionan una notificación de cambios detallada, puede hacerse inmutables y pueden clonarse a sí mismas.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
@@ -165,7 +165,7 @@ Cuando sus <see cref="P:System.Windows.Freezable.IsFrozen" /> propiedad es <see 
       <Parameters />
       <Docs>
         <summary>Crea un clon modificable del elemento <see cref="T:System.Windows.Freezable" /> y hace copias en profundidad de los valores del objeto. Cuando se copian las propiedades de dependencia del objeto, este método copia las expresiones (que puede que ya no se resuelvan), pero no copia las animaciones ni sus valores actuales.</summary>
-        <returns>Clon modificable del objeto actual. La propiedad <see cref="P:System.Windows.Freezable.IsFrozen" /> del objeto clonado es <see langword="false" /> aunque la propiedad <see cref="P:System.Windows.Freezable.IsFrozen" /> del origen sea <see langword="true." /></returns>
+        <returns>Clon modificable del objeto actual. La propiedad <see cref="P:System.Windows.Freezable.IsFrozen" /> del objeto clonado es <see langword="false" /> aunque la propiedad <see cref="P:System.Windows.Freezable.IsFrozen" /> del origen sea <see langword="true." />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -229,7 +229,33 @@ Cuando sus <see cref="P:System.Windows.Freezable.IsFrozen" /> propiedad es <see 
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Si deriva de <see cref="T:System.Windows.Freezable" />, es posible que deba reemplazar este método. Motivos para invalidar incluyen lo siguiente:-la clase derivada tiene datos que no se exponen a través de las propiedades de dependencia.  -La clase derivada debe realizar trabajo adicional de inicialización que no se puede lograr simplemente invalidando <see cref="M:System.Windows.Freezable.CreateInstanceCore" />. Por ejemplo, esto se aplica si la clase derivada implementa <see cref="T:System.ComponentModel.ISupportInitialize" />.  Las clases que almacenan todos los datos en las propiedades de dependencia y que no es necesario realizar trabajo adicional de inicialización no es necesario invalidar <see cref="M:System.Windows.Freezable.CloneCore(System.Windows.Freezable)" />.  Es fundamental que todas las implementaciones de llamar a la implementación base de este método. Las implementaciones solo deben realizar el trabajo que no se realiza la implementación predeterminada. La implementación predeterminada crea copias en profundidad de todas las propiedades de escritura, establecidas localmente, incluidas las expresiones internas.  Si el objeto tiene propiedades de dependencia enlazada a datos, las expresiones se copian pero no se resuelvan. Para obtener más información acerca de la clonación de los objetos enlazados a datos, vea [Freezable Objects Overview](~/docs/framework/wpf/advanced/freezable-objects-overview.md). Si el objeto tiene propiedades de dependencia animadas, se copia el valor base (no animados) de esas propiedades. No se copian las animaciones.  Tenga en cuenta que no se copian las propiedades sin establecer ni son propiedades de solo lectura. Si esta propiedad tiene un valor predeterminado que está inmovilizado <see cref="T:System.Windows.Freezable" />, que permanece inmovilizado en el clon modificable de lo contrario, valor de propiedad.  En la lista siguiente se resume el comportamiento esperado para este método:-la copia generada contiene copias de todos los <see cref="T:System.Windows.Freezable" /> subobjetos.  -No se copian las propiedades anular y de solo lectura.  -Las expresiones se copian.  -Ninguno de estos subobjetos se inmoviliza al crearlos.  -No se inmovilice la copia de sí mismo.  -Las animaciones no se copian.  -Solo valores de base de propiedad son copiados, no animado los valores actuales.</para>
+          <para>Si deriva de <see cref="T:System.Windows.Freezable" />, es posible que deba reemplazar este método. Razones para invalidar incluyen lo siguiente: 
+-La clase derivada tiene datos que no se exponen a través de las propiedades de dependencia.  
+  
+-La clase derivada debe realizar trabajo adicional de inicialización que no se puede lograr simplemente invalidando <see cref="M:System.Windows.Freezable.CreateInstanceCore" />. Por ejemplo, esto se aplica si la clase derivada implementa <see cref="T:System.ComponentModel.ISupportInitialize" />.  
+  
+Las clases que almacenan todos los datos en las propiedades de dependencia y que no es necesario realizar trabajo adicional de inicialización no es necesario invalidar <see cref="M:System.Windows.Freezable.CloneCore(System.Windows.Freezable)" />.  
+  
+Es fundamental que todas las implementaciones de llamar a la implementación base de este método. Las implementaciones solo deben realizar el trabajo que no se realiza la implementación predeterminada. La implementación predeterminada crea copias en profundidad de todas las propiedades de escritura, establecidas localmente, incluidas las expresiones internas.  
+  
+Si el objeto tiene propiedades de dependencia enlazada a datos, las expresiones se copian pero no se resuelvan. Para obtener más información acerca de la clonación de los objetos enlazados a datos, vea [Freezable Objects Overview](~/docs/framework/wpf/advanced/freezable-objects-overview.md). Si el objeto tiene propiedades de dependencia animadas, se copia el valor base (no animados) de esas propiedades. No se copian las animaciones.  
+  
+Tenga en cuenta que no se copian las propiedades sin establecer ni son propiedades de solo lectura. Si esta propiedad tiene un valor predeterminado que está inmovilizado <see cref="T:System.Windows.Freezable" />, que permanece inmovilizado en el clon modificable de lo contrario, valor de propiedad.  
+  
+En la lista siguiente se resume el comportamiento esperado para este método: 
+-La copia generada contiene copias de todos los <see cref="T:System.Windows.Freezable" /> subobjetos.  
+  
+-No se copian las propiedades anular y de solo lectura.  
+  
+-Las expresiones se copian.  
+  
+-Ninguno de estos subobjetos se inmoviliza al crearlos.  
+  
+-No se inmovilice la copia de sí mismo.  
+  
+-Las animaciones no se copian.  
+  
+-Solo valores de base de propiedad son copiados, no animado los valores actuales.</para>
         </block>
         <altmember cref="M:System.Windows.Freezable.Clone" />
       </Docs>
@@ -253,7 +279,7 @@ Cuando sus <see cref="P:System.Windows.Freezable.IsFrozen" /> propiedad es <see 
       <Parameters />
       <Docs>
         <summary>Crea un clon modificable (copia en profundidad) de <see cref="T:System.Windows.Freezable" /> con sus valores actuales.</summary>
-        <returns>Clon modificable del objeto actual. La propiedad <see cref="P:System.Windows.Freezable.IsFrozen" /> del objeto clonado es <see langword="false" /> aunque la propiedad <see cref="P:System.Windows.Freezable.IsFrozen" /> del origen sea <see langword="true." /></returns>
+        <returns>Clon modificable del objeto actual. La propiedad <see cref="P:System.Windows.Freezable.IsFrozen" /> del objeto clonado es <see langword="false" /> aunque la propiedad <see cref="P:System.Windows.Freezable.IsFrozen" /> del origen sea <see langword="true." />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -317,7 +343,30 @@ Cuando sus <see cref="P:System.Windows.Freezable.IsFrozen" /> propiedad es <see 
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Si deriva de <see cref="T:System.Windows.Freezable" />, es posible que deba reemplazar este método. Motivos para invalidar incluyen lo siguiente:-la clase derivada tiene datos que no se exponen a través de las propiedades de dependencia.  -La clase derivada debe realizar trabajo adicional de inicialización que no se puede lograr simplemente invalidando <see cref="M:System.Windows.Freezable.CreateInstanceCore" />. Por ejemplo, esto se aplica si la clase derivada implementa <see cref="T:System.ComponentModel.ISupportInitialize" />.  Las clases que almacenan todos los datos en las propiedades de dependencia y que no es necesario realizar trabajo adicional de inicialización no es necesario invalidar <see cref="M:System.Windows.Freezable.CloneCurrentValueCore(System.Windows.Freezable)" />.  Es fundamental que todas las implementaciones de llamar a la implementación base de este método. Las implementaciones solo deben realizar el trabajo que no se realiza la implementación predeterminada. La implementación predeterminada crea copias en profundidad de todas las propiedades establecidas localmente, puede escribir. Si el objeto contiene las propiedades de dependencia con expresiones (por ejemplo, un enlace de datos), se copia el valor actual de la expresión pero no la propia expresión.  Si el objeto con propiedades de dependencia animadas, se copia el valor animado actual de esas propiedades, pero las animaciones no son.  Tenga en cuenta que no se copian las propiedades sin establecer ni son propiedades de solo lectura. Si esta propiedad tiene un valor predeterminado que está inmovilizado <see cref="T:System.Windows.Freezable" />, que permanece inmovilizado en el clon modificable de lo contrario, valor de propiedad.  En la lista siguiente se resume el comportamiento esperado para este método.  -La copia generada contiene copias de todos los <see cref="T:System.Windows.Freezable" /> subobjetos.  -No se copian las propiedades anular y de solo lectura.  -Si una propiedad está animada, se copia su valor actual, pero la animación propiamente dicha no está.  -Ninguno de estos subobjetos se inmoviliza al crearlos.  -No se inmovilice la copia de sí mismo.</para>
+          <para>Si deriva de <see cref="T:System.Windows.Freezable" />, es posible que deba reemplazar este método. Razones para invalidar incluyen lo siguiente: 
+-La clase derivada tiene datos que no se exponen a través de las propiedades de dependencia.  
+  
+-La clase derivada debe realizar trabajo adicional de inicialización que no se puede lograr simplemente invalidando <see cref="M:System.Windows.Freezable.CreateInstanceCore" />. Por ejemplo, esto se aplica si la clase derivada implementa <see cref="T:System.ComponentModel.ISupportInitialize" />.  
+  
+Las clases que almacenan todos los datos en las propiedades de dependencia y que no es necesario realizar trabajo adicional de inicialización no es necesario invalidar <see cref="M:System.Windows.Freezable.CloneCurrentValueCore(System.Windows.Freezable)" />.  
+  
+Es fundamental que todas las implementaciones de llamar a la implementación base de este método. Las implementaciones solo deben realizar el trabajo que no se realiza la implementación predeterminada. La implementación predeterminada crea copias en profundidad de todas las propiedades establecidas localmente, puede escribir. Si el objeto contiene las propiedades de dependencia con expresiones (por ejemplo, un enlace de datos), se copia el valor actual de la expresión pero no la propia expresión.  
+  
+Si el objeto con propiedades de dependencia animadas, se copia el valor animado actual de esas propiedades, pero las animaciones no son.  
+  
+Tenga en cuenta que no se copian las propiedades sin establecer ni son propiedades de solo lectura. Si esta propiedad tiene un valor predeterminado que está inmovilizado <see cref="T:System.Windows.Freezable" />, que permanece inmovilizado en el clon modificable de lo contrario, valor de propiedad.  
+  
+En la lista siguiente se resume el comportamiento esperado para este método.  
+  
+-La copia generada contiene copias de todos los <see cref="T:System.Windows.Freezable" /> subobjetos.  
+  
+-No se copian las propiedades anular y de solo lectura.  
+  
+-Si una propiedad está animada, se copia su valor actual, pero la animación propiamente dicha no está.  
+  
+-Ninguno de estos subobjetos se inmoviliza al crearlos.  
+  
+-No se inmovilice la copia de sí mismo.</para>
         </block>
         <altmember cref="M:System.Windows.Freezable.CloneCurrentValue" />
       </Docs>
@@ -459,7 +508,7 @@ Cuando sus <see cref="P:System.Windows.Freezable.IsFrozen" /> propiedad es <see 
         <Parameter Name="isChecking" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="freezable">Objeto que se va a comprobar o a convertir en no modificable. Si <c>isChecking</c> es <see langword="true" />, se comprueba el objeto para determinar si se puede convertir en no modificable. Si <c>isChecking</c> es <see langword="false" />, el objeto se convierte en no modificable, si es posible.</param>
+        <param name="freezable">Objeto que se va a comprobar o a convertir en no modificable. Si el valor de <paramref name="isChecking" /> es <see langword="true" />, se comprueba el objeto para determinar si se puede convertir en no modificable. Si el valor de <paramref name="isChecking" /> es <see langword="false" />, el objeto se convierte en no modificable, si es posible.</param>
         <param name="isChecking">Es <see langword="true" /> para devolver una indicación de si se puede inmovilizar el objeto (sin inmovilizarlo realmente); es <see langword="false" /> para inmovilizarlo realmente.</param>
         <summary>Si el valor del parámetro <paramref name="isChecking" /> es <see langword="true" />, este método indica si la clase <see cref="T:System.Windows.Freezable" /> especificada se puede convertir en no modificable. Si el valor del parámetro <paramref name="isChecking" /> es <see langword="false" />, este método intenta convertir la clase <see cref="T:System.Windows.Freezable" /> especificada en no modificable e indica si la operación se realiza correctamente.</summary>
         <returns>Si el valor de <paramref name="isChecking" /> es <see langword="true" />, este método devuelve <see langword="true" /> si la clase <see cref="T:System.Windows.Freezable" /> especificada se puede convertir en no modificable o <see langword="false" /> si no se puede convertir en no modificable. Si el valor de <paramref name="isChecking" /> es <see langword="false" />, este método devuelve <see langword="true" /> si la clase <see cref="T:System.Windows.Freezable" /> especificada ahora no es modificable o <see langword="false" /> si no se puede convertir en no modificable.</returns>
@@ -513,7 +562,9 @@ Cuando sus <see cref="P:System.Windows.Freezable.IsFrozen" /> propiedad es <see 
         </remarks>
         <block subset="none" type="overrides">
           <para>
-            <see cref="T:System.Windows.Freezable" /> los implementadores deben invalidar este método cuando la clase contiene los datos que no se almacenan utilizando las propiedades de dependencia.  Una implementación típica podría llamar a la base y luego llame al estático <see cref="M:System.Windows.Freezable.Freeze(System.Windows.Freezable,System.Boolean)" /> método en todos los <see cref="T:System.Windows.Freezable" /> las propiedades que contiene la clase, devolver con tipo <see langword="true" /> sólo si todas las propiedades estén inmovilizadas (o se ha inmovilizado podría, en el caso de especificar <see langword="true" /> para <paramref name="isChecking" />).</para>
+            <see cref="T:System.Windows.Freezable" /> los implementadores deben invalidar este método cuando la clase contiene los datos que no se almacenan utilizando las propiedades de dependencia.  
+  
+Una implementación típica podría llamar a la base y luego llame al estático <see cref="M:System.Windows.Freezable.Freeze(System.Windows.Freezable,System.Boolean)" /> método en todos los <see cref="T:System.Windows.Freezable" /> las propiedades que contiene la clase, devolver con tipo <see langword="true" /> sólo si todas las propiedades estén inmovilizadas (o se ha inmovilizado podría, en el caso de especificar <see langword="true" /> para <paramref name="isChecking" />).</para>
         </block>
         <altmember cref="M:System.Windows.Freezable.Freeze" />
         <altmember cref="P:System.Windows.Freezable.CanFreeze" />
@@ -603,7 +654,20 @@ Cuando sus <see cref="P:System.Windows.Freezable.IsFrozen" /> propiedad es <see 
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Si deriva de <see cref="T:System.Windows.Freezable" /> deberá reemplazar este método. Motivos para invalidar incluyen lo siguiente:-la clase derivada tiene datos que no se exponen a través de las propiedades de dependencia.  -La clase derivada debe realizar trabajo adicional de inicialización que no se puede lograr simplemente invalidando <see cref="M:System.Windows.Freezable.CreateInstanceCore" />. Por ejemplo, esto se aplica si la clase derivada implementa <see cref="T:System.ComponentModel.ISupportInitialize" />.  Las clases que almacenan todos los datos en las propiedades de dependencia y que no es necesario realizar trabajo adicional de inicialización no es necesario invalidar <see cref="M:System.Windows.Freezable.GetAsFrozenCore(System.Windows.Freezable)" />.  Es fundamental que todas las implementaciones de llamar a la implementación base de este método. Las implementaciones solo deben realizar el trabajo que no se realiza la implementación predeterminada. La implementación predeterminada crea copias en profundidad de cualquier Freezable no inmovilizados y superficiales copias de todos los demás grabable, localmente contiene las propiedades del conjunto. Si el objeto tiene propiedades de dependencia enlazada a datos, las expresiones se copian pero ya no se pueden resolver; Para obtener más información acerca de la clonación de los objetos enlazados a datos, vea [Freezable Objects Overview](~/docs/framework/wpf/advanced/freezable-objects-overview.md). Si el objeto tiene propiedades de dependencia animadas, se copian los valores base (no animados) de esas propiedades. No se copian las animaciones.  Tenga en cuenta que no se copian las propiedades sin establecer ni son propiedades de solo lectura.  Si invalida este método, debe llamar a la implementación base.  No es necesario <see cref="M:System.Windows.Freezable.Freeze" /> cuando se copian los valores.  El resultado se congela <see cref="M:System.Windows.Freezable.GetAsFrozen" /> antes de devolverse.</para>
+          <para>Si deriva de <see cref="T:System.Windows.Freezable" /> deberá reemplazar este método. Razones para invalidar incluyen lo siguiente: 
+-La clase derivada tiene datos que no se exponen a través de las propiedades de dependencia.  
+  
+-La clase derivada debe realizar trabajo adicional de inicialización que no se puede lograr simplemente invalidando <see cref="M:System.Windows.Freezable.CreateInstanceCore" />. Por ejemplo, esto se aplica si la clase derivada implementa <see cref="T:System.ComponentModel.ISupportInitialize" />.  
+  
+Las clases que almacenan todos los datos en las propiedades de dependencia y que no es necesario realizar trabajo adicional de inicialización no es necesario invalidar <see cref="M:System.Windows.Freezable.GetAsFrozenCore(System.Windows.Freezable)" />.  
+  
+Es fundamental que todas las implementaciones de llamar a la implementación base de este método. Las implementaciones solo deben realizar el trabajo que no se realiza la implementación predeterminada. La implementación predeterminada crea copias en profundidad de cualquier Freezable no inmovilizados y superficiales copias de todos los demás grabable, localmente contiene las propiedades del conjunto. Si el objeto tiene propiedades de dependencia enlazada a datos, las expresiones se copian pero ya no se pueden resolver; Para obtener más información acerca de la clonación de los objetos enlazados a datos, vea [Freezable Objects Overview](~/docs/framework/wpf/advanced/freezable-objects-overview.md). Si el objeto tiene propiedades de dependencia animadas, se copian los valores base (no animados) de esas propiedades. No se copian las animaciones.  
+  
+Tenga en cuenta que no se copian las propiedades sin establecer ni son propiedades de solo lectura.  
+  
+Si invalida este método, debe llamar a la implementación base.  
+  
+No es necesario <see cref="M:System.Windows.Freezable.Freeze" /> cuando se copian los valores.  El resultado se congela <see cref="M:System.Windows.Freezable.GetAsFrozen" /> antes de devolverse.</para>
         </block>
         <altmember cref="M:System.Windows.Freezable.GetAsFrozen" />
       </Docs>
@@ -682,7 +746,7 @@ Cuando sus <see cref="P:System.Windows.Freezable.IsFrozen" /> propiedad es <see 
       </Parameters>
       <Docs>
         <param name="sourceFreezable">Clase <see cref="T:System.Windows.Freezable" /> que se va a copiar e inmovilizar.</param>
-        <summary>Convierte la instancia actual en un clon inmovilizado de la clase <see cref="T:System.Windows.Freezable" /> especificada. Si el objeto tiene propiedades de dependencia animadas, se copian sus valores animados actuales.</summary>
+        <summary>Convierte la instancia actual en un clon inmovilizado del valor de <see cref="T:System.Windows.Freezable" /> especificado. Si el objeto tiene propiedades de dependencia animadas, se copian sus valores animados actuales.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -692,7 +756,20 @@ Cuando sus <see cref="P:System.Windows.Freezable.IsFrozen" /> propiedad es <see 
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Si deriva de <see cref="T:System.Windows.Freezable" />, es posible que deba reemplazar este método. Motivos para invalidar incluyen lo siguiente:-la clase derivada tiene datos que no se exponen a través de las propiedades de dependencia.  -La clase derivada debe realizar trabajo adicional de inicialización que no se puede lograr simplemente invalidando <see cref="M:System.Windows.Freezable.CreateInstanceCore" />. Por ejemplo, esto se aplica si la clase derivada implementa <see cref="T:System.ComponentModel.ISupportInitialize" />.  Las clases que almacenan todos los datos en las propiedades de dependencia y que no es necesario realizar trabajo adicional de inicialización no es necesario invalidar <see cref="M:System.Windows.Freezable.GetCurrentValueAsFrozenCore(System.Windows.Freezable)" />.  Es fundamental que todas las implementaciones de llamar a la implementación base de este método. Las implementaciones solo deben realizar el trabajo que no se realiza la implementación predeterminada. La implementación predeterminada crea un nuevo <see cref="T:System.Windows.Freezable" /> utilizando el <see cref="M:System.Windows.Freezable.CreateInstance" /> método y hace copias en profundidad de Freezable no inmovilizados y copia superficial de todos los demás grabable y propiedades que contiene establecido localmente. Si el objeto tiene propiedades de dependencia enlazada a datos, los enlaces de datos se copian, pero ya no se pueden resolver; Para obtener más información acerca de la clonación de los objetos enlazados a datos, vea [Freezable Objects Overview](~/docs/framework/wpf/advanced/freezable-objects-overview.md). Si el objeto con propiedades de dependencia animadas, se copia el valor animado actual de esas propiedades, pero las animaciones no son.  Propiedades de dependencia de sólo lectura dentro de un <see cref="T:System.Windows.Freezable" /> no se copian por esta implementación predeterminada.  Si invalida este método, debe llamar a la implementación base.  No es necesario <see cref="M:System.Windows.Freezable.Freeze" /> cuando se copian los valores.  El resultado se congela <see cref="M:System.Windows.Freezable.GetAsFrozen" /> antes de devolverse.</para>
+          <para>Si deriva de <see cref="T:System.Windows.Freezable" />, es posible que deba reemplazar este método. Razones para invalidar incluyen lo siguiente: 
+-La clase derivada tiene datos que no se exponen a través de las propiedades de dependencia.  
+  
+-La clase derivada debe realizar trabajo adicional de inicialización que no se puede lograr simplemente invalidando <see cref="M:System.Windows.Freezable.CreateInstanceCore" />. Por ejemplo, esto se aplica si la clase derivada implementa <see cref="T:System.ComponentModel.ISupportInitialize" />.  
+  
+Las clases que almacenan todos los datos en las propiedades de dependencia y que no es necesario realizar trabajo adicional de inicialización no es necesario invalidar <see cref="M:System.Windows.Freezable.GetCurrentValueAsFrozenCore(System.Windows.Freezable)" />.  
+  
+Es fundamental que todas las implementaciones de llamar a la implementación base de este método. Las implementaciones solo deben realizar el trabajo que no se realiza la implementación predeterminada. La implementación predeterminada crea un nuevo <see cref="T:System.Windows.Freezable" /> utilizando el <see cref="M:System.Windows.Freezable.CreateInstance" /> método y hace copias en profundidad de Freezable no inmovilizados y copia superficial de todos los demás grabable y propiedades que contiene establecido localmente. Si el objeto tiene propiedades de dependencia enlazada a datos, los enlaces de datos se copian, pero ya no se pueden resolver; Para obtener más información acerca de la clonación de los objetos enlazados a datos, vea [Freezable Objects Overview](~/docs/framework/wpf/advanced/freezable-objects-overview.md). Si el objeto con propiedades de dependencia animadas, se copia el valor animado actual de esas propiedades, pero las animaciones no son.  
+  
+Propiedades de dependencia de sólo lectura dentro de un <see cref="T:System.Windows.Freezable" /> no se copian por esta implementación predeterminada.  
+  
+Si invalida este método, debe llamar a la implementación base.  
+  
+No es necesario <see cref="M:System.Windows.Freezable.Freeze" /> cuando se copian los valores.  El resultado se congela <see cref="M:System.Windows.Freezable.GetAsFrozen" /> antes de devolverse.</para>
         </block>
         <altmember cref="M:System.Windows.Freezable.CloneCurrentValueCore(System.Windows.Freezable)" />
       </Docs>
@@ -715,7 +792,8 @@ Cuando sus <see cref="P:System.Windows.Freezable.IsFrozen" /> propiedad es <see 
       </ReturnValue>
       <Docs>
         <summary>Obtiene un valor que indica si el objeto se puede modificar actualmente.</summary>
-        <value>Es <see langword="true" /> si el objeto se inmoviliza y no se puede modificar; es <see langword="false" /> si se puede modificar.</value>
+        <value>
+          <see langword="true" /> si el objeto se inmoviliza y no se puede modificar; <see langword="false" /> si se puede modificar el objeto.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -746,7 +824,7 @@ Cuando sus <see cref="P:System.Windows.Freezable.IsFrozen" /> propiedad es <see 
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Se le llama cuando se modifica el objeto <see cref="T:System.Windows.Freezable" /> actual.</summary>
+        <summary>Se llama cuando el objeto <see cref="T:System.Windows.Freezable" /> actual.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -893,7 +971,9 @@ Cuando sus <see cref="P:System.Windows.Freezable.IsFrozen" /> propiedad es <see 
         <summary>Se asegura de que se tiene acceso a <see cref="T:System.Windows.Freezable" /> desde un subproceso válido. Los herederos de <see cref="T:System.Windows.Freezable" /> deben llamar a este método al inicio de las [!INCLUDE[TLA#tla_api](~/includes/tlasharptla-api-md.md)] que lean miembros de datos que no son propiedades de dependencia.</summary>
         <remarks>To be added.</remarks>
         <block subset="none" type="overrides">
-          <para>Las clases que derivan de <see cref="T:System.Windows.Freezable" /> debe llamar a la <see cref="M:System.Windows.Freezable.ReadPreamble" /> método antes de intentar tener acceso a los miembros que no son propiedades de dependencia. El <see cref="M:System.Windows.Freezable.WritePreamble" /> debe llamarse al método antes de que los miembros de este tipo se escriben en.  Este método eficazmente no hace nada más que llamar a <see cref="M:System.Windows.Threading.DispatcherObject.VerifyAccess" />.</para>
+          <para>Las clases que derivan de <see cref="T:System.Windows.Freezable" /> debe llamar a la <see cref="M:System.Windows.Freezable.ReadPreamble" /> método antes de intentar tener acceso a los miembros que no son propiedades de dependencia. El <see cref="M:System.Windows.Freezable.WritePreamble" /> debe llamarse al método antes de que los miembros de este tipo se escriben en.  
+  
+Este método eficazmente no hace nada más que llamar a <see cref="M:System.Windows.Threading.DispatcherObject.VerifyAccess" />.</para>
         </block>
         <altmember cref="M:System.Windows.Freezable.WritePreamble" />
       </Docs>
@@ -921,7 +1001,7 @@ Cuando sus <see cref="P:System.Windows.Freezable.IsFrozen" /> propiedad es <see 
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Provoca el evento <see cref="E:System.Windows.Freezable.Changed" /> de <see cref="T:System.Windows.Freezable" /> e invoca su método <see cref="M:System.Windows.Freezable.OnChanged" />. Las clases que derivan de <see cref="T:System.Windows.Freezable" /> deben llamar a este método al final de cualquier API que modifique miembros de clase que no estén almacenados como propiedades de dependencia.</summary>
+        <summary>Genera el evento <see cref="E:System.Windows.Freezable.Changed" /> para <see cref="T:System.Windows.Freezable" /> e invoca su método <see cref="M:System.Windows.Freezable.OnChanged" />. Las clases que derivan de <see cref="T:System.Windows.Freezable" /> deben llamar a este método al final de cualquier API que modifique miembros de clase que no estén almacenados como propiedades de dependencia.</summary>
         <remarks>To be added.</remarks>
         <block subset="none" type="overrides">
           <para>Las clases que derivan de <see cref="T:System.Windows.Freezable" /> debe llamar a este método al final de cualquier API que modifique un miembro de clase que no se almacena como un <see cref="T:System.Windows.DependencyProperty" />.</para>
