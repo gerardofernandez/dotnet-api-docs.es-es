@@ -1,11 +1,11 @@
 <Type Name="InstancePersistenceContext" FullName="System.Runtime.DurableInstancing.InstancePersistenceContext">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="774f08f307628a25a88866a93592fcaade22fb04" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="ad341bed6953172fb3eba70952b4f8f56f0e65d7" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39959571" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52611608" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class InstancePersistenceContext" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit InstancePersistenceContext extends System.Object" />
@@ -96,7 +96,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Al intentar adquirir un bloqueo, el proveedor de persistencia puede decidir que la instancia actual ya está bloqueada en el almacén actual. Si el token de bloqueo coincide con el token de bloqueo del identificador actual, el proveedor de persistencia puede intentar reclamar el bloqueo inspeccionando su versión y pasándola a BeginBindReclaimedLock. El proveedor de persistencia no debe realizar cambios en la instancia hasta que el bloqueo se reclame correctamente. Si no hay ningún otro identificador enlazado al bloqueo, la operación BeginBindReclaimedLock se ejecuta correctamente y el identificador actual se enlaza al bloqueo. De lo contrario, BeginBindReclaimedLock o EndBindReclaimedLock producen la excepción InstanceHandleConflictException. Si los comandos están en curso en otros identificadores, la operación puede no completarse mientras espera el resultado de esos comandos para decidir si el bloqueo se puede reclamar.  
+ Al intentar adquirir un bloqueo, el proveedor de persistencia puede decidir que la instancia actual ya está bloqueada en el almacén actual. Si el token de bloqueo coincide con token de bloqueo del identificador actual, el proveedor de persistencia puede intentar reclamar el bloqueo inspeccionando su versión y pasándola a BeginBindReclaimedLock. El proveedor de persistencia no debe realizar cambios en la instancia hasta que el bloqueo se reclame correctamente. Si no hay ningún otro identificador enlazado al bloqueo, la operación BeginBindReclaimedLock se ejecuta correctamente y el identificador actual se enlaza al bloqueo. De lo contrario, BeginBindReclaimedLock o EndBindReclaimedLock producen la excepción InstanceHandleConflictException. Si los comandos están en curso en otros identificadores, la operación puede no completarse mientras espera el resultado de esos comandos para decidir si el bloqueo se puede reclamar.  
   
  El identificador de instancia actual se debe enlazar al propietario de un bloqueo y una instancia. No se debe completar la instancia. El token de bloqueo asociado al propietario del bloqueo se utiliza para identificar a este.  
   
@@ -253,7 +253,7 @@
       </Parameters>
       <Docs>
         <param name="instanceOwnerId">Identificador del propietario de la instancia.</param>
-        <param name="lockToken">Token de bloqueo del propietario de la instancia. Un proveedor de persistencia puede decidir utilizar el mismo valor para el identificador del propietario de instancia y el token de bloqueo del propietario.</param>
+        <param name="lockToken">Token de bloqueo del propietario de la instancia. Un proveedor de persistencia puede decidir usar el mismo valor para el identificador del propietario de instancia y el token de bloqueo del propietario.</param>
         <summary>Enlaza un propietario de instancia al identificador de instancia actual.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -292,7 +292,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Al intentar adquirir un bloqueo, el proveedor de persistencia puede decidir que la instancia actual ya está bloqueada en el almacén actual. Si el token de bloqueo coincide con el token de bloqueo del identificador actual, el proveedor de persistencia puede intentar reclamar el bloqueo inspeccionando su versión y pasándola a BindReclaimedLock. El proveedor de persistencia no debe realizar cambios en la instancia hasta que el bloqueo se reclame correctamente. Si no hay ningún otro identificador enlazado al bloqueo, BindReclaimedLock se ejecuta correctamente y el identificador actual se enlaza al bloqueo. De lo contrario, BindReclaimedLock produce la excepción InstanceHandleConflictException. Si hay comandos en curso en otros identificadores, BindReclaimedLock puede bloquear la espera del resultado de esos comandos antes de decidir si se puede reclamar el bloqueo.  
+ Al intentar adquirir un bloqueo, el proveedor de persistencia puede decidir que la instancia actual ya está bloqueada en el almacén actual. Si el token de bloqueo coincide con token de bloqueo del identificador actual, el proveedor de persistencia puede intentar reclamar el bloqueo inspeccionando su versión y pasándola a BindReclaimedLock. El proveedor de persistencia no debe realizar cambios en la instancia hasta que el bloqueo se reclame correctamente. Si no hay ningún otro identificador enlazado al bloqueo, BindReclaimedLock se ejecuta correctamente y el identificador actual se enlaza al bloqueo. De lo contrario, BindReclaimedLock produce la excepción InstanceHandleConflictException. Si hay comandos en curso en otros identificadores, BindReclaimedLock puede bloquear la espera del resultado de esos comandos antes de decidir si se puede reclamar el bloqueo.  
   
  El identificador de instancia actual se debe enlazar al propietario de un bloqueo y una instancia. No se debe completar la instancia. El token de bloqueo asociado al propietario del bloqueo se utiliza para identificar a este.  
   
@@ -532,12 +532,12 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
       </ReturnValue>
       <Docs>
         <summary>Obtiene la versión del bloqueo que el identificador de instancia actual mantiene en la instancia actual.</summary>
-        <value>La versión del bloqueo de la instancia enlazada al identificador de instancia actual o -1 si el identificador no está enlazado a un bloqueo.</value>
+        <value>La versión del bloqueo de instancia enlazado al identificador de instancia actual, o -1 si el identificador no está enlazado a un bloqueo.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El proveedor de persistencia debe comprobar este valor con la versión del bloqueo que se mantiene en una instancia en el almacén de instancias al realizar una operación que requiere un bloqueo (como conservar los datos de la instancia) utilizando un identificador enlazado al bloqueo. Si la versión del bloqueo no coincide, el comando debe producir un error con la excepción InstanceLockLostException.  
+ El proveedor de persistencia debe comprobar este valor con la versión del bloqueo que se mantiene en una instancia en el almacén de instancias al realizar una operación que requiere un bloqueo (como conservar los datos de la instancia) utilizando un identificador enlazado al bloqueo. Si no coincide con la versión del bloqueo, el comando debe producir un error con la excepción InstanceLockLostException.  
   
  ]]></format>
         </remarks>
@@ -625,12 +625,12 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
       </ReturnValue>
       <Docs>
         <summary>Obtiene el token de bloqueo del propietario de la instancia enlazado al identificador de instancia actual.</summary>
-        <value>Token de bloqueo enlazado al identificador de instancia actual o Guid.Empty si el identificador no está enlazado a un propietario de instancia.</value>
+        <value>El token de bloqueo enlazado al identificador de instancia actual o Guid.Empty si el identificador no está enlazado a un propietario de instancia.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El proveedor de persistencia debe comprobar este valor con el token del bloqueo que se mantiene en una instancia en el almacén de instancias al realizar una operación que requiere un bloqueo (como conservar los datos de la instancia) utilizando un identificador enlazado al bloqueo. Si el token del bloqueo no coincide, el comando debe producir un error con la excepción InstanceLockLostException.  
+ El proveedor de persistencia debe comprobar este valor con el token del bloqueo que se mantiene en una instancia en el almacén de instancias al realizar una operación que requiere un bloqueo (como conservar los datos de la instancia) utilizando un identificador enlazado al bloqueo. Si no coincide con el token de bloqueo, debe generar un error en el comando con la excepción InstanceLockLostException.  
   
  El proveedor de persistencia debe utilizar este valor como el token de bloqueo al adquirir un nuevo bloqueo en una instancia (por ejemplo, al conservar los datos de instancia usando un identificador que no está enlazado a un bloqueo). Si la instancia ya está bloqueada en el almacén de instancias y el token de bloqueo coincide con este token de bloqueo, el proveedor de persistencia puede intentar reclamar la instancia mediante BindReclaimedLock.  
   

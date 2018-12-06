@@ -1,11 +1,11 @@
 <Type Name="IVsaCodeItem" FullName="Microsoft.Vsa.IVsaCodeItem">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="3d52b4e13d62d9a7363590361d0bd20b652f28e6" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="02ffa3d80165d4caa3178d3b714320a67262d734" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39791006" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52610035" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IVsaCodeItem : Microsoft.Vsa.IVsaItem" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IVsaCodeItem implements class Microsoft.Vsa.IVsaItem" />
@@ -35,8 +35,19 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Representa el elemento de código que el motor de scripts va a compilar.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[
+
+## Remarks  
+El elemento de código especificado puede contener clases, módulos u otro texto de origen.
+
+No se requieren permisos para llamar a los miembros de la interfaz IVsaCodeItem.
+
+El motor de scripts implementa esta interfaz para agregar elementos de código.
+
+]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="AddEventSource">
@@ -60,10 +71,27 @@
         <Parameter Name="eventSourceType" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="eventSourceName">To be added.</param>
-        <param name="eventSourceType">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="eventSourceName">Nombre de programación del origen de eventos.</param>
+        <param name="eventSourceType">Nombre de tipo del origen de eventos.</param>
+        <summary>Agrega un origen de eventos al elemento de código. El elemento de código usa el origen de eventos para enlazar un evento al origen de eventos indicado; para ello, llama al método IVsaSite.GetEventSourceInstance implementado por el host.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+El motor de scripts utiliza la información proporcionada por el método AddEventSource para enlazar eventos al origen de eventos con nombre. Obtiene los orígenes de eventos llamando al método IVsaSite.GetEventSourceInstance, implementado por el host. El método AddEventSource crea una clase que controla los eventos provocados por un objeto proporcionado por el host.
+
+> [!NOTE]
+> El motor de scripts de JScript .NET no admite este método. En casos donde el motor de JScript .NET debe enlazar un evento, debe hacerlo utilizando un elemento global. En lugar de orígenes de eventos, el motor de JScript .NET utiliza tipos de elemento AppGlobal. Para obtener más información, vea VsaItemType.
+
+
+Dentro del elemento de código, puede acceder el objeto de origen de eventos por nombre y, una vez que se tiene acceso a, puede escribir controladores de eventos para el objeto. El tipo de origen del evento se pasa como una cadena en lugar de un objeto de tipo para facilitar la implementación de los orígenes de eventos por hosts no administrados.
+
+El compilador usa el parámetro eventSourceType para enlazar a los métodos proporcionados por el tipo. También se utiliza más adelante cuando el motor de secuencia de comandos llama al método IVsaSite.GetEventSourceInstance para solicitar una instancia del objeto de tipo.
+
+Para obtener más información acerca de los mecanismos para enlazar eventos para el motor de scripts, vea el método IVsaSite.GetEventSourceInstance.
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="AppendSourceText">
@@ -86,9 +114,18 @@
         <Parameter Name="text" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="text">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="text">Texto que se va a anexar al elemento de código.</param>
+        <summary>Anexa el texto especificado al final del elemento de código.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Texto de origen anexado no está sujeto a validación. Por este motivo, los errores, si los hay, se detectarán en la siguiente llamada al método IVsaEngine.Compile.
+
+El texto de origen anexado se proporciona como una sola cadena. Si requiere la cadena de formato, debe proporcionar usted mismo.
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CodeDOM">
@@ -108,9 +145,16 @@
         <ReturnType>System.CodeDom.CodeObject</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtiene el Code Document Object Model (CodeDOM) representado en el elemento de código.</summary>
+        <value>Devuelve el modelo CodeDOM del elemento de código.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+La propiedad CodeDOM se genera normalmente como parte del paso de compilación del motor de secuencia de comandos, por lo que no está disponible hasta después de una llamada al método IVsaEngine.Compile. Es posible que algunas implementaciones de VSA pueda proporcionar CodeDOM dinámicamente, sin necesidad de un paso de compilación explícito, pero los hosts no pueden confiar en este comportamiento. Algunos motores de script, por ejemplo, el motor de scripts de JScript. NET, no admiten este comportamiento.
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="RemoveEventSource">
@@ -133,9 +177,16 @@
         <Parameter Name="eventSourceName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="eventSourceName">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="eventSourceName">Nombre de programación del origen de eventos que se va a quitar.</param>
+        <summary>Quita el origen de eventos especificado del elemento de código.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Quitar un origen de eventos no quita el controlador de eventos subyacente de texto de origen. En su lugar, los eventos ya no envían notificaciones al controlador de eventos. Por lo tanto, obtendrá un error del compilador si elimina un origen de eventos, pero deja la función subyacente en el código fuente.
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SourceText">
@@ -155,9 +206,20 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtiene o establece el texto de un elemento de código especificado, incluido el código generado automáticamente, si lo hubiera.</summary>
+        <value>Devuelve el texto de origen del elemento de código.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Al establecer esta propiedad, el texto no está sujeto a validación. Por este motivo, los errores, si los hay, se detectarán en la siguiente llamada al método IVsaEngine.Compile.
+
+La propiedad SourceText devuelve el texto de origen en una cadena larga, incluidos los caracteres de formato como transporte.
+
+Para obtener esta propiedad en el motor no debe estar cerrado. Para establecer esta propiedad en el motor no debe estar cerrado y no se debe ejecutar el motor.
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

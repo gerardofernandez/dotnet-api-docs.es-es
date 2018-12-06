@@ -1,11 +1,11 @@
 <Type Name="IsolatedStorageFileStream" FullName="System.IO.IsolatedStorage.IsolatedStorageFileStream">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="8aae778493bf66e76fe8b19633344f8127b1e61c" />
-    <Meta Name="ms.sourcegitcommit" Value="9e06b87bcfa4347dbbaaa4b3cc36b43b93b5badb" />
+    <Meta Name="ms.openlocfilehash" Value="8b5c74ce52efd9404fe42f44754ae999bbefd8fe" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="11/20/2018" />
-    <Meta Name="ms.locfileid" Value="52252157" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52615482" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class IsolatedStorageFileStream : System.IO.FileStream" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit IsolatedStorageFileStream extends System.IO.FileStream" />
@@ -849,8 +849,64 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Libera los recursos asociados al objeto <see cref="T:System.IO.IsolatedStorage.IsolatedStorageFileStream" />.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks
+
+Los datos escritos previamente en el búfer se copian en el archivo antes de cerrar la secuencia de archivo, por lo que no es necesario llamar a <xref:System.IO.IsolatedStorage.IsolatedStorageFileStream.Flush%2A> antes de invocar a cerrar.
+
+Una llamada a Close, cualquier operación en la secuencia de archivos puede provocar excepciones. Después de `Close` se ha llamado a una sola vez, no hace nada si se llama de nuevo. El <xref:System.Object.Finalize> método invoca Cerrar para que la secuencia de archivo se cierre antes de que el recolector de elementos no usados finalice el objeto.
+
+<xref:System.IO.IsolatedStorage.IsolatedStorageFileStream> objetos requieren un <xref:System.IO.IsolatedStorage.IsolatedStorageFile> objeto que determina el contexto de almacenamiento para el acceso a los archivos. Para las secuencias abiertos sin pasar un <xref:System.IO.IsolatedStorage.IsolatedStorageFile> (objeto), valor predeterminado es <xref:System.IO.IsolatedStorage.IsolatedStorageFile> objeto se crea para el ensamblado que se ejecuta y después se cierra durante la llamada a Close.
+
+> [!NOTE]
+> El `Close` llamadas al método <xref:System.IO.IsolatedStorage.IsolatedStorageFileStream.Dispose%2A> con el parámetro de eliminación establecido en true para liberar sus recursos, a continuación, llama a <xref:System.GC.SuppressFinalize%2A> para suprimir la finalización de este objeto por el recolector de elementos no utilizados.
+
+## Examples
+
+El ejemplo de código siguiente muestra el método Close.
+
+```csharp
+IsolatedStorageFileStream source =
+     new IsolatedStorageFileStream(this.userName,FileMode.Open,isoFile);
+ // This stream is the one that data will be read from
+ Console.WriteLine("Source can be read?" + (source.CanRead?"true":"false"));
+ IsolatedStorageFileStream target =
+     new IsolatedStorageFileStream("Archive\\ " + this.userName,FileMode.OpenOrCreate,isoFile);
+ // This stream is the one that data will be written to
+ Console.WriteLine("Target is writable?" + (target.CanWrite?"true":"false"));
+ // Do work...
+ // After you have read and written to the streams, close them
+ source.Close();
+ target.Close();
+```
+
+```vb
+Dim source As New IsolatedStorageFileStream(UserName,FileMode.Open,isoFile)
+ ' This stream is the one that data will be read from
+ If source.CanRead Then
+     Console.WriteLine("Source can read ? true")
+ Else
+     Console.WriteLine("Source can read ? false")
+ End If
+ Dim target As New IsolatedStorageFileStream("Archive\\ " & UserName, _
+                                             FileMode.OpenOrCreate, _
+                                             isoFile)
+ ' This stream is the one that data will be written to
+ If target.CanWrite Then
+     Console.WriteLine("Target is writable? true")
+ Else
+     Console.WriteLine("Target is writable? false")
+ End If
+ ' After you have read and written to the streams, close them
+ source.Close()
+ target.Close()
+```
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Dispose">
