@@ -1,11 +1,11 @@
 <Type Name="InstanceStore" FullName="System.Runtime.DurableInstancing.InstanceStore">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="8972e8c961043629bb8c0c72a45e02d752733a77" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="4a6be1c11096e116388eb56b729ee0512c463bc5" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39993468" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52607162" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class InstanceStore" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit InstanceStore extends System.Object" />
@@ -175,7 +175,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Crea un identificador de instancia. Si se establece DefaultInstanceOwner, el valor se enlaza automáticamente como el propietario de la instancia del nuevo identificador.</summary>
+        <summary>Crea un identificador de instancia. Si se establece DefaultInstanceOwner, el valor se enlaza automáticamente como propietario de instancia del nuevo manipulador.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="CreateInstanceHandle">
@@ -220,7 +220,7 @@
       </Parameters>
       <Docs>
         <param name="instanceId">Identificador de instancia. No debe ser Guid.Empty.</param>
-        <summary>Crea un identificador de instancia.  Si se establece DefaultInstanceOwner, el valor se enlaza automáticamente como el propietario de la instancia del nuevo identificador.  El identificador de la instancia pasado como un parámetro se enlaza automáticamente como la instancia del nuevo identificador.</summary>
+        <summary>Crea un identificador de instancia.  Si se establece DefaultInstanceOwner, el valor se enlaza automáticamente como propietario de instancia del nuevo manipulador.  El identificador de instancia pasado como parámetro se enlaza automáticamente como instancia del nuevo manipulador.</summary>
         <returns>El identificador de instancia.</returns>
         <remarks>To be added.</remarks>
       </Docs>
@@ -245,7 +245,7 @@
       </Parameters>
       <Docs>
         <param name="owner">Propietario de una instancia.</param>
-        <summary>Crea un identificador de instancia. Si el propietario de la instancia pasado como parámetro no es nulo, el valor se enlaza automáticamente como el propietario de la instancia del nuevo identificador.  (En caso contrario, no se enlaza ningún propietario de la instancia, aun cuando DefaultInstanceOwner esté establecido.)</summary>
+        <summary>Crea un identificador de instancia. Si el propietario de instancia pasado como parámetro no es null, el valor se enlaza automáticamente como propietario de instancia del nuevo manipulador.  (En caso contrario, no se enlaza ningún propietario de la instancia, aun cuando DefaultInstanceOwner esté establecido.)</summary>
         <returns>El identificador de instancia. Un valor nulo indica que el nuevo identificador no se debería enlazar automáticamente a un propietario de instancia.</returns>
         <remarks>To be added.</remarks>
       </Docs>
@@ -272,7 +272,7 @@
       <Docs>
         <param name="owner">Objeto InstanceOwner que representa el propietario de una instancia. Pase null como el valor para que este parámetro indique que el nuevo controlador no se debería enlazar automáticamente a un propietario de instancia.</param>
         <param name="instanceId">Identificador de instancia. No debe ser Guid.Empty.</param>
-        <summary>Crea un identificador de instancia. Si el propietario de la instancia pasado como parámetro no es nulo, el valor se enlaza automáticamente como el propietario de la instancia del nuevo identificador.  (En caso contrario, no se enlaza ningún propietario de la instancia, aun cuando DefaultInstanceOwner esté establecido.) El identificador de la instancia pasado como un parámetro se enlaza automáticamente como la instancia del nuevo identificador.</summary>
+        <summary>Crea un identificador de instancia. Si el propietario de instancia pasado como parámetro no es null, el valor se enlaza automáticamente como propietario de instancia del nuevo manipulador.  (En caso contrario, no se enlaza ningún propietario de la instancia, aun cuando DefaultInstanceOwner esté establecido.) El identificador de instancia pasado como parámetro se enlaza automáticamente como instancia del nuevo manipulador.</summary>
         <returns>El identificador de instancia.</returns>
         <remarks>To be added.</remarks>
       </Docs>
@@ -371,7 +371,7 @@
       <Docs>
         <param name="result">Resultado de la operación.</param>
         <summary>Finaliza una operación asincrónica.</summary>
-        <returns>Una implementación de proveedor de persistencia debería devolver false si no admite el comando pasado al método BeginTryCommand. En caso contrario, debería devolver true o producir una excepción.</returns>
+        <returns>Una implementación de proveedor de persistencia debe devolver false si no admite el comando pasado al método BeginTryCommand. En caso contrario, debería devolver true o producir una excepción.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -524,7 +524,7 @@
       </Parameters>
       <Docs>
         <param name="instanceHandle">El identificador de instancia que se liberó.</param>
-        <param name="userContext">La información de contexto del usuario del proveedor de persistencia que se devolvió desde OnNewInstanceHandle, o bien, null si no se invalida OnNewInstanceHandle.</param>
+        <param name="userContext">Información de contexto de usuario del proveedor de persistencia que se ha devuelto desde OnNewInstanceHandle, o bien null si no se ha reemplazado OnNewInstanceHandle.</param>
         <summary>Se invoca cuando se libera un identificador de instancia.</summary>
         <remarks>To be added.</remarks>
       </Docs>
@@ -630,7 +630,7 @@
         <param name="command">Comando que se va a ejecutar.</param>
         <param name="timeout">Valor de tiempo de espera para la operación.</param>
         <summary>Un proveedor de persistencia implementa este método, que determina si se puede ejecutar un comando de persistencia determinado y, si se puede ejecutar el comando, lo ejecuta de forma asincrónica.</summary>
-        <returns>Una implementación de proveedor de persistencia debería devolver <see langword="false" /> si no admite el comando pasado como parámetro; de lo contrario debería devolver <see langword="true" /> o producir una excepción.</returns>
+        <returns>Una implementación de proveedor de persistencia debe devolver <see langword="false" /> si no admite el comando pasado como parámetro; de lo contrario, debe devolver <see langword="true" /> o generar una excepción.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
