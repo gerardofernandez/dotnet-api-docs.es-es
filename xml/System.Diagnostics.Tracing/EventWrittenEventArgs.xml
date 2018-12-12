@@ -1,13 +1,5 @@
 <Type Name="EventWrittenEventArgs" FullName="System.Diagnostics.Tracing.EventWrittenEventArgs">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="46860fca723a945b6916f0d8377e0f4796e46365" />
-    <Meta Name="ms.sourcegitcommit" Value="9e06b87bcfa4347dbbaaa4b3cc36b43b93b5badb" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="es-ES" />
-    <Meta Name="ms.lasthandoff" Value="11/20/2018" />
-    <Meta Name="ms.locfileid" Value="52240045" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class EventWrittenEventArgs : EventArgs" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="6267829fa563f5420f5249f7a6248c140d093992" /><Meta Name="ms.sourcegitcommit" Value="9d1bf7e4c6d697123f26c810c1a049a755634634" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="12/06/2018" /><Meta Name="ms.locfileid" Value="52981973" /></Metadata><TypeSignature Language="C#" Value="public class EventWrittenEventArgs : EventArgs" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit EventWrittenEventArgs extends System.EventArgs" />
   <TypeSignature Language="DocId" Value="T:System.Diagnostics.Tracing.EventWrittenEventArgs" />
   <TypeSignature Language="VB.NET" Value="Public Class EventWrittenEventArgs&#xA;Inherits EventArgs" />
@@ -37,7 +29,29 @@
   <Interfaces />
   <Docs>
     <summary>Proporciona datos para la devolución de llamada <see cref="M:System.Diagnostics.Tracing.EventListener.OnEventWritten(System.Diagnostics.Tracing.EventWrittenEventArgs)" />.</summary>
-    <remarks>To be added.</remarks>
+    <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+Cada vez que se envía un evento a un <xref:System.Diagnostics.Tracing.EventListener>, el <xref:System.Diagnostics.Tracing.EventListener.OnEventWritten%2A?displayProperty=nameWithType> se invoca el método de devolución de llamada. Se pasa un `EventWrittenEventArgs` instancia que contiene información asociada al evento. Todos los valores de propiedad de la `EventWrittenEventArgs` clase son válidos solo durante la devolución de llamada. 
+
+Las secciones siguientes contienen información adicional sobre el individuo `EventWrittenEventArgs` propiedades.
+
+### <a name="activityid-property"></a>Propiedad ActivityId
+
+Cuando se usa <xref:System.Activities.Activity?displayProperty=nameWithType> y sus clases derivadas, subprocesos pueden marcarse como si tuviera una actividad asociada con ellos. El `ActivityId` propiedad devuelve el identificador de actividad del subproceso que registró el evento. Observe que los subprocesos no debe tener una actividad, en cuyo caso esta propiedad devuelve <xref:System.Guid.Empty?displayProperty=nameWithType>.
+
+### <a name="osthreadid-and-timestamp-properties"></a>Propiedades OSThreadId y marca de tiempo 
+
+A partir de .NET Core 2.2, <xref:System.Diagnostics.Tracing.EventListener> objetos pueden suscribirse a eventos en tiempo de ejecución nativo (por ejemplo, eventos de grupo de subprocesos, JIT y GC) además de los eventos emitidos por <xref:System.Diagnostics.Tracing.EventSource> objetos. En versiones anteriores de .NET Core y todas las versiones de .NET Framework, el identificador de elemento thead y la marca de tiempo se pueden recopilar desde el entorno, ya que se envíen sincrónicamente en el mismo subproceso que emiten a ellos. No todos los eventos en tiempo de ejecución nativo pueden enviarse de forma sincrónica, sin embargo. Algunos eventos, tales como eventos de GC, se emiten cuando administrado se suspende la ejecución de subprocesos. Estos eventos se almacenan en búfer en código nativo y se envían por un subproceso de distribuidor una vez que el código administrado puede ejecutar de nuevo. Dado que estos eventos se almacenan en búfer, el entorno no se puede usar para recuperar de forma confiable el Id. de subproceso y la marca de tiempo. Por este motivo, a partir de .NET Core 2.2, de Id. de subproceso y la información de marca de tiempo están disponibles como miembros de la `EventWrittenEventArgs` clase.
+
+### <a name="relatedactivityid-property"></a>Propiedad RelatedActivityId
+
+ Una actividad relacionada es una actividad que está muy relacionada con el actual. Por lo general, ya sea la actividad que produjo la actividad actual es (eventos con el `Start` opcode normalmente lo hace) o una actividad que se creó por la actual (los eventos con el `Send` opcode normalmente lo hace). Cuando se usa el `RelatedActivityID` se pasa explícitamente por el método que realiza el registro. Muchos eventos no pasan un `RelatedActivityId`, en cuyo caso esta propiedad devuelve <xref:System.Guid.Empty?displayProperty=nameWithType>.
+
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="ActivityId">
@@ -76,18 +90,7 @@
       <Docs>
         <summary>Obtiene el id. de actividad del subproceso en el que se escribió el evento.</summary>
         <value>El id. de actividad del subproceso en el que se escribió el evento.</value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Recuperar el valor de la <xref:System.Diagnostics.Tracing.EventWrittenEventArgs.ActivityId%2A> propiedad tiene acceso a almacenamiento local de subprocesos. Esto tiene las implicaciones siguientes:  
-  
--   El <xref:System.Diagnostics.Tracing.EventWrittenEventArgs.ActivityId%2A> campo solo es válido durante el tiempo que dure la <xref:System.Diagnostics.Tracing.EventListener.OnEventWritten%2A?displayProperty=nameWithType> devolución de llamada.  
-  
--   Si se cambia el identificador de actividad durante la devolución de llamada, el identificador de actividad devuelto por la <xref:System.Diagnostics.Tracing.EventWrittenEventArgs.ActivityId%2A> propiedad no es válida.  
-  
- ]]></format>
-        </remarks>
+        <remarks>To be added.</remarks>
         <altmember cref="P:System.Diagnostics.Tracing.EventWrittenEventArgs.RelatedActivityId" />
         <altmember cref="M:System.Diagnostics.Tracing.EventSource.SetCurrentThreadActivityId(System.Guid)" />
       </Docs>
@@ -390,8 +393,8 @@
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Obtiene el identificador del subproceso del sistema operativo que escribió el evento. (solo para .NET Core 2.2 y versiones posteriores).</summary>
+        <value>El identificador del subproceso para el subproceso del sistema operativo que se escribió el evento.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -499,14 +502,7 @@
       <Docs>
         <summary>Obtiene el identificador de una actividad relacionado con la actividad representada por la instancia actual.</summary>
         <value>Identificador de la actividad relacionada, o <see cref="F:System.Guid.Empty" /> si no hay ninguna actividad relacionada.</value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- El <xref:System.Diagnostics.Tracing.EventWrittenEventArgs.RelatedActivityId%2A> es un elemento secundario de la <xref:System.Diagnostics.Tracing.EventWrittenEventArgs.ActivityId%2A> propiedad. Un identificador de actividad puede asociarse a varios identificadores de actividad relacionado.  
-  
- ]]></format>
-        </remarks>
+        <remarks>To be added.</remarks>
         <altmember cref="P:System.Diagnostics.Tracing.EventWrittenEventArgs.ActivityId" />
         <altmember cref="M:System.Diagnostics.Tracing.EventSource.WriteEventWithRelatedActivityId(System.Int32,System.Guid,System.Object[])" />
       </Docs>
@@ -601,8 +597,8 @@
         <ReturnType>System.DateTime</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Obtiene la hora en la que se generó originalmente el evento como una marca de tiempo <see cref="System.DateTime" />. (solo para .NET Core 2.2 y versiones posteriores).</summary>
+        <value>La fecha y hora cuando se registró el evento. El sistema intenta ser tan precisos como sea posible.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
