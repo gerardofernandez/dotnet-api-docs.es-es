@@ -1,1 +1,1 @@
-Ventanas
+Windows
