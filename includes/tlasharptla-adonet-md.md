@@ -1,1 +1,1 @@
-<span data-ttu-id="87654-101">ADO.NET</span><span class="sxs-lookup"><span data-stu-id="87654-101">ADO.NET</span></span>
+<span data-ttu-id="ecad6-101">ADO.NET</span><span class="sxs-lookup"><span data-stu-id="ecad6-101">ADO.NET</span></span>

@@ -1,1 +1,1 @@
-<span data-ttu-id="7c404-101">Ventanas</span><span class="sxs-lookup"><span data-stu-id="7c404-101">Windows</span></span>
+<span data-ttu-id="cb27e-101">Windows</span><span class="sxs-lookup"><span data-stu-id="cb27e-101">Windows</span></span>

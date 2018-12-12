@@ -1,1 +1,1 @@
-<span data-ttu-id="196ec-101">Núcleo de .NET</span><span class="sxs-lookup"><span data-stu-id="196ec-101">.NET Core</span></span>
+<span data-ttu-id="cf7ef-101">Núcleo de .NET</span><span class="sxs-lookup"><span data-stu-id="cf7ef-101">.NET Core</span></span>

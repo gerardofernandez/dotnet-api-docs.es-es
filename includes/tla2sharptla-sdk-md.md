@@ -1,1 +1,1 @@
-<span data-ttu-id="a0e9a-101">SDK</span><span class="sxs-lookup"><span data-stu-id="a0e9a-101">SDK</span></span>
+<span data-ttu-id="e559a-101">SDK</span><span class="sxs-lookup"><span data-stu-id="e559a-101">SDK</span></span>
