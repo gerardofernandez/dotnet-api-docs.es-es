@@ -1,1 +1,1 @@
-<span data-ttu-id="7e41f-101">Windows 2000 Server</span><span class="sxs-lookup"><span data-stu-id="7e41f-101">Windows 2000 Server</span></span>
+<span data-ttu-id="8fc8c-101">Windows 2000 Server</span><span class="sxs-lookup"><span data-stu-id="8fc8c-101">Windows 2000 Server</span></span>

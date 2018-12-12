@@ -1,1 +1,1 @@
-<span data-ttu-id="02a05-101">Plataforma de metadados extensible (XMP)</span><span class="sxs-lookup"><span data-stu-id="02a05-101">Extensible Metadata Platform (XMP)</span></span>
+<span data-ttu-id="b1837-101">Plataforma de metadados extensible (XMP)</span><span class="sxs-lookup"><span data-stu-id="b1837-101">Extensible Metadata Platform (XMP)</span></span>

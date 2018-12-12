@@ -1,1 +1,1 @@
-<span data-ttu-id="db181-101">Modelo de objetos de documento (DOM) XML</span><span class="sxs-lookup"><span data-stu-id="db181-101">XML Document Object Model (DOM)</span></span>
+<span data-ttu-id="768c1-101">Modelo de objetos de documento (DOM) XML</span><span class="sxs-lookup"><span data-stu-id="768c1-101">XML Document Object Model (DOM)</span></span>

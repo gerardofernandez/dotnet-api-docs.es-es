@@ -1,1 +1,1 @@
-<span data-ttu-id="51ee0-101">Archivo de imagen intercambiable (Exif)</span><span class="sxs-lookup"><span data-stu-id="51ee0-101">Exchangeable image file (Exif)</span></span>
+<span data-ttu-id="139f7-101">Archivo de imagen intercambiable (Exif)</span><span class="sxs-lookup"><span data-stu-id="139f7-101">Exchangeable image file (Exif)</span></span>
