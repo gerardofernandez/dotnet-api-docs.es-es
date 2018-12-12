@@ -1,1 +1,1 @@
-<span data-ttu-id="70e7a-101">escritorio</span><span class="sxs-lookup"><span data-stu-id="70e7a-101">desktop</span></span>
+<span data-ttu-id="87664-101">escritorio</span><span class="sxs-lookup"><span data-stu-id="87664-101">desktop</span></span>
