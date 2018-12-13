@@ -1,5 +1,5 @@
 <Type Name="XmlWriter" FullName="System.Xml.XmlWriter">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="f91dc669f6d0337a714c9a063013d5a57f6333bc" /><Meta Name="ms.sourcegitcommit" Value="adc8598fd19d91438cacaa8fa7ce613e28c8218e" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="12/11/2018" /><Meta Name="ms.locfileid" Value="53233567" /></Metadata><TypeSignature Language="C#" Value="public abstract class XmlWriter : IDisposable" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="9870c95e8350beb2798552192857431604a43165" /><Meta Name="ms.sourcegitcommit" Value="9e3550fb2088d4faf2043f0acb29da4555519937" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="12/12/2018" /><Meta Name="ms.locfileid" Value="53300536" /></Metadata><TypeSignature Language="C#" Value="public abstract class XmlWriter : IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit XmlWriter extends System.Object implements class System.IDisposable" />
   <TypeSignature Language="DocId" Value="T:System.Xml.XmlWriter" />
   <TypeSignature Language="VB.NET" Value="Public MustInherit Class XmlWriter&#xA;Implements IDisposable" />
@@ -83,7 +83,7 @@
 |<xref:System.Xml.XmlWriterSettings.NewLineChars%2A>|Especifica la cadena de caracteres que se va a utilizar para los saltos de línea. El valor predeterminado es `\r\n` (retorno de carro, avance de línea).|  
 |<xref:System.Xml.XmlWriterSettings.NewLineHandling%2A>|Especifica cómo tratar los caracteres de nueva línea.|  
 |<xref:System.Xml.XmlWriterSettings.NewLineOnAttributes%2A>|Indica si se van a escribir atributos en una línea nueva. <xref:System.Xml.XmlWriterSettings.Indent%2A> se debería establecer en `true` si se utiliza esta propiedad. De manera predeterminada, es `false`.|  
-|<xref:System.Xml.XmlWriterSettings.OmitXmlDeclaration%2A>|Indica si se va a escribir una declaración XML. De manera predeterminada, es `false`.|  
+|<xref:System.Xml.XmlWriterSettings.OmitXmlDeclaration%2A>|Indica si se va a escribir una declaración XML. El valor predeterminado es `false`.|  
   
  Las propiedades <xref:System.Xml.XmlWriterSettings.Indent%2A> y <xref:System.Xml.XmlWriterSettings.IndentChars%2A> controlan cómo se da formato al espacio en blanco que es poco importante. Por ejemplo, para aplicar sangría a los nodos de elemento:  
   
@@ -101,7 +101,7 @@
   
 -   El <xref:System.Xml.XmlWriterSettings.CheckCharacters%2A> propiedad indica al escritor XML que compruebe los caracteres e inicie una <xref:System.Xml.XmlException> excepción si los caracteres están fuera del rango permitido, tal como se define por el W3C.  
   
--   El <xref:System.Xml.XmlWriterSettings.ConformanceLevel%2A> propiedad configura el escritor XML para comprobar que la secuencia que se está escribiendo cumple con las reglas para un documento XML 1.0 correcto o un fragmento de documento, tal como se define por el W3C. Se describen los tres niveles en la tabla siguiente. El valor predeterminado es <xref:System.Xml.ConformanceLevel.Document>. Para obtener más información, consulte el <xref:System.Xml.XmlWriterSettings.ConformanceLevel%2A?displayProperty=nameWithType> propiedad y el <xref:System.Xml.ConformanceLevel?displayProperty=nameWithType> enumeración.  
+-   El <xref:System.Xml.XmlWriterSettings.ConformanceLevel%2A> propiedad configura el escritor XML para comprobar que la secuencia que se está escribiendo cumple con las reglas para un documento XML 1.0 correcto o un fragmento de documento, tal como se define por el W3C. Se describen los tres niveles en la tabla siguiente. De manera predeterminada, es <xref:System.Xml.ConformanceLevel.Document>. Para obtener más información, consulte el <xref:System.Xml.XmlWriterSettings.ConformanceLevel%2A?displayProperty=nameWithType> propiedad y el <xref:System.Xml.ConformanceLevel?displayProperty=nameWithType> enumeración.  
   
     |Nivel|Descripción|  
     |-----------|-----------------|  
@@ -298,7 +298,11 @@ async Task TestWriter(Stream stream)
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
+        <exception cref="T:System.InvalidOperationException">Después de llamar a <see langword="Close" /> o si el resultado de dicha llamada no es un documento XML válido, se realiza una llamada para escribir más resultados.
+
+O bien
+
+Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="Create">
@@ -1168,7 +1172,11 @@ Si <see cref="T:System.Xml.XmlWriter" /> se está utilizando con el método <see
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -1431,7 +1439,11 @@ Este miembro puede comportarse de manera diferente cuando se utiliza en un proye
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -1518,7 +1530,11 @@ Este miembro puede comportarse de manera diferente cuando se utiliza en un proye
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
+        <exception cref="T:System.InvalidOperationException">El estado del método de escritura no es <see langword="WriteState.Element" /> o está cerrado.
+
+O bien
+
+Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
         <exception cref="T:System.ArgumentException">El valor de atributo <see langword="xml:space" /> o <see langword="xml:lang" /> no es válido.</exception>
       </Docs>
     </Member>
@@ -1594,7 +1610,10 @@ Este miembro puede comportarse de manera diferente cuando se utiliza en un proye
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
+        <exception cref="T:System.InvalidOperationException">El estado del método de escritura no es <see langword="WriteState.Element" /> o está cerrado.
+
+O bien 
+Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
         <exception cref="T:System.ArgumentException">El valor de atributo <see langword="xml:space" /> o <see langword="xml:lang" /> no es válido.</exception>
       </Docs>
     </Member>
@@ -1667,7 +1686,10 @@ Este miembro puede comportarse de manera diferente cuando se utiliza en un proye
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
+        <exception cref="T:System.InvalidOperationException">El estado del método de escritura no es <see langword="WriteState.Element" /> o está cerrado.
+
+O bien 
+Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
         <exception cref="T:System.ArgumentException">El valor de atributo <see langword="xml:space" /> o <see langword="xml:lang" /> no es válido.</exception>
         <exception cref="T:System.Xml.XmlException"><paramref name="localName" /> o <paramref name="ns" /> es <see langword="null" />.</exception>
       </Docs>
@@ -1726,7 +1748,10 @@ Este miembro puede comportarse de manera diferente cuando se utiliza en un proye
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien 
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -1843,7 +1868,11 @@ La longitud del búfer menos <paramref name="index" /> es menor que <paramref na
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -1904,7 +1933,10 @@ La longitud del búfer menos <paramref name="index" /> es menor que <paramref na
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">El valor de <paramref name="buffer" /> es <see langword="null" />.</exception>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
+        <exception cref="T:System.InvalidOperationException">El sistema de escritura está cerrado o en estado de error.
+O bien
+
+Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index" /> o <paramref name="count" /> es menor que cero.  
   
 O bien 
@@ -1958,7 +1990,11 @@ La longitud del búfer menos <paramref name="index" /> es menor que <paramref na
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -2051,7 +2087,11 @@ La longitud del búfer menos <paramref name="index" /> es menor que <paramref na
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -2153,7 +2193,11 @@ La longitud del búfer menos <paramref name="index" /> es menor que <paramref na
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -2270,7 +2314,11 @@ La longitud de búfer menos <paramref name="index" /> es menor que <paramref nam
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -2377,7 +2425,11 @@ La longitud de búfer menos <paramref name="index" /> es menor que <paramref nam
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -2444,7 +2496,11 @@ La longitud de búfer menos <paramref name="index" /> es menor que <paramref nam
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó a este método fuera del prólogo (después del elemento raíz).
+
+O bien
+
+Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
         <exception cref="T:System.ArgumentException">El valor de <paramref name="name" /> daría como resultado un archivo XML no válido.</exception>
       </Docs>
     </Member>
@@ -2497,7 +2553,11 @@ La longitud de búfer menos <paramref name="index" /> es menor que <paramref nam
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -2765,7 +2825,11 @@ Los valores de parámetro no son válidos.</exception>
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -2860,7 +2924,11 @@ Los valores de parámetro no son válidos.</exception>
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -2961,7 +3029,11 @@ Los valores de parámetro no son válidos.</exception>
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -3019,7 +3091,11 @@ Los valores de parámetro no son válidos.</exception>
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
+        <exception cref="T:System.InvalidOperationException">Esto da como resultado un documento XML no válido.
+
+O bien
+
+Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteEndElementAsync">
@@ -3062,7 +3138,11 @@ Los valores de parámetro no son válidos.</exception>
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -3165,7 +3245,11 @@ Los valores de parámetro no son válidos.</exception>
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -3263,7 +3347,11 @@ Los valores de parámetro no son válidos.</exception>
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -3360,7 +3448,11 @@ Los valores de parámetro no son válidos.</exception>
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -3455,7 +3547,11 @@ Los valores de parámetro no son válidos.</exception>
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -3725,7 +3821,11 @@ while (!reader.EOF){
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -3776,7 +3876,11 @@ while (!reader.EOF){
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -3900,7 +4004,11 @@ Este método se utiliza para crear una declaración XML después de llamar al m�
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -4027,7 +4135,11 @@ Este método se utiliza para crear una declaración XML después de llamar al m�
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -4234,7 +4346,11 @@ La longitud del búfer menos <paramref name="index" /> es menor que <paramref na
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -4285,7 +4401,11 @@ La longitud del búfer menos <paramref name="index" /> es menor que <paramref na
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -4359,7 +4479,11 @@ La longitud del búfer menos <paramref name="index" /> es menor que <paramref na
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
+        <exception cref="T:System.InvalidOperationException">El sistema de escritura está cerrado.
+
+O bien
+
+Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
         <exception cref="T:System.Text.EncoderFallbackException">Hay un carácter en el búfer que es un carácter XML válido pero que no es válido para la codificación de salida. Por ejemplo, si la codificación de salida es ASCII, sólo debería utilizar los caracteres del intervalo de 0 a 127 para el elemento y nombres de atributo. El carácter no válido podría estar en el argumento de este método o en un argumento de métodos anteriores que estaban escribiendo en el búfer. Las referencias a entidades de caracteres anulan a dichos caracteres siempre que sea posible (por ejemplo, en nodos de texto o valores de atributo). Sin embargo, la referencia de entidad de carácter no se permite en nombres de elemento y de atributo, comentarios, instrucciones de procesamiento o secciones CDATA.</exception>
       </Docs>
     </Member>
@@ -4527,7 +4651,11 @@ La longitud del búfer menos <paramref name="index" /> es menor que <paramref na
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -4598,7 +4726,11 @@ La longitud del búfer menos <paramref name="index" /> es menor que <paramref na
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
+        <exception cref="T:System.InvalidOperationException">Este no es el primer método Write al que se llama después de llamar al constructor.
+
+O bien
+
+Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteStartDocument">
@@ -4651,7 +4783,11 @@ La longitud del búfer menos <paramref name="index" /> es menor que <paramref na
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
+        <exception cref="T:System.InvalidOperationException">Este no es el primer método Write al que se llama después de llamar al constructor.
+
+O bien
+
+Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="WriteStartDocumentAsync">
@@ -4715,7 +4851,11 @@ La longitud del búfer menos <paramref name="index" /> es menor que <paramref na
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -4762,7 +4902,11 @@ La longitud del búfer menos <paramref name="index" /> es menor que <paramref na
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -4844,7 +4988,11 @@ La longitud del búfer menos <paramref name="index" /> es menor que <paramref na
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
+        <exception cref="T:System.InvalidOperationException">El sistema de escritura está cerrado.
+
+O bien
+
+Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
         <exception cref="T:System.Text.EncoderFallbackException">Hay un carácter en el búfer que es un carácter XML válido pero que no es válido para la codificación de salida. Por ejemplo, si la codificación de salida es ASCII, sólo debería utilizar los caracteres del intervalo de 0 a 127 para el elemento y nombres de atributo. El carácter no válido podría estar en el argumento de este método o en un argumento de métodos anteriores que estaban escribiendo en el búfer. Las referencias a entidades de caracteres anulan a dichos caracteres siempre que sea posible (por ejemplo, en nodos de texto o valores de atributo). Sin embargo, la referencia de entidad de carácter no se permite en nombres de elemento y de atributo, comentarios, instrucciones de procesamiento o secciones CDATA.</exception>
       </Docs>
     </Member>
@@ -4913,7 +5061,11 @@ writer.WriteEndElement();
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
+        <exception cref="T:System.InvalidOperationException">El sistema de escritura está cerrado.
+
+O bien
+
+Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
         <exception cref="T:System.Text.EncoderFallbackException">Hay un carácter en el búfer que es un carácter XML válido pero que no es válido para la codificación de salida. Por ejemplo, si la codificación de salida es ASCII, sólo debería utilizar los caracteres del intervalo de 0 a 127 para el elemento y nombres de atributo. El carácter no válido podría estar en el argumento de este método o en un argumento de métodos anteriores que estaban escribiendo en el búfer. Las referencias a entidades de caracteres anulan a dichos caracteres siempre que sea posible (por ejemplo, en nodos de texto o valores de atributo). Sin embargo, la referencia de entidad de carácter no se permite en nombres de elemento y de atributo, comentarios, instrucciones de procesamiento o secciones CDATA.</exception>
       </Docs>
     </Member>
@@ -4974,7 +5126,11 @@ writer.WriteEndElement();
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
+        <exception cref="T:System.InvalidOperationException">El sistema de escritura está cerrado.
+
+O bien
+
+Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
         <exception cref="T:System.Text.EncoderFallbackException">Hay un carácter en el búfer que es un carácter XML válido pero que no es válido para la codificación de salida. Por ejemplo, si la codificación de salida es ASCII, sólo debería utilizar los caracteres del intervalo de 0 a 127 para el elemento y nombres de atributo. El carácter no válido podría estar en el argumento de este método o en un argumento de métodos anteriores que estaban escribiendo en el búfer. Las referencias a entidades de caracteres anulan a dichos caracteres siempre que sea posible (por ejemplo, en nodos de texto o valores de atributo). Sin embargo, la referencia de entidad de carácter no se permite en nombres de elemento y de atributo, comentarios, instrucciones de procesamiento o secciones CDATA.</exception>
       </Docs>
     </Member>
@@ -5025,7 +5181,11 @@ writer.WriteEndElement();
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -5184,7 +5344,11 @@ test&lt;item&gt;test
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -5291,7 +5455,11 @@ test&lt;item&gt;test
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
@@ -5784,7 +5952,11 @@ test&lt;item&gt;test
         </remarks>
         <exception cref="T:System.ArgumentException">Se ha especificado un valor no válido.</exception>
         <exception cref="T:System.ArgumentNullException">El valor de <paramref name="value" /> es <see langword="null" />.</exception>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
+        <exception cref="T:System.InvalidOperationException">El sistema de escritura está cerrado o en estado de error.
+
+O bien
+
+Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteValue">
@@ -5988,7 +6160,11 @@ test&lt;item&gt;test
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
+        <exception cref="T:System.InvalidOperationException">Se llamó un método <see cref="T:System.Xml.XmlWriter" /> antes de que se termine una operación asincrónica anterior. En este caso, se genera <see cref="T:System.InvalidOperationException" /> con el mensaje “Ya hay una operación asincrónica en curso”.
+
+O bien
+
+Se llamó un método asincrónico de <see cref="T:System.Xml.XmlWriter" /> sin establecer la marca <see cref="P:System.Xml.XmlWriterSettings.Async" /> en <see langword="true" />. En este caso, se produce una <see cref="T:System.InvalidOperationException" /> con el mensaje “Establezca XmlWriterSettings.Async en true si quiere usar métodos asincrónicos”.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7">Programación asincrónica con Async y Await (C# y Visual Basic)</related>
       </Docs>
     </Member>
