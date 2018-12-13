@@ -1,1 +1,1 @@
-<span data-ttu-id="0c7ee-101">Aplicación del explorador XAML (XBAP)</span><span class="sxs-lookup"><span data-stu-id="0c7ee-101">XAML browser application (XBAP)</span></span>
+<span data-ttu-id="35ec9-101">Aplicación del explorador XAML (XBAP)</span><span class="sxs-lookup"><span data-stu-id="35ec9-101">XAML browser application (XBAP)</span></span>
