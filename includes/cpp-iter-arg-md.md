@@ -1,1 +1,1 @@
-<span data-ttu-id="c88eb-101">Tipo de un elemento de la secuencia controlada.</span><span class="sxs-lookup"><span data-stu-id="c88eb-101">The type of an element in the controlled sequence.</span></span>
+<span data-ttu-id="480b3-101">Tipo de un elemento de la secuencia controlada.</span><span class="sxs-lookup"><span data-stu-id="480b3-101">The type of an element in the controlled sequence.</span></span>
