@@ -1,5 +1,5 @@
 <Type Name="Monitor" FullName="System.Threading.Monitor">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="df70f7cc62e1ef013835d69cf0220d9e8b42bc5a" /><Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="10/04/2018" /><Meta Name="ms.locfileid" Value="48729805" /></Metadata><TypeSignature Language="C#" Value="public static class Monitor" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="e925d576d52267c0e301b6428f677609e99940d3" /><Meta Name="ms.sourcegitcommit" Value="adc8598fd19d91438cacaa8fa7ce613e28c8218e" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="12/11/2018" /><Meta Name="ms.locfileid" Value="53230746" /></Metadata><TypeSignature Language="C#" Value="public static class Monitor" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Monitor extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Threading.Monitor" />
   <TypeSignature Language="VB.NET" Value="Public Class Monitor" />
@@ -42,14 +42,14 @@
   
  En este artículo:  
   
- [La clase Monitor: información general](#Overview)   
+ [La clase Monitor: Información general](#Overview)   
  [El objeto de bloqueo](#Lock)   
  [La sección crítica](#CriticalSection)   
  [Pulse, PulseAll y espera](#Pulse)   
  [Monitores y los identificadores de espera](#WaitHandles)  
   
 <a name="Overview"></a>   
-## <a name="the-monitor-class-an-overview"></a>La clase Monitor: información general  
+## <a name="the-monitor-class-an-overview"></a>La clase Monitor: Información general  
  <xref:System.Threading.Monitor> tiene las siguientes características:  
   
 -   Está asociado con un objeto a petición.  
@@ -149,18 +149,18 @@
   
  Dado que se pueden acceder desde cualquier tarea que se ejecuta en un subproceso ThreadPool, acceder a las variables `total` y `n` también deben estar sincronizadas. El <xref:System.Threading.Interlocked.Add%2A?displayProperty=nameWithType> método se usa para este propósito.  
   
- En el ejemplo siguiente se muestra el uso combinado de la <xref:System.Threading.Monitor> clase (implementada con el `lock` o `SyncLock` construcción de lenguaje), el <xref:System.Threading.Interlocked> (clase) y el <xref:System.Threading.AutoResetEvent> clase. Define dos `internal` (en C#) o `Friend` (en Visual Basic), las clases de `SyncResource` y `UnSyncResource`, que proporcionan respectivamente acceso sincronizado y sin sincronizar a un recurso. Para asegurarse de que el ejemplo ilustra la diferencia entre el acceso sincronizado y sin sincronizar (que podría ser el caso si cada llamada al método se realiza rápidamente), el método incluye un retraso aleatorio: para subprocesos cuya <xref:System.Threading.Thread.ManagedThreadId%2A?displayProperty=nameWithType> propiedad es par, el las llamadas al método <xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType> para insertar un retraso de 2.000 milisegundos. Tenga en cuenta que, dado el `SyncResource` clase no es pública, ninguno de los códigos de cliente toma un bloqueo en el recurso sincronizado, la propia clase interna que adopta el bloqueo. Esto evita que cualquier código malintencionado se haga cargo de un bloqueo en un objeto público.  
+ En el ejemplo siguiente se muestra el uso combinado de la <xref:System.Threading.Monitor> clase (implementada con el `lock` o `SyncLock` construcción de lenguaje), el <xref:System.Threading.Interlocked> (clase) y el <xref:System.Threading.AutoResetEvent> clase. Define dos clases de tipo `internal` (en C#) o `Friend` (en Visual Basic), `SyncResource` y `UnSyncResource`, que proporcionan respectivamente acceso sincronizado y sin sincronizar a un recurso. Para garantizar que el ejemplo ilustra la diferencia entre el acceso sincronizado y sin sincronizar (podría darse el caso si cada llamada al método se realiza rápidamente), el método incluye un retraso aleatorio: para subprocesos cuya propiedad <xref:System.Threading.Thread.ManagedThreadId%2A?displayProperty=nameWithType> es par, el método llama a <xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType> para insertar un retraso de 2.000 milisegundos. Tenga en cuenta que, dado que la clase `SyncResource` no es pública, ninguno de los códigos de cliente tiene un bloqueo en el recurso sincronizado; esto es, la propia clase interna se hace cargo del bloqueo. Esto evita que cualquier código malintencionado se haga cargo de un bloqueo en un objeto público.  
   
  [!code-csharp[Conceptual.Monitors#1](~/samples/snippets/csharp/VS_Snippets_CLR/conceptual.monitors/cs/source.cs#1)]
  [!code-vb[Conceptual.Monitors#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/conceptual.monitors/vb/source.vb#1)]  
   
- El ejemplo define una variable, `numOps`, que define el número de subprocesos que intentarán tener acceso al recurso. El subproceso de la aplicación llama a la <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> método sincronizado y no sincronizadas tener acceso a cinco veces cada uno. El <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> método tiene un único parámetro, un delegado que no acepta parámetros y no devuelve ningún valor. Para obtener acceso sincronizado, invoca el `SyncUpdateResource` método; para el acceso sincronizado, invoca el `UnSyncUpdateResource` método. Después de cada conjunto de llamadas de método, el subproceso de la aplicación llama a la [AutoResetEvent.WaitOne](xref:System.Threading.WaitHandle.WaitOne*) método para que así se bloquee hasta que la <xref:System.Threading.AutoResetEvent> se señala la instancia.  
+ En el ejemplo se define la variable `numOps`, que define el número de subprocesos que intentarán tener acceso al recurso. El subproceso de la aplicación llama al método <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> para obtener acceso sincronizado y sin sincronizar; esto se realizará hasta un máximo de cinco veces con cada opción. El método <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> tiene un único parámetro; un delegado que no acepta parámetros y que no devuelve valor alguno. Para obtener acceso sincronizado, este elemento invoca al método `SyncUpdateResource`; en cambio, para obtener acceso no sincronizado, invoca al método `UnSyncUpdateResource`. Después de cada conjunto de llamadas de método, el subproceso de la aplicación llama a la [AutoResetEvent.WaitOne](xref:System.Threading.WaitHandle.WaitOne*) método para que así se bloquee hasta que la <xref:System.Threading.AutoResetEvent> se señala la instancia.  
   
- Cada llamada a la `SyncUpdateResource` llamadas de método interno `SyncResource.Access` método y, a continuación, llama a la <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método para reducir el `numOps` contador. El <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método se usa para reducir el contador, porque de lo contrario, no puede estar seguro de que un segundo subproceso acceso al valor reducido del primer subproceso antes de valor se ha almacenado en la variable. Cuando el último sincroniza disminuye de subproceso de trabajo en el contador a cero, que indica que todos los subprocesos sincronizados han accedido al recurso, el `SyncUpdateResource` llamadas al método el <xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> método, que indica al subproceso principal para continuar ejecución.  
+ Cada llamada al método`SyncUpdateResource`, llama al método interno `SyncResource.Access` y, a continuación, llama al método <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> para reducir el contador `numOps`. El <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método se usa para reducir el contador, porque de lo contrario, no puede estar seguro de que un segundo subproceso acceso al valor reducido del primer subproceso antes de valor se ha almacenado en la variable. Cuando el último sincroniza disminuye de subproceso de trabajo en el contador a cero, que indica que todos los subprocesos sincronizados han accedido al recurso, el `SyncUpdateResource` llamadas al método el <xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> método, que indica al subproceso principal para continuar ejecución.  
   
- Cada llamada a la `UnSyncUpdateResource` llamadas de método interno `UnSyncResource.Access` método y, a continuación, llama a la <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método para reducir el `numOps` contador. Una vez más, la <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método se usa para reducir el contador para asegurarse de que un segundo subproceso no tiene acceso el valor antes de que se ha asignado el valor reducido del primer subproceso a la variable. Cuando el último no sincronizadas disminuye de subproceso de trabajo que el contador a cero, que indica que no hay más subprocesos no sincronizados necesita tener acceso al recurso, el `UnSyncUpdateResource` llamadas al método el <xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> método, que indica al subproceso principal para continuar la ejecución .  
+ Cada llamada al método`UnSyncUpdateResource`, llama al método interno `UnSyncResource.Access` y, a continuación, llama al método <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> para reducir el contador `numOps`. Una vez más, la <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> método se usa para reducir el contador para asegurarse de que un segundo subproceso no tiene acceso el valor antes de que se ha asignado el valor reducido del primer subproceso a la variable. Cuando el último no sincronizadas disminuye de subproceso de trabajo que el contador a cero, que indica que no hay más subprocesos no sincronizados necesita tener acceso al recurso, el `UnSyncUpdateResource` llamadas al método el <xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> método, que indica al subproceso principal para continuar la ejecución .  
   
- Como se muestra en el resultado del ejemplo, el acceso sincronizado garantiza que el subproceso de llamada saldrá del recurso protegido antes de que otro subproceso pueda tener acceso a él; así pues, cada subproceso esperará a su predecesor. Por otro lado, sin bloqueo, el `UnSyncResource.Access` se llama al método en el orden en que los subprocesos accedan a él.  
+ Como se muestra en el resultado del ejemplo, el acceso sincronizado garantiza que el subproceso de llamada saldrá del recurso protegido antes de que otro subproceso pueda tener acceso a él; así pues, cada subproceso esperará a su predecesor. Por otro lado, sin este bloqueo, se llamará al método `UnSyncResource.Access` en el orden en el que los subprocesos accedan a él.  
   
  ]]></format>
     </remarks>
@@ -439,7 +439,7 @@ Nota   Si no se produce ninguna excepción, el resultado de este método siem
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="obj" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="obj" /> es <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="Pulse">
@@ -491,7 +491,7 @@ Nota   Si no se produce ninguna excepción, el resultado de este método siem
  El subproceso que actualmente posee el bloqueo en el objeto especificado invoca este método para señalar el siguiente subproceso en línea para adquirir el bloqueo. Al recibir el pulso, el subproceso en espera se mueve a la cola de subprocesos listos. Cuando el subproceso que invoca `Pulse` libera el bloqueo, el siguiente subproceso en la cola de subprocesos listos (que no es necesariamente el subproceso que ha recibido el pulso) adquiere el bloqueo.  
   
 > [!IMPORTANT]
->  El <xref:System.Threading.Monitor> clase mantienen el estado que indica que el <xref:System.Threading.Monitor.Pulse%2A> ha llamado al método. Por lo tanto, si se llama a <xref:System.Threading.Monitor.Pulse%2A> cuando no hay ningún subproceso en espera, el siguiente subproceso que llama a <xref:System.Threading.Monitor.Wait%2A> bloques como si <xref:System.Threading.Monitor.Pulse%2A> nunca hubiera llamado. Si usan dos subprocesos <xref:System.Threading.Monitor.Pulse%2A> y <xref:System.Threading.Monitor.Wait%2A> para interactuar, esto podría provocar un interbloqueo. Compare esto con el comportamiento de la <xref:System.Threading.AutoResetEvent> clase: si señalar un <xref:System.Threading.AutoResetEvent> mediante una llamada a su <xref:System.Threading.EventWaitHandle.Set%2A> método y no hay ningún subproceso en espera, el <xref:System.Threading.AutoResetEvent> permanece en un estado señalado hasta que un subproceso llama <xref:System.Threading.WaitHandle.WaitOne%2A>, <xref:System.Threading.WaitHandle.WaitAny%2A>, o <xref:System.Threading.WaitHandle.WaitAll%2A>. El <xref:System.Threading.AutoResetEvent> libera ese subproceso y vuelve al estado no señalizado.  
+>  El <xref:System.Threading.Monitor> clase mantienen el estado que indica que el <xref:System.Threading.Monitor.Pulse%2A> ha llamado al método. Por lo tanto, si se llama a <xref:System.Threading.Monitor.Pulse%2A> cuando no hay ningún subproceso en espera, el siguiente subproceso que llama a <xref:System.Threading.Monitor.Wait%2A> bloques como si <xref:System.Threading.Monitor.Pulse%2A> nunca hubiera llamado. Si usan dos subprocesos <xref:System.Threading.Monitor.Pulse%2A> y <xref:System.Threading.Monitor.Wait%2A> para interactuar, esto podría provocar un interbloqueo. Compare esto con el comportamiento de la <xref:System.Threading.AutoResetEvent> clase: Si señalar un <xref:System.Threading.AutoResetEvent> mediante una llamada a su <xref:System.Threading.EventWaitHandle.Set%2A> método y no hay ningún subproceso en espera, el <xref:System.Threading.AutoResetEvent> permanece en un estado señalado hasta que un subproceso llama <xref:System.Threading.WaitHandle.WaitOne%2A>, <xref:System.Threading.WaitHandle.WaitAny%2A>, o <xref:System.Threading.WaitHandle.WaitAll%2A>. El <xref:System.Threading.AutoResetEvent> libera ese subproceso y vuelve al estado no señalizado.  
   
  Tenga en cuenta que un objeto sincronizado contiene varias referencias, incluida una referencia al subproceso que contiene actualmente el bloqueo, una referencia a la cola de subprocesos listos, que contiene los subprocesos que están listos para obtener el bloqueo, y una referencia a la cola de espera, que contiene los subprocesos que esperan para recibir notificaciones de un cambio en el estado del objeto.  
   
@@ -825,14 +825,14 @@ Nota   Si no se produce ninguna excepción, el resultado de este método siem
       </Parameters>
       <Docs>
         <param name="obj">Objeto en el que se va a adquirir el bloqueo.</param>
-        <param name="timeout"><see cref="T:System.TimeSpan" /> que representa el período de tiempo que se va a esperar para adquirir el bloqueo. Un valor de –1 milisegundo especifica una espera infinita.</param>
+        <param name="timeout"><see cref="T:System.TimeSpan" /> que representa el período de tiempo que se va a esperar para adquirir el bloqueo. Un valor de -1 milisegundo especifica una espera infinita.</param>
         <summary>Intenta adquirir un bloqueo exclusivo en el objeto especificado durante el período de tiempo especificado.</summary>
         <returns>Es <see langword="true" /> si el subproceso actual adquiere el bloqueo; en caso contrario, es <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si el valor de la `timeout` convierte a milisegundos del parámetro es igual a – 1, este método es equivalente a <xref:System.Threading.Monitor.Enter%2A>. Si el valor de `timeout` es igual a 0, este método es equivalente a <xref:System.Threading.Monitor.TryEnter%2A>.  
+ Si el valor de la `timeout` convierte a milisegundos del parámetro es igual a -1, este método es equivalente a <xref:System.Threading.Monitor.Enter%2A>. Si el valor de `timeout` es igual a 0, este método es equivalente a <xref:System.Threading.Monitor.TryEnter%2A>.  
   
 > [!NOTE]
 >  Use <xref:System.Threading.Monitor> para bloquear objetos (es decir, tipos de referencia), no los tipos de valor. Para obtener más información, consulte el <xref:System.Threading.Monitor> tema de la clase.  
@@ -845,7 +845,7 @@ Nota   Si no se produce ninguna excepción, el resultado de este método siem
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">El parámetro <paramref name="obj" /> es <see langword="null" />.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">El valor de <paramref name="timeout" /> en milisegundos es negativo y no es igual a <see cref="F:System.Threading.Timeout.Infinite" /> (-1 milisegundos), o es superior a <see cref="F:System.Int32.MaxValue" />.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">El valor de <paramref name="timeout" /> en milisegundos es negativo y no es igual a <see cref="F:System.Threading.Timeout.Infinite" /> (-1 milisegundos), o es mayor que <see cref="F:System.Int32.MaxValue" />.</exception>
         <altmember cref="T:System.Threading.Thread" />
         <related type="Article" href="~/docs/standard/threading/index.md">Subprocesamiento administrado</related>
       </Docs>
@@ -965,14 +965,14 @@ Nota   Si no se produce ninguna excepción, el resultado de este método siem
       </Parameters>
       <Docs>
         <param name="obj">Objeto en el que se va a adquirir el bloqueo.</param>
-        <param name="timeout">Tiempo que se va a esperar el bloqueo. Un valor de –1 milisegundo especifica una espera infinita.</param>
+        <param name="timeout">Tiempo que se va a esperar el bloqueo. Un valor de -1 milisegundo especifica una espera infinita.</param>
         <param name="lockTaken">Resultado del intento de adquirir el bloqueo, pasado por referencia. La entrada debe ser <see langword="false" />. El resultado es <see langword="true" /> si se adquiere el bloqueo; en caso contrario, el resultado es <see langword="false" />. El resultado se establece aunque se produzca una excepción durante el intento de adquirir el bloqueo.</param>
         <summary>Intenta, durante el periodo de tiempo indicado, adquirir un bloqueo exclusivo en el objeto especificado y establece de forma atómica un valor que indica si se realizó el bloqueo.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si el valor de la `timeout` convierte a milisegundos del parámetro es igual a – 1, este método es equivalente a <xref:System.Threading.Monitor.Enter%28System.Object%29>. Si el valor de `timeout` es igual a 0, este método es equivalente a <xref:System.Threading.Monitor.TryEnter%28System.Object%29>.  
+ Si el valor de la `timeout` convierte a milisegundos del parámetro es igual a -1, este método es equivalente a <xref:System.Threading.Monitor.Enter%28System.Object%29>. Si el valor de `timeout` es igual a 0, este método es equivalente a <xref:System.Threading.Monitor.TryEnter%28System.Object%29>.  
   
  Si no se realizó el bloqueo porque se produjo una excepción, la variable especificada para el `lockTaken` parámetro es `false` cuando este método finalice. Esto permite que el programa determinar, en todos los casos, si es necesario para liberar el bloqueo.  
   
@@ -988,7 +988,7 @@ Nota   Si no se produce ninguna excepción, el resultado de este método siem
         </remarks>
         <exception cref="T:System.ArgumentException">La entrada a <paramref name="lockTaken" /> es <see langword="true" />.</exception>
         <exception cref="T:System.ArgumentNullException">El parámetro <paramref name="obj" /> es <see langword="null" />.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">El valor de <paramref name="timeout" /> en milisegundos es negativo y no es igual a <see cref="F:System.Threading.Timeout.Infinite" /> (-1 milisegundos), o es superior a <see cref="F:System.Int32.MaxValue" />.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">El valor de <paramref name="timeout" /> en milisegundos es negativo y no es igual a <see cref="F:System.Threading.Timeout.Infinite" /> (-1 milisegundos), o es mayor que <see cref="F:System.Int32.MaxValue" />.</exception>
         <altmember cref="T:System.Threading.Thread" />
         <related type="Article" href="~/docs/standard/threading/index.md">Subprocesamiento administrado</related>
       </Docs>
@@ -1207,7 +1207,7 @@ Nota   Si no se produce ninguna excepción, el resultado de este método siem
  Cuando un subproceso llama `Wait`, libera el bloqueo en el objeto y entra en cola de espera del objeto. El siguiente subproceso en la cola de subprocesos listos del objeto (si hay alguno) adquiere el bloqueo y tiene uso exclusivo del objeto. El subproceso que invocó `Wait` permanece en la cola de espera hasta que un subproceso que mantiene el bloqueo invoca <xref:System.Threading.Monitor.PulseAll%2A>, o es el siguiente en la cola y un subproceso que mantiene el bloqueo invoca <xref:System.Threading.Monitor.Pulse%2A>. Sin embargo, si `timeout` transcurre antes de que otro subproceso llama a este objeto <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A> método, el subproceso original se mueve a la cola de subprocesos listos para volver a adquirir el bloqueo.  
   
 > [!NOTE]
->  Si un <xref:System.TimeSpan> se ha especificado que representa-1 milisegundos para la `timeout` parámetro, este método se bloquea indefinidamente a menos que el propietario del bloqueo llame <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A>. Si `timeout` es 0 milisegundos, el subproceso que llama `Wait` libera el bloqueo y, a continuación, escribe inmediatamente la cola de subprocesos listos para volver a adquirir el bloqueo.  
+>  Si un <xref:System.TimeSpan> que representa-1 milisegundo se especifica para el `timeout` parámetro, este método se bloquea indefinidamente a menos que el propietario del bloqueo llame <xref:System.Threading.Monitor.Pulse%2A> o <xref:System.Threading.Monitor.PulseAll%2A>. Si `timeout` es 0 milisegundos, el subproceso que llama `Wait` libera el bloqueo y, a continuación, escribe inmediatamente la cola de subprocesos listos para volver a adquirir el bloqueo.  
   
  El llamador ejecuta `Wait` una vez, independientemente del número de veces <xref:System.Threading.Monitor.Enter%2A> se ha invocado para el objeto especificado. Conceptualmente, el `Wait` método almacena el número de veces que el autor de llamada invocado <xref:System.Threading.Monitor.Enter%2A> en el objeto e invoca <xref:System.Threading.Monitor.Exit%2A> tantas veces como sea necesario para liberar completamente el objeto bloqueado. El llamador, a continuación, se bloquea mientras espera para adquirir el objeto. Cuando el autor de llamada vuelve a adquirir el bloqueo, el sistema llama <xref:System.Threading.Monitor.Enter%2A> tantas veces como sea necesario para restaurar el guardado <xref:System.Threading.Monitor.Enter%2A> recuento para el llamador. Una llamada a `Wait` libera el bloqueo para el objeto especificado; si el llamador es el propietario de los bloqueos de otros objetos, estos bloqueos se liberan no.  
   
@@ -1223,7 +1223,7 @@ Nota   Si no se produce ninguna excepción, el resultado de este método siem
         <exception cref="T:System.ArgumentNullException">El parámetro <paramref name="obj" /> es <see langword="null" />.</exception>
         <exception cref="T:System.Threading.SynchronizationLockException">El subproceso que realiza la llamada no posee el bloqueo del objeto especificado.</exception>
         <exception cref="T:System.Threading.ThreadInterruptedException">El subproceso que invoca a <see langword="Wait" /> se interrumpe más adelante desde el estado de espera. Esto ocurre cuando otro subproceso llama al método <see cref="M:System.Threading.Thread.Interrupt" /> de este subproceso.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">El valor del parámetro <paramref name="timeout" /> en milisegundos es negativo y no representa <see cref="F:System.Threading.Timeout.Infinite" /> (–1 milisegundo) o es mayor que <see cref="F:System.Int32.MaxValue" />.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">El valor del parámetro <paramref name="timeout" /> en milisegundos es negativo y no representa <see cref="F:System.Threading.Timeout.Infinite" /> (-1 milisegundo) o es mayor que <see cref="F:System.Int32.MaxValue" />.</exception>
         <altmember cref="T:System.Threading.Thread" />
         <altmember cref="T:System.Threading.Monitor" />
         <related type="Article" href="~/docs/standard/threading/index.md">Subprocesamiento administrado</related>
@@ -1388,7 +1388,7 @@ Nota   Si no se produce ninguna excepción, el resultado de este método siem
         <exception cref="T:System.ArgumentNullException">El parámetro <paramref name="obj" /> es <see langword="null" />.</exception>
         <exception cref="T:System.Threading.SynchronizationLockException"><see langword="Wait" /> no se invoca desde dentro de un bloque de código sincronizado.</exception>
         <exception cref="T:System.Threading.ThreadInterruptedException">El subproceso que invoca a Wait se interrumpe más adelante desde el estado de espera. Esto ocurre cuando otro subproceso llama al método <see cref="M:System.Threading.Thread.Interrupt" /> de este subproceso.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">El parámetro <paramref name="timeout" /> es negativo y no representa <see cref="F:System.Threading.Timeout.Infinite" /> (– 1 milisegundo), o es mayor que <see cref="F:System.Int32.MaxValue" />.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">El parámetro <paramref name="timeout" /> es negativo y no representa <see cref="F:System.Threading.Timeout.Infinite" /> (-1 milisegundo), o es mayor que <see cref="F:System.Int32.MaxValue" />.</exception>
         <altmember cref="T:System.Threading.Thread" />
         <altmember cref="T:System.Threading.Monitor" />
         <related type="Article" href="~/docs/standard/threading/index.md">Subprocesamiento administrado</related>

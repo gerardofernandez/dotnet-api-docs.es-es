@@ -1,0 +1,368 @@
+<Type Name="ServiceHealthBehavior" FullName="System.ServiceModel.Description.ServiceHealthBehavior">
+  <Metadata><Meta Name="ms.openlocfilehash" Value="3841c3dc2d4904aa1529e4f0fee2976b24352b46" /><Meta Name="ms.sourcegitcommit" Value="adc8598fd19d91438cacaa8fa7ce613e28c8218e" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="12/11/2018" /><Meta Name="ms.locfileid" Value="53225169" /></Metadata><TypeSignature Language="C#" Value="public class ServiceHealthBehavior : System.ServiceModel.Description.ServiceHealthBehaviorBase" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ServiceHealthBehavior extends System.ServiceModel.Description.ServiceHealthBehaviorBase" />
+  <TypeSignature Language="DocId" Value="T:System.ServiceModel.Description.ServiceHealthBehavior" />
+  <TypeSignature Language="VB.NET" Value="Public Class ServiceHealthBehavior&#xA;Inherits ServiceHealthBehaviorBase" />
+  <TypeSignature Language="C++ CLI" Value="public ref class ServiceHealthBehavior : System::ServiceModel::Description::ServiceHealthBehaviorBase" />
+  <TypeSignature Language="F#" Value="type ServiceHealthBehavior = class&#xA;    inherit ServiceHealthBehaviorBase" />
+  <AssemblyInfo>
+    <AssemblyName>System.ServiceModel</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.ServiceModel.Description.ServiceHealthBehaviorBase</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>Proporciona un comportamiento del servicio Windows Communication Foundation (WCF) que facilita un punto de conexión de mantenimiento.</summary>
+    <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+## Remarks
+
+Los puntos de conexión de estado se usan para realizar comprobaciones de estado que evaluación el estado de un componente. Los puntos de conexión de mantenimiento pueden usarse para:
+
+- Notificar a las herramientas de orquestación para terminar un proceso que se producen errores en una comprobación de mantenimiento crítico. 
+
+- Actuar como un indicador de problema inicial para las herramientas de supervisión realiza el seguimiento y proporcionando alertas acerca de la la disponibilidad y rendimiento de un servicio.
+
+`ServiceHealthBehavior` es un comportamiento de servicio WCF que extiende IServiceBehavior y se deriva de <xref:System.ServiceModel.Description.ServiceHealthBehaviorBase>.  Agregar un `ServiceHealthBehavior` de instancia para el <xref:System.ServiceModel.Description.ServiceDescription.Behaviors?displayProperty=nameWithType> colección permite lo siguiente:
+
+-   **Publicación del estado del servicio:** Detallan específicos del servicio, como el estado del servicio, recuentos de limitación, y la capacidad se puede mostrar mediante una solicitud HTTP/GET con el `?health` cadena de consulta. Conocer y fácilmente tener acceso a la información que aparece es de gran importancia al solucionar problemas de un servicio WCF comportamiento incorrecto.
+
+-   **Si la devolución de códigos de respuesta HTTP:** Uno puede especificar el código de estado HTTP para una solicitud de sondeo de estado HTTP/GET en la cadena de consulta.
+
+Un punto de conexión de estado solo es significativa en el contexto del componente cuyo estado supervisa. No tiene otro significado o propósito. Por lo tanto, su estado es un canal de comunicación con el estado del componente. Los clientes *debe* se supone que el código de respuesta HTTP devuelto por el punto de conexión de estado es aplicable a todo el componente. Esto es compatible con el comportamiento previsto por las herramientas de infraestructura actual que usan las comprobaciones de estado, como equilibradores de carga, las detecciones de servicio y otros.
+
+### <a name="enable-a-health-endpoint"></a>Habilitar un punto de conexión de estado
+
+Hay dos maneras de especificar cómo exponer el punto de conexión de estado y publicar información de estado del servicio WCF:
+
+- Mediante el uso de un archivo de configuración. Por ejemplo:
+
+   ```xml
+   <behaviors>
+     <serviceBehaviors>
+       <behavior name="DefaultBehavior">
+         <serviceHealth httpGetEnabled="true"/>
+       </behavior>
+     </serviceBehaviors>
+   </behaviors>
+   ```
+
+- Mediante programación. El siguiente fragmento de código utiliza C# para exponer el punto de conexión de estado:
+
+    ```csharp
+    ServiceHost host = new ServiceHost(typeof(Service1),
+        new Uri("http://jconde-dev1:81/Service1"));
+    ServiceHealthBehavior healthBehavior =
+                host.Description.Behaviors.Find<ServiceHealthBehavior>();
+    if (healthBehavior == null)
+    {
+        healthBehavior = new ServiceHealthBehavior();
+    }
+    //healthBehavior.HttpGetEnabled = false;
+    //healthBehavior.HttpsGetEnabled = false;
+    host.Description.Behaviors.Add(healthBehavior);
+    ```
+
+       ]]></format>    
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ServiceHealthBehavior ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Description.ServiceHealthBehavior.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ServiceHealthBehavior();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>Inicializa una nueva instancia de la clase <see cref="T:System.ServiceModel.Description.ServiceHealthBehavior" />.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddHttpProperty">
+      <MemberSignature Language="C#" Value="protected static void AddHttpProperty (System.ServiceModel.Channels.Message message, System.Net.HttpStatusCode status, bool isXml);" />
+      <MemberSignature Language="ILAsm" Value=".method familystatic hidebysig void AddHttpProperty(class System.ServiceModel.Channels.Message message, valuetype System.Net.HttpStatusCode status, bool isXml) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Description.ServiceHealthBehavior.AddHttpProperty(System.ServiceModel.Channels.Message,System.Net.HttpStatusCode,System.Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; static void AddHttpProperty(System::ServiceModel::Channels::Message ^ message, System::Net::HttpStatusCode status, bool isXml);" />
+      <MemberSignature Language="F#" Value="static member AddHttpProperty : System.ServiceModel.Channels.Message * System.Net.HttpStatusCode * bool -&gt; unit" Usage="System.ServiceModel.Description.ServiceHealthBehavior.AddHttpProperty (message, status, isXml)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="message" Type="System.ServiceModel.Channels.Message" />
+        <Parameter Name="status" Type="System.Net.HttpStatusCode" />
+        <Parameter Name="isXml" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="message">Mensaje de respuesta.</param>
+        <param name="status">Código de estado HTTP.</param>
+        <param name="isXml">Define el tipo de encabezado <see langWord="ContentType" /> que se va a escribir en el mensaje. Si <see langword="true" />, <see langWord="ContentType" /> es el tipo de contenido <see langword="text/xml" />; en caso contrario, <see langWord="ContentType" /> es <see langword="text/sml" />.</param>
+        <summary>Establece el tipo de contenido y el código de estado HTTP del mensaje de respuesta.</summary>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="message" /> es <see langword="null" />.</exception>
+      </Docs>
+    </Member>
+    <Member MemberName="EnsureHttpStatusCode">
+      <MemberSignature Language="C#" Value="protected static bool EnsureHttpStatusCode (int code);" />
+      <MemberSignature Language="ILAsm" Value=".method familystatic hidebysig bool EnsureHttpStatusCode(int32 code) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Description.ServiceHealthBehavior.EnsureHttpStatusCode(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Protected Shared Function EnsureHttpStatusCode (code As Integer) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; static bool EnsureHttpStatusCode(int code);" />
+      <MemberSignature Language="F#" Value="static member EnsureHttpStatusCode : int -&gt; bool" Usage="System.ServiceModel.Description.ServiceHealthBehavior.EnsureHttpStatusCode code" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="code" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="code">Código de estado HTTP.</param>
+        <summary>Asegúrese de que el código de estado HTTP está dentro del intervalo de 200 y 599, ambos inclusive.</summary>
+        <returns><see langword="true" /> si el código de estado HTTP está dentro del intervalo de 200 a 599, ambos inclusive; en caso contrario, <see langword="false" />.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetHttpResponseCode">
+      <MemberSignature Language="C#" Value="protected virtual System.Net.HttpStatusCode GetHttpResponseCode (System.ServiceModel.ServiceHostBase serviceHost, string[] queries);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance valuetype System.Net.HttpStatusCode GetHttpResponseCode(class System.ServiceModel.ServiceHostBase serviceHost, string[] queries) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Description.ServiceHealthBehavior.GetHttpResponseCode(System.ServiceModel.ServiceHostBase,System.String[])" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Function GetHttpResponseCode (serviceHost As ServiceHostBase, queries As String()) As HttpStatusCode" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual System::Net::HttpStatusCode GetHttpResponseCode(System::ServiceModel::ServiceHostBase ^ serviceHost, cli::array &lt;System::String ^&gt; ^ queries);" />
+      <MemberSignature Language="F#" Value="abstract member GetHttpResponseCode : System.ServiceModel.ServiceHostBase * string[] -&gt; System.Net.HttpStatusCode&#xA;override this.GetHttpResponseCode : System.ServiceModel.ServiceHostBase * string[] -&gt; System.Net.HttpStatusCode" Usage="serviceHealthBehavior.GetHttpResponseCode (serviceHost, queries)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Net.HttpStatusCode</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="serviceHost" Type="System.ServiceModel.ServiceHostBase" />
+        <Parameter Name="queries" Type="System.String[]" />
+      </Parameters>
+      <Docs>
+        <param name="serviceHost">Una instancia del host de servicios que contiene un servicio WCF con su <see cref="T:System.ServiceModel.Description.ServiceHealthBehavior" /> habilitado.</param>
+        <param name="queries">Una matriz que contiene los pares de campo-valor de la cadena de consulta.</param>
+        <summary>Analiza los campos de cadena de consulta y devuelve su código de respuesta HTTP definido.</summary>
+        <returns>Código de respuesta HTTP.</returns>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="serviceHost" /> es <see langword="null" />.</exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetServiceHealthSections">
+      <MemberSignature Language="C#" Value="protected virtual System.ServiceModel.Description.ServiceHealthSectionCollection GetServiceHealthSections (System.ServiceModel.ServiceHostBase serviceHost);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance class System.ServiceModel.Description.ServiceHealthSectionCollection GetServiceHealthSections(class System.ServiceModel.ServiceHostBase serviceHost) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Description.ServiceHealthBehavior.GetServiceHealthSections(System.ServiceModel.ServiceHostBase)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Function GetServiceHealthSections (serviceHost As ServiceHostBase) As ServiceHealthSectionCollection" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual System::ServiceModel::Description::ServiceHealthSectionCollection ^ GetServiceHealthSections(System::ServiceModel::ServiceHostBase ^ serviceHost);" />
+      <MemberSignature Language="F#" Value="abstract member GetServiceHealthSections : System.ServiceModel.ServiceHostBase -&gt; System.ServiceModel.Description.ServiceHealthSectionCollection&#xA;override this.GetServiceHealthSections : System.ServiceModel.ServiceHostBase -&gt; System.ServiceModel.Description.ServiceHealthSectionCollection" Usage="serviceHealthBehavior.GetServiceHealthSections serviceHost" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ServiceModel.Description.ServiceHealthSectionCollection</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="serviceHost" Type="System.ServiceModel.ServiceHostBase" />
+      </Parameters>
+      <Docs>
+        <param name="serviceHost">Una instancia del host de servicios que contiene un servicio WCF con su <see cref="T:System.ServiceModel.Description.ServiceHealthBehavior" /> habilitado.</param>
+        <summary>Obtiene una colección de los objetos <see cref="T:System.ServiceModel.Description.ServiceHealthSection" /> definidos en <see cref="T:System.ServiceModel.Description.ServiceHealthBehavior" />.</summary>
+        <returns>Colección de los objetos <see cref="T:System.ServiceModel.Description.ServiceHealthSection" /> definidos en <see cref="T:System.ServiceModel.Description.ServiceHealthBehavior" />.</returns>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="serviceHost" /> es <see langword="null" />.</exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetXmlDocument">
+      <MemberSignature Language="C#" Value="protected virtual System.Xml.XmlDocument GetXmlDocument (System.ServiceModel.ServiceHostBase serviceHost);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance class System.Xml.XmlDocument GetXmlDocument(class System.ServiceModel.ServiceHostBase serviceHost) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Description.ServiceHealthBehavior.GetXmlDocument(System.ServiceModel.ServiceHostBase)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Function GetXmlDocument (serviceHost As ServiceHostBase) As XmlDocument" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual System::Xml::XmlDocument ^ GetXmlDocument(System::ServiceModel::ServiceHostBase ^ serviceHost);" />
+      <MemberSignature Language="F#" Value="abstract member GetXmlDocument : System.ServiceModel.ServiceHostBase -&gt; System.Xml.XmlDocument&#xA;override this.GetXmlDocument : System.ServiceModel.ServiceHostBase -&gt; System.Xml.XmlDocument" Usage="serviceHealthBehavior.GetXmlDocument serviceHost" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Xml.XmlDocument</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="serviceHost" Type="System.ServiceModel.ServiceHostBase" />
+      </Parameters>
+      <Docs>
+        <param name="serviceHost">To be added.</param>
+        <summary>Serializa el objeto <see cref="T:System.ServiceModel.Description.ServiceHealthModel" /> asociado con los valores especificados <paramref name="serviceHost" /> y lo devuelve en formato XML.</summary>
+        <returns>Documento XML que se corresponde con el objeto <see cref="T:System.ServiceModel.Description.ServiceHealthModel" /> serializado.</returns>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="serviceHost" /> es <see langword="null" />.</exception>
+      </Docs>
+    </Member>
+    <Member MemberName="HandleHealthRequest">
+      <MemberSignature Language="C#" Value="public override void HandleHealthRequest (System.ServiceModel.ServiceHostBase serviceHost, System.ServiceModel.Channels.Message httpGetRequest, string[] queries, out System.ServiceModel.Channels.Message replyMessage);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void HandleHealthRequest(class System.ServiceModel.ServiceHostBase serviceHost, class System.ServiceModel.Channels.Message httpGetRequest, string[] queries, [out] class System.ServiceModel.Channels.Message&amp; replyMessage) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Description.ServiceHealthBehavior.HandleHealthRequest(System.ServiceModel.ServiceHostBase,System.ServiceModel.Channels.Message,System.String[],System.ServiceModel.Channels.Message@)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Sub HandleHealthRequest (serviceHost As ServiceHostBase, httpGetRequest As Message, queries As String(), ByRef replyMessage As Message)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void HandleHealthRequest(System::ServiceModel::ServiceHostBase ^ serviceHost, System::ServiceModel::Channels::Message ^ httpGetRequest, cli::array &lt;System::String ^&gt; ^ queries, [Runtime::InteropServices::Out] System::ServiceModel::Channels::Message ^ % replyMessage);" />
+      <MemberSignature Language="F#" Value="override this.HandleHealthRequest : System.ServiceModel.ServiceHostBase * System.ServiceModel.Channels.Message * string[] *  -&gt; unit" Usage="serviceHealthBehavior.HandleHealthRequest (serviceHost, httpGetRequest, queries, replyMessage)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="serviceHost" Type="System.ServiceModel.ServiceHostBase" />
+        <Parameter Name="httpGetRequest" Type="System.ServiceModel.Channels.Message" />
+        <Parameter Name="queries" Type="System.String[]" />
+        <Parameter Name="replyMessage" Type="System.ServiceModel.Channels.Message" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="serviceHost">Una instancia del host de servicios que contiene un servicio WCF con su <see cref="T:System.ServiceModel.Description.ServiceHealthBehavior" /> habilitado.</param>
+        <param name="httpGetRequest">Solicitud HTTP hecha al punto de conexión de mantenimiento.</param>
+        <param name="queries">Matriz que contiene los pares de campo-valor de la cadena de consulta.</param>
+        <param name="replyMessage">Cuando el método devuelve, el mensaje de respuesta del comportamiento de mantenimiento. Este mensaje tiene un tipo de contenido de <see langword="text/html" /> o <see langword="text/xml" /> , dependiendo de si la solicitud era para XML o HTML.</param>
+        <summary>Devuelve el mensaje de respuesta a una solicitud especificada.</summary>
+        <remarks>  
+          <format type="text/markdown"><![CDATA[  
+
+Este método es invocado por el <xref:System.ServiceModel.Description.ServiceHealthBehaviorBase> de instancia y es responsable de escribir el mensaje de respuesta para el punto de conexión de estado.
+
+         ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="serviceHost" /> es <see langword="null" />.
+
+O bien
+
+<paramref name="httpGetRequest" /> es <see langword="null" />
+
+O bien
+
+El valor de <paramref name="queries" /> es <see langword="null" />.</exception>
+      </Docs>
+    </Member>
+    <Member MemberName="HasXmlSupport">
+      <MemberSignature Language="C#" Value="protected virtual bool HasXmlSupport { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool HasXmlSupport" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.Description.ServiceHealthBehavior.HasXmlSupport" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable ReadOnly Property HasXmlSupport As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual property bool HasXmlSupport { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.HasXmlSupport : bool" Usage="System.ServiceModel.Description.ServiceHealthBehavior.HasXmlSupport" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Obtiene un valor que indica si se admiten mensajes de respuesta XML.</summary>
+        <value>A menos que se invalide en una clase derivada, este método siempre devuelve <see langword="true" />.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TryParseBooleanQueryParameter">
+      <MemberSignature Language="C#" Value="protected static bool TryParseBooleanQueryParameter (string parameterName, string parameter, bool defaultValue, out bool result);" />
+      <MemberSignature Language="ILAsm" Value=".method familystatic hidebysig bool TryParseBooleanQueryParameter(string parameterName, string parameter, bool defaultValue, [out] bool&amp; result) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Description.ServiceHealthBehavior.TryParseBooleanQueryParameter(System.String,System.String,System.Boolean,System.Boolean@)" />
+      <MemberSignature Language="VB.NET" Value="Protected Shared Function TryParseBooleanQueryParameter (parameterName As String, parameter As String, defaultValue As Boolean, ByRef result As Boolean) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; static bool TryParseBooleanQueryParameter(System::String ^ parameterName, System::String ^ parameter, bool defaultValue, [Runtime::InteropServices::Out] bool % result);" />
+      <MemberSignature Language="F#" Value="static member TryParseBooleanQueryParameter : string * string * bool *  -&gt; bool" Usage="System.ServiceModel.Description.ServiceHealthBehavior.TryParseBooleanQueryParameter (parameterName, parameter, defaultValue, result)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="parameterName" Type="System.String" />
+        <Parameter Name="parameter" Type="System.String" />
+        <Parameter Name="defaultValue" Type="System.Boolean" />
+        <Parameter Name="result" Type="System.Boolean" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="parameterName">Nombre del parámetro cuyo valor el método intenta analizar.</param>
+        <param name="parameter">Par de campo-valor de la cadena de consulta.</param>
+        <param name="defaultValue">Valor que se asignará al argumento <paramName name="result" /> si se produce un error en la operación de análisis.</param>
+        <param name="result">Cuando el método devuelve, el valor del argumento Boolean analizado.</param>
+        <summary>Intenta analizar un parámetro de cadena de consulta Boolean y devuelve un valor que indica si la operación de análisis se realizó correctamente.</summary>
+        <returns>Es <see langword="true" /> si la operación de análisis se realiza correctamente; de lo contrario, es <see langword="false" />.</returns>
+        <remarks>  
+          <format type="text/markdown"><![CDATA[  
+
+El método devuelve `true` si el valor del campo se analizó correctamente por el <xref:System.Boolean.TryParse%2A?displayProperty=nameWithType> método.
+
+         ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="parameterName" /> es <see langword="null" />.
+        
+O bien
+
+El valor de <paramref name="parameter" /> es <see langword="null" />.</exception>
+      </Docs>
+    </Member>
+    <Member MemberName="TryParseHttpStatusCodeQueryParameter">
+      <MemberSignature Language="C#" Value="protected static bool TryParseHttpStatusCodeQueryParameter (string parameterName, string parameter, System.Net.HttpStatusCode defaultErrorCode, out System.Net.HttpStatusCode result);" />
+      <MemberSignature Language="ILAsm" Value=".method familystatic hidebysig bool TryParseHttpStatusCodeQueryParameter(string parameterName, string parameter, valuetype System.Net.HttpStatusCode defaultErrorCode, [out] valuetype System.Net.HttpStatusCode&amp; result) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Description.ServiceHealthBehavior.TryParseHttpStatusCodeQueryParameter(System.String,System.String,System.Net.HttpStatusCode,System.Net.HttpStatusCode@)" />
+      <MemberSignature Language="VB.NET" Value="Protected Shared Function TryParseHttpStatusCodeQueryParameter (parameterName As String, parameter As String, defaultErrorCode As HttpStatusCode, ByRef result As HttpStatusCode) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; static bool TryParseHttpStatusCodeQueryParameter(System::String ^ parameterName, System::String ^ parameter, System::Net::HttpStatusCode defaultErrorCode, [Runtime::InteropServices::Out] System::Net::HttpStatusCode % result);" />
+      <MemberSignature Language="F#" Value="static member TryParseHttpStatusCodeQueryParameter : string * string * System.Net.HttpStatusCode *  -&gt; bool" Usage="System.ServiceModel.Description.ServiceHealthBehavior.TryParseHttpStatusCodeQueryParameter (parameterName, parameter, defaultErrorCode, result)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="parameterName" Type="System.String" />
+        <Parameter Name="parameter" Type="System.String" />
+        <Parameter Name="defaultErrorCode" Type="System.Net.HttpStatusCode" />
+        <Parameter Name="result" Type="System.Net.HttpStatusCode" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="parameterName">Nombre del parámetro cuyo valor el método intenta analizar.</param>
+        <param name="parameter">Par de campo-valor de la cadena de consulta.</param>
+        <param name="defaultValue">Valor que se asigna al argumento <paramName name="result" /> si el código de estado HTTP especificado en la cadena de consulta no es válido.</param>
+        <param name="result">Cuando el método devuelve, el valor del argumento de código de estado HTTP analizado.</param>
+        <summary>Intenta analizar el código de estado HTTP de una variable de cadena de consulta y devuelve un valor que indica si la operación de análisis se realizó correctamente.</summary>
+        <returns>Es <see langword="true" /> si la operación de análisis se realiza correctamente; de lo contrario, es <see langword="false" />.</returns>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="parameterName" /> es <see langword="null" />.
+        
+O bien
+
+El valor de <paramref name="parameter" /> es <see langword="null" />.</exception>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
