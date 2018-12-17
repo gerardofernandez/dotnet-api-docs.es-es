@@ -1,5 +1,5 @@
 <Type Name="AppDomain" FullName="System.AppDomain">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="40ea79988bc31dd09a52c0a55c2ef2c71dcc4eb7" /><Meta Name="ms.sourcegitcommit" Value="adc8598fd19d91438cacaa8fa7ce613e28c8218e" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="12/11/2018" /><Meta Name="ms.locfileid" Value="53231916" /></Metadata><TypeSignature Language="C#" Value="public sealed class AppDomain : MarshalByRefObject, _AppDomain, System.Security.IEvidenceFactory" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="dc4f8d3ff23c8f206e2c442d12c97a21b64bf481" /><Meta Name="ms.sourcegitcommit" Value="d8bd5d494445ce3fcad1321267cb87548d23a45b" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="12/15/2018" /><Meta Name="ms.locfileid" Value="53449923" /></Metadata><TypeSignature Language="C#" Value="public sealed class AppDomain : MarshalByRefObject, _AppDomain, System.Security.IEvidenceFactory" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit AppDomain extends System.MarshalByRefObject implements class System._AppDomain, class System.Security.IEvidenceFactory" />
   <TypeSignature Language="DocId" Value="T:System.AppDomain" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class AppDomain&#xA;Inherits MarshalByRefObject&#xA;Implements _AppDomain, IEvidenceFactory" />
@@ -55,6 +55,9 @@
   
 -   Si un ensamblado se carga en el dominio de aplicación predeterminado, no se puede descargar de la memoria mientras se ejecuta el proceso. Sin embargo, si abre un segundo dominio de aplicación para cargar y ejecutar el ensamblado, se descarga el ensamblado cuando se descarga ese dominio de aplicación. Use esta técnica para minimizar el espacio de trabajo de procesos de larga ejecución que en ocasiones se utilizan grandes archivos DLL.  
   
+ > [!NOTE]
+ >  En .NET Core, el <xref:System.AppDomain> implementación está limitada por cuestiones de diseño y no proporciona los límites de aislamiento, descargar o seguridad. Para .NET Core, hay exactamente un <xref:System.AppDomain>. Aislamiento y descarga se proporcionan a través de <xref:System.Runtime.Loader.AssemblyLoadContext>. Los límites de seguridad deben proporcionar los límites del proceso y las técnicas de comunicación remota adecuado.
+ 
  Pueden ejecutar varios dominios de aplicación en un único proceso; Sin embargo, no hay una correlación uno a uno entre los dominios de aplicación y los subprocesos. Varios subprocesos pueden pertenecer a un dominio de aplicación único y, mientras que un subproceso determinado no se limita a un único dominio de aplicación, en un momento dado, un subproceso se ejecuta en un único dominio de aplicación.  
   
  Dominios de aplicación se crean mediante el <xref:System.AppDomain.CreateDomain%2A> método. <xref:System.AppDomain> las instancias se usan para cargar y ejecutar ensamblados (<xref:System.Reflection.Assembly>). Cuando un <xref:System.AppDomain> es ya no está en uso, se puede descargar.  
@@ -422,7 +425,7 @@
  Para este evento, el <xref:System.ResolveEventArgs.Name%2A?displayProperty=nameWithType> propiedad devuelve el nombre del ensamblado antes de que se aplica la directiva.  
   
 > [!IMPORTANT]
->  Si más de un controlador de eventos está registrado para este evento, el evento handlersarecalled en orden hasta que un controlador de eventos devuelve un valor que no es `null`. Controladores de eventos posteriores se omiten.  
+>  Si más de un controlador de eventos está registrado para este evento, los controladores de eventos se llaman en orden hasta que un controlador de eventos devuelve un valor que no sea `null`. Controladores de eventos posteriores se omiten.
   
  Para obtener más información sobre el manejo de eventos, consulte [controlar y provocar eventos](~/docs/standard/events/index.md).  
   
@@ -861,6 +864,7 @@ Este miembro se invocó con un mecanismo de enlace en tiempo de ejecución.</exc
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">El valor de <paramref name="friendlyName" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.PlatformNotSupportedException">Método no admitido en .NET Core.</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">para proporcionar evidencia. Enumeración asociada: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlEvidence" />.</permission>
         <altmember cref="P:System.AppDomain.FriendlyName" />
       </Docs>
