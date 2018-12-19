@@ -1,5 +1,5 @@
 <Type Name="TimeZoneInfo" FullName="System.TimeZoneInfo">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="70054d455b955161ef448f2b29946549404baabf" /><Meta Name="ms.sourcegitcommit" Value="adc8598fd19d91438cacaa8fa7ce613e28c8218e" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="12/11/2018" /><Meta Name="ms.locfileid" Value="53232176" /></Metadata><TypeSignature Language="C#" Value="public sealed class TimeZoneInfo : IEquatable&lt;TimeZoneInfo&gt;, System.Runtime.Serialization.IDeserializationCallback, System.Runtime.Serialization.ISerializable" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="a0c1b671172dcff914cfb84a095c579b475828bb" /><Meta Name="ms.sourcegitcommit" Value="d8bd5d494445ce3fcad1321267cb87548d23a45b" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="12/15/2018" /><Meta Name="ms.locfileid" Value="53449897" /></Metadata><TypeSignature Language="C#" Value="public sealed class TimeZoneInfo : IEquatable&lt;TimeZoneInfo&gt;, System.Runtime.Serialization.IDeserializationCallback, System.Runtime.Serialization.ISerializable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit TimeZoneInfo extends System.Object implements class System.IEquatable`1&lt;class System.TimeZoneInfo&gt;, class System.Runtime.Serialization.IDeserializationCallback, class System.Runtime.Serialization.ISerializable" />
   <TypeSignature Language="DocId" Value="T:System.TimeZoneInfo" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class TimeZoneInfo&#xA;Implements IDeserializationCallback, IEquatable(Of TimeZoneInfo), ISerializable" />
@@ -79,13 +79,13 @@
 |Nombre de miembro estático|Descripción|  
 |------------------------|-----------------|  
 |Método <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A>|Crea una zona horaria personalizada a partir de datos proporcionada por la aplicación.|  
-|Método <xref:System.TimeZoneInfo.FindSystemTimeZoneById%2A>|Crea una instancia de una zona horaria definida en el registro del sistema según el identificador de la zona horaria.|  
+|Método <xref:System.TimeZoneInfo.FindSystemTimeZoneById%2A>|Crea una instancia de una zona horaria basándose en su identificador.|  
 |Método <xref:System.TimeZoneInfo.FromSerializedString%2A>|Deserializa un valor de cadena para volver a crear un serializador previamente <xref:System.TimeZoneInfo> objeto.|  
 |Método <xref:System.TimeZoneInfo.GetSystemTimeZones%2A>|Devuelve un enumerable <xref:System.Collections.ObjectModel.ReadOnlyCollection%601> de <xref:System.TimeZoneInfo> objetos que representan todas las zonas horarias que están disponibles en el sistema local.|  
 |Propiedad<xref:System.TimeZoneInfo.Local%2A> |Crea una instancia de un <xref:System.TimeZoneInfo> objeto que representa la zona horaria local.|  
 |Propiedad<xref:System.TimeZoneInfo.Utc%2A> |Crea una instancia de un <xref:System.TimeZoneInfo> objeto que representa la zona de hora UTC.|  
   
- Puede usar el <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> método para crear una zona horaria que no está definida en el registro del sistema local. A continuación, puede usar el <xref:System.TimeZoneInfo.ToSerializedString%2A> propiedad que se va a guardar la información de zona horaria del objeto como una cadena, que se puede almacenar en alguna forma que sea accesible para la aplicación. Puede usar el <xref:System.TimeZoneInfo.FromSerializedString%2A> realizar una copia del método para convertir una cadena serializada en una <xref:System.TimeZoneInfo> objeto.  
+ Puede usar el <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> método para crear una zona horaria que no está definida en el registro del sistema local en los sistemas de Windows o las clases de zona horaria en el [ICU biblioteca](http://userguide.icu-project.org/datetime/timezone) en Linux o macOS. A continuación, puede usar el <xref:System.TimeZoneInfo.ToSerializedString%2A> propiedad que se va a guardar la información de zona horaria del objeto como una cadena, que se puede almacenar en alguna forma que sea accesible para la aplicación. Puede usar el <xref:System.TimeZoneInfo.FromSerializedString%2A> realizar una copia del método para convertir una cadena serializada en una <xref:System.TimeZoneInfo> objeto.  
   
  ]]></format>
     </remarks>
@@ -193,11 +193,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Datos almacenados en caché de zona horaria incluyen datos sobre la zona horaria local, la zona de hora Universal coordinada (UTC) y cualquier zona horaria que se recuperan mediante métodos como <xref:System.TimeZoneInfo.FindSystemTimeZoneById%2A> y <xref:System.TimeZoneInfo.GetSystemTimeZones%2A>.  
+ Datos almacenados en caché de zona horaria incluyen datos sobre la zona horaria local y la zona de hora Universal coordinada (UTC).  
   
- Puede llamar a la <xref:System.TimeZoneInfo.ClearCachedData%2A> método para reducir la memoria dedicada a la caché de aplicación de la información de zona horaria o para reflejar el hecho de que ha cambiado la zona horaria del sistema local.  
+ Puede llamar a la `ClearCachedData` método para reducir la memoria dedicada a la caché de aplicación de la información de zona horaria o para reflejar el hecho de que ha cambiado la zona horaria del sistema local.  
   
- No se recomienda almacenar referencias a las zonas de hora UTC y locales. Después de llamar a la <xref:System.TimeZoneInfo.ClearCachedData%2A> método, estas variables de objeto quedará sin definir <xref:System.TimeZoneInfo> objetos que ya no son referencias a <xref:System.TimeZoneInfo.Local%2A?displayProperty=nameWithType> o <xref:System.TimeZoneInfo.Utc%2A?displayProperty=nameWithType>. Por ejemplo, en el código siguiente, la segunda llamada a la <xref:System.TimeZoneInfo.ConvertTime%28System.DateTime%2CSystem.TimeZoneInfo%2CSystem.TimeZoneInfo%29?displayProperty=nameWithType> método produce una <xref:System.ArgumentException> porque el `local` variable ya no se considera igual a <xref:System.TimeZoneInfo.Local%2A?displayProperty=nameWithType>.  
+ No se recomienda almacenar referencias a las zonas de hora UTC y locales. Después de llamar a la `ClearCachedData` método, estas variables de objeto quedará sin definir <xref:System.TimeZoneInfo> objetos que ya no son referencias a <xref:System.TimeZoneInfo.Local%2A?displayProperty=nameWithType> o <xref:System.TimeZoneInfo.Utc%2A?displayProperty=nameWithType>. Por ejemplo, en el código siguiente, la segunda llamada a la <xref:System.TimeZoneInfo.ConvertTime%28System.DateTime%2CSystem.TimeZoneInfo%2CSystem.TimeZoneInfo%29?displayProperty=nameWithType> método produce una <xref:System.ArgumentException> porque el `local` variable ya no se considera igual a <xref:System.TimeZoneInfo.Local%2A?displayProperty=nameWithType>.  
   
  [!code-csharp[System.TimeZone2.BestPractices#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.TimeZone2.BestPractices/cs/System.TimeZone2.BestPractices.cs#1)]
  [!code-vb[System.TimeZone2.BestPractices#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.TimeZone2.BestPractices/vb/System.TimeZone2.BestPractices.vb#1)]  
@@ -544,7 +544,7 @@ El parámetro <paramref name="destinationTimeZone" /> es <see langword="null" />
   
  Si la conversión de `dateTime` da como resultado un valor de fecha y hora que es anterior a <xref:System.DateTime.MinValue?displayProperty=nameWithType> o posterior a <xref:System.DateTime.MaxValue?displayProperty=nameWithType>, este método devuelve <xref:System.DateTime.MinValue?displayProperty=nameWithType> o <xref:System.DateTime.MaxValue?displayProperty=nameWithType>, respectivamente.  
   
- Este método recupera la zona horaria cuyo identificador es especificado por el `destinationTimeZoneId` parámetro del registro. No puede recuperar un objeto de zona horaria que se crea utilizando el <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> método. El `destinationTimeZoneId` parámetro debe corresponder exactamente con la clave del registro de la zona horaria en longitud, pero no en el caso, para que una coincidencia correcta; es decir, la comparación de `destinationTimeZoneId` con zona horaria identificadores distingue mayúsculas de minúsculas.  
+ Este método recupera información sobre la zona horaria cuyo identificador es especificado por el `destinationTimeZoneId` parámetro del registro en los sistemas Windows y desde el [ICU biblioteca](http://userguide.icu-project.org/datetime/timezone) en Linux y macOS. No puede recuperar un objeto de zona horaria que se crea utilizando el <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> método. El `destinationTimeZoneId` parámetro debe corresponder exactamente con el identificador de la zona horaria en longitud, pero no en el caso, para que una coincidencia correcta; es decir, la comparación de `destinationTimeZoneId` con zona horaria identificadores distingue mayúsculas de minúsculas.  
   
  ]]></format>
         </remarks>
@@ -602,7 +602,7 @@ El parámetro <paramref name="destinationTimeZone" /> es <see langword="null" />
   
  Dado que el `dateTimeOffset` parámetro representa una fecha y la diferencia horaria junto con esa hora de la hora Universal coordinada (UTC), no puede representar una hora ambigua o una hora no válida.  
   
- Este método recupera la zona horaria cuyo identificador es especificado por el `destinationTimeZoneId` parámetro del registro. No puede recuperar un objeto de zona horaria que se crea utilizando el <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> método. El `destinationTimeZoneId` parámetro debe corresponder exactamente con la clave del registro de la zona horaria en longitud, pero no en el caso, para que una coincidencia correcta; es decir, la comparación de `destinationTimeZoneId` con zona horaria identificadores distingue mayúsculas de minúsculas.  
+ Este método recupera la zona horaria cuyo identificador es especificado por el `destinationTimeZoneId` parámetro del registro en los sistemas Windows y desde el [ICU biblioteca](http://userguide.icu-project.org/datetime/timezone) en Linux y macOS. No puede recuperar un objeto de zona horaria que se crea utilizando el <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> método. El `destinationTimeZoneId` parámetro debe corresponder exactamente con el identificador de la zona horaria en longitud, pero no en el caso, para que una coincidencia correcta; es decir, la comparación de `destinationTimeZoneId` con zona horaria identificadores distingue mayúsculas de minúsculas.  
   
  Convertir el `dateTimeOffset` valor a la hora de la zona horaria de destino, el método tiene en cuenta las reglas de ajuste en vigor en la zona horaria de destino.  
   
@@ -664,7 +664,7 @@ El parámetro <paramref name="destinationTimeZone" /> es <see langword="null" />
   
  Aunque es similar a la <xref:System.TimeZoneInfo.ConvertTime%28System.DateTime%2CSystem.TimeZoneInfo%2CSystem.TimeZoneInfo%29?displayProperty=nameWithType> método, puede usar <xref:System.TimeZoneInfo.ConvertTimeBySystemTimeZoneId%28System.DateTime%2CSystem.String%2CSystem.String%29?displayProperty=nameWithType> para especificar las zonas horarias de origen y destino mediante sus identificadores en lugar de sus <xref:System.TimeZoneInfo> objetos. Este método es muy útil cuando debe convertir una hora sin tener que recuperar el objeto de zona horaria que corresponde a él y no es necesario saber si el tiempo convertido es estándar o el horario de verano.  
   
- Este método recupera las zonas horarias cuyos identificadores son el `sourceTimeZoneId` y `destinationTimeZoneId` parámetros desde el registro. No puede recuperar objetos de zona horaria que se crean mediante el <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> método.  
+ Este método recupera las zonas horarias cuyos identificadores son el `sourceTimeZoneId` y `destinationTimeZoneId` parámetros desde el registro en los sistemas Windows y desde el [ICU biblioteca](http://userguide.icu-project.org/datetime/timezone) en Linux y macOS. No puede recuperar objetos de zona horaria que se crean mediante el <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> método.  
   
  El valor de la <xref:System.DateTime.Kind%2A> propiedad de la `dateTime` parámetro debe corresponder a la `sourceTimeZoneId` parámetro, como se muestra en la tabla siguiente.  
   
@@ -1294,7 +1294,7 @@ La suma del parámetro <paramref name="baseUtcOffset" /> y el valor <see cref="P
   
  Un <xref:System.TimeZoneInfo.DaylightName%2A> propiedad cuyo valor no es <xref:System.String.Empty?displayProperty=nameWithType> o `null` no indica necesariamente que la zona horaria admite el horario de verano. Para determinar si la zona horaria admite el horario de verano, compruebe el valor de su <xref:System.TimeZoneInfo.SupportsDaylightSavingTime%2A> propiedad.  
   
- En la mayoría de los casos, el <xref:System.TimeZoneInfo.DaylightName%2A> propiedad de zonas horarias definidas en el registro no es <xref:System.String.Empty?displayProperty=nameWithType> o `null`. Sin embargo, el <xref:System.TimeZoneInfo.DaylightName%2A> se puede establecer la propiedad de zonas horarias personalizadas <xref:System.String.Empty?displayProperty=nameWithType>. Esto se produce cuando se crean las zonas horarias personalizadas mediante el <xref:System.TimeZoneInfo.CreateCustomTimeZone%28System.String%2CSystem.TimeSpan%2CSystem.String%2CSystem.String%29?displayProperty=nameWithType> o <xref:System.TimeZoneInfo.CreateCustomTimeZone%28System.String%2CSystem.TimeSpan%2CSystem.String%2CSystem.String%2CSystem.String%2CSystem.TimeZoneInfo.AdjustmentRule%5B%5D%2CSystem.Boolean%29?displayProperty=nameWithType> sobrecarga y la `disableDaylightSavingTime` parámetro es `true`. Por lo tanto, el código nunca debe asumir que el valor de la <xref:System.TimeZoneInfo.DaylightName%2A> propiedad no es `null` o está vacío.  
+ En la mayoría de los casos, el `DaylightName` propiedad de las zonas de hora definido por el sistema no es <xref:System.String.Empty?displayProperty=nameWithType> o `null`. Sin embargo, el <xref:System.TimeZoneInfo.DaylightName%2A> se puede establecer la propiedad de zonas horarias personalizadas <xref:System.String.Empty?displayProperty=nameWithType>. Esto se produce cuando se crean las zonas horarias personalizadas mediante el <xref:System.TimeZoneInfo.CreateCustomTimeZone%28System.String%2CSystem.TimeSpan%2CSystem.String%2CSystem.String%29?displayProperty=nameWithType> o <xref:System.TimeZoneInfo.CreateCustomTimeZone%28System.String%2CSystem.TimeSpan%2CSystem.String%2CSystem.String%2CSystem.String%2CSystem.TimeZoneInfo.AdjustmentRule%5B%5D%2CSystem.Boolean%29?displayProperty=nameWithType> sobrecarga y la `disableDaylightSavingTime` parámetro es `true`. Por lo tanto, el código nunca debe asumir que el valor de la <xref:System.TimeZoneInfo.DaylightName%2A> propiedad no es `null` o está vacío.  
   
  El <xref:System.TimeZoneInfo.DaylightName%2A> propiedad es equivalente a la <xref:System.TimeZone.DaylightName%2A> propiedad de la <xref:System.TimeZone> clase.  
   
@@ -1557,17 +1557,17 @@ La suma del parámetro <paramref name="baseUtcOffset" /> y el valor <see cref="P
       </Parameters>
       <Docs>
         <param name="id">Identificador de la zona horaria, que se corresponde con la propiedad <see cref="P:System.TimeZoneInfo.Id" />.</param>
-        <summary>Recupera un objeto <see cref="T:System.TimeZoneInfo" /> del Registro basándose en su identificador.</summary>
+        <summary>Crea instancias de un nuevo objeto <see cref="T:System.TimeZoneInfo" /> según su identificador.</summary>
         <returns>Objeto cuyo identificador es el valor del parámetro <paramref name="id" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El `id` parámetro debe corresponder exactamente con la clave del registro de la zona horaria en longitud, pero no en el caso, para que una coincidencia correcta; es decir, la comparación de `id` con zona horaria identificadores distingue mayúsculas de minúsculas. Si desea recuperar objetos de zona horaria basándose en coincidencias parciales, puede escribir procedimientos personalizados que funcionan con la colección de solo lectura <xref:System.TimeZoneInfo> los objetos devueltos por la <xref:System.TimeZoneInfo.GetSystemTimeZones%2A> método.  
+ El `id` parámetro debe corresponder exactamente con el identificador de la zona horaria en longitud, pero no en el caso, para que una coincidencia correcta; es decir, la comparación de `id` con zona horaria identificadores distingue mayúsculas de minúsculas. Si desea recuperar objetos de zona horaria basándose en coincidencias parciales, puede escribir procedimientos personalizados que funcionan con la colección de solo lectura <xref:System.TimeZoneInfo> los objetos devueltos por la <xref:System.TimeZoneInfo.GetSystemTimeZones%2A> método.  
   
- En los sistemas Windows, <xref:System.TimeZoneInfo.FindSystemTimeZoneById%2A> intenta hacer coincidir `id` a los nombres de las subclaves de la rama HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Time Zones del registro. Esta rama no contiene necesariamente una lista completa de identificadores de zona horaria. Si es necesario por una aplicación, puede crear una zona horaria determinada mediante una llamada a una de las sobrecargas de los <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> método o mediante una llamada a <xref:System.TimeZoneInfo.FromSerializedString%2A> para deserializar un <xref:System.TimeZoneInfo> objeto que representa la zona horaria necesaria. Sin embargo, las zonas horarias creadas por estas llamadas al método no se incluyen en el registro y no se puede recuperar mediante el <xref:System.TimeZoneInfo.FindSystemTimeZoneById%2A> método. Estas zonas horarias personalizadas puede obtenerse acceso únicamente a través de la referencia de objeto devuelta por la <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> o <xref:System.TimeZoneInfo.FromSerializedString%2A> llamada al método.  
+ En los sistemas Windows, `FindSystemTimeZoneById` intenta hacer coincidir `id` a los nombres de las subclaves de la rama HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Time Zones del registro. En Linux y macOS, usa la información de zona horaria en el [ICU biblioteca](http://userguide.icu-project.org/datetime/timezone). Si el registro o la biblioteca no tiene la información de la zona horaria que desee, puede crear una zona horaria determinada mediante una llamada a una de las sobrecargas de los <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> método o mediante una llamada a <xref:System.TimeZoneInfo.FromSerializedString%2A> para deserializar un <xref:System.TimeZoneInfo> de objeto que representa la zona horaria necesaria. Sin embargo, las zonas horarias creadas por estas llamadas al método no son de tiempo definido por el sistema y no se puede recuperar mediante el <xref:System.TimeZoneInfo.FindSystemTimeZoneById%2A> método. Estas zonas horarias personalizadas puede obtenerse acceso únicamente a través de la referencia de objeto devuelta por la <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> o <xref:System.TimeZoneInfo.FromSerializedString%2A> llamada al método.  
   
-   
+Este método devuelve un nuevo <xref:System.TimeZoneInfo> para cada llamada al método de instancia; no devuelve los objetos en caché. Esto puede afectar al rendimiento en aplicaciones que llaman a la `FindSystemTimeZoneById` método varias veces con el mismo identificador.   
   
 ## Examples  
  En el ejemplo siguiente se usa el <xref:System.TimeZoneInfo.FindSystemTimeZoneById%2A> método para recuperar la zona horaria estándar de Tokio. Esto <xref:System.TimeZoneInfo> objeto, a continuación, se usa para convertir la hora local a la hora de Tokio y para determinar si es hora estándar de Tokio o la hora de verano de Tokio.  
@@ -1579,7 +1579,7 @@ La suma del parámetro <paramref name="baseUtcOffset" /> y el valor <see cref="P
         </remarks>
         <exception cref="T:System.OutOfMemoryException">El sistema no tiene suficiente memoria para almacenar información sobre la zona horaria.</exception>
         <exception cref="T:System.ArgumentNullException">El parámetro <paramref name="id" /> es <see langword="null" />.</exception>
-        <exception cref="T:System.TimeZoneNotFoundException">No se encontró el identificador de zona horaria especificado por <paramref name="id" />. Esto significa que no existe una clave del registro cuyo nombre coincida con <paramref name="id" />, o que la clave existe pero no contiene ningún dato de zona horaria.</exception>
+        <exception cref="T:System.TimeZoneNotFoundException">No se encontró el identificador de zona horaria especificado por <paramref name="id" />. Esto significa que no existe ningún identificador de zona horaria cuyo nombre coincida con <paramref name="id" />, o que el identificador existe pero no contiene ningún dato de zona horaria.</exception>
         <exception cref="T:System.Security.SecurityException">El proceso no tiene los permisos necesarios para leer la clave del registro que contiene la información de zona horaria.</exception>
         <exception cref="T:System.InvalidTimeZoneException">Se encontró el identificador de zona horaria, pero los datos del Registro están dañados.</exception>
         <altmember cref="P:System.TimeZoneInfo.Id" />
@@ -1626,7 +1626,7 @@ La suma del parámetro <paramref name="baseUtcOffset" /> y el valor <see cref="P
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Hay una alternativa a la que proporciona todo el código necesario para crear una zona horaria que no se encuentra en el registro. Puede definir una zona horaria personalizada y, o bien usar la <xref:System.TimeZoneInfo.ToSerializedString%2A> método en un archivo ejecutable independiente o el programa de instalación de la aplicación para guardar la zona horaria como una cadena de uso. La aplicación, a continuación, puede recuperar esta cadena de su ubicación de almacenamiento y crear instancias mediante la <xref:System.TimeZoneInfo.FromSerializedString%2A> método.  
+ Hay una alternativa a la que proporciona todo el código necesario para crear una zona horaria que no se encuentra en el registro en Windows o en el [ICU biblioteca](http://userguide.icu-project.org/datetime/timezone) en Linux y macOS. Puede definir una zona horaria personalizada y, o bien usar la <xref:System.TimeZoneInfo.ToSerializedString%2A> método en un archivo ejecutable independiente o el programa de instalación de la aplicación para guardar la zona horaria como una cadena de uso. La aplicación, a continuación, puede recuperar esta cadena de su ubicación de almacenamiento y crear instancias mediante la <xref:System.TimeZoneInfo.FromSerializedString%2A> método.  
   
    
   
@@ -1942,10 +1942,10 @@ La suma del parámetro <paramref name="baseUtcOffset" /> y el valor <see cref="P
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El <xref:System.TimeZoneInfo.GetSystemTimeZones%2A> método recupera toda la información de zona horaria disponible de las subclaves de la clave del registro HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Time Zones. Si no puede recuperar y analizar los valores para propiedades de cadena concreta del individuo correctamente <xref:System.TimeZoneInfo> objetos, este método establece su valor en una cadena vacía ("").  
+ El <xref:System.TimeZoneInfo.GetSystemTimeZones%2A> método recupera toda la información de zona horaria disponible de las subclaves de la clave del registro HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Time Zones en sistemas Windows y desde el [ICU biblioteca](http://userguide.icu-project.org/datetime/timezone) en Linux y macOS. Si no puede recuperar y analizar los valores para propiedades de cadena concreta del individuo correctamente <xref:System.TimeZoneInfo> objetos, este método establece su valor en una cadena vacía ("").  
   
 > [!IMPORTANT]
->  El <xref:System.TimeZoneInfo.GetSystemTimeZones%2A> método devuelve una colección de <xref:System.TimeZoneInfo> objetos sólo para zonas horarias definidas en el registro. No incluye las zonas horarias creadas mediante las sobrecargas de los <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> método. Estos son accesibles sólo a través de la referencia de objeto devuelta por el método de creación de la zona horaria.  
+>  El <xref:System.TimeZoneInfo.GetSystemTimeZones%2A> método devuelve una colección de <xref:System.TimeZoneInfo> objetos sólo para zonas horarias definidas en la biblioteca ICU o. No incluye las zonas horarias creadas mediante las sobrecargas de los <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> método. Estos son accesibles sólo a través de la referencia de objeto devuelta por el método de creación de la zona horaria.  
   
  La colección devuelta por este método se ordena por la diferencia horaria con UTC y, para las zonas horarias que tienen el mismo desplazamiento de UTC, por el nombre para mostrar con la referencia cultural actual. Para obtener información sobre el nombre para mostrar, vea <xref:System.TimeZoneInfo.DisplayName%2A>.  
   
@@ -2139,7 +2139,7 @@ La suma del parámetro <paramref name="baseUtcOffset" /> y el valor <see cref="P
    
   
 ## Examples  
- Normalmente, un número de zonas horarias definidas en el registro tiene el mismo desplazamiento de hora Universal coordinada (UTC) y las mismas reglas de ajuste. El ejemplo siguiente muestra una lista de estas zonas horarias en la consola.  
+ Normalmente, un número de zonas horarias definidas en el registro de Windows y la [ICU biblioteca](http://userguide.icu-project.org/datetime/timezone) en Linux y macOS tiene el mismo desplazamiento de hora Universal coordinada (UTC) y las mismas reglas de ajuste. El ejemplo siguiente muestra una lista de estas zonas horarias en la consola.  
   
  [!code-csharp[System.TimeZone2.HasSameRules#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.TimeZone2.HasSameRules/cs/HasSameRules.cs#1)]
  [!code-vb[System.TimeZone2.HasSameRules#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.TimeZone2.HasSameRules/vb/HasSameRules.vb#1)]  
@@ -2187,7 +2187,7 @@ La suma del parámetro <paramref name="baseUtcOffset" /> y el valor <see cref="P
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El identificador de zona horaria es una cadena de clave que identifica una zona horaria determinada. En los sistemas Windows, corresponde a las subclaves de la rama HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Time zona del registro. Se puede pasar como parámetro a la <xref:System.TimeZoneInfo.FindSystemTimeZoneById%2A> método para recuperar una zona horaria determinada en el registro.  
+ El identificador de zona horaria es una cadena de clave que identifica una zona horaria determinada. En los sistemas de Windows, corresponde a las subclaves de la rama HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Time zona del registro en los sistemas Windows y desde el [ICU biblioteca](http://userguide.icu-project.org/datetime/timezone) en Linux y macOS. Se puede pasar como parámetro a la <xref:System.TimeZoneInfo.FindSystemTimeZoneById%2A> método para crear instancias de un <xref:System.TimeZoneInfo> objeto que representa una zona horaria determinada.  
   
 > [!IMPORTANT]
 >  Aunque un nombre de clave en el registro de Windows puede tener un máximo de 255 caracteres, se recomienda que un identificador que se asigna a una zona horaria personalizada sea de 32 caracteres o menos. El identificador de más tiempo, mayor será la probabilidad de que un nombre de clave incorrecto será proporcionado al recuperarlos.  
@@ -2272,7 +2272,7 @@ La suma del parámetro <paramref name="baseUtcOffset" /> y el valor <see cref="P
 |------------------------------|-------------------------|--------------|  
 |<xref:System.TimeZoneInfo.Local%2A?displayProperty=nameWithType>|<xref:System.DateTimeKind.Local?displayProperty=nameWithType> o <xref:System.DateTimeKind.Unspecified?displayProperty=nameWithType>|Determina si el `dateTime` parámetro es ambiguo.|  
 |<xref:System.TimeZoneInfo.Local%2A?displayProperty=nameWithType>|<xref:System.DateTimeKind.Utc?displayProperty=nameWithType>|Convierte `dateTime` a la hora local y, a continuación, determina si esa hora es ambigua.|  
-|<xref:System.TimeZoneInfo.Utc%2A?displayProperty=nameWithType>|<xref:System.DateTimeKind.Utc?displayProperty=nameWithType> o <xref:System.DateTimeKind.Unspecified?displayProperty=nameWithType>|Devuelva `false`.|  
+|<xref:System.TimeZoneInfo.Utc%2A?displayProperty=nameWithType>|<xref:System.DateTimeKind.Utc?displayProperty=nameWithType> o <xref:System.DateTimeKind.Unspecified?displayProperty=nameWithType>|Devuelve `false`.|  
 |<xref:System.TimeZoneInfo.Utc%2A?displayProperty=nameWithType>|<xref:System.DateTimeKind.Local?displayProperty=nameWithType>|Si `dateTime` es ambiguo, se da por supuesto es una hora estándar, lo convierte a UTC y devuelve `false`.|  
 |Cualquier otra zona horaria.|<xref:System.DateTimeKind.Local?displayProperty=nameWithType> o <xref:System.DateTimeKind.Utc?displayProperty=nameWithType>|Convierte `dateTime` a la hora de la zona horaria especificada y, a continuación, determina si esa hora es ambigua.|  
 |Cualquier otra zona horaria.|<xref:System.DateTimeKind.Unspecified?displayProperty=nameWithType>|Determina si `dateTime` es ambiguo.|  
@@ -2541,7 +2541,7 @@ La suma del parámetro <paramref name="baseUtcOffset" /> y el valor <see cref="P
 |<xref:System.DateTimeKind.Local?displayProperty=nameWithType>|<xref:System.TimeZoneInfo.Local%2A?displayProperty=nameWithType>|Determina si la hora es válida.|  
 |<xref:System.DateTimeKind.Local?displayProperty=nameWithType>|<xref:System.TimeZoneInfo.Utc%2A?displayProperty=nameWithType> o una zona horaria no local.|Convierte `dateTime` a la hora de la <xref:System.TimeZoneInfo> objeto y devuelve `false`.|  
 |<xref:System.DateTimeKind.Unspecified?displayProperty=nameWithType>|No es aplicable.|Se da por supuesto `dateTime` es el momento de la <xref:System.TimeZoneInfo> objeto y determina si no es válido.|  
-|<xref:System.DateTimeKind.Utc?displayProperty=nameWithType>|No es aplicable.|Devuelve `false`.|  
+|<xref:System.DateTimeKind.Utc?displayProperty=nameWithType>|No es aplicable.|Devuelva `false`.|  
   
    
   
@@ -2872,11 +2872,11 @@ La suma del parámetro <paramref name="baseUtcOffset" /> y el valor <see cref="P
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Las aplicaciones que se basan en las zonas horarias que no suelen definirse en el registro de sistemas de Windows pueden usar el <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> método para crear instancias de las zonas horarias necesarias como <xref:System.TimeZoneInfo> objetos. La aplicación, a continuación, puede llamar a la <xref:System.TimeZoneInfo.ToSerializedString%2A> método para convertir el objeto de zona horaria en una cadena.  
+ Las aplicaciones que dependen de las zonas horarias que no suelen definirse en el registro de sistemas de Windows o el [ICU biblioteca](http://userguide.icu-project.org/datetime/timezone) en Linux y macOScan puede usar el <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> método para crear instancias de las zonas horarias necesarias como <xref:System.TimeZoneInfo>objetos. La aplicación, a continuación, puede llamar a la <xref:System.TimeZoneInfo.ToSerializedString%2A> método para convertir el objeto de zona horaria en una cadena.  
   
  La <xref:System.TimeZoneInfo> objeto también se debe almacenar en una ubicación donde la aplicación pueda recuperarlos cuando sea necesario. Las ubicaciones posibles incluyen:  
   
--   El registro.  
+-   El registro en los sistemas de Windows.  
   
 -   Un archivo de recursos de la aplicación.  
   
@@ -2983,7 +2983,7 @@ La suma del parámetro <paramref name="baseUtcOffset" /> y el valor <see cref="P
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se trata de un objeto integrado; información sobre este <xref:System.TimeZoneInfo> objeto no se puede recuperar del registro.  
+ Se trata de un objeto integrado; información sobre este <xref:System.TimeZoneInfo> objeto no se puede recuperar del registro en los sistemas Windows y desde el [ICU biblioteca](http://userguide.icu-project.org/datetime/timezone) en Linux y macOS.  
   
 > [!IMPORTANT]
 >  Siempre debe tener acceso a la zona de hora Universal coordinada (UTC) a través de la <xref:System.TimeZoneInfo.Utc%2A?displayProperty=nameWithType> propiedad en lugar de asignar la zona horaria UTC para un <xref:System.TimeZoneInfo> variable de objeto. Esto evita la <xref:System.TimeZoneInfo> variable de objeto del que se invalida mediante una llamada a la <xref:System.TimeZoneInfo.ClearCachedData%2A> método.  
