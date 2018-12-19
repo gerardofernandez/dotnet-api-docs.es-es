@@ -1,5 +1,5 @@
 <Type Name="ClientFormsIdentity" FullName="System.Web.ClientServices.ClientFormsIdentity">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="a3d13dfdee2c05f8540f244f6a1af940096c3f89" /><Meta Name="ms.sourcegitcommit" Value="16d2d159872fd213cae4b8f371d7ae9c8b027c89" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="11/17/2018" /><Meta Name="ms.locfileid" Value="51917677" /></Metadata><TypeSignature Language="C#" Value="public class ClientFormsIdentity : IDisposable, System.Security.Principal.IIdentity" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="4ba10aea8537e9462a1568aff18b4c55f7382282" /><Meta Name="ms.sourcegitcommit" Value="42a3c35677e9d87eeb503607ae50c9d39827d414" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="12/17/2018" /><Meta Name="ms.locfileid" Value="53526000" /></Metadata><TypeSignature Language="C#" Value="public class ClientFormsIdentity : IDisposable, System.Security.Principal.IIdentity" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ClientFormsIdentity extends System.Object implements class System.IDisposable, class System.Security.Principal.IIdentity" />
   <TypeSignature Language="DocId" Value="T:System.Web.ClientServices.ClientFormsIdentity" />
   <TypeSignature Language="VB.NET" Value="Public Class ClientFormsIdentity&#xA;Implements IDisposable, IIdentity" />
@@ -39,7 +39,7 @@
  Ejemplo de código siguiente muestra cómo usar esta clase para volver a validar silenciosamente un usuario cuando la aplicación sale del estado sin conexión. En este ejemplo, un <xref:System.Windows.Forms.CheckBox.CheckedChanged> controlador de eventos actualiza el estado sin conexión para que coincida con el valor de la casilla de verificación. Si el usuario establece la aplicación al estado en línea, el controlador de eventos intenta validar al usuario mediante una llamada a la <xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A> método. Sin embargo, si el servidor de autenticación no está disponible, el controlador de eventos devuelve la aplicación al estado sin conexión.  
   
 > [!NOTE]
->  El método <xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A> es solo para su comodidad. Dado que no tiene un valor devuelto, no puede indicar si hubo un error de validación. La revalidación puede producir un error, por ejemplo, si las credenciales del usuario cambiaron en el servidor. En este caso, quizás desee incluir código que valida explícitamente a los usuarios después de que se produzca un error en una llamada al servicio. Para obtener más información, vea la sección de acceso a la configuración Web en [Tutorial: usar servicios de aplicaciones cliente](~/docs/framework/common-client-technologies/walkthrough-using-client-application-services.md).  
+>  El método <xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A> es solo para su comodidad. Dado que no tiene un valor devuelto, no puede indicar si hubo un error de validación. La revalidación puede producir un error, por ejemplo, si las credenciales del usuario cambiaron en el servidor. En este caso, quizás desee incluir código que valida explícitamente a los usuarios después de que se produzca un error en una llamada al servicio. Para obtener más información, vea la sección de acceso a la configuración Web en [Tutorial: Uso de servicios de aplicaciones cliente](~/docs/framework/common-client-technologies/walkthrough-using-client-application-services.md).  
   
  [!code-csharp[ClientApplicationServices#315](~/samples/snippets/csharp/VS_Snippets_Winforms/ClientApplicationServices/CS/Class1.cs#315)]
  [!code-vb[ClientApplicationServices#315](~/samples/snippets/visualbasic/VS_Snippets_Winforms/ClientApplicationServices/VB/Class1.vb#315)]  
@@ -136,6 +136,9 @@
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ AuthenticationType { System::String ^ get(); };" />
       <MemberSignature Language="F#" Value="member this.AuthenticationType : string" Usage="System.Web.ClientServices.ClientFormsIdentity.AuthenticationType" />
       <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Security.Principal.IIdentity.AuthenticationType</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
         <AssemblyVersion>3.5.0.0</AssemblyVersion>
@@ -269,6 +272,9 @@ Para obtener más información acerca de <see langword="Dispose" /> y <see cref=
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsAuthenticated { bool get(); };" />
       <MemberSignature Language="F#" Value="member this.IsAuthenticated : bool" Usage="System.Web.ClientServices.ClientFormsIdentity.IsAuthenticated" />
       <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Security.Principal.IIdentity.IsAuthenticated</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
         <AssemblyVersion>3.5.0.0</AssemblyVersion>
@@ -320,6 +326,9 @@ Para obtener más información acerca de <see langword="Dispose" /> y <see cref=
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ Name { System::String ^ get(); };" />
       <MemberSignature Language="F#" Value="member this.Name : string" Usage="System.Web.ClientServices.ClientFormsIdentity.Name" />
       <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Security.Principal.IIdentity.Name</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
         <AssemblyVersion>3.5.0.0</AssemblyVersion>
@@ -391,10 +400,10 @@ Para obtener más información acerca de <see langword="Dispose" /> y <see cref=
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Al utilizar la autenticación de formularios para validar el usuario actual, la <xref:System.Web.ClientServices.ClientFormsIdentity> clase almacena las credenciales de usuario mientras se ejecuta la aplicación. Sin embargo, el usuario se autentica solo hasta que expire la cookie de autenticación. Después de que expire la cookie, el usuario debe volver a validar para tener acceso a los roles remotos o servicios de configuración Web. Puede usar el **configuración avanzada de servicios** cuadro de diálogo para configurar la aplicación para volver a validar automáticamente el usuario, como se describe en [Cómo: configurar servicios de aplicaciones cliente](~/docs/framework/common-client-technologies/how-to-configure-client-application-services.md). Sin embargo, si configura la aplicación para respetar la expiración de cookie, puede mediante programación volver a validar el usuario mediante una llamada a la <xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A> método. Este método también es útil cuando se cambia de modo sin conexión al modo en línea, ya que se haya cerrado la aplicación presionada mientras sin conexión.  
+ Al utilizar la autenticación de formularios para validar el usuario actual, la <xref:System.Web.ClientServices.ClientFormsIdentity> clase almacena las credenciales de usuario mientras se ejecuta la aplicación. Sin embargo, el usuario se autentica solo hasta que expire la cookie de autenticación. Después de que expire la cookie, el usuario debe volver a validar para tener acceso a los roles remotos o servicios de configuración Web. Puede usar el **configuración avanzada de servicios** cuadro de diálogo para configurar la aplicación para volver a validar automáticamente el usuario, como se describe en [Cómo: Configurar servicios de aplicaciones cliente](~/docs/framework/common-client-technologies/how-to-configure-client-application-services.md). Sin embargo, si configura la aplicación para respetar la expiración de cookie, puede mediante programación volver a validar el usuario mediante una llamada a la <xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A> método. Este método también es útil cuando se cambia de modo sin conexión al modo en línea, ya que se haya cerrado la aplicación presionada mientras sin conexión.  
   
 > [!NOTE]
->  El método <xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A> es solo para su comodidad. Dado que no tiene un valor devuelto, no puede indicar si hubo un error de validación. La revalidación puede producir un error, por ejemplo, si las credenciales del usuario cambiaron en el servidor. En este caso, quizás desee incluir código que valida explícitamente a los usuarios después de que se produzca un error en una llamada al servicio. Para obtener más información, vea la sección de acceso a la configuración Web en [Tutorial: usar servicios de aplicaciones cliente](~/docs/framework/common-client-technologies/walkthrough-using-client-application-services.md).  
+>  El método <xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A> es solo para su comodidad. Dado que no tiene un valor devuelto, no puede indicar si hubo un error de validación. La revalidación puede producir un error, por ejemplo, si las credenciales del usuario cambiaron en el servidor. En este caso, quizás desee incluir código que valida explícitamente a los usuarios después de que se produzca un error en una llamada al servicio. Para obtener más información, vea la sección de acceso a la configuración Web en [Tutorial: Uso de servicios de aplicaciones cliente](~/docs/framework/common-client-technologies/walkthrough-using-client-application-services.md).  
   
    
   
