@@ -1,5 +1,5 @@
 <Type Name="WSFederationAuthenticationModule" FullName="System.IdentityModel.Services.WSFederationAuthenticationModule">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="4946a226efb8c22b2cb54ac00bf7e2cedea35d6e" /><Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="08/24/2018" /><Meta Name="ms.locfileid" Value="36558386" /></Metadata><TypeSignature Language="C#" Value="public class WSFederationAuthenticationModule : System.IdentityModel.Services.HttpModuleBase" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="84794e52ef0e355ba168bb4ee4a2b5b1926e30a9" /><Meta Name="ms.sourcegitcommit" Value="9802d4c6745a8ae514b26f144fb3969265b224ba" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="12/22/2018" /><Meta Name="ms.locfileid" Value="53751250" /></Metadata><TypeSignature Language="C#" Value="public class WSFederationAuthenticationModule : System.IdentityModel.Services.HttpModuleBase" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit WSFederationAuthenticationModule extends System.IdentityModel.Services.HttpModuleBase" />
   <TypeSignature Language="DocId" Value="T:System.IdentityModel.Services.WSFederationAuthenticationModule" />
   <TypeSignature Language="VB.NET" Value="Public Class WSFederationAuthenticationModule&#xA;Inherits HttpModuleBase" />
@@ -49,17 +49,17 @@
   
  Antes de enviar la solicitud de inicio de sesión de WS-Federation al STS, se generan los eventos siguientes:  
   
--   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.AuthorizationFailed>: Se genera cuando está habilitada la redirección pasiva y se produce un error de autorización en un recurso solicitado.  
+-   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.AuthorizationFailed>: Se genera cuando se habilita la redirección pasiva y se produce un error de autorización en un recurso solicitado.  
   
 -   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider>: Se genera justo antes el WSFAM envía la solicitud de inicio de sesión de WS-Federation al STS. Puede usar este evento para cambiar los parámetros en la solicitud de inicio de sesión.  
   
  Los siguientes eventos se generan cuando se recibe una respuesta de inicio de sesión (emitida el token de seguridad) del STS:  
   
--   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SecurityTokenReceived>: Se genera justo después de que se lee el token de seguridad enviado por el STS de la respuesta.  
+-   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SecurityTokenReceived>: Se genera después de que se lee el token de seguridad enviado por el STS de la respuesta.  
   
--   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SecurityTokenValidated>: Se genera justo después de que se ha validado el token. Puede usar este evento para filtrar, transformar o agregar notificaciones a la entidad de seguridad de notificaciones (<xref:System.Security.Claims.ClaimsPrincipal>) creado a partir del token de seguridad.  
+-   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SecurityTokenValidated>: Se genera después de que se ha validado el token. Puede usar este evento para filtrar, transformar o agregar notificaciones a la entidad de seguridad de notificaciones (<xref:System.Security.Claims.ClaimsPrincipal>) creado a partir del token de seguridad.  
   
--   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SessionSecurityTokenCreated>: Se genera justo antes del token de sesión (<xref:System.IdentityModel.Tokens.SessionSecurityToken>) creado a partir de la entidad de seguridad se usa para establecer el subproceso principal de notificaciones y el usuario actual y se escribe en la cookie de sesión. Proporciona una oportunidad para modificar el token de sesión o habilitar o deshabilitar la escritura de la cookie de sesión.  
+-   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SessionSecurityTokenCreated>: Se genera justo antes que el token de sesión (<xref:System.IdentityModel.Tokens.SessionSecurityToken>) creado a partir de la entidad de seguridad se usa para establecer el subproceso principal de notificaciones y el usuario actual y se escribe en la cookie de sesión. Proporciona una oportunidad para modificar el token de sesión o habilitar o deshabilitar la escritura de la cookie de sesión.  
   
 -   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignedIn>: Se genera al final de la autenticación justo después de que el usuario del subproceso actual y entidad de seguridad se han establecido.  
   
@@ -69,7 +69,7 @@
   
 -   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SigningOut>: Se genera justo antes de elimina la sesión para poder realizar cualquier limpieza que puede depender de la sesión o cancelar el cierre de sesión.  
   
--   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignedOut>: Se genera justo después de que se ha eliminado la sesión.  
+-   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignedOut>: Se genera después de la sesión se ha eliminado.  
   
 -   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOutError>: Se genera si se produce una excepción durante el cierre de sesión. Puede cancelar el cierre de sesión y evitar que la excepción que se va a devolver al llamador.  
   
@@ -231,7 +231,7 @@
       <Docs>
         <param name="request">Solicitud HTTP de entrada.</param>
         <summary>Devuelve un valor que indica si la solicitud HTTP especificada es un mensaje de respuesta de inicio de sesión en WS-Federation. Si el mensaje es un mensaje de limpieza de cierre de sesión de WS-Federation ("wsignoutcleanup1.0"), este método procesa la solicitud.</summary>
-        <returns>Es <see langword="true" /> si la solicitud HTTP especificada contiene un envío de formulario en el que el parámetro wa se estableció en "wsignout1.0" y el parámetro wresult no está vacío; en caso contrario, <see langword="false" />.</returns>
+        <returns>Es <see langword="true" /> si la solicitud HTTP especificada contiene un envío de formulario (POST) en el que el parámetro wa se ha establecido en "wsignout1.0" y el parámetro wresult no está vacío; en caso contrario, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -242,7 +242,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="request" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="request" /> es <see langword="null" />.</exception>
         <altmember cref="M:System.IdentityModel.Services.WSFederationAuthenticationModule.OnAuthenticateRequest(System.Object,System.EventArgs)" />
         <altmember cref="M:System.IdentityModel.Services.WSFederationAuthenticationModule.CanReadSignInResponse(System.Web.HttpRequestBase,System.Boolean)" />
       </Docs>
@@ -270,7 +270,7 @@
         <param name="request">Solicitud HTTP de entrada.</param>
         <param name="onPage"><see langword="true" /> si la llamada se origina mientras se procesa una solicitud de página. <see langword="false" /> si el llamador es un módulo HTTP. Este parámetro determina cómo finalizar el procesamiento o enviar redirecciones si el mensaje entrante es un mensaje de limpieza de cierre de sesión de WS-Federation ("wsignoutcleanup1.0").</param>
         <summary>Devuelve un valor que indica si la solicitud HTTP especificada es un mensaje de respuesta de inicio de sesión en WS-Federation. Si el mensaje es un mensaje de limpieza de cierre de sesión de WS-Federation ("wsignoutcleanup1.0"), este método procesa la solicitud.</summary>
-        <returns>Es <see langword="true" /> si la solicitud HTTP especificada contiene un envío de formulario en el que el parámetro wa se estableció en "wsignout1.0" y el parámetro wresult no está vacío; en caso contrario, <see langword="false" />.</returns>
+        <returns>Es <see langword="true" /> si la solicitud HTTP especificada contiene un envío de formulario (FORM) en el que el parámetro wa se estableció en "wsignout1.0" y el parámetro wresult no está vacío; en caso contrario, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -287,7 +287,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="request" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="request" /> es <see langword="null" />.</exception>
         <altmember cref="M:System.IdentityModel.Services.WSFederationAuthenticationModule.CanReadSignInResponse(System.Web.HttpRequestBase)" />
       </Docs>
     </Member>
@@ -396,7 +396,7 @@ La propiedad <see cref="P:System.IdentityModel.Services.WSFederationAuthenticati
   
 O bien 
  <paramref name="replyUrl" /> no es <see langword="null" /> y no es un URI absoluto.</exception>
-        <exception cref="T:System.InvalidOperationException"><paramref name="signOutUrl" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.InvalidOperationException">El valor de <paramref name="signOutUrl" /> es <see langword="null" />.</exception>
         <altmember cref="M:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut" />
         <altmember cref="M:System.IdentityModel.Services.WSFederationAuthenticationModule.GetSessionTokenContext" />
       </Docs>
@@ -465,7 +465,7 @@ O bien
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="issuer" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="issuer" /> es <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="GetReferencedResult">
@@ -537,7 +537,7 @@ O bien
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="request" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="request" /> es <see langword="null" />.</exception>
         <altmember cref="M:System.IdentityModel.Services.WSFederationAuthenticationModule.CreateSignInRequest(System.String,System.String,System.Boolean)" />
         <altmember cref="M:System.IdentityModel.Services.WSFederationAuthenticationModule.OnAuthenticateRequest(System.Object,System.EventArgs)" />
       </Docs>
@@ -581,7 +581,7 @@ O bien
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="message" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="message" /> es <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="GetSecurityToken">
@@ -618,7 +618,7 @@ O bien
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="request" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="request" /> es <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="GetSessionTokenContext">
@@ -684,7 +684,7 @@ O bien
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="request" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="request" /> es <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">Un mensaje de respuesta de inicio de sesión no pudo leer de la solicitud especificada.</exception>
       </Docs>
     </Member>
@@ -733,7 +733,7 @@ O bien
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException"><paramref name="signOutMessage" /> tiene una propiedad <see cref="P:System.IdentityModel.Services.SignOutCleanupRequestMessage.Reply" /> que es <see langword="null" /> o está vacía.</exception>
-        <exception cref="T:System.ArgumentNullException"><paramref name="signOutMessage" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="signOutMessage" /> es <see langword="null" />.</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="GetXmlTokenFromMessage">
@@ -775,7 +775,7 @@ O bien
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="message" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="message" /> es <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException"><paramref name="message" /> no contiene un token. (No contiene un parámetro de wresult o wresultptr válido).</exception>
       </Docs>
     </Member>
@@ -804,7 +804,7 @@ O bien
         <summary>Extrae el token emitido del mensaje de respuesta de inicio de sesión de WS-Federation usando el serializador especificado de la WS-Federation.</summary>
         <returns>Cadena que contiene el XML que representa el token emitido. Se trata de un elemento <see langword="&lt;wst:RequestSecurityTokenResponse&gt;" />.</returns>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="message" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="message" /> es <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="HomeRealm">
@@ -875,7 +875,7 @@ O bien
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="context" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="context" /> es <see langword="null" />.</exception>
         <altmember cref="M:System.IdentityModel.Services.WSFederationAuthenticationModule.InitializePropertiesFromConfiguration" />
       </Docs>
     </Member>
@@ -943,7 +943,7 @@ O bien
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="request" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="request" /> es <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="Issuer">
@@ -1841,7 +1841,7 @@ La propiedad <see cref="P:System.Web.HttpContext.Response" /> del contexto devue
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="sessionToken" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="sessionToken" /> es <see langword="null" />.</exception>
         <altmember cref="M:System.IdentityModel.Services.WSFederationAuthenticationModule.OnAuthenticateRequest(System.Object,System.EventArgs)" />
       </Docs>
     </Member>
