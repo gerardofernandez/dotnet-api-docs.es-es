@@ -1,5 +1,5 @@
 <Type Name="SignedXml" FullName="System.Security.Cryptography.Xml.SignedXml">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="57ff8c6bf7f3c8ba6e7c66c8563e3be841a798f0" /><Meta Name="ms.sourcegitcommit" Value="adc8598fd19d91438cacaa8fa7ce613e28c8218e" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="12/11/2018" /><Meta Name="ms.locfileid" Value="53222517" /></Metadata><TypeSignature Language="C#" Value="public class SignedXml" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="65a35d1f0721d13fc7ab878187edcd3b9a036496" /><Meta Name="ms.sourcegitcommit" Value="112ca25eddde8ac8b788d67c406b7745ba914261" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="01/15/2019" /><Meta Name="ms.locfileid" Value="54312405" /></Metadata><TypeSignature Language="C#" Value="public class SignedXml" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit SignedXml extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Security.Cryptography.Xml.SignedXml" />
   <TypeSignature Language="VB.NET" Value="Public Class SignedXml" />
@@ -65,7 +65,7 @@
  Las partes principales de esta estructura son:  
   
  El <`CanonicalizationMethod`> elemento  
- Especifica las reglas para volver a escribir el `Signature` elemento de texto/XML, en bytes para validar la firma. El valor predeterminado en .NET Framework es http://www.w3.org/TR/2001/REC-xml-c14n-20010315, que identifica un algoritmo de confianza. Este elemento se representa mediante el <xref:System.Security.Cryptography.Xml.SignedInfo.CanonicalizationMethod%2A?displayProperty=nameWithType> propiedad.  
+ Especifica las reglas para volver a escribir el `Signature` elemento de texto/XML, en bytes para validar la firma. El valor predeterminado en .NET Framework es https://www.w3.org/TR/2001/REC-xml-c14n-20010315, que identifica un algoritmo de confianza. Este elemento se representa mediante el <xref:System.Security.Cryptography.Xml.SignedInfo.CanonicalizationMethod%2A?displayProperty=nameWithType> propiedad.  
   
  El <`SignatureMethod`> elemento  
  Especifica el algoritmo utilizado para la generación de firma y validación, lo que se aplicó a la <`Signature`> elemento para generar el valor de <`SignatureValue`>. En el ejemplo anterior, el valor http://www.w3.org/2000/09/xmldsig#rsa-sha1 identifica una firma RSA PKCS1 SHA-1. Este elemento se representa mediante el <xref:System.Security.Cryptography.Xml.SignedXml.SignatureMethod%2A> propiedad.  
@@ -91,7 +91,7 @@
   
 -   Cada algoritmo de transformación se define como la producción de XML o bytes como salida.  
   
--   Si el resultado de la última algoritmo de transformación no está definido en bytes (o no se especificaron transformaciones), a continuación, el método de canonización http://www.w3.org/TR/2001/REC-xml-c14n-20010315 se utiliza como una transformación implícita (incluso si no se especificó un algoritmo diferente en el <`CanonicalizationMethod`> elemento).  
+-   Si el resultado de la última algoritmo de transformación no está definido en bytes (o no se especificaron transformaciones), el [método canonización](https://www.w3.org/TR/2001/REC-xml-c14n-20010315) se utiliza como una transformación implícita (incluso si no se especificó un algoritmo diferente en el <`CanonicalizationMethod`> elemento).  
   
 -   Un valor de http://www.w3.org/2000/09/xmldsig#enveloped-signature para la transformación algoritmo codifica una regla que se interpreta como quitar el <`Signature`> elemento del documento. En caso contrario, un comprobador de una firma con doble cifrado resumen en el documento, incluida la firma, pero el firmante habría digieren el documento antes de aplica la firma, dando lugar a respuestas diferentes.  
   
@@ -99,7 +99,7 @@
  Identifica el método de síntesis (hash criptográfico) que se aplicará en el contenido transformado identificado por el `URI` atributo de la <`Reference`> elemento. Esto se representa mediante el <xref:System.Security.Cryptography.Xml.Reference.DigestMethod%2A?displayProperty=nameWithType> propiedad.  
   
 ## <a name="choosing-a-canonicalization-method"></a>Elegir un método de resolución de nombres canónicos  
- A menos que la interoperabilidad con una especificación que requiere el uso de un valor diferente, se recomienda que utilice el método de canonización predeterminado en .NET Framework, que es el algoritmo C14N de XML 1.0, cuyo valor es http://www.w3.org/TR/2001/REC-xml-c14n-20010315. El algoritmo C14N de XML 1.0 se requiere para ser compatibles con todas las implementaciones de XMLDSIG, especialmente ya que es aplicar una transformación final implícita.  
+ A menos que la interoperabilidad con una especificación que requiere el uso de un valor diferente, se recomienda que utilice el método de canonización predeterminado en .NET Framework, que es el algoritmo C14N de XML 1.0, cuyo valor es https://www.w3.org/TR/2001/REC-xml-c14n-20010315. El algoritmo C14N de XML 1.0 se requiere para ser compatibles con todas las implementaciones de XMLDSIG, especialmente ya que es aplicar una transformación final implícita.  
   
  Hay versiones de los algoritmos de canonización que admite la conservación de los comentarios. Métodos de canonización de conservación de comentario no se recomiendan porque infringen el principio de "iniciar sesión, lo que se ve". Es decir, los comentarios en un <`Signature`> elemento no afectará a la lógica de procesamiento de cómo se realiza la firma, es simplemente lo que el valor de firma. Cuando se combina con un algoritmo de firma no segura, lo que permite a los comentarios se incluyen ofrece una libertad innecesarios del atacante forzar una colisión de hash, parezca un documento alterado legítimos.  En .NET Framework, se admiten solo canonicalizers integradas de forma predeterminada. Para admitir canonicalizers adicionales o personalizados, vea el <xref:System.Security.Cryptography.Xml.SignedXml.SafeCanonicalizationMethods%2A> propiedad. Si el documento utiliza un método de resolución de nombres canónicos que no está en la colección representada por el <xref:System.Security.Cryptography.Xml.SignedXml.SafeCanonicalizationMethods%2A> propiedad, el <xref:System.Security.Cryptography.Xml.SignedXml.CheckSignature%2A> método devolverá `false`.  
   
@@ -1666,13 +1666,13 @@ El parámetro <paramref name="value" /> no contiene una propiedad <see cref="P:S
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El valor de la <xref:System.Security.Cryptography.Xml.SignedXml.XmlDsigC14NTransformUrl> campo es "http://www.w3.org/TR/2001/REC-xml-c14n-20010315".  
+ El valor de la <xref:System.Security.Cryptography.Xml.SignedXml.XmlDsigC14NTransformUrl> campo es `http://www.w3.org/TR/2001/REC-xml-c14n-20010315`.  
   
  Utilice este campo para proporcionar fácilmente un valor a uno de los atributos URI de un elemento que se usa para XMLDSIG.  
   
  El <xref:System.Security.Cryptography.Xml.XmlDsigC14NTransform> clase implementa la transformación descrita por el <xref:System.Security.Cryptography.Xml.SignedXml.XmlDsigC14NTransformUrl> campo.  
   
- Para obtener más información, vea la especificación de World Wide Web Consortium (W3C) en http://www.w3.org/TR/2001/REC-xml-c14n-20010315.  
+ Para obtener más información, vea el World Wide Web Consortium (W3C) [XML canónico](https://www.w3.org/TR/2001/REC-xml-c14n-20010315) especificación.  
   
  Este campo tiene el mismo valor que el <xref:System.Security.Cryptography.Xml.SignedXml.XmlDsigCanonicalizationUrl> campo.  
   
@@ -1716,13 +1716,13 @@ El parámetro <paramref name="value" /> no contiene una propiedad <see cref="P:S
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El valor de la <xref:System.Security.Cryptography.Xml.SignedXml.XmlDsigC14NWithCommentsTransformUrl> campo es "http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments ".  
+ El valor de la <xref:System.Security.Cryptography.Xml.SignedXml.XmlDsigC14NWithCommentsTransformUrl> campo es `http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments`.  
   
  Utilice este campo para proporcionar fácilmente un valor a uno de los atributos URI de un elemento que se usa para XMLDSIG.  
   
  El <xref:System.Security.Cryptography.Xml.XmlDsigC14NWithCommentsTransform> clase implementa la transformación descrita por el <xref:System.Security.Cryptography.Xml.SignedXml.XmlDsigC14NWithCommentsTransformUrl> campo.  
   
- Para obtener más información, vea la especificación de World Wide Web Consortium (W3C) en http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments.  
+ Para obtener más información, vea el World Wide Web Consortium (W3C) [XML canónico](https://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments) especificación.  
   
  Este campo tiene el mismo valor que el <xref:System.Security.Cryptography.Xml.SignedXml.XmlDsigCanonicalizationWithCommentsUrl> campo.  
   
@@ -1758,13 +1758,13 @@ El parámetro <paramref name="value" /> no contiene una propiedad <see cref="P:S
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El valor de la <xref:System.Security.Cryptography.Xml.SignedXml.XmlDsigCanonicalizationUrl> campo es "http://www.w3.org/TR/2001/REC-xml-c14n-20010315".  
+ El valor de la <xref:System.Security.Cryptography.Xml.SignedXml.XmlDsigCanonicalizationUrl> campo es `http://www.w3.org/TR/2001/REC-xml-c14n-20010315`.  
   
  Utilice este campo para proporcionar fácilmente un valor a uno de los atributos URI de un elemento que se usa para XMLDSIG.  
   
  El <xref:System.Security.Cryptography.Xml.XmlDsigC14NTransform> clase implementa la transformación descrita por el <xref:System.Security.Cryptography.Xml.SignedXml.XmlDsigCanonicalizationUrl> campo.  
   
- Para obtener más información, vea la especificación de World Wide Web Consortium (W3C) en http://www.w3.org/TR/2001/REC-xml-c14n-20010315.  
+ Para obtener más información, vea el World Wide Web Consortium (W3C) [XML canónico](https://www.w3.org/TR/2001/REC-xml-c14n-20010315) especificación.  
   
  Este campo tiene el mismo valor que el <xref:System.Security.Cryptography.Xml.SignedXml.XmlDsigC14NTransformUrl> campo.  
   
@@ -1800,13 +1800,13 @@ El parámetro <paramref name="value" /> no contiene una propiedad <see cref="P:S
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- El valor de la <xref:System.Security.Cryptography.Xml.SignedXml.XmlDsigCanonicalizationWithCommentsUrl> campo es "http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments".  
+ El valor de la <xref:System.Security.Cryptography.Xml.SignedXml.XmlDsigCanonicalizationWithCommentsUrl> campo es `http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments`.  
   
  Utilice este campo para proporcionar fácilmente un valor a uno de los atributos URI de un elemento que se usa para XMLDSIG.  
   
  El <xref:System.Security.Cryptography.Xml.XmlDsigC14NWithCommentsTransform> clase implementa la transformación descrita por el <xref:System.Security.Cryptography.Xml.SignedXml.XmlDsigCanonicalizationWithCommentsUrl> campo.  
   
- Para obtener más información, vea la especificación de World Wide Web Consortium (W3C) en http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments.  
+ Para obtener más información, vea el World Wide Web Consortium (W3C) [XML canónico](https://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments) especificación.  
   
  Este campo tiene el mismo valor que el <xref:System.Security.Cryptography.Xml.SignedXml.XmlDsigC14NWithCommentsTransformUrl> campo.  
   

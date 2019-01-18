@@ -1,5 +1,5 @@
 <Type Name="SessionSecurityTokenHandler" FullName="System.IdentityModel.Tokens.SessionSecurityTokenHandler">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="c6944a4f4dd5dc6782848c1f9b25f2933587be8a" /><Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="11/29/2018" /><Meta Name="ms.locfileid" Value="52611257" /></Metadata><TypeSignature Language="C#" Value="public class SessionSecurityTokenHandler : System.IdentityModel.Tokens.SecurityTokenHandler" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="eb46d17c5de71b55a21efc4f9d285842b34f8c1a" /><Meta Name="ms.sourcegitcommit" Value="112ca25eddde8ac8b788d67c406b7745ba914261" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="01/15/2019" /><Meta Name="ms.locfileid" Value="54313900" /></Metadata><TypeSignature Language="C#" Value="public class SessionSecurityTokenHandler : System.IdentityModel.Tokens.SecurityTokenHandler" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit SessionSecurityTokenHandler extends System.IdentityModel.Tokens.SecurityTokenHandler" />
   <TypeSignature Language="DocId" Value="T:System.IdentityModel.Tokens.SessionSecurityTokenHandler" />
   <TypeSignature Language="VB.NET" Value="Public Class SessionSecurityTokenHandler&#xA;Inherits SecurityTokenHandler" />
@@ -24,7 +24,7 @@
  En escenarios pasivos, el <xref:System.IdentityModel.Services.WSFederationAuthenticationModule> llama a la <xref:System.IdentityModel.Services.SessionAuthenticationModule> (SAM) de la canalización de autenticación para crear un token de sesión desde el <xref:System.Security.Claims.ClaimsPrincipal> que representa al usuario autenticado. El SAM usa su configurado <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> para crear el token y serializarlo en una cookie (y para deserializar el token de una cookie en solicitudes posteriores). El SAM utiliza una instancia de su configurado <xref:System.IdentityModel.Services.CookieHandler> clase volver a escribir la cookie en la respuesta HTTP. Esta cookie, a continuación, se devuelve al cliente y en las solicitudes subsiguientes, el cliente puede presentar la cookie en lugar de realizar un recorrido de ida y vuelta en el proveedor de identidades para volver a obtener un token de seguridad. Para obtener más información acerca de cómo funcionan las sesiones con WIF, consulte [administración de sesiones de WIF](~/docs/framework/security/wif-session-management.md).  
   
 > [!NOTE]
->  El \<securityTokenHandlers > elemento de configuración se puede usar para especificar un <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> que tiene la responsabilidad de proteger las sesiones de la aplicación. Los desarrolladores deben tener cuidado al cambiar esta opción de configuración, como un sistema mal configurado podría poner en peligro de la aplicación. Por ejemplo, especificar un hipervínculo derivado "http://msdn.microsoft.com/library/hh193426%28v=vs.110%29.aspx" \t "_blank" <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> y pasar una colección vacía de transformaciones (CookieTransform) a la base, daría lugar a la identidad de los usuarios que se va a serializar en una cookie que no se ha protegido. Esto podría permitir que un atacante modifique la identidad y, por tanto, cambie los privilegios de acceso.  
+>  El \<securityTokenHandlers > elemento de configuración se puede usar para especificar un <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> que tiene la responsabilidad de proteger las sesiones de la aplicación. Los desarrolladores deben tener cuidado al cambiar esta opción de configuración, como un sistema mal configurado podría poner en peligro de la aplicación. Por ejemplo, si se especifica una derivada <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> y pasar una colección vacía de transformaciones (CookieTransform) a la base, daría lugar a la identidad de los usuarios que se va a serializar en una cookie que no se ha protegido. Esto podría permitir que un atacante modifique la identidad y, por tanto, cambie los privilegios de acceso.  
   
  Si el token de sesión está en modo de referencia, es decir, su <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propiedad es `true`, la sesión de controlador de token sólo serializa las propiedades del token de sesión que son necesarios para volver a generar su clave en el <xref:System.IdentityModel.Tokens.SessionSecurityTokenCache>. En el caso predeterminado, el <xref:System.IdentityModel.Tokens.SessionSecurityTokenCacheKey> clase se usa para representar las claves de caché, y escribe el controlador de token el <xref:System.IdentityModel.Tokens.SessionSecurityToken.ContextId%2A?displayProperty=nameWithType> y <xref:System.IdentityModel.Tokens.SessionSecurityToken.KeyGeneration%2A?displayProperty=nameWithType> propiedades del token. Si el token de sesión no está en modo de referencia, es decir, el <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propiedad es `false`, a continuación, además de las propiedades que se ha mencionado anteriormente, invoca el controlador de la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> método en una matriz de bytes que se serializó el token y almacenes de la valor resultante en la cookie también. Para obtener más información acerca de cómo se serializa el token, consulte el <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%28System.Xml.XmlWriter%2CSystem.IdentityModel.Tokens.SecurityToken%29?displayProperty=nameWithType> método.  
   
@@ -124,7 +124,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="transforms" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="transforms" /> es <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -148,7 +148,7 @@
         <param name="tokenLifetime">Duración predeterminada para un token. Establece la propiedad <see cref="P:System.IdentityModel.Tokens.SessionSecurityTokenHandler.TokenLifetime" />.</param>
         <summary>Inicializa una nueva instancia de la clase <see cref="T:System.IdentityModel.Tokens.SessionSecurityTokenHandler" /> que usa las transformaciones de cookie especificadas y la duración del token.</summary>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="transforms" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="transforms" /> es <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException"><paramref name="tokenLifetime" /> es menor o igual que <see cref="F:System.TimeSpan.Zero" />.</exception>
       </Docs>
     </Member>
@@ -212,7 +212,7 @@
         <summary>Devuelve un valor que indica si el lector está colocado en un elemento <see langword="&lt;wsc:SecurityContextToken&gt;" /> .</summary>
         <returns><see langword="true" /> si el lector apunta a un elemento <see langword="&lt;wsc:SecurityContextToken&gt;" /> ; en caso contrario, <see langword="false" />.</returns>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="reader" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="reader" /> es <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="CanValidateToken">
@@ -350,7 +350,7 @@
         <summary>Crea un objeto <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" /> basándose en la entidad de seguridad de notificaciones especificada y en el intervalo de tiempo durante el que el token es válido.</summary>
         <returns>El token de seguridad de sesión creado. Las propiedades del nuevo token de la sesión se establecen según los parámetros especificados.</returns>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="principal" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="principal" /> es <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">La propiedad <see cref="P:System.IdentityModel.Tokens.SecurityTokenHandler.Configuration" /> es <see langword="null" />.</exception>
       </Docs>
     </Member>
@@ -384,7 +384,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="tokenDescriptor" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="tokenDescriptor" /> es <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">La propiedad <see cref="P:System.IdentityModel.Tokens.SecurityTokenHandler.Configuration" /> es <see langword="null" />.</exception>
       </Docs>
     </Member>
@@ -507,7 +507,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="customConfigElements" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="customConfigElements" /> es <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">La configuración especificada por la <paramref name="customConfigElements" /> no es válida. Por ejemplo, no contiene un elemento de <see langword="&lt;sessionTokenRequirement&gt;" />, contiene más de un elemento de <see langword="&lt;sessionTokenRequirement&gt;" />, un valor válido de <see cref="T:System.TimeSpan" /> no se puede leer en el atributo de <see langword="lifetime" /> o el atributo de <see langword="lifetime" /> especifica un valor inferior a <see cref="F:System.TimeSpan.Zero" />.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/496a1735-cbb7-49d5-a6aa-dd5550462073">&lt;sessionTokenRequirement&gt;</related>
       </Docs>
@@ -567,7 +567,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="reader" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="reader" /> es <see langword="null" />.</exception>
         <exception cref="T:System.IdentityModel.Tokens.SecurityTokenException">El lector no está situado en un <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" /> o <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" /> no se puede leer.</exception>
       </Docs>
     </Member>
@@ -647,10 +647,10 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="reader" /> es <see langword="null" />.  
+        <exception cref="T:System.ArgumentNullException"><paramref name="reader" /> es <see langword="null" />.  
   
 O bien 
- El valor de <paramref name="tokenResolver" /> es <see langword="null" />.</exception>
+ <paramref name="tokenResolver" /> es <see langword="null" />.</exception>
         <exception cref="T:System.IdentityModel.Tokens.SecurityTokenException">El lector no está situado en un <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" /> o <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" /> no se puede leer.</exception>
       </Docs>
     </Member>
@@ -705,7 +705,7 @@ O bien
       </ReturnValue>
       <Docs>
         <summary>Obtiene o establece la duración de token.</summary>
-        <value>Duración del token. El valor predeterminado es <see cref="F:System.IdentityModel.Tokens.SessionSecurityTokenHandler.DefaultLifetime" />.</value>
+        <value>Duración del token. De manera predeterminada, es <see cref="F:System.IdentityModel.Tokens.SessionSecurityTokenHandler.DefaultLifetime" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -798,7 +798,7 @@ O bien
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="securityToken" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="securityToken" /> es <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">La propiedad <see cref="P:System.IdentityModel.Tokens.SecurityTokenHandler.Configuration" /> es <see langword="null" />.</exception>
         <exception cref="T:System.IdentityModel.Tokens.SecurityTokenNotYetValidException">La propiedad <see cref="P:System.IdentityModel.Tokens.SecurityToken.ValidFrom" /> del token es posterior a <see cref="P:System.DateTime.UtcNow" />.</exception>
         <exception cref="T:System.IdentityModel.Tokens.SecurityTokenExpiredException">La propiedad <see cref="P:System.IdentityModel.Tokens.SecurityToken.ValidTo" /> del token es anterior a <see cref="P:System.DateTime.UtcNow" />.</exception>
@@ -885,10 +885,10 @@ O bien
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="token" /> es <see langword="null" />.  
+        <exception cref="T:System.ArgumentNullException"><paramref name="token" /> es <see langword="null" />.  
   
 O bien 
- El valor de <paramref name="endpointId" /> es <see langword="null" />.</exception>
+ <paramref name="endpointId" /> es <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException"><paramref name="token" /> no se puede asignar desde <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" />.</exception>
         <exception cref="T:System.IdentityModel.Tokens.SecurityTokenException">La propiedad <see cref="P:System.IdentityModel.Tokens.SessionSecurityToken.EndpointId" /> del token especificado no es <see langword="null" /> o no está vacía y su valor es diferente al que especifica el parámetro <paramref name="endpointId" /> .</exception>
         <altmember cref="P:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CanValidateToken" />
@@ -942,7 +942,7 @@ O bien
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="sessiontoken" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="sessiontoken" /> es <see langword="null" />.</exception>
         <altmember cref="P:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CanWriteToken" />
       </Docs>
     </Member>
@@ -977,10 +977,10 @@ O bien
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="writer" /> es <see langword="null" />.  
+        <exception cref="T:System.ArgumentNullException"><paramref name="writer" /> es <see langword="null" />.  
   
 O bien 
- El valor de <paramref name="token" /> es <see langword="null" />.</exception>
+ <paramref name="token" /> es <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException"><paramref name="token" /> no se puede asignar desde <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" />.  
   
 O bien 
