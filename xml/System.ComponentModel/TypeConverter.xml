@@ -1,5 +1,5 @@
 <Type Name="TypeConverter" FullName="System.ComponentModel.TypeConverter">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="1c9ac16caa10950fc51f35f4e2269cf46c0bbc4d" /><Meta Name="ms.sourcegitcommit" Value="1654a92bac785a221098172d9cacd405ceaac9b7" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="12/01/2018" /><Meta Name="ms.locfileid" Value="52740992" /></Metadata><TypeSignature Language="C#" Value="public class TypeConverter" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="6512b01a080b09edcfb87c36c82c1f8135951a18" /><Meta Name="ms.sourcegitcommit" Value="8c966994f39ffe6e7c21611e9ec1b91247a68500" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="01/26/2019" /><Meta Name="ms.locfileid" Value="55084686" /></Metadata><TypeSignature Language="C#" Value="public class TypeConverter" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TypeConverter extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.ComponentModel.TypeConverter" />
   <TypeSignature Language="VB.NET" Value="Public Class TypeConverter" />
@@ -40,9 +40,9 @@
  El tipo de convertidor más común es que convierte a y desde una representación de texto. El convertidor de tipos para una clase está enlazado a la clase con un <xref:System.ComponentModel.TypeConverterAttribute>. A menos que se reemplace este atributo, todas las clases que heredan de esta clase usan el mismo convertidor de tipos como clase base.  
   
 > [!NOTE]
->  Para fines de tipo general del sistema, no tienen acceso a un convertidor de tipos directamente. En su lugar, tener acceso al convertidor apropiado mediante <xref:System.ComponentModel.TypeDescriptor>. Para obtener más información, vea los ejemplos de código proporcionados.  
-  
- **Tenga en cuenta** para fines XAML, un procesador XAML busca el <xref:System.ComponentModel.TypeConverterAttribute> directamente, en lugar de pasar a través de <xref:System.ComponentModel.TypeDescriptor>. Para los casos donde desee un <xref:System.ComponentModel.TypeDescriptor> instancia desde el código, o donde se crea una instancia compartida en WPF recursos, es aceptable construirlo directamente sin hacer referencia a <xref:System.ComponentModel.TypeDescriptor> u otro sistema de reflexión y el tipo de soporte técnico.  
+>  Para fines de tipo general del sistema, no tienen acceso a un convertidor de tipos directamente. En su lugar, tener acceso al convertidor apropiado mediante <xref:System.ComponentModel.TypeDescriptor>. Para obtener más información, vea los ejemplos de código proporcionados. 
+>
+> Sin embargo, cuando se usa XAML, un procesador XAML busca el <xref:System.ComponentModel.TypeConverterAttribute> directamente, en lugar de pasar a través de <xref:System.ComponentModel.TypeDescriptor>. Para los casos donde desee un <xref:System.ComponentModel.TypeDescriptor> instancia desde el código, o donde se crea una instancia compartida en WPF recursos, es aceptable construirlo directamente sin hacer referencia a <xref:System.ComponentModel.TypeDescriptor> u otro sistema de reflexión y el tipo de soporte técnico.  
   
  Las clases derivadas de <xref:System.ComponentModel.TypeConverter> se suele hacer referencia como parte de cómo un procesador XAML convierte un valor de texto de inicialización o atributo de marcado (que es intrínsecamente una cadena) y genera un objeto para obtener una representación en tiempo de ejecución. Los autores de tipo personalizado que tenga intención de admitir un comportamiento de conversión de tipos para XAML normalmente implementan un <xref:System.ComponentModel.TypeConverter> clase que admite su propio único `ConvertFrom` comportamiento de una cadena. Este comportamiento permite la conversión de tipo de la cadena proporcionada como un valor de atributo XAML y proporciona un procesador XAML con la compatibilidad necesaria para crear un objeto de la cadena, por lo que puede producir el objeto en un gráfico de objetos analizado. Tipos personalizados o los miembros de tipos personalizados que se indican mediante la aplicación <xref:System.ComponentModel.TypeConverterAttribute> a las definiciones, con el atributo hace referencia a la personalizada <xref:System.ComponentModel.TypeConverter> implementación. Para obtener más información, consulte [Type Converters for XAML Overview](~/docs/framework/xaml-services/type-converters-for-xaml-overview.md).  
   
@@ -82,20 +82,20 @@
  ]]></format>
     </remarks>
     <block subset="none" type="overrides"><para>Heredar de <see cref="T:System.ComponentModel.TypeConverter" /> para implementar sus propios requisitos de conversión. Al heredar de esta clase, puede invalidar los métodos siguientes: 
--Para admitir la conversión de tipos personalizada, invalide el <see cref="M:System.ComponentModel.TypeConverter.CanConvertFrom(System.Type)" />, <see cref="M:System.ComponentModel.TypeConverter.CanConvertTo(System.Type)" />, <see cref="M:System.ComponentModel.TypeConverter.ConvertFrom(System.Object)" />, y <see cref="M:System.ComponentModel.TypeConverter.ConvertTo(System.Object,System.Type)" /> métodos.  
+-Para admitir la conversión de tipos personalizada, invalide el <see cref="M:System.ComponentModel.TypeConverter.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Type)" />, <see cref="M:System.ComponentModel.TypeConverter.CanConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Type)" />, <see cref="M:System.ComponentModel.TypeConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)" />, y <see cref="M:System.ComponentModel.TypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)" /> métodos.  
   
--Para convertir los tipos que se deben volver a crear el objeto para cambiar su valor, reemplace el <see cref="M:System.ComponentModel.TypeConverter.CreateInstance(System.Collections.IDictionary)" /> y <see cref="M:System.ComponentModel.TypeConverter.GetCreateInstanceSupported" /> métodos.  
+-Para convertir los tipos que se deben volver a crear el objeto para cambiar su valor, reemplace el <see cref="M:System.ComponentModel.TypeConverter.CreateInstance(System.ComponentModel.ITypeDescriptorContext,System.Collections.IDictionary)" /> y <see cref="M:System.ComponentModel.TypeConverter.GetCreateInstanceSupported(System.ComponentModel.ITypeDescriptorContext)" /> métodos.  
   
--Para convertir tipos que admiten propiedades, reemplace el <see cref="M:System.ComponentModel.TypeConverter.GetProperties(System.Object)" /> y <see cref="M:System.ComponentModel.TypeConverter.GetPropertiesSupported" /> métodos. Si la clase que está convirtiendo no tiene propiedades y necesita implementar las propiedades, puede usar el <see cref="T:System.ComponentModel.TypeConverter.SimplePropertyDescriptor" /> clase como base para implementar los descriptores de propiedad. Al heredar de <see cref="T:System.ComponentModel.TypeConverter.SimplePropertyDescriptor" />, debe invalidar el <see cref="M:System.ComponentModel.PropertyDescriptor.GetValue(System.Object)" /> y <see cref="M:System.ComponentModel.PropertyDescriptor.SetValue(System.Object,System.Object)" /> métodos.  
+-Para convertir tipos que admiten propiedades, reemplace el <see cref="M:System.ComponentModel.TypeConverter.GetProperties(System.ComponentModel.ITypeDescriptorContext,System.Object,System.Attribute[])" /> y <see cref="M:System.ComponentModel.TypeConverter.GetPropertiesSupported(System.ComponentModel.ITypeDescriptorContext)" /> métodos. Si la clase que está convirtiendo no tiene propiedades y necesita implementar las propiedades, puede usar el <see cref="T:System.ComponentModel.TypeConverter.SimplePropertyDescriptor" /> clase como base para implementar los descriptores de propiedad. Al heredar de <see cref="T:System.ComponentModel.TypeConverter.SimplePropertyDescriptor" />, debe invalidar el <see cref="M:System.ComponentModel.PropertyDescriptor.GetValue(System.Object)" /> y <see cref="M:System.ComponentModel.PropertyDescriptor.SetValue(System.Object,System.Object)" /> métodos.  
   
--Para convertir tipos que admiten valores estándar, reemplace el <see cref="M:System.ComponentModel.TypeConverter.GetStandardValues" />, <see cref="M:System.ComponentModel.TypeConverter.GetStandardValuesExclusive" />, <see cref="M:System.ComponentModel.TypeConverter.GetStandardValuesSupported" /> y <see cref="M:System.ComponentModel.TypeConverter.IsValid(System.Object)" /> métodos.  
+-Para convertir tipos que admiten valores estándar, reemplace el <see cref="M:System.ComponentModel.TypeConverter.GetStandardValues(System.ComponentModel.ITypeDescriptorContext)" />, <see cref="M:System.ComponentModel.TypeConverter.GetStandardValuesExclusive(System.ComponentModel.ITypeDescriptorContext)" />, <see cref="M:System.ComponentModel.TypeConverter.GetStandardValuesSupported(System.ComponentModel.ITypeDescriptorContext)" /> y <see cref="M:System.ComponentModel.TypeConverter.IsValid(System.ComponentModel.ITypeDescriptorContext,System.Object)" /> métodos.  
   
  <block subset="none" type="note"><para>  
  El tipo derivado puede marcarse como <see langword="internal" /> o <see langword="private" />, pero se puede crear una instancia del tipo con el <see cref="T:System.ComponentModel.TypeDescriptor" /> clase. No escriba código inseguro pensando que el llamador es de confianza. En su lugar, se supone que los llamadores pueden crear instancias del tipo en confianza parcial.  
   
 </para></block>  
   
- Para obtener más información sobre los convertidores de tipos para fines generales (que no sean de XAML), consulte [Cómo: implementar un convertidor de tipos](https://docs.microsoft.com/previous-versions/visualstudio/visual-studio-2013/ayybcxe5(v=vs.120)) o [conversión de tipos generalizada](https://msdn.microsoft.com/library/49253ae6-7657-4810-82ab-1176a6feeada).</para></block>
+ Para obtener más información sobre los convertidores de tipos para fines generales (que no sean de XAML), vea [Cómo: Implementar un convertidor de tipos](https://docs.microsoft.com/previous-versions/visualstudio/visual-studio-2013/ayybcxe5(v=vs.120)) o [generalizado de conversión de tipo](https://msdn.microsoft.com/library/49253ae6-7657-4810-82ab-1176a6feeada).</para></block>
     <altmember cref="T:System.ComponentModel.TypeConverterAttribute" />
     <altmember cref="T:System.ComponentModel.PropertyDescriptorCollection" />
     <altmember cref="T:System.ComponentModel.TypeConverter.SimplePropertyDescriptor" />
@@ -405,7 +405,7 @@ Utilice el parámetro <paramref name="context" /> para extraer información adic
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="value"><see cref="T:System.Object" /> que se va a convertir.</param>
+        <param name="value">Valor <see cref="T:System.Object" /> que se va a convertir.</param>
         <summary>Convierte el valor especificado en el tipo de este convertidor.</summary>
         <returns><see cref="T:System.Object" /> que representa el valor convertido.</returns>
         <remarks>To be added.</remarks>
@@ -448,7 +448,7 @@ Utilice el parámetro <paramref name="context" /> para extraer información adic
       <Docs>
         <param name="context"><see cref="T:System.ComponentModel.ITypeDescriptorContext" /> que ofrece un contexto de formato.</param>
         <param name="culture"><see cref="T:System.Globalization.CultureInfo" /> que se va a usar como referencia cultural actual.</param>
-        <param name="value"><see cref="T:System.Object" /> que se va a convertir.</param>
+        <param name="value">Valor <see cref="T:System.Object" /> que se va a convertir.</param>
         <summary>Convierte el objeto determinado al tipo de este convertidor usando el contexto especificado y la información de referencia cultural.</summary>
         <returns><see cref="T:System.Object" /> que representa el valor convertido.</returns>
         <remarks>
@@ -513,7 +513,7 @@ Para los modelos de implementación para los convertidores de tipos que se utili
         <Parameter Name="text" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="text"><see cref="T:System.String" /> que se va a convertir.</param>
+        <param name="text">Valor <see cref="T:System.String" /> que se va a convertir.</param>
         <summary>Convierte la cadena dada al tipo de este convertidor, utilizando la referencia cultural invariable.</summary>
         <returns><see cref="T:System.Object" /> que representa el texto convertido.</returns>
         <remarks>
@@ -562,7 +562,7 @@ Para los modelos de implementación para los convertidores de tipos que se utili
       </Parameters>
       <Docs>
         <param name="context"><see cref="T:System.ComponentModel.ITypeDescriptorContext" /> que ofrece un contexto de formato.</param>
-        <param name="text"><see cref="T:System.String" /> que se va a convertir.</param>
+        <param name="text">Valor <see cref="T:System.String" /> que se va a convertir.</param>
         <summary>Convierte la cadena dada en el tipo de este convertidor, utilizando el contexto especificado y la referencia cultural invariable.</summary>
         <returns><see cref="T:System.Object" /> que representa el texto convertido.</returns>
         <remarks>
@@ -679,7 +679,7 @@ Para los modelos de implementación para los convertidores de tipos que se utili
       </Parameters>
       <Docs>
         <param name="context"><see cref="T:System.ComponentModel.ITypeDescriptorContext" /> que ofrece un contexto de formato.</param>
-        <param name="text"><see cref="T:System.String" /> que se va a convertir.</param>
+        <param name="text">Valor <see cref="T:System.String" /> que se va a convertir.</param>
         <summary>Convierte el texto dado a un objeto, utilizando el contexto especificado.</summary>
         <returns><see cref="T:System.Object" /> que representa el texto convertido.</returns>
         <remarks>
@@ -737,7 +737,7 @@ Para los modelos de implementación para los convertidores de tipos que se utili
       <Docs>
         <param name="context"><see cref="T:System.ComponentModel.ITypeDescriptorContext" /> que ofrece un contexto de formato.</param>
         <param name="culture">Objeto <see cref="T:System.Globalization.CultureInfo" />. Si se pasa <see langword="null" />, se supone que se va a usar la referencia cultural actual.</param>
-        <param name="text"><see cref="T:System.String" /> que se va a convertir.</param>
+        <param name="text">Valor <see cref="T:System.String" /> que se va a convertir.</param>
         <summary>Convierte el texto dado a un objeto, utilizando el contexto especificado y la información de referencia cultural.</summary>
         <returns><see cref="T:System.Object" /> que representa el texto convertido.</returns>
         <remarks>
@@ -802,7 +802,7 @@ Para los modelos de implementación para los convertidores de tipos que se utili
         <Parameter Name="destinationType" Type="System.Type" />
       </Parameters>
       <Docs>
-        <param name="value"><see cref="T:System.Object" /> que se va a convertir.</param>
+        <param name="value">Valor <see cref="T:System.Object" /> que se va a convertir.</param>
         <param name="destinationType"><see cref="T:System.Type" /> al que se va a convertir el parámetro <paramref name="value" />.</param>
         <summary>Convierte el objeto de valor dado al tipo especificado, utilizando los argumentos.</summary>
         <returns><see cref="T:System.Object" /> que representa el valor convertido.</returns>
@@ -855,7 +855,7 @@ Para los modelos de implementación para los convertidores de tipos que se utili
       <Docs>
         <param name="context"><see cref="T:System.ComponentModel.ITypeDescriptorContext" /> que ofrece un contexto de formato.</param>
         <param name="culture">Objeto <see cref="T:System.Globalization.CultureInfo" />. Si se pasa <see langword="null" />, se supone que se va a usar la referencia cultural actual.</param>
-        <param name="value"><see cref="T:System.Object" /> que se va a convertir.</param>
+        <param name="value">Valor <see cref="T:System.Object" /> que se va a convertir.</param>
         <param name="destinationType"><see cref="T:System.Type" /> al que se va a convertir el parámetro <paramref name="value" />.</param>
         <summary>Convierte el objeto de valor determinado al tipo especificado usando el contexto y la información de referencia cultural especificados.</summary>
         <returns><see cref="T:System.Object" /> que representa el valor convertido.</returns>
@@ -924,7 +924,7 @@ Para los modelos de implementación para los convertidores de tipos que se utili
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="value"><see cref="T:System.Object" /> que se va a convertir.</param>
+        <param name="value">Valor <see cref="T:System.Object" /> que se va a convertir.</param>
         <summary>Convierte el valor especificado a una representación de cadena invariable de la referencia cultural.</summary>
         <returns>Una clase <see cref="T:System.String" /> que representa el valor convertido.</returns>
         <remarks>
@@ -975,7 +975,7 @@ Para los modelos de implementación para los convertidores de tipos que se utili
       </Parameters>
       <Docs>
         <param name="context"><see cref="T:System.ComponentModel.ITypeDescriptorContext" /> que ofrece un contexto de formato.</param>
-        <param name="value"><see cref="T:System.Object" /> que se va a convertir.</param>
+        <param name="value">Valor <see cref="T:System.Object" /> que se va a convertir.</param>
         <summary>Convierte el valor especificado a una representación de cadena invariable de la referencia cultural, utilizando el contexto especificado.</summary>
         <returns>Una clase <see cref="T:System.String" /> que representa el valor convertido.</returns>
         <remarks>
@@ -1034,7 +1034,7 @@ Para los modelos de implementación para los convertidores de tipos que se utili
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="value"><see cref="T:System.Object" /> que se va a convertir.</param>
+        <param name="value">Valor <see cref="T:System.Object" /> que se va a convertir.</param>
         <summary>Convierte el valor especificado a una representación de cadena.</summary>
         <returns><see cref="T:System.Object" /> que representa el valor convertido.</returns>
         <remarks>
@@ -1087,7 +1087,7 @@ Para los modelos de implementación para los convertidores de tipos que se utili
       </Parameters>
       <Docs>
         <param name="context"><see cref="T:System.ComponentModel.ITypeDescriptorContext" /> que ofrece un contexto de formato.</param>
-        <param name="value"><see cref="T:System.Object" /> que se va a convertir.</param>
+        <param name="value">Valor <see cref="T:System.Object" /> que se va a convertir.</param>
         <summary>Convierte el valor dado a una representación de cadena, utilizando el contexto especificado.</summary>
         <returns><see cref="T:System.Object" /> que representa el valor convertido.</returns>
         <remarks>
@@ -1140,7 +1140,7 @@ Para los modelos de implementación para los convertidores de tipos que se utili
       <Docs>
         <param name="context"><see cref="T:System.ComponentModel.ITypeDescriptorContext" /> que ofrece un contexto de formato.</param>
         <param name="culture">Objeto <see cref="T:System.Globalization.CultureInfo" />. Si se pasa <see langword="null" />, se supone que se va a usar la referencia cultural actual.</param>
-        <param name="value"><see cref="T:System.Object" /> que se va a convertir.</param>
+        <param name="value">Valor <see cref="T:System.Object" /> que se va a convertir.</param>
         <summary>Convierte el valor dado a una representación de cadena, utilizando el contexto especificado y la información de referencia cultural.</summary>
         <returns><see cref="T:System.Object" /> que representa el valor convertido.</returns>
         <remarks>

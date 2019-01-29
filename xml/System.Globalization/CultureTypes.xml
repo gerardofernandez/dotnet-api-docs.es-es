@@ -1,5 +1,5 @@
 <Type Name="CultureTypes" FullName="System.Globalization.CultureTypes">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="90d1c338aff0fdcc586e0c7ccc25f989c82f8e2e" /><Meta Name="ms.sourcegitcommit" Value="c0c07dbd19cd7017243f9ac36915755f79bc8da6" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="11/27/2018" /><Meta Name="ms.locfileid" Value="52357163" /></Metadata><TypeSignature Language="C#" Value="public enum CultureTypes" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="caa908feb7e94236c27b517f82513196ba6daa07" /><Meta Name="ms.sourcegitcommit" Value="a489a0c68ea6b109393f1400bbd772073b4befd4" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="01/20/2019" /><Meta Name="ms.locfileid" Value="54416974" /></Metadata><TypeSignature Language="C#" Value="public enum CultureTypes" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable sealed CultureTypes extends System.Enum" />
   <TypeSignature Language="DocId" Value="T:System.Globalization.CultureTypes" />
   <TypeSignature Language="VB.NET" Value="Public Enum CultureTypes" />
@@ -44,10 +44,22 @@
 
 Estos valores de tipo de referencia cultural devueltos por la <xref:System.Globalization.CultureInfo.CultureTypes%2A?displayProperty=nameWithType> propiedad y también actúan como un filtro que limita las referencias culturales devueltas por la <xref:System.Globalization.CultureInfo.GetCultures%2A?displayProperty=nameWithType> método. Para obtener más información sobre las referencias culturales, vea <xref:System.Globalization.CultureInfo>.  
   
-Por lo general, la aplicación debe enumerar todas las referencias culturales utilizando la `CultureTypes.AllCultures` valor. Esto permite la enumeración de referencias culturales personalizadas, así como los otros tipos de referencia cultural.  
+Por lo general, enumerar todas las referencias culturales utilizando la `CultureTypes.AllCultures` valor. Esto permite la enumeración de referencias culturales personalizadas, así como los otros tipos de referencia cultural.  
   
 Tenga en cuenta que todos los `CultureTypes` miembros han quedado en desuso, excepto para `CultureTypes.AllCultures`, `CultureTypes.NeutralCultures`, y `CultureTypes.SpecificCultures`.  
+
+.NET reconoce los siguientes tipos de referencia cultural, todos ellos se incluyen en las enumeraciones devueltas por la `CultureTypes.AllTypes` miembro de enumeración:
+
+- **Referencias culturales específicas**, que especifican un país o región y un lenguaje. Los nombres de estas referencias culturales siguen RFC 4646. El formato es `<languagecode2>-<country/regioncode2>`, donde `<languagecode2>` es un código de dos letras en minúsculas derivado de ISO 639-1, y `<country/regioncode2>` es un código de dos letras en mayúsculas derivado de ISO 3166. Por ejemplo, "en-US" para inglés (Estados Unidos) es una referencia cultural concreta. Referencias culturales específicas personalizadas (es decir, las referencias culturales que son de aplicación: en lugar de definido por el sistema) pueden tener cualquier nombre especificado por el usuario, no sólo uno compatible con los estándares.  
+
+- **Las referencias culturales neutras**, que especifica un idioma con independencia de un país o región. Los nombres de las referencias culturales neutras consisten en el código de dos letras en minúsculas derivado de ISO 639-1. Por ejemplo: "en" (inglés) es una referencia cultural neutra. Personalizadas neutras (es decir, las referencias culturales que son de aplicación: en lugar de definido por el sistema) pueden tener cualquier nombre especificado por el usuario, no solo un código de dos letras.
   
+  La referencia cultural se incluye en la matriz de referencias culturales devueltos por la <xref:System.Globalization.CultureInfo.GetCultures%2A?displayProperty=nameWithType> método que especifica este valor.  
+
+- **Las referencias culturales personalizadas**, que son referencias culturales definidas por la aplicación. Las referencias culturales personalizadas pueden representar referencias culturales específicas o las referencias culturales neutras y pueden tener cualquier nombre especificado por la aplicación. 
+
+   En las versiones de Windows anteriores a Windows 10, la `UserCustomCulture` valor se asigna a las referencias culturales personalizadas creadas por el desarrollador. En Windows 10, la `UserCustomCulture` valor también se asigna a las referencias culturales de sistema que no están respaldados por un conjunto completo de datos de referencia culturales y que no tienen identificadores locales únicos. (Todas las referencias culturales de tipo `UserCustomCulture` compartir un <xref:System.Globalization.CultureInfo.LCID%2A?displayProperty=nameWithType> valor `LOCALE_CUSTOM_UNSPECIFIED` (0 x 1000 o 4096)). Como resultado, el `CultureInfo.GetCultures(CultureTypes.UserCustomCulture)` método devuelve distintos conjuntos de referencias culturales en diferentes versiones de Windows.  
+
 ## Examples  
 
 En el ejemplo siguiente se muestra el `CultureTypes.AllCultures` miembro de enumeración y el <xref:System.Globalization.CultureInfo.CultureTypes%2A> propiedad.  
@@ -201,17 +213,6 @@ En .NET Framework 4 y versiones posteriores y .NET Core que se ejecuta en Window
       <MemberValue>1</MemberValue>
       <Docs>
         <summary>Referencias culturales que están asociadas a un idioma pero que no son específicas de un país o región.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
-
-Los nombres de referencias culturales de .NET consisten en el código de dos letras en minúsculas derivado de ISO 639-1. Por ejemplo: "en" (inglés) es una referencia cultural neutra. Las referencias culturales personalizadas (es decir, las referencias culturales que son de aplicación: en lugar de definido por el sistema) pueden tener cualquier nombre especificado por el usuario, no solo un código de dos letras.  
-  
- La referencia cultural se incluye en la matriz de referencias culturales devueltos por la <xref:System.Globalization.CultureInfo.GetCultures%2A?displayProperty=nameWithType> método que especifica este valor.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ReplacementCultures">
@@ -275,17 +276,6 @@ Los nombres de referencias culturales de .NET consisten en el código de dos let
       <MemberValue>2</MemberValue>
       <Docs>
         <summary>Referencias culturales que son específicas de un país o región.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks 
-
-Los nombres de estas referencias culturales siguen RFC 4646 (Windows Vista y versiones posteriores). El formato es "&lt;languagecode2&gt;-&lt;country/regioncode2&gt;", donde &lt;languagecode2&gt; es un código de dos letras en minúsculas derivado de ISO 639-1 y &lt;country/regioncode2&gt; es un código de dos letras en mayúsculas derivado de ISO 3166. Por ejemplo, "en-US" para inglés (Estados Unidos) es una referencia cultural concreta.
-
-Las referencias culturales personalizadas (es decir, las referencias culturales que son de aplicación: en lugar de definido por el sistema) pueden tener cualquier nombre especificado por el usuario, no sólo uno compatibles con el estándar.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="UserCustomCulture">
@@ -317,15 +307,6 @@ Las referencias culturales personalizadas (es decir, las referencias culturales 
       <MemberValue>8</MemberValue>
       <Docs>
         <summary>**Este miembro está en desuso.** Referencias culturales personalizadas creadas por el usuario.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
-
-En las versiones de Windows anteriores a Windows 10, la `UserCustomCulture` valor se asigna a las referencias culturales personalizadas creadas por el desarrollador. En Windows 10, la `UserCustomCulture` valor también se asigna a las referencias culturales de sistema que no están respaldados por un conjunto completo de datos de referencia culturales y que no tienen identificadores locales únicos. (Todas las referencias culturales de tipo `UserCustomCulture` compartir un <xref:System.Globalization.CultureInfo.LCID%2A?displayProperty=nameWithType> valor `LOCALE_CUSTOM_UNSPECIFIED` (0 x 1000 o 4096)). Como resultado, el `CultureInfo.GetCultures(CultureTypes.UserCustomCulture)` método devuelve distintos conjuntos de referencias culturales en diferentes versiones de Windows.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="WindowsOnlyCultures">
