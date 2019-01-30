@@ -1,5 +1,5 @@
 <Type Name="HttpClientHandler" FullName="System.Net.Http.HttpClientHandler">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="ba3ed49c9a90efc55711df6801abd12d767b3a33" /><Meta Name="ms.sourcegitcommit" Value="9e3550fb2088d4faf2043f0acb29da4555519937" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="12/12/2018" /><Meta Name="ms.locfileid" Value="53291605" /></Metadata><TypeSignature Language="C#" Value="public class HttpClientHandler : System.Net.Http.HttpMessageHandler" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="4e4378873f3a5fa6c23c6de9bded7f111e986d3e" /><Meta Name="ms.sourcegitcommit" Value="8c966994f39ffe6e7c21611e9ec1b91247a68500" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="01/26/2019" /><Meta Name="ms.locfileid" Value="55084621" /></Metadata><TypeSignature Language="C#" Value="public class HttpClientHandler : System.Net.Http.HttpMessageHandler" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit HttpClientHandler extends System.Net.Http.HttpMessageHandler" />
   <TypeSignature Language="DocId" Value="T:System.Net.Http.HttpClientHandler" />
   <TypeSignature Language="VB.NET" Value="Public Class HttpClientHandler&#xA;Inherits HttpMessageHandler" />
@@ -22,24 +22,37 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>El controlador de mensajes predeterminado que usa <see cref="T:System.Net.Http.HttpClient" />.</summary>
+    <summary>Controlador de mensajes predeterminado utilizado por <see cref="T:System.Net.Http.HttpClient" /> en .NET Framework, .NET Core 2.0 y versiones anteriores.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La <xref:System.Net.Http.HttpClientHandler> clase y sus clases derivadas permiten a los desarrolladores configurar diversas opciones que van desde los servidores proxy para la autenticación.  
+ La `HttpClientHandler` clase y sus clases derivadas permiten a los desarrolladores configurar diversas opciones que van desde los servidores proxy para la autenticación.  
   
 ### <a name="httpclienthandler-in-net-core"></a>HttpClientHandler en .NET Core
 
-A partir de .NET Core 2.1, la <xref:System.Net.Http.SocketsHttpHandler?displayProperty=nameWithType> en lugar de la clase `HttpClientHandler` proporciona la implementación usa HTTP de nivel superior las API de red. Puede configurar la aplicación para usar `HttpClientHandler` en su lugar, al llamar a la <xref:System.AppContext.SetSwitch%2A> método como sigue:
+A partir de .NET Core 2.1, la <xref:System.Net.Http.SocketsHttpHandler?displayProperty=nameWithType> en lugar de la clase `HttpClientHandler` proporciona la implementación usa HTTP de nivel superior las API de red. Puede configurar la aplicación para usar `HttpClientHandler` en su lugar en cualquiera de las maneras siguientes:
 
-```csharp
-AppContext.SetSwitch("System.Net.Http.useSocketsHttpHandler", false);
-```
-```vb
-AppContext.SetSwitch("System.Net.Http.useSocketsHttpHandler", False)
-``` 
+- Mediante una llamada a la <xref:System.AppContext.SetSwitch%2A?displayProperty=nameWithType> método como sigue:
+
+  ```csharp
+  AppContext.SetSwitch("System.Net.Http.useSocketsHttpHandler", false);
+  ```
+  ```vb
+  AppContext.SetSwitch("System.Net.Http.useSocketsHttpHandler", False)
+  ``` 
+Definiendo la `System.Net.Http.useSocketsHttpHandler` cambiar en el *. netcore.runtimeconfig.json* archivo de configuración:
+
+  ```json
+  "runtimeOptions": {
+    "configProperties": {
+        "System.Net.Http.useSocketsHttpHandler": false
+    }
+  }
+  ```
   
+- Al definir una variable de entorno denominada `DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER` y estableciéndolo en cualquiera `false` o 0.
+
 ## Examples  
  [!code-csharp[System.Net.Http.HttpClientHandler#1](~/samples/snippets/csharp/VS_Snippets_Misc/system.net.http.httpclienthandler/cs/source.cs#1)]  
   

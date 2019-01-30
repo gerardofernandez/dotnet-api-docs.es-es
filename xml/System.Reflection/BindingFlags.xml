@@ -1,5 +1,5 @@
 <Type Name="BindingFlags" FullName="System.Reflection.BindingFlags">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="73fce1aa21d20f45653df555c778b466bca7fbbb" /><Meta Name="ms.sourcegitcommit" Value="c0c07dbd19cd7017243f9ac36915755f79bc8da6" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="11/27/2018" /><Meta Name="ms.locfileid" Value="52368190" /></Metadata><TypeSignature Language="C#" Value="public enum BindingFlags" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="61b76576a70d04513a7283ac5ace3dbd7521f391" /><Meta Name="ms.sourcegitcommit" Value="a489a0c68ea6b109393f1400bbd772073b4befd4" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="01/20/2019" /><Meta Name="ms.locfileid" Value="54416961" /></Metadata><TypeSignature Language="C#" Value="public enum BindingFlags" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable sealed BindingFlags extends System.Enum" />
   <TypeSignature Language="DocId" Value="T:System.Reflection.BindingFlags" />
   <TypeSignature Language="VB.NET" Value="Public Enum BindingFlags" />
@@ -50,7 +50,7 @@
 ## Remarks  
  Estos `BindingFlags` controlar el enlace de un gran muchas clases en el `System`, `System.Reflection`, y `System.Runtime` espacios de nombres que invocan, crean, obtengan, establecerán y encontrar los tipos y miembros.  
   
- `BindingFlags` se usan en la siguiente <xref:System.Type> métodos y otros lugares, como <xref:System.Reflection.MethodBase.Invoke%2A?displayProperty=nameWithType> :  
+ `BindingFlags` se usan en la siguiente <xref:System.Type> métodos y otros lugares, como <xref:System.Reflection.MethodBase.Invoke%2A?displayProperty=nameWithType>:  
   
 -   <xref:System.Reflection.MethodBase.Invoke%2A?displayProperty=nameWithType>  
   
@@ -95,7 +95,7 @@
 > [!NOTE]
 >  Debe especificar `Instance` o `Static` junto con `Public` o `NonPublic` o no se devolverá ningún miembro.  
   
- La tabla siguiente enumeran las conversiones realizadas por el valor predeterminado <xref:System.Reflection.Binder.ChangeType%2A?displayProperty=nameWithType>. Esta tabla se aplica especialmente a la `ExactBinding` indicador de enlace.  
+ La tabla siguiente enumeran las conversiones realizadas por el valor predeterminado <xref:System.Reflection.Binder.ChangeType%2A?displayProperty=nameWithType>. Esta tabla se aplica especialmente a la `BindingFlags.ExactBinding` indicador de enlace. El principio general es que <xref:System.Reflection.Binder.ChangeType%2A> debe realizar sólo conversiones de ampliación, que nunca se pierden datos. Un ejemplo de una conversión de ampliación es la conversión de un valor que es un entero de 32 bits con signo en un valor que es un entero con signo de 64 bits. Esto se diferencia de una conversión de restricción, que podrían perder datos. Un ejemplo de una conversión de restricción es la conversión de un entero con signo de 64 bits en un entero de 32 bits con signo. 
   
 |Tipo de origen|Tipo de destino|  
 |-----------------|-----------------|  
@@ -112,8 +112,13 @@
 |`Int64`|`Single`, `Double`|  
 |`Single`|`Double`|  
 |Sin referencia|Por referencia.|  
+
+Cuando el `BindingFlags.ExactBinding` se usa la marca de enlace, la reflexión determina las reglas de accesibilidad de common type system. Por ejemplo, si el llamador está en el mismo ensamblado, el llamador no necesita permisos especiales para los miembros internos. En caso contrario, el llamador necesita <xref:System.Security.Permissions.ReflectionPermission>. Esto es coherente con la búsqueda de miembros que están protegidas, privadas y así sucesivamente.  
   
    
+  
+   
+     
   
 ## Examples  
  En el ejemplo siguiente se muestra muchas de las marcas de enlace.  
@@ -312,19 +317,7 @@ Esta marca se pasa a un método <see langword="InvokeMember" /> para invocar un 
       </ReturnValue>
       <MemberValue>65536</MemberValue>
       <Docs>
-        <summary>Especifica que los tipos de argumentos proporcionados deben coincidir exactamente con los tipos de los parámetros formales correspondientes. La reflexión inicia una excepción si el autor de la llamada proporciona un objeto no null <see langword="Binder" /> no null, ya que implica que el autor de la llamada está proporcionando implementaciones <see langword="BindToXXX" /> que captarán el método apropiado.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Las reglas de accesibilidad de common type system de los modelos de reflexión. Por ejemplo, si el llamador está en el mismo ensamblado, el llamador no necesita permisos especiales para los miembros internos. En caso contrario, el llamador necesita <xref:System.Security.Permissions.ReflectionPermission>. Esto es coherente con la búsqueda de miembros que están protegidas, privadas y así sucesivamente.  
-  
- El principio general es que <xref:System.Reflection.Binder.ChangeType%2A> debe realizar sólo conversiones de ampliación, que nunca se pierden datos. Un ejemplo de una conversión de ampliación es la conversión de un valor que es un entero de 32 bits con signo en un valor que es un entero con signo de 64 bits. Esto se diferencia de una conversión de restricción, que podrían perder datos. Un ejemplo de una conversión de restricción es la conversión de un entero con signo de 64 bits en un entero de 32 bits con signo.  
-  
- El enlazador predeterminado omite esta marca, mientras que los enlazadores personalizados pueden implementar la semántica de esta marca.  
-  
- ]]></format>
-        </remarks>
+        <summary>Especifica que los tipos de argumentos proporcionados deben coincidir exactamente con los tipos de los parámetros formales correspondientes. La reflexión inicia una excepción si el autor de la llamada proporciona un objeto no null <see langword="Binder" /> no null, ya que implica que el autor de la llamada está proporcionando implementaciones <see langword="BindToXXX" /> que captarán el método apropiado. El enlazador predeterminado ignora esta marca, mientras que los enlazadores personalizados pueden implementar la semántica de esta marca.</summary>
       </Docs>
     </Member>
     <Member MemberName="FlattenHierarchy">
@@ -679,15 +672,7 @@ Esta marca se pasa a un método <see langword="InvokeMember" /> para invocar un 
       </ReturnValue>
       <MemberValue>262144</MemberValue>
       <Docs>
-        <summary>Devuelve el conjunto de miembros cuyo recuento de parámetros coincide con el número de argumentos proporcionados. Esta marca de enlace se usa para los métodos con parámetros que tienen valores predeterminados y métodos con argumentos variables (varargs). Esta marca solo se debe usar con <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Parámetros con valores predeterminados se usan en las llamadas que se omiten los argumentos. Deben ser los últimos argumentos.  
-  
- ]]></format>
-        </remarks>
+        <summary>Devuelve el conjunto de miembros cuyo recuento de parámetros coincide con el número de argumentos proporcionados. Esta marca de enlace se usa para los métodos con parámetros que tienen valores predeterminados y métodos con argumentos variables (varargs). Esta marca solo se debe usar con <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.<br /><br />Los parámetros con valores predeterminados se usan solo en las llamadas en las que se omiten los argumentos finales. Deben ser los últimos argumentos.</summary>
       </Docs>
     </Member>
     <Member MemberName="Public">
