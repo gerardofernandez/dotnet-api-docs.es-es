@@ -1,0 +1,3 @@
+> [!NOTE]
+>  El hecho de establecer una propiedad de un objeto visual solo tiene efecto si dicha propiedad figura en la plantilla predeterminada del control y se ha establecido mediante el uso de [TemplateBinding](~/docs/framework/wpf/advanced/templatebinding-markup-extension.md). Puede encontrar una lista de propiedades de objetos visuales en la sección [Cambio de la estructura visual de un control](~/docs/framework/wpf/controls/customizing-the-appearance-of-an-existing-control.md#changing-the-visual-structure-of-a-control) del artículo [Personalización de la apariencia de un control existente mediante la creación de una clase ControlTemplate](~/docs/framework/wpf/controls/customizing-the-appearance-of-an-existing-control.md).
+  
