@@ -1,5 +1,5 @@
 <Type Name="StackOverflowException" FullName="System.StackOverflowException">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="1f6d3a4b551412dd113545524fabdb90f2a0abd9" /><Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="11/29/2018" /><Meta Name="ms.locfileid" Value="52606083" /></Metadata><TypeSignature Language="C#" Value="public sealed class StackOverflowException : SystemException" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="991aa9f4b94575c2f58703680ad95ac0d43e46c1" /><Meta Name="ms.sourcegitcommit" Value="9cee676b7864fa9dcb91319dcf5c339f3a724fbf" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="02/07/2019" /><Meta Name="ms.locfileid" Value="55828892" /></Metadata><TypeSignature Language="C#" Value="public sealed class StackOverflowException : SystemException" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable sealed beforefieldinit StackOverflowException extends System.SystemException" />
   <TypeSignature Language="DocId" Value="T:System.StackOverflowException" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class StackOverflowException&#xA;Inherits SystemException" />
@@ -39,21 +39,25 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.StackOverflowException> se produce para los errores de desbordamiento de pila de ejecución, normalmente en el caso de una recursividad muy profunda o ilimitada.  
+ `StackOverflowException` se produce para los errores de desbordamiento de pila de ejecución, normalmente en el caso de una recursividad muy profunda o ilimitada. Por lo tanto, asegúrese de que el código no tiene un bucle infinito o recursividad infinita.
   
- <xref:System.StackOverflowException> utiliza HRESULT COR_E_STACKOVERFLOW, que tiene el valor 0x800703E9. El <xref:System.Reflection.Emit.OpCodes.Localloc> produce la instrucción del lenguaje intermedio (IL) <xref:System.StackOverflowException>. Para obtener una lista de valores de propiedad iniciales para un <xref:System.StackOverflowException> de objetos, consulte el <xref:System.StackOverflowException.%23ctor%2A> constructores.  
+ `StackOverflowException` utiliza HRESULT COR_E_STACKOVERFLOW, que tiene el valor 0x800703E9. El <xref:System.Reflection.Emit.OpCodes.Localloc> produce la instrucción del lenguaje intermedio (IL) `StackOverflowException`. Para obtener una lista de valores de propiedad iniciales para un `StackOverflowException` de objetos, consulte el <xref:System.StackOverflowException.%23ctor%2A> constructores.  
   
-## <a name="version-considerations"></a>Consideraciones sobre la versión  
- En .NET Framework 1.0 y 1.1, se podría detectar un <xref:System.StackOverflowException> objeto (por ejemplo, para recuperarse de recursividad ilimitada). A partir de .NET Framework 2.0, no puede detectar un <xref:System.StackOverflowException> objeto con un `try` / `catch` bloque y el proceso correspondiente finaliza de forma predeterminada. Por lo tanto, debe escribir el código para detectar y evitar un desbordamiento de pila. Por ejemplo, si la aplicación depende de la recursividad, utilice un contador o una condición de estado para finalizar el bucle recursivo. En el ejemplo siguiente se usa un contador para asegurarse de que el número de recursiva las llamadas a la `Execute` método no superar un máximo definido por la constante MAX_RECURSIVE_CALLS.  
+ A partir de .NET Framework 2.0, no puede detectar un `StackOverflowException` objeto con un `try` / `catch` bloque y el proceso correspondiente finaliza de forma predeterminada. Por lo tanto, debe escribir el código para detectar y evitar un desbordamiento de pila. Por ejemplo, si la aplicación depende de la recursividad, utilice un contador o una condición de estado para finalizar el bucle recursivo.
+Consulte (Examples)(#examples) sección para ver una ilustración de esta técnica.
+ 
+> [!NOTE]
+>  Aplicar el <xref:System.Runtime.ExceptionServices.HandleProcessCorruptedStateExceptionsAttribute> atributo a un método que produce una `StackOverflowException` no tiene ningún efecto. Todavía no se puede controlar la excepción del código de usuario.
+
+ Si la aplicación hospeda common language runtime (CLR), puede especificar que el CLR debe descargar el dominio de aplicación cuando se produce una excepción de desbordamiento de pila y el proceso correspondiente pueda continuar. Para obtener más información, consulte [ICLRPolicyManager (interfaz)](~/docs/framework/unmanaged-api/hosting/iclrpolicymanager-interface.md).
+
+## Examples
+
+ En el ejemplo siguiente se usa un contador para asegurarse de que el número de recursiva las llamadas a la `Execute` método no superar un máximo definido por la constante MAX_RECURSIVE_CALLS.
   
  [!code-csharp[System.StackOverflowException.Class#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.stackoverflowexception.class/cs/example1a.cs#1)]
  [!code-vb[System.StackOverflowException.Class#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.stackoverflowexception.class/vb/example1a.vb#1)]  
-  
-> [!NOTE]
->  Aplicar el <xref:System.Runtime.ExceptionServices.HandleProcessCorruptedStateExceptionsAttribute> atributo a un método que produce una <xref:System.StackOverflowException> no tiene ningún efecto. Todavía no se puede controlar la excepción del código de usuario.  
-  
- Si la aplicación hospeda common language runtime (CLR), puede especificar que el CLR debe descargar el dominio de aplicación cuando se produce una excepción de desbordamiento de pila y el proceso correspondiente pueda continuar. Para obtener más información, consulte [ICLRPolicyManager (interfaz)](~/docs/framework/unmanaged-api/hosting/iclrpolicymanager-interface.md).  
-  
+
  ]]></format>
     </remarks>
     <altmember cref="T:System.Exception" />
