@@ -1,5 +1,5 @@
 <Type Name="SqlFileStream" FullName="System.Data.SqlTypes.SqlFileStream">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="74b17b15b936004ca87b1747f66dce9839ec6be7" /><Meta Name="ms.sourcegitcommit" Value="756d085f27705e86604f1bba5f2086ee23761acf" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="01/30/2019" /><Meta Name="ms.locfileid" Value="55406733" /></Metadata><TypeSignature Language="C#" Value="public sealed class SqlFileStream : System.IO.Stream" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="d13e8a2d0e6ea7d98b6dee15a952022a92fc9711" /><Meta Name="ms.sourcegitcommit" Value="220917117f9d774aaa482439aa7324e39dc1f5b6" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="02/25/2019" /><Meta Name="ms.locfileid" Value="56766725" /></Metadata><TypeSignature Language="C#" Value="public sealed class SqlFileStream : System.IO.Stream" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit SqlFileStream extends System.IO.Stream" />
   <TypeSignature Language="DocId" Value="T:System.Data.SqlTypes.SqlFileStream" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class SqlFileStream&#xA;Inherits Stream" />
@@ -10,12 +10,16 @@
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Data.SqlClient</AssemblyName>
+    <AssemblyVersion>4.6.0.0</AssemblyVersion>
+  </AssemblyInfo>
   <Base>
     <BaseTypeName>System.IO.Stream</BaseTypeName>
   </Base>
   <Interfaces />
   <Docs>
-    <summary>Expone los datos de SQL Server que se almacenan con el atributo de columna FILESTREAM como una secuencia de bytes.</summary>
+    <summary>Expone datos de SQL Server que están almacenados con el atributo de columna FILESTREAM como una secuencia de bytes.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
@@ -79,21 +83,25 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.6.0.0</AssemblyVersion>
+      </AssemblyInfo>
       <Parameters>
         <Parameter Name="path" Type="System.String" />
         <Parameter Name="transactionContext" Type="System.Byte[]" />
         <Parameter Name="access" Type="System.IO.FileAccess" />
       </Parameters>
       <Docs>
-        <param name="path">Ruta de acceso lógica al archivo. La ruta de acceso se puede recuperar mediante la función Pathname de Transact-SQL en la columna FILESTREAM subyacente de la tabla.</param>
-        <param name="transactionContext">El contexto de transacción para el objeto <see langword="SqlFileStream" />. Las aplicaciones deben devolver la matriz de bytes devuelta llamando al método GET_FILESTREAM_TRANSACTION_CONTEXT.</param>
-        <param name="access">El modo de acceso que se usará al abrir el archivo. Los valores de enumeración <see cref="T:System.IO.FileAccess" /> admitidos son <see cref="F:System.IO.FileAccess.Read" />, <see cref="F:System.IO.FileAccess.Write" /> y <see cref="F:System.IO.FileAccess.ReadWrite" />.  
+        <param name="path">Ruta de acceso lógica al archivo. La ruta de acceso puede recuperarse usando la función Pathname de Transact-SQL en la columna FILESTREAM subyacente de la tabla.</param>
+        <param name="transactionContext">Contexto de transacción del objeto <see langword="SqlFileStream" />. Las aplicaciones deben devolver la matriz de bytes devuelta por una llamada al método GET_FILESTREAM_TRANSACTION_CONTEXT.</param>
+        <param name="access">Modo de acceso que debe usarse al abrir el archivo. Los valores de enumeración <see cref="T:System.IO.FileAccess" /> admitidos son <see cref="F:System.IO.FileAccess.Read" />, <see cref="F:System.IO.FileAccess.Write" /> y <see cref="F:System.IO.FileAccess.ReadWrite" />.  
   
-Al usar <see langword="FileAccess.Read" />, el objeto <see langword="SqlFileStream" /> puede usarse para leer todos los datos existentes.  
+Cuando se utiliza <see langword="FileAccess.Read" />, el objeto <see langword="SqlFileStream" /> puede usarse para leer todos los datos existentes.  
   
-Al usar <see langword="FileAccess.Write" />, <see langword="SqlFileStream" /> apunta a un archivo de cero bytes. Los datos existentes se sobrescribirán cuando se cierre el objeto y la transacción se confirmará.  
+Cuando se utiliza <see langword="FileAccess.Write" />, <see langword="SqlFileStream" /> apunta a un archivo de cero bytes. Los datos existentes se sobrescribirán cuando se cierre el objeto y se confirme la transacción.  
   
-Al usar <see langword="FileAccess.ReadWrite" />, <see langword="SqlFileStream" /> apunta a un archivo que tiene todos los datos existentes en él. El identificador se coloca al principio del archivo. Puede usar uno de los métodos <see langword="System.IO" /><see langword="Seek" /> para mover la posición del identificador dentro del archivo para escribir o anexar nuevos datos.</param>
+Cuando se utiliza <see langword="FileAccess.ReadWrite" />, <see langword="SqlFileStream" /> apunta a un archivo que incluye todos los datos existentes. El identificador se coloca al principio del archivo. Puede usar uno de los métodos <see langword="System.IO" /><see langword="Seek" /> para mover la posición del identificador dentro del archivo para escribir o anexar nuevos datos.</param>
         <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Data.SqlTypes.SqlFileStream" />.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -108,14 +116,14 @@ Al usar <see langword="FileAccess.ReadWrite" />, <see langword="SqlFileStream" /
   
  <paramref name="path" /> comienza por "\\\\.\\", por ejemplo, "\\\\.\PHYSICALDRIVE0".  
   
-El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE_DISK.  
+El identificador devuelto por la llamada a NTCreateFile no es de tipo FILE_TYPE_DISK.  
   
- <paramref name="options" /> contiene un valor no admitido.</exception>
+ <paramref name="options" /> contiene un valor que no se admite.</exception>
         <exception cref="T:System.IO.FileNotFoundException">No se puede encontrar el archivo.</exception>
         <exception cref="T:System.IO.IOException">Error de E/S.</exception>
         <exception cref="T:System.Security.SecurityException">El llamador no dispone del permiso requerido.</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">El valor de <paramref name="path" /> especificado no es válido, por ejemplo, está en una unidad no asignada.</exception>
-        <exception cref="T:System.UnauthorizedAccessException">El sistema operativo no permite el acceso solicitado para la ruta de acceso especificada. Esto ocurre cuando se especifica el acceso de escritura o lectura y escritura, y el archivo o el directorio está establecido para el acceso de solo lectura.</exception>
+        <exception cref="T:System.UnauthorizedAccessException">El sistema operativo no permite el acceso solicitado para la ruta de acceso especificada. Esto ocurre cuando se especifica un acceso de escritura (Write) o de lectura y escritura (ReadWrite) y el archivo o el directorio está establecido para un acceso de sólo lectura.</exception>
         <exception cref="T:System.InvalidOperationException">Se produce un error en NtCreateFile con el código de error establecido en ERROR_SHARING_VIOLATION.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/bd8b845c-0f09-4295-b466-97ef106eefa8">Datos FILESTREAM en SQL Server 2008 (ADO.NET)</related>
       </Docs>
@@ -133,6 +141,10 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.6.0.0</AssemblyVersion>
+      </AssemblyInfo>
       <Parameters>
         <Parameter Name="path" Type="System.String" />
         <Parameter Name="transactionContext" Type="System.Byte[]" />
@@ -141,17 +153,17 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <Parameter Name="allocationSize" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="path">Ruta de acceso lógica al archivo. La ruta de acceso se puede recuperar mediante la función Pathname de Transact-SQL en la columna FILESTREAM subyacente de la tabla.</param>
-        <param name="transactionContext">El contexto de transacción para el objeto <see langword="SqlFileStream" />. Cuando establece en null, se usará una transacción implícita para el objeto <see langword="SqlFileStream" />. Las aplicaciones deben devolver la matriz de bytes devuelta llamando al método GET_FILESTREAM_TRANSACTION_CONTEXT.</param>
-        <param name="access">El modo de acceso que se usará al abrir el archivo. Los valores de enumeración <see cref="T:System.IO.FileAccess" /> admitidos son <see cref="F:System.IO.FileAccess.Read" />, <see cref="F:System.IO.FileAccess.Write" /> y <see cref="F:System.IO.FileAccess.ReadWrite" />.  
+        <param name="path">Ruta de acceso lógica al archivo. La ruta de acceso puede recuperarse usando la función Pathname de Transact-SQL en la columna FILESTREAM subyacente de la tabla.</param>
+        <param name="transactionContext">Contexto de transacción del objeto <see langword="SqlFileStream" />. Cuando se establezca en null, se usará una transacción implícita para el objeto <see langword="SqlFileStream" />. Las aplicaciones deben devolver la matriz de bytes devuelta por una llamada al método GET_FILESTREAM_TRANSACTION_CONTEXT.</param>
+        <param name="access">Modo de acceso que debe usarse al abrir el archivo. Los valores de enumeración <see cref="T:System.IO.FileAccess" /> admitidos son <see cref="F:System.IO.FileAccess.Read" />, <see cref="F:System.IO.FileAccess.Write" /> y <see cref="F:System.IO.FileAccess.ReadWrite" />.  
   
-Al usar <see langword="FileAccess.Read" />, el objeto <see langword="SqlFileStream" /> puede usarse para leer todos los datos existentes.  
+Cuando se utiliza <see langword="FileAccess.Read" />, el objeto <see langword="SqlFileStream" /> puede usarse para leer todos los datos existentes.  
   
-Al usar <see langword="FileAccess.Write" />, <see langword="SqlFileStream" /> apunta a un archivo de cero bytes. Los datos existentes se sobrescribirán cuando se cierre el objeto y la transacción se confirmará.  
+Cuando se utiliza <see langword="FileAccess.Write" />, <see langword="SqlFileStream" /> apunta a un archivo de cero bytes. Los datos existentes se sobrescribirán cuando se cierre el objeto y se confirme la transacción.  
   
-Al usar <see langword="FileAccess.ReadWrite" />, <see langword="SqlFileStream" /> apunta a un archivo que tiene todos los datos existentes en él. El identificador se coloca al principio del archivo. Puede usar uno de los métodos <see langword="System.IO" /><see langword="Seek" /> para mover la posición del identificador dentro del archivo para escribir o anexar nuevos datos.</param>
+Cuando se utiliza <see langword="FileAccess.ReadWrite" />, <see langword="SqlFileStream" /> apunta a un archivo que incluye todos los datos existentes. El identificador se coloca al principio del archivo. Puede usar uno de los métodos <see langword="System.IO" /><see langword="Seek" /> para mover la posición del identificador dentro del archivo para escribir o anexar nuevos datos.</param>
         <param name="options">Especifica la opción que se usará al abrir el archivo. Los valores de <see cref="T:System.IO.FileOptions" /> admitidos son <see cref="F:System.IO.FileOptions.Asynchronous" />, <see cref="F:System.IO.FileOptions.WriteThrough" />, <see cref="F:System.IO.FileOptions.SequentialScan" /> y <see cref="F:System.IO.FileOptions.RandomAccess" />.</param>
-        <param name="allocationSize">El tamaño de asignación que se usará al crear un archivo. Si se establece en 0, se usará el valor predeterminado.</param>
+        <param name="allocationSize">Tamaño de asignación que debe usarse al crear un archivo. Si se establece en 0, se usa el valor predeterminado.</param>
         <summary>Inicializa una nueva instancia de la clase <see cref="T:System.Data.SqlTypes.SqlFileStream" />.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -168,12 +180,12 @@ Al usar <see langword="FileAccess.ReadWrite" />, <see langword="SqlFileStream" /
   
 El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE_DISK.  
   
- <paramref name="options" /> contiene un valor no admitido.</exception>
+ <paramref name="options" /> contiene un valor que no se admite.</exception>
         <exception cref="T:System.IO.FileNotFoundException">No se puede encontrar el archivo.</exception>
         <exception cref="T:System.IO.IOException">Error de E/S.</exception>
         <exception cref="T:System.Security.SecurityException">El llamador no dispone del permiso requerido.</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">El valor de <paramref name="path" /> especificado no es válido, por ejemplo, está en una unidad no asignada.</exception>
-        <exception cref="T:System.UnauthorizedAccessException">El sistema operativo no permite el acceso solicitado para la ruta de acceso especificada. Esto ocurre cuando se especifica el acceso de escritura o lectura y escritura, y el archivo o el directorio está establecido para el acceso de solo lectura.</exception>
+        <exception cref="T:System.UnauthorizedAccessException">El sistema operativo no permite el acceso solicitado para la ruta de acceso especificada. Esto ocurre cuando se especifica un acceso de escritura (Write) o de lectura y escritura (ReadWrite) y el archivo o el directorio está establecido para un acceso de sólo lectura.</exception>
         <exception cref="T:System.InvalidOperationException">Se produce un error en NtCreateFile con el código de error establecido en ERROR_SHARING_VIOLATION.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/bd8b845c-0f09-4295-b466-97ef106eefa8">Datos FILESTREAM en SQL Server 2008 (ADO.NET)</related>
       </Docs>
@@ -190,6 +202,9 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyName>System.Data</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.IAsyncResult</ReturnType>
@@ -208,7 +223,7 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <param name="callback">Devolución de llamada asincrónica opcional, a la que se llamará cuando haya finalizado la lectura.</param>
         <param name="state">Objeto proporcionado por el usuario que distingue esta solicitud de lectura asincrónica de otras.</param>
         <summary>Comienza una operación de lectura asincrónica.</summary>
-        <returns><see cref="T:System.IAsyncResult" /> que representa la lectura asincrónica, que puede hallarse aún pendiente.</returns>
+        <returns>Una clase <see cref="T:System.IAsyncResult" /> que representa la lectura asincrónica, que puede hallarse aún pendiente.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -234,6 +249,9 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.IAsyncResult</ReturnType>
       </ReturnValue>
@@ -251,7 +269,7 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <param name="callback">Devolución de llamada asincrónica opcional, a la que se llamará cuando haya finalizado la escritura.</param>
         <param name="state">Objeto proporcionado por el usuario que distingue esta solicitud de lectura asincrónica de otras.</param>
         <summary>Comienza una operación de escritura asincrónica.</summary>
-        <returns><see cref="T:System.IAsyncResult" /> que representa la escritura asincrónica, que puede hallarse aún pendiente.</returns>
+        <returns>Objeto <see cref="T:System.IAsyncResult" /> que representa la escritura asincrónica, que puede hallarse aún pendiente.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -277,6 +295,10 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.6.0.0</AssemblyVersion>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
@@ -299,6 +321,10 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyName>System.Data</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.6.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
@@ -323,8 +349,11 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+      </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8">
           <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -350,6 +379,10 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.6.0.0</AssemblyVersion>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
@@ -372,6 +405,9 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyName>System.Data</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -398,6 +434,9 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
@@ -407,9 +446,9 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
       <Docs>
         <param name="asyncResult">Referencia a la solicitud asincrónica pendiente para finalizar.</param>
         <summary>Espera a que se complete la lectura asincrónica que se encuentra pendiente.</summary>
-        <returns>El número de bytes leídos de la secuencia, que se encuentra entre cero (0) y el número de bytes solicitado. Las secuencias solo devuelven cero (0) al final de la secuencia; de lo contrario, se deben bloquear hasta que haya al menos un byte disponible.</returns>
+        <returns>El número de bytes leídos de la secuencia, que se encuentra entre cero (0) y el número de bytes solicitado. Las secuencias sólo devuelven cero (0) al final de la secuencia; de lo contrario, se deben bloquear hasta que haya al menos un byte disponible.</returns>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentException">El objeto <see cref="T:System.IAsyncResult" /> no proviene del método <see langword="BeginRead" /> correspondiente.</exception>
+        <exception cref="T:System.ArgumentException">El objeto <see cref="T:System.IAsyncResult" /> no provenía del método <see langword="BeginRead" /> correspondiente.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/bd8b845c-0f09-4295-b466-97ef106eefa8">Datos FILESTREAM en SQL Server 2008 (ADO.NET)</related>
       </Docs>
     </Member>
@@ -426,6 +465,9 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -436,7 +478,7 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <param name="asyncResult">Referencia a la solicitud de E/S asincrónica pendiente.</param>
         <summary>Finaliza una operación de escritura asincrónica.</summary>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentException">El objeto <see cref="T:System.IAsyncResult" /> no proviene del método <see langword="BeginWrite" /> correspondiente.</exception>
+        <exception cref="T:System.ArgumentException">El objeto <see cref="T:System.IAsyncResult" /> no provenía del método <see langword="BeginWrite" /> correspondiente.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/bd8b845c-0f09-4295-b466-97ef106eefa8">Datos FILESTREAM en SQL Server 2008 (ADO.NET)</related>
       </Docs>
     </Member>
@@ -453,12 +495,15 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Garantiza que se liberen los recursos y se realicen otras operaciones de limpieza cuando el recolector de elementos no utilizados reclama <see cref="T:System.Data.SqlTypes.SqlFileStream" />.</summary>
+        <summary>Garantiza que se liberan los recursos y se realizan otras operaciones de limpieza cuando el recolector de elementos no utilizados reclama <see cref="T:System.Data.SqlTypes.SqlFileStream" />.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -475,12 +520,16 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.6.0.0</AssemblyVersion>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Borra todos los búferes de esta secuencia y hace que los datos almacenados en búfer se escriban en el dispositivo subyacente.</summary>
+        <summary>Borra todos los búferes de esta secuencia y hace que todos los datos almacenados en el búfer se escriban en el dispositivo subyacente.</summary>
         <remarks>To be added.</remarks>
         <related type="Article" href="https://msdn.microsoft.com/library/bd8b845c-0f09-4295-b466-97ef106eefa8">Datos FILESTREAM en SQL Server 2008 (ADO.NET)</related>
       </Docs>
@@ -498,12 +547,16 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.6.0.0</AssemblyVersion>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
         <summary>Obtiene un valor que indica la longitud de la secuencia actual en bytes.</summary>
-        <value><see cref="T:System.Int64" /> que indica la longitud de la secuencia actual en bytes.</value>
+        <value>Valor <see cref="T:System.Int64" /> que indica la longitud de la secuencia actual en bytes.</value>
         <remarks>To be added.</remarks>
         <related type="Article" href="https://msdn.microsoft.com/library/bd8b845c-0f09-4295-b466-97ef106eefa8">Datos FILESTREAM en SQL Server 2008 (ADO.NET)</related>
       </Docs>
@@ -521,12 +574,16 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.6.0.0</AssemblyVersion>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtiene la ruta de acceso lógica del <see cref="T:System.Data.SqlTypes.SqlFileStream" /> pasado al constructor.</summary>
-        <value>Un valor de cadena que indica el nombre del <see cref="T:System.Data.SqlTypes.SqlFileStream" />.</value>
+        <summary>Obtiene la ruta de acceso lógica a la secuencia <see cref="T:System.Data.SqlTypes.SqlFileStream" /> que se pasa al constructor.</summary>
+        <value>Valor de cadena que indica el nombre de <see cref="T:System.Data.SqlTypes.SqlFileStream" />.</value>
         <remarks>To be added.</remarks>
         <related type="Article" href="https://msdn.microsoft.com/library/bd8b845c-0f09-4295-b466-97ef106eefa8">Datos FILESTREAM en SQL Server 2008 (ADO.NET)</related>
       </Docs>
@@ -544,12 +601,16 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.6.0.0</AssemblyVersion>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtiene o establece la posición en el flujo actual.</summary>
-        <value>Posición actual dentro de <see cref="T:System.Data.SqlTypes.SqlFileStream" />.</value>
+        <summary>Obtiene o establece la posición en la secuencia actual.</summary>
+        <value>Posición actual en la secuencia <see cref="T:System.Data.SqlTypes.SqlFileStream" />.</value>
         <remarks>To be added.</remarks>
         <related type="Article" href="https://msdn.microsoft.com/library/bd8b845c-0f09-4295-b466-97ef106eefa8">Datos FILESTREAM en SQL Server 2008 (ADO.NET)</related>
       </Docs>
@@ -567,6 +628,10 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.6.0.0</AssemblyVersion>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
@@ -576,10 +641,10 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <Parameter Name="count" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="buffer">Matriz de bytes. Cuando este método devuelve un valor, el búfer contiene la matriz de bytes especificada con valores entre desplazamiento y (desplazamiento + recuento - 1) reemplazada con los bytes leídos del origen actual.</param>
-        <param name="offset">Desplazamiento en bytes de base cero del búfer donde se comienzan a almacenar los datos leídos de la secuencia actual.</param>
+        <param name="buffer">Matriz de bytes. Cuando este método regresa, el búfer contiene la matriz de bytes especificada, con valores comprendidos entre el desplazamiento y (desplazamiento + recuento - 1), reemplazada por los bytes leídos desde el origen actual.</param>
+        <param name="offset">Posición de desplazamiento en bytes se base cero del búfer donde comienzan a almacenarse los datos leídos de la secuencia actual.</param>
         <param name="count">Número máximo de bytes que se deben leer de la secuencia actual.</param>
-        <summary>Lee una secuencia de bytes en el flujo actual y avanza la posición en el flujo según el número de bytes leídos.</summary>
+        <summary>Lee una secuencia de bytes de la secuencia actual y avanza la posición en esta secuencia según el número de bytes leídos.</summary>
         <returns>Número total de bytes leídos en el búfer. Puede ser menor que el número de bytes solicitado si dicho número no está disponible, o puede ser cero (0) si se alcanza el final de la secuencia.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -589,7 +654,7 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.NotSupportedException">El objeto no admite la lectura de datos.</exception>
+        <exception cref="T:System.NotSupportedException">El objeto no permite la lectura de datos.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/bd8b845c-0f09-4295-b466-97ef106eefa8">Datos FILESTREAM en SQL Server 2008 (ADO.NET)</related>
       </Docs>
     </Member>
@@ -606,13 +671,16 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Parameters />
       <Docs>
         <summary>Lee un byte de la secuencia y hace avanzar la posición de la secuencia en un byte, o devuelve -1 si está al final de la secuencia.</summary>
-        <returns>Byte sin signo convertido en <see cref="T:System.Int32" />,o bien -1 si está al final de la secuencia.</returns>
+        <returns>Byte sin signo convertido en <see cref="T:System.Int32" /> o bien -1 si está al final de la secuencia.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -621,7 +689,7 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.NotSupportedException">El objeto no admite la lectura de datos.</exception>
+        <exception cref="T:System.NotSupportedException">El objeto no permite la lectura de datos.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/bd8b845c-0f09-4295-b466-97ef106eefa8">Datos FILESTREAM en SQL Server 2008 (ADO.NET)</related>
       </Docs>
     </Member>
@@ -638,8 +706,11 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+      </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8">
           <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -666,6 +737,10 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.6.0.0</AssemblyVersion>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
@@ -674,9 +749,9 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <Parameter Name="origin" Type="System.IO.SeekOrigin" />
       </Parameters>
       <Docs>
-        <param name="offset">Desplazamiento de bytes relacionado con el parámetro <paramref name="origin" />.</param>
+        <param name="offset">Desplazamiento en bytes relativo al parámetro <paramref name="origin" />.</param>
         <param name="origin">Valor de tipo <see cref="T:System.IO.SeekOrigin" /> que indica el punto de referencia utilizado para obtener la nueva posición.</param>
-        <summary>Establece la posición en el flujo actual.</summary>
+        <summary>Establece la posición en la secuencia actual.</summary>
         <returns>La nueva posición dentro de la secuencia actual.</returns>
         <remarks>To be added.</remarks>
         <related type="Article" href="https://msdn.microsoft.com/library/bd8b845c-0f09-4295-b466-97ef106eefa8">Datos FILESTREAM en SQL Server 2008 (ADO.NET)</related>
@@ -695,6 +770,10 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.6.0.0</AssemblyVersion>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -703,7 +782,7 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
       </Parameters>
       <Docs>
         <param name="value">Longitud deseada de la secuencia actual, en bytes.</param>
-        <summary>Establece la longitud del flujo actual.</summary>
+        <summary>Establece la longitud de la secuencia actual.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -712,7 +791,7 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.NotSupportedException">El objeto no admite la lectura de datos.</exception>
+        <exception cref="T:System.NotSupportedException">El objeto no permite la lectura de datos.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/bd8b845c-0f09-4295-b466-97ef106eefa8">Datos FILESTREAM en SQL Server 2008 (ADO.NET)</related>
       </Docs>
     </Member>
@@ -729,12 +808,16 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.6.0.0</AssemblyVersion>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Byte[]</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtiene o establece el contexto de transacción para este objeto <see cref="T:System.Data.SqlTypes.SqlFileStream" />.</summary>
-        <value>Matriz <paramref name="transactionContext" /> que se pasó al constructor para este objeto <see cref="T:System.Data.SqlTypes.SqlFileStream" />.</value>
+        <summary>Obtiene o establece el contexto de transacción de este objeto <see cref="T:System.Data.SqlTypes.SqlFileStream" />.</summary>
+        <value>Matriz <paramref name="transactionContext" /> que se pasó al constructor de este objeto <see cref="T:System.Data.SqlTypes.SqlFileStream" />.</value>
         <remarks>To be added.</remarks>
         <related type="Article" href="https://msdn.microsoft.com/library/bd8b845c-0f09-4295-b466-97ef106eefa8">Datos FILESTREAM en SQL Server 2008 (ADO.NET)</related>
       </Docs>
@@ -752,6 +835,10 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.6.0.0</AssemblyVersion>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -761,7 +848,7 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <Parameter Name="count" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="buffer">Matriz de bytes. Este método copia <paramref name="count" /> bytes desde <paramref name="buffer" /> al flujo actual.</param>
+        <param name="buffer">Matriz de bytes. Este método copia <paramref name="count" /> de bytes desde <paramref name="buffer" /> a la secuencia actual.</param>
         <param name="offset">Desplazamiento en bytes de base cero en la <paramref name="buffer" /> en la que se comienzan a copiar los bytes en la secuencia actual.</param>
         <param name="count">Número de bytes que se deben escribir en la secuencia actual.</param>
         <summary>Escribe una secuencia de bytes en la secuencia actual y avanza la posición actual en esta secuencia según el número de bytes escritos.</summary>
@@ -773,7 +860,7 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.NotSupportedException">El objeto no admite la escritura de datos.</exception>
+        <exception cref="T:System.NotSupportedException">El objeto no permite la escritura de datos.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/bd8b845c-0f09-4295-b466-97ef106eefa8">Datos FILESTREAM en SQL Server 2008 (ADO.NET)</related>
       </Docs>
     </Member>
@@ -789,6 +876,9 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyName>System.Data</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -807,7 +897,7 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.NotSupportedException">El objeto no admite la escritura de datos.</exception>
+        <exception cref="T:System.NotSupportedException">El objeto no permite la escritura de datos.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/bd8b845c-0f09-4295-b466-97ef106eefa8">Datos FILESTREAM en SQL Server 2008 (ADO.NET)</related>
       </Docs>
     </Member>
@@ -824,8 +914,11 @@ El identificador devuelto por la llamada a NTCreateFile no es del tipo FILE_TYPE
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+      </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8">
           <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
         </Attribute>
       </Attributes>
