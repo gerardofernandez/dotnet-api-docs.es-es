@@ -1,5 +1,5 @@
 <Type Name="AssemblyLoadContext" FullName="System.Runtime.Loader.AssemblyLoadContext">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="ed2cf140b87d2caa6495800889441797393a717e" /><Meta Name="ms.sourcegitcommit" Value="662f143e6be46d519ff8ab4451d543d91e651478" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="12/18/2018" /><Meta Name="ms.locfileid" Value="53567802" /></Metadata><TypeSignature Language="C#" Value="public abstract class AssemblyLoadContext" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="8ebdc67076b230b6f3fc37df9fe5903780b82006" /><Meta Name="ms.sourcegitcommit" Value="220917117f9d774aaa482439aa7324e39dc1f5b6" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="02/25/2019" /><Meta Name="ms.locfileid" Value="56772329" /></Metadata><TypeSignature Language="C#" Value="public abstract class AssemblyLoadContext" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit AssemblyLoadContext extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Runtime.Loader.AssemblyLoadContext" />
   <TypeSignature Language="VB.NET" Value="Public MustInherit Class AssemblyLoadContext" />
@@ -10,6 +10,7 @@
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.2.0</AssemblyVersion>
     <AssemblyVersion>4.0.3.0</AssemblyVersion>
+    <AssemblyVersion>4.1.0.0</AssemblyVersion>
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
@@ -35,14 +36,16 @@
  > <xref:System.Runtime.Loader.AssemblyLoadContext> no proporciona ninguna característica de seguridad. Todo el código tiene permisos totales del proceso.
 
 ### <a name="usage-in-the-runtime"></a>Uso en el tiempo de ejecución
- El tiempo de ejecución implementa dos contextos de carga de ensamblado: * <xref:System.Runtime.Loader.AssemblyLoadContext.Default?displayProperty=nameWithType> representa el contexto de enlace predeterminada del tiempo de ejecución que se usa para el ensamblado principal de la aplicación y sus dependencias estáticos.
-* El <xref:System.Reflection.Assembly.LoadFile(System.String)?displayProperty=nameWithType> método aísla los ensamblados que carga creando más básica <xref:System.Runtime.Loader.AssemblyLoadContext>. Tiene un esquema de aislamiento simplista que carga cada ensamblado en su propio <xref:System.Runtime.Loader.AssemblyLoadContext> con ninguna resolución de dependencia.
+ El tiempo de ejecución implementa dos contextos de carga de ensamblado:
+ * <xref:System.Runtime.Loader.AssemblyLoadContext.Default?displayProperty=nameWithType> representa el contexto de enlace predeterminada del tiempo de ejecución que se usa para el ensamblado principal de la aplicación y sus dependencias estáticos.
+ * El <xref:System.Reflection.Assembly.LoadFile(System.String)?displayProperty=nameWithType> método aísla los ensamblados que carga creando más básica <xref:System.Runtime.Loader.AssemblyLoadContext>. Tiene un esquema de aislamiento simplista que carga cada ensamblado en su propio <xref:System.Runtime.Loader.AssemblyLoadContext> con ninguna resolución de dependencia.
  
 ### <a name="application-usage"></a>Uso de la aplicación
  Una aplicación puede crear su propio <xref:System.Runtime.Loader.AssemblyLoadContext> para crear una solución personalizada para escenarios de enlace avanzada. La personalización se centra en la definición de los mecanismos de resolución de dependencia.
  
- El <xref:System.Runtime.Loader.AssemblyLoadContext> proporciona dos puntos de extensión para implementar la resolución de ensamblado administrado: 1. El <xref:System.Runtime.Loader.AssemblyLoadContext.Load(System.Reflection.AssemblyName)?displayProperty=nameWithType> proporciona la primera instancia posible para el <xref:System.Runtime.Loader.AssemblyLoadContext> para resolver el ensamblado, cargarlo y devolverlo. Si el <xref:System.Runtime.Loader.AssemblyLoadContext.Load(System.Reflection.AssemblyName)?displayProperty=nameWithType> devuelve `null`, el cargador intentará cargar el ensamblado en el <xref:System.Runtime.Loader.AssemblyLoadContext.Default?displayProperty=nameWithType>.
-2. Si el <xref:System.Runtime.Loader.AssemblyLoadContext.Default?displayProperty=nameWithType> no puede resolver el ensamblado, el original <xref:System.Runtime.Loader.AssemblyLoadContext> Obtiene una segunda oportunidad para resolver el ensamblado. El tiempo de ejecución genera el <xref:System.Runtime.Loader.AssemblyLoadContext.Resolving> eventos.
+ El <xref:System.Runtime.Loader.AssemblyLoadContext> proporciona dos puntos de extensión para implementar la resolución de ensamblado administrado:
+ 1. El <xref:System.Runtime.Loader.AssemblyLoadContext.Load(System.Reflection.AssemblyName)?displayProperty=nameWithType> proporciona la primera instancia posible para el <xref:System.Runtime.Loader.AssemblyLoadContext> para resolver el ensamblado, cargarlo y devolverlo. Si el <xref:System.Runtime.Loader.AssemblyLoadContext.Load(System.Reflection.AssemblyName)?displayProperty=nameWithType> devuelve `null`, el cargador intentará cargar el ensamblado en el <xref:System.Runtime.Loader.AssemblyLoadContext.Default?displayProperty=nameWithType>.
+ 2. Si el <xref:System.Runtime.Loader.AssemblyLoadContext.Default?displayProperty=nameWithType> no puede resolver el ensamblado, el original <xref:System.Runtime.Loader.AssemblyLoadContext> Obtiene una segunda oportunidad para resolver el ensamblado. El tiempo de ejecución genera el <xref:System.Runtime.Loader.AssemblyLoadContext.Resolving> eventos.
  
  Además el <xref:System.Runtime.Loader.AssemblyLoadContext.LoadUnmanagedDll(System.String)?displayProperty=nameWithType> método virtual permite la personalización de la resolución de ensamblado no administrado predeterminado. La implementación predeterminada devuelve `null`, lo que hace que la búsqueda en tiempo de ejecución usar su directiva de búsqueda predeterminado que es suficiente para la mayoría de los escenarios.
 
@@ -82,6 +85,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -101,6 +105,27 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         </remarks>
       </Docs>
     </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected AssemblyLoadContext (bool isCollectible);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor(bool isCollectible) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.Loader.AssemblyLoadContext.#ctor(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub New (isCollectible As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; AssemblyLoadContext(bool isCollectible);" />
+      <MemberSignature Language="F#" Value="new System.Runtime.Loader.AssemblyLoadContext : bool -&gt; System.Runtime.Loader.AssemblyLoadContext" Usage="new System.Runtime.Loader.AssemblyLoadContext isCollectible" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Loader</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="isCollectible" Type="System.Boolean" Index="0" FrameworkAlternate="netcore-3.0" />
+      </Parameters>
+      <Docs>
+        <param name="isCollectible">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="Default">
       <MemberSignature Language="C#" Value="public static System.Runtime.Loader.AssemblyLoadContext Default { get; }" />
       <MemberSignature Language="ILAsm" Value=".property class System.Runtime.Loader.AssemblyLoadContext Default" />
@@ -114,6 +139,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -141,6 +167,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -157,7 +184,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <summary>Obtiene un elemento <see cref="T:System.Reflection.AssemblyName" /> de una ruta de acceso de ensamblado.</summary>
         <returns>Objeto que contiene el nombre de ensamblado analizado totalmente del ensamblado en <paramref name="assemblyPath" />.</returns>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="assemblyPath" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="assemblyPath" /> es <see langword="null" />.</exception>
         <exception cref="T:System.IO.FileNotFoundException">No se encuentra el ensamblado.</exception>
         <exception cref="T:System.BadImageFormatException">El ensamblado no es un ensamblado válido.</exception>
       </Docs>
@@ -174,6 +201,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -190,7 +218,28 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <summary>Obtiene el elemento <see cref="T:System.Runtime.Loader.AssemblyLoadContext" /> que contiene el elemento <see cref="T:System.Reflection.Assembly" /> especificado.</summary>
         <returns>Contexto de carga de ensamblado que contiene el elemento <paramref name="assembly" />.</returns>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="assembly" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="assembly" /> es <see langword="null" />.</exception>
+      </Docs>
+    </Member>
+    <Member MemberName="IsCollectible">
+      <MemberSignature Language="C#" Value="public bool IsCollectible { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsCollectible" />
+      <MemberSignature Language="DocId" Value="P:System.Runtime.Loader.AssemblyLoadContext.IsCollectible" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsCollectible As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsCollectible { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.IsCollectible : bool" Usage="System.Runtime.Loader.AssemblyLoadContext.IsCollectible" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Loader</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <Member MemberName="Load">
@@ -205,6 +254,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -245,6 +295,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -279,7 +330,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
  
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="assemblyName" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="assemblyName" /> es <see langword="null" />.</exception>
         <exception cref="T:System.IO.FileNotFoundException">No se ha encontrado <paramref name="assemblyName" />.</exception>
         <exception cref="T:System.BadImageFormatException"><paramref name="assemblyName" /> no es un ensamblado válido.</exception>
         <exception cref="T:System.IO.FileLoadException">Se ha cargado un ensamblado o módulo que no coincide con <paramref name="assemblyName" />.</exception>
@@ -298,6 +349,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -334,6 +386,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -381,6 +434,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -397,7 +451,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <summary>Carga el ensamblado con una imagen basada en el formato de archivo de objeto común (COFF) que contiene un ensamblado administrado.</summary>
         <returns>Ensamblado cargado.</returns>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="assembly" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="assembly" /> es <see langword="null" />.</exception>
         <exception cref="T:System.BadImageFormatException"><paramref name="assembly" /> no es un ensamblado válido.</exception>
       </Docs>
     </Member>
@@ -413,6 +467,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -431,7 +486,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <summary>Carga el ensamblado con una imagen basada en el formato de archivo de objeto común (COFF) que contiene un ensamblado administrado, incluyendo opcionalmente los símbolos del ensamblado.</summary>
         <returns>Ensamblado cargado.</returns>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="assembly" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="assembly" /> es <see langword="null" />.</exception>
         <exception cref="T:System.BadImageFormatException"><paramref name="assembly" /> no es un ensamblado válido.</exception>
       </Docs>
     </Member>
@@ -448,6 +503,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -488,6 +544,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -504,7 +561,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <summary>Carga una biblioteca no administrada desde la ruta de acceso especificada.</summary>
         <returns>Manipulador de la biblioteca cargada.</returns>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="unmanagedDllPath" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="unmanagedDllPath" /> es <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException">El argumento <paramref name="unmanagedDllPath" /> no es una ruta de acceso absoluta.</exception>
         <exception cref="T:System.IO.FileNotFoundException">No se encuentra la biblioteca no administrada.</exception>
       </Docs>
@@ -522,6 +579,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -549,6 +607,26 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         </remarks>
       </Docs>
     </Member>
+    <Member MemberName="ResolvingUnmanagedDll">
+      <MemberSignature Language="C#" Value="public event Func&lt;System.Reflection.Assembly,string,IntPtr&gt; ResolvingUnmanagedDll;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.Func`3&lt;class System.Reflection.Assembly, string, native int&gt; ResolvingUnmanagedDll" />
+      <MemberSignature Language="DocId" Value="E:System.Runtime.Loader.AssemblyLoadContext.ResolvingUnmanagedDll" />
+      <MemberSignature Language="VB.NET" Value="Public Event ResolvingUnmanagedDll As Func(Of Assembly, String, IntPtr) " />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; event Func&lt;System::Reflection::Assembly ^, System::String ^, IntPtr&gt; ^ ResolvingUnmanagedDll;" />
+      <MemberSignature Language="F#" Value="member this.ResolvingUnmanagedDll : Func&lt;System.Reflection.Assembly, string, nativeint&gt; " Usage="member this.ResolvingUnmanagedDll : System.Func&lt;System.Reflection.Assembly, System.string, System.nativeint&gt; " />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Loader</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Func&lt;System.Reflection.Assembly,System.String,System.IntPtr&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="SetProfileOptimizationRoot">
       <MemberSignature Language="C#" Value="public void SetProfileOptimizationRoot (string directoryPath);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetProfileOptimizationRoot(string directoryPath) cil managed" />
@@ -562,6 +640,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -592,6 +671,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -609,6 +689,27 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="Unload">
+      <MemberSignature Language="C#" Value="public void Unload ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Unload() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.Loader.AssemblyLoadContext.Unload" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Unload ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Unload();" />
+      <MemberSignature Language="F#" Value="member this.Unload : unit -&gt; unit" Usage="assemblyLoadContext.Unload " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Loader</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="Unloading">
       <MemberSignature Language="C#" Value="public event Action&lt;System.Runtime.Loader.AssemblyLoadContext&gt; Unloading;" />
       <MemberSignature Language="ILAsm" Value=".event class System.Action`1&lt;class System.Runtime.Loader.AssemblyLoadContext&gt; Unloading" />
@@ -622,6 +723,7 @@ Este constructor está protegido. Solo se puede llamar desde el <xref:System.Run
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
