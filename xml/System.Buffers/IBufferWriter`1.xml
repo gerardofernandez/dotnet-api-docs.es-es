@@ -1,5 +1,5 @@
 <Type Name="IBufferWriter&lt;T&gt;" FullName="System.Buffers.IBufferWriter&lt;T&gt;">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="cd890b9a02855189dbf57af223fa03cb5209e33a" /><Meta Name="ms.sourcegitcommit" Value="8e213bb5e6801f6e29861ba72664978ad00e34fa" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="02/18/2019" /><Meta Name="ms.locfileid" Value="56387474" /></Metadata><TypeSignature Language="C#" Value="public interface IBufferWriter&lt;T&gt;" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="674f0a0d53c9622f7a10d3a2b32626681056eef4" /><Meta Name="ms.sourcegitcommit" Value="9e7aa84070156026697d2898b5311e6c025a1e6a" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="02/28/2019" /><Meta Name="ms.locfileid" Value="56996725" /></Metadata><TypeSignature Language="C#" Value="public interface IBufferWriter&lt;T&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IBufferWriter`1&lt;T&gt;" />
   <TypeSignature Language="DocId" Value="T:System.Buffers.IBufferWriter`1" />
   <TypeSignature Language="VB.NET" Value="Public Interface IBufferWriter(Of T)" />
@@ -17,7 +17,7 @@
   <Interfaces />
   <Docs>
     <typeparam name="T">El tipo de los elementos de la <see cref="T:System.Buffers.IBufferWriter`1" />.</typeparam>
-    <summary>Representa un receptor <typeparamref name="T" />.</summary>
+    <summary>Representa un receptor de salida en el que se pueden escribir datos de <typeparamref name="T" />.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -43,8 +43,8 @@
       </Parameters>
       <Docs>
         <param name="count">El número de elementos de datos que se escriben en <see cref="T:System.Span`1" /> o <see cref="T:System.Memory`1" />.</param>
-        <summary>Notifica a <see cref="T:System.Buffers.IBufferWriter`1" /> que los elementos de datos <paramref name="count" /> se han escrito en <see cref="T:System.Span`1" /> o <see cref="T:System.Memory`1" />.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Notifica a <see cref="T:System.Buffers.IBufferWriter`1" /> que los elementos de datos <paramref name="count" /> se han escrito en la salida <see cref="T:System.Span`1" /> o <see cref="T:System.Memory`1" />.</summary>
+        <remarks>Debe solicitar un nuevo búfer después de llamar a por adelantado para continuar escribiendo más datos; no se puede escribir en un búfer obtenido anteriormente.</remarks>
       </Docs>
     </Member>
     <Member MemberName="GetMemory">
@@ -67,10 +67,21 @@
         <Parameter Name="sizeHint" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="sizeHint">El tamaño solicitado de <see cref="T:System.Memory`1" /> solicitado. Si es 0, solicita la memoria disponible actualmente.</param>
-        <summary>Solicita un <paramref name="sizeHint" /> que tenga un tamaño de al menos <see cref="T:System.Memory`1" />, si es posible.</summary>
-        <returns>Un <paramref name="sizeHint" /> de tamaño <see cref="T:System.Memory`1" />, si está disponible; de lo contrario, un <see cref="T:System.Memory`1" /> con la memoria máxima disponible. Si <paramref name="sizeHint" /> es 0, devuelve la memoria disponible actualmente.</returns>
-        <remarks>To be added.</remarks>
+        <param name="sizeHint">Longitud mínima del objeto <see cref="T:System.Memory`1" /> devuelto. Si es 0, se devuelve un búfer no vacío.</param>
+        <summary>Devuelve un objeto <see cref="T:System.Memory`1" /> en el que escribir, que tiene al menos el tamaño solicitado (especificado por <paramref name="sizeHint" />).</summary>
+        <returns>Un objeto <see cref="T:System.Memory`1" /> con al menos el tamaño <paramref name="sizeHint" />. Si <paramref name="sizeHint" /> es 0, se devuelve un búfer no vacío.</returns>
+        <remarks>  
+          <format type="text/markdown"><![CDATA[  
+
+No hay ninguna garantía de que las sucesivas llamadas devolverán el mismo búfer o el búfer del mismo tamaño.
+
+Esto nunca debe devolver <xref:System.Span%601.Empty?displayProperty=nameWithType>, pero puede producir si el tamaño de búfer solicitado no está disponible.
+
+Debe solicitar un nuevo búfer después de llamar a `Advance` continuar escribiendo más datos; no se puede escribir en un búfer obtenido anteriormente.
+
+         ]]></format>
+         </remarks>
+         <exception cref="T:System.OutOfMemoryException">El tamaño de búfer solicitado no está disponible.</exception>        
       </Docs>
     </Member>
     <Member MemberName="GetSpan">
@@ -93,10 +104,19 @@
         <Parameter Name="sizeHint" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="sizeHint">El tamaño del intervalo de memoria solicitado. Si es 0, solicita la memoria disponible actualmente.</param>
-        <summary>Solicita un intervalo que tenga un tamaño de al menos <paramref name="sizeHint" />, si es posible.</summary>
-        <returns>Un intervalo de tamaño <paramref name="sizeHint" />, si está disponible; de lo contrario, un intervalo de memoria con la memoria máxima disponible. Si <paramref name="sizeHint" /> es 0, devuelve la memoria disponible actualmente.</returns>
-        <remarks>To be added.</remarks>
+        <param name="sizeHint">Longitud mínima del objeto <see cref="T:System.Span`1" /> devuelto. Si es 0, se devuelve un búfer no vacío.</param>
+        <summary>Devuelve un objeto <see cref="T:System.Span`1" /> en el que escribir, que tiene al menos el tamaño solicitado (especificado por <paramref name="sizeHint" />).</summary>
+        <returns>Un objeto <see cref="T:System.Span`1" /> con al menos el tamaño <paramref name="sizeHint" />. Si <paramref name="sizeHint" /> es 0, se devuelve un búfer no vacío.</returns>
+        <remarks>  
+          <format type="text/markdown"><![CDATA[
+  
+No hay ninguna garantía de que las sucesivas llamadas devolverán el mismo búfer o el búfer del mismo tamaño.
+
+Este método nunca debe devolver <xref:System.Span%601.Empty?displayProperty=nameWithType>, pero puede producir si el tamaño de búfer solicitado no está disponible.
+
+Debe solicitar un nuevo búfer después de llamar a `Advance` continuar escribiendo más datos; no se puede escribir en un búfer obtenido anteriormente.
+         ]]></format>
+         </remarks>
       </Docs>
     </Member>
   </Members>
