@@ -1,5 +1,5 @@
 <Type Name="ProcessStartInfo" FullName="System.Diagnostics.ProcessStartInfo">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="e29164c9c15cf68d07935ec9ee9ae939cae76006" /><Meta Name="ms.sourcegitcommit" Value="8e213bb5e6801f6e29861ba72664978ad00e34fa" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="02/18/2019" /><Meta Name="ms.locfileid" Value="56389191" /></Metadata><TypeSignature Language="C#" Value="public sealed class ProcessStartInfo" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="bc25ef95ea680c41d6e7234eae9ea21bd20943a2" /><Meta Name="ms.sourcegitcommit" Value="c181255cb311fdd498458b3f12418f773c97254a" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="03/21/2019" /><Meta Name="ms.locfileid" Value="58320829" /></Metadata><TypeSignature Language="C#" Value="public sealed class ProcessStartInfo" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit ProcessStartInfo extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Diagnostics.ProcessStartInfo" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class ProcessStartInfo" />
@@ -1011,47 +1011,25 @@ Los argumentos se analizan e interpretan mediante la aplicación de destino, por
  En cambio, <xref:System.Diagnostics.Process.BeginErrorReadLine%2A> las operaciones de lectura asincrónica comienza en el <xref:System.Diagnostics.Process.StandardError%2A> stream. Este método permite que un controlador de eventos designado para la salida de la secuencia y devuelve inmediatamente al llamador, que puede realizar otro trabajo mientras se dirige la salida de la secuencia al controlador de eventos.  
   
 > [!NOTE]
->  La aplicación que se está procesando la salida asincrónica debe llamar a la <xref:System.Diagnostics.Process.WaitForExit%2A> método para asegurarse de que se ha vaciado el búfer de salida.  
+>  La aplicación que se está procesando la salida asincrónica debe llamar a la <xref:System.Diagnostics.Process.WaitForExit%2A?displayProperty=nameWithType> método para asegurarse de que se ha vaciado el búfer de salida.  
   
  Sincrónico lee operaciones presentan una dependencia entre el llamador que lee desde el <xref:System.Diagnostics.Process.StandardError%2A> secuencia y el elemento secundario procesan la escritura en esa secuencia. Estas dependencias pueden provocar condiciones de interbloqueo. Cuando el llamador lee la secuencia redirigida de un proceso secundario, es dependiente en el elemento secundario. El llamador espera para la operación de lectura hasta que el elemento secundario se escribe en la secuencia o cierra la secuencia. Cuando el proceso secundario escribe suficientes datos para rellenar su secuencia redirigida, es dependiente en el elemento primario. El proceso secundario espera la siguiente operación de escritura hasta que el elemento primario lee la secuencia completa o cierra la secuencia. La condición de interbloqueo se produce cuando el llamador y el proceso secundario esperan entre sí completar una operación, y ninguno puede continuar. Puede evitar los interbloqueos mediante la evaluación de las dependencias entre el llamador y el proceso secundario.  
+
+Los dos últimos ejemplos de esta sección se usa el <xref:System.Diagnostics.Process.Start%2A> método para iniciar un archivo ejecutable denominado *Write500Lines.exe*. El ejemplo siguiente contiene su código fuente.
+
+[!code-csharp[Executable launched by Process.Start](~/samples/snippets/csharp/api/system.diagnostics/process/standardoutput/write500lines.cs)]
+[!code-vb[Executable launched by Process.Start](~/samples/snippets/visualbasic/api/system.diagnostics/process/standardoutput/write500lines.vb)]
+
+El ejemplo siguiente muestra cómo leer de una secuencia de error redirigidos y espere a que finalice el proceso secundario. Evita el interbloqueo mediante una llamada a `p.StandardError.ReadToEnd` antes `p.WaitForExit`. Puede dar lugar a una condición de interbloqueo si el elemento primario procesa llamadas `p.WaitForExit` antes `p.StandardError.ReadToEnd` y el proceso secundario escribe texto suficiente para rellenar la secuencia redirigida. El proceso primario esperaría indefinidamente para que el proceso secundario salir. El proceso secundario esperaría indefinidamente para que el elemento primario leer desde el completo <xref:System.Diagnostics.Process.StandardError%2A> stream.   
+
+[!code-csharp[Reading from the error stream](~/samples/snippets/csharp/api/system.diagnostics/process/standarderror/stderror-sync.cs)]
+[!code-vb[Reading from the error stream](~/samples/snippets/visualbasic/api/system.diagnostics/process/standarderror/stderror-sync.vb)]  
   
- Por ejemplo, el código de C# siguiente muestra cómo leer una secuencia redirigida y espere a que finalice el proceso secundario.  
-  
-```csharp  
-// Start the child process.  
- Process p = new Process();  
- // Redirect the error stream of the child process.  
- p.StartInfo.UseShellExecute = false;  
- p.StartInfo.RedirectStandardError = true;  
- p.StartInfo.FileName = "Write500Lines.exe";  
- p.Start();  
- // Do not wait for the child process to exit before  
- // reading to the end of its redirected error stream.  
- // p.WaitForExit();  
- // Read the error stream first and then wait.  
- string error = p.StandardError.ReadToEnd();  
- p.WaitForExit();  
-```  
-  
- El ejemplo de código, evita una condición de interbloqueo mediante una llamada a `p.StandardError.ReadToEnd` antes `p.WaitForExit`. Puede dar lugar a una condición de interbloqueo si el elemento primario procesa llamadas `p.WaitForExit` antes `p.StandardError.ReadToEnd` y el proceso secundario escribe texto suficiente para rellenar la secuencia redirigida. El proceso primario esperaría indefinidamente para que el proceso secundario salir. El proceso secundario esperaría indefinidamente para que el elemento primario leer desde el completo <xref:System.Diagnostics.Process.StandardError%2A> stream.  
-  
- Hay un problema similar al leer todo el texto de la salida estándar y flujos de error estándar. Por ejemplo, el siguiente código de C# realiza una operación de lectura en ambas secuencias.  
-  
-```csharp  
-// Do not perform a synchronous read to the end of both  
-// redirected streams.  
-// string output = p.StandardOutput.ReadToEnd();  
-// string error = p.StandardError.ReadToEnd();  
-// p.WaitForExit();  
-// Use asynchronous read operations on at least one of the streams.  
-p.BeginOutputReadLine();  
-string error = p.StandardError.ReadToEnd();  
-p.WaitForExit();  
-```  
-  
- El ejemplo de código, evita el interbloqueo mediante la realización asincrónica de las operaciones de lectura en el <xref:System.Diagnostics.Process.StandardOutput%2A> stream. Una condición de interbloqueo se produce si el elemento primario procesa llamadas `p.StandardOutput.ReadToEnd` seguido `p.StandardError.ReadToEnd` y el proceso secundario escribe texto suficiente para rellenar la secuencia de error. El proceso primario podía esperar indefinidamente en el proceso secundario cerrar su <xref:System.Diagnostics.Process.StandardOutput%2A> stream. El proceso secundario esperaría indefinidamente para que el elemento primario leer desde el completo <xref:System.Diagnostics.Process.StandardError%2A> stream.  
-  
- Puede usar operaciones de lectura asincrónica para evitar estas dependencias y la posibilidad de un interbloqueo. Como alternativa, puede evitar el interbloqueo mediante la creación de dos subprocesos y leer la salida de cada secuencia en un subproceso independiente.  
+Hay un problema similar al leer todo el texto de la salida estándar y flujos de error estándar. El siguiente código de C#, por ejemplo, realiza una operación de lectura en ambas secuencias. Evita el interbloqueo mediante la realización asincrónica de las operaciones de lectura en el <xref:System.Diagnostics.Process.StandardError%2A> stream. Una condición de interbloqueo se produce si el elemento primario procesa llamadas `p.StandardOutput.ReadToEnd` seguido `p.StandardError.ReadToEnd` y el proceso secundario escribe texto suficiente para rellenar la secuencia de error. El proceso primario podía esperar indefinidamente en el proceso secundario cerrar su <xref:System.Diagnostics.Process.StandardOutput%2A> stream. El proceso secundario esperaría indefinidamente para que el elemento primario leer desde el completo <xref:System.Diagnostics.Process.StandardError%2A> stream.  
+[!code-csharp[Reading from both streams](~/samples/snippets/csharp/api/system.diagnostics/process/standardoutput/stdoutput-async.cs)]
+[!code-vb[Reading from both streams](~/samples/snippets/visualbasic/api/system.diagnostics/process/standardoutput/stdoutput-async.vb)]  
+
+Puede usar operaciones de lectura asincrónica para evitar estas dependencias y la posibilidad de un interbloqueo. Como alternativa, puede evitar el interbloqueo mediante la creación de dos subprocesos y leer la salida de cada secuencia en un subproceso independiente.  
   
    
   
@@ -1214,35 +1192,21 @@ p.WaitForExit();
   
  Sincrónico lee operaciones presentan una dependencia entre el llamador que lee desde el <xref:System.Diagnostics.Process.StandardOutput%2A> secuencia y el elemento secundario procesan la escritura en esa secuencia. Estas dependencias pueden provocar condiciones de interbloqueo. Cuando el llamador lee la secuencia redirigida de un proceso secundario, es dependiente en el elemento secundario. El llamador espera para la operación de lectura hasta que el elemento secundario se escribe en la secuencia o cierra la secuencia. Cuando el proceso secundario escribe suficientes datos para rellenar su secuencia redirigida, es dependiente en el elemento primario. El proceso secundario espera la siguiente operación de escritura hasta que el elemento primario lee la secuencia completa o cierra la secuencia. La condición de interbloqueo se produce cuando el llamador y el proceso secundario esperan entre sí completar una operación, y ninguno puede continuar. Puede evitar los interbloqueos mediante la evaluación de las dependencias entre el llamador y el proceso secundario.  
   
- Por ejemplo, el código de C# siguiente muestra cómo leer una secuencia redirigida y espere a que finalice el proceso secundario.  
-  
-```csharp  
-Process p = new Process();  
-p.StartInfo.UseShellExecute = false;  
-p.StartInfo.RedirectStandardOutput = true;  
-p.StartInfo.FileName = "Write500Lines.exe";  
-p.Start();  
-  
-// To avoid deadlocks, always read the output stream first and then wait.  
-string output = p.StandardOutput.ReadToEnd();  
-p.WaitForExit();  
-```  
-  
- El ejemplo de código, evita una condición de interbloqueo mediante una llamada a `p.StandardOutput.ReadToEnd` antes `p.WaitForExit`. Puede dar lugar a una condición de interbloqueo si el elemento primario procesa llamadas `p.WaitForExit` antes `p.StandardOutput.ReadToEnd` y el proceso secundario escribe texto suficiente para rellenar la secuencia redirigida. El proceso primario esperaría indefinidamente para que el proceso secundario salir. El proceso secundario esperaría indefinidamente para que el elemento primario leer desde el completo <xref:System.Diagnostics.Process.StandardOutput%2A> stream.  
-  
- Hay un problema similar al leer todo el texto de la salida estándar y flujos de error estándar. Por ejemplo, el siguiente código de C# realiza una operación de lectura en ambas secuencias.  
-  
-```csharp  
-// To avoid deadlocks, use asynchronous read operations on at least one of the streams.  
-// Do not perform a synchronous read to the end of both redirected streams.  
-p.BeginOutputReadLine();  
-string error = p.StandardError.ReadToEnd();  
-p.WaitForExit();  
-```  
-  
- El ejemplo de código, evita el interbloqueo mediante la realización asincrónica de las operaciones de lectura en el <xref:System.Diagnostics.Process.StandardOutput%2A> stream. Una condición de interbloqueo se produce si el elemento primario procesa llamadas `p.StandardOutput.ReadToEnd` seguido `p.StandardError.ReadToEnd` y el proceso secundario escribe texto suficiente para rellenar la secuencia de error. El proceso primario podía esperar indefinidamente en el proceso secundario cerrar su <xref:System.Diagnostics.Process.StandardOutput%2A> stream. El proceso secundario esperaría indefinidamente para que el elemento primario leer desde el completo <xref:System.Diagnostics.Process.StandardError%2A> stream.  
-  
- Puede usar operaciones de lectura asincrónica para evitar estas dependencias y la posibilidad de un interbloqueo. Como alternativa, puede evitar el interbloqueo mediante la creación de dos subprocesos y leer la salida de cada secuencia en un subproceso independiente.  
+Los dos últimos ejemplos de esta sección se usa el <xref:System.Diagnostics.Process.Start%2A> método para iniciar un archivo ejecutable denominado *Write500Lines.exe*. El ejemplo siguiente contiene su código fuente.
+
+[!code-csharp[Executable launched by Process.Start](~/samples/snippets/csharp/api/system.diagnostics/process/standardoutput/write500lines.cs)]
+[!code-vb[Executable launched by Process.Start](~/samples/snippets/visualbasic/api/system.diagnostics/process/standardoutput/write500lines.vb)]
+
+El ejemplo siguiente muestra cómo leer una secuencia redirigida y espere a que finalice el proceso secundario. El ejemplo evita una condición de interbloqueo mediante una llamada a `p.StandardOutput.ReadToEnd` antes `p.WaitForExit`. Puede dar lugar a una condición de interbloqueo si el elemento primario procesa llamadas `p.WaitForExit` antes `p.StandardOutput.ReadToEnd` y el proceso secundario escribe texto suficiente para rellenar la secuencia redirigida. El proceso primario esperaría indefinidamente para que el proceso secundario salir. El proceso secundario esperaría indefinidamente para que el elemento primario leer desde el completo <xref:System.Diagnostics.Process.StandardOutput%2A> stream.  
+
+[!code-csharp[Reading synchronously from a redirected output stream](~/samples/snippets/csharp/api/system.diagnostics/process/standardoutput/stdoutput-sync.cs)]  
+[!code-vb[Reading synchronously from a redirected output stream](~/samples/snippets/visualbasic/api/system.diagnostics/process/standardoutput/stdoutput-sync.vb)] 
+
+Hay un problema similar al leer todo el texto de la salida estándar y flujos de error estándar. El ejemplo siguiente realiza una operación de lectura en ambas secuencias. Evita el interbloqueo mediante la realización asincrónica de las operaciones de lectura en el <xref:System.Diagnostics.Process.StandardError%2A> stream. Una condición de interbloqueo se produce si el elemento primario procesa llamadas `p.StandardOutput.ReadToEnd` seguido `p.StandardError.ReadToEnd` y el proceso secundario escribe texto suficiente para rellenar la secuencia de error. El proceso primario podía esperar indefinidamente en el proceso secundario cerrar su <xref:System.Diagnostics.Process.StandardOutput%2A> stream. El proceso secundario esperaría indefinidamente para que el elemento primario leer desde el completo <xref:System.Diagnostics.Process.StandardError%2A> stream.   
+[!code-csharp[Reading from a redirected output and error stream](~/samples/snippets/csharp/api/system.diagnostics/process/standardoutput/stdoutput-async.cs)]  
+[!code-vb[Reading from a redirected output and error stream](~/samples/snippets/visualbasic/api/system.diagnostics/process/standardoutput/stdoutput-async.vb)]    
+
+Puede usar operaciones de lectura asincrónica para evitar estas dependencias y la posibilidad de un interbloqueo. Como alternativa, puede evitar el interbloqueo mediante la creación de dos subprocesos y leer la salida de cada secuencia en un subproceso independiente.  
   
    
   
