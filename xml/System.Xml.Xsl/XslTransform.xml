@@ -1,5 +1,5 @@
 <Type Name="XslTransform" FullName="System.Xml.Xsl.XslTransform">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="4afbddceffc87860ef4d77470b0756b765447efc" /><Meta Name="ms.sourcegitcommit" Value="a3e01ec36374fac54a55add0dcc1e754e394abeb" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="03/30/2019" /><Meta Name="ms.locfileid" Value="58736743" /></Metadata><TypeSignature Language="C#" Value="public sealed class XslTransform" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="56c2b4ff793499c653610da3b24ae254bfe9e9b3" /><Meta Name="ms.sourcegitcommit" Value="3efce15f3841385ee3ba24bd71ff0c0cf9a47815" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="04/03/2019" /><Meta Name="ms.locfileid" Value="58875377" /></Metadata><TypeSignature Language="C#" Value="public sealed class XslTransform" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit XslTransform extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Xml.Xsl.XslTransform" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class XslTransform" />
@@ -85,13 +85,52 @@
   
 -   El `msxsl:script` elemento debe incluir un `implements-prefix` atributo que contiene el prefijo que representa el espacio de nombres asociado al bloque de script. Este espacio de nombres debe estar definido dentro de la hoja de estilos. Una hoja de estilos puede incluir varios bloques de scripts que se agrupan por espacio de nombres. No puede tener bloques de scripts con varios idiomas en el mismo espacio de nombres. Bloques de script pueden llamar a una función definida en otro bloque de script, siempre que los bloques de script residen en el mismo espacio de nombres. El contenido de un bloque de script se analiza según las reglas y la sintaxis del lenguaje de scripting (proporcionado por el `language` atributo). Por ejemplo, si tenía un bloque de script de C#, los comentarios podrían ir precedidos del `//` caracteres. Los comentarios deben ser el contenido XML válido.  
   
- `Note` Se recomienda incluir los bloques de script en una sección CDATA.  
+> [!NOTE]
+> Se recomienda incluir los bloques de script en una sección CDATA.
   
-```  
-<msxsl:script implements-prefix='xy' language='C#'>  
-  <![CDATA[  
-  // Add code here.  
-  ]]]></format>
+ [!INCLUDE [xsltransform-script](~/includes/xsltransform-script.md)] 
+   
+ Las funciones se pueden declarar dentro del elemento `msxsl:script`. La tabla siguiente muestra los espacios de nombres que se admiten de forma predeterminada.  
+  
+|Espacios de nombres admitidos|Descripción|  
+|--------------------------|-----------------|  
+|`System`|Clases del sistema.|  
+|`System.Collection`|Clases de colección|  
+|`System.Text`|Clases de control de texto.|  
+|`System.Xml`|Clases XML básicas|  
+|`System.Xml.Xsl`|Clases XSLT|  
+|`System.Xml.XPath`|Clases XML Path Language (XPath).|  
+  
+ Los argumentos proporcionados y los valores devueltos definidos por las funciones de script deben ser uno de los tipos de World Wide Web Consortium (W3C) que se enumeran a continuación. La tabla siguiente detalla la asignación entre los tipos del W3C, XPath o XSLT y las clases de .NET Framework correspondientes.  
+  
+|Tipo W3C|Clase equivalente de .NET|  
+|--------------|---------------------------|  
+|Cadena (XPath)|`System.String`|  
+|Valor booleano (XPath)|`System.Boolean`|  
+|Número (XPath)|`System.Double`|  
+|Fragmento del árbol de resultados (XSLT)|`System.Xml.XPath.XPathNavigator`|  
+|Conjunto de nodos (XPath)|`System.Xml.XPath.XPathNodeIterator`|  
+  
+ Si la función de script utiliza uno de los siguientes tipos numéricos: Int16, UInt16, Int32, UInt32, Int64, UInt64, Single o Decimal, estos tipos se convierten en Double, que se asigna al número de tipo W3C XPath.  
+  
+ Se produce una excepción cuando se llama a una función que no se puede convertir el resultado de argumento para uno de los tipos necesarios.  
+  
+> [!NOTE]
+>  `msxsl:script` y `msxsl:node-list` son las únicas funciones desde la `urn:schemas-microsoft-com:xslt` espacio de nombres que son compatibles con el <xref:System.Xml.Xsl.XslTransform> clase.  
+  
+ <xref:System.Xml.Xsl.XslTransform> tiene la capacidad de utilizar código de common language runtime (CLR) como mecanismo de extensión. Esto se consigue pasando una instancia de una clase para el <xref:System.Xml.Xsl.XslTransform> clase y llamar a sus métodos públicos desde una hoja de estilos XSLT. Los métodos que se definen con la `params` palabra clave, que permite un número indeterminado de parámetros que se pasan, no funcionan correctamente en este escenario. Consulte [params](~/docs/csharp/language-reference/keywords/params.md) para obtener más detalles.  
+  
+ Para obtener más información, consulte [transformaciones XSLT con la clase XslTransform](~/docs/standard/data/xml/xslt-transformations-with-the-xsltransform-class.md).  
+  
+   
+  
+## Examples  
+ El ejemplo siguiente transforma el documento XML especificado y envía el resultado a la consola.  
+  
+ [!code-csharp[Classic WebData XslTransform Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XslTransform Example/CS/source.cs#1)]
+ [!code-vb[Classic WebData XslTransform Example#1](~/samples/snippets/visualbasic/VS_Snippets_Data/Classic WebData XslTransform Example/VB/source.vb#1)]  
+  
+ ]]></format>
     </remarks>
     <threadsafe><see cref="T:System.Xml.Xsl.XslTransform" /> los objetos son subprocesos solo para las operaciones de transformación. Otras operaciones no se garantiza que sea seguro para subprocesos. Debe asegurarse de que ningún otro método se llama en el objeto durante las operaciones de carga.</threadsafe>
   </Docs>
