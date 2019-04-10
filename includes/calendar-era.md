@@ -1,12 +1,11 @@
 ---
-ms.openlocfilehash: 7337f5e5370e80be58e3578c23bf667f45abb261
-ms.sourcegitcommit: bac13a81377b1c4ebf3990e3287a6f1700f73751
+ms.openlocfilehash: eaebb9dcfdd30ea38ec2a22441e75696d70baa5b
+ms.sourcegitcommit: 6089a30c0522e6f43256523e82e94b2ccedfb55b
 ms.translationtype: HT
 ms.contentlocale: es-ES
-ms.lasthandoff: 03/19/2019
-ms.locfileid: "57940883"
+ms.lasthandoff: 04/04/2019
+ms.locfileid: "59013955"
 ---
 
 > [!IMPORTANT]
->  El día 1 de mayo de 2019 empieza una nueva era para <xref:System.Globalization.JapaneseCalendar> y <xref:System.Globalization.JapaneseLunisolarCalendar>. Este cambio afecta a todas las aplicaciones que usan estos calendarios. Para obtener más información y determinar si sus aplicaciones están entre las afectadas, consulte [Handling a new era in the Japanese calendar in .NET](https://devblogs.microsoft.com/dotnet/handling-a-new-era-in-the-japanese-calendar-in-net/) (Gestión de una nueva era del calendario japonés en .NET). Para obtener más información sobre cómo probar aplicaciones en sistemas Windows para garantizar que estén preparadas para el cambio de era, consulte [Prepare your application for the Japanese era change](/windows/uwp/design/globalizing/japanese-era-change) (Preparación de la aplicación para el cambio de era japonesa).
-
+>  Las eras en los calendarios japoneses se basan en el reino del emperador y, por tanto, se espera que cambien. Por ejemplo, el 1 de mayo de 2019 marcaba el comienzo de la era Reiwa en <xref:System.Globalization.JapaneseCalendar> y <xref:System.Globalization.JapaneseLunisolarCalendar>. Este cambio de era afecta a todas las aplicaciones que usan estos calendarios. Para obtener más información y determinar si sus aplicaciones están entre las afectadas, consulte [Handling a new era in the Japanese calendar in .NET](https://devblogs.microsoft.com/dotnet/handling-a-new-era-in-the-japanese-calendar-in-net/) (Gestión de una nueva era del calendario japonés en .NET). Para obtener más información sobre cómo probar aplicaciones en sistemas Windows para garantizar que estén preparadas para el cambio de era, consulte [Prepare your application for the Japanese era change](/windows/uwp/design/globalizing/japanese-era-change) (Preparación de la aplicación para el cambio de era japonesa). Consulte [Trabajar con eras](~/docs/standard/datetime/working-with-calendars.md#working-with-eras) para ver las características de .NET que admiten calendarios con varias eras y procedimientos recomendados al trabajar con calendarios que admiten varias eras.
