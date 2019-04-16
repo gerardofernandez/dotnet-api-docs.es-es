@@ -1,5 +1,5 @@
 <Type Name="ActiveDirectoryMembershipProvider" FullName="System.Web.Security.ActiveDirectoryMembershipProvider">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="1f60548ba9299c7b80ea0d1ddc04b388ba3347c2" /><Meta Name="ms.sourcegitcommit" Value="c5fd6b431a16f0412349201a0e93a9eacddf4b35" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="12/14/2018" /><Meta Name="ms.locfileid" Value="53395837" /></Metadata><TypeSignature Language="C#" Value="public class ActiveDirectoryMembershipProvider : System.Web.Security.MembershipProvider" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="ef60c94ed5cad241679e6411511e05473b61b9f0" /><Meta Name="ms.sourcegitcommit" Value="3efce15f3841385ee3ba24bd71ff0c0cf9a47815" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="04/03/2019" /><Meta Name="ms.locfileid" Value="58875325" /></Metadata><TypeSignature Language="C#" Value="public class ActiveDirectoryMembershipProvider : System.Web.Security.MembershipProvider" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ActiveDirectoryMembershipProvider extends System.Web.Security.MembershipProvider" />
   <TypeSignature Language="DocId" Value="T:System.Web.Security.ActiveDirectoryMembershipProvider" />
   <TypeSignature Language="VB.NET" Value="Public Class ActiveDirectoryMembershipProvider&#xA;Inherits MembershipProvider" />
@@ -51,7 +51,7 @@
 |<xref:System.Web.Security.ActiveDirectoryMembershipUser.ProviderUserKey%2A>|securityIdentifier|No|  
 |<xref:System.Web.Security.MembershipUser.UserName%2A>|userPrincipalName|Sí, pero debe ser userPrincipalName o sAMAccountName|  
 |<xref:System.Web.Security.ActiveDirectoryMembershipUser.Comment%2A>|comentario|No|  
-|<xref:System.Web.Security.MembershipUser.CreationDate%2A>|fecha de creación|No|  
+|<xref:System.Web.Security.MembershipUser.CreationDate%2A>|whenCreated|No|  
 |<xref:System.Web.Security.ActiveDirectoryMembershipUser.Email%2A>|correo|Sí, pero debe ser un atributo de un solo valor de tipo Unicode String.|  
 |<xref:System.Web.Security.ActiveDirectoryMembershipUser.LastActivityDate%2A>|N/D|No se admite por <xref:System.Web.Security.ActiveDirectoryMembershipProvider>.|  
 |<xref:System.Web.Security.ActiveDirectoryMembershipUser.LastLoginDate%2A>|N/D|No se admite por <xref:System.Web.Security.ActiveDirectoryMembershipProvider>.|  
@@ -78,14 +78,14 @@
   
  En la tabla siguiente se muestra el efecto de la `connectionProtection` atributo cuando se conecta a un Active Directory.  
   
-|Valor de `connectionProtection`|Efecto|  
+|`connectionProtection` establecer|Efecto|  
 |------------------------------------|------------|  
 |<xref:System.Web.Security.ActiveDirectoryConnectionProtection.None>|La <xref:System.Web.Security.ActiveDirectoryMembershipProvider> clase conectará con un Active Directory, con estas restricciones.<br /><br /> -Cualquier método que establece una contraseña se producirá un error. Active Directory requiere una conexión segura al cambiar las contraseñas.<br />-Se debe establecer explícitamente el `connectionUsername` y `connectionPassword` atributos utilizando el [elemento add aplicado a providers para membership (ASP.NET Settings Schema)](https://msdn.microsoft.com/library/8423ec7f-a06d-4606-977e-a46400b2fc18) en el archivo de configuración de aplicación; en caso contrario, el <xref:System.Web.Security.ActiveDirectoryMembershipProvider> instancia producirá una <xref:System.Configuration.Provider.ProviderException> excepción.|  
 |`Secure`|La <xref:System.Web.Security.ActiveDirectoryMembershipProvider> clase intentará conectarse a Active Directory mediante SSL. Si se produce un error de SSL, se realizará un segundo intento para conectarse a Active Directory mediante el inicio de sesión y sello. Si fallan los intentos de ambos, el <xref:System.Web.Security.ActiveDirectoryMembershipProvider> instancia producirá una <xref:System.Configuration.Provider.ProviderException> excepción.<br /><br /> Se admiten las credenciales del proceso y credenciales explícitas.|  
   
  En la tabla siguiente se muestra el efecto de la `connectionProtection` atributo cuando se conecta a un servidor ADAM.  
   
-|Valor de `connectionProtection`|Efecto|  
+|`connectionProtection` establecer|Efecto|  
 |------------------------------------|------------|  
 |<xref:System.Web.Security.ActiveDirectoryConnectionProtection.None>|La <xref:System.Web.Security.ActiveDirectoryMembershipProvider> clase se conectará a un servidor ADAM, con esta restricción.<br /><br /> -Cualquier método que establece las contraseñas se producirá un error a menos que configure explícitamente el servidor de ADAM para permitir que las contraseñas se envían y se puede cambiar a través de una conexión no segura.<br /><br /> Se admiten las credenciales del proceso y credenciales explícitas.|  
 |`Secure`|La <xref:System.Web.Security.ActiveDirectoryMembershipProvider> clase intentará conectarse al servidor de ADAM mediante SSL. Si no se puede establecer una conexión, el <xref:System.Web.Security.ActiveDirectoryMembershipProvider> instancia producirá una <xref:System.Configuration.Provider.ProviderException> excepción.<br /><br /> Se admiten las credenciales del proceso y credenciales explícitas.|  
@@ -181,7 +181,7 @@
  ]]></format>
     </remarks>
     <related type="Article" href="https://msdn.microsoft.com/library/79184d17-f4c7-4c9f-a073-cec4f5543980(v=vs.100)">Introducción a la pertenencia a ASP.NET</related>
-    <related type="ExternalDocumentation" href="https://go.microsoft.com/fwlink/?linkid=149233">Procedimiento Usar la pertenencia a ASP.NET 2.0</related>
+    <related type="ExternalDocumentation" href="https://go.microsoft.com/fwlink/?linkid=149233">Filtrar Usar la pertenencia a ASP.NET 2.0</related>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -266,10 +266,10 @@
       </Parameters>
       <Docs>
         <param name="username">Nombre del usuario cuya contraseña se va a actualizar.</param>
-        <param name="oldPassword">Contraseña actual para el usuario especificado.</param>
-        <param name="newPassword">Contraseña nueva para el usuario especificado.</param>
+        <param name="oldPassword">Contraseña actual del usuario especificado.</param>
+        <param name="newPassword">Nueva contraseña del usuario especificado.</param>
         <summary>Cambia la contraseña del usuario especificado.</summary>
-        <returns><see langword="true" /> si la contraseña se ha actualizado correctamente; de lo contrario, <see langword="false" />.</returns>
+        <returns><see langword="true" /> si la contraseña se ha actualizado correctamente; de lo contrario, es <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -305,18 +305,18 @@ O bien
 O bien 
  <paramref name="newPassword" /> es menor que el tamaño mínimo de contraseña especificado en la propiedad <see cref="P:System.Web.Security.ActiveDirectoryMembershipProvider.MinRequiredPasswordLength" /> 
 O bien 
- <paramref name="newPassword" /> contiene menos caracteres no alfabéticos que el número especificado en la propiedad <see cref="P:System.Web.Security.ActiveDirectoryMembershipProvider.MinRequiredNonAlphanumericCharacters" />.  
+ <paramref name="newPassword" /> contiene menos caracteres no alfabéticos que los especificados en la propiedad <see cref="P:System.Web.Security.ActiveDirectoryMembershipProvider.MinRequiredNonAlphanumericCharacters" />.  
   
 O bien 
  <paramref name="newPassword" /> no pasa la validación de la expresión regular definida en la propiedad <see cref="P:System.Web.Security.ActiveDirectoryMembershipProvider.PasswordStrengthRegularExpression" />.</exception>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="username" /> es <see langword="null" />.  
+        <exception cref="T:System.ArgumentNullException"><paramref name="username" /> es <see langword="null" />.  
   
 O bien 
- El valor de <paramref name="oldPassword" /> es <see langword="null" />.  
+ <paramref name="oldPassword" /> es <see langword="null" />.  
   
 O bien 
- El valor de <paramref name="newPassword" /> es <see langword="null" />.</exception>
-        <exception cref="T:System.Web.Security.MembershipPasswordException"><paramref name="newPassword" /> no cumple los requisitos de complejidad definidos por el servidor Active Directory.</exception>
+ <paramref name="newPassword" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.Web.Security.MembershipPasswordException"><paramref name="newPassword" /> no cumple los requisitos de complejidad definidos por el servidor de Active Directory.</exception>
         <exception cref="T:System.Configuration.Provider.ProviderException">No se ha podido realizar una conexión segura con un servidor Active Directory Application Mode.</exception>
         <exception cref="T:System.InvalidOperationException">Se llama al método <see cref="M:System.Web.Security.ActiveDirectoryMembershipProvider.ChangePassword(System.String,System.String,System.String)" /> antes de que se inicializa la instancia de <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" />. </exception>
         <exception cref="T:System.Exception">Se produjo una excepción no controlada.</exception>
@@ -347,11 +347,11 @@ O bien
       </Parameters>
       <Docs>
         <param name="username">Usuario para el que se va a cambiar la pregunta y respuesta de la contraseña.</param>
-        <param name="password">Contraseña para el usuario especificado.</param>
+        <param name="password">Contraseña del usuario especificado.</param>
         <param name="newPasswordQuestion">Nueva pregunta de contraseña para el usuario especificado.</param>
-        <param name="newPasswordAnswer">Nueva respuesta de contraseña para el usuario especificado.</param>
+        <param name="newPasswordAnswer">Nueva respuesta a la contraseña para el usuario especificado.</param>
         <summary>Actualiza la pregunta y respuesta de contraseña de un usuario del almacén de Active Directory.</summary>
-        <returns>Es <see langword="true" /> si la actualización se realizó correctamente; en caso contrario, es <see langword="false" />. También se devuelve un valor de <see langword="false" /> si la contraseña es incorrecta, si el usuario queda bloqueado o si el usuario no existe en el almacén de datos de Active Directory.</returns>
+        <returns><see langword="true" /> si la actualización se ha realizado correctamente; de lo contrario, es <see langword="false" />. También se devuelve un valor de <see langword="false" /> si la contraseña es incorrecta, si el usuario queda bloqueado o si el usuario no existe en el almacén de datos de Active Directory.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -407,17 +407,17 @@ O bien
   
 O bien 
  <paramref name="newPasswordAnswer" /> supera los 128 caracteres después de que se cifra la respuesta.</exception>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="username" /> es <see langword="null" />.  
+        <exception cref="T:System.ArgumentNullException"><paramref name="username" /> es <see langword="null" />.  
   
 O bien 
- El valor de <paramref name="password" /> es <see langword="null" />.  
+ <paramref name="password" /> es <see langword="null" />.  
   
 O bien 
  <paramref name="newPasswordQuestion" /> es <see langword="null" /> y la propiedad <see cref="P:System.Web.Security.ActiveDirectoryMembershipProvider.RequiresQuestionAndAnswer" /> es <see langword="true" />.  
   
 O bien 
  <paramref name="newPasswordAnswer" /> es <see langword="null" /> y la propiedad <see cref="P:System.Web.Security.ActiveDirectoryMembershipProvider.RequiresQuestionAndAnswer" /> es <see langword="true" />.</exception>
-        <exception cref="T:System.Configuration.Provider.ProviderException">El elemento de configuración [machineKey (Esquema de configuración de ASP.NET)](https://msdn.microsoft.com/library/4b5699a9-bc21-4c4a-85f1-8b3b8ebd2d46) indica una clave de cifrado de equipo generada automáticamente. Debe establecer explícitamente el atributo <see langword="decriptionKey" /> del elemento de configuración [machineKey (Esquema de configuración de ASP.NET)](https://msdn.microsoft.com/library/4b5699a9-bc21-4c4a-85f1-8b3b8ebd2d46) para almacenar las respuestas de contraseña con <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" />.</exception>
+        <exception cref="T:System.Configuration.Provider.ProviderException">El elemento de configuración [machineKey (Esquema de configuración de ASP.NET)](https://msdn.microsoft.com/library/4b5699a9-bc21-4c4a-85f1-8b3b8ebd2d46) indica una clave de cifrado de equipo generada automáticamente. Debe establecer explícitamente el atributo <see langword="decryptionKey" /> del elemento de configuración [machineKey (Esquema de configuración de ASP.NET)](https://msdn.microsoft.com/library/4b5699a9-bc21-4c4a-85f1-8b3b8ebd2d46) para almacenar las respuestas de contraseña con <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" />.</exception>
         <exception cref="T:System.InvalidOperationException">Se llama al método <see cref="M:System.Web.Security.ActiveDirectoryMembershipProvider.ChangePasswordQuestionAndAnswer(System.String,System.String,System.String,System.String)" /> antes de que se inicializa la instancia de <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" />. </exception>
         <related type="Article" href="https://msdn.microsoft.com/library/79184d17-f4c7-4c9f-a073-cec4f5543980(v=vs.100)">Introducción a la pertenencia a ASP.NET</related>
       </Docs>
@@ -450,12 +450,12 @@ O bien
       </Parameters>
       <Docs>
         <param name="username">Nombre de usuario del nuevo usuario.</param>
-        <param name="password">Contraseña del nuevo usuario.</param>
+        <param name="password">La contraseña para el nuevo usuario.</param>
         <param name="email">Dirección de correo electrónico del nuevo usuario.</param>
         <param name="passwordQuestion">Pregunta de contraseña del nuevo usuario.</param>
         <param name="passwordAnswer">Respuesta de contraseña del nuevo usuario.</param>
-        <param name="isApproved">Si el nuevo usuario está aprobado para su validación.</param>
-        <param name="providerUserKey">Identificador único el origen de datos de pertenencia para el usuario. Este parámetro debe ser <see langword="null" /> cuando se utiliza la clase <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" />.</param>
+        <param name="isApproved">Si se aprueba o no la validación del nuevo usuario.</param>
+        <param name="providerUserKey">Identificador único del origen de datos de la pertenencia para el usuario. Este parámetro debe ser <see langword="null" /> cuando se utiliza la clase <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" />.</param>
         <param name="status">El resultado que devuelva este método contendrá uno de los valores de la enumeración <see cref="T:System.Web.Security.MembershipCreateStatus" /> que indica si se ha creado correctamente el usuario.</param>
         <summary>Agrega un nuevo usuario al almacén de datos de Active Directory.</summary>
         <returns>Instancia de <see cref="T:System.Web.Security.ActiveDirectoryMembershipUser" /> que contiene la información del usuario que se acaba de crear o <see langword="null" /> si el usuario no se ha creado correctamente.</returns>
@@ -504,9 +504,9 @@ O bien
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentException">El parámetro <paramref name="providerUserKey" /> no es un objeto <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentException">El parámetro <paramref name="providerUserKey" /> no es <see langword="null" />.</exception>
         <exception cref="T:System.NotSupportedException">El administrador no ha asignado los campos de pregunta y respuesta de contraseña a los atributos del esquema de Active Directory y uno de los parámetros <paramref name="passwordQuestion" /> o <paramref name="passwordAnswer" /> es <see langword="null" />.</exception>
-        <exception cref="T:System.Configuration.Provider.ProviderException">El elemento de configuración [machineKey (Esquema de configuración de ASP.NET)](https://msdn.microsoft.com/library/4b5699a9-bc21-4c4a-85f1-8b3b8ebd2d46) indica una clave de cifrado de equipo generada automáticamente. Debe establecer explícitamente el atributo <see langword="decriptionKey" /> del elemento de configuración [machineKey (Esquema de configuración de ASP.NET)](https://msdn.microsoft.com/library/4b5699a9-bc21-4c4a-85f1-8b3b8ebd2d46) para almacenar las respuestas de contraseña con <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" />.  
+        <exception cref="T:System.Configuration.Provider.ProviderException">El elemento de configuración [machineKey (Esquema de configuración de ASP.NET)](https://msdn.microsoft.com/library/4b5699a9-bc21-4c4a-85f1-8b3b8ebd2d46) indica una clave de cifrado de equipo generada automáticamente. Debe establecer explícitamente el atributo <see langword="decryptionKey" /> del elemento de configuración [machineKey (Esquema de configuración de ASP.NET)](https://msdn.microsoft.com/library/4b5699a9-bc21-4c4a-85f1-8b3b8ebd2d46) para almacenar las respuestas de contraseña con <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" />.  
   
 O bien 
 <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" /> no ha podido establecer una conexión segura con el directorio al intentar establecer la contraseña para el nuevo usuario.</exception>
@@ -595,10 +595,10 @@ O bien
         <Parameter Name="deleteAllRelatedData" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="username">Nombre del usuario que se eliminará.</param>
+        <param name="username">Nombre del usuario que se va a eliminar.</param>
         <param name="deleteAllRelatedData">El método <see cref="M:System.Web.Security.ActiveDirectoryMembershipProvider.DeleteUser(System.String,System.Boolean)" /> omite este parámetro.</param>
         <summary>Elimina información de pertenencia de usuario del almacén de datos de Active Directory.</summary>
-        <returns><see langword="true" /> si ha eliminado el usuario; de lo contrario, <see langword="false" /> si no se ha encontrado el usuario en el almacén de datos.</returns>
+        <returns><see langword="true" /> si se ha eliminado el usuario; de lo contrario, es <see langword="false" /> si no se ha encontrado el usuario en el almacén de datos.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -621,7 +621,7 @@ O bien
   
 O bien 
 El nombre de usuario está asignado al atributo <see langword="userPrincipalName" /> y el parámetro <paramref name="userName" /> contiene barras diagonales inversas.</exception>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="username" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="username" /> es <see langword="null" />.</exception>
         <exception cref="T:System.Runtime.InteropServices.COMException">Se ha producido un error al intentar eliminar el usuario.</exception>
         <exception cref="T:System.InvalidOperationException">Se llama al método <see cref="M:System.Web.Security.ActiveDirectoryMembershipProvider.DeleteUser(System.String,System.Boolean)" /> antes de que se inicializa la instancia de <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" />. </exception>
         <related type="Article" href="https://msdn.microsoft.com/library/79184d17-f4c7-4c9f-a073-cec4f5543980(v=vs.100)">Introducción a la pertenencia a ASP.NET</related>
@@ -645,7 +645,7 @@ El nombre de usuario está asignado al atributo <see langword="userPrincipalName
       </ReturnValue>
       <Docs>
         <summary>Obtiene un valor que indica si la instancia de <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" /> está configurada para permitir que los usuarios restablezcan sus contraseñas.</summary>
-        <value>Es <see langword="true" /> si se permite el restablecimiento de contraseña; de lo contrario, es <see langword="false" />. De manera predeterminada, es <see langword="false" />.</value>
+        <value><see langword="true" /> Si se permite el restablecimiento de contraseña; en caso contrario, <see langword="false" />. De manera predeterminada, es <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -654,7 +654,7 @@ El nombre de usuario está asignado al atributo <see langword="userPrincipalName
   
  Solo se puede establecer el <xref:System.Web.Security.ActiveDirectoryMembershipProvider.EnablePasswordReset%2A> propiedad `true` cuando lo siguiente [pertenencia Element (ASP.NET Settings Schema)](https://msdn.microsoft.com/library/b9c1ee8f-33ca-4361-8666-b42a0fe86049) se han realizado la configuración del elemento.  
   
--   `requiresQuestionAndAnswer` debe ser `true`.  
+-   `requiresQuestionAndAnswer` Debe ser `true`.  
   
 -   El esquema de Active Directory debe modificarse para que contenga atributos para almacenar la pregunta de contraseña y respuesta, así como los tres campos de seguimiento de intentos de respuesta de contraseña a cambio.  
   
@@ -726,7 +726,7 @@ El nombre de usuario está asignado al atributo <see langword="userPrincipalName
       </ReturnValue>
       <Docs>
         <summary>Obtiene un valor que indica si se puede recuperar la contraseña de usuario del almacén de datos de Active Directory. Esta propiedad devuelve siempre <see langword="false" />.</summary>
-        <value><see langword="false" /> para indicar que la clase <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" /> no admite la recuperación de la contraseña.</value>
+        <value><see langword="false" /> para indicar que la recuperación de contraseñas no es compatible con la <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" /> clase.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -756,7 +756,7 @@ El nombre de usuario está asignado al atributo <see langword="userPrincipalName
       </ReturnValue>
       <Docs>
         <summary>Obtiene un valor que indica si están disponibles los métodos <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" /> orientados a búsqueda.</summary>
-        <value><see langword="true" /> si están disponibles los métodos de búsqueda; de lo contrario, <see langword="false" />. De manera predeterminada, es <see langword="false" />.</value>
+        <value><see langword="true" /> Si los métodos de búsqueda están disponibles; en caso contrario, <see langword="false" />. De manera predeterminada, es <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -829,11 +829,11 @@ El nombre de usuario está asignado al atributo <see langword="userPrincipalName
       </Parameters>
       <Docs>
         <param name="emailToMatch">Dirección de correo electrónico (o una parte de esta) que se buscará.</param>
-        <param name="pageIndex">Índice de la página de resultados que se va a devolver. <paramref name="pageIndex" /> es de base cero.</param>
+        <param name="pageIndex">El índice de la página de resultados que se va a devolver. <paramref name="pageIndex" /> es de base cero.</param>
         <param name="pageSize">Tamaño de la página de resultados que se va a devolver.</param>
         <param name="totalRecords">El resultado que devuelva este método contendrá el número total de usuarios devueltos de la colección. Este parámetro se pasa sin inicializar.</param>
         <summary>Devuelve una colección de usuarios de pertenencia del almacén de datos de Active Directory basándose en la dirección de correo electrónico del usuario.</summary>
-        <returns><see cref="T:System.Web.Security.MembershipUserCollection" /> que contiene instancias de <paramref name="pageSize" /><see cref="T:System.Web.Security.MembershipUser" /> a partir de la página especificada por <paramref name="pageIndex" />.</returns>
+        <returns>Objeto <see cref="T:System.Web.Security.MembershipUserCollection" /> que contiene instancias de <paramref name="pageSize" /><see cref="T:System.Web.Security.MembershipUser" /> a partir de la página especificada por <paramref name="pageIndex" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -857,7 +857,7 @@ El nombre de usuario está asignado al atributo <see langword="userPrincipalName
  ]]></format>
         </remarks>
         <exception cref="T:System.InvalidOperationException">Se llama al método <see cref="M:System.Web.Security.ActiveDirectoryMembershipProvider.FindUsersByEmail(System.String,System.Int32,System.Int32,System.Int32@)" /> antes de que se inicializa la instancia de <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" />. </exception>
-        <exception cref="T:System.ArgumentException"><paramref name="emailToMatch" /> está vacía.  
+        <exception cref="T:System.ArgumentException"><paramref name="emailToMatch" /> está vacío.  
   
 O bien 
  <paramref name="emailToMatch" /> tiene más de 256 caracteres.  
@@ -898,11 +898,11 @@ O bien
       </Parameters>
       <Docs>
         <param name="usernameToMatch">Nombre de usuario o parte del nombre de usuario que se va a buscar.</param>
-        <param name="pageIndex">Índice de la página de resultados que se va a devolver. <paramref name="pageIndex" /> es de base cero.</param>
+        <param name="pageIndex">El índice de la página de resultados que se va a devolver. <paramref name="pageIndex" /> es de base cero.</param>
         <param name="pageSize">Tamaño de la página de resultados que se va a devolver.</param>
         <param name="totalRecords">El resultado que devuelva este método contendrá el número total de registros devueltos de la colección. Este parámetro se pasa sin inicializar.</param>
         <summary>Devuelve una colección de usuarios del almacén de datos de Active Directory basándose en el nombre de usuario.</summary>
-        <returns><see cref="T:System.Web.Security.MembershipUserCollection" /> que contiene instancias de <paramref name="pageSize" /><see cref="T:System.Web.Security.MembershipUser" /> a partir de la página especificada por <paramref name="pageIndex" />.</returns>
+        <returns>Objeto <see cref="T:System.Web.Security.MembershipUserCollection" /> que contiene instancias de <paramref name="pageSize" /><see cref="T:System.Web.Security.MembershipUser" /> a partir de la página especificada por <paramref name="pageIndex" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -930,12 +930,12 @@ O bien
 O bien 
  <paramref name="pageIndex" /> es menor que 0.  
   
-, o 
+O bien 
  <paramref name="pageSize" /> es menor que 1.  
   
 O bien 
  <paramref name="pageSize" /> multiplicado por <paramref name="pageIndex" />, más <paramref name="pageSize" />, menos 1 es mayor que <see cref="F:System.Int32.MaxValue" />.</exception>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="usernameToMatch" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="usernameToMatch" /> es <see langword="null" />.</exception>
         <exception cref="T:System.NotSupportedException">La propiedad <see cref="P:System.Web.Security.ActiveDirectoryMembershipProvider.EnableSearchMethods" /> es <see langword="false" />.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/79184d17-f4c7-4c9f-a073-cec4f5543980(v=vs.100)">Introducción a la pertenencia a ASP.NET</related>
       </Docs>
@@ -1002,11 +1002,11 @@ O bien
         <Parameter Name="totalRecords" Type="System.Int32" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="pageIndex">Índice de la página de resultados que se va a devolver. <paramref name="pageIndex" /> es de base cero.</param>
+        <param name="pageIndex">El índice de la página de resultados que se va a devolver. <paramref name="pageIndex" /> es de base cero.</param>
         <param name="pageSize">Tamaño de la página de resultados que se va a devolver.</param>
         <param name="totalRecords">El resultado que devuelva este método contendrá el número total de registros devueltos de la colección. Este parámetro se pasa sin inicializar.</param>
         <summary>Obtiene una colección de todos los usuarios almacenados en un origen de datos de Active Directory.</summary>
-        <returns><see cref="T:System.Web.Security.MembershipUserCollection" /> que contiene instancias de <paramref name="pageSize" /><see cref="T:System.Web.Security.MembershipUser" /> a partir de la página especificada por <paramref name="pageIndex" />.</returns>
+        <returns>Objeto <see cref="T:System.Web.Security.MembershipUserCollection" /> que contiene instancias de <paramref name="pageSize" /><see cref="T:System.Web.Security.MembershipUser" /> a partir de la página especificada por <paramref name="pageIndex" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1028,7 +1028,7 @@ O bien
         <exception cref="T:System.InvalidOperationException">Se llama al método <see cref="M:System.Web.Security.ActiveDirectoryMembershipProvider.GetAllUsers(System.Int32,System.Int32,System.Int32@)" /> antes de que se inicializa la instancia de <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" />. </exception>
         <exception cref="T:System.ArgumentException"><paramref name="pageIndex" /> es menor que 0.  
   
-, o 
+O bien 
  <paramref name="pageSize" /> es menor que 1.  
   
 O bien 
@@ -1055,7 +1055,7 @@ O bien
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Se produce una excepción <see cref="T:System.NotSupportedException" /> en todos los casos.</summary>
+        <summary>Produce una excepción <see cref="T:System.NotSupportedException" /> en todos los casos.</summary>
         <returns><see cref="T:System.NotSupportedException" /> en todos los casos.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1090,7 +1090,7 @@ O bien
         <Parameter Name="passwordAnswer" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="username">Usuario del que se recuperará la contraseña.</param>
+        <param name="username">Usuario cuya contraseña se va a recuperar.</param>
         <param name="passwordAnswer">Respuesta de contraseña del usuario.</param>
         <summary>Devuelve la contraseña del usuario especificado de la base de datos. La clase <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" /> no admite este método.</summary>
         <returns>Siempre produce una excepción <see cref="T:System.NotSupportedException" />.</returns>
@@ -1154,7 +1154,7 @@ O bien
         </remarks>
         <exception cref="T:System.InvalidOperationException">Se llama al método <see cref="M:System.Web.Security.ActiveDirectoryMembershipProvider.GetUser(System.Object,System.Boolean)" /> antes de que se inicializa la instancia de <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" />. </exception>
         <exception cref="T:System.ArgumentException"><paramref name="providerUserKey" /> no es del tipo <see cref="T:System.Security.Principal.SecurityIdentifier" />.</exception>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="providerUserKey" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="providerUserKey" /> es <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="GetUser">
@@ -1178,7 +1178,7 @@ O bien
         <Parameter Name="userIsOnline" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="username">Nombre del usuario para el que se obtendrá información.</param>
+        <param name="username">Nombre del usuario cuya información se va a obtener.</param>
         <param name="userIsOnline">El método <see cref="M:System.Web.Security.ActiveDirectoryMembershipProvider.GetUser(System.String,System.Boolean)" /> omite este parámetro.</param>
         <summary>Obtiene la información del usuario de pertenencia asociada al nombre de usuario especificado.</summary>
         <returns>Instancia de <see cref="T:System.Web.Security.MembershipUser" /> que representa el usuario especificado. Si no se encuentra ningún usuario en el almacén de datos de Active Directory para el valor de <paramref name="username" /> especificado, se devuelve <see langword="null" />.</returns>
@@ -1201,7 +1201,7 @@ O bien
   
 O bien 
 El nombre de usuario está asignado al atributo <see langword="userPrincipalName" /> y el parámetro <paramref name="username" /> contiene barras diagonales inversas.</exception>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="username" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="username" /> es <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">Se llama al método <see cref="M:System.Web.Security.ActiveDirectoryMembershipProvider.GetUser(System.String,System.Boolean)" /> antes de que se inicializa la instancia de <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" />. </exception>
         <related type="Article" href="https://msdn.microsoft.com/library/79184d17-f4c7-4c9f-a073-cec4f5543980(v=vs.100)">Introducción a la pertenencia a ASP.NET</related>
       </Docs>
@@ -1250,7 +1250,7 @@ El nombre de usuario está asignado al atributo <see langword="userPrincipalName
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentException"><paramref name="email" /> tiene más de 256 caracteres. 
+        <exception cref="T:System.ArgumentException"><paramref name="email" /> tiene más de 256 caracteres 
 O bien 
 Después de recortar, <paramref name="email" /> está vacío.</exception>
         <exception cref="T:System.Configuration.Provider.ProviderException">Existe más de un usuario en el almacén de datos con la misma dirección de correo electrónico, y el valor de la propiedad <see cref="P:System.Web.Security.ActiveDirectoryMembershipProvider.RequiresUniqueEmail" /> es <see langword="true" />.</exception>
@@ -1290,7 +1290,7 @@ Después de recortar, <paramref name="email" /> está vacío.</exception>
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="config" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="config" /> es <see langword="null" />.</exception>
         <exception cref="T:System.Configuration.Provider.ProviderException">El atributo <see langword="applicationName" /> especificado en la configuración de la aplicación supera los 256 caracteres.  
   
 O bien 
@@ -1503,8 +1503,8 @@ Un atributo especificado en el archivo de configuración de la aplicación no es
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtiene el número mínimo de caracteres especiales que debe contener una contraseña válida.</summary>
-        <value>Número mínimo de caracteres especiales que debe contener una contraseña válida.</value>
+        <summary>Obtiene el número mínimo de caracteres especiales que deben estar presentes en una contraseña válida.</summary>
+        <value>Número mínimo de caracteres especiales que deben estar presentes en una contraseña válida.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1842,7 +1842,7 @@ Un atributo especificado en el archivo de configuración de la aplicación no es
       </ReturnValue>
       <Docs>
         <summary>Obtiene un valor que indica si el proveedor de pertenencia está configurado para solicitar una pregunta y respuesta de contraseña al crear usuarios.</summary>
-        <value><see langword="true" /> si el objeto <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" /> se configura para solicitar una pregunta y respuesta de contraseña a un usuario; de lo contrario, <see langword="false" />. El valor predeterminado es <see langword="false" />.</value>
+        <value><see langword="true" /> Si el <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" /> objeto está configurado para requerir una pregunta de contraseña y la respuesta de un usuario; en caso contrario, <see langword="false" />. De manera predeterminada, es <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1977,10 +1977,10 @@ Un atributo especificado en el archivo de configuración de la aplicación no es
         <Parameter Name="passwordAnswer" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="username">Usuario para el que se va a restablecer la contraseña.</param>
-        <param name="passwordAnswer">Respuesta de la contraseña para el usuario especificado.</param>
-        <summary>Restablece la contraseña de un usuario a una nueva contraseña generada automáticamente.</summary>
-        <returns>Contraseña nueva para el usuario especificado.</returns>
+        <param name="username">Usuario cuya contraseña se va a restablecer.</param>
+        <param name="passwordAnswer">Respuesta de contraseña del usuario especificado.</param>
+        <summary>Restablece la contraseña de un usuario a una nueva generada automáticamente.</summary>
+        <returns>Nueva contraseña del usuario especificado.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2011,7 +2011,7 @@ Un atributo especificado en el archivo de configuración de la aplicación no es
   
 -   Se debe modificar el esquema de Active Directory para que contenga atributos para almacenar la pregunta de contraseña y respuesta, y cambios de la respuesta de los tres campos de seguimiento de la contraseña.  
   
--   El `attributeMapPasswordQuestion`, `attributeMapPasswordAnswer`, `attributMapFailedPasswordAnswerCount`, `attributeMapFailedPasswordAnswerTime`, y `attributeMapFailedPasswordAnswerLockedTime` atributos deben establecerse en el archivo de configuración de la aplicación.  
+-   El `attributeMapPasswordQuestion`, `attributeMapPasswordAnswer`, `attributeMapFailedPasswordAnswerCount`, `attributeMapFailedPasswordAnswerTime`, y `attributeMapFailedPasswordAnswerLockedTime` atributos deben establecerse en el archivo de configuración de la aplicación.  
   
 -   El <xref:System.Web.Security.ActiveDirectoryMembershipProvider.RequiresQuestionAndAnswer%2A> propiedad debe establecerse en `true`.  
   
@@ -2024,16 +2024,16 @@ Un atributo especificado en el archivo de configuración de la aplicación no es
         </remarks>
         <exception cref="T:System.InvalidOperationException">Se llama al método <see cref="M:System.Web.Security.ActiveDirectoryMembershipProvider.ResetPassword(System.String,System.String)" /> antes de que se inicializa la instancia de <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" />. </exception>
         <exception cref="T:System.NotSupportedException">El valor de la propiedad <see cref="P:System.Web.Security.ActiveDirectoryMembershipProvider.EnablePasswordReset" /> es <see langword="false" />.</exception>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="passwordAnswer" /> es <see langword="null" />.  
+        <exception cref="T:System.ArgumentNullException"><paramref name="passwordAnswer" /> es <see langword="null" />.  
   
 O bien 
- El valor de <paramref name="username" /> es <see langword="null" />.</exception>
+ <paramref name="username" /> es <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException"><paramref name="passwordAnswer" /> está vacío después de recortar 
 O bien 
  <paramref name="passwordAnswer" /> tiene más de 128 caracteres.  
   
 O bien 
- <paramref name="username" /> está vacío o supera la longitud máxima permitida para nombres de usuario (normalmente 256 caracteres).  
+ <paramref name="username" /> está vacío o supera la longitud máxima permitida para nombres de usuario (normalmente 256 caracteres).  
   
 O bien 
  <paramref name="username" /> contiene comas.  
@@ -2080,7 +2080,7 @@ No se puede realizar una conexión segura con un servidor Active Directory Appli
       <Docs>
         <param name="username">Nombre del usuario de pertenencia cuyo estado de bloqueo se va a eliminar.</param>
         <summary>Elimina un bloqueo para que se puedan validar usuarios de pertenencia.</summary>
-        <returns><see langword="true" /> si el usuario de pertenencia se desbloqueó correctamente; de lo contrario, <see langword="false" />. El método <see cref="M:System.Web.Security.ActiveDirectoryMembershipProvider.UnlockUser(System.String)" /> también devuelve <see langword="false" /> si el usuario de pertenencia no se encuentra en el almacén de datos.</returns>
+        <returns><see langword="true" /> si el usuario de pertenencia se ha desbloqueado correctamente; de lo contrario, es <see langword="false" />. El método <see cref="M:System.Web.Security.ActiveDirectoryMembershipProvider.UnlockUser(System.String)" /> también devuelve <see langword="false" /> si el usuario de pertenencia no se encuentra en el almacén de datos.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2095,14 +2095,14 @@ No se puede realizar una conexión segura con un servidor Active Directory Appli
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentException"><paramref name="username" /> está vacío o supera la longitud máxima permitida para nombres de usuario (normalmente 256 caracteres).  
+        <exception cref="T:System.ArgumentException"><paramref name="username" /> está vacío o supera la longitud máxima permitida para nombres de usuario (normalmente 256 caracteres).  
   
 O bien 
  <paramref name="username" /> contiene comas.  
   
 O bien 
 El nombre de usuario está asignado a <see langword="userPrincipalName" /> pero el parámetro <paramref name="username" /> contiene barras diagonales inversas.</exception>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="username" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="username" /> es <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">Se llama al método <see cref="M:System.Web.Security.ActiveDirectoryMembershipProvider.UnlockUser(System.String)" /> antes de que se inicializa la instancia de <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" />. </exception>
         <related type="Article" href="https://msdn.microsoft.com/library/79184d17-f4c7-4c9f-a073-cec4f5543980(v=vs.100)">Introducción a la pertenencia a ASP.NET</related>
       </Docs>
@@ -2144,7 +2144,7 @@ El nombre de usuario está asignado a <see langword="userPrincipalName" /> pero 
  ]]></format>
         </remarks>
         <exception cref="T:System.InvalidOperationException">Se llama al método <see cref="M:System.Web.Security.ActiveDirectoryMembershipProvider.UpdateUser(System.Web.Security.MembershipUser)" /> antes de que se inicializa la instancia de <see cref="T:System.Web.Security.ActiveDirectoryMembershipProvider" />. </exception>
-        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="user" /> es <see langword="null" />.  
+        <exception cref="T:System.ArgumentNullException"><paramref name="user" /> es <see langword="null" />.  
   
 O bien 
 La propiedad <see cref="P:System.Web.Security.ActiveDirectoryMembershipProvider.RequiresUniqueEmail" /> es <see langword="true" /> pero la dirección de correo electrónico de la instancia <see cref="T:System.Web.Security.MembershipUser" /> proporcionada es <see langword="null" />.</exception>
@@ -2195,10 +2195,10 @@ La propiedad <see cref="P:System.Web.Security.ActiveDirectoryMembershipProvider.
         <Parameter Name="password" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="username">Nombre del usuario que se validará.</param>
-        <param name="password">Contraseña para el usuario especificado.</param>
+        <param name="username">Nombre del usuario que se va a validar.</param>
+        <param name="password">Contraseña del usuario especificado.</param>
         <summary>Comprueba que el nombre de usuario y contraseña especificados existen en el almacén de datos de Active Directory.</summary>
-        <returns><see langword="true" /> si los parámetros <paramref name="username" /> y <paramref name="password" /> especificados son válidos; en caso contrario, <see langword="false" />. Si el usuario especificado no existe en el almacén de datos de Active Directory, el método <see cref="M:System.Web.Security.ActiveDirectoryMembershipProvider.ValidateUser(System.String,System.String)" /> devuelve <see langword="false" />.</returns>
+        <returns><see langword="true" /> si los valores <paramref name="username" /> y <paramref name="password" /> especificados son válidos; de lo contrario, es <see langword="false" />. Si el usuario especificado no existe en el almacén de datos de Active Directory, el método <see cref="M:System.Web.Security.ActiveDirectoryMembershipProvider.ValidateUser(System.String,System.String)" /> devuelve <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
