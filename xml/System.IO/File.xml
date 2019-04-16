@@ -1,5 +1,5 @@
 <Type Name="File" FullName="System.IO.File">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="4a19b0b66326966c1195690f88f41e90e98ae368" /><Meta Name="ms.sourcegitcommit" Value="2982b8c4cce02c2542285fcaf172f7544d6b80bc" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="04/09/2019" /><Meta Name="ms.locfileid" Value="59350358" /></Metadata><TypeSignature Language="C#" Value="public static class File" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="13a50ab90fca2598330ed34ec1427dd23aaa87a7" /><Meta Name="ms.sourcegitcommit" Value="635a1dbdc9cbcf7f7c258ac9ffa0314ed734da90" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="04/10/2019" /><Meta Name="ms.locfileid" Value="59472240" /></Metadata><TypeSignature Language="C#" Value="public static class File" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit File extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.IO.File" />
   <TypeSignature Language="VB.NET" Value="Public Class File" />
@@ -398,13 +398,13 @@ El llamador no dispone del permiso requerido.</exception>
         <exception cref="T:System.IO.PathTooLongException">La ruta de acceso especificada, el nombre de archivo o ambos superan la longitud máxima definida por el sistema.</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">La ruta de acceso especificada no es válida (por ejemplo, el directorio no existe o está en una unidad no asignada).</exception>
         <exception cref="T:System.IO.IOException">Se produjo un error de E/S al abrir el archivo.</exception>
-        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> ha especificado un archivo que es de solo lectura.  
+        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> especificó un archivo que es de solo lectura.  
   
 O bien 
 Esta operación no es compatible con la plataforma actual.  
   
 O bien 
- <paramref name="path" /> ha especificado un directorio.  
+ <paramref name="path" /> especificó un directorio.  
   
 O bien 
 El llamador no dispone del permiso requerido.</exception>
@@ -479,13 +479,13 @@ El llamador no dispone del permiso requerido.</exception>
         <exception cref="T:System.IO.PathTooLongException">La ruta de acceso especificada, el nombre de archivo o ambos superan la longitud máxima definida por el sistema.</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">La ruta de acceso especificada no es válida (por ejemplo, el directorio no existe o está en una unidad no asignada).</exception>
         <exception cref="T:System.IO.IOException">Se produjo un error de E/S al abrir el archivo.</exception>
-        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> ha especificado un archivo que es de solo lectura.  
+        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> especificó un archivo que es de solo lectura.  
   
 O bien 
 Esta operación no es compatible con la plataforma actual.  
   
 O bien 
- <paramref name="path" /> ha especificado un directorio.  
+ <paramref name="path" /> especificó un directorio.  
   
 O bien 
 El llamador no dispone del permiso requerido.</exception>
@@ -1265,15 +1265,18 @@ O bien
   
 ## Remarks  
  El <xref:System.IO.File.Decrypt%2A> método permite descifrar un archivo que se cifró mediante el <xref:System.IO.File.Encrypt%2A> método.  El <xref:System.IO.File.Decrypt%2A> método puede descifrar únicamente los archivos que se cifraron con la cuenta de usuario actual.  
-  
+
+ > [!IMPORTANT]
+ > Esta API solo se admite en plataformas de Windows que se pueda usar el sistema de archivos de cifrado de NTFS (EFS). Cualquier intento de utilizar esta opción en los sistemas que no sean Windows, los sistemas de Windows Home Edition o los resultados de las unidades que no son NTFS en un <xref:System.PlatformNotSupportedException> o <xref:System.NotSupportedException>, según la situación.
+ > 
+ > No se recomienda el uso de esta API en .NET Core; se incluye para habilitar la portabilidad para las aplicaciones que se mueven a .NET Core pero todavía explícitamente como destino Windows.
+
  El <xref:System.IO.File.Decrypt%2A> método requiere acceso exclusivo al archivo que se va a descifrar y producirá una excepción si otro proceso está usando el archivo. Si el archivo no está cifrado, <xref:System.IO.File.Decrypt%2A> devolverá un valor distinto de cero, que indica éxito.  
   
  Tanto el <xref:System.IO.File.Encrypt%2A> método y el <xref:System.IO.File.Decrypt%2A> método usa el proveedor de servicios criptográficos (CSP) instalado en el equipo y las claves de cifrado de archivo del proceso de llamar al método.  
   
  Debe ser el actual sistema de archivos con formato NTFS y el sistema operativo actual deben ser Windows NT o posterior.  
-  
    
-  
 ## Examples  
  El siguiente ejemplo de código utiliza el <xref:System.IO.File.Encrypt%2A> método y el <xref:System.IO.File.Decrypt%2A> método para cifrar y descifrar un archivo. El archivo debe existir para que funcione el ejemplo.  
   
@@ -1433,10 +1436,14 @@ O bien
         <summary>Cifra un archivo de forma que solo la cuenta utilizada para cifrarlo pueda descifrarlo.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
-  
 ## Remarks  
  El <xref:System.IO.File.Encrypt%2A> método le permite cifrar un archivo para que sólo la cuenta utilizada para llamar a este método pueda descifrarlo. Use la <xref:System.IO.File.Decrypt%2A> método para descifrar un archivo cifrado por la <xref:System.IO.File.Encrypt%2A> método.  
-  
+
+ > [!IMPORTANT]
+ > Esta API solo se admite en plataformas de Windows que se pueda usar el sistema de archivos de cifrado de NTFS (EFS). Cualquier intento de utilizar esta opción en los sistemas que no sean Windows, los sistemas de Windows Home Edition o los resultados de las unidades que no son NTFS en un <xref:System.PlatformNotSupportedException> o <xref:System.NotSupportedException>, según la situación.
+ > 
+ > No se recomienda el uso de esta API en .NET Core; se incluye para habilitar la portabilidad para las aplicaciones que se mueven a .NET Core pero todavía explícitamente como destino Windows.
+
  El <xref:System.IO.File.Encrypt%2A> método requiere acceso exclusivo al archivo que se cifra y se producirá un error si otro proceso está usando el archivo.  
   
  Tanto el <xref:System.IO.File.Encrypt%2A> método y el <xref:System.IO.File.Decrypt%2A> método usa el proveedor de servicios criptográficos (CSP) instalado en el equipo y las claves de cifrado de archivo del proceso de llamar al método.  
@@ -1444,8 +1451,6 @@ O bien
  Este método no está disponible en todas las versiones de Windows. Por ejemplo, no está disponible en las ediciones Home.  
   
  El sistema de archivos actual debe tener el formato NTFS.  
-  
-   
   
 ## Examples  
  El siguiente ejemplo de código utiliza el <xref:System.IO.File.Encrypt%2A> método y el <xref:System.IO.File.Decrypt%2A> método para cifrar y descifrar un archivo. El archivo debe existir para que funcione el ejemplo.  
@@ -2422,13 +2427,13 @@ O bien
         <exception cref="T:System.IO.PathTooLongException">La ruta de acceso especificada, el nombre de archivo o ambos superan la longitud máxima definida por el sistema.</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">La ruta de acceso especificada no es válida (por ejemplo, está en una unidad no asignada).</exception>
         <exception cref="T:System.IO.IOException">Se produjo un error de E/S al abrir el archivo.</exception>
-        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> ha especificado un archivo que es de solo lectura.  
+        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> especificó un archivo que es de solo lectura.  
   
 O bien 
 Esta operación no es compatible con la plataforma actual.  
   
 O bien 
- <paramref name="path" /> ha especificado un directorio.  
+ <paramref name="path" /> especificó un directorio.  
   
 O bien 
 El llamador no dispone del permiso requerido.  
@@ -2518,7 +2523,7 @@ O bien
         <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> ha especificado un archivo que es de solo lectura y <paramref name="access" /> no es <see langword="Read" />.  
   
 O bien 
- <paramref name="path" /> ha especificado un directorio.  
+ <paramref name="path" /> especificó un directorio.  
   
 O bien 
 El llamador no dispone del permiso requerido.  
@@ -2612,7 +2617,7 @@ O bien
         <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> ha especificado un archivo que es de solo lectura y <paramref name="access" /> no es <see langword="Read" />.  
   
 O bien 
- <paramref name="path" /> ha especificado un directorio.  
+ <paramref name="path" /> especificó un directorio.  
   
 O bien 
 El llamador no dispone del permiso requerido.  
@@ -2926,7 +2931,7 @@ O bien
         <exception cref="T:System.UnauthorizedAccessException">Esta operación no es compatible con la plataforma actual.  
   
 O bien 
- <paramref name="path" /> ha especificado un directorio.  
+ <paramref name="path" /> especificó un directorio.  
   
 O bien 
 El llamador no dispone del permiso requerido.</exception>
@@ -3047,13 +3052,13 @@ El llamador no dispone del permiso requerido.</exception>
         <exception cref="T:System.IO.PathTooLongException">La ruta de acceso especificada, el nombre de archivo o ambos superan la longitud máxima definida por el sistema.</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">La ruta de acceso especificada no es válida (por ejemplo, está en una unidad no asignada).</exception>
         <exception cref="T:System.IO.IOException">Se produjo un error de E/S al abrir el archivo.</exception>
-        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> ha especificado un archivo que es de solo lectura.  
+        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> especificó un archivo que es de solo lectura.  
   
 O bien 
 Esta operación no es compatible con la plataforma actual.  
   
 O bien 
- <paramref name="path" /> ha especificado un directorio.  
+ <paramref name="path" /> especificó un directorio.  
   
 O bien 
 El llamador no dispone del permiso requerido.</exception>
@@ -3132,13 +3137,13 @@ El llamador no dispone del permiso requerido.</exception>
         <exception cref="T:System.IO.PathTooLongException">La ruta de acceso especificada, el nombre de archivo o ambos superan la longitud máxima definida por el sistema.</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">La ruta de acceso especificada no es válida (por ejemplo, está en una unidad no asignada).</exception>
         <exception cref="T:System.IO.IOException">Se produjo un error de E/S al abrir el archivo.</exception>
-        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> ha especificado un archivo que es de solo lectura.  
+        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> especificó un archivo que es de solo lectura.  
   
 O bien 
 Esta operación no es compatible con la plataforma actual.  
   
 O bien 
- <paramref name="path" /> ha especificado un directorio.  
+ <paramref name="path" /> especificó un directorio.  
   
 O bien 
 El llamador no dispone del permiso requerido.</exception>
@@ -3298,13 +3303,13 @@ El llamador no dispone del permiso requerido.</exception>
         <exception cref="T:System.IO.PathTooLongException">La ruta de acceso especificada, el nombre de archivo o ambos superan la longitud máxima definida por el sistema.</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">La ruta de acceso especificada no es válida (por ejemplo, está en una unidad no asignada).</exception>
         <exception cref="T:System.IO.IOException">Se produjo un error de E/S al abrir el archivo.</exception>
-        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> ha especificado un archivo que es de solo lectura.  
+        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> especificó un archivo que es de solo lectura.  
   
 O bien 
 Esta operación no es compatible con la plataforma actual.  
   
 O bien 
- <paramref name="path" /> ha especificado un directorio.  
+ <paramref name="path" /> especificó un directorio.  
   
 O bien 
 El llamador no dispone del permiso requerido.</exception>
@@ -3387,13 +3392,13 @@ El llamador no dispone del permiso requerido.</exception>
         <exception cref="T:System.IO.PathTooLongException">La ruta de acceso especificada, el nombre de archivo o ambos superan la longitud máxima definida por el sistema.</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">La ruta de acceso especificada no es válida (por ejemplo, está en una unidad no asignada).</exception>
         <exception cref="T:System.IO.IOException">Se produjo un error de E/S al abrir el archivo.</exception>
-        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> ha especificado un archivo que es de solo lectura.  
+        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> especificó un archivo que es de solo lectura.  
   
 O bien 
 Esta operación no es compatible con la plataforma actual.  
   
 O bien 
- <paramref name="path" /> ha especificado un directorio.  
+ <paramref name="path" /> especificó un directorio.  
   
 O bien 
 El llamador no dispone del permiso requerido.</exception>
@@ -4023,7 +4028,7 @@ O bien
 Esta operación no es compatible con la plataforma actual.  
   
 O bien 
- <paramref name="path" /> ha especificado un directorio.  
+ <paramref name="path" /> especificó un directorio.  
   
 O bien 
 El llamador no dispone del permiso requerido.</exception>
@@ -4500,13 +4505,13 @@ El llamador no dispone del permiso requerido.</exception>
         <exception cref="T:System.IO.PathTooLongException">La ruta de acceso especificada, el nombre de archivo o ambos superan la longitud máxima definida por el sistema.</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">La ruta de acceso especificada no es válida (por ejemplo, está en una unidad no asignada).</exception>
         <exception cref="T:System.IO.IOException">Se produjo un error de E/S al abrir el archivo.</exception>
-        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> ha especificado un archivo que es de solo lectura.  
+        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> especificó un archivo que es de solo lectura.  
   
 O bien 
 Esta operación no es compatible con la plataforma actual.  
   
 O bien 
- <paramref name="path" /> ha especificado un directorio.  
+ <paramref name="path" /> especificó un directorio.  
   
 O bien 
 El llamador no dispone del permiso requerido.</exception>
@@ -4705,13 +4710,13 @@ El llamador no dispone del permiso requerido.</exception>
         <exception cref="T:System.IO.PathTooLongException">La ruta de acceso especificada, el nombre de archivo o ambos superan la longitud máxima definida por el sistema.</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">La ruta de acceso especificada no es válida (por ejemplo, está en una unidad no asignada).</exception>
         <exception cref="T:System.IO.IOException">Se produjo un error de E/S al abrir el archivo.</exception>
-        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> ha especificado un archivo que es de solo lectura.  
+        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> especificó un archivo que es de solo lectura.  
   
 O bien 
 Esta operación no es compatible con la plataforma actual.  
   
 O bien 
- <paramref name="path" /> ha especificado un directorio.  
+ <paramref name="path" /> especificó un directorio.  
   
 O bien 
 El llamador no dispone del permiso requerido.</exception>
@@ -4859,13 +4864,13 @@ El llamador no dispone del permiso requerido.</exception>
         <exception cref="T:System.IO.PathTooLongException">La ruta de acceso especificada, el nombre de archivo o ambos superan la longitud máxima definida por el sistema.</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">La ruta de acceso especificada no es válida (por ejemplo, está en una unidad no asignada).</exception>
         <exception cref="T:System.IO.IOException">Se produjo un error de E/S al abrir el archivo.</exception>
-        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> ha especificado un archivo que es de solo lectura.  
+        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> especificó un archivo que es de solo lectura.  
   
 O bien 
 Esta operación no es compatible con la plataforma actual.  
   
 O bien 
- <paramref name="path" /> ha especificado un directorio.  
+ <paramref name="path" /> especificó un directorio.  
   
 O bien 
 El llamador no dispone del permiso requerido.</exception>
@@ -5021,13 +5026,13 @@ El llamador no dispone del permiso requerido.</exception>
         <exception cref="T:System.IO.PathTooLongException">La ruta de acceso especificada, el nombre de archivo o ambos superan la longitud máxima definida por el sistema.</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">La ruta de acceso especificada no es válida (por ejemplo, está en una unidad no asignada).</exception>
         <exception cref="T:System.IO.IOException">Se produjo un error de E/S al abrir el archivo.</exception>
-        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> ha especificado un archivo que es de solo lectura.  
+        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> especificó un archivo que es de solo lectura.  
   
 O bien 
 Esta operación no es compatible con la plataforma actual.  
   
 O bien 
- <paramref name="path" /> ha especificado un directorio.  
+ <paramref name="path" /> especificó un directorio.  
   
 O bien 
 El llamador no dispone del permiso requerido.</exception>
@@ -5100,13 +5105,13 @@ El llamador no dispone del permiso requerido.</exception>
         <exception cref="T:System.IO.PathTooLongException">La ruta de acceso especificada, el nombre de archivo o ambos superan la longitud máxima definida por el sistema.</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">La ruta de acceso especificada no es válida (por ejemplo, está en una unidad no asignada).</exception>
         <exception cref="T:System.IO.IOException">Se produjo un error de E/S al abrir el archivo.</exception>
-        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> ha especificado un archivo que es de solo lectura.  
+        <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> especificó un archivo que es de solo lectura.  
   
 O bien 
 Esta operación no es compatible con la plataforma actual.  
   
 O bien 
- <paramref name="path" /> ha especificado un directorio.  
+ <paramref name="path" /> especificó un directorio.  
   
 O bien 
 El llamador no dispone del permiso requerido.</exception>
