@@ -1,5 +1,5 @@
 <Type Name="FileAttributes" FullName="System.IO.FileAttributes">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="35b4199264ecbc920ff8cc871fdaa66557a8dff0" /><Meta Name="ms.sourcegitcommit" Value="a3e01ec36374fac54a55add0dcc1e754e394abeb" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="03/30/2019" /><Meta Name="ms.locfileid" Value="58713902" /></Metadata><TypeSignature Language="C#" Value="public enum FileAttributes" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="4fe767d223ee9761bb15692322415ccad0e3232f" /><Meta Name="ms.sourcegitcommit" Value="9fde55ecc35aa9df4967f3522d7e9ce113f5147c" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="04/16/2019" /><Meta Name="ms.locfileid" Value="59615005" /></Metadata><TypeSignature Language="C#" Value="public enum FileAttributes" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable sealed FileAttributes extends System.Enum" />
   <TypeSignature Language="DocId" Value="T:System.IO.FileAttributes" />
   <TypeSignature Language="VB.NET" Value="Public Enum FileAttributes" />
@@ -47,18 +47,32 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Puede obtener los atributos de archivos y directorios mediante una llamada a la <xref:System.IO.File.GetAttributes%2A> método y establecido mediante una llamada a la <xref:System.IO.File.SetAttributes%2A> método.  
+ Puede obtener los atributos de archivos y directorios mediante una llamada a la <xref:System.IO.File.GetAttributes%2A?displayProperty=nameWithType> método y establecido mediante una llamada a la <xref:System.IO.File.SetAttributes%2A?displayProperty=nameWithType> método.  
   
- No es posible cambiar el estado de compresión de un <xref:System.IO.File> objeto utilizando el <xref:System.IO.File.SetAttributes%2A> método. En su lugar, debe comprimir el archivo mediante una herramienta de compresión o una de las clases en realidad el <xref:System.IO.Compression?displayProperty=nameWithType> espacio de nombres.  
+ No es posible cambiar el estado de compresión de un <xref:System.IO.File> objeto utilizando el <xref:System.IO.File.SetAttributes%2A?displayProperty=nameWithType> método. En su lugar, debe comprimir el archivo mediante una herramienta de compresión o una de las clases en realidad el <xref:System.IO.Compression?displayProperty=nameWithType> espacio de nombres.  
   
-   
-  
+.NET Core en macOS y Linux no admiten los siguientes atributos:
+
+- <xref:System.IO.FileAttributes.Archive?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.Compressed?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.Device?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.Encrypted?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.IntegrityStream?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.NoScrubData?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.NotContentIndexed?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.Offline?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.SparseFile?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.System?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.Temporary?displayProperty=nameWithType>
+
+En sistemas Unix, el valor devuelto por <xref:System.IO.File.GetAttributes%2A?displayProperty=nameWithType> incluye `Hidden` para un archivo cuyo nombre comienza con un punto ("."). En macOS, puede obtener o establecer la marca oculta.
+
 ## Examples  
  El ejemplo siguiente muestra cómo recuperar los atributos de un archivo y compruebe si el archivo es de solo lectura.  
   
  [!code-csharp[System.IO.FileAttributes#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.io.fileattributes/cs/example.cs#1)]
- [!code-vb[System.IO.FileAttributes#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.io.fileattributes/vb/example.vb#1)]  
-  
+ [!code-vb[System.IO.FileAttributes#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.io.fileattributes/vb/example.vb#1)] 
+
  ]]></format>
     </remarks>
     <altmember cref="M:System.IO.File.GetAttributes(System.String)" />
@@ -100,7 +114,7 @@
       </ReturnValue>
       <MemberValue>32</MemberValue>
       <Docs>
-        <summary>El archivo es un candidato para la copia de seguridad o la eliminación.</summary>
+        <summary>Este archivo está marcado para incluirse en la operación de copia de seguridad incremental. Windows establece este atributo siempre que se modifica el archivo, y el software de copia de seguridad debe borrarlo al procesar el archivo durante la copia de seguridad incremental.</summary>
       </Docs>
     </Member>
     <Member MemberName="Compressed">
@@ -214,7 +228,7 @@
       </ReturnValue>
       <MemberValue>16</MemberValue>
       <Docs>
-        <summary>El archivo es un directorio.</summary>
+        <summary>El archivo es un directorio. <see langword="Directory" /> se admite en Windows, Linux y macOS.</summary>
       </Docs>
     </Member>
     <Member MemberName="Encrypted">
@@ -290,7 +304,7 @@
       </ReturnValue>
       <MemberValue>2</MemberValue>
       <Docs>
-        <summary>El archivo está oculto y, por lo tanto, no se incluye en un listado de directorios ordinario.</summary>
+        <summary>El archivo está oculto y, por lo tanto, no se incluye en un listado de directorios ordinario. <see langword="Hidden" /> se admite en Windows, Linux y macOS.</summary>
       </Docs>
     </Member>
     <Member MemberName="IntegrityStream">
@@ -369,7 +383,7 @@
       </ReturnValue>
       <MemberValue>128</MemberValue>
       <Docs>
-        <summary>El archivo es un archivo estándar que no tiene ningún atributo especial. Este atributo sólo es válido si se usa por sí solo.</summary>
+        <summary>El archivo es un archivo estándar que no tiene ningún atributo especial. Este atributo sólo es válido si se usa por sí solo. <see langword="Normal" /> se admite en Windows, Linux y macOS.</summary>
       </Docs>
     </Member>
     <Member MemberName="NoScrubData">
@@ -524,7 +538,7 @@
       </ReturnValue>
       <MemberValue>1</MemberValue>
       <Docs>
-        <summary>El archivo es de sólo lectura.</summary>
+        <summary>El archivo es de sólo lectura. <see langword="ReadOnly" /> se admite en Windows, Linux y macOS. En Linux y macOS, cambiar la marca <see langword="ReadOnly" /> es una operación de permisos.</summary>
       </Docs>
     </Member>
     <Member MemberName="ReparsePoint">
@@ -562,7 +576,7 @@
       </ReturnValue>
       <MemberValue>1024</MemberValue>
       <Docs>
-        <summary>El archivo contiene un punto de reanálisis; es decir, un bloque de datos definidos por el usuario asociado a un archivo o a un directorio.</summary>
+        <summary>El archivo contiene un punto de reanálisis; es decir, un bloque de datos definidos por el usuario asociado a un archivo o a un directorio. <see langword="ReparsePoint" /> se admite en Windows, Linux y macOS.</summary>
       </Docs>
     </Member>
     <Member MemberName="SparseFile">
