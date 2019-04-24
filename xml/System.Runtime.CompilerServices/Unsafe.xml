@@ -1,5 +1,5 @@
 <Type Name="Unsafe" FullName="System.Runtime.CompilerServices.Unsafe">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="25f6f9e753a0c47cbfccc2147725a47353028eab" /><Meta Name="ms.sourcegitcommit" Value="a3e01ec36374fac54a55add0dcc1e754e394abeb" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="03/30/2019" /><Meta Name="ms.locfileid" Value="58703999" /></Metadata><TypeSignature Language="C#" Value="public static class Unsafe" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="bfce2be5c17299e8735ea4a200426489fb8d145b" /><Meta Name="ms.sourcegitcommit" Value="76fb6534b56e2b5f6aaaac2150d71a43c9133dbd" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="04/22/2019" /><Meta Name="ms.locfileid" Value="59893418" /></Metadata><TypeSignature Language="C#" Value="public static class Unsafe" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Unsafe extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Runtime.CompilerServices.Unsafe" />
   <TypeSignature Language="VB.NET" Value="Public Class Unsafe" />
@@ -1046,11 +1046,38 @@
         <Parameter Name="box" Type="System.Object" Index="0" FrameworkAlternate="dotnet-plat-ext-3.0" />
       </Parameters>
       <Docs>
-        <typeparam name="T">To be added.</typeparam>
-        <param name="box">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <typeparam name="T">Tipo al que aplicar la conversión unboxing.</typeparam>
+        <param name="box">El valor al que aplicar la conversión unboxing.</param>
+        <summary>Devuelve un <see langword="mutable ref" /> a un valor con conversión boxing.</summary>
+        <returns>Un <see langword="mutable ref" /> al valor al que se ha aplicado la conversión boxing <paramref name="box" />.</returns>
+        <remarks>  
+          <format type="text/markdown"><![CDATA[  
+
+El `Unbox<T>` método es simplemente un contenedor para el IL [unbox](xref:System.Reflection.Emit.OpCodes.Unbox) instrucción. Resulta útil como una optimización del rendimiento. Cada vez que una API que toma un <xref:System.Object> debe llamarse varias veces con diferentes valores de un tipo de valor, el mismo objeto de cuadro se pueden reutilizar en lugar de uno cada vez que crea una nueva.
+
+El `Unbox<T>` método tiene una restricción de uso importante que no se aplica mediante los compiladores de lenguaje y que es responsabilidad del llamador. El IL `unbox` instrucción devuelve un puntero administrado mutabilidad controlado. Dado que .NET y .NET los compiladores de lenguaje no pueden representar esta restricción, el `Unbox<T>` método devuelve un normal mutable `ref T`. Sin embargo los desarrolladores **no debe** mutar la referencia devuelta a menos que está seguro de que `T` es un tipo struct mutable. Por ejemplo, porque los primitivos numéricos, como <xref:System.Int32> no son tipos de struct mutable, el código siguiente no es compatible:
+
+```csharp
+Unsafe.Box<int>(obj) = 30;
+```
+
+En cambio, un tipo, como <xref:System.Drawing.Point?<displayProperty=nameWithType> es un struct mutable con los establecedores de propiedad pública, por lo que se admite el código siguiente:
+
+```csharp
+Unsafe.Unbox<System.Drawing.Point>(obj).X = 50;
+```
+
+Para obtener más información, consulte las secciones III.1.8.1.2.2 ("punteros administrados controlado muttability") y III.4.32 ("unbox--convertir tipo de valor con conversión boxing en formato sin procesar") en [ECMA-335: Common Language Infrastructure (CLI) las particiones a VI](https://www.ecma-international.org/publications/files/ECMA-ST/ECMA-335.pdf).
+
+         ]]></format>
+         </remarks>       
+        <exception cref="T:System.NullReferenceException"><paramref name="box" /> es <see langword="null" />, y <typeparamref name="T" /> es un tipo de valor que no acepta valores NULL.</exception>
+         <exception cref="T:System.InvalidCastException"><paramref name="box" /> no es un tipo de valor al que se ha aplicado la conversión boxing.
+         
+O bien
+
+<paramref name="box" /> no es un <typeparamref name="T" /> al que se ha aplicado una conversión boxing.</exception>
+        <exception cref="T:System.TypeLoadException">No se encuentra <typeparamref name="T" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="Write&lt;T&gt;">
