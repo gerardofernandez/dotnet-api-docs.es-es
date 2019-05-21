@@ -1,5 +1,5 @@
 <Type Name="ProtectedData" FullName="System.Security.Cryptography.ProtectedData">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="bcc571c1b9e91c577a9733b53e867330b9c48f83" /><Meta Name="ms.sourcegitcommit" Value="220917117f9d774aaa482439aa7324e39dc1f5b6" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="02/25/2019" /><Meta Name="ms.locfileid" Value="56771509" /></Metadata><TypeSignature Language="C#" Value="public sealed class ProtectedData" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="38eb090e97e5972009f0065e48a5b55765ceee17" /><Meta Name="ms.sourcegitcommit" Value="3575d47a0ba065e8986f03d99279f478811907b8" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="05/20/2019" /><Meta Name="ms.locfileid" Value="65922697" /></Metadata><TypeSignature Language="C#" Value="public sealed class ProtectedData" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit ProtectedData extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Security.Cryptography.ProtectedData" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class ProtectedData" />
@@ -28,15 +28,17 @@
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
-## Remarks  
- Esta clase proporciona acceso a la API de protección de datos (DPAPI) disponible en Microsoft Windows 2000 y sistemas operativos posteriores. Se trata de un servicio proporcionado por el sistema operativo y no se requieren otras bibliotecas. Proporciona protección mediante las credenciales de usuario o equipo para cifrar o descifrar datos.  
+## Remarks
+
+Esta clase proporciona acceso a la API de protección de datos (DPAPI) disponible en sistemas operativos de Windows. Se trata de un servicio proporcionado por el sistema operativo y no se requieren otras bibliotecas. Proporciona protección mediante las credenciales de usuario o equipo para cifrar o descifrar datos.
+
+> [!IMPORTANT]
+> Porque depende de DPAPI, el `ProtectedData` clase es compatible con la plataforma de Windows únicamente. Su uso en .NET Core en plataformas distintas de Windows inicia un <xref:System.PlatformNotSupportedException>.
   
- La clase consta de dos contenedores para la DPAPI no administrada, <xref:System.Security.Cryptography.ProtectedData.Protect%2A> y <xref:System.Security.Cryptography.ProtectedData.Unprotect%2A>. Estos dos métodos pueden usarse para cifrar y descifrar los datos como contraseñas, claves y cadenas de conexión.  
+La clase consta de dos contenedores para la DPAPI no administrada, <xref:System.Security.Cryptography.ProtectedData.Protect%2A> y <xref:System.Security.Cryptography.ProtectedData.Unprotect%2A>. Estos dos métodos pueden usarse para cifrar y descifrar los datos como contraseñas, claves y cadenas de conexión.  
   
- Si usa estos métodos durante la suplantación, recibirá el error siguiente: "Clave no válida para su uso en el estado especificado." Esto ocurre porque la DPAPI almacena los datos claves en los perfiles de usuario. Si no se carga el perfil, DPAPI no podrá realizar el descifrado. Para evitar este error, carga el perfil del usuario que desee suplantar antes de llamar a cualquiera de estos métodos. Mediante DPAPI con suplantación puede ocasionar complicaciones importantes y requiere las opciones de diseño cuidado.  
-  
-   
-  
+Si usa estos métodos durante la suplantación, recibirá el error siguiente: "Clave no válida para su uso en el estado especificado." Esto ocurre porque la DPAPI almacena los datos claves en los perfiles de usuario. Si no se carga el perfil, DPAPI no podrá realizar el descifrado. Para evitar este error, carga el perfil del usuario que desee suplantar antes de llamar a cualquiera de estos métodos. Mediante DPAPI con suplantación puede ocasionar complicaciones importantes y requiere las opciones de diseño cuidado.  
+
 ## Examples  
  El ejemplo siguiente muestra cómo usar la protección de datos.  
   
@@ -84,8 +86,8 @@
         <Parameter Name="scope" Type="System.Security.Cryptography.DataProtectionScope" />
       </Parameters>
       <Docs>
-        <param name="userData">Matriz de bytes que contiene los datos para cifrar.</param>
-        <param name="optionalEntropy">Una matriz de bytes adicional opcional utilizada para aumentar la complejidad del cifrado o <see langword="null" /> para que no haya complejidad adicional.</param>
+        <param name="userData">Matriz de bytes que contiene datos que se va a cifrar.</param>
+        <param name="optionalEntropy">Una matriz de bytes adicional opcional usada para aumentar la complejidad del cifrado o <see langword="null" /> para que no haya complejidad adicional.</param>
         <param name="scope">Uno de los valores de enumeración que especifica el ámbito de cifrado.</param>
         <summary>Cifra los datos de una matriz de bytes especificada y devuelve una matriz de bytes que contiene los datos cifrados.</summary>
         <returns>Matriz de bytes que representa los datos cifrados.</returns>
@@ -110,9 +112,10 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">El parámetro <paramref name="userData" /> es <see langword="null" />.</exception>
-        <exception cref="T:System.Security.Cryptography.CryptographicException">Se produjo un error en el cifrado.</exception>
+        <exception cref="T:System.Security.Cryptography.CryptographicException">Error en el cifrado.</exception>
         <exception cref="T:System.NotSupportedException">El sistema operativo no admite este método.</exception>
-        <exception cref="T:System.OutOfMemoryException">El sistema no tenía memoria suficiente al cifrar los datos.</exception>
+        <exception cref="T:System.OutOfMemoryException">El sistema se quedó sin memoria al cifrar los datos.</exception>
+        <exception cref="T:System.PlatformNotSupportedException">Solo .NET Core: Las llamadas a la <c>proteger</c> método se admiten en sólo para sistemas operativos Windows.</exception>
         <permission cref="T:System.Security.Permissions.DataProtectionPermission">con el asociado <see cref="P:System.Security.Permissions.DataProtectionPermissionAttribute.ProtectData" /> marca para poder proteger los datos.</permission>
       </Docs>
     </Member>
@@ -152,9 +155,9 @@
         <Parameter Name="scope" Type="System.Security.Cryptography.DataProtectionScope" />
       </Parameters>
       <Docs>
-        <param name="encryptedData">Una matriz de bytes que contiene datos cifrados mediante el método <see cref="M:System.Security.Cryptography.ProtectedData.Protect(System.Byte[],System.Byte[],System.Security.Cryptography.DataProtectionScope)" />.</param>
-        <param name="optionalEntropy">Una matriz de bytes adicional opcional que fue utilizada para cifrar los datos o <see langword="null" /> si no se utilizara la matriz de bytes adicional.</param>
-        <param name="scope">Uno de los valores de enumeración que especifica el ámbito de protección de datos que se uso para cifrar los datos.</param>
+        <param name="encryptedData">Una matriz de bytes que contiene datos cifrados mediante el <see cref="M:System.Security.Cryptography.ProtectedData.Protect(System.Byte[],System.Byte[],System.Security.Cryptography.DataProtectionScope)" /> método.</param>
+        <param name="optionalEntropy">Una matriz de bytes adicional opcional que se usó para cifrar los datos, o <see langword="null" /> si no se ha usado la matriz de bytes adicional.</param>
+        <param name="scope">Uno de los valores de enumeración que especifica el ámbito de protección de datos que se usó para cifrar los datos.</param>
         <summary>Descifra los datos de una matriz de bytes especificada y devuelve una matriz de bytes que contiene los datos descifrados.</summary>
         <returns>Matriz de bytes que representa los datos descifrados.</returns>
         <remarks>
@@ -178,9 +181,10 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">El parámetro <paramref name="encryptedData" /> es <see langword="null" />.</exception>
-        <exception cref="T:System.Security.Cryptography.CryptographicException">Se produjo un error en el descifrado.</exception>
+        <exception cref="T:System.Security.Cryptography.CryptographicException">Error en el descifrado.</exception>
         <exception cref="T:System.NotSupportedException">El sistema operativo no admite este método.</exception>
         <exception cref="T:System.OutOfMemoryException">Memoria insuficiente</exception>
+        <exception cref="T:System.PlatformNotSupportedException">Solo .NET Core: Las llamadas a la <c>Unprotect</c> método se admiten en sólo para sistemas operativos Windows.</exception>
         <permission cref="T:System.Security.Permissions.DataProtectionPermission">con el asociado <see cref="P:System.Security.Permissions.DataProtectionPermissionAttribute.UnprotectData" /> marca para poder desproteger los datos.</permission>
       </Docs>
     </Member>

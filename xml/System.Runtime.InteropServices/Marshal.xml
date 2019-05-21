@@ -1,5 +1,5 @@
 <Type Name="Marshal" FullName="System.Runtime.InteropServices.Marshal">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="65175403b6ff654dc9b0bdba61783b88bdd4a657" /><Meta Name="ms.sourcegitcommit" Value="0b4deef443af9fe6334aa34b8a17190223bf0486" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="05/14/2019" /><Meta Name="ms.locfileid" Value="65609618" /></Metadata><TypeSignature Language="C#" Value="public static class Marshal" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="f50859363fd37688e070eaa6e1cd762332366c0e" /><Meta Name="ms.sourcegitcommit" Value="f61362e4134a78bac27d2c8136823a467216f4ab" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="05/15/2019" /><Meta Name="ms.locfileid" Value="65629393" /></Metadata><TypeSignature Language="C#" Value="public static class Marshal" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Marshal extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Runtime.InteropServices.Marshal" />
   <TypeSignature Language="VB.NET" Value="Public Class Marshal" />
@@ -4075,15 +4075,16 @@ Convierte un delegado de un tipo especificado en un puntero a función invocable
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
-## Remarks  
- <xref:System.Runtime.InteropServices.Marshal.GetLastWin32Error%2A> expone el Win32 [GetLastError](https://go.microsoft.com/fwlink/?LinkId=148657) función desde Kernel32.DLL. Este método existe porque no es seguro para que sea una plataforma directa llamada de invocación a `GetLastError` para obtener esta información. Si desea tener acceso a este código de error, debe llamar a <xref:System.Runtime.InteropServices.Marshal.GetLastWin32Error%2A> en lugar de escribir su propia plataforma de definición de invocación para `GetLastError` y llamarlo. Common language runtime puede realizar llamadas internas a las API que sobrescriben la `GetLastError` mantenida por el sistema operativo.  
+## Remarks
+
+En los sistemas Windows, <xref:System.Runtime.InteropServices.Marshal.GetLastWin32Error%2A> expone Win32 [GetLastError](/windows/desktop/ms679360) función desde Kernel32.DLL. Este método existe porque no es confiable para que sea una plataforma directa llamada de invocación a `GetLastError` para obtener esta información. Si desea tener acceso a este código de error, debe llamar a <xref:System.Runtime.InteropServices.Marshal.GetLastWin32Error%2A> en lugar de escribir su propia plataforma de definición de invocación para `GetLastError` y llamarlo. Common language runtime puede realizar llamadas internas a las API que sobrescriben la `GetLastError` mantenida por el sistema operativo.  
+
+Puede usar este método para obtener códigos de error solo si se aplica el <xref:System.Runtime.InteropServices.DllImportAttribute?displayProperty=nameWithType> a la firma del método y establezca el <xref:System.Runtime.InteropServices.DllImportAttribute.SetLastError?displayProperty=nameWithType> campo`true`. El proceso para esto varía según el idioma de origen utilizado: C#y C++ son `false` de forma predeterminada, pero la `Declare` instrucción en Visual Basic es `true`.  
   
- Puede usar este método para obtener códigos de error solo si se aplica el <xref:System.Runtime.InteropServices.DllImportAttribute?displayProperty=nameWithType> a la firma del método y establezca el <xref:System.Runtime.InteropServices.DllImportAttribute.SetLastError> campo`true`. El proceso para esto varía según el idioma de origen utilizado: C#y C++ son `false` de forma predeterminada, pero la `Declare` instrucción en Visual Basic es `true`.  
-  
-   
-  
+Hay una diferencia en el comportamiento de la `GetLastWin32Error` método en .NET Core y .NET Framework cuando <xref:System.Runtime.InteropServices.DllImportAttribute.SetLastError?displayProperty=nameWithType> es `true`. En .NET Framework, el `GetLastWin32Error` método puede conservar la información de error de una llamada P/Invoke a la siguiente. En .NET Core, se borra la información de error antes de la llamada P/Invoke y el `GetLastWin32Error` representa sólo la información de error de la última llamada de método.
+
 ## Examples  
- En el ejemplo siguiente se muestra la forma de llamar al método <xref:System.Runtime.InteropServices.Marshal.GetLastWin32Error%2A>. El ejemplo primero se muestra cómo llamar al método con no existe ningún error y, a continuación, se muestra cómo llamar al método cuando existe un error.  
+ El ejemplo siguiente se llama el `GetLastWin32Error` método. El ejemplo primero se muestra cómo llamar al método con no existe ningún error y, a continuación, se muestra cómo llamar al método cuando existe un error.  
   
  [!code-csharp[Runtime.InteropServices.Marshal.GetLastWin32Error#1](~/samples/snippets/csharp/VS_Snippets_CLR/Runtime.InteropServices.Marshal.GetLastWin32Error/cs/example.cs#1)]
  [!code-vb[Runtime.InteropServices.Marshal.GetLastWin32Error#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/Runtime.InteropServices.Marshal.GetLastWin32Error/vb/example.vb#1)]  

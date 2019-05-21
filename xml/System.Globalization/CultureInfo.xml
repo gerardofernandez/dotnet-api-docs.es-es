@@ -1,5 +1,5 @@
 <Type Name="CultureInfo" FullName="System.Globalization.CultureInfo">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="5d22463ac83363aad9b99f88b9600e59ebd2ac53" /><Meta Name="ms.sourcegitcommit" Value="a3e01ec36374fac54a55add0dcc1e754e394abeb" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="03/30/2019" /><Meta Name="ms.locfileid" Value="58714277" /></Metadata><TypeSignature Language="C#" Value="public class CultureInfo : ICloneable, IFormatProvider" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="99a9c72622633b0afab49cf0a30001d21c76259e" /><Meta Name="ms.sourcegitcommit" Value="5ebd9691c6f7d50c4730e997fba69e54bdd7cc0c" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="05/17/2019" /><Meta Name="ms.locfileid" Value="65829764" /></Metadata><TypeSignature Language="C#" Value="public class CultureInfo : ICloneable, IFormatProvider" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi serializable beforefieldinit CultureInfo extends System.Object implements class System.ICloneable, class System.IFormatProvider" />
   <TypeSignature Language="DocId" Value="T:System.Globalization.CultureInfo" />
   <TypeSignature Language="VB.NET" Value="Public Class CultureInfo&#xA;Implements ICloneable, IFormatProvider" />
@@ -60,7 +60,7 @@
  [Todos los idiomas, neutras y específicas de referencias culturales](#Invariant)   
  [Referencias culturales personalizadas](#Custom)   
  [Datos de referencia cultural dinámico](#Dynamic)   
- [La referencia cultural actual y la referencia cultural de interfaz de usuario actual](#Current)   
+ [CultureInfo y datos de referencia culturales](#cultureinfo-and-cultural-data) [la referencia cultural actual y la referencia cultural de interfaz de usuario actual](#Current)   
  [Obtener todas las referencias culturales](#GetAll)   
  [Referencia cultural y los subprocesos](#Threads)   
  [Dominios de referencia cultural y la aplicación](#AppDomain)   
@@ -69,7 +69,7 @@
  [Invalida el Panel de control](#CPanel)   
  [Criterios de ordenación alternativos](#AlternateSort)   
  [Aplicaciones de la referencia cultural y de Windows](#Windows)  
-  
+
 <a name="CultureNames"></a>   
 ## <a name="culture-names-and-identifiers"></a>Los identificadores y nombres de referencias culturales  
  La <xref:System.Globalization.CultureInfo> clase especifica un nombre único para cada referencia cultural, según RFC 4646. El nombre es una combinación de un código de referencia cultural de dos letras en minúsculas de ISO 639 asociado con un idioma y un código de secundaria de dos letras en mayúscula de ISO 3166 asociado con un país o región. Además, para las aplicaciones que tienen como destino [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] o una versión posterior y se ejecutan en Windows 10 o versiones posteriores, los nombres de referencia cultural que se corresponden con el idioma BCP-47 válido las etiquetas son compatibles.  
@@ -142,7 +142,27 @@
 -   Recuerde que las referencias culturales personalizadas invalidan los valores de forma predeterminada. Por tanto, no se puede considerar los datos de referencia cultural que sean estables. Nombres de los países, formatos de número y fecha y ortografías pueden cambiar en el futuro. Si desea serializar los datos de la referencia cultural como cadenas de fecha y hora en que se pasarán a la fecha y hora de funciones de análisis, debe usar la referencia cultural invariable o una específica.  
   
  El <xref:System.Globalization.CultureInfo.CultureTypes%2A> incluye el valor de propiedad de las referencias culturales personalizadas instalado en un sistema el <xref:System.Globalization.CultureTypes?displayProperty=nameWithType> marca y las referencias culturales personalizadas se asignan una <xref:System.Globalization.CultureInfo.LCID%2A> el valor de propiedad `LOCALE_CUSTOM_UNSPECIFIED` (0 x 1000 o 4096). Tenga en cuenta que, a partir de Windows 10, este valor también está asignado a referencias culturales definidas por el sistema que no tienen datos de referencia culturales completo.  
-  
+
+## <a name="cultureinfo-and-cultural-data"></a>Datos de referencia culturales y CultureInfo
+
+.NET se deriva sus datos de referencia culturales de uno de diversos orígenes, dependiendo de la implementación, la plataforma y versión:
+
+- En .NET Framework 3.5 y versiones anteriores, el sistema operativo de Windows y .NET Framework proporciona datos de referencia culturales.
+
+- En .NET Framework 4 y versiones posteriores, los datos de referencia culturales se proporcionan por el sistema operativo de Windows.
+
+- En todas las versiones de .NET Core que se ejecutan en Windows, el sistema operativo de Windows proporciona datos de referencia culturales.
+
+- En todas las versiones de .NET Core que se ejecutan en plataformas Unix, proporciona datos de referencia culturales del [International Components for Unicode (ICU) biblioteca](http://site.icu-project.org/). La versión específica de la biblioteca de ICU depende del sistema operativo individual.
+
+Por este motivo, no estén disponible en una implementación, plataforma o versión diferente de .NET una referencia cultural disponible en una determinada implementación. NET, plataforma o versión.
+
+Algunos `CultureInfo` objetos varían según la plataforma subyacente. En concreto, "zh-CN", o chino (simplificado, China) y zh-TW o chino (tradicional, Taiwán), es referencias culturales disponibles en sistemas Windows, pero son referencias culturales con alias en sistemas Unix. "zh-CN" es un alias para la referencia cultural "zh-Hans-CN" y "zh-TW" es un alias para la referencia cultural "zh-Hant-TW". Referencias culturales con alias no se devuelven mediante llamadas a la <xref:System.Globalization.CultureInfo.GetCultures%2A> método y puede tener distintos valores de propiedad, incluidas distintas <xref:System.Globalization.CultureInfo.Parent> las referencias culturales que sus equivalentes de Windows. Para las referencias culturales zh-CN y zh-TW, estos differenes incluyen lo siguiente:
+
+- En los sistemas Windows, la referencia cultural principal de la referencia cultural "zh-CN" es "zh-Hans" y la referencia cultural principal de la referencia cultural "zh-TW" es "zh-Hant". La referencia cultural principal de ambos estas referencias culturales es "zh". En sistemas Unix, los elementos primarios de ambas referencias culturales son "zh". Esto significa que, si no proporciona recursos específicos de la referencia cultural para las referencias culturales "zh-CN" o "zh-TW", pero especifique recursos neutros "zh-Hans" o "zh-Hant" cultura, la aplicación cargará los recursos de la referencia cultural neutra en Windows, pero no en Unix . En sistemas Unix, debe establecer explícitamente el subproceso <xref:System.Globalization.CultureInfo.CurrentUICulture> "zh-Hans" o "zh-Hant". 
+
+- En los sistemas de Windows, una llamada a <xref:System.Globalization.CultureInfo.Equals%2A?displayProperty=nameWithType> en una instancia que representa la referencia cultural "zh-CN" y pasándole una instancia de "zh-Hans-CN" devuelve `true`. En sistemas Unix, se devuelve la llamada al método `false`. Este comportamiento también se aplica a una llamada a <xref:System.Globalization.CultureInfo.Equals%2A> en un "zh-TW" <xref:System.Globalization.CultureInfo> instancia y pasarlo en una instancia de "zh-Hant-Tw".
+
 <a name="Dynamic"></a>   
 ## <a name="dynamic-culture-data"></a>Datos de referencia cultural dinámico  
  Excepto la referencia cultural, los datos de referencia cultural están dinámicos. Esto es verdad incluso para las referencias culturales predefinidas. Por ejemplo, los países o regiones adoptan nuevas monedas, cambian la ortografía de sus palabras o cambiar su calendario preferido y cambiarán las definiciones de la referencia cultural para realizar un seguimiento de esto.  Las referencias culturales personalizadas están sujetos a cambios sin previo aviso y cualquier referencia cultural específica puede ser reemplazada por una referencia cultural personalizada. Además, como se describe a continuación, un usuario individual puede invalidar las preferencias culturales. Las aplicaciones siempre deben obtener los datos de referencia cultural en tiempo de ejecución.  
@@ -152,7 +172,7 @@
   
 <a name="Current"></a>   
 ## <a name="the-current-culture-and-current-ui-culture"></a>La referencia cultural actual y la referencia cultural de interfaz de usuario actual  
- Todos los subprocesos en una aplicación de .NET Framework tienen una referencia cultural actual y una referencia cultural de interfaz de usuario actual. La referencia cultural determina las convenciones de formato de fechas, horas, números y los valores de moneda, el criterio de ordenación de texto, las convenciones de mayúsculas y minúsculas y las maneras en que se comparan cadenas. La referencia cultural de interfaz de usuario actual se usa para recuperar recursos específicos de referencias culturales en tiempo de ejecución.  
+ Todos los subprocesos en una aplicación .NET tienen una referencia cultural actual y una referencia cultural de interfaz de usuario actual. La referencia cultural determina las convenciones de formato de fechas, horas, números y los valores de moneda, el criterio de ordenación de texto, las convenciones de mayúsculas y minúsculas y las maneras en que se comparan cadenas. La referencia cultural de interfaz de usuario actual se usa para recuperar recursos específicos de referencias culturales en tiempo de ejecución.  
   
 > [!NOTE]
 >  Para obtener información sobre cómo se determina la referencia cultural de interfaz de usuario actual y actual por subproceso, vea el [referencia cultural y los subprocesos](#Threads) sección. Para obtener información sobre cómo se determina la referencia cultural de interfaz de usuario actual y actual de subprocesos en ejecución en un nuevo dominio de aplicación y en los subprocesos que cruzan los límites del dominio de aplicación, vea el [referencia cultural y los dominios de aplicación](#AppDomain) sección. Para obtener información sobre cómo se determina el actual y actual de subprocesos que realizan operaciones asincrónicas basadas en tareas, consulte el [referencia cultural y operaciones asincrónicas basadas en tareas](#Async) sección.  
@@ -187,7 +207,7 @@
   
 1.  Crear una instancia de un <xref:System.Globalization.CultureInfo> objeto que representa esa referencia cultural mediante una llamada a un <xref:System.Globalization.CultureInfo> clase constructor y pásele el nombre de la referencia cultural. El <xref:System.Globalization.CultureInfo.%23ctor%28System.String%29> constructor crea un <xref:System.Globalization.CultureInfo> objeto que refleja el usuario reemplaza si la nueva referencia cultural es igual que la referencia cultural actual de Windows.   El <xref:System.Globalization.CultureInfo.%23ctor%28System.String%2CSystem.Boolean%29> constructor le permite especificar si la instancia recién creada <xref:System.Globalization.CultureInfo> objeto refleja las invalidaciones de usuario si la nueva referencia cultural es igual que la referencia cultural actual de Windows.  
   
-2.  Asignar el <xref:System.Globalization.CultureInfo> de objeto para el <xref:System.Threading.Thread.CurrentCulture%2A?displayProperty=nameWithType> o <xref:System.Threading.Thread.CurrentUICulture%2A?displayProperty=nameWithType> propiedad. Además, para las aplicaciones que se ejecutan en la versión 4.6 o posterior de .NET Framework de escritorio, también puede asignar el <xref:System.Globalization.CultureInfo> de objeto para el <xref:System.Globalization.CultureInfo.CurrentCulture%2A?displayProperty=nameWithType> o <xref:System.Globalization.CultureInfo.CurrentUICulture%2A?displayProperty=nameWithType> propiedad.  
+2.  Asignar el <xref:System.Globalization.CultureInfo> de objeto para el <xref:System.Globalization.CultureInfo.CurrentCulture%2A?displayProperty=nameWithType> o <xref:System.Globalization.CultureInfo.CurrentUICulture%2A?displayProperty=nameWithType> propiedad en .NET Core y .NET Framework 4.6 y versiones posteriores. (En .NET Framework 4.5.2 y versiones anteriores, youc asignar el `CultureInfo` de objeto para el <xref:System.Threading.Thread.CurrentCulture%2A?displayProperty=nameWithType> o <xref:System.Threading.Thread.CurrentUICulture%2A?displayProperty=nameWithType> propiedad.)   
   
  El ejemplo siguiente recupera la referencia cultural actual. Si es distinto de la referencia cultural Francés (Francia), cambia la referencia cultural actual al francés (Francia). En caso contrario, cambia la referencia cultural actual a francés (Luxemburgo).  
   
@@ -277,15 +297,15 @@
  [!code-csharp[System.Globalization.CultureInfo.Class.Async#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.globalization.cultureinfo.class.async/cs/asyncculture4.cs#4)]
  [!code-vb[System.Globalization.CultureInfo.Class.Async#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.globalization.cultureinfo.class.async/vb/asyncculture4.vb#4)]  
   
-<a name="Serialization"></a>   
+<a name="Serialization"></a>  
 ## <a name="cultureinfo-object-serialization"></a>Serialización de objeto CultureInfo  
  Cuando un <xref:System.Globalization.CultureInfo> se serializa el objeto, todo lo que se almacena realmente es <xref:System.Globalization.CultureInfo.Name%2A> y <xref:System.Globalization.CultureInfo.UseUserOverride%2A>. Resulta correctamente deserializado en un entorno donde que <xref:System.Globalization.CultureInfo.Name%2A> tiene el mismo significado. Los tres ejemplos siguientes muestran por qué no es siempre el caso:  
   
--   Si el <xref:System.Globalization.CultureInfo.CultureTypes%2A> es el valor de propiedad <xref:System.Globalization.CultureTypes?displayProperty=nameWithType>, y si esa referencia cultural se presentó en Windows Vista o una versión posterior del sistema operativo Windows, no es posible deserializar en Windows XP. De forma similar, si la referencia cultural se presentó en Windows XP Service Pack 2, no es posible deserializar de un sistema de Windows XP en el que no se ha instalado la referencia cultural.  
+- Si el <xref:System.Globalization.CultureInfo.CultureTypes%2A> es el valor de propiedad <xref:System.Globalization.CultureTypes.InstalledWin32Cultures?displayProperty=nameWithType>, y si esa referencia cultural se introdujo por primera vez en una versión concreta del sistema operativo Windows, no es posible deserializarlo en una versión anterior de Windows. Por ejemplo, si una referencia cultural se introdujo en Windows 10, no se puede deserializar en Windows 8.  
   
--   Si el <xref:System.Globalization.CultureInfo.CultureTypes%2A> valor es <xref:System.Globalization.CultureTypes?displayProperty=nameWithType>y el equipo en el que se deserializa no tiene esta referencia cultural personalizada instalada, no es posible anular la serialización.  
+-   Si el <xref:System.Globalization.CultureInfo.CultureTypes%2A> valor es <xref:System.Globalization.CultureTypes.UserCustomCulture?displayProperty=nameWithType>y el equipo en el que se deserializa no tiene esta referencia cultural personalizada instalada, no es posible deserializarlo.  
   
--   Si el <xref:System.Globalization.CultureInfo.CultureTypes%2A> valor es <xref:System.Globalization.CultureTypes?displayProperty=nameWithType>y el equipo en el que se deserializa no tiene esta referencia cultural de reemplazo, se deserializa en el mismo nombre, pero no todas las mismas características. Por ejemplo, si en-US es una referencia cultural de reemplazo en el equipo, pero no en el equipo B y si un <xref:System.Globalization.CultureInfo> de objeto que hace referencia a esta referencia cultural se serializa en el equipo y se deserializa en el equipo B, a continuación, ninguna de las características de la referencia cultural personalizadas es transmite. La referencia cultural se deserializará correctamente, pero con un significado diferente.  
+-   Si el <xref:System.Globalization.CultureInfo.CultureTypes%2A> valor es <xref:System.Globalization.CultureTypes.ReplacementCultures?displayProperty=nameWithType>y el equipo en el que se deserializa no tiene esta referencia cultural de reemplazo, se deserializa en el mismo nombre, pero no todas las mismas características. Por ejemplo, si en-US es una referencia cultural de reemplazo en el equipo, pero no en el equipo B y si un <xref:System.Globalization.CultureInfo> de objeto que hace referencia a esta referencia cultural se serializa en el equipo y se deserializa en el equipo B, a continuación, ninguna de las características de la referencia cultural personalizadas es transmite. La referencia cultural deserializa correctamente, pero con un significado diferente.  
   
 <a name="CPanel"></a>   
 ## <a name="control-panel-overrides"></a>Invalida el Panel de control  
@@ -311,10 +331,10 @@
 |zh-HK|Chino (Zona administrativa especial de Hong Kong)|Número de trazos: 0x00000c04|Número de trazos: 0x00020c04|  
 |zh-sg|Chino (Singapur)|Pronunciación: 0x00001004|Número de trazos: 0x00021004|  
 |zh-MO|Chino (Macao RAE)|Pronunciación: 0x00001404|Número de trazos: 0x00021404|  
-|ja-JP|Japonés (Japón)|Predeterminada: 0x00000411|Unicode: 0x00010411|  
-|ko-KR|Coreano (Corea)|Predeterminada: 0x00000412|Xwansung coreano - Unicode: 0x00010412|  
+|ja-JP|Japonés (Japón)|Predeterminado: 0x00000411|Unicode: 0x00010411|  
+|ko-KR|Coreano (Corea)|Predeterminado: 0x00000412|Xwansung coreano - Unicode: 0x00010412|  
 |de-DE|Alemán (Alemania)|Diccionario: 0x00000407|Ordenación de libreta de teléfonos DIN: 0x00010407|  
-|hu-HU|Húngaro (Hungría)|Predeterminada: 0x0000040e|Ordenación técnica: 0x0001040e|  
+|hu-HU|Húngaro (Hungría)|Predeterminado: 0x0000040e|Ordenación técnica: 0x0001040e|  
 |ka-GE|Georgiano (Georgia)|Tradicional: 0x00000437|Alfabetización internacional: 0x00010437|  
   
 <a name="Windows"></a>   
@@ -938,10 +958,10 @@ En las aplicaciones de .NET Framework y .NET Core, la referencia cultural actual
         <returns>Objeto <see cref="T:System.Globalization.CultureInfo" /> que representa: 
 La referencia cultural invariable, si <paramref name="name" /> es una cadena vacía ("").  
   
-O bien 
+-o bien- 
 La referencia cultural específica asociada a <paramref name="name" />, si <paramref name="name" /> es una referencia cultural neutra.  
   
-O bien 
+-o bien- 
 La referencia cultural especificada por <paramref name="name" />, si <paramref name="name" /> ya es una referencia cultural específica.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -975,7 +995,7 @@ La referencia cultural especificada por <paramref name="name" />, si <paramref n
         </remarks>
         <exception cref="T:System.Globalization.CultureNotFoundException"><paramref name="name" /> no es un nombre de referencia cultural válido.  
   
-O bien 
+-o bien- 
 La referencia cultural especificada por <paramref name="name" /> no tiene una referencia cultural específica asociada.</exception>
         <exception cref="T:System.NullReferenceException"><paramref name="name" /> es null.</exception>
         <block subset="none" type="usage"><para>El [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] y versiones anteriores a producir un <see cref="T:System.ArgumentException" /> si <paramref name="name" /> no es un nombre de referencia cultural válido. A partir de la [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], este método produce una <see cref="T:System.Globalization.CultureNotFoundException" />.</para></block>
@@ -2103,7 +2123,7 @@ csc /resource:GreetingStrings.resources Example1.cs
       </Parameters>
       <Docs>
         <param name="name">Nombre de una referencia cultural. <paramref name="name" /> no distingue entre mayúsculas y minúsculas.</param>
-        <param name="altName">Nombre de una referencia cultural que proporciona los objetos <see cref="T:System.Globalization.TextInfo" /> y <see cref="T:System.Globalization.CompareInfo" /> utilizados para inicializar <paramref name="name" />. <paramref name="altName" /> no distingue entre mayúsculas y minúsculas.</param>
+        <param name="altName">Nombre de una referencia cultural que proporciona los objetos <see cref="T:System.Globalization.TextInfo" /> y <see cref="T:System.Globalization.CompareInfo" /> usados para inicializar <paramref name="name" />. <paramref name="altName" /> no distingue entre mayúsculas y minúsculas.</param>
         <summary>Recupera una instancia almacenada en memoria caché, de solo lectura, de una referencia cultural. Los parámetros especifican una referencia cultural que se inicializa con los objetos <see cref="T:System.Globalization.TextInfo" /> y <see cref="T:System.Globalization.CompareInfo" /> especificados por otra referencia cultural.</summary>
         <returns>Un objeto <see cref="T:System.Globalization.CultureInfo" /> de solo lectura.</returns>
         <remarks>
@@ -2310,10 +2330,10 @@ csc /resource:GreetingStrings.resources Example1.cs
         <summary>Obtiene un objeto que define cómo se aplica el formato al tipo especificado.</summary>
         <returns>Valor de la propiedad <see cref="P:System.Globalization.CultureInfo.NumberFormat" />, que es una clase <see cref="T:System.Globalization.NumberFormatInfo" /> que contiene información sobre el formato predeterminado de número para la clase <see cref="T:System.Globalization.CultureInfo" /> actual, si <paramref name="formatType" /> es el objeto <see cref="T:System.Type" /> de la clase <see cref="T:System.Globalization.NumberFormatInfo" />.  
   
-O bien 
+-o bien- 
 Valor de la propiedad <see cref="P:System.Globalization.CultureInfo.DateTimeFormat" />, que es una clase <see cref="T:System.Globalization.DateTimeFormatInfo" /> que contiene información sobre el formato predeterminado de fecha y hora para la clase <see cref="T:System.Globalization.CultureInfo" /> actual, si <paramref name="formatType" /> es el objeto <see cref="T:System.Type" /> de la clase <see cref="T:System.Globalization.DateTimeFormatInfo" />.  
   
-O bien 
+-o bien- 
 null, si <paramref name="formatType" /> es cualquier otro objeto.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  

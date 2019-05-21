@@ -1,5 +1,5 @@
 <Type Name="RequestCacheLevel" FullName="System.Net.Cache.RequestCacheLevel">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="66f8774c30d3c10a73e0b4d876ea49f28750a7b8" /><Meta Name="ms.sourcegitcommit" Value="a3e01ec36374fac54a55add0dcc1e754e394abeb" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="03/30/2019" /><Meta Name="ms.locfileid" Value="58713457" /></Metadata><TypeSignature Language="C#" Value="public enum RequestCacheLevel" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="ba3b8411cdeb85b710e8fb5355cbffd6a81da2be" /><Meta Name="ms.sourcegitcommit" Value="f61362e4134a78bac27d2c8136823a467216f4ab" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="05/15/2019" /><Meta Name="ms.locfileid" Value="65629405" /></Metadata><TypeSignature Language="C#" Value="public enum RequestCacheLevel" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed RequestCacheLevel extends System.Enum" />
   <TypeSignature Language="DocId" Value="T:System.Net.Cache.RequestCacheLevel" />
   <TypeSignature Language="VB.NET" Value="Public Enum RequestCacheLevel" />
@@ -32,13 +32,13 @@
 ## Remarks  
  Los miembros de esta enumeración se utilizan para inicializar <xref:System.Net.Cache.RequestCachePolicy> objetos. La configuración actual de un <xref:System.Net.Cache.RequestCachePolicy> objeto está disponible en el <xref:System.Net.Cache.HttpRequestCachePolicy.Level%2A?displayProperty=nameWithType> propiedad.  
   
- Esto <xref:System.Net.Cache.HttpRequestCacheLevel.BypassCache> valor es el comportamiento de caché predeterminado especificado en el archivo de configuración del equipo que se distribuye con .NET Framework. Ninguna entrada se obtiene de las memorias caché, ni se agrega o se quita de las memorias caché entre el cliente y servidor.  
+ Esto <xref:System.Net.Cache.HttpRequestCacheLevel.BypassCache> valor es el comportamiento de caché predeterminado especificado en el archivo de configuración del equipo que se distribuye con .NET Framework. Sin entradas se toman de las memorias caché, se agregan a las memorias caché o se quitan de las memorias caché entre el cliente y servidor.  
   
  El <xref:System.Net.HttpWebRequest.DefaultCachePolicy%2A?displayProperty=nameWithType> propiedad se utiliza para obtener o establecer la directiva de caché predeterminada para <xref:System.Net.HttpWebRequest> instancias. El <xref:System.Net.WebRequest.CachePolicy%2A?displayProperty=nameWithType> propiedad se utiliza para obtener o establecer la directiva de caché predeterminada para un <xref:System.Net.WebRequest> instancias. El <xref:System.Net.WebRequest.CachePolicy%2A?displayProperty=nameWithType> propiedad se utiliza para obtener o establecer la directiva de caché para una solicitud específica.  
-  
- Una copia de un recurso solo se agrega a la memoria caché si la secuencia de respuesta para el recurso se recupera y leer hasta el final de la secuencia. Por lo que otra solicitud para el mismo recurso podría usar una copia en caché, según el nivel de directiva de caché predeterminada para esta solicitud.  
-  
-   
+
+Si el comportamiento de caché es `CacheIfAvailable` o `Revalidate`, una copia de un recurso solicitado solo se agrega a la memoria caché si la secuencia de respuesta para el recurso se recupera y leer hasta el final de la secuencia. Con `CacheIfAvailable`, las siguientes solicitudes para el mismo recurso usaría una copia en caché. Con `Revalidate`, las siguientes solicitudes para el mismo recurso usaría una copia en caché si la marca de tiempo para el recurso almacenado en caché es igual que la marca de tiempo del recurso en el servidor.  
+
+Una copia de un recurso solo se agrega a la memoria caché si la secuencia de respuesta para el recurso se recupera y leer hasta el final de la secuencia. Por lo que otra solicitud para el mismo recurso podría usar una copia en caché, según el nivel de directiva de caché predeterminada para esta solicitud.   
   
 ## Examples  
  En el ejemplo de código siguiente se crea la directiva que devuelve un recurso solo si está en la memoria caché.  
@@ -83,7 +83,7 @@
       </ReturnValue>
       <MemberValue>1</MemberValue>
       <Docs>
-        <summary>Atiende una solicitud utilizando el servidor. Ninguna entrada se obtiene de las memorias caché, ni se agrega o se quita de las memorias caché entre el cliente y servidor. Éste es el comportamiento predeterminado de la caché especificado en el archivo de configuración del equipo que se distribuye con .NET Framework.</summary>
+        <summary>Atiende una solicitud utilizando el servidor. Sin entradas se toman de las memorias caché, se agregan a las memorias caché o se quitan de las memorias caché entre el cliente y servidor. Este es el comportamiento de caché predeterminado especificado en el archivo de configuración del equipo que se distribuye con .NET Framework.</summary>
       </Docs>
     </Member>
     <Member MemberName="CacheIfAvailable">
@@ -115,15 +115,8 @@
       </ReturnValue>
       <MemberValue>3</MemberValue>
       <Docs>
-        <summary>Atiende una solicitud de un recurso de la caché si el recurso está disponible; de lo contrario, envía una solicitud de un recurso al servidor. Si el elemento solicitado está disponible en cualquier caché entre el cliente y el servidor, la caché intermedia podría atender la solicitud.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Una copia de un recurso solicitado solo se agrega a la memoria caché si la secuencia de respuesta para el recurso se recupera y leer hasta el final de la secuencia. Por lo que las solicitudes posteriores para el mismo recurso usaría una copia en caché.  
-  
- ]]></format>
-        </remarks>
+        <summary>Atiende una solicitud para un recurso de la memoria caché, si el recurso está disponible; de lo contrario, envía una solicitud para un recurso en el servidor. Si el elemento solicitado está disponible en cualquier caché entre el cliente y el servidor, se puede satisfacer la solicitud de la caché intermedia.</summary>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <Member MemberName="CacheOnly">
@@ -155,7 +148,7 @@
       </ReturnValue>
       <MemberValue>2</MemberValue>
       <Docs>
-        <summary>Atiende una solicitud mediante el recurso almacenado en la memoria caché local; no envía una solicitud de un elemento que no se encuentre en la caché. Cuando se especifica este nivel de directiva de caché, se produce una excepción <see cref="T:System.Net.WebException" /> si el elemento no está en la caché del cliente.</summary>
+        <summary>Atiende una solicitud mediante el recurso almacenado en caché localmente; no se envía una solicitud para un elemento que no está en la caché. Cuando se especifica este nivel de directiva de caché, un <see cref="T:System.Net.WebException" /> excepción se produce si el elemento no está en la caché del cliente.</summary>
       </Docs>
     </Member>
     <Member MemberName="Default">
@@ -187,7 +180,7 @@
       </ReturnValue>
       <MemberValue>0</MemberValue>
       <Docs>
-        <summary>Atiende una solicitud de un recurso utilizando la copia almacenada en caché del recurso o enviando una solicitud del recurso al servidor. La directiva de caché actual y la antigüedad del contenido de la caché determinan la acción que se va a realizar. Éste es el nivel de caché que deben utilizar la mayoría de las aplicaciones.</summary>
+        <summary>Atiende una solicitud para un recurso mediante el uso de la copia en caché del recurso o enviando una solicitud para el recurso en el servidor. La acción realizada viene determinada por la directiva de caché actual y la antigüedad del contenido en la memoria caché. Este es el nivel de caché que se utilizará en la mayoría de las aplicaciones.</summary>
       </Docs>
     </Member>
     <Member MemberName="NoCacheNoStore">
@@ -219,7 +212,7 @@
       </ReturnValue>
       <MemberValue>6</MemberValue>
       <Docs>
-        <summary>Nunca atiende una solicitud utilizando los recursos de la caché y no almacena los recursos en memoria caché. Si el recurso está presente en la caché local, se quita. Este nivel de directiva indica a las memorias caché intermedias que deben quitar el recurso. En el protocolo de almacenamiento en caché HTTP, esto se logra utilizando la directiva de control de caché <see langword="no-cache" />.</summary>
+        <summary>Nunca atiende una solicitud mediante el uso de recursos de la memoria caché y no almacena en caché los recursos. Si el recurso está presente en la memoria caché local, se quita. Este nivel de directiva indica a las memorias caché intermedias que deben quitar el recurso. En el protocolo de almacenamiento en caché HTTP, esto se logra utilizando la <see langword="no-cache" /> directiva de control de caché.</summary>
       </Docs>
     </Member>
     <Member MemberName="Reload">
@@ -251,7 +244,7 @@
       </ReturnValue>
       <MemberValue>5</MemberValue>
       <Docs>
-        <summary>Atiende una solicitud utilizando el servidor. La respuesta podría guardarse en la caché. En el protocolo de almacenamiento en caché HTTP, esto se logra utilizando la directiva de control de caché <see langword="no-cache" /> y el encabezado <see langword="Pragma" /> que no es de caché.</summary>
+        <summary>Atiende una solicitud utilizando el servidor. La respuesta podría estar guardada en la memoria caché. En el protocolo de almacenamiento en caché HTTP, esto se logra utilizando la <see langword="no-cache" /> el no almacenar en caché y la directiva de control de caché <see langword="Pragma" /> encabezado.</summary>
       </Docs>
     </Member>
     <Member MemberName="Revalidate">
@@ -283,15 +276,8 @@
       </ReturnValue>
       <MemberValue>4</MemberValue>
       <Docs>
-        <summary>Atiende una solicitud utilizando la copia almacenada en caché del recurso si la marca de tiempo es igual que la marca de tiempo del recurso en el servidor; de lo contrario, el recurso se descarga del servidor, se presenta al llamador y se almacena en la caché.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Una copia de un recurso solo se agrega a la memoria caché si la secuencia de respuesta para el recurso se recupera y leer hasta el final de la secuencia. Las solicitudes posteriores por lo que para el mismo recurso usaría una copia en caché si la marca de tiempo para el recurso almacenado en caché es igual que la marca de tiempo del recurso en el servidor.  
-  
- ]]></format>
-        </remarks>
+        <summary>Atiende una solicitud mediante el uso de la copia en caché del recurso si la marca de tiempo es igual que la marca de tiempo del recurso en el servidor. en caso contrario, el recurso se descarga desde el servidor, presenta al llamador y almacenado en la memoria caché.</summary>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
   </Members>
