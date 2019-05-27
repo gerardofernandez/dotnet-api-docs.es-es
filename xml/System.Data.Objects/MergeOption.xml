@@ -1,5 +1,5 @@
 <Type Name="MergeOption" FullName="System.Data.Objects.MergeOption">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="1d49e64ceb971f90e931f64f06cf0918327392a3" /><Meta Name="ms.sourcegitcommit" Value="19b66619a469ee45c85c618f8a605859882eb638" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="01/10/2019" /><Meta Name="ms.locfileid" Value="54183829" /></Metadata><TypeSignature Language="C#" Value="public enum MergeOption" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="7a293338991ef78298771270dfb73a3f393ab030" /><Meta Name="ms.sourcegitcommit" Value="9a6da88bd5455e8274257ca7ad259b42f1de114f" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="05/22/2019" /><Meta Name="ms.locfileid" Value="66006387" /></Metadata><TypeSignature Language="C#" Value="public enum MergeOption" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed MergeOption extends System.Enum" />
   <TypeSignature Language="DocId" Value="T:System.Data.Objects.MergeOption" />
   <TypeSignature Language="VB.NET" Value="Public Enum MergeOption" />
@@ -19,7 +19,21 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- [!INCLUDE[adonet_ef](~/includes/adonet-ef-md.md)] solo mantiene una única instancia de un objeto con una clave de entidad concreta en la memoria caché. El <xref:System.Data.EntityKey> objetos son objetos inmutables que representan la identidad del objeto. Las claves de entidad se utilizan para llevar a cabo la resolución de identidad en el contexto del objeto. Para obtener más información, consulte [trabajar con claves de entidad](https://docs.microsoft.com/previous-versions/dotnet/netframework-4.0/dd283139(v=vs.100)). Si una entidad con la misma identidad ya que se realiza el seguimiento, los datos procedentes del origen de datos y los datos ya está en el Administrador de estado se combinan según la <xref:System.Data.Objects.MergeOption> de la consulta.  
+ Entity Framework solo mantiene una sola instancia de un objeto con una clave de entidad concreta en la memoria caché. El <xref:System.Data.EntityKey> objetos son objetos inmutables que representan la identidad del objeto. Las claves de entidad se utilizan para llevar a cabo la resolución de identidad en el contexto del objeto. Para obtener más información, consulte [trabajar con claves de entidad](https://docs.microsoft.com/previous-versions/dotnet/netframework-4.0/dd283139(v=vs.100)). Si una entidad con la misma identidad ya que se realiza el seguimiento, los datos procedentes del origen de datos y los datos ya está en el Administrador de estado se combinan según la <xref:System.Data.Objects.MergeOption> de la consulta.  
+
+### <a name="additional-information-on-mergeoptionpreservechanges"></a>Información adicional acerca de `MergeOption.PreserveChanges`
+
+ Si el estado de la entidad es <xref:System.Data.EntityState.Unchanged?displayProperty=nameWithType>, los valores actual y original de la entrada se sobrescriben con valores del origen de datos. El estado de la entidad sigue siendo <xref:System.Data.EntityState.Unchanged?displayProperty=nameWithType> y ninguna propiedad se marca como modificada.  
+  
+ Si el estado de la entidad es <xref:System.Data.EntityState.Modified?displayProperty=nameWithType>, los valores actuales de las propiedades modificadas no se sobrescriben con valores del origen de datos. Los valores originales de las propiedades no modificadas se sobrescriben con los valores del origen de datos.  
+  
+ En .NET Framework 4, Entity Framework compara los valores actuales de las propiedades no modificadas con los valores que se han devuelto desde el origen de datos. Si los valores no son iguales, la propiedad se marca como modificada.  
+  
+ En .NET Framework 3.5 SP1, Entity Framework no marca la propiedad como modificada, incluso si el valor del origen de datos es diferente.  
+  
+ Solo las propiedades modificadas se conservan en el origen de datos al llamar a <xref:System.Data.Objects.ObjectContext.SaveChanges%2A?displayProperty=nameWithType>.  
+  
+ Para conservar el comportamiento de .NET Framework 3.5 SP1, establezca <xref:System.Data.Objects.ObjectContextOptions.UseLegacyPreserveChangesBehavior%2A?displayProperty=nameWithType> a `true`. La opción `PreserveChanges` se puede utilizar para resolver las excepciones de simultaneidad optimista al tiempo que se conservan los cambios en el contexto local. Para obtener más información, consulte [guardar los cambios y administración de la simultaneidad](https://docs.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/bb738618(v=vs.100)).
   
  ]]></format>
     </remarks>
@@ -107,24 +121,7 @@
       <MemberValue>2</MemberValue>
       <Docs>
         <summary>Los objetos que no existen en el contexto del objeto se adjuntan al contexto.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Si el estado de la entidad es <xref:System.Data.EntityState.Unchanged>, los valores actual y original de la entrada se sobrescriben con valores del origen de datos. El estado de la entidad sigue siendo <xref:System.Data.EntityState.Unchanged> y ninguna propiedad se marca como modificada.  
-  
- Si el estado de la entidad es <xref:System.Data.EntityState.Modified>, los valores actuales de las propiedades modificadas no se sobrescriben con valores del origen de datos. Los valores originales de las propiedades no modificadas se sobrescriben con los valores del origen de datos.  
-  
- En el [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] versión 4, el [!INCLUDE[adonet_ef](~/includes/adonet-ef-md.md)] compara los valores actuales de las propiedades no modificadas con los valores que se han devuelto desde el origen de datos. Si los valores no son iguales, la propiedad se marca como modificada.  
-  
- En [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] versión 3.5 SP1, [!INCLUDE[adonet_ef](~/includes/adonet-ef-md.md)] no marca la propiedad como modificada, aunque el valor en el origen de datos sea diferente.  
-  
- Solo las propiedades modificadas se conservan en el origen de datos al llamar a <xref:System.Data.Objects.ObjectContext.SaveChanges%2A>.  
-  
- Para conservar el comportamiento de la versión 3.5 SP1, establezca <xref:System.Data.Objects.ObjectContextOptions.UseLegacyPreserveChangesBehavior%2A> en `true`. La opción PreserveChanges puede utilizarse para resolver las excepciones de simultaneidad optimista al tiempo que conservan los cambios en el contexto local. Para obtener más información, consulte [guardar los cambios y administración de la simultaneidad](https://msdn.microsoft.com/library/b8378601-4f26-4a05-a24a-f50aeb68610e).  
-  
- ]]></format>
-        </remarks>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
   </Members>
