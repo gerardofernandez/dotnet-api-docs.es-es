@@ -1,5 +1,5 @@
 <Type Name="Utf8JsonWriter" FullName="System.Text.Json.Utf8JsonWriter">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="b4b7b0497772f410974a25727535fde4953c5d22" /><Meta Name="ms.sourcegitcommit" Value="95e24aee1283af2f120fc5da4b0bdc0712ab698f" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="05/06/2019" /><Meta Name="ms.locfileid" Value="65156012" /></Metadata><TypeSignature Language="C#" Value="public sealed class Utf8JsonWriter : IAsyncDisposable, IDisposable" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="034cf5e0f42e28ed370f3808a6f6cc66720c30a5" /><Meta Name="ms.sourcegitcommit" Value="ef1f0c8985003a14413f66c3de381b8f3b6e4436" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="05/30/2019" /><Meta Name="ms.locfileid" Value="66381208" /></Metadata><TypeSignature Language="C#" Value="public sealed class Utf8JsonWriter : IAsyncDisposable, IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit Utf8JsonWriter extends System.Object implements class System.IAsyncDisposable, class System.IDisposable" />
   <TypeSignature Language="DocId" Value="T:System.Text.Json.Utf8JsonWriter" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class Utf8JsonWriter&#xA;Implements IAsyncDisposable, IDisposable" />
@@ -31,8 +31,10 @@
 `Utf8JsonWriter` Escribe el texto de forma secuencial con ningún almacenamiento en caché y de forma predeterminada se ajusta a la [JSON RFC](https://tools.ietf.org/html/rfc8259), a excepción de escribir comentarios.
 
 Un método que intenta escribir JSON no válido cuando la validación es habilitado inicia un <xref:System.InvalidOperationException> con un mensaje de error específicos del contexto.
+
 Puesto que este tipo es un struct ref, no admite directamente async. Sin embargo, proporciona compatibilidad para la reentrada para escribir datos parciales y seguir escribiendo en fragmentos.
-Para poder dar formato al resultado con sangría y espacios en blanco u omitir la validación, cree una instancia de <xref:System.Text.Json.JsonWriterState> y pásela al sistema de escritura.
+
+Para poder dar formato al resultado con sangría y espacios en blanco u omitir la validación, cree una instancia de <xref:System.Text.Json.JsonWriterOptions> y pasarlo en el sistema de escritura.
 
  ]]></format>
     </remarks>
@@ -54,10 +56,11 @@ Para poder dar formato al resultado con sangría y espacios en blanco u omitir l
         <Parameter Name="options" Type="System.Text.Json.JsonWriterOptions" />
       </Parameters>
       <Docs>
-        <param name="bufferWriter">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="bufferWriter">Destino de la escritura de texto JSON.</param>
+        <param name="options">Define el comportamiento personalizado de la <see cref="T:System.Text.Json.Utf8JsonWriter" />. De forma predeterminada, escribe JSON minimizado (sin espacios en blanco adicionales) y valida que el JSON que se escribe es estructuralmente válido según la JSON RFC.</param>
+        <summary>Crea una instancia de <see cref="T:System.Text.Json.Utf8JsonWriter" /> con un objeto <see cref="T:System.Buffers.IBufferWriter&lt;System.Byte&gt;" /> especificado.</summary>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException">El valor de <paramref name="bufferWriter" /> es <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -76,10 +79,11 @@ Para poder dar formato al resultado con sangría y espacios en blanco u omitir l
         <Parameter Name="options" Type="System.Text.Json.JsonWriterOptions" />
       </Parameters>
       <Docs>
-        <param name="utf8Json">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="utf8Json">Destino de la escritura de texto JSON.</param>
+        <param name="options">Define el comportamiento personalizado de la <see cref="T:System.Text.Json.Utf8JsonWriter" />. De forma predeterminada, escribe JSON minimizado (sin espacios en blanco adicionales) y valida que el JSON que se escribe es estructuralmente válido según la JSON RFC.</param>
+        <summary>Crea una instancia de <see cref="T:System.Text.Json.Utf8JsonWriter" /> con un objeto <paramref name="utf8Json" /> especificado.</summary>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException"><paramref name="utf8Json" /> es <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="BytesCommitted">
@@ -98,10 +102,17 @@ Para poder dar formato al resultado con sangría y espacios en blanco u omitir l
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtiene el número total de bytes confirmados en la salida mediante <see cref="T:System.Text.Json.Utf8JsonWriter" /> hasta el momento para la instancia actual de <see cref="T:System.Text.Json.Utf8JsonWriter" />.
-Esto indica cuánto ha avanzado <see cref="T:System.Buffers.IBufferWriter`1" />.</summary>
+        <summary>Obtiene el número total de bytes confirmados en la salida por la instancia actual hasta el momento.</summary>
         <value>El número total de bytes confirmados en la salida por el <see cref="T:System.Text.Json.Utf8JsonWriter" /> hasta ahora.</value>
-        <remarks>To be added.</remarks>
+        <remarks>
+          <format><![CDATA[
+          
+En el caso de un <xref:System.Buffers.IBufferWriter%601>, esta propiedad indica cuánto ha avanzado el IBufferWriter.
+
+En el caso de un <xref:System.IO.Stream>, esta propiedad indica la cantidad de datos se ha escrito en la secuencia.
+
+          ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="BytesPending">
@@ -120,7 +131,7 @@ Esto indica cuánto ha avanzado <see cref="T:System.Buffers.IBufferWriter`1" />.
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Obtiene el número de bytes escritos por el objeto <see cref="T:System.Text.Json.Utf8JsonWriter" /> hasta el momento que aún no se han vaciado en la salida y confirmado.</summary>
         <value>To be added.</value>
         <remarks>To be added.</remarks>
       </Docs>
@@ -174,8 +185,16 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Confirma el texto JSON restante que aún no se ha vaciado y libera todos los recursos utilizados por la instancia actual.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+En el caso de IBufferWriter, esto hace avanzar subyacente <xref:System.Buffers.IBufferWriter`1> según lo que se ha escrito hasta ahora.
+
+En el caso de Stream, este escribe los datos en la secuencia y la vuelca.
+
+          ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="DisposeAsync">
@@ -198,9 +217,17 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Confirma asincrónicamente el texto JSON restante que aún no se ha vaciado y libera todos los recursos utilizados por la instancia actual.</summary>
         <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <remarks>
+          <format><![CDATA[
+          
+En el caso de IBufferWriter, esto hace avanzar subyacente <xref:System.Buffers.IBufferWriter`1> según lo que se ha escrito hasta ahora.
+          
+En el caso de Stream, este escribe los datos en la secuencia y la vuelca.
+            
+            ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Flush">
@@ -220,8 +247,17 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Confirma el texto JSON escrito hasta el momento, lo que hace que sea visible en el destino de salida.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+En el caso de IBufferWriter, esto hace avanzar subyacente <xref:System.Buffers.IBufferWriter`1> según lo que se ha escrito hasta ahora.
+
+En el caso de <xref:System.IO.Stream>, éste escribe los datos en la secuencia y la vuelca.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ObjectDisposedException">Esta instancia se ha eliminado.</exception>
       </Docs>
     </Member>
     <Member MemberName="FlushAsync">
@@ -242,9 +278,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
       </Parameters>
       <Docs>
         <param name="cancellationToken">To be added.</param>
-        <summary>To be added.</summary>
+        <summary>Confirma asincrónicamente el texto JSON escrito hasta el momento, lo que hace que sea visible en el destino de salida.</summary>
         <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <remarks>
+          <format><![CDATA[
+          
+En el caso de IBufferWriter, esto hace avanzar subyacente <xref:System.Buffers.IBufferWriter`1> según lo que se ha escrito hasta ahora.
+
+En el caso de <xref:System.IO.Stream>, esto escribe los datos en la secuencia y la vuelca asincrónicamente, al supervisar las solicitudes de cancelación.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ObjectDisposedException">Esta instancia se ha eliminado.</exception>
       </Docs>
     </Member>
     <Member MemberName="Options">
@@ -263,7 +308,7 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <ReturnType>System.Text.Json.JsonWriterOptions</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Obtiene el comportamiento personalizado al escribir JSON con esta instancia, lo que indica si se debe dar formato a la salida mientras se escribe y si se debe omitir la validación JSON estructural.</summary>
         <value>To be added.</value>
         <remarks>To be added.</remarks>
       </Docs>
@@ -285,8 +330,15 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Restablece el estado interno de esta instancia para que se pueda reutilizar.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El <xref:System.Text.Json.Utf8JsonWriter> seguirá usando las opciones de sistema de escritura original y la salida original (ya sea <xref:System.Buffers.IBufferWriter`1> o <xref:System.IO.Stream>) como el destino.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ObjectDisposedException">Esta instancia se ha eliminado.</exception>
       </Docs>
     </Member>
     <Member MemberName="Reset">
@@ -308,9 +360,17 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="bufferWriter" Type="System.Buffers.IBufferWriter&lt;System.Byte&gt;" />
       </Parameters>
       <Docs>
-        <param name="bufferWriter">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="bufferWriter">Destino de la escritura de texto JSON.</param>
+        <summary>Restablece el estado interno de esta instancia para que se pueda reutilizar con una nueva instancia de <see cref="T:System.Buffers.IBufferWriter`1" />.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El <xref:System.Text.Json.Utf8JsonWriter> seguirá usando las opciones de sistema de escritura original, pero ahora se escribe en `bufferWriter` como el nuevo destino.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException"><paramref name="bufferWriter" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ObjectDisposedException">Esta instancia se ha eliminado.</exception>
       </Docs>
     </Member>
     <Member MemberName="Reset">
@@ -332,9 +392,17 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="utf8Json" Type="System.IO.Stream" />
       </Parameters>
       <Docs>
-        <param name="utf8Json">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8Json">Destino de la escritura de texto JSON.</param>
+        <summary>Restablece el estado interno de esta instancia para que se pueda reutilizar con una nueva instancia de <see cref="T:System.IO.Stream" />.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El <xref:System.Text.Json.Utf8JsonWriter> seguirán utilizando las opciones de sistema de escritura original pero escribir ahora en `utf8Json` como el nuevo destino.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException"><paramref name="utf8Json" /> es <see langword="null" />.</exception>
+        <exception cref="T:System.ObjectDisposedException">Esta instancia se ha eliminado.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteBoolean">
@@ -357,10 +425,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="utf8PropertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8PropertyName">Nombre de propiedad con codificación UTF-8 del objeto JSON que se va a escribir.</param>
+        <param name="value">Valor que se va escribir como un literal "true" o "false" de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de bytes de solo lectura y el valor <see cref="T:System.Boolean" /> (como un literal "true" o "false" de JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación daría lugar a la escritura de JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteBoolean">
@@ -383,10 +459,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como un literal "true" o "false" de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de caracteres de solo lectura y el valor <see cref="T:System.Boolean" /> (como un literal "true" o "false" de JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El nombre de propiedad es de escape antes de la escritura.
+          
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación daría lugar a la escritura de JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteBoolean">
@@ -409,10 +493,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como un literal "true" o "false" de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como cadena y el valor <see cref="T:System.Boolean" /> (como un literal "true" o "false" de JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El nombre de propiedad es de escape antes de la escritura.
+          
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación daría lugar a la escritura de JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteBooleanValue">
@@ -435,9 +527,9 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
       </Parameters>
       <Docs>
         <param name="value">Valor que se va a escribir como un literal "true" o "false" de JSON como un elemento de una matriz de JSON.</param>
-        <summary>Escribe el valor <see cref="T:System.Boolean" /> (como un literal "true" o "false" de JSON) como un elemento de una matriz de JSON.</summary>
+        <summary>Escribe el valor <see cref="T:System.Boolean" /> (como un literal "true" o "false" de JSON) como elemento de una matriz JSON.</summary>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.InvalidOperationException">Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientras está habilitada la validación).</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación daría lugar a la escritura de JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteCommentValue">
@@ -459,9 +551,20 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="utf8Value" Type="System.ReadOnlySpan&lt;System.Byte&gt;" />
       </Parameters>
       <Docs>
-        <param name="utf8Value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8Value">Valor con codificación UTF-8 que se va escribir como comentario de JSON en /*..*/.</param>
+        <summary>Escribe el valor de texto UTF-8 como comentario JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El valor de comentario no se aplicará escape antes de la escritura.
+          
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El valor especificado es demasiado grande.
+        
+O bien
+
+<paramref name="utf8Value" /> contiene un delimitador de comentario (es decir, */).</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteCommentValue">
@@ -483,9 +586,20 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.ReadOnlySpan&lt;System.Char&gt;" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="value">Valor con codificación UTF-16 que se va escribir como comentario de JSON transcodificado a UTF-8 en /*..*/.</param>
+        <summary>Escribe el valor de texto UTF-16 como comentario JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El valor de comentario no se aplicará escape antes de la escritura.
+          
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El valor especificado es demasiado grande.
+        
+O bien
+
+<paramref name="value" /> contiene un delimitador de comentario (es decir, */).</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteCommentValue">
@@ -507,9 +621,20 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="value">Valor con codificación UTF-16 que se va escribir como comentario de JSON transcodificado a UTF-8 en /*..*/.</param>
+        <summary>Escribe el valor de texto de cadena como comentario JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El valor de comentario no se aplicará escape antes de la escritura.
+          
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El valor especificado es demasiado grande.
+        
+O bien
+
+<paramref name="value" /> contiene un delimitador de comentario (es decir, */).</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteEndArray">
@@ -531,7 +656,7 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
       <Docs>
         <summary>Escribe el final de una matriz de JSON.</summary>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.InvalidOperationException">Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientras está habilitada la validación).</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación daría lugar a la escritura de JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteEndObject">
@@ -553,7 +678,7 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
       <Docs>
         <summary>Escribe el final de un objeto de JSON.</summary>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.InvalidOperationException">Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientras está habilitada la validación).</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación daría lugar a la escritura de JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNull">
@@ -575,9 +700,17 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="utf8PropertyName" Type="System.ReadOnlySpan&lt;System.Byte&gt;" />
       </Parameters>
       <Docs>
-        <param name="utf8PropertyName">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8PropertyName">Nombre de propiedad con codificación UTF-8 del objeto JSON que se va a escribir.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de bytes de solo lectura y el literal "NULL" de JSON como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El nombre de propiedad es de escape antes de la escritura.
+          
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNull">
@@ -599,9 +732,17 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="propertyName" Type="System.ReadOnlySpan&lt;System.Char&gt;" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de caracteres de solo lectura y el literal "NULL" de JSON como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El nombre de propiedad es de escape antes de la escritura.
+          
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNull">
@@ -623,9 +764,17 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="propertyName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <summary>Escribe el nombre de propiedad especificado como cadena y el literal "NULL" de JSON como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El nombre de propiedad es de escape antes de la escritura.
+          
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNullValue">
@@ -647,7 +796,7 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
       <Docs>
         <summary>Escribe el literal "NULL" de JSON como un elemento de una matriz de JSON.</summary>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.InvalidOperationException">Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientras está habilitada la validación).</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación daría lugar a la escritura de JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -670,10 +819,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.Decimal" />
       </Parameters>
       <Docs>
-        <param name="utf8PropertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8PropertyName">Nombre de propiedad con codificación UTF-8 del objeto JSON que se va a escribir.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de bytes de solo lectura y el valor <see cref="T:System.Decimal" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El nombre de propiedad es de escape antes de la escritura.
+          
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -696,10 +853,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="utf8PropertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8PropertyName">Nombre de propiedad con codificación UTF-8 del objeto JSON que se va a escribir.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de bytes de solo lectura y el valor <see cref="T:System.Double" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El nombre de propiedad es de escape antes de la escritura.
+          
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -722,10 +887,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="utf8PropertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8PropertyName">Nombre de propiedad con codificación UTF-8 del objeto JSON que se va a escribir.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de bytes de solo lectura y el valor <see cref="T:System.Int32" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El nombre de propiedad es de escape antes de la escritura.
+          
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -748,10 +921,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="utf8PropertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8PropertyName">Nombre de propiedad con codificación UTF-8 del objeto JSON que se va a escribir.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de bytes de solo lectura y el valor <see cref="T:System.Int64" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El nombre de propiedad es de escape antes de la escritura.
+          
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -774,10 +955,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.Single" />
       </Parameters>
       <Docs>
-        <param name="utf8PropertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8PropertyName">Nombre de propiedad con codificación UTF-8 del objeto JSON que se va a escribir.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de bytes de solo lectura y el valor <see cref="T:System.Single" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El nombre de propiedad es de escape antes de la escritura.
+          
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -805,10 +994,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.UInt32" />
       </Parameters>
       <Docs>
-        <param name="utf8PropertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8PropertyName">Nombre de propiedad con codificación UTF-8 del objeto JSON que se va a escribir.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de bytes de solo lectura y el valor <see cref="T:System.UInt32" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El nombre de propiedad es de escape antes de la escritura.
+          
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -836,10 +1033,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.UInt64" />
       </Parameters>
       <Docs>
-        <param name="utf8PropertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8PropertyName">Nombre de propiedad con codificación UTF-8 del objeto JSON que se va a escribir.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de bytes de solo lectura y el valor <see cref="T:System.UInt64" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El nombre de propiedad es de escape antes de la escritura.
+          
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -862,10 +1067,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.Decimal" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de caracteres de solo lectura y el valor <see cref="T:System.Decimal" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El nombre de propiedad es de escape antes de la escritura.
+          
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -888,10 +1101,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de caracteres de solo lectura y el valor <see cref="T:System.Double" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+          
+El nombre de propiedad es de escape antes de la escritura.
+          
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -914,10 +1135,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de caracteres de solo lectura y el valor <see cref="T:System.Int32" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -940,10 +1169,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de caracteres de solo lectura y el valor <see cref="T:System.Int64" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -966,10 +1203,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.Single" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de caracteres de solo lectura y el valor <see cref="T:System.Single" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -997,10 +1242,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.UInt32" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de caracteres de solo lectura y el valor <see cref="T:System.UInt32" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -1028,10 +1281,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.UInt64" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de caracteres de solo lectura y el valor <see cref="T:System.UInt64" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -1054,10 +1315,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.Decimal" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como cadena y el valor <see cref="T:System.Decimal" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -1080,10 +1349,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como cadena y el valor <see cref="T:System.Double" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -1106,10 +1383,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como cadena y el valor <see cref="T:System.Int32" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -1132,10 +1417,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como cadena y el valor <see cref="T:System.Int64" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -1158,10 +1451,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.Single" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como cadena y el valor <see cref="T:System.Single" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -1189,10 +1490,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.UInt32" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como cadena y el valor <see cref="T:System.UInt32" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumber">
@@ -1220,10 +1529,18 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
         <Parameter Name="value" Type="System.UInt64" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como un número de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como cadena y el valor <see cref="T:System.UInt64" /> (como un número JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumberValue">
@@ -1246,9 +1563,9 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
       </Parameters>
       <Docs>
         <param name="value">Valor que se va a escribir como un número de JSON como un elemento de una matriz de JSON.</param>
-        <summary>Escribe el valor <see cref="T:System.Decimal" /> (como un número de JSON) como un elemento de una matriz de JSON.</summary>
-        <remarks>Escribe el <see cref="T:System.Decimal" /> con el valor predeterminado <see cref="T:System.Buffers.StandardFormat" /> (es decir, "G").</remarks>
-        <exception cref="T:System.InvalidOperationException">Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientras está habilitada la validación).</exception>
+        <summary>Escribe el valor <see cref="T:System.Decimal" /> (como un número JSON) como elemento de una matriz JSON.</summary>
+        <remarks>Este método escribe el <see cref="T:System.Decimal" /> con el valor predeterminado de valor <see cref="T:System.Buffers.StandardFormat" /> (es decir, "G").</remarks>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación daría lugar a la escritura de JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumberValue">
@@ -1271,9 +1588,9 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
       </Parameters>
       <Docs>
         <param name="value">Valor que se va a escribir como un número de JSON como un elemento de una matriz de JSON.</param>
-        <summary>Escribe el valor <see cref="T:System.Double" /> (como un número de JSON) como un elemento de una matriz de JSON.</summary>
-        <remarks>Escribe el <see cref="T:System.Double" /> con el valor predeterminado <see cref="T:System.Buffers.StandardFormat" /> (es decir, "G").</remarks>
-        <exception cref="T:System.InvalidOperationException">Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientras está habilitada la validación).</exception>
+        <summary>Escribe el valor <see cref="T:System.Double" /> (como un número JSON) como elemento de una matriz JSON.</summary>
+        <remarks>Este método escribe el <see cref="T:System.Double" /> con el valor predeterminado de valor <see cref="T:System.Buffers.StandardFormat" /> (es decir, "G").</remarks>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación daría lugar a la escritura de JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumberValue">
@@ -1296,9 +1613,9 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
       </Parameters>
       <Docs>
         <param name="value">Valor que se va a escribir como un número de JSON como un elemento de una matriz de JSON.</param>
-        <summary>Escribe el valor <see cref="T:System.Int32" /> (como un número de JSON) como un elemento de una matriz de JSON.</summary>
-        <remarks>Escribe el <see cref="T:System.Int32" /> con el valor predeterminado <see cref="T:System.Buffers.StandardFormat" /> (es decir, "G"). Por ejemplo, 32767.</remarks>
-        <exception cref="T:System.InvalidOperationException">Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientras está habilitada la validación).</exception>
+        <summary>Escribe el valor <see cref="T:System.Int32" /> (como un número JSON) como elemento de una matriz JSON.</summary>
+        <remarks>Este método escribe el <see cref="T:System.Int32" /> con el valor predeterminado de valor <see cref="T:System.Buffers.StandardFormat" /> (es decir, "G"). Por ejemplo, 32767.</remarks>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación daría lugar a la escritura de JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumberValue">
@@ -1321,9 +1638,9 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
       </Parameters>
       <Docs>
         <param name="value">Valor que se va a escribir como un número de JSON como un elemento de una matriz de JSON.</param>
-        <summary>Escribe el valor <see cref="T:System.Int64" /> (como un número de JSON) como un elemento de una matriz de JSON.</summary>
-        <remarks>Escribe el <see cref="T:System.Int64" /> con el valor predeterminado <see cref="T:System.Buffers.StandardFormat" /> (es decir, "G"). Por ejemplo, 32767.</remarks>
-        <exception cref="T:System.InvalidOperationException">Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientras está habilitada la validación).</exception>
+        <summary>Escribe el valor <see cref="T:System.Int64" /> (como un número JSON) como elemento de una matriz JSON.</summary>
+        <remarks>Este método escribe el <see cref="T:System.Int64" /> con el valor predeterminado de valor <see cref="T:System.Buffers.StandardFormat" /> (es decir, "G"). Por ejemplo, 32767.</remarks>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación daría lugar a la escritura de JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumberValue">
@@ -1346,9 +1663,9 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
       </Parameters>
       <Docs>
         <param name="value">Valor que se va a escribir como un número de JSON como un elemento de una matriz de JSON.</param>
-        <summary>Escribe el valor <see cref="T:System.Single" /> (como un número de JSON) como un elemento de una matriz de JSON.</summary>
-        <remarks>Escribe el <see cref="T:System.Single" /> con el valor predeterminado <see cref="T:System.Buffers.StandardFormat" /> (es decir, "G").</remarks>
-        <exception cref="T:System.InvalidOperationException">Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientras está habilitada la validación).</exception>
+        <summary>Escribe el valor <see cref="T:System.Single" /> (como un número JSON) como elemento de una matriz JSON.</summary>
+        <remarks>Este método escribe el <see cref="T:System.Single" /> con el valor predeterminado de valor <see cref="T:System.Buffers.StandardFormat" /> (es decir, "G").</remarks>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación daría lugar a la escritura de JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumberValue">
@@ -1376,9 +1693,9 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
       </Parameters>
       <Docs>
         <param name="value">Valor que se va a escribir como un número de JSON como un elemento de una matriz de JSON.</param>
-        <summary>Escribe el valor <see cref="T:System.UInt32" /> (como un número de JSON) como un elemento de una matriz de JSON.</summary>
-        <remarks>Escribe el <see cref="T:System.UInt32" /> con el valor predeterminado <see cref="T:System.Buffers.StandardFormat" /> (es decir, "G"). Por ejemplo, 32767.</remarks>
-        <exception cref="T:System.InvalidOperationException">Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientras está habilitada la validación).</exception>
+        <summary>Escribe el valor <see cref="T:System.UInt32" /> (como un número JSON) como elemento de una matriz JSON.</summary>
+        <remarks>Este método escribe el <see cref="T:System.UInt32" /> con el valor predeterminado de valor <see cref="T:System.Buffers.StandardFormat" /> (es decir, "G"). Por ejemplo, 32767.</remarks>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación daría lugar a la escritura de JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteNumberValue">
@@ -1406,9 +1723,9 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
       </Parameters>
       <Docs>
         <param name="value">Valor que se va a escribir como un número de JSON como un elemento de una matriz de JSON.</param>
-        <summary>Escribe el valor <see cref="T:System.UInt64" /> (como un número de JSON) como un elemento de una matriz de JSON.</summary>
-        <remarks>Escribe el <see cref="T:System.UInt64" /> con el valor predeterminado <see cref="T:System.Buffers.StandardFormat" /> (es decir, "G"). Por ejemplo, 32767.</remarks>
-        <exception cref="T:System.InvalidOperationException">Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientras está habilitada la validación).</exception>
+        <summary>Escribe el valor <see cref="T:System.UInt64" /> (como un número JSON) como elemento de una matriz JSON.</summary>
+        <remarks>Este método escribe el <see cref="T:System.UInt64" /> con el valor predeterminado de valor <see cref="T:System.Buffers.StandardFormat" /> (es decir, "G"). Por ejemplo, 32767.</remarks>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación daría lugar a la escritura de JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteStartArray">
@@ -1430,11 +1747,11 @@ El `CurrentDepth` propiedad realiza un seguimiento de la profundidad recursiva d
       <Docs>
         <summary>Escribe el principio de una matriz de JSON.</summary>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.InvalidOperationException">La profundidad del código de JSON ha superado la profundidad máxima de 1000.
+        <exception cref="T:System.InvalidOperationException">La profundidad del archivo JSON supera la profundidad máxima de 1000.
 
--o bien-
+O bien
 
-si esto provocaría que se escribiera código de JSON no válido (mientras está habilitada la validación).</exception>
+La validación está habilitada y esta operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteStartArray">
@@ -1456,9 +1773,20 @@ si esto provocaría que se escribiera código de JSON no válido (mientras está
         <Parameter Name="utf8PropertyName" Type="System.ReadOnlySpan&lt;System.Byte&gt;" />
       </Parameters>
       <Docs>
-        <param name="utf8PropertyName">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8PropertyName">Nombre de propiedad con codificación UTF-8 de la matriz JSON que se va a escribir.</param>
+        <summary>Escribe el principio de una matriz JSON con un nombre de propiedad especificado como intervalo de bytes de solo lectura como la clave.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La profundidad del archivo JSON supera la profundidad máxima de 1000.
+
+O bien 
+La validación está habilitada y esta operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteStartArray">
@@ -1480,9 +1808,20 @@ si esto provocaría que se escribiera código de JSON no válido (mientras está
         <Parameter Name="propertyName" Type="System.ReadOnlySpan&lt;System.Char&gt;" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 de la matriz de JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <summary>Escribe el principio de una matriz JSON con un nombre de propiedad especificado como intervalo de caracteres de solo lectura como la clave.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La profundidad del archivo JSON supera la profundidad máxima de 1000.
+
+O bien 
+La validación está habilitada y esta operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteStartArray">
@@ -1504,9 +1843,20 @@ si esto provocaría que se escribiera código de JSON no válido (mientras está
         <Parameter Name="propertyName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 de la matriz de JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <summary>Escribe el principio de una matriz JSON con un nombre de propiedad especificado como cadena como la clave.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La profundidad del archivo JSON supera la profundidad máxima de 1000.
+
+O bien 
+La validación está habilitada y esta operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteStartObject">
@@ -1528,11 +1878,11 @@ si esto provocaría que se escribiera código de JSON no válido (mientras está
       <Docs>
         <summary>Escribe el principio de un objeto de JSON.</summary>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.InvalidOperationException">La profundidad del código de JSON ha superado la profundidad máxima de 1000.
+        <exception cref="T:System.InvalidOperationException">La profundidad del archivo JSON supera la profundidad máxima de 1000.
 
--o bien-
+O bien
 
-Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientras está habilitada la validación).</exception>
+La validación está habilitada y la operación daría lugar a la escritura de JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteStartObject">
@@ -1554,9 +1904,20 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="utf8PropertyName" Type="System.ReadOnlySpan&lt;System.Byte&gt;" />
       </Parameters>
       <Docs>
-        <param name="utf8PropertyName">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8PropertyName">Nombre de propiedad con codificación UTF-8 del objeto JSON que se va a escribir.</param>
+        <summary>Escribe el principio de un objeto JSON con un nombre de propiedad especificado como intervalo de bytes de solo lectura como la clave.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La profundidad del archivo JSON supera la profundidad máxima de 1000. 
+
+O bien 
+La validación está habilitada y esta operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteStartObject">
@@ -1578,9 +1939,20 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="propertyName" Type="System.ReadOnlySpan&lt;System.Char&gt;" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <summary>Escribe el principio de un objeto JSON con un nombre de propiedad especificado como intervalo de caracteres de solo lectura como la clave.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La profundidad del archivo JSON supera la profundidad máxima de 1000. 
+
+O bien 
+La validación está habilitada y esta operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteStartObject">
@@ -1602,9 +1974,20 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="propertyName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <summary>Escribe el principio de un objeto JSON con un nombre de propiedad especificado como cadena como la clave.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La profundidad del archivo JSON supera la profundidad máxima de 1000. 
+
+O bien 
+La validación está habilitada y esta operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteString">
@@ -1627,10 +2010,18 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="value" Type="System.DateTime" />
       </Parameters>
       <Docs>
-        <param name="utf8PropertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8PropertyName">Nombre de propiedad con codificación UTF-8 del objeto JSON que se va a escribir.</param>
+        <param name="value">Valor que se va escribir como una cadena de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad UTF-8 y el valor <see cref="T:System.DateTime" /> (como una cadena JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteString">
@@ -1653,10 +2044,18 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="value" Type="System.DateTimeOffset" />
       </Parameters>
       <Docs>
-        <param name="utf8PropertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8PropertyName">Nombre de propiedad con codificación UTF-8 del objeto JSON que se va a escribir.</param>
+        <param name="value">Valor que se va escribir como una cadena de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad UTF-8 y el valor <see cref="T:System.DateTimeOffset" /> (como una cadena JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteString">
@@ -1679,10 +2078,18 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="value" Type="System.Guid" />
       </Parameters>
       <Docs>
-        <param name="utf8PropertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8PropertyName">Nombre de propiedad con codificación UTF-8 del objeto JSON que se va a escribir.</param>
+        <param name="value">Valor que se va escribir como una cadena de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad UTF-8 y el valor <see cref="T:System.Guid" /> (como una cadena JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteString">
@@ -1705,10 +2112,18 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="utf8Value" Type="System.ReadOnlySpan&lt;System.Byte&gt;" />
       </Parameters>
       <Docs>
-        <param name="utf8PropertyName">To be added.</param>
-        <param name="utf8Value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8PropertyName">Nombre de propiedad con codificación UTF-8 del objeto JSON que se va a escribir.</param>
+        <param name="utf8Value">Valor con codificación UTF-8 que se va escribir como una cadena de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad UTF-8 y el valor de texto UTF-8 (como una cadena JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad y el valor es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El valor o nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteString">
@@ -1731,10 +2146,18 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="value" Type="System.ReadOnlySpan&lt;System.Char&gt;" />
       </Parameters>
       <Docs>
-        <param name="utf8PropertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8PropertyName">Nombre de propiedad con codificación UTF-8 del objeto JSON que se va a escribir.</param>
+        <param name="value">Valor con codificación UTF-16 que se va escribir como una cadena de JSON transcodificada a UTF-8 como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad UTF-8 y el valor de texto UTF-16 (como una cadena JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad y el valor es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El valor o nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteString">
@@ -1757,10 +2180,18 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="value" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="utf8PropertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8PropertyName">Nombre de propiedad con codificación UTF-8 del objeto JSON que se va a escribir.</param>
+        <param name="value">Valor con codificación UTF-16 que se va escribir como una cadena de JSON transcodificada a UTF-8 como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad UTF-8 y el valor de texto de cadena (como una cadena JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad y el valor es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El valor o nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteString">
@@ -1783,10 +2214,18 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="value" Type="System.DateTime" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como una cadena de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de caracteres de solo lectura y el valor <see cref="T:System.DateTime" /> (como una cadena JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteString">
@@ -1809,10 +2248,18 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="value" Type="System.DateTimeOffset" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como una cadena de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de caracteres de solo lectura y el valor <see cref="T:System.DateTimeOffset" /> (como una cadena JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteString">
@@ -1835,10 +2282,18 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="value" Type="System.Guid" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como una cadena de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como intervalo de caracteres de solo lectura y el valor <see cref="T:System.Guid" /> (como una cadena JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteString">
@@ -1861,10 +2316,18 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="utf8Value" Type="System.ReadOnlySpan&lt;System.Byte&gt;" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="utf8Value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="utf8Value">Valor con codificación UTF-8 que se va escribir como una cadena de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad UTF-16 y el valor de texto UTF-8 (como una cadena JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad y el valor es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El valor o nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteString">
@@ -1887,10 +2350,18 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="value" Type="System.ReadOnlySpan&lt;System.Char&gt;" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor con codificación UTF-16 que se va escribir como una cadena de JSON transcodificada a UTF-8 como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad UTF-16 y el valor de texto UTF-16 (como una cadena JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad y el valor es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El valor o nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteString">
@@ -1913,10 +2384,18 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="value" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor con codificación UTF-16 que se va escribir como una cadena de JSON transcodificada a UTF-8 como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad UTF-16 y el valor de texto de cadena (como una cadena JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad y el valor es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El valor o nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteString">
@@ -1939,10 +2418,18 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="value" Type="System.DateTime" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como una cadena de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como cadena y el valor <see cref="T:System.DateTime" /> (como una cadena JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteString">
@@ -1965,10 +2452,18 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="value" Type="System.DateTimeOffset" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como una cadena de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como cadena y el valor <see cref="T:System.DateTimeOffset" /> (como una cadena JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteString">
@@ -1991,10 +2486,18 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="value" Type="System.Guid" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor que se va escribir como una cadena de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como cadena y el valor <see cref="T:System.Guid" /> (como una cadena JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteString">
@@ -2017,10 +2520,18 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="utf8Value" Type="System.ReadOnlySpan&lt;System.Byte&gt;" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="utf8Value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="utf8Value">Valor con codificación UTF-8 que se va escribir como una cadena de JSON como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como cadena y el valor de texto UTF-8 (como una cadena JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad y el valor es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El valor o nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteString">
@@ -2043,10 +2554,18 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="value" Type="System.ReadOnlySpan&lt;System.Char&gt;" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor con codificación UTF-16 que se va escribir como una cadena de JSON transcodificada a UTF-8 como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como cadena y el valor de texto UTF-16 (como una cadena JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad y el valor es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El valor o nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteString">
@@ -2069,10 +2588,18 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="value" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="propertyName">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="propertyName">Nombre de propiedad con codificación UTF-16 del objeto JSON que se va a transcodificar y escribir como UTF-8.</param>
+        <param name="value">Valor con codificación UTF-16 que se va escribir como una cadena de JSON transcodificada a UTF-8 como parte del par nombre-valor.</param>
+        <summary>Escribe el nombre de propiedad especificado como cadena y el valor de texto de cadena (como una cadena JSON) como parte de un par nombre-valor de un objeto JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El nombre de propiedad y el valor es de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El valor o nombre de propiedad especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteStringValue">
@@ -2095,9 +2622,9 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
       </Parameters>
       <Docs>
         <param name="value">Valor que se va a escribir como una cadena de JSON como un elemento de una matriz de JSON.</param>
-        <summary>Escribe el valor <see cref="T:System.DateTime" /> (como una cadena de JSON) como un elemento de una matriz de JSON.</summary>
-        <remarks>Escribe el <see cref="T:System.DateTime" /> utilizando la ida y vuelta (' o ') <see cref="T:System.Buffers.StandardFormat" /> . Por ejemplo, 2017-06-12T05:30:45.7680000.</remarks>
-        <exception cref="T:System.InvalidOperationException">Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientras está habilitada la validación).</exception>
+        <summary>Escribe el valor <see cref="T:System.DateTime" /> (como una cadena JSON) como elemento de una matriz JSON.</summary>
+        <remarks>Este método escribe el <see cref="T:System.DateTime" /> utilizando la ida y vuelta (' o ') <see cref="T:System.Buffers.StandardFormat" />. Por ejemplo, 2017-06-12T05:30:45.7680000.</remarks>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación daría lugar a la escritura de JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteStringValue">
@@ -2120,9 +2647,9 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
       </Parameters>
       <Docs>
         <param name="value">Valor que se va a escribir como una cadena de JSON como un elemento de una matriz de JSON.</param>
-        <summary>Escribe el valor <see cref="T:System.DateTimeOffset" /> (como una cadena de JSON) como un elemento de una matriz de JSON.</summary>
-        <remarks>Escribe el <see cref="T:System.DateTimeOffset" /> utilizando la ida y vuelta (' o ') <see cref="T:System.Buffers.StandardFormat" />. Por ejemplo, 2017-06-12T05:30:45.7680000-07:00.</remarks>
-        <exception cref="T:System.InvalidOperationException">Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientras está habilitada la validación).</exception>
+        <summary>Escribe el valor <see cref="T:System.DateTimeOffset" /> (como una cadena JSON) como elemento de una matriz JSON.</summary>
+        <remarks>Este método escribe el <see cref="T:System.DateTimeOffset" /> utilizando la ida y vuelta (' o ') <see cref="T:System.Buffers.StandardFormat" />. Por ejemplo, 2017-06-12T05:30:45.7680000-07:00.</remarks>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación daría lugar a la escritura de JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteStringValue">
@@ -2145,9 +2672,9 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
       </Parameters>
       <Docs>
         <param name="value">Valor que se va a escribir como una cadena de JSON como un elemento de una matriz de JSON.</param>
-        <summary>Escribe el valor <see cref="T:System.Guid" /> (como una cadena de JSON) como un elemento de una matriz de JSON.</summary>
-        <remarks>Escribe el <see cref="T:System.Guid" /> con el valor predeterminado <see cref="T:System.Buffers.StandardFormat" /> (es decir, tenía '), como el formulario: nnnnnnnn-nnnn-nnnn-nnnn-nnnnnnnnnnnn.</remarks>
-        <exception cref="T:System.InvalidOperationException">Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientras está habilitada la validación).</exception>
+        <summary>Escribe el valor <see cref="T:System.Guid" /> (como una cadena JSON) como elemento de una matriz JSON.</summary>
+        <remarks>Este método escribe el <see cref="T:System.Guid" /> con el valor predeterminado de valor <see cref="T:System.Buffers.StandardFormat" /> (es decir, tenía '), como el formulario: nnnnnnnn-nnnn-nnnn-nnnn-nnnnnnnnnnnn.</remarks>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación daría lugar a la escritura de JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteStringValue">
@@ -2169,9 +2696,17 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="utf8Value" Type="System.ReadOnlySpan&lt;System.Byte&gt;" />
       </Parameters>
       <Docs>
-        <param name="utf8Value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="utf8Value">El valor con codificación UTF-8 que se va a escribir como un elemento de cadena de JSON de una matriz de JSON.</param>
+        <summary>Escribe el valor de texto UTF-8 (como una cadena JSON) como elemento de una matriz JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El valor de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El valor especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteStringValue">
@@ -2193,9 +2728,17 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="value" Type="System.ReadOnlySpan&lt;System.Char&gt;" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="value">Valor con codificación UTF-16 que se va a escribir como un elemento de cadena de JSON transcodificado a UTF-8 de una matriz de JSON.</param>
+        <summary>Escribe el valor de texto UTF-16 (como una cadena JSON) como elemento de una matriz JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El valor de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El valor especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteStringValue">
@@ -2217,9 +2760,17 @@ Los datos JSON que se van a escribir serían de un tipo JSON no válido (mientra
         <Parameter Name="value" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="value">Valor con codificación UTF-16 que se va a escribir como un elemento de cadena de JSON transcodificado a UTF-8 de una matriz de JSON.</param>
+        <summary>Escribe el valor de texto de cadena (como una cadena JSON) como elemento de una matriz JSON.</summary>
+        <remarks>
+          <format><![CDATA[
+
+El valor de escape antes de la escritura.
+
+          ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">El valor especificado es demasiado grande.</exception>
+        <exception cref="T:System.InvalidOperationException">La validación está habilitada y la operación de escritura generaría un JSON no válido.</exception>
       </Docs>
     </Member>
   </Members>
