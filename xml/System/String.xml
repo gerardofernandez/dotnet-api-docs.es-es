@@ -1,5 +1,5 @@
 <Type Name="String" FullName="System.String">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="6676ee0a2b52df9c1f9272c0a4aa8ee2724fd431" /><Meta Name="ms.sourcegitcommit" Value="9a6da88bd5455e8274257ca7ad259b42f1de114f" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="05/22/2019" /><Meta Name="ms.locfileid" Value="66008764" /></Metadata><TypeSignature Language="C#" Value="public sealed class String : ICloneable, IComparable, IComparable&lt;string&gt;, IConvertible, IEquatable&lt;string&gt;, System.Collections.Generic.IEnumerable&lt;char&gt;" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="70291a5c3c71f8edaa754b62b73f6524f4470030" /><Meta Name="ms.sourcegitcommit" Value="f55040f35c19a83c85beb55243330558f6e369be" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="06/10/2019" /><Meta Name="ms.locfileid" Value="66818648" /></Metadata><TypeSignature Language="C#" Value="public sealed class String : ICloneable, IComparable, IComparable&lt;string&gt;, IConvertible, IEquatable&lt;string&gt;, System.Collections.Generic.IEnumerable&lt;char&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable sealed beforefieldinit string extends System.Object implements class System.Collections.Generic.IEnumerable`1&lt;char&gt;, class System.Collections.IEnumerable, class System.ICloneable, class System.IComparable, class System.IComparable`1&lt;string&gt;, class System.IConvertible, class System.IEquatable`1&lt;string&gt;" />
   <TypeSignature Language="DocId" Value="T:System.String" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class String&#xA;Implements ICloneable, IComparable, IComparable(Of String), IConvertible, IEnumerable(Of Char), IEquatable(Of String)" />
@@ -97,7 +97,7 @@
 -   Mediante una llamada a un <xref:System.String> constructor de clase. El ejemplo siguiente se crea una instancia de cadenas mediante una llamada a varios constructores de clase. Tenga en cuenta que algunos de los constructores son punteros a matrices de caracteres o matrices de bytes con signo como parámetros. Visual Basic no admite llamadas a estos constructores. Para obtener información detallada sobre <xref:System.String> constructores, vea el <xref:System.String.%23ctor%2A> resumen del constructor.  
   
      [!code-cpp[System.String.Class.Instantiate#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.string.class.instantiate/cpp/string.instantiate2.cpp#2)]
-     [!code-csharp-interactive[System.String.Class.Instantiate#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.string.class.instantiate/cs/program.cs#2)]
+     [!code-csharp[System.String.Class.Instantiate#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.string.class.instantiate/cs/program.cs#2)]
      [!code-vb[System.String.Class.Instantiate#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.string.class.instantiate/vb/instantiate1.vb#2)]  
   
 -   Utilizando el operador de concatenación (+ en C# y & o + en Visual Basic) para crear una sola cadena de cualquier combinación de <xref:System.String> instancias y literales de cadena. El ejemplo siguiente muestra el uso del operador de concatenación de cadena.  
@@ -4099,17 +4099,31 @@ Para que reconozca los caracteres pueden pasar por alto en una comparación de c
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
-## Remarks  
- El <xref:System.String.Copy%2A> método devuelve un <xref:System.String> objeto que tiene el mismo valor que la cadena original, pero representa una referencia de objeto diferente. Difiere de una operación de asignación que asigna una referencia de cadena existente a una variable de objeto adicionales. El ejemplo ilustra la diferencia.  
+## Remarks
+
+El `Copy` método devuelve un <xref:System.String> objeto que tiene el mismo valor que la cadena original, pero representa una referencia de objeto diferente. Difiere de una operación de asignación que asigna una referencia de cadena existente a una variable de objeto adicionales.
+
+> [!IMPORTANT]
+>  A partir de .NET Core 3.0, este método está obsoleto. Sin embargo, no se recomienda su uso en cualquier implementación de. NET. En concreto, debido a cambios en el internamiento de cadenas en .NET Core 3.0, en algunos casos el `Copy` método no creará una nueva cadena, pero simplemente devolverá una referencia a una cadena de método Intern existente.   
+
+Dependiendo de por qué desea llamar a la `Copy` método, hay una serie de alternativas:
+
+- Si desea que una instancia de una cadena diferente a usar en una operación que modifique la cadena, utilice la instancia de la cadena original. Dado que las cadenas son inmutables, la operación de cadena crea una nueva instancia de cadena y la cadena original se ve afectado. En este caso, no debe asignar la nueva referencia de cadena a la variable de cadena original. Esto se muestra en el ejemplo siguiente.
+
+  [!code-csharp[Performing a string operation](~/samples/snippets/csharp/api/system/string/copy/program.cs#1)]
+  [!code-vb[Performing a string operation](~/samples/snippets/visualbasic/api/system/string/copy/program.vb#1)]  
   
-   
-  
-## Examples  
- El ejemplo siguiente crea dos objetos de cadena con valores diferentes. Cuando llama a la <xref:System.String.Copy%2A> método para asignar el primer valor a la segunda cadena, el resultado indica que las cadenas representan las referencias a objetos diferentes aunque sus valores ahora son iguales. Por otro lado, cuando se asigna la primera cadena para la segunda cadena, las dos cadenas tienen valores idénticos, ya que representan la misma referencia de objeto.  
-  
- [!code-csharp[System.String.Copy#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.string.copy/cs/copy1.cs#1)]
- [!code-vb[System.String.Copy#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.string.copy/vb/copy1.vb#1)]  
-  
+   En este caso, una llamada a la `Copy` método para crear una nueva cadena antes de llamar a la <xref:System.String.Substring%2A> método innecesariamente crea una nueva instancia de cadena. 
+
+- Si desea crear un búfer mutable con el mismo contenido que la cadena original, llame a la <xref:System.String.ToCharArray%2A?displayProperty=nameWithType> o <xref:System.Text.StringBuilder.%23ctor(System.String)?displayProperty=nameWithType> constructor. Por ejemplo:
+
+  [!code-csharp[Performing a string operation](~/samples/snippets/csharp/api/system/string/copy/program.cs#2)]
+  [!code-vb[Performing a string operation](~/samples/snippets/visualbasic/api/system/string/copy/program.vb#2)]  
+
+- Si desea crear una copia modificable de la cadena de modo que puede usar código no seguro para modificar el contenido de cadena, use <xref:System.Runtime.InteropServices.Marshal.StringToHGlobalUni%2A?displayProperty=nameWithType> método. En el ejemplo siguiente se usa el <xref:System.Runtime.InteropServices.Marshal.StringToHGlobalUni%2A?displayProperty=nameWithType> método para obtener un puntero a la ubicación de una cadena copiada en memoria no administrada, el punto de código Unicode de cada carácter de la cadena se incrementa en uno y la copia de la cadena resultante a una cadena administrada.
+
+  [!code-csharp[Performing a string operation](~/samples/snippets/csharp/api/system/string/copy/program.cs#3)]
+
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException"><paramref name="str" /> es <see langword="null" />.</exception>
@@ -4951,7 +4965,7 @@ Vea documentación general sobre el método `String.Format` en la sección [Come
  Y puede controlar ese valor de formato:  
   
  [!code-cpp[System.String.Format#36](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.String.Format/cpp/starting2.cpp#36)]
- [!code-csharp-interactive[System.String.Format#36](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.String.Format/cs/starting2.cs#36)]
+ [!code-csharp[System.String.Format#36](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.String.Format/cs/starting2.cs#36)]
  [!code-vb[System.String.Format#36](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.String.Format/vb/starting2.vb#36)]  
   
  Además de formato, también puede controlar alineación y espaciado.  
@@ -4989,7 +5003,7 @@ Vea documentación general sobre el método `String.Format` en la sección [Come
  En el ejemplo siguiente se define un campo de 6 caracteres para contener la cadena "Año" y algunas cadenas de año, así como un campo de 15 caracteres para contener la cadena "Rellenado" y algunos datos de población. Tenga en cuenta que los caracteres están alineados a la derecha en el campo.  
   
  [!code-cpp[System.String.Format#33](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.String.Format/cpp/starting1.cpp#33)]
- [!code-csharp-interactive[System.String.Format#33](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.String.Format/cs/starting3.cs)]
+ [!code-csharp-interactive[System.String.Format#33](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.String.Format/cs/starting3.cs#33)]
  [!code-vb[System.String.Format#33](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.String.Format/vb/starting1.vb#33)]  
   
  ### <a name="controlling-alignment"></a>Controlar la alineación  
@@ -5034,7 +5048,7 @@ Vea documentación general sobre el método `String.Format` en la sección [Come
  Por ejemplo, puede aparecer un elemento de formato para dar formato a un valor de moneda similar al siguiente:  
   
  [!code-cpp[System.String.Format#12](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.String.Format/cpp/formatsyntax1.cpp#12)]
- [!code-csharp-interactive[System.String.Format#12](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.String.Format/cs/formatsyntax1.cs#12)]  
+ [!code-csharp[System.String.Format#12](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.String.Format/cs/formatsyntax1.cs#12)]  
  [!code-vb[System.String.Format#12](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.String.Format/vb/formatsyntax1.vb#12)]  
 
  Un elemento de formato tiene los siguientes elementos:  
@@ -5114,7 +5128,7 @@ Vea documentación general sobre el método `String.Format` en la sección [Come
  Este ejemplo define un proveedor de formato que da formato a un valor entero como un número de cuenta de cliente en el formato xxxxx-x-xx.  
   
  [!code-cpp[System.String.Format#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.String.Format/cpp/formatexample2.cpp#2)]
- [!code-csharp-interactive[System.String.Format#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.String.Format/cs/FormatExample2.cs#2)]
+ [!code-csharp[System.String.Format#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.String.Format/cs/FormatExample2.cs#2)]
  [!code-vb[System.String.Format#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.String.Format/vb/FormatExample2.vb#2)]  
   
 <a name="Format7_Example"></a>   
@@ -5126,7 +5140,7 @@ Vea documentación general sobre el método `String.Format` en la sección [Come
 -   Si el objeto que se va a tener el formato es un valor de byte sin signo que va a dar formato mediante la cadena de formato estándar "R", en el formateador personalizado da formato al valor numérico como un número romano.  
   
  [!code-cpp[System.String.Format#11](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.String.Format/cpp/interceptor2.cpp#11)]
- [!code-csharp-interactive[System.String.Format#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.String.Format/cs/interceptor2.cs#11)]
+ [!code-csharp[System.String.Format#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.String.Format/cs/interceptor2.cs#11)]
  [!code-vb[System.String.Format#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.String.Format/vb/interceptor2.vb#11)]  
   
 <a name="QA"></a>   
@@ -5142,12 +5156,12 @@ Interpolación de cadena es:
 
 Una comparación de los siguientes dos ejemplos de código muestra la superioridad de cadenas interpoladas a través de la concatenación de cadenas y las llamadas a métodos de formato compuesto. El uso de varias operaciones de concatenación de cadena en el ejemplo siguiente genera código detallado y difícil de leer.
 
-[!code-csharp-interactive[non-interpolated string operations](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.String.Format/cs/qa-interpolated1.cs)]
+[!code-csharp-interactive[non-interpolated string operations](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.String.Format/cs/qa-interpolated1.cs#QAInterpolated)]
 [!code-vb[non-interpolated string operations](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.String.Format/vb/qa-interpolated1.vb)]  
 
 En cambio, el uso de cadenas interpoladas en el ejemplo siguiente genera código más conciso, mucho más claro que la instrucción de concatenación de cadena y la llamada a la <xref:System.String.Format%2A> método en el ejemplo anterior.
 
-[!code-csharp-interactive[interpolated string operations](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.String.Format/cs/qa-interpolated2.cs)]
+[!code-csharp-interactive[interpolated string operations](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.String.Format/cs/qa-interpolated2.cs#QAInterpolated2)]
 [!code-vb[interpolated string operations](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.String.Format/vb/qa-interpolated2.vb)]  
 
 ### <a name="where-can-i-find-a-list-of-the-predefined-format-strings-that-can-be-used-with-format-items"></a>¿Dónde puedo encontrar una lista de las cadenas de formato predefinidos que puede usarse con elementos de formato?  
@@ -5421,7 +5435,7 @@ Este método usa la [característica de formato compuesto](~/docs/standard/base-
  También puede pasar los objetos que se va a tener el formato como una matriz en lugar de una lista de argumentos.  
   
  [!code-cpp[System.String.Format#10](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.String.Format/cpp/format_paramarray1.cpp#10)]
- [!code-csharp-interactive[System.String.Format#10](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.String.Format/cs/format_paramarray1.cs#10)]
+ [!code-csharp[System.String.Format#10](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.String.Format/cs/format_paramarray1.cs#10)]
  [!code-vb[System.String.Format#10](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.String.Format/vb/format_paramarray1.vb#10)]  
 
  ]]></format>
@@ -11496,7 +11510,7 @@ O bien
       <Docs>
         <summary>Recupera una subcadena de la instancia.  
   
-Este miembro está sobrecargado. Para obtener información completa sobre este miembro, incluida la sintaxis, el uso y algunos ejemplos, haga clic en un nombre de la lista de sobrecarga.</summary>
+ Este miembro está sobrecargado. Para obtener información completa sobre este miembro, incluida la sintaxis, el uso y algunos ejemplos, haga clic en un nombre de la lista de sobrecarga.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="Substring">
