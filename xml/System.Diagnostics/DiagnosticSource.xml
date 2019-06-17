@@ -1,5 +1,5 @@
 <Type Name="DiagnosticSource" FullName="System.Diagnostics.DiagnosticSource">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="721344c819324ed29d7c87fcc416078d9355d52b" /><Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="08/24/2018" /><Meta Name="ms.locfileid" Value="36674164" /></Metadata><TypeSignature Language="C#" Value="public abstract class DiagnosticSource" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="8cbc4935d264c7be30193ce6ff6c9af0cdfd4331" /><Meta Name="ms.sourcegitcommit" Value="f55040f35c19a83c85beb55243330558f6e369be" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="06/10/2019" /><Meta Name="ms.locfileid" Value="66817919" /></Metadata><TypeSignature Language="C#" Value="public abstract class DiagnosticSource" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit DiagnosticSource extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Diagnostics.DiagnosticSource" />
   <TypeSignature Language="VB.NET" Value="Public MustInherit Class DiagnosticSource" />
@@ -12,14 +12,15 @@
     <AssemblyVersion>4.0.2.0</AssemblyVersion>
     <AssemblyVersion>4.0.2.1</AssemblyVersion>
     <AssemblyVersion>4.0.3.0</AssemblyVersion>
+    <AssemblyVersion>4.0.4.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Object</BaseTypeName>
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Clase abstracta que permite instrumentar el código para el registro de tiempo de producción de las cargas de datos enriquecidos para su uso dentro del proceso que se ha instrumentado.</summary>
+    <remarks>Para obtener más información, consulte [manual del usuario de DiagnosticSource](https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.DiagnosticSource/src/DiagnosticSourceUsersGuide.md).</remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -36,6 +37,7 @@
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.1</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.0.4.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters />
       <Docs>
@@ -58,6 +60,7 @@
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.1</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.0.4.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
@@ -66,10 +69,16 @@
         <Parameter Name="name" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="name">Nombre del evento que se va a escribir.</param>
+        <summary>Comprueba que el evento de notificación esté habilitado.</summary>
+        <returns><see langword="true" /> si el evento de notificación está habilitado; de lo contrario, <see langword="false" />.</returns>
+         <remarks>
+           <format type="text/markdown"><![CDATA[
+
+Si no hay configuración es costosa para la notificación, puede llamar a IsEnabled antes de realizar esta configuración. Los consumidores no deben suponer que solo obtener notificaciones para el que IsEnabled es true. Sin embargo, es opcional para los productores llamar a esta API. El nombre debe ser el mismo que se pasa a <see cref="M:System.Diagnostics.DiagnosticSource.Write(System.String,System.Object)" />.
+
+           ]]></format>
+         </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsEnabled">
@@ -84,21 +93,78 @@
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.1</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.0.4.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="name" Type="System.String" />
-        <Parameter Name="arg1" Type="System.Object" />
-        <Parameter Name="arg2" Type="System.Object" />
+        <Parameter Name="name" Type="System.String" Index="0" FrameworkAlternate="netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0" />
+        <Parameter Name="arg1" Type="System.Object" Index="1" FrameworkAlternate="netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0" />
+        <Parameter Name="arg2" Type="System.Object" Index="2" FrameworkAlternate="netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <param name="arg1">To be added.</param>
-        <param name="arg2">To be added.</param>
+        <param name="name">Nombre del evento que se va a escribir.</param>
+        <param name="arg1">Objeto que representa el contexto adicional de IsEnabled. Los consumidores pueden recibir <see langword="null" />, lo que puede indicar que el productor ha llamado a IsEnabled(string) puro para comprobar si el consumidor quiere obtener notificaciones de estos eventos. En función de esto, el productor puede llamar a IsEnabled(string, object, object) de nuevo con el contexto no <see langword="null" />.</param>
+        <param name="arg2">Opcional. Objeto que representa el contexto adicional de IsEnabled. <see langword="null" /> es el valor predeterminado. Los consumidores pueden recibir <see langword="null" />, lo que puede indicar que el productor ha llamado a IsEnabled(string) puro o ha pasado todo el contexto necesario en <paramref name="arg1" />.</param>
+        <summary>Comprueba que el evento de notificación esté habilitado.</summary>
+        <returns><see langword="true" /> si el evento de notificación está habilitado; de lo contrario, <see langword="false" />.</returns>
+         <remarks>
+           <format type="text/markdown"><![CDATA[
+          
+Si no hay configuración es costosa para la notificación, puede llamar a este método y proporcionar un contexto antes de realizar la instalación.
+          
+           ]]></format>
+         </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnActivityExport">
+      <MemberSignature Language="C#" Value="public virtual void OnActivityExport (System.Diagnostics.Activity activity, object payload);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void OnActivityExport(class System.Diagnostics.Activity activity, object payload) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.DiagnosticSource.OnActivityExport(System.Diagnostics.Activity,System.Object)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void OnActivityExport(System::Diagnostics::Activity ^ activity, System::Object ^ payload);" />
+      <MemberSignature Language="F#" Value="abstract member OnActivityExport : System.Diagnostics.Activity * obj -&gt; unit&#xA;override this.OnActivityExport : System.Diagnostics.Activity * obj -&gt; unit" Usage="diagnosticSource.OnActivityExport (activity, payload)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.DiagnosticSource</AssemblyName>
+        <AssemblyVersion>4.0.4.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="activity" Type="System.Diagnostics.Activity" Index="0" FrameworkAlternate="netcore-3.0" />
+        <Parameter Name="payload" Type="System.Object" Index="1" FrameworkAlternate="netcore-3.0" />
+      </Parameters>
+      <Docs>
+        <param name="activity">To be added.</param>
+        <param name="payload">To be added.</param>
         <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnActivityImport">
+      <MemberSignature Language="C#" Value="public virtual void OnActivityImport (System.Diagnostics.Activity activity, object payload);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void OnActivityImport(class System.Diagnostics.Activity activity, object payload) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.DiagnosticSource.OnActivityImport(System.Diagnostics.Activity,System.Object)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void OnActivityImport(System::Diagnostics::Activity ^ activity, System::Object ^ payload);" />
+      <MemberSignature Language="F#" Value="abstract member OnActivityImport : System.Diagnostics.Activity * obj -&gt; unit&#xA;override this.OnActivityImport : System.Diagnostics.Activity * obj -&gt; unit" Usage="diagnosticSource.OnActivityImport (activity, payload)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.DiagnosticSource</AssemblyName>
+        <AssemblyVersion>4.0.4.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="activity" Type="System.Diagnostics.Activity" Index="0" FrameworkAlternate="netcore-3.0" />
+        <Parameter Name="payload" Type="System.Object" Index="1" FrameworkAlternate="netcore-3.0" />
+      </Parameters>
+      <Docs>
+        <param name="activity">To be added.</param>
+        <param name="payload">To be added.</param>
+        <summary>To be added.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -114,20 +180,31 @@
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.1</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.0.4.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.Activity</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="activity" Type="System.Diagnostics.Activity" />
-        <Parameter Name="args" Type="System.Object" />
+        <Parameter Name="activity" Type="System.Diagnostics.Activity" Index="0" FrameworkAlternate="netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0" />
+        <Parameter Name="args" Type="System.Object" Index="1" FrameworkAlternate="netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0" />
       </Parameters>
       <Docs>
-        <param name="activity">To be added.</param>
-        <param name="args">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="activity"><see cref="T:System.Diagnostics.Activity" /> que se va a iniciar.</param>
+        <param name="args">Objeto que representa el valor que se va a pasar como una carga para el evento.</param>
+        <summary>Inicia <see cref="T:System.Diagnostics.Activity" /> y escribe un evento de inicio.</summary>
+        <returns>Actividad iniciada para un encadenamiento práctico.</returns>
+         <remarks>
+           <format type="text/markdown"><![CDATA[
+           
+El <xref:System.Diagnostics.Activity> describe la operación lógica, su contexto y la relación primaria; actual <xref:System.Diagnostics.Activity> fluye a través del procesamiento de la operación.
+
+Este método inicia el determinado <xref:System.Diagnostics.Activity>, mantiene una global <xref:System.Diagnostics.Activity.Current?displayProperty=nameWithType> y <xref:System.Diagnostics.Activity.Parent?displayProperty=nameWithType> actividad para el determinado <xref:System.Diagnostics.Activity>y notifica a los consumidores que un nuevo <xref:System.Diagnostics.Activity> se inició. Pueden tener acceso los consumidores <xref:System.Diagnostics.Activity.Current?displayProperty=nameWithType> para agregar contexto y/o aumentan la telemetría.
+
+Los productores pueden pasar detalles adicionales para el consumidor en la carga.
+
+           ]]></format>
+         </remarks>
       </Docs>
     </Member>
     <Member MemberName="StopActivity">
@@ -142,19 +219,29 @@
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.1</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.0.4.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="activity" Type="System.Diagnostics.Activity" />
-        <Parameter Name="args" Type="System.Object" />
+        <Parameter Name="activity" Type="System.Diagnostics.Activity" Index="0" FrameworkAlternate="netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0" />
+        <Parameter Name="args" Type="System.Object" Index="1" FrameworkAlternate="netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0" />
       </Parameters>
       <Docs>
-        <param name="activity">To be added.</param>
-        <param name="args">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="activity">Actividad que se va a detener.</param>
+        <param name="args">Objeto que representa el valor pasado como una carga para el evento.</param>
+        <summary>Detiene el elemento <see cref="T:System.Diagnostics.Activity" /> dado, mantiene la actividad global <see cref="P:System.Diagnostics.Activity.Current" /> y notifica a los consumidores que <see cref="T:System.Diagnostics.Activity" /> se ha detenido.</summary>
+        <remarks>  
+          <format type="text/markdown"><![CDATA[  
+
+Los productores pueden pasar detalles adicionales para el consumidor en la carga.
+
+Pueden tener acceso los consumidores <xref:System.Diagnostics.Activity.Current?displayProperty=nameWithType> para agregar contexto y/o aumentan la telemetría.
+
+
+         ]]></format>
+         </remarks>
       </Docs>
     </Member>
     <Member MemberName="Write">
@@ -172,6 +259,7 @@
         <AssemblyVersion>4.0.2.0</AssemblyVersion>
         <AssemblyVersion>4.0.2.1</AssemblyVersion>
         <AssemblyVersion>4.0.3.0</AssemblyVersion>
+        <AssemblyVersion>4.0.4.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -181,10 +269,22 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="name">Nombre del evento que se va a escribir.</param>
+        <param name="value">Objeto que representa el valor que se va a pasar como una carga para el evento. Suele ser un tipo anónimo que contiene varios subvalores.</param>
+        <summary>Proporciona una manera genérica de registrar cargas complejas.</summary>
+        <remarks>  
+          <format type="text/markdown"><![CDATA[  
+
+Cada notificación se asigna un nombre que identifica, así como un objeto (normalmente un tipo anónimo) que proporciona información arbitraria para pasar a la notificación.  
+
+`name` debe ser corto. No use un nombre completo, a menos que tenga que evitar la ambigüedad, ya que `name` debe ser único globalmente. Por lo general, *componentName.eventName*, donde *componentName* y *eventName* son cadenas de menos de 10 caracteres, son un buen compromiso.
+
+No deben tener nombres de notificación `.` en ellos porque los nombres de componente tienen puntos y para que ambos tienen puntos genera ambigüedad. Se recomienda utilizar `_` en su lugar.
+
+Se supone que los agentes de escucha usará un prefijo de cadena para filtrar los grupos. Por lo tanto, tener una jerarquía de nombres de componente es una buena práctica.
+
+         ]]></format>
+         </remarks>
       </Docs>
     </Member>
   </Members>
