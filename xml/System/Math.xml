@@ -1,5 +1,5 @@
 <Type Name="Math" FullName="System.Math">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="be395bbfe343959dfcca100041a53d638a676ec8" /><Meta Name="ms.sourcegitcommit" Value="ddce15914650a504a7399d539ac1f7cfed3c2caa" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="06/07/2019" /><Meta Name="ms.locfileid" Value="66758955" /></Metadata><TypeSignature Language="C#" Value="public static class Math" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="ea2c3d2d1ac0371873fcd812e2fe1883bace8aae" /><Meta Name="ms.sourcegitcommit" Value="6b9d64332f31de312efea785fbb19e4d80f544d5" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="06/12/2019" /><Meta Name="ms.locfileid" Value="67027176" /></Metadata><TypeSignature Language="C#" Value="public static class Math" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Math extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Math" />
   <TypeSignature Language="VB.NET" Value="Public Class Math" />
@@ -4382,7 +4382,7 @@ Remainder = (Math.Abs(dividend) - (Math.Abs(divisor) *
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
-<a name="remarks_round"></a> 
+<a name="remarks-round"></a> 
 ## Remarks 
 
 En esta sección:
@@ -4391,7 +4391,7 @@ En esta sección:
 - [Los valores de punto medio y convenciones de redondeo](#midpoint-values-and-rounding-conventions)   
 - [Redondeo y la precisión](#rounding-and-precision) 
 - [Valores de punto flotante de precisión sencilla y redondeo](#rounding-and-single-precision-floating-point-values)
-- [Ejemplos de las sobrecargas individuales](#examples)
+- [Ejemplos de las sobrecargas individuales](#round-examples)
 
 ### <a name="which-method-do-i-call"></a>¿Qué método se debe llamar?
 
@@ -4404,7 +4404,7 @@ Puede usar la siguiente tabla para seleccionar un método adecuado de redondeo. 
 |Redondear un número a un número especificado de dígitos fraccionarios utilizando el redondeo al más cercano convención.|<xref:System.Math.Round%28System.Decimal%2CSystem.Int32%29><br /><br /> O bien<br /><br /> <xref:System.Math.Round%28System.Double%2CSystem.Int32%29>|  
 |Redondear un número a un número especificado de dígitos fraccionarios utilizando un redondeo convención.|<xref:System.Math.Round%28System.Decimal%2CSystem.Int32%2CSystem.MidpointRounding%29><br /><br /> O bien<br /><br /> <xref:System.Math.Round%28System.Double%2CSystem.Int32%2CSystem.MidpointRounding%29>|  
 |Redondear un <xref:System.Single> valor a un número especificado de dígitos fraccionarios mediante una convención de redondeo especificado y minimizar la pérdida de precisión.|Convertir el <xref:System.Single> a un <xref:System.Decimal> y llamar a <xref:System.Math.Round%28System.Decimal%2CSystem.Int32%2CSystem.MidpointRounding%29>.|  
-|Redondear un número a un número especificado de dígitos fraccionarios mientras se minimizan los problemas de precisión en los valores de punto medio de redondeo.|Llamar a un método de redondeo que implementa una comparación "mayor o aproximadamente igual a". Consulte [redondeo y la precisión](#Precision).|  
+|Redondear un número a un número especificado de dígitos fraccionarios mientras se minimizan los problemas de precisión en los valores de punto medio de redondeo.|Llamar a un método de redondeo que implementa una comparación "mayor o aproximadamente igual a". Consulte [redondeo y la precisión](#precision).|  
 |Redondear un valor fraccionario en un entero que es mayor que el valor de fracciones. Por ejemplo, redondear 3.1 a 4.|<xref:System.Math.Ceiling%2A>|  
 |Redondear un valor fraccionario en un entero que es menor que el valor de fracciones. Por ejemplo, redondear 3.9 a 3.|<xref:System.Math.Floor%2A>|  
 
@@ -4446,6 +4446,7 @@ De forma predeterminada, el <xref:System.Math.Round%2A> método utiliza el redon
 |<xref:System.Math.Round%28System.Decimal%2CSystem.Int32%2CSystem.MidpointRounding%29>|Determinado por `mode` parámetro|  
 |<xref:System.Math.Round%28System.Double%2CSystem.Int32%2CSystem.MidpointRounding%29>|Determinado por `mode` parámetro|  
 
+<a name="precision"></a>
 ### <a name="rounding-and-precision"></a>Redondeo y la precisión  
 
 Con el fin de determinar si una operación de redondeo implica un valor de punto medio, el <xref:System.Math.Round%2A> método multiplica el valor original se redondea por 10<sup>n</sup>, donde *n* es el número deseado de fraccionarios dígitos del valor devuelto y, a continuación, determina si la parte fraccionaria restante del valor es mayor o igual que.5. Se trata de una ligera variación en una prueba de igualdad y, como hemos explicado en la sección "Prueba de igualdad" de la <xref:System.Double> tema de referencia, comprueba la igualdad con valores de punto flotante es problemática debido a problemas de formato de punto flotante con binario representación y la precisión. Esto significa que cualquier parte fraccionaria de un número que es ligeramente menor que.5 (debido a una pérdida de precisión) no se redondeará hacia arriba.  
@@ -4454,7 +4455,7 @@ Con el fin de determinar si una operación de redondeo implica un valor de punto
 
 En el siguiente ejemplo se ilustra el problema. Repetidamente agrega.1 a 11.0 y redondea el resultado al entero más próximo. Independientemente de la convención de redondeo, 11.5 deben redondear al 12. Sin embargo, como la salida se muestra en el ejemplo, no la tiene. El ejemplo utiliza la "R" [cadena de formato numérico estándar](~/docs/standard/base-types/standard-numeric-format-strings.md) para mostrar el punto flotante del valor precisión completa y muestra que el valor se redondee ha perdido precisión durante repetidas adiciones, y su valor es realmente 11.499999999999998. Dado que.499999999999998 es menor que.5, el valor no se redondea al entero superior siguiente. Como se muestra también en el ejemplo, este problema no ocurre si simplemente asignamos el valor constante 11.5 a un <xref:System.Double> variable.  
   
-[!code-csharp-interactive[System.Math.Round.Overload#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.math.round.overload/cs/precision1.cs#7)]
+[!code-csharp[System.Math.Round.Overload#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.math.round.overload/cs/precision1.cs#7)]
 [!code-vb[System.Math.Round.Overload#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.math.round.overload/vb/precision1.vb#7)]  
   
 Problemas de precisión en los valores de punto medio de redondeo están más probables que surgen en las siguientes condiciones:  
@@ -4463,7 +4464,7 @@ Problemas de precisión en los valores de punto medio de redondeo están más pr
   
 - Cuando se calcula el valor se redondea desde uno o más operaciones de punto flotante.  
   
-- Cuando el valor se redondea es un <xref:System.Single> en lugar de un <xref:System.Double> o <xref:System.Decimal>. Para obtener más información, consulte la sección siguiente, [redondear y valores de punto flotante de precisión sencilla](#Single).  
+- Cuando el valor se redondea es un <xref:System.Single> en lugar de un <xref:System.Double> o <xref:System.Decimal>. Para obtener más información, consulte la sección siguiente, [redondear y valores de punto flotante de precisión sencilla](#rounding-and-single-precision-floating-point-values).  
   
  En casos donde la falta de precisión en las operaciones de redondeo es problemática, puede hacer lo siguiente:  
   
@@ -4471,20 +4472,21 @@ Problemas de precisión en los valores de punto medio de redondeo están más pr
   
 - Definir un algoritmo personalizado de redondeo que se realiza una prueba para determinar si el valor se redondea es aceptablemente cerca de un valor de punto medio "casi igual". En el ejemplo siguiente se define un `RoundApproximate` método que busca para determinar si un valor fraccionario es lo suficientemente cerca de un valor de punto medio para estar sujeto a redondeo de punto medio. Como se muestra el resultado del ejemplo, corrige el problema de redondeo que se muestra en el ejemplo anterior.  
   
-     [!code-csharp-interactive[System.Math.Round.Overload#8](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.math.round.overload/cs/precision2.cs#8)]
+     [!code-csharp[System.Math.Round.Overload#8](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.math.round.overload/cs/precision2.cs#8)]
      [!code-vb[System.Math.Round.Overload#8](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.math.round.overload/vb/precision2.vb#8)]  
   
 #### <a name="rounding-and-single-precision-floating-point-values"></a>Valores de punto flotante de precisión sencilla y redondeo  
 
 El <xref:System.Math.Round%2A> método incluye sobrecargas que aceptan argumentos de tipo <xref:System.Decimal> y <xref:System.Double>. No existen métodos que los valores de tipo de ida y vuelta <xref:System.Single>. Si se pasa un <xref:System.Single> valor a una de las sobrecargas de la <xref:System.Math.Round%2A> método, se convierta (en C#) o convertir (en Visual Basic) a un <xref:System.Double>y la correspondiente <xref:System.Math.Round%2A> sobrecarga con un <xref:System.Double> parámetro se denomina. Aunque se trata de una conversión de ampliación, a menudo implica una pérdida de precisión, como se muestra en el ejemplo siguiente. Cuando un <xref:System.Single> 16.325 valor se pasa a la <xref:System.Math.Round%2A> método y se redondean a dos posiciones decimales mediante el redondeo al más cercano convención, el resultado es el resultado de 16.33 y no esperado de 16.32.  
   
-[!code-csharp-interactive[System.Math.Round.Overload#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.math.round.overload/cs/single1.cs#1)]
+[!code-csharp[System.Math.Round.Overload#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.math.round.overload/cs/single1.cs#1)]
 [!code-vb[System.Math.Round.Overload#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.math.round.overload/vb/single1.vb#1)]  
   
 Este resultado inesperado es debido a una pérdida de precisión en la conversión de la <xref:System.Single> valor a un <xref:System.Double>. Dado que resultante <xref:System.Double> valor de 16.325000762939453 no es un valor de punto medio y es mayor que 16.325, siempre se redondea hacia arriba.  
   
 En muchos casos, como se muestra en el ejemplo siguiente, la pérdida de precisión puede minimizarse o eliminar mediante la conversión del <xref:System.Single> valor a un <xref:System.Decimal>. Tenga en cuenta que, como se trata de una conversión de restricción, requiere utilizando un operador de conversión o llamar a un método de conversión.  
-  
+
+<a name="round-examples"></a>  
 ## Examples 
 
 Además de los ejemplos en los [comentarios](#remarks-round) sección, este artículo incluyen ejemplos que ilustran las sobrecargas siguientes de la `Math.Round` método:
@@ -4851,7 +4853,7 @@ Si el valor de la `value` argumento es <xref:System.Double.NaN?displayProperty=n
 En el ejemplo siguiente se redondea los valores double con dos dígitos fraccionarios en dobles que tienen un único dígito fraccionario.  
   
 [!code-cpp[Classic Math.Round2 Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_Classic/classic Math.Round2 Example/CPP/source.cpp#1)]
-[!code-csharp-interactive[Classic Math.Round2 Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_Classic/classic Math.Round2 Example/CS/source.cs#1)]
+[!code-csharp[Classic Math.Round2 Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_Classic/classic Math.Round2 Example/CS/source.cs#1)]
 [!code-vb[Classic Math.Round2 Example#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_Classic/classic Math.Round2 Example/VB/source.vb#1)]  
   
        ]]></format>
@@ -4859,7 +4861,7 @@ En el ejemplo siguiente se redondea los valores double con dos dígitos fraccion
         <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="digits" /> es menor que 0 o mayor que 15.</exception>
         <block subset="none" type="usage"><para>Debido a la pérdida de precisión que puede obtenerse al que representa los valores decimales como números de punto flotante o efectuar operaciones aritméticas en valores de punto flotante, en algunos casos el <see cref="M:System.Math.Round(System.Double,System.Int32)" /> no puede aparecer el método redondear los valores de punto medio en el más próximo al valor incluso en la <paramref name="digits" /> posición decimal. Esto se muestra en el ejemplo siguiente, donde se redondea 2.135 2.13 en lugar de 2.14. Esto ocurre porque internamente el método multiplica <paramref name="value" /> por 10<sup>dígitos</sup>, y la operación de multiplicación en este caso sufre una pérdida de precisión.  
   
-[!code-csharp-interactive[System.Math.Round#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.math.round/cs/round3.cs#2)] [!code-vb[System.Math.Round#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.math.round/vb/round3.vb#2)]</para></block>
+[!code-csharp[System.Math.Round#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.math.round/cs/round3.cs#2)] [!code-vb[System.Math.Round#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.math.round/vb/round3.vb#2)]</para></block>
         <altmember cref="M:System.Math.Ceiling(System.Double)" />
         <altmember cref="M:System.Math.Floor(System.Double)" />
         <altmember cref="M:System.Decimal.Round(System.Decimal,System.Int32)" />
@@ -4927,7 +4929,7 @@ El ejemplo siguiente muestra los valores devueltos por la <xref:System.Math.Roun
         <exception cref="T:System.ArgumentException"><paramref name="mode" /> no es un valor válido de <see cref="T:System.MidpointRounding" />.</exception>
         <block subset="none" type="usage"><para>Debido a la pérdida de precisión que puede obtenerse al que representa los valores decimales como números de punto flotante o efectuar operaciones aritméticas en valores de punto flotante, en algunos casos el <see cref="M:System.Math.Round(System.Double,System.MidpointRounding)" /> no puede aparecer el método redondear los valores de punto medio en el entero par más próximo. En el ejemplo siguiente, ya que el valor de punto flotante.1 ninguna representación binaria finita, la primera llamada a la <see cref="M:System.Math.Round(System.Double)" /> método con un valor de 11.5 devuelve 11 en lugar de 12.  
   
-[!code-csharp-interactive[System.Math.Round#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.math.round/cs/round5.cs#4)] [!code-vb[System.Math.Round#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.math.round/vb/round5.vb#4)]</para></block>
+[!code-csharp[System.Math.Round#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.math.round/cs/round5.cs#4)] [!code-vb[System.Math.Round#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.math.round/vb/round5.vb#4)]</para></block>
         <altmember cref="M:System.Math.Ceiling(System.Double)" />
         <altmember cref="M:System.Math.Floor(System.Double)" />
         <altmember cref="M:System.Decimal.Round(System.Decimal,System.MidpointRounding)" />
@@ -5068,7 +5070,7 @@ Si el valor de la `value` argumento es <xref:System.Double.NaN?displayProperty=n
 
 En el ejemplo siguiente se muestra cómo usar el <xref:System.Math.Round%28System.Double%2CSystem.Int32%2CSystem.MidpointRounding%29> método con el <xref:System.MidpointRounding> enumeración.  
   
-[!code-csharp-interactive[System.Math.Round.Overload#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.math.round.overload/cs/mpr.cs#4)]
+[!code-csharp[System.Math.Round.Overload#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.math.round.overload/cs/mpr.cs#4)]
 [!code-vb[System.Math.Round.Overload#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.math.round.overload/vb/mpr.vb#4)]  
   
        ]]></format>
