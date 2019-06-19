@@ -1,0 +1,90 @@
+<Type Name="IAsyncDisposable" FullName="System.IAsyncDisposable">
+  <Metadata><Meta Name="ms.openlocfilehash" Value="82cd5c9467041839fb2a2b2ffffd03ea382f82f6" /><Meta Name="ms.sourcegitcommit" Value="1bb00d2f4343e73ae8d58668f02297a3cf10a4c1" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="es-ES" /><Meta Name="ms.lasthandoff" Value="06/14/2019" /><Meta Name="ms.locfileid" Value="67134667" /></Metadata><TypeSignature Language="C#" Value="public interface IAsyncDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IAsyncDisposable" />
+  <TypeSignature Language="DocId" Value="T:System.IAsyncDisposable" />
+  <TypeSignature Language="VB.NET" Value="Public Interface IAsyncDisposable" />
+  <TypeSignature Language="C++ CLI" Value="public interface class IAsyncDisposable" />
+  <TypeSignature Language="F#" Value="type IAsyncDisposable = interface" />
+  <AssemblyInfo>
+    <AssemblyName>System.Runtime</AssemblyName>
+    <AssemblyVersion>4.2.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.1.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Interfaces />
+  <Docs>
+    <summary><span data-ttu-id="07c2e-101">Proporciona un mecanismo para liberar recursos no administrados de forma asincrónica.</span><span class="sxs-lookup"><span data-stu-id="07c2e-101">Provides a mechanism for releasing unmanaged resources asynchronously.</span></span></summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+
+## Remarks
+
+<span data-ttu-id="07c2e-102">En. NET, las clases que poseen recursos no administrados normalmente implementan el <xref:System.IDisposable> interfaz para proporcionar un mecanismo para liberar los recursos no administrados sincrónicamente.</span><span class="sxs-lookup"><span data-stu-id="07c2e-102">In .NET, classes that own unmanaged resources usually implement the <xref:System.IDisposable> interface to provide a mechanism for releasing unmanaged resources synchronously.</span></span> <span data-ttu-id="07c2e-103">No obstante, en algunos casos deben proporcionar un mecanismo asincrónico para liberar recursos no administrados, además de (o instead of) lo sincrónica.</span><span class="sxs-lookup"><span data-stu-id="07c2e-103">However, in some cases they need to provide an asynchronous mechanism for releasing unmanaged resources in addition to (or instead of) the synchronous one.</span></span> <span data-ttu-id="07c2e-104">Proporcionar un mecanismo permite que el consumidor realizar las operaciones que consumen muchos recursos dispose sin bloquear el subproceso principal de una aplicación de interfaz gráfica de usuario durante mucho tiempo.</span><span class="sxs-lookup"><span data-stu-id="07c2e-104">Providing such a mechanism enables the consumer to perform resource-intensive dispose operations without blocking the main thread of a GUI application for a long time.</span></span>
+
+<span data-ttu-id="07c2e-105">El <xref:System.IAsyncDisposable.DisposeAsync%2A?displayProperty=nameWithType> método de esta interfaz devuelve un <xref:System.Threading.Tasks.ValueTask> que representa la operación asincrónica dispose.</span><span class="sxs-lookup"><span data-stu-id="07c2e-105">The <xref:System.IAsyncDisposable.DisposeAsync%2A?displayProperty=nameWithType> method of this interface returns a <xref:System.Threading.Tasks.ValueTask> that represents the asynchronous dispose operation.</span></span> <span data-ttu-id="07c2e-106">Las clases que poseen recursos no administrados implementan este método y el consumidor de estas clases llama a este método en un objeto cuando ya no es necesario.</span><span class="sxs-lookup"><span data-stu-id="07c2e-106">Classes that own unmanaged resources implement this method, and the consumer of these classes calls this method on an object when it is no longer needed.</span></span>
+
+<span data-ttu-id="07c2e-107">Los métodos asincrónicos se usan junto con la `async` y `await` palabras clave en C# y Visual Basic.</span><span class="sxs-lookup"><span data-stu-id="07c2e-107">The async methods are used in conjunction with the `async` and `await` keywords in C# and Visual Basic.</span></span> <span data-ttu-id="07c2e-108">Para obtener más información, vea [Programación asincrónica con Async y Await (C#)](/dotnet/csharp/programming-guide/concepts/async/index) y [Programación asincrónica con Async y Await (Visual Basic)](/dotnet/visual-basic/programming-guide/concepts/async/).</span><span class="sxs-lookup"><span data-stu-id="07c2e-108">For more insformation, see [The Task asynchronous programming model in C#](/dotnet/csharp/programming-guide/concepts/async/index) or [Asynchronous Programming with Async and Await (Visual Basic)](/dotnet/visual-basic/programming-guide/concepts/async/).</span></span>
+
+### <a name="using-an-object-that-implements-iasyncdisposable"></a><span data-ttu-id="07c2e-109">Uso de un objeto que implementa IAsyncDisposable</span><span class="sxs-lookup"><span data-stu-id="07c2e-109">Using an object that implements IAsyncDisposable</span></span>
+
+<span data-ttu-id="07c2e-110">Cuando termine de usar un objeto que implemente `IAsyncDisposable`, debe llamar a la implementación <xref:System.IAsyncDisposable.DisposeAsync%2A> del objeto.</span><span class="sxs-lookup"><span data-stu-id="07c2e-110">If your application uses an object that implements `IAsyncDisposable`, you should call the object's <xref:System.IAsyncDisposable.DisposeAsync%2A> implementation when you are finished using it.</span></span> <span data-ttu-id="07c2e-111">Para asegurarse de que se liberan los recursos incluso en el caso de una excepción, llame a la <xref:System.IAsyncDisposable.DisposeAsync%2A> método dentro de un `finally` cláusula de la `try` / `finally` instrucción.</span><span class="sxs-lookup"><span data-stu-id="07c2e-111">To make sure resources are released even in case of an exception, call the <xref:System.IAsyncDisposable.DisposeAsync%2A> method inside a `finally` clause of the `try`/`finally` statement.</span></span> <span data-ttu-id="07c2e-112">Para obtener más información sobre la `try` / `finally` de patrón, vea [try-finally](~/docs/csharp/language-reference/keywords/try-finally.md) (C#) o [intente... atrapar... Finally (instrucción)](~/docs/visual-basic/language-reference/statements/try-catch-finally-statement.md) (Visual Basic).</span><span class="sxs-lookup"><span data-stu-id="07c2e-112">For more information about the `try`/`finally` pattern, see [try-finally](~/docs/csharp/language-reference/keywords/try-finally.md) (C#) or [Try...Catch...Finally Statement](~/docs/visual-basic/language-reference/statements/try-catch-finally-statement.md) (Visual Basic).</span></span>
+
+### <a name="implementing-iasyncdisposable"></a><span data-ttu-id="07c2e-113">Implementar IAsyncDisposable</span><span class="sxs-lookup"><span data-stu-id="07c2e-113">Implementing IAsyncDisposable</span></span>   
+    
+<span data-ttu-id="07c2e-114">Podría implementar `IAsyncDisposable` en las situaciones siguientes:</span><span class="sxs-lookup"><span data-stu-id="07c2e-114">You might implement `IAsyncDisposable` in the following situations:</span></span>
+
+- <span data-ttu-id="07c2e-115">Al desarrollar un enumerador asincrónico que posee los recursos no administrados.</span><span class="sxs-lookup"><span data-stu-id="07c2e-115">When developing an asynchronous enumerator that owns unmanaged resources.</span></span> <span data-ttu-id="07c2e-116">Los enumeradores asincrónicos se utilizan con el C# 8.0 característica de secuencias asincrónicas.</span><span class="sxs-lookup"><span data-stu-id="07c2e-116">Asynchronous enumerators are used with the C# 8.0 async streams feature.</span></span> <span data-ttu-id="07c2e-117">Para obtener más información sobre los flujos asincrónicos, vea [Tutorial: generar y consumir los flujos asincrónicos mediante C# 8.0 y .NET Core 3.0](/dotnet/csharp/tutorials/generate-consume-asynchronous-stream).</span><span class="sxs-lookup"><span data-stu-id="07c2e-117">For more information about async streams, see [Tutorial: Generate and consume async streams using C# 8.0 and .NET Core 3.0](/dotnet/csharp/tutorials/generate-consume-asynchronous-stream).</span></span>
+
+- <span data-ttu-id="07c2e-118">Cuando la clase tiene recursos no administrados y liberarlas requiere una operación de E/S que consumen muchos recursos, como vaciar el contenido de un búfer intermedio en un archivo o el envío de un paquete a través de una red para cerrar una conexión.</span><span class="sxs-lookup"><span data-stu-id="07c2e-118">When your class owns unmanaged resources and releasing them requires a resource-intensive I/O operation, such as flushing the contents of an intermediate buffer into a file or sending a packet over a network to close a connection.</span></span>
+
+<span data-ttu-id="07c2e-119">Use el <xref:System.IAsyncDisposable.DisposeAsync%2A> método para realizar cualquier limpieza es necesario después de usar los recursos no administrados, como la liberación o restablecimiento de los recursos no administrados.</span><span class="sxs-lookup"><span data-stu-id="07c2e-119">Use the <xref:System.IAsyncDisposable.DisposeAsync%2A> method to perform whatever cleanup is necessary after using the unmanaged resources, such as freeing, releasing, or resetting the unmanaged resources.</span></span> <span data-ttu-id="07c2e-120">Para obtener más información acerca de los recursos no administrados en. NET, consulte [limpiar recursos no administrados](/dotnet/standard/garbage-collection/unmanaged).</span><span class="sxs-lookup"><span data-stu-id="07c2e-120">For more information about unmanaged resources in .NET, see [Cleaning Up Unmanaged Resources](/dotnet/standard/garbage-collection/unmanaged).</span></span>
+ 
+ ]]></format>
+</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="DisposeAsync">
+      <MemberSignature Language="C#" Value="public System.Threading.Tasks.ValueTask DisposeAsync ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance valuetype System.Threading.Tasks.ValueTask DisposeAsync() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.IAsyncDisposable.DisposeAsync" />
+      <MemberSignature Language="VB.NET" Value="Public Function DisposeAsync () As ValueTask" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Threading::Tasks::ValueTask DisposeAsync();" />
+      <MemberSignature Language="F#" Value="abstract member DisposeAsync : unit -&gt; System.Threading.Tasks.ValueTask" Usage="iAsyncDisposable.DisposeAsync " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Threading.Tasks.ValueTask</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary><span data-ttu-id="07c2e-121">Realiza tareas definidas por la aplicación asociadas a la liberación o al restablecimiento de recursos no administrados de forma asincrónica.</span><span class="sxs-lookup"><span data-stu-id="07c2e-121">Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources asynchronously.</span></span></summary>
+        <returns><span data-ttu-id="07c2e-122">Tarea que representa la operación de descarte asincrónica.</span><span class="sxs-lookup"><span data-stu-id="07c2e-122">A task that represents the asynchronous dispose operation.</span></span></returns>
+        <remarks>
+      <format type="text/markdown"><![CDATA[  
+
+## Remarks
+
+<span data-ttu-id="07c2e-123">Utilice este método para cerrar o liberar recursos no administrados como archivos, secuencias e identificadores mantenidos por una instancia de la clase que implementa esta interfaz.</span><span class="sxs-lookup"><span data-stu-id="07c2e-123">Use this method to asynchronously close or release unmanaged resources such as files, streams, and handles held by an instance of the class that implements this interface.</span></span> <span data-ttu-id="07c2e-124">Con este método en lugar de <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> le permite realizar una operación que consume muchos recursos dispose sin bloquear el subproceso principal de una aplicación de interfaz gráfica de usuario durante mucho tiempo.</span><span class="sxs-lookup"><span data-stu-id="07c2e-124">Using this method instead of <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> enables you to perform a resource-intensive dispose operation without blocking the main thread of a GUI application for a long time.</span></span>
+
+> [!WARNING]
+>  <span data-ttu-id="07c2e-125">Si usa una clase que implementa el <xref:System.IAsyncDisposable> interfaz, debe llamar a su `DisposeAsync` cuando haya terminado de utilizar la clase de implementación.</span><span class="sxs-lookup"><span data-stu-id="07c2e-125">If you are using a class that implements the <xref:System.IAsyncDisposable> interface, you should call its `DisposeAsync` implementation when you are finished using the class.</span></span> <span data-ttu-id="07c2e-126">Para obtener más información, vea la sección "Uso de un objeto que implementa IAsyncDisposable" en el <xref:System.IAsyncDisposable> tema.</span><span class="sxs-lookup"><span data-stu-id="07c2e-126">For more information, see the "Using an object that implements IAsyncDisposable" section in the <xref:System.IAsyncDisposable> topic.</span></span>
+
+<span data-ttu-id="07c2e-127">Al implementar este método, asegúrese de que todos mantienen se liberan los recursos mediante la propagación de la llamada a través de la jerarquía de contención.</span><span class="sxs-lookup"><span data-stu-id="07c2e-127">When implementing this method, ensure that all held resources are freed by propagating the call through the containment hierarchy.</span></span> <span data-ttu-id="07c2e-128">Por ejemplo, si un objeto A asigna un objeto B, y el objeto B asigna un objeto C, a continuación, un `DisposeAsync` implementación debe llamar a `DisposeAsync` en B, que debe llamar a su vez `DisposeAsync` en C. También debe llamar un objeto la `DisposeAsync` método de su clase base si la clase base implementa <xref:System.IAsyncDisposable>.</span><span class="sxs-lookup"><span data-stu-id="07c2e-128">For example, if an object A allocates an object B, and object B allocates an object C, then A's `DisposeAsync` implementation must call `DisposeAsync` on B, which must in turn call `DisposeAsync` on C. An object must also call the `DisposeAsync` method of its base class if the base class implements <xref:System.IAsyncDisposable>.</span></span>
+
+<span data-ttu-id="07c2e-129">Si un objeto `DisposeAsync` método se llama más de una vez, el objeto debe omitir todas las llamadas posteriores a la primera y devuelven sincrónicamente completada correctamente <xref:System.Threading.Tasks.ValueTask>.</span><span class="sxs-lookup"><span data-stu-id="07c2e-129">If an object's `DisposeAsync` method is called more than once, the object must ignore all calls after the first one and synchronously return a successfully completed <xref:System.Threading.Tasks.ValueTask>.</span></span> <span data-ttu-id="07c2e-130">El objeto no debe producir una excepción si su `DisposeAsync` método se llama varias veces.</span><span class="sxs-lookup"><span data-stu-id="07c2e-130">The object must not throw an exception if its `DisposeAsync` method is called multiple times.</span></span> <span data-ttu-id="07c2e-131">Métodos de instancia distinto `DisposeAsync` puede producir un <xref:System.ObjectDisposedException> cuando ya se eliminen los recursos.</span><span class="sxs-lookup"><span data-stu-id="07c2e-131">Instance methods other than `DisposeAsync` can throw an <xref:System.ObjectDisposedException> when resources are already disposed.</span></span>
+ 
+ ]]></format>
+</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
