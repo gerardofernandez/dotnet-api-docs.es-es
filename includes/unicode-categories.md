@@ -1,3 +1,11 @@
+---
+ms.openlocfilehash: 5feab3f469ed6d7017ee0fdc20e78822b5ed4834
+ms.sourcegitcommit: 1bb00d2f4343e73ae8d58668f02297a3cf10a4c1
+ms.translationtype: HT
+ms.contentlocale: es-ES
+ms.lasthandoff: 06/15/2019
+ms.locfileid: "63867683"
+---
  .NET dispone de una tabla propia de caracteres y de sus categorías correspondientes, cosa que permite garantizar que una versión específica de una implementación de .NET ejecutada en distintas plataformas devuelve la misma información sobre las categorías de caracteres. En el caso de .NET Core, al ejecutarlo en Linux y macOS, la información sobre categorías de caracteres se proporciona mediante las bibliotecas de [International Components for Unicode](http://site.icu-project.org/) (Componentes internacionales de Unicode).
  
  En la tabla siguiente se enumeran las versiones de .NET y del estándar Unicode en las que se basan sus categorías de caracteres.   
